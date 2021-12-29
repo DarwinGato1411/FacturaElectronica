@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ordentrabajo" language="groovy" pageWidth="421" pageHeight="595" columnWidth="381" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.7715610000000017"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="11"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="detalle">
+		<parameter name="numfactura" class="java.lang.Integer"/>
+		<queryString>
+			<![CDATA[SELECT
+*
+FROM
+factura
+INNER JOIN detalle_factura ON detalle_factura.id_factura = factura.id_factura
+INNER JOIN producto ON detalle_factura.id_producto = producto.id_producto
+where factura.fac_num_proforma= $P{numfactura};]]>
+		</queryString>
+		<field name="id_factura" class="java.lang.Integer"/>
+		<field name="id_estado" class="java.lang.Integer"/>
+		<field name="id_usuario" class="java.lang.Integer"/>
+		<field name="id_cliente" class="java.lang.Integer"/>
+		<field name="fac_numero" class="java.lang.Integer"/>
+		<field name="fac_fecha" class="java.sql.Date"/>
+		<field name="fac_subtotal" class="java.math.BigDecimal"/>
+		<field name="fac_iva" class="java.math.BigDecimal"/>
+		<field name="fac_total" class="java.math.BigDecimal"/>
+		<field name="fac_estado" class="java.lang.String"/>
+		<field name="fac_tipo" class="java.lang.String"/>
+		<field name="fac_abono" class="java.math.BigDecimal"/>
+		<field name="fac_saldo" class="java.math.BigDecimal"/>
+		<field name="fac_descripcion" class="java.lang.String"/>
+		<field name="fac_num_proforma" class="java.lang.Integer"/>
+		<field name="tipodocumento" class="java.lang.String"/>
+		<field name="puntoemision" class="java.lang.String"/>
+		<field name="codestablecimiento" class="java.lang.String"/>
+		<field name="fac_numero_text" class="java.lang.String"/>
+		<field name="fac_tipo_identificador_comprobador" class="java.lang.String"/>
+		<field name="fac_descuento" class="java.math.BigDecimal"/>
+		<field name="fac_cod_ice" class="java.lang.String"/>
+		<field name="fac_cod_iva" class="java.lang.String"/>
+		<field name="fac_total_base_cero" class="java.math.BigDecimal"/>
+		<field name="fac_total_base_gravaba" class="java.math.BigDecimal"/>
+		<field name="codigo_porcentaje" class="java.lang.String"/>
+		<field name="fac_porcentaje_iva" class="java.lang.String"/>
+		<field name="fac_moneda" class="java.lang.String"/>
+		<field name="id_forma_pago" class="java.lang.Integer"/>
+		<field name="fac_plazo" class="java.math.BigDecimal"/>
+		<field name="fac_unidad_tiempo" class="java.lang.String"/>
+		<field name="estadosri" class="java.lang.String"/>
+		<field name="mensajesri" class="java.lang.String"/>
+		<field name="fac_fecha_autorizacion" class="java.sql.Date"/>
+		<field name="fac_clave_acceso" class="java.lang.String"/>
+		<field name="cod_tipoambiente" class="java.lang.Integer"/>
+		<field name="fac_clave_autorizacion" class="java.lang.String"/>
+		<field name="fac_path" class="java.lang.String"/>
+		<field name="id_detalle" class="java.lang.Integer"/>
+		<field name="id_producto" class="java.lang.Integer"/>
+		<field name="det_cantidad" class="java.math.BigDecimal"/>
+		<field name="det_descripcion" class="java.lang.String"/>
+		<field name="det_subtotal" class="java.math.BigDecimal"/>
+		<field name="det_total" class="java.math.BigDecimal"/>
+		<field name="det_tipo_venta" class="java.lang.String"/>
+		<field name="det_iva" class="java.math.BigDecimal"/>
+		<field name="det_totalconiva" class="java.math.BigDecimal"/>
+		<field name="det_pordescuento" class="java.math.BigDecimal"/>
+		<field name="det_valdescuento" class="java.math.BigDecimal"/>
+		<field name="det_subtotaldescuento" class="java.math.BigDecimal"/>
+		<field name="det_totaldescuento" class="java.math.BigDecimal"/>
+		<field name="det_totaldescuentoiva" class="java.math.BigDecimal"/>
+		<field name="det_cantpordescuento" class="java.math.BigDecimal"/>
+		<field name="det_subtotaldescuentoporcantidad" class="java.math.BigDecimal"/>
+		<field name="id_sub_categoria" class="java.lang.Integer"/>
+		<field name="prod_codigo" class="java.lang.String"/>
+		<field name="prod_nombre" class="java.lang.String"/>
+		<field name="pord_costo_venta_ref" class="java.math.BigDecimal"/>
+		<field name="pord_costo_venta_final" class="java.math.BigDecimal"/>
+		<field name="prod_estado" class="java.lang.Integer"/>
+		<field name="prod_trasnporte" class="java.math.BigDecimal"/>
+		<field name="prod_iva" class="java.math.BigDecimal"/>
+		<field name="prod_utilidad_normal" class="java.math.BigDecimal"/>
+		<field name="prod_mano_obra" class="java.math.BigDecimal"/>
+		<field name="prod_utilidad_preferencial" class="java.math.BigDecimal"/>
+		<field name="prod_costo_preferencial" class="java.math.BigDecimal"/>
+		<field name="prod_costo_preferencial_dos" class="java.math.BigDecimal"/>
+		<field name="prod_costo_preferencial_tres" class="java.math.BigDecimal"/>
+		<field name="prod_principal" class="java.lang.Integer"/>
+		<field name="prod_abreviado" class="java.lang.String"/>
+		<field name="prod_isprincipal" class="java.lang.Boolean"/>
+		<field name="pord_costo_compra" class="java.math.BigDecimal"/>
+		<field name="prod_qr" class="java.lang.Object"/>
+		<field name="prod_cantidad_inicial" class="java.lang.Integer"/>
+		<field name="prod_utilidad_dos" class="java.math.BigDecimal"/>
+	</subDataset>
+	<parameter name="numfactura" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select * from orden_trabajo ot, cliente cl, usuario us
+where cl.id_cliente=ot.id_cliente
+and ot.id_usuario=us.id_usuario
+and  ot.ord_numero=$P{numfactura}]]>
+	</queryString>
+	<field name="id_orden_trabajo" class="java.lang.Integer"/>
+	<field name="id_estado" class="java.lang.Integer"/>
+	<field name="id_usuario" class="java.lang.Integer"/>
+	<field name="id_cliente" class="java.lang.Integer"/>
+	<field name="ord_numero" class="java.lang.Integer"/>
+	<field name="ord_fecha" class="java.sql.Date"/>
+	<field name="ord_subtotal" class="java.math.BigDecimal"/>
+	<field name="ord_iva" class="java.math.BigDecimal"/>
+	<field name="ord_total" class="java.math.BigDecimal"/>
+	<field name="ord_estado" class="java.lang.String"/>
+	<field name="ord_tipo" class="java.lang.String"/>
+	<field name="ord_abono" class="java.math.BigDecimal"/>
+	<field name="ord_saldo" class="java.math.BigDecimal"/>
+	<field name="ord_titulo" class="java.lang.String"/>
+	<field name="ord_detalle" class="java.lang.String"/>
+	<field name="ord_num_proforma" class="java.lang.Integer"/>
+	<field name="ord_num_text" class="java.lang.String"/>
+	<field name="ord_observacion" class="java.lang.String"/>
+	<field name="cli_cedula" class="java.lang.String"/>
+	<field name="cli_nombre" class="java.lang.String"/>
+	<field name="cli_razon_social" class="java.lang.String"/>
+	<field name="cli_direccion" class="java.lang.String"/>
+	<field name="cli_telefono" class="java.lang.String"/>
+	<field name="cli_movil" class="java.lang.String"/>
+	<field name="cli_correo" class="java.lang.String"/>
+	<field name="clie_fecha_registro" class="java.sql.Date"/>
+	<field name="clie_tipo" class="java.lang.Integer"/>
+	<field name="id_tipo_identificacion" class="java.lang.Integer"/>
+	<field name="cli_nombres" class="java.lang.String"/>
+	<field name="cli_apellidos" class="java.lang.String"/>
+	<field name="ciudad" class="java.lang.String"/>
+	<field name="cli_clave" class="java.lang.String"/>
+	<field name="cli_monto_asignado" class="java.math.BigDecimal"/>
+	<field name="usu_nombre" class="java.lang.String"/>
+	<field name="usu_login" class="java.lang.String"/>
+	<field name="usu_password" class="java.lang.String"/>
+	<field name="usu_correo" class="java.lang.String"/>
+	<field name="usu_nivel" class="java.lang.Integer"/>
+	<field name="usu_foto" class="java.lang.String"/>
+	<field name="usu_tipo_usuario" class="java.lang.String"/>
+	<field name="usu_whatsapp" class="java.lang.String"/>
+	<field name="usu_pagina" class="java.lang.String"/>
+	<field name="usu_facebook" class="java.lang.String"/>
+	<field name="usu_numero_fotos" class="java.lang.Integer"/>
+	<field name="usu_fotografia" class="java.lang.String"/>
+	<field name="usu_actividad" class="java.lang.String"/>
+	<field name="usu_servlet" class="java.lang.String"/>
+	<field name="id_parroquia" class="java.lang.Integer"/>
+	<field name="usu_activa_movil" class="java.lang.Boolean"/>
+	<field name="usu_fecha_reg_mov" class="java.sql.Timestamp"/>
+	<field name="usu_fecha_caduca" class="java.sql.Timestamp"/>
+	<field name="usu_descripcion_negocio" class="java.lang.String"/>
+	<field name="usu_long_negocio" class="java.lang.String"/>
+	<field name="usu_lat_negocio" class="java.lang.String"/>
+	<field name="usu_es_drive" class="java.lang.Boolean"/>
+	<field name="usu_drive_activo" class="java.lang.Boolean"/>
+	<field name="usu_drive_placa" class="java.lang.String"/>
+	<field name="usu_drive_color" class="java.lang.String"/>
+	<field name="usu_drive_disponible" class="java.lang.Boolean"/>
+	<title>
+		<band height="49" splitType="Stretch"/>
+	</title>
+	<detail>
+		<band height="470" splitType="Stretch">
+			<line>
+				<reportElement positionType="Float" x="232" y="374" width="135" height="1"/>
+			</line>
+			<staticText>
+				<reportElement positionType="Float" x="232" y="378" width="134" height="15" isPrintWhenDetailOverflows="true"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Empresa]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="Float" x="29" y="374" width="135" height="1"/>
+			</line>
+			<staticText>
+				<reportElement positionType="Float" x="29" y="378" width="134" height="15" isPrintWhenDetailOverflows="true"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Cliente]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="64" y="17" width="164" height="20"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{cli_nombres}+" "+$F{cli_apellidos}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="280" y="17" width="100" height="20"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.util.Date"><![CDATA[$F{ord_fecha}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="65" y="37" width="100" height="20"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{cli_cedula}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="65" y="57" width="164" height="20"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{cli_correo}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="65" y="77" width="164" height="20"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{cli_direccion}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="281" y="57" width="100" height="20"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{usu_nombre}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="281" y="39" width="100" height="20"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{usu_nombre}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="12" y="115" width="364" height="12" isPrintWhenDetailOverflows="true"/>
+				<box leftPadding="2" rightPadding="2"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{ord_titulo}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="13" y="142" width="364" height="12" isPrintWhenDetailOverflows="true"/>
+				<box leftPadding="2" rightPadding="2"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{ord_detalle}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="12" y="169" width="363" height="12" isPrintWhenDetailOverflows="true"/>
+				<box leftPadding="2" rightPadding="2"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{ord_observacion}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="27" y="194" width="348" height="134"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[• El costo mínimo de la revisión es $3,00.
+• EL EQUIPO QUE NO SEA RETIRADO EN 30 DIAS SERA DECLARADO COMO ABANDONADO.
+• Todo equipo que ingrese debe tener su orden de trabajo.
+• La reparación de teléfonos que llegue mojado, no se le dará garantía.
+• La garantía del equipo reparado es de 30 días y no cubre la misma por el mal uso, golpes, humedad, etc.
+• También perderán la garantía los equipos que hayan sido abiertos o reparados en otro Servicio Técnico,   serán facturados nuevamente.
+• Para retirar el equipo el cliente revisara y comprobara su buen funcionamiento para evitar posteriores reclamos.
+• En toda reparación existe el riesgo que el equipo se apague o se pierda información CYBERT-NET no se hace responsable sino el cliente corre el riesgo del procesamiento del software y hardware.
+• En caso de incautación o allanamiento de unidades públicas como P.J., SRI, Aduana el local no se hace responsable de los equipos que no tengan factura de compra.
+• El trabaja a realizarse será entregado a la hora y fecha acordada.
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="11" y="17" width="52" height="20"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CLIENTE:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="12" y="37" width="52" height="20"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RUC / C.I:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="12" y="57" width="52" height="20"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[EMAIL:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="12" y="77" width="52" height="20"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DIRECCION]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="228" y="17" width="52" height="20"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FECHA:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="229" y="57" width="52" height="20"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[USUARIO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="229" y="77" width="52" height="20"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TÉCNICO:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="281" y="77" width="100" height="20"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{cli_telefono}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="229" y="37" width="52" height="20"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TELÉFONO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="13" y="130" width="73" height="12"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[EQUIPO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="12" y="103" width="74" height="12"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PROBLEMA:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="13" y="157" width="73" height="12"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[OBSERVACIÓN:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="382" height="12"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["INGRESO DE ORDEN DE TRABAJO NRO 001-001-"+$F{ord_num_text}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

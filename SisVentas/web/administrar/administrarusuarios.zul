@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?link rel="stylesheet" type="text/css" href="/css/style.css"?>
+<!--<?link rel="stylesheet" type="text/css" href="/css/bootstrap/css/bootstrap.min.css"?>-->
+<?init class="com.ec.seguridad.Autentificador"?>
+<?init class="org.zkoss.zk.ui.util.Composition" arg0="/plantilla/plantilla.zul"?>
+<zk  contentStyle="overflow:auto">
+    <hbox self="@define(content)" apply="org.zkoss.bind.BindComposer" 
+          viewModel="@id('vm') @init('com.ec.controlador.AdministrarUsuario')" >
+        <tabbox id="tboxPrincipal" >
+            <tabs >
+                <tab label="Administrar Usuarios" sclass="menutabs" image="../imagenes/user.png"/>
+            </tabs>
+            <tabpanels >
+                
+                <tabpanel id="tabUsuarios" >
+                    <listbox width="100%" model="@load(vm.listaUsuarios)" nonselectableTags="*"  mold="paging" pageSize="9">
+                        <auxhead>
+                            <auxheader colspan="9" >  
+                                <label value="Nuevo usuario:  "/>
+                                <button image="/imagenes/user.png" onClick="@command('agregarUsario')" tooltiptext="Agregar usuario"/>
+                            </auxheader>
+                        </auxhead>
+                        
+                                    
+                             
+                        <listhead sizable="true">
+                            <listheader label="Nombre de usuario"  align="left" width="20%"></listheader>
+                            <listheader label="Usuario"  align="left" width="20%"></listheader>
+                            <listheader label="Contraseña"  align="left" width="20%"></listheader>
+                            <listheader label="Tipo Usuario"  align="left" width="20%"></listheader>
+                            <listheader label="Modificar"  align="left" width="20%"></listheader>
+                        </listhead>
+                   
+                
+                        <template name="model">
+                            <listitem width="100%" > 
+                                <listcell>
+                                    <label value="@bind(each.usuNombre)" style="font-weight:bold" width="100%"/>
+                                </listcell>  
+                                <listcell>
+                                    <label value="@bind(each.usuLogin)" style="font-weight:bold" width="100%"/>
+                                </listcell>   
+                                <listcell>      
+                                    <textbox value="@bind(each.usuPassword)" readonly="true" type="password" />
+                                </listcell>  
+                                <listcell>                          
+                                    <label value="@bind(each.usuTipoUsuario)" />
+                                </listcell>                  
+                                <listcell>
+                                    <button src="/imagenes/update.png"  onClick="@command('modificarUsario',usuario=each)" tooltiptext="Modificar cambios"/>
+                                </listcell>     
+                               
+                            </listitem>
+                        </template>   
+                       
+                    </listbox>
+               
+               
+                </tabpanel>
+               
+               
+            </tabpanels>
+            
+        </tabbox>
+    </hbox>
+
+    
+</zk>
+

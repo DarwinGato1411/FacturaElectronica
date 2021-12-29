@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window  id="windowCliente"  position="center" class="col-12 col-sm-12 col-md-6 col-lg-6"  closable="true"  
+         apply="org.zkoss.bind.BindComposer"
+         viewModel="@id('vm') @init('com.ec.controlador.NuevoCliente')">
+    
+    <caption label="Cliente" style="font-weight:bold"/> 
+    
+    <div  class="container-fluid" >
+        <div  class="row" >
+               <div class="col-12 col-sm-6 col-md-4 col-lg-4  form-group "  >
+                <label value="(*) " style="color:red;font-weight:bold"/>Tipo de identificacion
+                <combobox  model="@load(vm.listaIdentificaciones)"  
+                          
+                           selectedItem="@bind(vm.tipoadentificacion)" width="70%"
+                           readonly="true" >
+                                          
+                    <template name="model">
+                        <comboitem  label="@bind(each.tidNombre)"/>
+                    </template>                                      
+                </combobox>
+              
+            </div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4  form-group "  >
+                <label   style="color:red;font-weight:bold" value="(*) "  />Ruc
+                <textbox     id="txtRuc" 
+                 onOK="@command('buscarAduana')"
+                          value="@bind(vm.cliente.cliCedula)" 
+                          class="form-control" />
+            </div>          
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4  form-group "  >
+                <label value="(*) " style="color:red;font-weight:bold"/>Nombres:
+                
+                <textbox  maxlength="100" 
+                          onChange="self.setValue(self.getValue().toUpperCase())"
+                          value="@bind(vm.cliente.cliNombres)" 
+                          class="form-control" />
+            </div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4  form-group "  >
+                <label value="(*) " style="color:red;font-weight:bold"/>Apellidos:
+                
+                <textbox  maxlength="100" 
+                          onChange="self.setValue(self.getValue().toUpperCase())"
+                          value="@bind(vm.cliente.cliApellidos)" 
+                          class="form-control" />
+            </div>
+            <div class="col-6 col-sm-6 col-md-6 col-lg-6  form-group "  >
+                <label value="(*) " style="color:red;font-weight:bold"/>Nombre Comercial: 
+                
+                <textbox  id="txtNombreComercial"
+                          maxlength="100" 
+                          value="@bind(vm.cliente.cliNombre)" 
+                          onChange="self.setValue(self.getValue().toUpperCase().trim());" 
+                          
+                          class="form-control" />
+            </div>
+
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4  form-group "  >
+                <label value="(*) " style="color:red;font-weight:bold"/>Telefono Convencional:
+                
+                <textbox  maxlength="100"
+                          value="@bind(vm.cliente.cliTelefono)" 
+                          
+                          class="form-control" />
+            </div>
+            
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4  form-group "  >
+                <label value="(*)" style="color:transparent;font-weight:bold"/>Telefono Celular:
+              
+                <textbox  maxlength="10"  
+                          value="@bind(vm.cliente.cliMovil)"
+                          class="form-control" />
+            </div> 
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4  form-group "  >
+                <label value="(*)" style="color:transparent;font-weight:bold"/>Fecha de registro:
+              
+                <datebox compact="true" value="@bind(vm.fechaReg)" 
+                         readonly="true"   style="font-weight:bold" buttonVisible="true" 
+                         lenient="true" 
+                         format="dd/MM/yyyy" />
+            </div> 
+           
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4  form-group "  >
+                <label value="(*) " style="color:red;font-weight:bold"/>Ciudad
+                
+                <textbox   maxlength="100" 
+                          value="@bind(vm.cliente.ciudad)" 
+                          onChange="self.setValue(self.getValue().toUpperCase());" 
+                          class="form-control" />
+              
+            </div>
+               <div class="col-12 col-sm-12 col-md-4 col-lg-4  form-group "  >
+           
+                <label value="(*)" style="color:red;font-weight:bold"/>Monto asignado:
+                <textbox    constraint="/^[0-9]{1,9}(?:[.][0-9]{1,3})?$/:Ingrese solo numeros"
+                            value="@bind(vm.cliente.cliMontoAsignado)"  
+                            class="form-control"  />
+            </div>
+           
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12  form-group "  >
+                <label value="(*) "  style="color:red;font-weight:bold"/>Dirección:
+               
+                <textbox id="txtDireccion" maxlength="100" 
+                         value="@bind(vm.cliente.cliDireccion)" 
+                         onChange="self.setValue(self.getValue().toUpperCase());" 
+                          
+                         class="form-control" />
+            </div>    
+               
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12  form-group "  >
+                <label value="(*)" style="color:transparent;font-weight:bold"/>Correo:
+              
+                <textbox id="txtCorreo"
+                         maxlength="100" 
+                         value="@bind(vm.cliente.cliCorreo)"
+                         class="form-control" />
+            </div>
+                     
+            <div class="col-12 col-sm-6 col-md-12 col-lg-12  form-group" align="center" >
+                    
+                <image src="/iconos/guardar.png"  
+                       onClick="@command('guardar')"
+                       tooltiptext="Guardar Registro"/>
+ 
+
+            </div> 
+        </div>
+   
+    </div>
+   
+                  
+
+                    
+                  
+</window>

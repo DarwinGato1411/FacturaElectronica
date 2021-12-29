@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window  id="windowModCotizacionFact"  position="center" width="70%"
+         class="mb-12 col-12 col-sm-12 col-md-12 col-lg-12 container" closable="true"  
+         apply="org.zkoss.bind.BindComposer" >
+    
+    <caption label="Modificar " style="font-weight:bold" /> 
+    <style>
+        .z-listbox-autopaging .z-listcell-cnt {
+        height: 14px;
+        overflow: hidden;
+        }
+        
+    </style>
+              
+    <hbox self="@define(content)" apply="org.zkoss.bind.BindComposer"            
+          viewModel="@id('vm') @init('com.ec.controlador.OrdenTrabajoVm')" >
+        
+        
+        <div class="container">
+            <div class="row">
+         
+                <div  style="margin-bottom:7px" class="mb-12 col-12 col-sm-12 col-md-12 col-lg-12">
+                    <label value="ORDEN DE TRABAJO" style="color:blue;font-weight:bold"/>
+                </div>
+                <div class="input-group mb-12 col-12 col-sm-12 col-md-12 col-lg-12" style="margin-bottom:10px">
+                    <label value="ORDEN: " style="font-size:1.5em;color:blue;font-weight:bold"/>
+                    <label  value="@bind(vm.numeroOrdenText)" 
+                             style="font-size:1.5em;color:red;" />
+                </div>
+                <!--<div class="input-group mb-12 col-12 col-sm-12 col-md-8 col-lg-8" style="margin-bottom:10px"></div>-->
+                <div class="input-group mb-12 col-12 col-sm-12 col-md-2 col-lg-2">
+                                    
+                    <textbox   class="form-control form-control-sm"
+                               style="font-size:10px;background-color:trasnsparent;font-weight:bold"
+                               ctrlKeys="^A" onCtrlKey="@command('buscarClienteEnLista')" 
+                               placeholder="Cedula"
+                               value="@bind(vm.clienteBuscado.cliCedula)" 
+                               onDoubleClick="@command('buscarClienteEnLista')"
+                               onOK="@command('buscarClienteDni',valor=self.getValue())"
+                                                  
+                               maxlength="13"  />
+                        
+                    <div class="input-group-append" >
+                        <button   image="/imagenes/buscar1.png" 
+                                  onClick="@command('buscarClienteEnLista')"  
+                                  tooltiptext="Buscar cliente"
+                                  class="btn  btn-primary btn-sm "/>
+                               
+                               
+                    </div>
+                </div>
+                <!--</div>-->
+                <div class="col-12 col-sm-12 col-md-2 col-lg-2 "   >
+                                  
+
+                    <textbox zclass = "mycss-listcell" 
+                             class="font-weight:bold form-control form-control-sm"
+                             style="font-size:10px;background-color:#d6eefd;font-weight:bold"
+                             readonly="true"
+                             value="@bind(vm.clienteBuscado.cliNombre)"  />
+                         
+                                 
+                </div>
+                <div class="col-12 col-sm-12 col-md-3 col-lg-2 "   >
+                                  
+
+                    <textbox zclass = "mycss-listcell" 
+                             class="font-weight:bold form-control form-control-sm"
+                             style="font-size:10px;background-color:#d6eefd;font-weight:bold"
+                             readonly="true"
+                             value="@bind(vm.clienteBuscado.cliDireccion)"  />
+                         
+                                 
+                </div>
+                <div class="col-12 col-sm-12 col-md-2 col-lg-2 "   >
+                                  
+
+                    <textbox zclass = "mycss-listcell" 
+                             class="font-weight:bold form-control form-control-sm"
+                             style="font-size:10px;background-color:#d6eefd;font-weight:bold"
+                             readonly="true"
+                             value="@bind(vm.clienteBuscado.cliTelefono)"  />
+                         
+                                 
+                </div>
+                      
+                <div class="col-12 col-sm-12 col-md-1 col-lg-1 "  align="end" >
+                                 
+                    <datebox compact="true" value="@bind(vm.fechaOrden)" 
+                             readonly="true" style="font-weight:bold;" 
+                             buttonVisible="true" 
+                             lenient="true" format="dd/MM/yyyy" 
+                             constraint="no empty: Ingrese la fecha "/>
+
+                </div>
+                
+                <div class="col-12 col-sm-12 col-md-12 col-lg-10  form-group "  >
+                    <label   style="color:red;font-weight:bold" value="(*) "  />Equipo:
+                    <textbox  value="@bind(vm.ordenTrabajo.ordTitulo)" 
+                              class="form-control" />
+                </div>  
+            
+                <div class="col-12 col-sm-12 col-md-12 col-lg-10   form-group "  >
+                    <label   style="color:red;font-weight:bold" value="(*) "  />Problema:
+                    <textbox  value="@bind(vm.ordenTrabajo.ordDetalle)" 
+                              multiline="true" rows="4"
+                              class="form-control" />
+                </div>  
+                <div class="col-12 col-sm-12 col-md-12 col-lg-10   form-group "  >
+                    <label   style="color:red;font-weight:bold" value="(*) "  />Observacion:
+                    <textbox  value="@bind(vm.ordenTrabajo.ordObservacion)" 
+                              multiline="true" rows="4"
+                              class="form-control" />
+                </div>  
+                
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12  form-group" align="center" >
+                    
+                    <button src="/iconos/guardar.png"  
+                            style="height:50px "            
+                            autodisable="self"
+                            label="Guardar orden"
+                            class="btn btn btn-success btn-sm "
+                            onClick="@command('Guardar',valor='SG')"
+                            tooltiptext="Guardar orden"/>
+ 
+
+                </div> 
+            </div>          
+        </div>     
+         
+    </hbox>
+
+
+                  
+</window>

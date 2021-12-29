@@ -1,0 +1,202 @@
+   <zk>
+
+    <div class="banner" id="loginWin"  style="height:auto"  width="100%"
+         apply="com.ec.controlador.LogoutController" >
+        <div class="row" >
+            
+            <div class="col-12 col-sm-12 col-md-7 col-lg-7  " align="start">
+                <!--<image  src="/imagenes/logintrans.jpg" width="30px" height="30px" class="imgRedondaLogo" />-->
+                <label value="DECKXEL  Facturacion" sclass="banner-head labelNuevo" />   
+                
+                     
+            </div>
+            <div class="col-12 col-sm-12 col-md-5 col-lg-5  " align="start" style="float: right; " >
+                <div apply="org.zkoss.bind.BindComposer" 
+                     viewModel="@id('vm') @init('com.ec.controlador.MenuToolbar')">
+                    <toolbar id="tb" height="30px"  style="background-color:#1ebea5;" >
+                        <!--<toolbarbutton image="/iconos/fact.png" label="Facturar" onClick="@command('facturar')" />-->
+                        <toolbarbutton image="/iconos/page.png" label="Producto" if="${sessionScope.usuario.usuarioSistema.usuNivel == 1}" onClick="@command('nuevoProducto')" />
+                        <toolbarbutton image="/iconos/user.png" label="Cliente" onClick="@command('nuevoCliente')" />
+         
+                        <label value="Usuario: " if="${not sessionScope.userCredential.anonymous}" class="labelNuevo" />
+                        <label value="${sessionScope.usuario.nombreUsuario}" class="labelNuevo" if="${not sessionScope.userCredential.anonymous}" />
+                        <div  align="end" style="float: right; " >
+                            <a sclass="logout labelLogout" id="logout" >  
+                                <label  value="Salir " if="${not sessionScope.userCredential.anonymous}" sclass=" labelLogout"/> 
+                                <image src="/iconos/logout-24.png"  />  
+                       
+                            </a>
+                
+                        </div>
+                    </toolbar>
+                </div>
+               
+            </div>
+        </div>
+        <div class="rows">
+            <div  viewModel="@id('vm')" id="gridMenu" apply="com.ec.controlador.MenuOpciones" 
+            class="col-12 col-sm-12 col-md-12 col-lg-12" >
+         
+                    <menubar id="menubar" orient="horizontal"  autodrop="true">
+                        <menu label="Ventas" >
+                            <menupopup> 
+                                <menuitem label="Emitir Facturas" id="btnFacturar"  />
+                                <!--<menuitem label="Orden de trabajo" id="btnOrdenTrab"  />-->
+                                 <menuitem label="Facturas por cobrar" id="btnfactCobra"  />
+                                <menuitem label="Cierre de caja" id="btnCierreCajaUsu"  />
+                            </menupopup>
+                        </menu>
+                        <menu label="Gestion de ventas"  id="menuVentas">
+                            <menupopup>                               
+                                <menuitem label="Facturas emitidas" id="btnNotaVentas" />
+                                <menuitem label="Nota de venta" id="btnNotaVenta"  />                                
+                                <menuitem label="Proformas emitidas" id="btnProformasEmitidas"  />
+                                <menuitem label="Emitir Guias de remision" id="btnEmitirGuiaRemision"  />
+                                <menuitem label="Guias de remision emitidas" id="btnGuiaRemision"  />
+                                <menuitem label="Notas credito" id="btnNotaCredito"  />
+                                <!--<menuitem label="Lista ordenes de trabajo" id="btnListaOrden"  />-->
+                                <!--<menuitem label="Venta en ruta (GLP)" id="btnVentaRuta" />-->
+                             
+
+                            </menupopup>
+                        </menu> 
+                        <menu label="Gestion de compras" id="menuCompras">
+                            <menupopup>                     
+                      
+                                <menuitem label="Ingreso de mercaderia" id="btnIngresoCompras"  />                                
+                                <menuitem label="Mercaderia ingresada" id="btnListaCompras"  />                                                          
+                                <menuitem label="Retenciones" id="btnRetenciones"  />
+                              
+                                <!--<menuitem label="ComprasSRI" id="btnListaComprasSRI"  />-->     
+                            </menupopup>
+                        </menu>          
+                                     
+                        <menu label="Kardex" id="menuKardex">
+                            <menupopup>  
+                                <menuitem label="Ajuste de Entrada/Salida" id="btnAjuste"  />                                                                       
+                                <menuitem label="Kardex detallado" id="btnKardex"  /> 
+                                 <menuitem label="Kardex general" id="btnKardexPorProd"  />                                               
+                                                                         
+<!--                                <menuitem label="Contabilidad" id="btnContabilidad" image="/iconmenu/page_refresh.png" />-->
+                               
+                            </menupopup>
+                        </menu>
+                         <menu label="Reportes" id="menuReportes">
+                            <menupopup>                                                                         
+                                <menuitem label="Facturas autorizadas SRI" id="btnFactAutori"  />                              
+                                <menuitem label="Compras vs Ventas" id="btnBalanceUtilidad"  />
+                                <!--<menuitem label="Cantidad de venta (GLP)" id="btnRepVentCant" />-->
+                                <menuitem label="Acumulado de ventas" id="btnAcumuladoventas" />
+                                <menuitem label="Rotacion Productos" id="btnRotacionProducto" />
+                                <menuitem label="Lista de cierre de caja" id="btnListarCierre" /> 
+                                <menuitem label="ATS Ventas" id="btnContabilidad"  /> 
+                                <menuitem label="ATS Compras y Ventas" id="btnContabilidadATS"  /> 
+                                <menuitem label="Retenciones por casillero" id="btnRetencionesCasillero"  />
+                                <menuitem label="Precio promedio compra" id="btnPreciPromCompra"  />
+                                <!--<menuitem label="Precio promedio venta" id="btnPreciPromVenta"  />-->
+                            </menupopup>
+                        </menu>
+                        
+                        <menuitem label="Catalogos" id="btnAdministarVenta"  />
+<!--                        <menuitem image="/iconos/fact.png" label="Facturar" onClick="@command('facturar')" />
+                        <menuitem image="/iconos/page.png" label="Producto" onClick="@command('nuevoProducto')" />
+                        <menuitem image="/iconos/user.png" label="Cliente" onClick="@command('nuevoCliente')" />-->
+                      
+                    </menubar>    
+                                    
+                </div>
+                
+        </div>
+        
+    </div>
+</zk>
+<!--<div hflex="1" vflex="1" sclass="banner">
+    <hbox hflex="1" vflex="1" align="center" >
+        <div width="100%">
+            <label value="Sistema de cotizacion" sclass="banner-head" />
+        </div>
+        <hbox apply="imp.controladoresviewesview.LogoutController" width="100%"
+                  hflex="1" vflex="1" pack="end" align="end" >
+           
+        </hbox>       
+    </hbox>
+</div>-->
+<!--
+<div hflex="1" vflex="1" class="table" sclass="banner" apply="imp.controladoresviewesview.LogoutController" >
+    
+    <nav sclass="navbar navbar-default">
+    <menubar  width="100%" apply="imp.controladoresviewesview.MenuOpcionesViewModel" autodrop="true" >
+        <menuitem id="btnPrincipal" label="INICIO"   />
+        <menuitem id="btnAdministrar" label="CATALOGOS"  />
+      
+        <menu label="ORDEN CON COTIZACION" visible="true"    >
+            <menupopup>
+                <menu  label="COTIZACIONES" >
+                    <menupopup>
+                        <menuitem id="btnCotizar" label="GENERAL" />
+                        <menuitem  id="btnCompaginado" label="COMPAGINADO" />
+                        <menuitem  id="btnGiganto" label="GIGANTOGRAFIA" />
+                        <menuitem  id="btnDigital" label="DIGITAL" />
+                    </menupopup>
+                </menu>
+                <menu  label="LISTA DE COTIZACIONES" >
+                    <menupopup>
+                        <menuitem  id="btnListaUsuarios" label="GENERADAS" />
+                        <menuitem  id="btnCotizacionCerrada" label="CERRADA" />
+                        <menuitem id="btnCotizacionFacturadas" label="FACTURADAS" />
+                        <menuitem image="/imagenes/group.png" id="btnDigital" label="DIGITAL" />
+                    </menupopup>
+                </menu>
+                <menu  label="ORDEN DE PRODUCCION" >
+                    <menupopup>
+                        <menuitem  id="btnOrdenFinalizada" label="CERRADA" />
+                    </menupopup>
+                </menu>
+
+            </menupopup>
+        </menu>
+        <menu label="ORDEN SIN COTIZACION" visible="true"    >
+            <menupopup>
+             
+                <menuitem  id="btnOrdenSinCotizar" label="GENERAR ORDEN" >
+                </menuitem>
+                <menu  label="LISTA DE ORDEN DE PRODUCCION" >
+                    <menupopup>
+                        <menuitem  id="btnOrdenSinCotizar" label="ORDEN SIN COTIZACION" />
+                        <menuitem  id="btnListaOrdenSinCotizar" label="GENERADAS" />
+                        <menuitem  id="btnListaOrdenSinCotizarCerradas" label="CERRADAS" />
+                        <menuitem  id="btnListaOrdenSinCotizarFacturadas" label="FACTURADAS" />
+                    </menupopup>
+                </menu>
+
+            </menupopup>
+        </menu>
+        <menu label="ADMINISTRACION" visible="true"    >
+            <menupopup>
+             
+                <menuitem  id="btnMaterialSolicitado" label="SOLICITAR MATERIAL" >
+                </menuitem>
+                
+              
+                <menuitem  id="btnMailMasivo" label="PUBLICIDAD MASIVA" >
+                </menuitem>
+                <menuitem  id="btnManual" label="MANUAL USUARIO" >
+                </menuitem>
+                  <menuitem  id="btnUsuarios" label="USUARIOS" >
+                </menuitem>
+               
+                
+
+            </menupopup>
+        </menu>
+         <menuitem  id="btnCalculadora" label="CALCULADORA" >
+                </menuitem>
+       <menuitem  label="Usuario: ${sessionScope.usuario.nombreUsuario}" 
+                       style=" float:rigth;position:absolute;right:10%;" 
+                       if="${not sessionScope.userCredential.anonymous}" sclass="info"  />
+        <menuitem id="logout" label="Salir"  style=" float:rigth;position:absolute;right:1%;" 
+                      image="/imagenes/cancel.png" />
+                  
+    </menubar>    
+    </nav>
+</div>-->

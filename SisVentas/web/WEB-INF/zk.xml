@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+        Created by ZK Studio
+-->
+
+<zk>
+    <system-config>
+        <disable-event-thread>false</disable-event-thread>
+        <!--  <ui-factory-class>org.zkoss.zk.ui.http.SerializableUiFactory</ui-factory-class>-->
+    </system-config>  
+    <library-property>
+        <name>org.zkoss.zul.Paging.mold</name>
+        <value>os</value>
+    </library-property>    
+</zk>

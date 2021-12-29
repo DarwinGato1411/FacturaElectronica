@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window  id="windowCliente"  position="center" class="col-12 col-sm-12 col-md-8 col-lg-6" closable="true"  
+         apply="org.zkoss.bind.BindComposer" 
+         viewModel="@id('vm') @init('com.ec.controlador.NuevoProveedor')">
+    
+    <caption label="Proveedor" style="font-weight:bold"
+    /> 
+    <div  class="container" >
+        <div  class="row" >
+            <div class="col-12 col-6 col-md-4 col-lg-4  form-group "  >
+                <label value="(*) " style="color:red;font-weight:bold"/>Tipo de Identifi.
+                <combobox  model="@load(vm.listaIdentificacionCompras)"  
+                           class="badge badge-default   btn-secondary  textoFechaDateBox"  
+                           selectedItem="@bind(vm.identificacionCompra)" width="70%"
+                           readonly="true" >
+                                          
+                    <template name="model">
+                        <comboitem  label="@bind(each.ticNombre)"/>
+                    </template>                                      
+                </combobox>
+              
+            </div>
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4  form-group "  >
+                <label   style="color:red;font-weight:bold" value="(*) "  />CI/Ruc:
+                <textbox  maxlength="13"  
+                          value="@bind(vm.proveedor.provCedula)" 
+                          class="form-control" />
+            </div>          
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4  form-group "  >
+                <label value="(*) " style="color:red;font-weight:bold"/>Nombre del proveedor:
+                
+                <textbox  maxlength="100" 
+                          onChange="self.setValue(self.getValue().toUpperCase())"
+                          value="@bind(vm.proveedor.provNombre)" 
+                          class="form-control" />
+            </div>
+            
+           
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4  form-group "  >
+                <label value="(*) " style="color:red;font-weight:bold"/>Telefono Convencional:
+                
+                <textbox  maxlength="100"
+                          value="@bind(vm.proveedor.provTelefono)" 
+                          
+                          class="form-control" />
+            </div>
+            
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4  form-group "  >
+                <label value="(*)" style="color:transparent;font-weight:bold"/>Telefono Celular:
+              
+                <textbox  maxlength="10"  
+                          value="@bind(vm.proveedor.provMovil)"
+                          class="form-control" />
+            </div> 
+            
+      
+           
+            <div class="col-12 col-sm-12 col-md-6 col-lg-6  form-group "  >
+                <label value="(*) "  style="color:red;font-weight:bold"/>Dirección:
+               
+                <textbox id="txtDireccion" maxlength="100" 
+                         value="@bind(vm.proveedor.provDireccion)" 
+                         onChange="self.setValue(self.getValue().toUpperCase());" 
+                          
+                         class="form-control" />
+            </div>    
+               
+            <div class="col-12 col-sm-12 col-md-6 col-lg-6  form-group "  >
+                <label value="(*)" style="color:transparent;font-weight:bold"/>Correo:
+              
+                <textbox  maxlength="100" 
+                          value="@bind(vm.proveedor.provCorreo)"
+                          class="form-control" />
+            </div>
+            <div class="col-12 col-sm-12 col-md-6 col-lg-6  form-group "  >
+                <label value="(*)" style="color:transparent;font-weight:bold"/>Pagina web:
+              
+                <textbox  maxlength="100" 
+                          value="@bind(vm.proveedor.provPagina)"
+                          class="form-control" />
+            </div>
+            <div class="col-12 col-sm-12 col-md-6 col-lg-6  form-group "  >
+                <label value="(*)" style="color:transparent;font-weight:bold"/>Nombre del Banco:
+              
+                <textbox  maxlength="100" 
+                          value="@bind(vm.proveedor.provBanco)"
+                          class="form-control" />
+            </div>
+            <div class="col-12 col-sm-12 col-md-6 col-lg-6  form-group "  >
+                <label value="(*)" style="color:transparent;font-weight:bold"/>Tipo de cuenta:
+              
+                <textbox  maxlength="100" 
+                          value="@bind(vm.proveedor.provTipoCuenta)"
+                          class="form-control" />
+            </div>
+            <div class="col-12 col-sm-12 col-md-6 col-lg-6  form-group "  >
+                <label value="(*)" style="color:transparent;font-weight:bold"/>Numero de cuenta:
+              
+                <textbox  maxlength="100" 
+                          value="@bind(vm.proveedor.provNumeroCuenta)"
+                          class="form-control" />
+            </div>
+                     
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12  form-group" align="center" >
+                    
+                <image src="/iconos/guardar.png"  
+                       onClick="@command('guardar')"
+                       tooltiptext="Guardar Registro"/>
+ 
+
+            </div> 
+        </div>
+   
+    </div>
+    
+                    
+                  
+</window>

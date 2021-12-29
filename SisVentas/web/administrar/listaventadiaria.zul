@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?link rel="stylesheet" type="text/css" href="/css/boostrap/bootstrap.css"?>  
+<?link rel="stylesheet" type="text/css" href="/css/style.css"?>
+<?init class="com.ec.seguridad.Autentificador"?>
+<?init class="org.zkoss.zk.ui.util.Composition" arg0="/plantilla/plantilla.zul"?>
+<zk  contentStyle="overflow:auto" with="100%" >
+    <hbox self="@define(content)" apply="org.zkoss.bind.BindComposer" 
+          viewModel="@id('vm') @init('com.ec.controlador.ListaVentaDiaria')" width="100%">
+        <tabbox id="tboxPrincipal"  width="100%">
+            <tabs >
+                <tab label="Total de venta realizada por dia" sclass="menutabs" /> 
+                <tab label="Estadistica de venta diaria" sclass="menutabs" /> 
+            </tabs>
+            <tabpanels >
+                
+                <tabpanel  height="98%" width="99%"  >                    
+                
+                    <listbox model="@load(vm.listaVentaDiaria)" 
+                             nonselectableTags="*"  mold="paging" pageSize="12"  >
+                        <custom-attributes org.zkoss.zul.listbox.rod="true"/>
+  
+                        <listhead> 
+                            <listheader width="70%"  label="VENTA" align="rigth" /> 
+                            <listheader width="15%"  label="FECHA" align="rigth" />    
+                            <listheader width="15%"  label="TOTAL" align="rigth" />        
+                        </listhead>  
+                        <auxhead>
+                            <auxheader colspan="11" >  
+                                <div class="row">
+                              
+                      
+                                          <div  class="col-4 col-sm-4 col-md-3 col-lg-3 input-group form-control">
+                                            <label value="Fecha inicio:" width="120px"  class="input-group-addon" />
+                                            <datebox   value="@bind(vm.fechaBusqueda)" 
+                                                       readonly="true" style="font-weight:bold;" 
+                                                       onCreate="self.value = new Date()" 
+                                                       class="badge badge-default bg-info  btn-secondary  textoFechaDateBox"  
+                                                       buttonVisible="true" 
+                                                       lenient="true"  format="dd/MM/yyyy" 
+                                                       constraint="no empty: Ingrese de inicio del trabajo    "/> 
+                                        </div>
+                                        <div  class="col-4 col-sm-4 col-md-3 col-lg-3 input-group form-control">
+                                            <label value="Fecha inicio:" width="120px"  class="input-group-addon" />
+                                            <datebox   value="@bind(vm.fechaFinBus)" 
+                                                       readonly="true" style="font-weight:bold;" 
+                                                       onCreate="self.value = new Date()" 
+                                                       class="badge badge-default bg-info  btn-secondary  textoFechaDateBox"  
+                                                       buttonVisible="true" 
+                                                       lenient="true"  format="dd/MM/yyyy" 
+                                                       constraint="no empty: Ingrese de inicio del trabajo    "/> 
+                                            <button   image="/imagenes/buscar1.png"  
+                                                      onClick="@command('buscarForFecha')"  
+                                                      class="btn btn-primary btn-sm "
+                                                      tooltiptext="Buscar por fecha de venta"/>
+                       
+                                        </div>
+                                
+                                </div>
+                            </auxheader>
+                        </auxhead>
+                    
+                        <template name="model">                                                            
+                            <listitem>
+                                <listcell>
+                                    <label value="@bind(each.venta)" width="96%" />
+                                </listcell>
+                                <listcell>
+                                    <datebox  value="@bind(each.fecha)" 
+                                              buttonVisible="false" lenient="true" 
+                                              format="medium"  />
+                                </listcell>
+                                <listcell>
+                                    <decimalbox format="###.####" readonly="true"  value="@bind(each.total)" />
+                                </listcell>
+     
+                            </listitem>
+                        </template>
+                    </listbox>
+                
+                </tabpanel>
+                <tabpanel  height="98%" width="99%"  >     
+                    
+                                           
+                    <grid width="100%" >
+                        <auxhead>
+                            <auxheader colspan="1" class="topic">
+                                <div class="row">
+                                   
+                      
+                                    <div  class="col-4 col-sm-4 col-md-3 col-lg-3 input-group form-control">
+                                        <label value="Fecha inicio:" width="120px"  class="input-group-addon" />
+                                        <datebox   value="@bind(vm.fechaInicio)" 
+                                                   readonly="true" style="font-weight:bold;" 
+                                                   onCreate="self.value = new Date()" 
+                                                   class="badge badge-default bg-info  btn-secondary  textoFechaDateBox"  
+                                                   buttonVisible="true" 
+                                                   lenient="true"  format="dd/MM/yyyy" 
+                                                   constraint="no empty: Ingrese de inicio del trabajo    "/> 
+                                    </div>
+                                    <div  class="input-group form-control col-4 col-sm-4 col-md-4 col-lg-4">
+                                        <label value="Fecha fin:" width="120px"  class="input-group-addon" />
+                                        <datebox   value="@bind(vm.fechaFin)" 
+                                                   readonly="true" style="font-weight:bold;" 
+                                                   onCreate="self.value = new Date()" 
+                                                   class="badge badge-default bg-info  btn-secondary  textoFechaDateBox"  
+                                                   buttonVisible="true" 
+                                                   lenient="true"  format="dd/MM/yyyy" 
+                                                   constraint="no empty: Ingrese de inicio del trabajo    "/> 
+                                        <button   image="/imagenes/buscar1.png"  
+                                                  label="Graficar"
+                                                  onClick="@command('graficarForMes')"  
+                                                  class="btn btn-primary btn-sm "
+                                                  tooltiptext="Graficar estadistica"/>
+                       
+                                       
+                                    </div>
+                                </div>                                
+                            </auxheader>
+                        </auxhead>           
+                        <columns>                               
+                            <column label="" align="center"/>
+                                       
+                        </columns>
+                     
+                        <rows >
+                            <row>
+                                <image content="@bind(vm.reporteMes)" align="center"  style="margin: 2% 0 0 10%;"   />
+                            </row>
+          
+                        </rows>
+                  
+                    </grid>               
+                  
+                    
+                </tabpanel>
+
+
+            </tabpanels>
+            
+        </tabbox>
+    </hbox>
+
+
+</zk>

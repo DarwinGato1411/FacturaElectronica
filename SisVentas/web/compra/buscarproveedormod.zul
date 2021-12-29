@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window  id="windowProveedorBuscar"  position="center" width="80%" closable="true"  
+         apply="org.zkoss.bind.BindComposer" contentStyle="overflow:auto"
+         viewModel="@id('vm') @init('com.ec.controlador.ModificarCompra')">
+    
+    <caption label="Registrar proveedor" style="font-weight:bold"
+    /> 
+   
+   
+    <listbox model="@load(vm.listaProveedoresAll)" 
+                             nonselectableTags="*"  mold="paging" pageSize="10"  >
+        <custom-attributes org.zkoss.zul.listbox.rod="true"/>
+                    
+        <auxhead>
+            <auxheader colspan="8" >  
+                <label value="Cedula:"/>
+                <space bar="false" /> 
+                <textbox width="10%" value="@bind(vm.buscarProvCedula)" onChanging="@command('buscarProveedorCedula',valor=event.value)"  />
+                <space bar="false" /> 
+                <label value="Nombre: "/>
+                <space bar="false" /> 
+                <textbox width="10%" value="@bind(vm.buscarProvNombre)" onChanging="@command('buscarProveedorNombre',valor=event.value)" />
+            </auxheader>
+        </auxhead>
+                    
+        <listhead> 
+            <listheader width="8%"  label="CEDULA" />     
+            <listheader width="15%"  label="NOMBRE" /> 
+           
+            <listheader width="30%"  label="DIRECCION "  /> 
+            <listheader width="8%"  label="TELEFONO "  />        
+            <listheader width="8%"  label="MOVIL"/>
+            <listheader width="20%"  label="CORREO"/>
+            <listheader width="12%"  label="OPCIONES" align="center"/>
+                            
+        </listhead>  
+                    
+        <template name="model">                                                            
+            <listitem>
+                <listcell onClick="@command('seleccionarProveedorLista',valor=each)">
+                    <label value="@bind(each.provCedula)" width="96%" onClick="@command('seleccionarProveedorLista',valor=each)" />
+                </listcell>
+                <listcell onClick="@command('seleccionarProveedorLista',valor=each)">
+                    <label value="@bind(each.provNombre)" width="96%" onClick="@command('seleccionarProveedorLista',valor=each)" />
+                </listcell>
+                
+                <listcell onClick="@command('seleccionarProveedorLista',valor=each)">
+                    <label value="@bind(each.provDireccion)" width="96%" onClick="@command('seleccionarProveedorLista',valor=each)"/>
+                </listcell>
+                <listcell>
+                    <label value="@bind(each.provTelefono)" width="96%"/>
+                </listcell>
+                <listcell>
+                    <label value="@bind(each.provMovil)" width="96%"/>
+                </listcell>
+                <listcell>
+                    <label value="@bind(each.provCorreo)" width="96%"/>
+                </listcell>
+                <listcell>    
+                    <image   src="/iconos/ok24x24.png"
+                             onClick="@command('seleccionarProveedorLista',valor=each)" 
+                             sclass="botonLista" tooltiptext="Seleccionar registro"/>
+                </listcell>
+            </listitem>
+        </template>
+    </listbox>
+                           
+                  
+</window>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window  id="windowMailing"  position="center" class="col-12 col-sm-12 col-md-8 col-lg-6" closable="true"  
+         apply="org.zkoss.bind.BindComposer"  
+         viewModel="@id('vm') @init('com.ec.controlador.NuevoMailing')">
+    
+    <caption label="Mail" style="font-weight:bold"
+    /> 
+    <grid width="100%" >
+       
+        <columns>                               
+            <column label="Etiquetas" width="40%" align="left"/>
+            <column label="Descripcion" width="60%"/>
+                   
+        </columns>
+                     
+        <rows >
+            <row>
+                <cell colspan="1">
+                    <label value="(*) " style="color:red;font-weight:bold"/>Cliente:
+                                   
+                </cell>
+                <cell colspan="1">
+                    <textbox width="98%"  value="@bind(vm.mailMasivo.clienet)"   sclass="textBoxMedio" />
+                </cell>
+            </row>
+            <row>
+                <cell colspan="1">
+                    <label value="(*) " style="color:red;font-weight:bold"/>Mail:
+                                   
+                </cell>
+                <cell colspan="1">
+                    <textbox width="98%" value="@bind(vm.mailMasivo.email)"  sclass="textBoxMedio" />
+                </cell>
+            </row>
+            
+            <row>
+                <cell colspan="1">
+                    <label value="(*) " style="color:red;font-weight:bold"/>Categoria:
+                                   
+                </cell>
+                <cell colspan="1">
+                    <combobox  selectedItem="@bind(vm.mailMasivo.categoria)"   >
+                        <comboitem label="CLIENTES FRECUENTES" value="CLIENTES FRECUENTES" />
+                        <comboitem label="CLIENTE PASIVOS" value="CLIENTE PASIVOS" />
+                        <comboitem label="POSIBLES CLIENTE" value="POSIBLES CLIENTE" />
+                        <comboitem label="PROVEEDORES" value="PROVEEDORES" />
+                        <comboitem label="OTROS" value="OTROS" />
+                    </combobox>
+                </cell>
+            </row>
+            
+           
+            <row>
+                <cell align="center" colspan="4">
+                    <hbox>
+                        <button label="Guardar" image="/imagenes/save_1.png"  onClick="@command('guardar')"  tooltiptext="Guardar material"/> 
+                    </hbox>
+                
+                </cell>  
+            </row>
+        </rows>
+                  
+    </grid> 
+                    
+                  
+</window>

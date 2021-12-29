@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window  id="windowRetencionCom"  position="top,center" width="75%" closable="true"  
+         apply="org.zkoss.bind.BindComposer" contentStyle="overflow:auto">
+    
+    <caption label="Retencion de Compras" style="font-weight:bold"
+    /> 
+    <hbox self="@define(content)" apply="org.zkoss.bind.BindComposer" 
+          viewModel="@id('vm') @init('com.ec.controlador.RetencionCompraVm')" >
+        <tabbox  width="100%"  tabscroll="true" >
+            <tabs >
+                <tab label="Retencion" sclass="menutabs"/>
+            </tabs>
+            <tabpanels >
+                <tabpanel  height="100%" width="98%"  >
+                    <div class="container-fluid">
+                        <div class="row " align="center">
+                            
+                            <div class="col-12 col-sm-12 col-md-1 col-lg-1 " align="start">
+                                <button src="/iconos/guardar.png"   
+                                        autodisable="self"
+                                        class="btn btn btn-secondary btn-sm "
+                                        onClick="@command('guardar')"
+                                        tooltiptext="Guardar factura"/>
+                           
+                            </div>
+                            
+                            <div class="col-12 col-sm-12 col-md-2 col-lg-2 form-group" align="start">
+                                <radiogroup  selectedItem="@bind(vm.codImpuestoAsignado)" onCheck="@command('visualizarIvaFuente')" >
+                                    <radio label="IVA" value="2"/>
+                                    <separator/>
+                                    <radio label="RENTA" value="1"/>     
+                                </radiogroup>
+                            </div>
+                            <div class="col-12 col-sm-12 col-md-2 col-lg-2 form-group" align="center">
+                                
+                                <label value="SUBTOTAL" class="form-control form-control-sm" />                            
+                                <decimalbox format="###.##"  
+                                            readonly="true" 
+                                            class="form-control form-control-sm"
+                                            value="@bind(vm.cabeceraCompra.cabSubTotal)" 
+                                            style="text-align:center;font-size:1.5em;color:blue"/>
+                            </div>
+                            <div class="col-12 col-sm-12 col-md-2 col-lg-2 form-group" align="center">
+                                
+                                <label value="IVA" class="form-control form-control-sm" />                            
+                                <decimalbox format="###.###"  
+                                            readonly="true" 
+                                            class="form-control form-control-sm"
+                                            value="@bind(vm.cabeceraCompra.cabIva)" 
+                                            style="text-align:center;font-size:1.5em;color:blue"/>
+                            </div>
+                            <div class="col-12 col-sm-12 col-md-2 col-lg-2 form-group" align="center">
+                                
+                                <label value="TOTAL" class="form-control form-control-sm" />                            
+                                <decimalbox format="###.##"  
+                                            readonly="true" 
+                                            class="form-control form-control-sm"
+                                            value="@bind(vm.cabeceraCompra.cabTotal)" 
+                                            style="text-align:center;font-size:1.5em;color:blue"/>
+                            </div>
+                            
+                        </div>
+                        <div class="row ">
+                           
+                            <div class="col-12 col-sm-12 col-md-1 col-lg-1 " align="start"></div>
+                      
+                            <div class="col-12 col-sm-12 col-md-4 col-lg-4">
+                                <div class="input-group mb-3">
+                                    <label value="Fecha retencion: " class="labelNuevoNegro" />
+                                    <datebox compact="true" value="@bind(vm.retencionCompra.rcoFecha)" 
+                                             readonly="true" style="font-weight:bold;" 
+                                             buttonVisible="true" 
+                                             lenient="true" format="dd/MM/yyyy" 
+                                             constraint="no empty: Ingrese su fecha "/>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-12 col-md-3 col-lg-3">
+                                <div class="input-group mb-3">
+                                    <label value="Autorizacion: " class="labelNuevoNegro" />
+                                    <textbox readonly="true"
+                                             style="font-weight:bold"     
+                                             maxlength="10"                                          
+                                             value="@bind(vm.retencionCompra.rcoAutorizacion)" 
+                                             class="form-control form-control-sm"   />
+                                </div>
+                              
+                            </div>                          
+                            <div class="col-12 col-sm-12 col-md-4 col-lg-4">
+                                <div class="input-group mb-3">
+                                    <label value="Secuencial: " class="labelNuevoNegro" />
+                                    <textbox readonly="false"
+                                             style="font-weight:bold"     
+                                             maxlength="10"                                          
+                                             value="@bind(vm.numeroRetencion)" 
+                                             class="form-control form-control-sm"   />
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-12 col-md-1 col-lg-1"></div>
+                            <div class="col-12 col-sm-12 col-md-4 col-lg-4">
+                                <div class="input-group mb-3">
+                                    <label value="Base imponible: " class="labelNuevoNegro" />
+                                    <decimalbox readonly="false" format="###.#####" 
+                                                style="font-weight:bold"                                              
+                                                value="@bind(vm.baseImponible)" 
+                                                class="form-control form-control-sm"   />
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-12 col-md-4 col-lg-4" visible="@load(vm.activaIvaRenta)">
+                                <label value="% Desc." class="labelNuevoNegro" />
+                                <combobox  model="@load(vm.listaTipoivaretencion)"                                             
+                                           selectedItem="@bind(vm.tipoivaretencion)" width="60%"
+                                           readonly="true" >
+                                          
+                                    <template name="model">
+                                        <comboitem  label="@bind(each.tipivaretDescripcion.concat('%'))"/>
+                                    </template>                                      
+                                </combobox>
+                            </div>                                                       
+                            <div class="col-12 col-sm-12 col-md-4 col-lg-4" visible="@load(!vm.activaIvaRenta)">
+                                <label value="Tipo ret. " class="labelNuevoNegro" />
+                                <combobox  model="@load(vm.listaTipoRetencion)"                                             
+                                           selectedItem="@bind(vm.tipoRetencionSelected)" width="60%"
+                                           readonly="true" >
+                                          
+                                    <template name="model">
+                                        <comboitem  label="@bind(each.tireNombre)"
+                                                    description="@bind(each.tireCodigo ne null ? 'Codigo SRI:  '.concat(each.tireCodigo) : ''))"/>
+                                    </template>                                      
+                                </combobox>
+                            </div>                                                       
+                            <div class="col-12 col-sm-12 col-md-3 col-lg-3">
+                                <button label="Agregar" src="/iconos/add.png"  
+                                        onClick="@command('agregarRegistro')"  
+                                        class="btn btn btn-primary btn-sm "
+                                        tooltiptext="Agregar item"/>
+                            </div>
+                            
+                            
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-12" align="start">
+                                <listbox id="DescripcionPedidoPrePost" 
+                                         model="@load(vm.listaDetalleRetencionCompraModel)"
+                                         nonselectableTags="*" 
+                                         checkmark="true"  
+                                         multiple="true" 
+                                         onSelect="@command('seleccionarRegistros')" >
+                                    <custom-attributes org.zkoss.zul.listbox.rod="true"/>
+                                              
+                                        
+                                    <listhead>
+                                        <listheader width="10%"  label="" align="left" >
+                                            <button label="" src="/iconos/eliminar.png"  
+                                                    onClick="@command('eliminarRegistros')"  
+                                                    class="btn btn btn-secondary btn-sm "
+                                                    tooltiptext="Eliminar registros seleccionados"/>
+                                        </listheader>
+                                        <listheader width="15%"  label="Base Imponible" align="left" />
+                                        <listheader width="34%"  label="Descripcion" align="left"  /> 
+                                        <listheader width="10%"  label="IVA/FUENTE" align="left"  /> 
+                                        <listheader width="15%"  label="Porcentaje" align="left" />
+                                        <listheader width="15%"  label="Valor retenido" align="left" /> 
+                                                                                                                            
+                                    </listhead>
+                    
+                                    <template name="model">                                                            
+                                        <listitem>
+                                            <listcell>
+                                                    
+                                            </listcell>
+                                            <listcell >
+                                                <decimalbox readonly="true" format="###.#####"
+                                                            class="form-control form-control-sm"
+                                                            value="@bind(each.drcBaseImponible)"  width="99%" />
+                                            </listcell>                                     
+                                            <listcell>
+                                                <label  value="@bind(each.tireCodigo.tireNombre)" width="99%"
+                                                        if="${each.codImpuestoAsignado == '1'}"/>
+                                                <label  value="Retencion IVA" width="99%" 
+                                                          if="${each.codImpuestoAsignado == '2'}"/>
+                                            </listcell>
+                                            <listcell>
+                                                <label  value="@bind(each.drcDescripcion)" width="99%" />
+                                              
+                                            </listcell>
+                                            <listcell>
+                                                <decimalbox readonly="true" format="###.#####"
+                                                            class="form-control form-control-sm"
+                                                            value="@bind(each.drcPorcentaje)"  width="99%" />
+                                            </listcell>
+                                            <listcell>
+                                                <decimalbox readonly="true" format="###.#####" 
+                                                            class="form-control form-control-sm"
+                                                            value="@bind(each.drcValorRetenido)"  width="99%" />
+                                            </listcell>
+                                            
+                                        </listitem>
+                                    </template>
+
+                                </listbox>
+                            </div>
+                        
+                        </div>
+                    </div>
+               
+                </tabpanel>
+            </tabpanels>
+        </tabbox>    
+    </hbox>
+
+                  
+</window>

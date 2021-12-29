@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?link rel="stylesheet" type="text/css" href="/css/boostrap/bootstrap.css"?>  
+<?link rel="stylesheet" type="text/css" href="/css/style.css"?>
+<?init class="com.ec.seguridad.Autentificador"?>
+<?init class="org.zkoss.zk.ui.util.Composition" arg0="/plantilla/plantilla.zul"?>
+<?link rel="icon" type="image/x-icon" href="/iconos/deckxel.ico"?>
+<zk  contentStyle="overflow:auto" class="col-12 col-sm-12 col-md-12 col-lg-12" >
+    <hbox self="@define(content)" apply="org.zkoss.bind.BindComposer" 
+          viewModel="@id('vm') @init('com.ec.controlador.vistas.ListaRotacion')" >
+        <tabbox id="tbRotacion"  width="100%" >
+            <tabs >
+                <tab label="Rotacion de productos" sclass="menutabs" /> 
+                <!--<tab label="Ventas por mes" sclass="menutabs" />--> 
+            </tabs>
+            <tabpanels >
+                
+                <tabpanel  width="99%"  >                    
+                    <div class="row">
+                       
+                        <div class=" input-group col-12 col-sm-12 col-md-4 col-lg-4 ">
+
+                            <label value="Inicio: " style="font-weight: bold;padding: 5px;"   />
+                            <datebox compact="true" value="@bind(vm.fechainicio)" 
+                                     style="font-weight:bold;" 
+                                     buttonVisible="true" 
+                                     lenient="true" format="dd/MM/yyyy" 
+                                     constraint="no empty: Selecciona el mes a consultar "/>
+                            <label value="Fin: "  style="font-weight: bold;padding: 5px;"   />
+                            <datebox compact="true" value="@bind(vm.fechafin)" 
+                                     style="font-weight:bold;"                                               
+                                     buttonVisible="true" 
+                                     lenient="true" format="dd/MM/yyyy" 
+                                     constraint="no empty: Ingrese la fecha "/>
+                            <div class="input-group-append">
+                                <button   image="/imagenes/buscar1.png"  
+                                          onClick="@command('buscarDiaria')"  
+                                          class="btn btn-primary btn-sm  "
+                                          tooltiptext="Buscar el total de las facturas"/>                                     
+                            </div>   
+                               
+                        </div>
+                        <div  class="col-12 col-sm-12 col-md-1 col-lg-1 ">
+                            <button   image="/imagenes/excel.png"  
+                                      onClick="@command('exportExcelDiario')"  
+                                      class="btn btn-primary btn-sm "
+                                      tooltiptext="Descargar en Excel"/>
+
+                        </div> 
+                        <div  class="col-12 col-sm-12 col-md-5 col-lg-5 "></div>
+                        <div  class="col-12 col-sm-12 col-md-2 col-lg-2 ">
+                            TOTAL VENTA:
+                            <decimalbox readonly="true" format="###.##"
+                                        style="font-size:12px ;background:#EBF5FB"
+                                        class="form-control-sm"  
+                                        value="@bind(vm.totalVenta)"  />
+
+                        </div> 
+                    </div>
+                    <listbox model="@load(vm.listaRotacionProductos)" 
+                             nonselectableTags=""  mold="paging" pageSize="20"  >
+                        <custom-attributes org.zkoss.zul.listbox.rod="true"/>
+                    
+                        <listhead> 
+                            <listheader width="70%"  label="Producto" />                            
+                            <listheader width="10%"  label="Cantidad vendida" align="center" sort="auto(cantidadVenta)" />                                                        
+                            <listheader width="10%"  label="Valor vendido" align="center" sort="auto(valorVentaProducto)" />                            
+                            <listheader width="10%"  label="Porcentaje (%)" align="center" sort="auto(porcentaje)" />                            
+                        </listhead>  
+                        
+                    
+                        <template name="model">                                                            
+                            <listitem>
+                                <listcell  zclass = "mycss-listcell">
+                                    <textbox readonly="true" style="font-size:12px ;background:#EBF5FB"
+                                             class="form-control form-control-sm" 
+                                             value="@bind(each.prodNombre)" width="100%" />
+                                </listcell>
+                                <listcell zclass = "mycss-listcell">
+                                    <decimalbox readonly="true" format="###.##"
+                                                style="font-size:12px ;background:#EBF5FB"
+                                                class="form-control form-control-sm"  
+                                                value="@bind(each.cantidadVenta)" width="100%" />
+                                </listcell>
+                                <listcell zclass = "mycss-listcell">
+                                    <decimalbox readonly="true" format="###.##"
+                                                style="font-size:12px ;background:#EBF5FB"
+                                                class="form-control form-control-sm"  
+                                                value="@bind(each.valorVentaProducto)" width="100%" />
+                                </listcell>
+                                <listcell zclass = "mycss-listcell" style="font-size:12px ;background:#EBF5FB">
+                                    <decimalbox readonly="true" format="###.##"
+                                    width="100%" 
+                                                style="font-size:12px ;background:#EBF5FB"
+                                                class=" form-control-sm"  
+                                                value="@bind(each.porcentaje)" />
+                                </listcell>
+                                
+                                                                         
+                                
+                            </listitem>
+                        </template>
+                    </listbox>
+         
+                </tabpanel>
+            </tabpanels>
+            
+        </tabbox>
+    </hbox>
+
+
+</zk>

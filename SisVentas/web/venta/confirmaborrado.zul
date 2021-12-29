@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window  id="windowValidaBorra"  position="center" class="col-12 col-sm-12 col-md-4 col-lg-4" closable="true"  
+         apply="org.zkoss.bind.BindComposer" 
+         viewModel="@id('vm') @init('com.ec.controlador.Facturar')">
+    
+    <caption label="Permisos de administrador" style="font-weight:bold"
+    /> 
+    <div  class="container" >
+        <div  class="row" >         
+            
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12  form-group "  >
+                <label value="(*) " style="color:red;font-weight:bold"/>Nombre de usuario:
+                
+                <textbox  maxlength="100"
+                          value="@bind(vm.usuLoginVal)"                           
+                          class="form-control" />
+            </div>
+            
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12  form-group "  >
+                <label value="(*)" style="color:transparent;font-weight:bold"/>Contraseña del usuario:
+              
+                <textbox  maxlength="20"  type="password" 
+                          value="@bind(vm.usuPasswordVal)"
+                          class="form-control" />
+            </div> 
+            
+            
+                     
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12  form-group" align="center" >
+                    
+                <image src="/iconos/guardar.png"  
+                       onClick="@command('validarBorrado')"
+                       tooltiptext="Validar informacion"/>
+ 
+
+            </div> 
+        </div>
+   
+    </div>
+    
+                    
+                  
+</window>

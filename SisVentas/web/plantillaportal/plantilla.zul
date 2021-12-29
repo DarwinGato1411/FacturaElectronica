@@ -1,0 +1,16 @@
+<?link rel="stylesheet" type="text/css" href="/css/boostrap/bootstrap.css"?>  
+<?link rel="stylesheet" type="text/css" href="/css/boostrap/bootstrap.css"?>  
+<?link rel="stylesheet" type="text/css" href="/css/style.css"?>
+<zk>
+    <borderlayout  >
+        <north   border="none" >
+            <include src="/plantillaportal/banner.zul"/>
+        </north>
+        <west width="auto"  border="none"  autoscroll="true" collapsible="true" splittable="true"  >
+             <!--<include src="/plantilla/menuOpciones.zul"/>-->
+        </west>
+        <center  id="mainContentAsesor" autoscroll="true" self="@{insert(content)}">
+            
+        </center>
+    </borderlayout>
+</zk>

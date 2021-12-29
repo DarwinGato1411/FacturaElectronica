@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?link rel="stylesheet" type="text/css" href="/css/boostrap/bootstrap.css"?>  
+<?link rel="stylesheet" type="text/css" href="/css/style.css"?>
+<?init class="com.ec.seguridad.Autentificador"?>
+<?init class="org.zkoss.zk.ui.util.Composition" arg0="/plantilla/plantilla.zul"?>
+<?link rel="icon" type="image/x-icon" href="/iconos/deckxel.ico"?>
+<zk  contentStyle="overflow:auto" class="col-12 col-sm-12 col-md-12 col-lg-12" >
+    <hbox self="@define(content)" apply="org.zkoss.bind.BindComposer" 
+          viewModel="@id('vm') @init('com.ec.controlador.vistas.ListaCierreCaja')" >
+        <tabbox id="tboxPrincipal"  width="100%" >
+            <tabs >
+                <tab label="Cierre ce caja" sclass="menutabs" /> 
+            </tabs>
+            <tabpanels >
+                
+                <tabpanel  width="99%"  >                    
+                    <div class="row">
+                       
+                        <div class=" input-group col-12 col-sm-12 col-md-4 col-lg-4 ">
+
+                            <label value="Fecha: "  style="font-weight: bold;padding: 5px;"   />
+                            <datebox compact="true" value="@bind(vm.fecha)" 
+                                     style="font-weight:bold;"                                               
+                                     buttonVisible="true" 
+                                     lenient="true" format="dd/MM/yyyy" 
+                                     constraint="no empty: Ingrese la fecha "/>
+                            <div class="input-group-append">
+                                <button   image="/imagenes/buscar1.png"  
+                                          onClick="@command('buscarCierre')"  
+                                          class="btn btn-primary btn-sm  "
+                                          tooltiptext="Buscar el cierre de caja "/>                                     
+                            </div>   
+                               
+                        </div>
+                        <div  class="col-12 col-sm-12 col-md-1 col-lg-1 ">
+                            <button   image="/imagenes/excel.png"  
+                                          onClick="@command('exportCierreDiario')"  
+                                          class="btn btn-primary btn-sm "
+                                          tooltiptext="Descargar en Excel"/>
+
+                        </div> 
+                    </div>
+                    <listbox model="@load(vm.listaCierreCajaUsuario)" 
+                             nonselectableTags=""  mold="paging" pageSize="20"  >
+                        <custom-attributes org.zkoss.zul.listbox.rod="true"/>
+                    
+                        <listhead> 
+                            <listheader width="10%"  label="Fecha" />                            
+                            <listheader width="10%"  label="Usuario" />                            
+                            <listheader width="10%"  label="Apertura" />                            
+                            <listheader width="10%"  label="Recudado FAC" />                            
+                            <listheader width="10%"  label="Recaudado NV" />                            
+                            <listheader width="10%"  label="Total cierre" />                            
+                            <listheader width="10%"  label="Total recaudado" />                                                        
+                            <listheader width="10%"  label="Diferencia" align="rigth" /> 
+                            <listheader width="45%"  label="Descripcion" align="rigth" /> 
+                            <listheader width="5%"  label="" align="lefth" />                             
+                        </listhead>  
+                        
+                    
+                        <template name="model">                                                            
+                            <listitem>
+                                <listcell  zclass = "mycss-listcell" style="font-size:12px;background:#EBF5FB"    >
+                                    <datebox compact="true" value="@bind(each.cieFecha)" 
+                                             buttonVisible="false" lenient="true"                                             
+                                             readonly="true"
+                                             style="font-size:12px;background:#EBF5FB"    
+                                               class="form-control form-control-sm"
+                                             format="medium"   />
+                                </listcell>
+                                <listcell  zclass = "mycss-listcell" style="font-size:12px;background:#EBF5FB"    >
+                                    <textbox readonly="true" 
+                                      class="form-control form-control-sm"
+                                      style="font-size:12px;background:#EBF5FB"    
+                                             value="@bind(each.idUsuario.usuNombre)" width="100%" />
+                                </listcell>
+                                <listcell  zclass = "mycss-listcell" style="font-size:12px;background:#EBF5FB"    >
+                                    <decimalbox readonly="true" format="###.##" 
+                                      class="form-control form-control-sm"
+                                      style="font-size:12px;background:#EBF5FB"    
+                                                value="@bind(each.cieValorInicio)" width="100%" />
+                                </listcell>
+                                  <listcell  zclass = "mycss-listcell" style="font-size:12px;background:#EBF5FB"    >
+                                    <decimalbox readonly="true" format="###.##" 
+                                      class="form-control form-control-sm"
+                                      style="font-size:12px;background:#EBF5FB"    
+                                                value="@bind(each.cieTotal)" width="100%" />
+                                </listcell>
+                                  <listcell  zclass = "mycss-listcell" style="font-size:12px;background:#EBF5FB"    >
+                                    <decimalbox readonly="true" format="###.##" 
+                                      class="form-control form-control-sm"
+                                      style="font-size:12px;background:#EBF5FB"    
+                                                value="@bind(each.cieNotaVenta)" width="100%" />
+                                </listcell>
+                                <listcell  zclass = "mycss-listcell" style="font-size:12px;background:#EBF5FB"    >
+                                    <decimalbox readonly="true" format="###.##" 
+                                      class="form-control form-control-sm"
+                                      style="font-size:12px;background:#EBF5FB"    
+                                                value="@bind(each.cieValor)" width="100%" />
+                                </listcell>
+                                <listcell zclass = "mycss-listcell" style="font-size:12px;background:#EBF5FB"    >
+                                    <decimalbox readonly="true" format="###.##"
+                                      class="form-control form-control-sm" 
+                                      style="font-size:12px;background:#EBF5FB"    
+                                                value="@bind(each.cieCuadre)" width="100%" />
+                                </listcell>
+                                <listcell zclass = "mycss-listcell" style="font-size:12px;background:#EBF5FB"    >
+                                    <decimalbox readonly="true" format="###.##"
+                                      class="form-control form-control-sm" 
+                                      style="font-size:12px;background:#EBF5FB"    
+                                                value="@bind(each.cieDiferencia)" width="100%" />
+                                </listcell>
+
+                                <listcell  zclass = "mycss-listcell" style="font-size:12px;background:#EBF5FB"    >
+                                    <textbox readonly="true" 
+                                      class="form-control form-control-sm"
+                                      style="font-size:12px;background:#EBF5FB"    
+                                             value="@bind(each.cieDescripcion)" width="100%" />
+                                </listcell>                                    
+                                <listcell  zclass = "mycss-listcell" >
+                                   <image src="/iconos/tecketera.jpg"   
+                                           class="btn-sm grow"                                         
+                                           onClick="@command('reporteCierre',valor=each)"
+                                           tooltiptext="Imprimir cierre"/>
+                                </listcell>                                    
+                                
+                            </listitem>
+                        </template>
+                    </listbox>
+         
+                </tabpanel>
+         
+            </tabpanels>
+            
+        </tabbox>
+    </hbox>
+
+
+</zk>

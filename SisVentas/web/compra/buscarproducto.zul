@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window  id="wProductoBuscar"  position="center" width="80%" closable="true"  
+         apply="org.zkoss.bind.BindComposer" contentStyle="overflow:auto"
+         viewModel="@id('vm') @init('com.ec.controlador.Compras')">
+    
+    <caption label="Buscar producto" style="font-weight:bold"
+    /> 
+   
+   
+    <listbox model="@load(vm.listaProducto)" 
+             nonselectableTags="*"  mold="paging" pageSize="10"  >
+        <custom-attributes org.zkoss.zul.listbox.rod="true"/>
+                    
+        <auxhead>
+            <auxheader colspan="8" >  
+                <label value="Codigo: "/>
+                <space bar="false" /> 
+                <textbox width="10%" value="@bind(vm.buscarCodigoProd)"
+                  onChange="self.setValue(self.getValue().toUpperCase());" 
+                    onOK="@command('buscarLikeNombreProd')"
+                        />
+                  <!--onChanging="@command('buscarLikeCodigoProd',valor=event.value)"-->
+                <label value="Nombre: "/>
+                <space bar="false" /> 
+                <textbox width="10%" value="@bind(vm.buscarNombreProd)" 
+                  onChange="self.setValue(self.getValue().toUpperCase());" 
+                   onOK="@command('buscarLikeNombreProd')"/>
+            </auxheader>
+        </auxhead>
+                    
+        <listhead> 
+            <listheader width="10%"  label="CODIGO" />     
+            <listheader width="60%"  label="NOMBRE" /> 
+            <listheader width="10%"  label="COSTO REF" /> 
+            <listheader width="10%"  label="COSTO FINAL "  /> 
+            <listheader width="10%"  label="OPCIONES" align="center"/>
+                            
+        </listhead>  
+                    
+        <template name="model">                                                            
+            <listitem>
+                <listcell onClick="@command('seleccionarProductoLista',valor=each)">
+                    <label value="@bind(each.prodCodigo)" width="96%"  onClick="@command('seleccionarProductoLista',valor=each)"/>
+                </listcell>
+                <listcell onClick="@command('seleccionarProductoLista',valor=each)" >
+                    <label value="@bind(each.prodNombre)" width="96%" onClick="@command('seleccionarProductoLista',valor=each)" />
+                </listcell>
+                <listcell >
+                    <label value="@bind(each.pordCostoVentaRef)" width="96%"  />
+                </listcell >
+                <listcell >
+                    <label value="@bind(each.pordCostoVentaFinal)" width="96%" />
+                </listcell>
+                
+                <listcell>    
+                     <image   src="/iconos/ok24x24.png"
+                             onClick="@command('seleccionarProductoLista',valor=each)"
+                             sclass="botonLista" tooltiptext="Seleccionar registro"/>
+                </listcell>
+            </listitem>
+        </template>
+    </listbox>
+                           
+                  
+</window>

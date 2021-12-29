@@ -1,0 +1,46 @@
+<?link rel="stylesheet" type="text/css" href="/css/style.css"?>
+<?link rel="stylesheet" type="text/css" href="/css/boostrap/bootstrap.css"?>  
+<?page title="PORTAL DE FACTURAS" contentType="text/html;charset=UTF-8"?>
+<zk contentStyle="overflow:auto" >
+
+    <style>
+        body{
+        background-image: url('./fondo/fondocrm.jpg');
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-attachment: fixed;
+  
+        }
+        
+    </style>
+    <div class="container col-12 col-sm-6 col-md-5 col-lg-4" id="loginWinTest" style="margin:10% auto;"   
+                 apply="com.ec.controlador.LoginControllerPortal" >
+ 
+    
+
+            <div class="row" align="lefth">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                    <label  class="tituloLogin" >PORTAL DE FACTURAS</label>
+                </div>
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12  form-group">
+                    <label   class="labelNuevo" value="Usuario"  ></label>
+                    <textbox id="accountTest" type="text" class="form-control"  placeholder="Ingrese el usuario"   />
+                </div>
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12 form-group">
+                    <label   class="labelNuevo" value="(*) "  >Contraseña</label>
+                    <textbox id="passwordTest" type="password" class="form-control" placeholder="Ingrese la constraseña" />      
+                </div>
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12" align="center">
+                    <button id="buttonEntrarTest" src="/iconos/ingreso-24.png" 
+                            class="btn btn-lg btn-primary btn-block" label="Ingresar">
+                    </button>   
+                </div>
+<!--                <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+                    <button  id="administrar"  src="/imagenes/loginp.png" label="Menu " class="btn btn-lg btn-info btn-block" ></button>   
+
+                </div>-->
+            </div>
+    
+    </div>
+</zk>

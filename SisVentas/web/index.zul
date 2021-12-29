@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?init class="com.ec.seguridad.Autentificador"?>
+<?link rel="stylesheet" type="text/css" href="/css/style.css"?>
+<?init class="org.zkoss.zk.ui.util.Composition" arg0="/plantilla/plantilla.zul"?>
+<zk xmlns="http://www.zkoss.org/2005/zul">
+       <zscript>
+      void onClientInfo(ClientInfoEvent evt) {         
+         scrn.setValue(
+             evt.getScreenWidth()+"x"+evt.getScreenHeight()+"x"+evt.getColorDepth());
+     }
+</zscript>
+
+
+</zk>

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?link rel="stylesheet" type="text/css" href="/css/boostrap/bootstrap.css"?>  
+<?link rel="stylesheet" type="text/css" href="/css/style.css"?>
+<?init class="com.ec.seguridad.Autentificador"?>
+<?init class="org.zkoss.zk.ui.util.Composition" arg0="/plantilla/plantilla.zul"?>
+<?link rel="icon" type="image/x-icon" href="/iconos/deckxel.ico"?>
+<zk   class="col-12 col-sm-12 col-md-12 col-lg-12" >
+    <hbox self="@define(content)" apply="org.zkoss.bind.BindComposer" 
+          viewModel="@id('vm') @init('com.ec.controlador.KardexGeneral')" >
+        <tabbox id="tbRotacion"  width="100%" >
+            <tabs >
+                <tab label="Gestion de kardex" sclass="menutabs" /> 
+                <!--<tab label="Ventas por mes" sclass="menutabs" />--> 
+            </tabs>
+            <tabpanels >
+                
+                <tabpanel  width="99%"  >                    
+                    <div class="row">
+                       
+                        <div class=" input-group col-12 col-sm-12 col-md-4 col-lg-4 ">
+                            <div class="input-group-append">
+                            <label  style="font-weight:bold" 
+                                    value="Estado:"  />
+                            <radiogroup  selectedItem="@bind(vm.estdoKardex)"   
+                                         onCheck="@command('consultaKardexMinimoMax')">
+                                <space bar="true"  /> 
+                                <radio label="Menor al minimo" value="MEM" />  
+                                <space bar="true"  />                                                                        
+                                <radio  label="Mayo o igual al minimo" value="MAM"/>     
+                                <space bar="true"  />                                                                        
+                                <radio  label="Todo" value="TOD"/> 
+                                                                                  
+                            </radiogroup>
+
+                            
+                                <button   image="/imagenes/buscar1.png"  
+                                          onClick="@command('buscarDiaria')"  
+                                          class="btn btn-primary btn-sm  "
+                                          tooltiptext="Buscar el total de las facturas"/>                                     
+                            </div>   
+                               
+                        </div>
+                        <div  class="col-12 col-sm-12 col-md-1 col-lg-1 ">
+                            <button   image="/imagenes/excel.png"  
+                                      onClick="@command('exportToExcel')"  
+                                      class="btn btn-primary btn-sm "
+                                      tooltiptext="Descargar en Excel"/>
+
+                        </div> 
+                        <div  class="col-12 col-sm-12 col-md-5 col-lg-5 "></div>
+                        
+                    </div>
+                    <listbox model="@load(vm.listKardex)" 
+                             nonselectableTags=""  mold="paging" pageSize="20"  >
+                        <custom-attributes org.zkoss.zul.listbox.rod="true"/>
+                    
+                        <listhead> 
+                            <listheader width="10%"  label="Codigo" />                            
+                            <listheader width="60%"  label="Nombre" align="center"/>                                                        
+                            <listheader width="10%"  label="Cantidad minima" align="center" />                            
+                            <listheader width="10%"  label="Cantidad actual" sort="auto(karTotal)" align="center" />                            
+                            <listheader width="10%"  label="Precio promedio" align="center" />                            
+                            
+                        </listhead>  
+                        
+                    
+                        <template name="model">                                                            
+                            <listitem>
+                                <listcell  zclass = "mycss-listcell" if="${each.verificaStock}" 
+                                          style="font-size:11px;background-color:#C7FEC1">
+                                    <textbox readonly="true" style="font-size:12px ;background:#C7FEC1"
+                                             class="form-control form-control-sm" 
+                                             value="@bind(each.idProducto.prodCodigo)" width="100%" />
+                                </listcell>
+                                <listcell  zclass = "mycss-listcell" if="${!each.verificaStock}" 
+                                 style="font-size:11px;background-color:#F1876A">
+                                    <textbox readonly="true" style="font-size:12px ;background:#F1876A"
+                                             class="form-control form-control-sm" 
+                                             value="@bind(each.idProducto.prodCodigo)" width="100%" />
+                                </listcell>
+                                <listcell zclass = "mycss-listcell" if="${each.verificaStock}" 
+                                          style="font-size:11px;background-color:#C7FEC1">
+                                    <textbox readonly="true" style="font-size:12px ;background-color:#C7FEC1"
+                                             class="form-control form-control-sm" 
+                                             value="@bind(each.idProducto.prodNombre)" width="100%" />
+                                </listcell>
+                                <listcell zclass = "mycss-listcell" if="${!each.verificaStock}" 
+                                 style="font-size:11px;background-color:#F1876A">
+                                    <textbox readonly="true" style="font-size:12px ;background-color:#F1876A"
+                                             class="form-control form-control-sm" 
+                                             value="@bind(each.idProducto.prodNombre)" width="100%" />
+                                </listcell>
+                                <listcell zclass = "mycss-listcell">
+                                    <decimalbox readonly="true" format="###.##"
+                                                style="font-size:12px ;background:#EBF5FB"
+                                                class="form-control form-control-sm"  
+                                                value="@bind(each.idProducto.prodCantMinima)" width="100%" />
+                                </listcell>
+                                <listcell zclass = "mycss-listcell">
+                                    <decimalbox readonly="true" format="###.##"
+                                                style="font-size:12px ;background:#EBF5FB"
+                                                class="form-control form-control-sm"  
+                                                value="@bind(each.karTotal)" width="100%" />
+                                </listcell>
+                                <listcell zclass = "mycss-listcell">
+                                    <decimalbox readonly="true" format="###.##"
+                                                style="font-size:12px ;background:#EBF5FB"
+                                                class="form-control form-control-sm"  
+                                                value="@bind(each.idProducto.pordCostoPromedioCompra)" width="100%" />
+                                </listcell>
+                                                                         
+                                
+                            </listitem>
+                        </template>
+                    </listbox>
+         
+                </tabpanel>
+            </tabpanels>
+            
+        </tabbox>
+    </hbox>
+
+
+</zk>

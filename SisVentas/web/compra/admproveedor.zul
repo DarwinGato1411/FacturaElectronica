@@ -1,0 +1,103 @@
+<?init class="com.ec.seguridad.Autentificador"?>
+<div apply="org.zkoss.bind.BindComposer" 
+     viewModel="@id('vm') @init('com.ec.controlador.AdmProveedor')" width="100%" >
+     <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12 col-sm-12 col-md-1 col-lg-1 form-group " align="start"  >
+                            <image  src="/iconos/nuevo_pro-24.png"
+                                    class="btn btn btn-secondary btn-sm "
+                                    onClick="@command('nuevoProvedor')"
+                                    tooltiptext="Nuevo proveedor"/>
+                    
+                        </div>
+                        
+                    </div>
+                </div> 
+    <listbox  width="100%" model="@load(vm.listaProveedores)" mold="paging" pageSize="15"
+              nonselectableTags="*">
+        <custom-attributes org.zkoss.zul.listbox.rod="true"/>
+<!--        <auxhead>
+            <auxheader colspan="11" > 
+               
+            </auxheader>
+        </auxhead>       -->
+        <listhead> 
+            <listheader width="10%"   >
+                <textbox value="@bind(vm.buscarCedula)" 
+                         class="form-control form-control-sm"
+                         tooltiptext="Cedula"
+                         placeholder="Cedula"
+                         onOK="@command('buscarLikeCedula')"
+                         onChange="self.setValue(self.getValue().toUpperCase());" />
+            </listheader>     
+            <listheader width="25%"  >
+                <textbox value="@bind(vm.buscarNombre)" 
+                         class="form-control form-control-sm"
+                         tooltiptext="Nombre  de proveedor"
+                         placeholder="Nombre de proveedor"
+                         onOK="@command('buscarLikeNombre')"
+                         onChange="self.setValue(self.getValue().toUpperCase());" />
+            </listheader> 
+            <listheader width="30%"  label="Direcccion" /> 
+            <listheader width="10%"  label="Convencional"  /> 
+            <listheader width="10%"  label="Movil"  /> 
+            <listheader width="15%"  label="Correo"  /> 
+            <!--<listheader width="13%"  label="Pagina"  />--> 
+            <!--            <listheader width="7%"  label="Banco"  /> 
+            <listheader width="7%"  label="T. Cuent"  /> 
+            <listheader width="7%"  label="N° Cuent"  /> -->
+            <listheader width="5%"  label="" align="center"/>
+        </listhead>  
+        <template name="model">                                                            
+            <listitem>
+                <listcell zclass = "mycss-listcell">
+                    <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"                            
+                             class="form-control form-control-sm"  value="@bind(each.provCedula)"  />
+                </listcell>
+                <listcell zclass = "mycss-listcell">
+                    <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"                            
+                             class="form-control form-control-sm"  value="@bind(each.provNombre)"  />
+                </listcell>
+                <listcell zclass = "mycss-listcell">
+                    <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"                            
+                             class="form-control form-control-sm"  value="@bind(each.provDireccion)"  />
+                </listcell>
+                <listcell zclass = "mycss-listcell">
+                    <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"                            
+                             class="form-control form-control-sm"  value="@bind(each.provTelefono)"  />
+                </listcell>
+                <listcell zclass = "mycss-listcell">
+                    <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"                           
+                             class="form-control form-control-sm"  value="@bind(each.provMovil)"  />
+                </listcell>
+                <listcell zclass = "mycss-listcell">
+                    <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"                             
+                             class="form-control form-control-sm"  value="@bind(each.provCorreo)"  />
+                </listcell>
+                <!--                <listcell zclass = "mycss-listcell">
+                    <label  style="font-size:12px;background:#EBF5FB"                           
+                            class="form-control form-control-sm"  value="@bind(each.provPagina)"  />
+                </listcell>-->
+                <!--                <listcell zclass = "mycss-listcell">
+                    <label  style="font-size:12px;background:#EBF5FB"                            
+                            class="form-control form-control-sm"  value="@bind(each.provBanco)"  />
+                </listcell>
+                <listcell zclass = "mycss-listcell">
+                    <label  style="font-size:12px;background:#EBF5FB"                             
+                            class="form-control form-control-sm"  value="@bind(each.provTipoCuenta)"  />
+                </listcell>
+                <listcell zclass = "mycss-listcell">
+                    <label  style="font-size:12px;background:#EBF5FB"                             
+                            class="form-control form-control-sm"  value="@bind(each.provNumeroCuenta)"  />
+                </listcell>-->
+               
+                <listcell zclass = "mycss-listcell" style="font-size:12px;background:#F8F9F9">    
+                    <image src="/iconos/editar.png"
+                           class="grow"
+                           onClick="@command('actualizarProveedor',valor=each)" 
+                           tooltiptext="Modificar proveedor"/> 
+                </listcell>
+            </listitem>
+        </template>
+    </listbox>       
+</div>

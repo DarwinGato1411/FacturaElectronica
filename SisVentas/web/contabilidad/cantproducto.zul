@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?link rel="stylesheet" type="text/css" href="/css/boostrap/bootstrap.css"?>  
+<?link rel="stylesheet" type="text/css" href="/css/style.css"?>
+<?init class="com.ec.seguridad.Autentificador"?>
+<?init class="org.zkoss.zk.ui.util.Composition" arg0="/plantilla/plantilla.zul"?>
+<?link rel="icon" type="image/x-icon" href="/iconos/deckxel.ico"?>
+<zk  contentStyle="overflow:auto" with="100%" >
+    <hbox self="@define(content)" apply="org.zkoss.bind.BindComposer" 
+          viewModel="@id('vm') @init('com.ec.controlador.CantidadVentas')" width="99%">
+        
+        <tabbox  width="100%"  tabscroll="true" >
+            <tabs >
+                <tab label="Cantidad de Ventas" sclass="menutabs"/>
+                
+            </tabs>
+            <tabpanels >
+                <tabpanel  height="100%" width="98%"  >
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class=" input-group col-12 col-sm-12 col-md-4 col-lg-4 ">
+
+                                <label value="Inicio: " style="font-weight: bold;padding: 5px;"   />
+                                <datebox compact="true" value="@bind(vm.fechainicio)" 
+                                         style="font-weight:bold;" 
+                                         buttonVisible="true" 
+                                         lenient="true" format="dd/MM/yyyy" 
+                                         constraint="no empty: Ingrese la fecha "/>
+                                <label value="Fin: "  style="font-weight: bold;padding: 5px;"   />
+                                <datebox compact="true" value="@bind(vm.fechafin)" 
+                                         style="font-weight:bold;"                                               
+                                         buttonVisible="true" 
+                                         lenient="true" format="dd/MM/yyyy" 
+                                         constraint="no empty: Ingrese la fecha "/>
+                                <div class="input-group-append">
+                                    <button   image="/imagenes/buscar1.png"  
+                                            onClick="@command('buscarVentas')"  
+                                            class="btn btn-primary btn-sm  "
+                                            tooltiptext="Buscar facturas por fecha"/>                                     
+                                </div>         
+                            </div>
+                           
+                        </div>
+                  
+                        <div class="row " align="center">                            
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-12 " align="start">
+                                <listbox model="@load(vm.listaCantVentProductos)" 
+                                         nonselectableTags=""  
+                                         mold="paging" pageSize="12"  >
+                                    <custom-attributes org.zkoss.zul.listbox.rod="true"/>
+                                    
+                                    <auxhead>
+                                        <auxheader colspan="12" >  
+                                            <div class="row">
+                                                <div class="col-12 col-sm-12 col-md-12 col-lg-12 ">
+                                                    
+                                                    <label value="Cantidad de productos vendidos"   />
+                                                   
+                                                </div>
+                                            </div>
+                                
+                                        </auxheader>
+                                    </auxhead>       
+                                    
+                                    <listhead> 
+                                        <listheader width="15%"  label="Cantidad Compra" /> 
+                                        <listheader width="15%"  label="Cantidad Venta" /> 
+                                        <listheader width="15%"  label="Diferencia Com-Vent" /> 
+                                        <listheader width="25%"  label="Producto" /> 
+                                        <listheader width="15%"  label="Año" />    
+                                        <listheader width="15%"  label="Mes" />                                                               
+                                    </listhead>  
+                        
+                    
+                                    <template name="model">                                                            
+                                        <listitem>                                                                                 
+                                            <listcell>
+                                                <decimalbox format="###" 
+                                                            readonly="true"  
+                                                            value="@bind(each.compra)" width="96%" />
+                                            </listcell>
+                                            <listcell>
+                                                <decimalbox format="###" 
+                                                            readonly="true"  
+                                                            value="@bind(each.cantidad)" width="96%" />
+                                            </listcell>
+                                            <listcell>
+                                                <decimalbox format="###" 
+                                                            readonly="true"  
+                                                            value="@bind(each.diferencia)" width="96%" />
+                                            </listcell>
+                                            <listcell>
+                                                <label value="@bind(each.prodNombre)" width="96%" />
+                                            </listcell>
+                                            <listcell>
+                                                <datebox compact="true" value="@bind(each.facFecha)" 
+                                                            buttonVisible="false" lenient="true" readonly="true"
+                                                            format="yyyy" width="98%"  />
+                                                
+                                                
+                                            </listcell>
+                                            <listcell>
+                                                <datebox compact="true" value="@bind(each.facFecha)" 
+                                                            buttonVisible="false" lenient="true" readonly="true"
+                                                            format="MM" width="98%"  />
+                                            </listcell>
+                                        </listitem>
+                                    </template>
+                                </listbox>
+                            </div>
+                        </div>
+                    </div>
+                </tabpanel>
+            </tabpanels>
+        </tabbox>
+        
+    </hbox>
+
+
+</zk>

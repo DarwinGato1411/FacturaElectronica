@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window  id="windowRetencionVenta"  position="center" class="col-12 col-sm-12 col-md-8 col-lg-6 " closable="true"  
+         apply="org.zkoss.bind.BindComposer" contentStyle="overflow:auto"
+         viewModel="@id('vm') @init('com.ec.controlador.RetencionVentaVm')">
+    
+    <caption label="Retencion de venta" style="font-weight:bold"
+    /> 
+    
+    
+    <div  class="container" >
+        <div  class="row" >
+            <div class="col-6 col-sm-6 col-md-4 col-lg-4  form-group "  >
+                <label value="(*) " style="color:red;font-weight:bold"/>Fecha:
+                
+                <datebox compact="true" value="@bind(vm.retencionVenta.rveFecha)" 
+                         readonly="true" style="font-weight:bold;" 
+                         buttonVisible="true" 
+                         lenient="true" format="dd/MM/yyyy" 
+                         constraint="no empty: Ingrese la fecha "/>
+            </div>       
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4  form-group "  >
+                <label value="(*) " style="color:red;font-weight:bold"/>Establecimiento:                
+                <textbox  maxlength="3" 
+                          value="@bind(vm.retencionVenta.rveEstablecimiento)"
+                          
+                          onChange="self.setValue(self.getValue().toUpperCase().trim());" 
+                          constraint="no empty: Campo requerido"
+                          class="form-control" />
+            </div>            
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4  form-group "  >
+                <label value="(*) " style="color:red;font-weight:bold"/>Punto emision:
+                
+                <textbox  maxlength="3" 
+                          value="@bind(vm.retencionVenta.rvePuntoEmision)"
+                          
+                          onChange="self.setValue(self.getValue().toUpperCase().trim());" 
+                          constraint="no empty: Campo requerido"
+                          class="form-control" />
+            </div>
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4  form-group "  >
+                <label value="(*) " style="color:red;font-weight:bold"/>Secuencial:
+                
+                <textbox  maxlength="10" 
+                          value="@bind(vm.retencionVenta.rveSecuencial)"
+                          
+                          onChange="self.setValue(self.getValue().toUpperCase().trim());" 
+                          constraint="no empty: Campo requerido"
+                          class="form-control" />
+            </div>
+            <div class="col-12 col-sm-12 col-md-8 col-lg-8  form-group "  >
+                <label value="(*) " style="color:red;font-weight:bold"/>rveAutorizacion:
+                
+                <textbox  maxlength="100" 
+                          value="@bind(vm.retencionVenta.rveAutorizacion)"
+                          
+                          onChange="self.setValue(self.getValue().toUpperCase().trim());" 
+                          constraint="no empty: Campo requerido"
+                          class="form-control" />
+            </div>
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4  form-group "  >
+                <label value="(*) " style="color:red;font-weight:bold"/>Retencion IVA:                             
+                <textbox    constraint="/^[0-9]{1,9}(?:[.][ws0-9]{1,2})?$/:Ingrese solo numeros"                            
+                                style="font-weight:bold;font-size:1em;text-align:center"
+                                value="@bind(vm.retencionVenta.rveValorRetencionIva100)"  
+                                class="form-control"  />
+                                
+             
+            </div>
+          
+          
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4  form-group "  >
+                <label value="(*) "  style="color:red;font-weight:bold"/>Retencion renta:             
+                <textbox    constraint="/^[0-9]{1,9}(?:[.][ws0-9]{1,3})?$/:Ingrese solo numeros"                            
+                             style="font-weight:bold;font-size:1em;text-align:center"
+                             value="@bind(vm.retencionVenta.rveRenta)"  
+                             class="form-control"  />
+            </div>  
+           
+           
+                       
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12  form-group" align="center" >
+                    
+                <image src="/iconos/guardar.png"  
+                           onClick="@command('guardar')"
+                           tooltiptext="Guardar Registro"/>
+ 
+
+            </div> 
+            
+   
+        </div>
+    </div>
+   
+                    
+                  
+</window>

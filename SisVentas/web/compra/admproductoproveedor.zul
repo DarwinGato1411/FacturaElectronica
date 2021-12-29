@@ -1,0 +1,51 @@
+<?init class="com.ec.seguridad.Autentificador"?>
+<div apply="org.zkoss.bind.BindComposer" 
+     viewModel="@id('vm') @init('com.ec.controlador.AdmProductoProveedor')" width="99%" >
+    <listbox  width="99%" model="@load(vm.listaProductoProveedorModel)" mold="paging" pageSize="12"
+              onSelect="@command('seleccionarRegistros')"
+              nonselectableTags="*" checkmark="true"  multiple="true" >
+        <custom-attributes org.zkoss.zul.listbox.rod="true"/>
+        <auxhead>
+            <auxheader colspan="7" >  
+                <label value="Nombre proveedor: "/>
+                <textbox width="10%" value="@bind(vm.buscarProveedor)" onChanging="@command('buscarLikeNombrePro',valor=event.value)" />
+                <space bar="false" /> 
+                <combobox  model="@load(vm.listaProveedores)"
+                           selectedItem="@bind(vm.proveedorSelected)" readonly="true"
+                           onSelect="@command('seleccionarProveedor')">
+                                          
+                    <template name="model">
+                        <comboitem  label="@bind(each.provNombre)"
+                                    description="@bind(each.provDireccion ne null ? 'Direccion= '.concat(each.provDireccion) : ''))"/>
+                    </template>                                      
+                </combobox> 
+                <label value="Proveedor seleccionado: "/> 
+                <label value="@bind(vm.proveedorSelected.provNombre)"  sclass="negritaLabel"/> 
+                <space bar="false" width="20px" /> 
+                <button  label="Registrar producto al proveedor"  onClick="@command('registrarProducto')" sclass="botonLista"  tooltiptext="Nuevo cliente"/>
+            </auxheader>
+        </auxhead>       
+<!--        <auxhead>
+            <auxheader colspan="7" >  
+                <label value="Producto: "/>
+                <textbox width="10%" value="@bind(vm.buscarProductoProveedorCostos)" onChanging="@command('buscarProductoByNombre',valor=event.value)" />
+                
+            </auxheader>
+        </auxhead>       -->
+        <listhead> 
+            <listheader width="90%"  label="PRODUCTO" />     
+            <listheader width="10%"  label="COSTO" /> 
+        </listhead>  
+        <template name="model">                                                            
+            <listitem>
+                <listcell>
+                    <label value="@bind(each.producto.prodNombre)" width="96%" />
+                </listcell>
+                <listcell>
+                    <decimalbox format="###.#####" readonly="false" value="@bind(each.costo)" width="96%"/>
+                </listcell>
+                
+            </listitem>
+        </template>
+    </listbox>       
+</div>

@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window  id="windowCliente"  position="center" class="col-12 col-sm-12 col-md-8 col-lg-6 " closable="true"  
+         apply="org.zkoss.bind.BindComposer" 
+         viewModel="@id('vm') @init('com.ec.controlador.NuevoProducto')">
+    
+
+    <caption label="Producto" style="font-weight:bold" /> 
+    
+    
+    <div  class="container" >
+        <div  class="row" >
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12  form-group "  > 
+                <radiogroup 
+                    onCheck="@command('colocarIva')" 
+                    selectedItem="@bind(vm.conIva)"  >                   
+                    <radio label="Graba IVA" value="S"/>
+                    <space bar="false"  />   
+                    <radio label="Sin IVA" value="N"/>                          
+                </radiogroup>
+                <space bar="false" width="40px" />   
+                <radiogroup  
+                    selectedItem="@bind(vm.esProducto)"  >                                            
+                    <radio label="PRODUCTO" value="P"/>
+                    <space bar="false"  />   
+                    <radio label="SERVICIO" value="S"/>                          
+                </radiogroup>
+                <space bar="false" width="40px" />   
+                <radiogroup  
+                    selectedItem="@bind(vm.producto.prodTieneSubsidio)"  >                                            
+                    <radio label="SIN SUBSIDIO" value="N"/>
+                    <space bar="false"  />   
+                    <radio label="CON SUBSUDIO" value="S"/>                          
+                </radiogroup>
+            </div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4  form-group "  >
+                <label   style="color:red;font-weight:bold" value="(*) "  />Codigo:
+                <textbox  maxlength="20"   
+                          onChange="self.setValue(self.getValue().toUpperCase().trim());" 
+                          value="@bind(vm.producto.prodCodigo)"  
+                          class="form-control" />
+            </div>          
+             
+            <div class="col-8 col-sm-8 col-md-8 col-lg-8  form-group "  >
+                <label value="(*) " style="color:red;font-weight:bold"/>Nombre del producto 
+                
+                <textbox  maxlength="100" 
+                          value="@bind(vm.producto.prodNombre)"
+                          onChange="self.setValue(self.getValue().toUpperCase().trim());" 
+                          constraint="no empty: Campo requerido"
+                          class="form-control" />
+            </div>
+            <div class="col-6 col-sm-6 col-md-4 col-lg-4  form-group "  >
+                <label value="(*) " style="color:red;font-weight:bold"/>Costo de compra:
+                
+                <textbox    constraint="/^[0-9]{1,9}(?:[.][0-9]{1,5})?$/:Ingrese solo numeros"                                                        
+                            onOK="@command('calcularValores')"
+                            onChange="@command('calcularValores')"
+                            value="@bind(vm.producto.pordCostoCompra)"   
+                            class="form-control" />
+              
+            </div>        
+            <div class="col-6 col-sm-6 col-md-4 col-lg-4  form-group "  >
+                <label value="(*) "  style="color:red;font-weight:bold"/>% Iva recuperar:
+                <textbox  id="txtIvaRec"  constraint="/^[0-9]{1,9}(?:[.][0-9]{1,3})?$/:Ingrese solo numeros"
+                          onOK="@command('calcularValores')"
+                          value="@bind(vm.producto.prodIva)"  
+                          class="form-control" /> 
+            </div>  
+            <div class="col-6 col-sm-6 col-md-4 col-lg-4  form-group " align="center" >
+                <label value="(*)" style="color:red;font-weight:bold"/>Compra con iva:
+                <textbox    readonly="true"
+                            style="color:red;font-weight:bold;font-size:1em;text-align:center"
+                            value="@bind(vm.producto.pordCostoVentaRef)"  
+                            class="form-control"  />
+                
+            </div>
+            
+            <div class="col-6 col-sm-6 col-md-4 col-lg-4  form-group " align="center" >
+                <label value="(*)" style="color:red;font-weight:bold"/>Precio sin subsidio:
+                <textbox    constraint="/^[0-9]{1,9}(?:[.][0-9]{1,3})?$/:Ingrese solo numeros"                            
+                            style="color:red;font-weight:bold;font-size:1em;text-align:center"
+                            value="@bind(vm.producto.prodPrecioSinSubsidio)"  
+                            class="form-control"  />
+                
+            </div>
+            <div class="col-6 col-sm-6 col-md-4 col-lg-4  form-group "  >
+                <label value="(*) " style="color:red;font-weight:bold"/>% utilidad:
+                <textbox constraint="/^[0-9]{1,9}(?:[.][0-9]{1,3})?$/:Ingrese solo numeros"
+                         onOK="@command('calculopreciofinal')"
+                         value="@bind(vm.producto.prodUtilidadNormal)"  
+                         class="form-control" />
+                
+            </div>
+            
+            <div class="col-6 col-sm-6 col-md-4 col-lg-4  form-group "  >
+           
+                <label value="(*)" style="color:red;font-weight:bold"/>Precio por unidad
+                <textbox    constraint="/^[0-9]{1,9}(?:[.][0-9]{1,5})?$/:Ingrese solo numeros"
+                            onOK="@command('calculoutilidad')"
+                            value="@bind(vm.producto.pordCostoVentaFinal)"  
+                            class="form-control"  />
+            </div>
+            <div class="col-6 col-sm-6 col-md-4 col-lg-4  form-group " align="center" >
+                <label value="(*)" style="color:red;font-weight:bold"/>Subsidio:
+                <textbox    constraint="/^[0-9]{1,9}(?:[.][0-9]{1,3})?$/:Ingrese solo numeros"                            
+                            style="color:red;font-weight:bold;font-size:1em;text-align:center"
+                            value="@bind(vm.producto.prodSubsidio)"  
+                            class="form-control"  />
+                
+            </div>
+            <div class="col-6 col-sm-6 col-md-4 col-lg-4  form-group "  >
+                <label value="(*) " style="color:red;font-weight:bold"/>% utilidad por mayor:
+                <textbox constraint="/^[0-9]{1,9}(?:[.][0-9]{1,3})?$/:Ingrese solo numeros"
+                         onOK="@command('calculopreciofinalUno')"
+                         value="@bind(vm.producto.prodUtilidadPreferencial)"  
+                         class="form-control" />
+                
+            </div>
+            <div class="col-6 col-sm-6 col-md-4 col-lg-4  form-group "  >
+                <label value="(*) " style="color:transparent;font-weight:bold"/>Precio por 3 unidades
+                <textbox    constraint="/^[0-9]{1,9}(?:[.][0-9]{1,5})?$/:Ingrese solo numeros" 
+                            onOK="@command('calculoutilidadUno')"
+                            value="@bind(vm.producto.prodCostoPreferencial)" 
+                            class="form-control" />
+            </div>
+            <div class="col-6 col-sm-6 col-md-4 col-lg-4  form-group " align="center" >
+                <label value="(*)" style="color:red;font-weight:bold"/>Cantidad inicial:
+                <textbox constraint="/^[0-9]{1,9}(?:[.][0-9]{1,2})?$/:Ingrese solo numeros"                       
+                         value="@bind(vm.producto.prodCantidadInicial)"  
+                         class="form-control"  />
+                
+            </div>
+            <div class="col-6 col-sm-6 col-md-4 col-lg-4  form-group "  >
+                <label value="(*) " style="color:red;font-weight:bold"/>% utilidad por caja:
+                <textbox constraint="/^[0-9]{1,9}(?:[.][0-9]{1,3})?$/:Ingrese solo numeros"
+                         onOK="@command('calculopreciofinalDos')"
+                         value="@bind(vm.producto.prodUtilidadDos)"  
+                         class="form-control" />
+                
+            </div>
+            <div class="col-6 col-sm-6 col-md-4 col-lg-4  form-group "  >
+                <label value="(*) " style="color:transparent;font-weight:bold"/>Precio por 6 unidades
+                <textbox    constraint="/^[0-9]{1,9}(?:[.][0-9]{1,5})?$/:Ingrese solo numeros"
+                            onOK="@command('calculoutilidadDos')"
+                            value="@bind(vm.producto.prodCostoPreferencialDos)" 
+                            class="form-control" />
+                
+            </div>
+       
+          
+            <div class="col-6 col-sm-6 col-md-4 col-lg-4  form-group " align="center" >
+                <label value="(*)" style="color:red;font-weight:bold"/>Cantidad minima:
+                <textbox constraint="/^[0-9]{1,9}(?:[.][0-9]{1,2})?$/:Ingrese solo numeros"                            
+                         value="@bind(vm.producto.prodCantMinima)"  
+                         class="form-control"  />
+            
+           
+           
+                       
+            
+            </div>
+            <div class="col-6 col-sm-6 col-md-4 col-lg-4  form-group " align="center" ></div>
+            <div class="col-6 col-sm-6 col-md-4 col-lg-4  form-group "  >
+                <label value="(*) " style="color:transparent;font-weight:bold"/>Precio por caja
+                <textbox    constraint="/^[0-9]{1,9}(?:[.][0-9]{1,5})?$/:Ingrese solo numeros"
+                            value="@bind(vm.producto.prodCostoPreferencialTres)" 
+                            class="form-control" />
+                
+            </div>
+            <div class="col-12 col-sm-6 col-md-12 col-lg-12  form-group" align="center" >
+                    
+                <image src="/iconos/guardar.png"  
+                       onClick="@command('guardar')"
+                       tooltiptext="Guardar Registro"/>
+ 
+
+            </div> 
+   
+        </div>
+    </div>
+   
+                    
+                  
+</window>

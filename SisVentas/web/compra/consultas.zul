@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?link rel="stylesheet" type="text/css" href="/css/boostrap/bootstrap.css"?>  
+<?link rel="stylesheet" type="text/css" href="/css/style.css"?>
+<?init class="com.ec.seguridad.Autentificador"?>
+<?init class="org.zkoss.zk.ui.util.Composition" arg0="/plantilla/plantilla.zul"?>
+<zk  contentStyle="overflow:auto" with="100%" >
+    <hbox self="@define(content)" apply="org.zkoss.bind.BindComposer" 
+          viewModel="@id('vm') @init('com.ec.controlador.Consultas')" width="100%">
+        <tabbox id="tboxPrincipal"  width="100%">
+            <tabs >
+                <tab label="Productos por Proveedor" sclass="menutabs" /> 
+            </tabs>
+            <tabpanels >
+                
+                <tabpanel  height="98%" width="99%"  >                    
+                
+                    <listbox model="@load(vm.lstProductoProveedor)" 
+                             nonselectableTags="*"  mold="paging" pageSize="12"  >
+                        <custom-attributes org.zkoss.zul.listbox.rod="true"/>
+                        <auxhead>
+                            <auxheader colspan="8" >  
+                                <label value="Seleccione un proveedor" />
+                                <space bar="false" /> 
+                                <combobox  model="@load(vm.lstProveedores)"
+                                           selectedItem="@bind(vm.proveedorSelected)" readonly="true"
+                                           onSelect="@command('seleccionarProveedor')">
+                                          
+                                    <template name="model">
+                                        <comboitem  label="@bind(each.provNombre)"
+                                                    description="@bind(each.provDireccion ne null ? 'Direccion= '.concat(each.provDireccion) : ''))"/>
+                                    </template>                                      
+                                </combobox> 
+                            </auxheader>
+                        </auxhead>
+                        <listhead> 
+                            <listheader width="70%"  label="PRODUCTO" /> 
+                            <listheader width="10%"  label="FECHA " />  
+                            <listheader width="10%"  label="PRECIO" />      
+                            <listheader width="10%"  label="OPCION " align="rigth" />        
+                        </listhead>  
+                    
+                        <template name="model">                                                            
+                            <listitem>
+                                <listcell>
+                                    <label value="@bind(each.producto.prodNombre)" width="96%" />
+                                </listcell>
+                                 <listcell>
+                                    <datebox compact="true" value="@bind(each.prodProvFechaReg)" buttonVisible="false" lenient="true" mold="rounded" format="medium" width="98%"  />
+                                </listcell>
+                                <listcell>
+                                    <decimalbox format="###.#####" readonly="false" value="@bind(each.prodProvCosto)" width="96%"/>
+                                </listcell>
+                                <listcell>    
+                                    <button  src="/imagenes/update.png"  onClick="@command('actualizarProducto',valor=each)" tooltiptext="Modificar cliente "/>
+                                </listcell>
+                            </listitem>
+                        </template>
+                    </listbox>
+                
+                </tabpanel>
+                
+
+            </tabpanels>
+            
+        </tabbox>
+    </hbox>
+
+
+</zk>

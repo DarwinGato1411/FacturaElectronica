@@ -1,0 +1,481 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="notaventa" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.2078825000000004"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="detalle">
+		<parameter name="numfactura" class="java.lang.Integer"/>
+		<queryString>
+			<![CDATA[SELECT * FROM factura f, detalle_factura d, producto p
+WHERE d.id_factura=f.id_factura AND d.id_producto=p.id_producto AND f.fac_numero= $P{numfactura};]]>
+		</queryString>
+		<field name="id_factura" class="java.lang.Integer"/>
+		<field name="id_estado" class="java.lang.Integer"/>
+		<field name="id_usuario" class="java.lang.Integer"/>
+		<field name="id_cliente" class="java.lang.Integer"/>
+		<field name="fac_numero" class="java.lang.Integer"/>
+		<field name="fac_fecha" class="java.sql.Date"/>
+		<field name="fac_subtotal" class="java.math.BigDecimal"/>
+		<field name="fac_iva" class="java.math.BigDecimal"/>
+		<field name="fac_total" class="java.math.BigDecimal"/>
+		<field name="fac_estado" class="java.lang.String"/>
+		<field name="fac_tipo" class="java.lang.String"/>
+		<field name="fac_abono" class="java.math.BigDecimal"/>
+		<field name="fac_saldo" class="java.math.BigDecimal"/>
+		<field name="fac_descripcion" class="java.lang.String"/>
+		<field name="fac_num_proforma" class="java.lang.Integer"/>
+		<field name="tipodocumento" class="java.lang.String"/>
+		<field name="puntoemision" class="java.lang.String"/>
+		<field name="codestablecimiento" class="java.lang.String"/>
+		<field name="fac_numero_text" class="java.lang.String"/>
+		<field name="fac_tipo_identificador_comprobador" class="java.lang.String"/>
+		<field name="fac_descuento" class="java.math.BigDecimal"/>
+		<field name="fac_cod_ice" class="java.lang.String"/>
+		<field name="fac_cod_iva" class="java.lang.String"/>
+		<field name="fac_total_base_cero" class="java.math.BigDecimal"/>
+		<field name="fac_total_base_gravaba" class="java.math.BigDecimal"/>
+		<field name="codigo_porcentaje" class="java.lang.String"/>
+		<field name="fac_porcentaje_iva" class="java.lang.String"/>
+		<field name="fac_moneda" class="java.lang.String"/>
+		<field name="id_forma_pago" class="java.lang.Integer"/>
+		<field name="fac_plazo" class="java.math.BigDecimal"/>
+		<field name="fac_unidad_tiempo" class="java.lang.String"/>
+		<field name="estadosri" class="java.lang.String"/>
+		<field name="mensajesri" class="java.lang.String"/>
+		<field name="fac_fecha_autorizacion" class="java.sql.Date"/>
+		<field name="fac_clave_acceso" class="java.lang.String"/>
+		<field name="cod_tipoambiente" class="java.lang.Integer"/>
+		<field name="fac_clave_autorizacion" class="java.lang.String"/>
+		<field name="fac_path" class="java.lang.String"/>
+		<field name="tipodocumentomod" class="java.lang.String"/>
+		<field name="fac_fecha_sustento" class="java.sql.Date"/>
+		<field name="fac_saldo_amortizado" class="java.math.BigDecimal"/>
+		<field name="fac_msm_info_sri" class="java.lang.String"/>
+		<field name="fac_num_nota_entrega" class="java.lang.Integer"/>
+		<field name="fac_nota_entrega_process" class="java.lang.String"/>
+		<field name="fac_con_sin_guia" class="java.lang.String"/>
+		<field name="fac_subsidio" class="java.math.BigDecimal"/>
+		<field name="fac_fecha_cobro_plazo" class="java.sql.Date"/>
+		<field name="fac_valor_sin_subsidio" class="java.math.BigDecimal"/>
+		<field name="fac_cliente" class="java.lang.String"/>
+		<field name="fac_direccion" class="java.lang.String"/>
+		<field name="fac_contacto" class="java.lang.String"/>
+		<field name="fac_fotografia_pedido" class="java.lang.String"/>
+		<field name="fac_correo_cliente" class="java.lang.String"/>
+		<field name="id_parroquia" class="java.lang.Integer"/>
+		<field name="fac_observacion" class="java.lang.String"/>
+		<field name="fac_secuencial_unico" class="java.lang.String"/>
+		<field name="fac_num_nota_venta" class="java.lang.Integer"/>
+		<field name="id_detalle" class="java.lang.Integer"/>
+		<field name="id_producto" class="java.lang.Integer"/>
+		<field name="det_cantidad" class="java.math.BigDecimal"/>
+		<field name="det_descripcion" class="java.lang.String"/>
+		<field name="det_subtotal" class="java.math.BigDecimal"/>
+		<field name="det_total" class="java.math.BigDecimal"/>
+		<field name="det_tipo_venta" class="java.lang.String"/>
+		<field name="det_iva" class="java.math.BigDecimal"/>
+		<field name="det_totalconiva" class="java.math.BigDecimal"/>
+		<field name="det_pordescuento" class="java.math.BigDecimal"/>
+		<field name="det_valdescuento" class="java.math.BigDecimal"/>
+		<field name="det_subtotaldescuento" class="java.math.BigDecimal"/>
+		<field name="det_totaldescuento" class="java.math.BigDecimal"/>
+		<field name="det_totaldescuentoiva" class="java.math.BigDecimal"/>
+		<field name="det_cantpordescuento" class="java.math.BigDecimal"/>
+		<field name="det_subtotaldescuentoporcantidad" class="java.math.BigDecimal"/>
+		<field name="det_cod_tipo_venta" class="java.lang.String"/>
+		<field name="det_cod_iva" class="java.lang.String"/>
+		<field name="det_cod_porcentaje" class="java.lang.String"/>
+		<field name="det_tarifa" class="java.math.BigDecimal"/>
+		<field name="det_observacion_proveedor" class="java.lang.String"/>
+		<field name="det_trasportista" class="java.lang.String"/>
+		<field name="det_camvcpn" class="java.lang.String"/>
+		<field name="det_serialvin" class="java.lang.String"/>
+		<field name="det_atributo" class="java.lang.String"/>
+		<field name="tipodir" class="java.lang.String"/>
+		<field name="calle" class="java.lang.String"/>
+		<field name="numero" class="java.lang.String"/>
+		<field name="interseccion" class="java.lang.String"/>
+		<field name="tipotel" class="java.lang.String"/>
+		<field name="provincia" class="java.lang.String"/>
+		<field name="numerotel" class="java.lang.String"/>
+		<field name="tipo_identificacion_propietario" class="java.lang.String"/>
+		<field name="codigo_canton_matriculacion" class="java.lang.String"/>
+		<field name="id_sub_categoria" class="java.lang.Integer"/>
+		<field name="prod_codigo" class="java.lang.String"/>
+		<field name="prod_nombre" class="java.lang.String"/>
+		<field name="pord_costo_venta_ref" class="java.math.BigDecimal"/>
+		<field name="pord_costo_venta_final" class="java.math.BigDecimal"/>
+		<field name="prod_estado" class="java.lang.Integer"/>
+		<field name="prod_trasnporte" class="java.math.BigDecimal"/>
+		<field name="prod_iva" class="java.math.BigDecimal"/>
+		<field name="prod_utilidad_normal" class="java.math.BigDecimal"/>
+		<field name="prod_mano_obra" class="java.math.BigDecimal"/>
+		<field name="prod_utilidad_preferencial" class="java.math.BigDecimal"/>
+		<field name="prod_costo_preferencial" class="java.math.BigDecimal"/>
+		<field name="prod_costo_preferencial_dos" class="java.math.BigDecimal"/>
+		<field name="prod_costo_preferencial_tres" class="java.math.BigDecimal"/>
+		<field name="prod_principal" class="java.lang.Integer"/>
+		<field name="prod_abreviado" class="java.lang.String"/>
+		<field name="prod_isprincipal" class="java.lang.Boolean"/>
+		<field name="pord_costo_compra" class="java.math.BigDecimal"/>
+		<field name="prod_qr" class="java.lang.Object"/>
+		<field name="prod_cantidad_inicial" class="java.lang.Integer"/>
+		<field name="prod_utilidad_dos" class="java.math.BigDecimal"/>
+		<field name="prod_cant_minima" class="java.math.BigDecimal"/>
+		<field name="prod_path_codbar" class="java.lang.String"/>
+		<field name="prod_imprime_codbar" class="java.lang.Boolean"/>
+		<field name="prod_graba_iva" class="java.lang.Boolean"/>
+		<field name="prod_esproducto" class="java.lang.Boolean"/>
+		<field name="prod_subsidio" class="java.math.BigDecimal"/>
+		<field name="prod_tiene_subsidio" class="java.lang.String"/>
+		<field name="prod_precio_sin_subsidio" class="java.math.BigDecimal"/>
+		<field name="prod_glp" class="java.lang.String"/>
+		<field name="prod_descripcion" class="java.lang.String"/>
+		<field name="prod_imagen" class="java.lang.String"/>
+		<field name="prod_publicado" class="java.lang.Boolean"/>
+		<field name="prod_servlet_url" class="java.lang.String"/>
+	</subDataset>
+	<parameter name="numfactura" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT * FROM factura f, cliente c
+WHERE f.id_cliente=c.id_cliente AND f.fac_numero=$P{numfactura};]]>
+	</queryString>
+	<field name="id_factura" class="java.lang.Integer"/>
+	<field name="id_estado" class="java.lang.Integer"/>
+	<field name="id_usuario" class="java.lang.Integer"/>
+	<field name="id_cliente" class="java.lang.Integer"/>
+	<field name="fac_numero" class="java.lang.Integer"/>
+	<field name="fac_fecha" class="java.sql.Date"/>
+	<field name="fac_subtotal" class="java.math.BigDecimal"/>
+	<field name="fac_iva" class="java.math.BigDecimal"/>
+	<field name="fac_total" class="java.math.BigDecimal"/>
+	<field name="fac_estado" class="java.lang.String"/>
+	<field name="fac_tipo" class="java.lang.String"/>
+	<field name="fac_abono" class="java.math.BigDecimal"/>
+	<field name="fac_saldo" class="java.math.BigDecimal"/>
+	<field name="fac_descripcion" class="java.lang.String"/>
+	<field name="fac_num_proforma" class="java.lang.Integer"/>
+	<field name="tipodocumento" class="java.lang.String"/>
+	<field name="puntoemision" class="java.lang.String"/>
+	<field name="codestablecimiento" class="java.lang.String"/>
+	<field name="fac_numero_text" class="java.lang.String"/>
+	<field name="fac_tipo_identificador_comprobador" class="java.lang.String"/>
+	<field name="fac_descuento" class="java.math.BigDecimal"/>
+	<field name="fac_cod_ice" class="java.lang.String"/>
+	<field name="fac_cod_iva" class="java.lang.String"/>
+	<field name="fac_total_base_cero" class="java.math.BigDecimal"/>
+	<field name="fac_total_base_gravaba" class="java.math.BigDecimal"/>
+	<field name="codigo_porcentaje" class="java.lang.String"/>
+	<field name="fac_porcentaje_iva" class="java.lang.String"/>
+	<field name="fac_moneda" class="java.lang.String"/>
+	<field name="id_forma_pago" class="java.lang.Integer"/>
+	<field name="fac_plazo" class="java.math.BigDecimal"/>
+	<field name="fac_unidad_tiempo" class="java.lang.String"/>
+	<field name="estadosri" class="java.lang.String"/>
+	<field name="mensajesri" class="java.lang.String"/>
+	<field name="fac_fecha_autorizacion" class="java.sql.Date"/>
+	<field name="fac_clave_acceso" class="java.lang.String"/>
+	<field name="cod_tipoambiente" class="java.lang.Integer"/>
+	<field name="fac_clave_autorizacion" class="java.lang.String"/>
+	<field name="fac_path" class="java.lang.String"/>
+	<field name="tipodocumentomod" class="java.lang.String"/>
+	<field name="fac_fecha_sustento" class="java.sql.Date"/>
+	<field name="fac_saldo_amortizado" class="java.math.BigDecimal"/>
+	<field name="fac_msm_info_sri" class="java.lang.String"/>
+	<field name="fac_num_nota_entrega" class="java.lang.Integer"/>
+	<field name="fac_nota_entrega_process" class="java.lang.String"/>
+	<field name="fac_con_sin_guia" class="java.lang.String"/>
+	<field name="fac_subsidio" class="java.math.BigDecimal"/>
+	<field name="fac_fecha_cobro_plazo" class="java.sql.Date"/>
+	<field name="fac_valor_sin_subsidio" class="java.math.BigDecimal"/>
+	<field name="fac_cliente" class="java.lang.String"/>
+	<field name="fac_direccion" class="java.lang.String"/>
+	<field name="fac_contacto" class="java.lang.String"/>
+	<field name="fac_fotografia_pedido" class="java.lang.String"/>
+	<field name="fac_correo_cliente" class="java.lang.String"/>
+	<field name="id_parroquia" class="java.lang.Integer"/>
+	<field name="fac_observacion" class="java.lang.String"/>
+	<field name="fac_secuencial_unico" class="java.lang.String"/>
+	<field name="fac_num_nota_venta" class="java.lang.Integer"/>
+	<field name="cli_cedula" class="java.lang.String"/>
+	<field name="cli_nombre" class="java.lang.String"/>
+	<field name="cli_razon_social" class="java.lang.String"/>
+	<field name="cli_direccion" class="java.lang.String"/>
+	<field name="cli_telefono" class="java.lang.String"/>
+	<field name="cli_movil" class="java.lang.String"/>
+	<field name="cli_correo" class="java.lang.String"/>
+	<field name="clie_fecha_registro" class="java.sql.Date"/>
+	<field name="clie_tipo" class="java.lang.Integer"/>
+	<field name="id_tipo_identificacion" class="java.lang.Integer"/>
+	<field name="cli_nombres" class="java.lang.String"/>
+	<field name="cli_apellidos" class="java.lang.String"/>
+	<field name="ciudad" class="java.lang.String"/>
+	<field name="cli_clave" class="java.lang.String"/>
+	<field name="cli_monto_asignado" class="java.math.BigDecimal"/>
+	<background>
+		<band height="555" splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="201" splitType="Stretch">
+			<textField>
+				<reportElement x="108" y="46" width="273" height="14"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{cli_nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="281" y="114" width="100" height="14"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{cli_cedula}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="108" y="91" width="105" height="14"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.util.Date"><![CDATA[$F{fac_fecha}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="478" y="46" width="324" height="14"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{cli_nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="685" y="69" width="117" height="14"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{cli_cedula}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="281" y="91" width="100" height="14"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{cli_telefono}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="685" y="94" width="117" height="14"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{cli_cedula}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="478" y="69" width="157" height="14"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.util.Date"><![CDATA[$F{fac_fecha}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="108" y="69" width="173" height="14"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{cli_direccion}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="54" splitType="Stretch">
+			<componentElement>
+				<reportElement key="table" mode="Transparent" x="0" y="0" width="381" height="27" isPrintWhenDetailOverflows="true"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="detalle">
+						<datasetParameter name="numfactura">
+							<datasetParameterExpression><![CDATA[$P{numfactura}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="50">
+						<jr:detailCell height="12" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="50" height="12" isPrintWhenDetailOverflows="true"/>
+								<box leftPadding="2" rightPadding="2">
+									<topPen lineWidth="0.0"/>
+									<bottomPen lineWidth="0.0"/>
+								</box>
+								<textElement>
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{det_cantidad}.setScale(1, BigDecimal.ROUND_FLOOR)]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="205">
+						<jr:detailCell height="12" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="205" height="12" isPrintWhenDetailOverflows="true"/>
+								<box leftPadding="2" rightPadding="2">
+									<topPen lineWidth="0.0"/>
+									<bottomPen lineWidth="0.0"/>
+								</box>
+								<textElement>
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{det_descripcion}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="63">
+						<jr:detailCell height="12" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="63" height="12" isPrintWhenDetailOverflows="true"/>
+								<box leftPadding="2" rightPadding="2">
+									<topPen lineWidth="0.0"/>
+									<bottomPen lineWidth="0.0"/>
+								</box>
+								<textElement textAlignment="Right">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{det_subtotal}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="63">
+						<jr:detailCell height="12" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="63" height="12" isPrintWhenDetailOverflows="true"/>
+								<box leftPadding="2" rightPadding="2">
+									<topPen lineWidth="0.0"/>
+									<bottomPen lineWidth="0.0"/>
+								</box>
+								<textElement textAlignment="Right">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression class="java.math.BigDecimal"><![CDATA[($F{det_total}).setScale(2, BigDecimal.ROUND_FLOOR)]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="318" y="27" width="63" height="20" isPrintWhenDetailOverflows="true"/>
+				<box leftPadding="2" rightPadding="2">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[($F{fac_subtotal}).setScale(2, BigDecimal.ROUND_FLOOR)]]></textFieldExpression>
+			</textField>
+			<componentElement>
+				<reportElement key="table" mode="Transparent" x="421" y="0" width="381" height="27" isPrintWhenDetailOverflows="true"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="detalle">
+						<datasetParameter name="numfactura">
+							<datasetParameterExpression><![CDATA[$P{numfactura}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="50">
+						<jr:detailCell height="12" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="50" height="12" isPrintWhenDetailOverflows="true"/>
+								<box leftPadding="2" rightPadding="2">
+									<topPen lineWidth="0.0"/>
+									<bottomPen lineWidth="0.0"/>
+								</box>
+								<textElement>
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{det_cantidad}.setScale(1, BigDecimal.ROUND_FLOOR)]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="205">
+						<jr:detailCell height="12" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="205" height="12" isPrintWhenDetailOverflows="true"/>
+								<box leftPadding="2" rightPadding="2">
+									<topPen lineWidth="0.0"/>
+									<bottomPen lineWidth="0.0"/>
+								</box>
+								<textElement>
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{det_descripcion}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="63">
+						<jr:detailCell height="12" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="63" height="12" isPrintWhenDetailOverflows="true"/>
+								<box leftPadding="2" rightPadding="2">
+									<topPen lineWidth="0.0"/>
+									<bottomPen lineWidth="0.0"/>
+								</box>
+								<textElement textAlignment="Right">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{det_subtotal}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="63">
+						<jr:detailCell height="12" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="63" height="12" isPrintWhenDetailOverflows="true"/>
+								<box leftPadding="2" rightPadding="2">
+									<topPen lineWidth="0.0"/>
+									<bottomPen lineWidth="0.0"/>
+								</box>
+								<textElement textAlignment="Right">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression class="java.math.BigDecimal"><![CDATA[($F{det_total}).setScale(2, BigDecimal.ROUND_FLOOR)]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="739" y="27" width="63" height="20" isPrintWhenDetailOverflows="true"/>
+				<box leftPadding="2" rightPadding="2">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[($F{fac_subtotal}).setScale(2, BigDecimal.ROUND_FLOOR)]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

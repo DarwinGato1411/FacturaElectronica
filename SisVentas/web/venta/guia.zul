@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?link rel="stylesheet" type="text/css" href="/css/boostrap/bootstrap.css"?>  
+<?link rel="stylesheet" type="text/css" href="/css/style.css"?>
+<?init class="com.ec.seguridad.Autentificador"?>
+<?init class="org.zkoss.zk.ui.util.Composition" arg0="/plantilla/plantilla.zul"?>
+<?link rel="icon" type="image/x-icon" href="/iconos/deckxel.ico"?>
+<zk  contentStyle="overflow:auto" with="100%" class="container" >
+    <!--<caption label="Guia de remision" style="font-weight:bold"/>--> 
+    <hbox self="@define(content)" apply="org.zkoss.bind.BindComposer" 
+          viewModel="@id('vm') @init('com.ec.controlador.GuiaRemision')" >
+        <tabbox  width="100%"  tabscroll="true" >
+            <tabs >
+                <tab label="Guia remisión" sclass="menutabs"/>
+            </tabs>
+            <tabpanels >
+                <tabpanel  height="100%" width="98%"  >
+                    <div class="container-fluid">
+                        <div class="row " align="center">                                                       
+                            <div class="col-12 col-sm-12 col-md-2 col-lg-2 " align="center">
+                                <div class="input-group mb-3 col-12 col-sm-12 col-md-12 col-lg-12">
+                                    
+                                    <textbox   class="form-control form-control-sm"
+                                               ctrlKeys="^A" onCtrlKey="@command('buscarClienteEnLista')" 
+                                               placeholder="Cedula"
+                                               value="@bind(vm.clienteBuscado.cliCedula)" 
+                                               onDoubleClick="@command('buscarClienteEnLista')"
+                                               style="font-weight:bold"
+                                               maxlength="13"  />
+                        
+                                    <div class="input-group-append">
+                                        <button   image="/imagenes/buscar1.png" 
+                                                  onClick="@command('buscarClienteEnLista')"  
+                                                  tooltiptext="Buscar cliente"
+                                                  class="btn  btn-primary btn-sm "/>                          
+                               
+                               
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <!--Poner aqui el radio buton DEBE ESTAR EMITIDAS Y RECIBIDAS-->
+                            <div class="col-12 col-sm-12 col-md-3 col-lg-3 " align="center">
+
+                                <label  style="font-weight:bold;padding-left: 10px" 
+                                        value="TipoRemision:"  />
+                                <radiogroup  selectedItem="@bind(vm.tipoGuiaRemision)"  
+                                             onCheck="@command('verificaNumeracion')"                                    >
+                                    <space bar="true"  /> 
+                                    <radio label="Emitida" value="EMITIDA" />  
+                                    <space bar="true"  />                                                                        
+                                    <radio  label="Recibida" value="RECIBIDA"/>     
+                                                                                  
+                                </radiogroup>
+                            </div>
+                            <div class="col-12 col-sm-12 col-md-1 col-lg-1 " >
+                               
+                                <textbox id="txtNumeroGuiaRecibida" placeholder="# GUIA" 
+                                         width="97%"
+                                         visible="false" style="font-weight:bold" 
+                                         value="@bind(vm.numeroGuiaRecibida)"  />
+                            </div>
+                            <div class="col-12 col-sm-12 col-md-2 col-lg-2 " align="center">
+                                <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+
+                                    <label  style="font-weight:bold" 
+                                            value="@bind(vm.clienteBuscado.cliNombre)"  />
+                         
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-12 col-md-3 col-lg-3 " align="center">
+                                <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                    
+                                    <label   style="font-weight:bold" 
+                                             value="@bind(vm.clienteBuscado.cliDireccion)"    />
+                                 
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-12 col-md-1 col-lg-1 form-group d-none d-sm-block ">
+                                <button src="/iconos/guardar.png"   
+                                        autodisable="self"
+                                        class="btn btn btn-secondary btn-sm "
+                                        onClick="@command('guardar')"
+                                        tooltiptext="Guardar guia de remision"/>
+                            </div>
+
+                                
+                           
+                            <div class="col-12 col-sm-12 col-md-2 col-lg-2 form-group d-none d-sm-block ">
+                                <label  style="color:red;font-weight:bold" value=""  ></label>Conductor:
+                                        
+                                <combobox  model="@load(vm.listaTransportistas)"  
+                                           selectedItem="@bind(vm.transportista)" 
+                                           style="width:110px"  
+                                           readonly="true" >
+                                    <template name="model">
+                                        <comboitem  label="@bind(each.trpRazonSocial)"/>
+                                    </template>                                      
+                                </combobox>
+                            </div>
+                             
+                            <div class="col-12 col-sm-12 col-md-2 col-lg-2 form-group d-none d-sm-block ">
+                                <label  style="color:red;font-weight:bold" value=""  ></label>Motivo:
+               
+                                
+                                <combobox 
+                                    readonly="true"    
+                                    style="width:110px" selectedItem="@bind(vm.motivoGuia)"                                >
+                                    <comboitem label="COMPRA" value="COMPRA" />                    
+                                    <comboitem label="CONSIGNACION" value="CONSIGNACION" />
+                                    <comboitem label="DEVOLUCION" value="DEVOLUCION" />
+                                    <comboitem label="EXPORTACION" value="EXPORTACION" />
+                                    <comboitem label="IMPORTACION" value="IMPORTACION" />
+                                    <comboitem label="TRANSFORMACION" value="TRANSFORMACION" />
+                                    <comboitem label="TRASLADO" value="TRASLADO" />
+                                    <comboitem label="VENTA" value="VENTA" />
+                                    <comboitem label="OTROS" value="OTROS" />
+                                </combobox>
+                            </div>
+                            <div class="col-12 col-sm-12 col-md-2 col-lg-2 " >
+                                <div class="col-12 col-sm-12 col-md-12 col-lg-12 form-group">
+                                    Placa: 
+                                    <textbox  style="font-weight:bold" width="60%"                                             
+                                              onChange="self.setValue(self.getValue().toUpperCase());"
+                                              value="@bind(vm.numeroPlaca)"  />
+                         
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-12 col-md-3 col-lg-3 d-none d-sm-block "  align="end" >
+                                Inicio traslado:
+                                <datebox compact="true" value="@bind(vm.incioTraslado)" 
+                                         readonly="true" style="font-weight:bold;" 
+                                         buttonVisible="true" 
+                                         lenient="true" format="dd/MM/yyyy" 
+                                         constraint="no empty: Ingrese la fecha "/>
+
+                            </div>
+                            <div class="col-12 col-sm-12 col-md-3 col-lg-3 d-none d-sm-block "  align="end" >
+                                Fin traslado:
+                                <datebox compact="true" value="@bind(vm.finTraslado)" 
+                                         readonly="true" style="font-weight:bold;" 
+                                         buttonVisible="true" 
+                                         lenient="true" format="dd/MM/yyyy" 
+                                         constraint="no empty: Ingrese la fecha "/>
+
+                            </div>
+                            <div class="col-12 col-sm-12 col-md-6 col-lg-6 d-none d-sm-block" >
+                                <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                    Partida:
+                                    <textbox  style="font-weight:bold" width="90%"
+                                              onChange="self.setValue(self.getValue().toUpperCase());"
+                                              value="@bind(vm.partida)"  />
+                         
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-12 col-md-6 col-lg-6 d-none d-sm-block" >
+                                <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                    Llegada: 
+                                    <textbox  style="font-weight:bold" width="80%"
+                                              onChange="self.setValue(self.getValue().toUpperCase());"
+                                              value="@bind(vm.llegada)"  />
+                         
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class = "row">                                                                           
+                            <div class="col-12 col-sm-12 col-md-6 col-lg-6 hidden-sm-down" >
+                                <listbox model="@load(vm.listaProducto)" 
+                                         nonselectableTags=""    mold="paging" pageSize="13"  >
+                                    <custom-attributes org.zkoss.zul.listbox.rod="true"/>
+      
+                    
+                                    <listhead> 
+                                        <listheader width="25%"  label="Codigo"     align="left"   >
+                                                
+                                        </listheader>     
+                                        <listheader width="65%" align="left"   >
+                                            <textbox value="@bind(vm.buscarNombreProd)"  
+                                                     id="idBusquedaProd"
+                                                     class="form-control form-control-sm"
+                                                     tooltiptext="Descripcion"
+                                                     placeholder="Descripcion"
+                                                     onOK="@command('buscarLikeNombreProd')"                                                     
+                                                     onChange="self.setValue(self.getValue().toUpperCase());" />
+                                        </listheader>                         
+                                        <listheader width="15%"  label="PVP" align="center" /> 
+                                        <listheader width="10%"  label="" align="center"/>
+                           
+                                    </listhead>  
+                    
+                                    <template name="model">                                                            
+                                        <listitem onOK="@command('agregarItemLista',valor=each)">
+                                            <listcell style="font-size:11px;background-color:#d6eefd" zclass = "mycss-listcell" 
+                                                      onDoubleClick="@command('agregarItemLista',valor=each)">
+                                                <label class="form-control form-control-sm"
+                                                       style="font-size:10px;background-color:#d6eefd"
+                                                       value="@bind(each.prodCodigo)"     onCreate="self.focus()"
+                                                       onDoubleClick="@command('agregarItemLista',valor=each)"/>
+                                                
+                                            </listcell>
+                                            <listcell style="font-size:11px;background-color:#d6eefd" zclass = "mycss-listcell" 
+                                                      onDoubleClick="@command('agregarItemLista',valor=each)" >
+                                                <label class="form-control form-control-sm"
+                                                       style="font-size:10px;background-color:#d6eefd"
+                                                       value="@bind(each.prodNombre)"  
+                                                       onDoubleClick="@command('agregarItemLista',valor=each)" />
+                                            </listcell>
+                                            <listcell style="font-size:11px;background-color:#d6eefd" zclass = "mycss-listcell" 
+                                                      onDoubleClick="@command('agregarItemLista',valor=each)" >                                                    
+                                                <label class="form-control form-control-sm"
+                                                       style="font-size:10px;background-color:#d6eefd"
+                                                       onOK="@command('agregarItemLista',valor=each)" 
+                                                       value="@bind(each.pordCostoVentaFinal)"  />
+                                            </listcell>
+                
+                                            <listcell  zclass = "mycss-listcell"  >   
+                                                <image  src="/iconos/Forward.png" 
+                                                        onClick="@command('agregarItemLista',valor=each)" 
+                                                        tooltiptext="Asigar producto"/> 
+                                            </listcell>
+                                        </listitem>
+                                    </template>
+                                </listbox>
+                            </div>
+                            <div class="col-12 col-sm-12 col-md-6 col-lg-6 hidden-sm-down" align="end">
+                                <listbox model="@load(vm.listaGuiaModel)"
+                                         nonselectableTags="*" 
+                                         checkmark="true"  
+                                         multiple="true" 
+                                         onSelect="@command('seleccionarRegistros')" >
+                                    <custom-attributes org.zkoss.zul.listbox.rod="true"/>
+                                              
+                                        
+                                    <listhead>
+                                        <listheader width="10%"  label="" align="left" >
+                                            <button label="" src="/iconos/delete.png"   
+                                                    onClick="@command('eliminarRegistros')"  
+                                                    class="btn btn btn-secondary btn-sm "
+                                                    tooltiptext="Eliminar registros seleccionados"/>
+                                        </listheader>
+                                        <listheader width="10%"  label="Cantidad" align="left" />
+                                        <listheader width="90%"  label="Descripcion" align="left"  />                                                                                 
+                                    </listhead>
+                    
+                                    <template name="model">                                                            
+                                        <listitem>
+                                            <listcell zclass = "mycss-listcell">
+                                                    
+                                            </listcell>                                                      
+                                            <listcell zclass = "mycss-listcell">
+                                                <decimalbox style="font-size:10px"
+                                                            class="form-control form-control-sm" 
+                                                            format="###.#####"
+                                                            value="@bind(each.detCantidad)"  />
+                                            </listcell>
+                                            <listcell zclass = "mycss-listcell">
+                                                <textbox  style="font-size:10px"
+                                                          class="form-control form-control-sm" 
+                                                          value="@bind(each.detDescripcion)"  />
+                                            </listcell>
+                                            
+                                        </listitem>
+                                    </template>
+
+                                </listbox>
+                            </div>
+                        
+                        </div>
+                  
+                    </div> 
+                </tabpanel>
+            </tabpanels>
+        </tabbox>    
+    </hbox>
+</zk>

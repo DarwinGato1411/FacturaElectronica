@@ -1,0 +1,66 @@
+<?link rel="stylesheet" type="text/css" href="/css/boostrap/bootstrap.css"?>   
+<?link rel="stylesheet" type="text/css" href="/css/style.css"?>
+<?link rel="icon" type="image/x-icon" href="/iconos/deckxel.ico"?>  
+<?page title="Facturacion electrónica" contentType="text/html;charset=UTF-8"?>
+
+<zk contentStyle="overflow:auto" >
+
+    <style>
+        body{
+        background-image: url('./fondo/fondocrm.jpg');
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-attachment: fixed;
+  
+        }
+        
+    </style>
+    <div class="container col-12 col-sm-6 col-md-5 col-lg-4 form-control" id="loginWin" style="margin:1% auto;"   
+                 apply="com.ec.controlador.LoginController" >
+ 
+    
+
+            <div class="row " align="lefth">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12 form-group"  align="center">
+                    <!--<image  src="/imagenes/logobs65.jpg"  ></image>-->
+                    <!--<image  src="/imagenes/locomegaambro.jpeg" class="imgRedondaLogoLogin" ></image>-->
+                    <image  src="/imagenes/iniciofactura.png" class="imgRedondaLogoLogin" width="75%" ></image>
+                </div>
+<!--                <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                    <label  class="tituloLogin" >INGRESO AL SISTEMA</label>
+                </div>-->
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12  form-group">
+<!--                    <div class="col-1 col-sm-1 col-md-1 col-lg-1 form-group ">
+                        <label  class="icono-file" ></label>
+                    </div>-->
+                     <!--<div class="col-10 col-sm-10 col-md-10 col-lg-10 form-group ">-->
+                    <textbox id="account" type="text" class="form-control" 
+                             onCreate="self.focus()"
+                             placeholder="Ingrese el usuario"   />
+                <!--</div>-->
+                </div>
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12 form-group">
+                  
+                    <textbox id="password" type="password" 
+                             class="form-control" 
+                             placeholder="Ingrese la constraseña" />      
+                </div>
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12" align="center">
+                    <button id="buttonEntrar" 
+                            class="btn btn-lg btn-primary btn-block" label="Ingresar">
+                    </button>   
+                    <button id="buttonConsultar"  
+                            class="btn btn-lg btn-success btn-block" label="Consultas">
+                    </button>   
+                </div>
+<!--                <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+                    <button  id="administrar"  src="/imagenes/loginp.png" label="Menu " class="btn btn-lg btn-info btn-block" ></button>   
+
+            </div>-->
+        </div>
+    
+    </div>
+  
+    
+</zk>

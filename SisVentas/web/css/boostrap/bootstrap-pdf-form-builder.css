@@ -1,0 +1,247 @@
+.pdf-form-builder-panel {
+  background: #e0e0e0;
+  position: absolute;
+  top: 0;
+  left: -202px;
+  bottom: 0;
+  width: 200px;
+  height: auto;
+  z-index: 2;
+  overflow: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  -webkit-box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.6);
+     -moz-box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.6);
+          box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.6);
+  -webkit-transition: left 0.3s ease;
+     -moz-transition: left 0.3s ease;
+      -ms-transition: left 0.3s ease;
+       -o-transition: left 0.3s ease;
+          transition: left 0.3s ease;
+}
+
+.pdf-form-builder-panel.pdf-form-builder-panel-open {
+  left: 0;
+}
+
+.pdf-form-builder-panel.pdf-form-builder-panel-open + .pdf-viewer-page-view-container {
+  left: 200px;
+}
+
+.pdf-form-builder-panel h4 {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  color: #777;
+  font-weight: 400;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+  margin: 0;
+  padding: 14px 14px 13px;
+}
+
+.pdf-form-builder-panel ul {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pdf-form-builder-panel ul > li {
+  color: #777;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);
+  display: block;
+  font-weight: 400;
+  line-height: 20px;
+  margin: 0;
+  padding: 8px 14px 2px;
+}
+
+.pdf-form-builder-panel ul > li > h5 {
+  font-size: 12px;
+  margin: 0;
+}
+
+.pdf-form-builder-panel ul > li > label {
+  font-size: 12px;
+  margin: 0;
+}
+
+.pdf-form-builder-panel ul > li > input {
+  width: 100%;
+  margin: 0;
+}
+
+.pdf-form-builder-panel ul > li > select {
+  width: 100%;
+  margin: 0;
+}
+
+.pdf-form-builder-panel ul > li > .btn {
+  text-shadow: none;
+  width: 100%
+}
+
+.pdf-form-builder .pdf-viewer-page-view-container {
+  -webkit-transition: left 0.3s ease;
+     -moz-transition: left 0.3s ease;
+      -ms-transition: left 0.3s ease;
+       -o-transition: left 0.3s ease;
+          transition: left 0.3s ease;
+}
+
+.pdf-form-builder .pdf-form-field {
+  background: rgba(250, 251, 252, 0.85);
+  border: 1px dashed #c6c6c6;
+  pointer-events: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: auto;
+  height: auto;
+  z-index: 2;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+       -o-user-select: none;
+          user-select: none;
+  -webkit-transition: background 0.3s ease, border 0.3s ease;
+     -moz-transition: background 0.3s ease, border 0.3s ease;
+      -ms-transition: background 0.3s ease, border 0.3s ease;
+       -o-transition: background 0.3s ease, border 0.3s ease;
+          transition: background 0.3s ease, border 0.3s ease;
+}
+
+.pdf-form-builder .pdf-form-field.pdf-form-field-focus {
+  background: rgba(252, 253, 254, 0.95);
+  border: 1px dashed #6486a8;
+  cursor: move;
+  z-index: 22;
+}
+
+.pdf-form-builder .pdf-form-field > * {
+  pointer-events: none;
+}
+
+.pdf-form-builder .pdf-form-field-handle {
+  background: #eef9fe;
+  border: 1px solid #a8c8df;
+  pointer-events: auto;
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  z-index: 2;
+  overflow: visible;
+  opacity: 0;
+  visibility: hidden;
+  -webkit-box-shadow: 0 0 3px 1px rgba(0, 128, 224, 0.3);
+     -moz-box-shadow: 0 0 3px 1px rgba(0, 128, 224, 0.3);
+          box-shadow: 0 0 3px 1px rgba(0, 128, 224, 0.3);
+  -webkit-transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+     -moz-transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+      -ms-transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+       -o-transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+          transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+}
+
+/* Increase touch-target area for mobile devices */
+@media (max-device-width: 1024px) {
+  .pdf-form-builder .pdf-form-field::after {
+    content: '';
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    bottom: -10px;
+    left: -10px;
+    width: auto;
+    height: auto;
+    z-index: -1;
+  }
+
+  .pdf-form-builder .pdf-form-field-handle::after {
+    content: '';
+    position: absolute;
+    top: -12px;
+    left: -12px;
+    width: 32px;
+    height: 32px;
+  }
+}
+
+.pdf-form-builder .pdf-form-field.pdf-form-field-focus > .pdf-form-field-handle {
+  opacity: 1;
+  visibility: visible;
+  -webkit-transition-delay: 0s;
+     -moz-transition-delay: 0s;
+      -ms-transition-delay: 0s;
+       -o-transition-delay: 0s;
+          transition-delay: 0s;
+}
+
+.pdf-form-builder .pdf-form-field-handle-n  { cursor: n-resize;  cursor: ns-resize;   margin: 0 0 0 -5px; top: -5px;  right: auto; bottom: auto; left:  50%; }
+.pdf-form-builder .pdf-form-field-handle-ne { cursor: ne-resize; cursor: nesw-resize; margin: 0;          top: -5px;  right: -5px; bottom: auto; left: auto; }
+.pdf-form-builder .pdf-form-field-handle-e  { cursor: e-resize;  cursor: ew-resize;   margin: -5px 0 0;   top:  50%;  right: -5px; bottom: auto; left: auto; }
+.pdf-form-builder .pdf-form-field-handle-se { cursor: se-resize; cursor: nwse-resize; margin: 0;          top: auto;  right: -5px; bottom: -5px; left: auto; }
+.pdf-form-builder .pdf-form-field-handle-s  { cursor: s-resize;  cursor: ns-resize;   margin: 0 0 0 -5px; top: auto;  right: auto; bottom: -5px; left:  50%; }
+.pdf-form-builder .pdf-form-field-handle-sw { cursor: sw-resize; cursor: nesw-resize; margin: 0;          top: auto;  right: auto; bottom: -5px; left: -5px; }
+.pdf-form-builder .pdf-form-field-handle-w  { cursor: w-resize;  cursor: ew-resize;   margin: -5px 0 0;   top:  50%;  right: auto; bottom: auto; left: -5px; }
+.pdf-form-builder .pdf-form-field-handle-nw { cursor: nw-resize; cursor: nwse-resize; margin: 0;          top: -5px;  right: auto; bottom: auto; left: -5px; }
+
+.pdf-form-builder .pdf-form-field > input,
+.pdf-form-builder .pdf-form-field > label,
+.pdf-form-builder .pdf-form-field > textarea {
+  pointer-events: none;
+  position: absolute;
+  line-height: 1em;
+  margin: 0;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  opacity: 0.9;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.pdf-form-builder .pdf-form-field > label {
+  white-space: nowrap;
+}
+
+.pdf-form-builder .pdf-form-field > textarea {
+  resize: none;
+}
+
+.pdf-form-builder .pdf-form-field-check-box {
+  zoom: 1 !important;
+}
+
+.pdf-form-builder .pdf-form-field-check-box > input {
+  display: block;
+  position: absolute;
+  top: -100%;
+  left: -100%;
+  opacity: 0;
+  min-width: 0;
+  min-height: 0;
+  width: 0;
+  height: 0;
+}
+
+.pdf-form-builder .pdf-form-field-check-box > i {
+  font-family: 'FontAwesome';
+  position: absolute;
+  margin: -0.475em 0 0 -0.4125em;
+  top: 50%;
+  left: 50%;
+  width: 1em;
+  height: 1em;
+}
+
+.pdf-form-builder .pdf-form-field-check-box > i:before {
+  content: '\f096';
+}
+
+.pdf-form-builder .pdf-form-field-check-box > input:checked + i:before,
+.pdf-form-builder .pdf-form-field-check-box > input[checked] + i:before {
+  content: '\f046';
+}

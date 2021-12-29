@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window  id="windowNotaEntrega"  position="center" class="col-12 col-sm-12 col-md-6 col-lg-6" closable="true"  
+         apply="org.zkoss.bind.BindComposer" contentStyle="overflow:auto"
+         viewModel="@id('vm') @init('com.ec.controlador.Facturar')">
+    
+    <caption label="Notas de entrega por facturar" style="font-weight:bold"/> 
+   
+    <listbox model="@load(vm.listaNotaEntregaModel)" 
+             mold="paging"             
+             nonselectableTags="" checkmark="true"  
+             multiple="true"  pageSize="12" 
+             onSelect="@command('seleccionarRegistrosNotaEntrega')"   >
+        <custom-attributes org.zkoss.zul.listbox.rod="true"/>
+                    
+        <listhead> 
+                           
+            <listheader width="5%"  label=""></listheader>     
+            <listheader width="15%"  label="Cedula">     
+            </listheader>    
+            <listheader width="35%" label="Cliente" >                                
+            </listheader> 
+            <listheader width="15%" label="Nota Entrega" >                                
+            </listheader> 
+            <listheader width="15%"  label="Fecha" /> 
+            <listheader width="15%"  label="Total "  />                                 
+        </listhead>  
+                        
+                    
+        <template name="model">                                                            
+            <listitem>
+                                
+                <listcell></listcell>
+                <listcell>
+                    <label value="@bind(each.idCliente.cliCedula)" width="96%" />
+                </listcell>
+                <listcell>
+                    <label value="@bind(each.idCliente.cliNombre)" width="96%" />
+                </listcell>
+                <listcell>
+                    <label value="@bind(each.facNumNotaEntrega)" width="96%" />
+                </listcell>
+                            
+                <listcell>
+                    <datebox compact="true" value="@bind(each.facFecha)" 
+                             buttonVisible="false" lenient="true" readonly="true"
+                             format="medium" width="98%"  />
+                </listcell>
+                <listcell>
+                    <decimalbox format="###.##" readonly="true" 
+                                value="@bind(each.facTotal)" width="96%"/>
+                </listcell>                                                         
+            </listitem>
+        </template>
+    </listbox>
+    <div class="col-12 col-sm-12 col-md-12 col-lg-12  form-group" align="center" >
+                    
+        <image src="/iconos/Forward.png"  
+                       onClick="@command('seleccionarNotaEntrega')"
+                       tooltiptext="Seleccionar registros"/>
+ 
+
+    </div> 
+                           
+                  
+</window>

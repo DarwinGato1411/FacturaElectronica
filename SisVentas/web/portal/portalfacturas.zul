@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?link rel="stylesheet" type="text/css" href="/css/boostrap/bootstrap.css"?>  
+<?link rel="stylesheet" type="text/css" href="/css/style.css"?>
+<?init class="org.zkoss.zk.ui.util.Composition" arg0="/plantillaportal/plantilla.zul"?>
+<?init class="com.ec.seguridad.AutentificadorPortal"?>
+<zk  contentStyle="overflow:auto" with="100%" >
+    <hbox self="@define(content)" apply="org.zkoss.bind.BindComposer" 
+          viewModel="@id('vm') @init('com.ec.controlador.ListaPortalFactura')" >
+        <tabbox id="tboxPrincipal"  width="100%" >
+            <tabs >
+                <tab label="Facturas electronicas " sclass="menutabs" /> 
+            </tabs>
+            <tabpanels >
+                
+                <tabpanel   >                    
+               
+                    <listbox model="@load(vm.lstFacturas)" 
+                             nonselectableTags="*"  mold="paging" pageSize="12"  >
+                        <custom-attributes org.zkoss.zul.listbox.rod="true"/>
+                        <auxhead>
+                            <auxheader colspan="11" >  
+                                <div class="row  " align="lefth">  
+                                                            
+                                    <div class="col-12 col-sm-12 col-md-2 col-lg-2 form-group "  >
+                                        <label   style="color:red;font-weight:bold" value="(*) "  />Ruc:
+                                        <textbox value="@bind(vm.credential.cliente.cliCedula)" 
+                                                 readonly="true"
+                                                 class="form-control" />
+                                    </div>
+                                    <div class="col-12 col-sm-12 col-md-3 col-lg-3  form-group "  >
+                                        <label   style="color:red;font-weight:bold" value="(*) "  />Razon Social:
+                                        <textbox  value="@bind(vm.credential.cliente.cliRazonSocial)" 
+                                                  readonly="true"
+                                                  class="form-control" />
+                                    </div>
+                                    <div class="col-12 col-sm-12 col-md-3 col-lg-3  form-group "  >
+                                        <label   style="color:red;font-weight:bold" value="(*) "  />Direccion:
+                                        <textbox  value="@bind(vm.credential.cliente.cliDireccion)" 
+                                                  readonly="true"
+                                                  class="form-control" />
+                                    </div>
+                                    <div class="col-12 col-sm-12 col-md-3 col-lg-3  form-group "  >
+                                        <label   style="color:red;font-weight:bold" value="(*) "  />Correo:
+                                        <textbox  value="@bind(vm.credential.cliente.cliCorreo)" 
+                                                  readonly="true"
+                                                  class="form-control" />
+                                    </div>
+                                </div>
+                            </auxheader>
+                        </auxhead>
+                        <auxhead>
+                            <auxheader colspan="13" >  
+                                <div class="row fondoCabeceraList " align="lefth">  
+                                                            
+                                    <div class="col-2 col-sm-2 col-md-2 col-lg-2  ">
+                                     
+                                        <label   class="textoFechaDateBox" value=" Buscar por fechas:"  >      </label>
+                                    </div> 
+                                                         
+                                    <div class="col-4 col-sm-4 col-md-4 col-lg-4  "> 
+                                           
+                                        <div class="input-group mb-3">
+                                            <datebox compact="true" value="@bind(vm.inicio)"  
+                                                     readonly="true"   style="font-weight:bold" 
+                                                     buttonVisible="true" lenient="true" 
+                                                     class="textoFechaDateBox"
+                                                     format="dd/MM/yyyy"   tooltiptext="Fecha de inicio de la busqueda"/>
+                                            <datebox compact="true" value="@bind(vm.fin)" 
+                                                     readonly="true"   style="font-weight:bold" 
+                                                     buttonVisible="true" lenient="true"  
+                                                     class="textoFechaDateBox"
+                                                     format="dd/MM/yyyy"   
+                                                     tooltiptext="Fecha de fin de la busqueda"/>
+                                            <div class="input-group mb-3">  
+                                                <button   class="btn btn-primary btn-sm "
+                                                          image="/imagenes/buscar1.png"  
+                                                          onClick="@command('buscarListaPorFechas')"  
+                                                          tooltiptext="Buscar cotizaciones por fecha de inicio "/> 
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>                 
+                              
+                                            
+                            </auxheader>
+                        </auxhead>
+                        <listhead> 
+                            <listheader width="6%"  label="N° FACTURA" /> 
+                            <listheader width="10%"  label="RUC/CI" />    
+                            <listheader width="10%"  label="NOMBRE CLIENTE" >
+                                <textbox value="@bind(vm.buscarCliente)"  
+                                         class="form-control form-control-sm"
+                                         tooltiptext="Nombre del cliente"
+                                         placeholder="Nombre del cliente"
+                                         onOK="@command('buscarLikeCliente')"
+                                         onChange="self.setValue(self.getValue().toUpperCase());" />
+                                
+                            </listheader> 
+                            <listheader width="10%"  label="RAZON SOCIAL" /> 
+                            <listheader width="8%"  label="FECHA" /> 
+                            <listheader width="5%"  label="TOTAL "  /> 
+                            <listheader width="5%"  label="ESTADO " align="rigth" /> 
+                            <listheader width="8%"  label="ESTADO SRI" align="rigth" /> 
+                            <listheader width="8%"  label="FECHA AUTORIZACION " align="rigth" /> 
+                            <listheader width="15%"  label="CLAVE DE AUTORIZACION "  /> 
+                            <!--<listheader width="5%"  label="SALDO "  />-->        
+                            <listheader width="5%"  label="" align="rigth" />        
+                            <listheader width="5%"  label="" align="rigth" />        
+                            <listheader width="5%"  label="" align="rigth" />        
+                        </listhead>  
+                        
+                    
+                        <template name="model">                                                            
+                            <listitem>
+                                <listcell>
+                                    <label value="@bind(each.facNumeroText)" width="96%" />
+                                </listcell>
+                                <listcell>
+                                    <label value="@bind(each.idCliente.cliCedula)" width="96%" />
+                                </listcell>
+                                <listcell>
+                                    <label value="@bind(each.idCliente.cliNombre)" width="96%" />
+                                </listcell>
+                                <listcell>
+                                    <label value="@bind(each.idCliente.cliRazonSocial)" width="96%" />
+                                </listcell>
+                            
+                                <listcell>
+                                    <datebox compact="true" value="@bind(each.facFecha)" 
+                                             buttonVisible="false" lenient="true" readonly="true"
+                                             format="medium" width="98%"  />
+                                </listcell>
+                                <listcell>
+                                    <decimalbox format="###.####" readonly="true" 
+                                                value="@bind(each.facTotal)" width="96%"/>
+                                </listcell>
+                                <zk if="${each.facEstado=='PE'}" > 
+                                    <listcell style="background: orange" >
+                                        <label value="@bind(each.facEstado)" width="96%"/>
+                                    </listcell>
+                                </zk>
+                                <zk if="${each.facEstado=='PA'}"  > 
+                                    <listcell style="background: greenyellow"  >
+                                        <label value="@bind(each.facEstado)" width="96%"/>
+                                    </listcell>
+                                </zk>
+                                <listcell  >
+                                    <label value="@bind(each.estadosri)" width="96%"/>
+                                </listcell>
+                                <listcell>
+                                    <datebox compact="true" value="@bind(each.facFechaAutorizacion)" 
+                                             buttonVisible="false" lenient="true" readonly="true"
+                                             format="medium" width="98%"  />
+                                </listcell>
+              
+                                <listcell>
+                                    <textbox multiline="true" rows="2" readonly="true" 
+                                             value="@bind(each.facClaveAutorizacion)" width="96%"/>
+                                </listcell>
+                            
+                                
+                            
+                                <listcell>    
+                                     
+                                    <image src="/iconos/Pdf-icon.png"   
+                                           class="btn btn btn-secondary btn-sm grow"                                         
+                                           onClick="@command('reporteNotaVenta',valor=each)"
+                                           tooltiptext="Imprimir factura"/>
+                              
+                                </listcell>
+                           
+                              
+                                <listcell>    
+                                    <image  src="/iconos/pdfrep2.png" 
+                                                class="btn btn btn-secondary btn-sm grow"
+                                                onClick="@command('descargaPDF',valor=each)" 
+                                                tooltiptext="Autorizar facturas"/>
+                                </listcell>
+                            
+                                <listcell>    
+                                    <image  src="/iconos/xml.png" 
+                                                class="btn btn btn-secondary btn-sm grow"
+                                                onClick="@command('descargaZIP',valor=each)" 
+                                                tooltiptext="Autorizar facturas"/>
+                                </listcell>
+                            
+                               
+                            </listitem>
+                        </template>
+                    </listbox>
+         
+                </tabpanel>
+                
+
+            </tabpanels>
+            
+        </tabbox>
+    </hbox>
+
+
+</zk>

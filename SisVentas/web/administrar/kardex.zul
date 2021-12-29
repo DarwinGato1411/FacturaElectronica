@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?link rel="stylesheet" type="text/css" href="/css/boostrap/bootstrap.css"?>  
+<?link rel="stylesheet" type="text/css" href="/css/style.css"?>
+<?init class="com.ec.seguridad.Autentificador"?>
+<?init class="org.zkoss.zk.ui.util.Composition" arg0="/plantilla/plantilla.zul"?>
+<?link rel="icon" type="image/x-icon" href="/iconos/deckxel.ico"?>
+<zk  contentStyle="overflow:auto" with="100%" >
+    <hbox self="@define(content)" apply="org.zkoss.bind.BindComposer" id="idHbox"
+          viewModel="@id('vm') @init('com.ec.controlador.AdmKardex')" width="100%">
+<!--        <style>
+            .form-control {
+            display: block;
+            width: 100%;
+            padding: 0rem 0rem;
+            font-size: 0.8rem;
+            line-height: 1.25;
+            color: #464a4c;
+            background-color: #fff;
+            background-image: none;
+            -webkit-background-clip: padding-box;
+            background-clip: padding-box;
+            border: 1px solid rgba(0, 0, 0, 0.15);
+            border-radius: 0.25rem;
+            -webkit-transition: border-color ease-in-out 0.15s, -webkit-box-shadow ease-in-out 0.15s;
+            transition: border-color ease-in-out 0.15s, -webkit-box-shadow ease-in-out 0.15s;
+            -o-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+            transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+            transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s, -webkit-box-shadow ease-in-out 0.15s;
+            }
+        </style>   -->
+            
+            <div class="container-fluid">
+         
+            <div class="row">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12 form-group ">
+                    <textbox value="KARDEX- MOVIMIENTOS DEL PRODUCTO"  readonly="true" style="text-align:center;font-size:1.5em" class="form-control form-control-sm" />
+                    
+                </div>
+                <div class="col-12 col-sm-12 col-md-3 col-lg-3">
+                    <listbox model="@load(vm.listaProductos)" 
+                             nonselectableTags=""  
+                             mold="paging"
+                             pageSize="17"  >
+                        <custom-attributes org.zkoss.zul.listbox.rod="true"/>
+      
+                    
+                        <listhead> 
+                                   
+                            <listheader width="25%"  >
+                                <textbox value="@bind(vm.buscarProductoCodigo) "  
+                                         class="form-control form-control-sm"
+                                         tooltiptext="Codigo"
+                                         placeholder="Codigo"
+                                         onOK="@command('buscarProductoLikeCodigo')"
+                                         onChange="self.setValue(self.getValue().toUpperCase());" />
+                            </listheader> 
+                            <listheader width="75%"  >
+                                <textbox value="@bind(vm.buscarProducto)"  
+                                         class="form-control form-control-sm"
+                                         tooltiptext="Nombre del producto"
+                                         placeholder="Nombre del producto"
+                                         onOK="@command('buscarLikeNombreProd')"
+                                         onChange="self.setValue(self.getValue().toUpperCase());" />
+                            </listheader> 
+                                
+                            
+                        </listhead>  
+                    
+                        <template name="model">                                                            
+                            <listitem>
+                                    
+                                <listcell onClick="@command('seleccionarProductoLista',valor=each)"
+                                          style="font-size:11px;background-color:#d6eefd"  
+                                          zclass = "mycss-listcell">
+                                    <textbox value="@bind(each.prodCodigo)" width="96%" 
+                                             class="form-control form-control-sm"
+                                             style="font-size:10px;background-color:#d6eefd"
+                                             readonly="true"
+                                             onClick="@command('seleccionarProductoLista',valor=each)" />
+                                </listcell>
+                                <listcell onClick="@command('seleccionarProductoLista',valor=each)" 
+                                          zclass = "mycss-listcell">
+                                    <textbox value="@bind(each.prodNombre)" width="99%" 
+                                             class="form-control form-control-sm"
+                                             style="font-size:10px;background-color:#d6eefd"
+                                             readonly="true"
+                                             onClick="@command('seleccionarProductoLista',valor=each)" />
+                                </listcell>
+                            </listitem>
+                        </template>
+                    </listbox>
+                </div>
+                <div class="col-12 col-sm-12 col-md-9 col-lg-9">
+                    <div class="row">
+                        <div class="col-12 col-sm-12 col-md-6 col-lg-6 form-group" align="center">
+                                
+                           
+                            <div class="input-group-append">
+                                <label value="Producto seleccionado" class="form-control form-control-sm" />
+                                <textbox readonly="true" 
+                                         class="form-control form-control-sm"
+                                         value="@bind(vm.kardex.idProducto.prodNombre)" 
+                                         style="text-align:center;font-size:1em;color:blue"/>
+                            </div>                        
+                        </div>                        
+                            
+                        <div class="col-12 col-sm-12 col-md-6 col-lg-6 form-group" align="center">             
+            
+                            <div class="input-group-append">
+                                <label value="Stock" class="form-control form-control-sm" />
+                                <textbox readonly="true" 
+                                         class="form-control form-control-sm"
+                                         value="@bind(vm.kardex.karTotal)" 
+                                         style="text-align:center;font-size:1em;color:blue"/>
+                            </div>                        
+                        </div>
+                    </div>
+<!--                    <div class="row ">
+                       
+                        <div class="col-12 col-sm-12 col-md-4 col-lg-4">
+                      
+                            <div  class="input-group form-control">
+                                <label value="Cantidad" width="120px"  class="input-group-addon" />
+                                <decimalbox readonly="false" format="###.#####"
+                                            class="form-control form-control-sm"
+                                            value="@bind(vm.detalleKardex.detkCantidad)" 
+                                            style="text-align:center;font-size:1em;color:blue"/>
+                             
+                       
+                            </div>
+                        </div>     
+                        
+                        <div class="col-12 col-sm-12 col-md-4 col-lg-4">
+                            <div  class="input-group form-control">
+                                <label value="Fecha registro:" width="120px"  class="input-group-addon" />
+                                <datebox   value="@bind(vm.fechaIngreso)"
+                                           readonly="true" style="font-weight:bold;" 
+                                           onCreate="self.value = new Date()" 
+                                           class="badge badge-default bg-info  btn-secondary  textoFechaDateBox"  
+                                           buttonVisible="true" 
+                                           lenient="true"  format="dd/MM/yyyy" /> 
+                             
+                       
+                            </div>
+                           
+                        </div>                   
+                            
+                        
+                        <div class="col-12 col-sm-12 col-md-2 col-lg-2 form-group" align="center">             
+            
+                            <div  class="input-group form-control">
+                            
+                                <button   label="Ingresar"
+                                          src="/iconos/save.png" 
+                                          onClick="@command('detalleKardexManual')"  
+                                          tooltiptext="Detalle de Kardex"
+                                          class="btn  btn-primary btn-sm "/>
+                               
+
+                            </div>                        
+                        </div>
+                    </div>-->
+                    
+                    <div class="row">
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-12 form-group" align="center">
+                            
+                            <listbox model="@load(vm.listaDetalleKardex)" 
+                                     nonselectableTags="*"                                       
+                                     mold="paging"
+                                     height="400px" autopaging="true" 
+                                     pageSize="10"  >
+                                <custom-attributes org.zkoss.zul.listbox.rod="true"/>
+      
+                    
+                                <listhead> 
+                                   
+                                    <listheader width="10%" label="Fecha kardex" sort="auto(detkFechakardex)" />
+                                    <listheader width="10%" label="Cantidad" sort="auto(detkCantidad)" />
+                                    <listheader width="10%" label="Unidad" sort="auto(detkCantidad)" />
+                                    <listheader width="35%" label="Detalle" sort="auto(detkDetalles)" />
+                                    <listheader width="10%" label="Fecha registro" sort="auto(detkFechacreacion)" />
+                                    <listheader width="10%" label="Tipo" sort="auto(idTipokardex.tipkDescripcion)" />
+                                    <listheader width="10%" label="Kardex Manual" sort="auto(detkKardexmanual)" />
+                                    <listheader width="15%" label="Nº Documento"  />
+                                    
+                                
+                            
+                                </listhead>  
+                    
+                                <template name="model">                                                            
+                                    <listitem>
+                                    
+                                        <listcell zclass = "mycss-listcell">
+                                            <datebox compact="true" value="@bind(each.detkFechakardex)" 
+                                                     buttonVisible="false" lenient="true" readonly="true"
+                                                     format="medium" width="98%"  />
+                                        </listcell>
+                                        <listcell  zclass = "mycss-listcell">
+                                            <decimalbox format="###.####" 
+                                                        readonly="true" 
+                                                        value="@bind(each.detkCantidad)" width="100%"/>
+                                        </listcell>
+                                        <listcell  zclass = "mycss-listcell">
+                                            <label value="@bind(each.detkUnidadFin)"
+                                                   class="form-control form-control-sm"
+                                                   style="font-size:10px;background-color:#d6eefd"       
+                                                   width="100%"/>
+                                        </listcell>
+                                        <listcell zclass = "mycss-listcell" >
+                                            <label value="@bind(each.detkDetalles)" width="100%"
+                                                   class="form-control form-control-sm"
+                                                   style="font-size:10px;background-color:#d6eefd"/>
+                                        </listcell>
+                                        <listcell zclass = "mycss-listcell">
+                                            <datebox compact="true" value="@bind(each.detkFechacreacion)" 
+                                                     buttonVisible="false" lenient="true" readonly="true"
+                                                     format="medium" width="98%"  />
+                                        </listcell>
+                                        <listcell  zclass = "mycss-listcell">
+                                            <label value="@bind(each.idTipokardex.tipkDescripcion)" width="96%"
+                                                   class="form-control form-control-sm"
+                                                   style="font-size:10px;background-color:#d6eefd"/>
+                                        </listcell>
+                                        <zk if="${each.detkKardexmanual}" > 
+                                            <listcell zclass = "mycss-listcell" >
+                                                <label value="MANUAL" width="96%"
+                                                       class="form-control form-control-sm"
+                                                       style="font-size:10px;background-color:#d6eefd"/>
+                                            </listcell>
+                                        </zk>
+                                        <zk if="${each.detkKardexmanual=='FALSE'}" > 
+                                            <listcell  zclass = "mycss-listcell">
+                                                <label value="Transaccion" width="96%"
+                                                       class="form-control form-control-sm"
+                                                       style="font-size:10px;background-color:#d6eefd"/>
+                                            </listcell>
+                                        </zk>
+                                        <zk if="${each.idCompra != NULL}" > 
+                                            <listcell  zclass = "mycss-listcell">
+                                                <label value="@bind(each.idCompra.cabNumFactura ne null ? 'COM-'.concat(each.idCompra.cabNumFactura) : '')" width="96%"
+                                                       class="form-control form-control-sm"
+                                                       style="font-size:10px;background-color:#d6eefd"/>
+                                            </listcell>
+                                        </zk>
+                                        <zk if="${each.idFactura != NULL}" > 
+                                            <listcell  zclass = "mycss-listcell">
+                                                <label value="@bind(each.idFactura.facNumeroText ne null ? 'FACT-'.concat(each.idFactura.facNumeroText) : '')" width="96%"
+                                                       class="form-control form-control-sm"
+                                                       style="font-size:10px;background-color:#d6eefd"/>
+                                            </listcell>
+                                        </zk>
+                                        <zk if="${each.idFactura eq NULL and each.idCompra == NULL }" > 
+                                            <listcell zclass = "mycss-listcell" style="font-size:10px;background-color:#d6eefd" >
+                                                AJUSTE
+                                            </listcell>
+                                        </zk>
+                                    </listitem>
+                                </template>
+                            </listbox> 
+                        </div>
+                    
+                    </div>
+                    
+                    
+                    
+                </div>
+                    
+            </div>
+        </div>
+        
+    </hbox>
+
+
+</zk>

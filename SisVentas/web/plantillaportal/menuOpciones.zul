@@ -1,0 +1,58 @@
+<?init class="com.ec.seguridad.Autentificador"?>
+<?link rel="stylesheet" type="text/css" href="/css/boostrap/bootstrap.css"?>  
+<?link rel="stylesheet" type="text/css" href="/css/style.css"?>
+<zk>
+
+    <div width="auto" align="center">
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                        
+            <separator height="10px"/>
+        </div>
+        <span class="badge badge-primary">DSIS-FACT </span>
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                        
+            <separator height="10px"/>
+        </div>
+    </div>
+  
+    <div class="btn-group-vertical  sidebar-nav navbar navbar-light bg-faded"  style="text-align:lefth;"
+         viewModel="@id('vm')" id="gridMenu" apply="com.ec.controlador.MenuOpciones" >
+       
+        <image src="/menu/facturacion2.png" id="btnFacturar"  
+               class="grow navbar-brand"  tooltiptext="Emisión de facturas"     />
+                     
+        <image src="/menu/autorizarfactura.png" id="btnNotaVentas" 
+               tooltiptext="Listado de facturas emitidas autorizadas y por autorizar"  
+               class="grow navbar-brand"   />
+            
+        <image src="/menu/ventadia.png" id="btnSinFact" 
+               tooltiptext="Listad de venta diaria" 
+               class="grow"   />
+        <image src="/menu/proforma.png" id="btnProformasEmitidas" 
+               tooltiptext="Listado de proformas emitidas" 
+               class="grow"   />
+           
+    
+        <image src="/iconos/compras.png" id="btnIngresoCompras" tooltiptext="Ingreso de productos"  
+                       class="grow"   />
+           
+           
+        <image src="/menu/kardex_1.png" id="btnKardex" tooltiptext="kardex"  
+               class="grow"   />
+         
+        <image src="/menu/estadistica.png" id="btnListaVentaDiaria" tooltiptext="Estadistica de venta diaria"                           
+               class="grow"   />
+            
+        <image src="/menu/pedido.png" id="btnPedidos" tooltiptext="Realizar pedido de productos"                          
+               class="grow"   />
+
+        <image src="/menu/administrar1.png" id="btnAdministarVenta" 
+               tooltiptext="Administrar"   
+               class="grow"   />
+           
+        
+ 
+    </div>
+
+                
+</zk>

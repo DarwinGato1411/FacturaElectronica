@@ -1,0 +1,86 @@
+<?link rel="stylesheet" type="text/css" href="/css/boostrap/bootstrap.css"?>   
+<?link rel="stylesheet" type="text/css" href="/css/style.css"?>
+<?link rel="icon" type="image/x-icon" href="/iconos/deckxel.ico"?>  
+<?page title="Consultas" contentType="text/html;charset=UTF-8"?>
+
+<zk contentStyle="overflow:auto" >
+
+    <style>
+        body{
+        background-image: url('./fondo/fondocrm.jpg');
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-attachment: fixed;
+  
+        }
+        
+    </style>
+    <div class="container col-12 col-sm-12 col-md-12 col-lg-12 form-control"  style="margin:1% auto;"         
+         apply="org.zkoss.bind.BindComposer" 
+         viewModel="@id('vm') @init('com.ec.controlador.ConsultasController')"    >
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12 row"  >
+            <div class="col-12 col-sm-12 col-md-1 col-lg-1 "  >
+                <button src="/iconos/ingreso-24.png" href="/inicio.zul" style="border: none; background: #00A3E8; color:white; padding: 9px; font-size: 14px"
+                        hflex="1"  label="Regresar">
+                </button> 
+            </div>
+            <div class="col-12 col-sm-12 col-md-2 col-lg-2 " align="center" >
+           
+                
+            </div>
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12 " align="center" >
+                <image  src="/imagenes/consultonline.png"  width="150px" ></image>
+                <image  src="/imagenes/logintrans.jpg"  width="120px"  ></image>
+            </div>
+            <div class="container">
+                <div class="row " align="left">
+                    <div class="col-12 col-sm-12 col-md-4 col-lg-4 " style="margin-bottom:10px" >
+                        <textbox value="@bind(vm.buscar)" 
+                                 class="form-control form-control-sm"
+                                 tooltiptext="Cedula"
+                                 placeholder="Identificacion"
+                                 onOK="@command('buscarForCedula')"
+                                 onChange="self.setValue(self.getValue().toUpperCase());" />
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 " >
+                        <listbox model="@load(vm.listaSriCatastro)" 
+                                 nonselectableTags="*" mold="paging" pageSize="4"  >
+                            <custom-attributes org.zkoss.zul.listbox.rod="true"/>
+                                        
+                            <listhead> 
+                                <listheader label="Datos consultados " width="100%" >                                   
+                                </listheader>     
+                            
+                            
+                            </listhead>  
+                    
+                            <template name="model">                                                            
+                                <listitem class="container-fluid ">
+                                    <listcell zclass = "mycss-listcell">
+                                        <div class="row">
+                                            <label   style=" margin-left:5px;margin-right:5px;font-size:12px;background:#EBF5FB"
+                                                     class="form-control form-control-sm col-12 col-sm-12 col-md-4 col-lg-4"  value="@bind(each.micRuc)"  />
+                                    
+                                            <label   style="margin-left:5px;margin-right:5px;font-size:12px;background:#EBF5FB"
+                                                     class="form-control form-control-sm col-12 col-sm-12 col-md-4 col-lg-4"  value="@bind(each.razonSocial)"  />
+                                   
+                                            <label  style="margin-left:5px;margin-right:5px;font-size:12px;background:#EBF5FB"
+                                                     class="form-control form-control-sm col-12 col-sm-12 col-md-4 col-lg-4"  value="@bind(each.nombre)"  />
+                                        </div>
+                                    </listcell>
+                   
+                                
+                                </listitem>
+                            </template>
+                        </listbox> 
+                    </div>
+                </div>
+            </div>
+           
+        </div>
+        
+    </div>
+  
+    
+</zk>

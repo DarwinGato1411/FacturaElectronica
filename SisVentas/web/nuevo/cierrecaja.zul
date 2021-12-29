@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window  id="windowCierre"  position="center" class="col-8 col-sm-8 col-md-6 col-lg-6 " closable="true"  
+         apply="org.zkoss.bind.BindComposer" 
+         viewModel="@id('vm') @init('com.ec.controlador.CierreCajaVm')">
+    
+
+    <caption label="Cierre de caja" style="font-weight:bold" /> 
+    
+    
+    
+    <div  class="container" >
+        <div  class="row" >
+            <div class="col-12 col-sm-12 col-md-6 col-lg-6  form-group "  >
+                <label value="(*) " style="color:red;font-weight:bold"/>Total en caja:
+                
+                <textbox    constraint="/^[0-9]{1,9}(?:[.][0-9]{1,2})?$/:Ingrese solo numeros"                                                                                   
+                            value="@bind(vm.cierreCaja.cieCuadre)"  
+                            readonly="@bind(vm.cajaCerrada)" 
+                            onOK="@command('calcularDiferencia')"
+                            onChange="@command('calcularDiferencia')"
+                            class="form-control" />              
+            </div> 
+            <div class="col-12 col-sm-12 col-md-6 col-lg-6  form-group "  >
+                <label value="(*) " style="color:red;font-weight:bold"/>Fecha de cierre:
+                
+                <datebox compact="true" value="@bind(vm.cierreCaja.cieFecha)" 
+                         readonly="true"   
+                         style="font-weight:bold" buttonVisible="false" 
+                         lenient="true" 
+                         format="dd/MM/yyyy" />           
+            </div>  
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12  form-group "  >
+                <label value="(*) " style="color:red;font-weight:bold"/>Observacion:
+                
+                <textbox   value="@bind(vm.cierreCaja.cieDescripcion)"   
+                           onChange="self.setValue(self.getValue().toUpperCase())"
+                           class="form-control" 
+                            readonly="@bind(vm.cajaCerrada)" 
+                           rows="3"
+                           maxlength="150" />              
+            </div>  
+        </div>
+        <div  class="row"  visible="@bind(vm.cajaCerrada)">
+                  
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4  form-group "  >
+                <label value="(*) " style="color:red;font-weight:bold"/>Valor de apertura de caja:
+                
+                <textbox value="@bind(vm.cierreCaja.cieValorInicio)"
+                         readonly="true"    
+                         
+                         class="form-control" />              
+            </div>        
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4  form-group "  >
+                <label value="(*) " style="color:red;font-weight:bold"/>Total con factura:
+                
+                <textbox value="@bind(vm.totalEmitido)"
+                         readonly="true"    
+                        
+                         class="form-control" />              
+            </div>  
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4  form-group "  >
+                <label value="(*) " style="color:red;font-weight:bold"/>Total con Nota Venta:
+                
+                <textbox value="@bind(vm.totNotaVenta)"
+                        
+                         readonly="true"    
+                         class="form-control" />     
+            </div>          
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4  form-group "  >
+                <label value="(*) " style="color:red;font-weight:bold"/>Credito:
+                
+                <textbox value="@bind(vm.totalDeuda)"
+                         readonly="true"    
+                        
+                         class="form-control" />              
+            </div>        
+            <div class="col-12 col-sm-12 col-md-8 col-lg-8  form-group "  >
+                <label value=" " style="color:red;font-weight:bold;"/>Total con factura menos credito:
+                
+                <textbox value="@bind(vm.totFactura)"
+                      
+                         readonly="true"    
+                         class="form-control" />               
+            </div>        
+                
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4  form-group "  >
+                <label value=" " style="color:red;font-weight:bold"/>Valor  total de cierre en caja:
+                
+                <textbox                                                                                     
+                    value="@bind(vm.cierreCaja.cieValor)"     
+                    readonly="true"                                                       
+                    class="form-control" />              
+            </div>        
+                   
+            <div class="col-12 col-sm-12 col-md-8 col-lg-8  form-group "  >
+                <label value="" style="color:red;font-weight:bold"/>Diferencia ( * Si el valor es negativo tiene un saldo a favor):
+                
+                <textbox    value="@bind(vm.cierreCaja.cieDiferencia)"   
+                            readonly="true"
+                            class="form-control " />              
+            </div>        
+                 
+    
+   
+        </div>
+        <div class="row " visible="@bind(!vm.cajaCerrada)">
+            <div class="col-12 col-sm-6 col-md-12 col-lg-12  form-group" 
+                     align="center" >
+                    
+                <image src="/iconos/guardar.png"  
+                       onClick="@command('guardar')"
+                       tooltiptext="Guardar Registro"/>
+ 
+
+            </div> 
+        </div>
+    </div>
+                    
+                  
+</window>

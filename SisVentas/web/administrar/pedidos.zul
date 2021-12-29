@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?link rel="stylesheet" type="text/css" href="/css/boostrap/bootstrap.css"?>  
+<?link rel="stylesheet" type="text/css" href="/css/style.css"?>
+<?init class="com.ec.seguridad.Autentificador"?>
+<?init class="org.zkoss.zk.ui.util.Composition" arg0="/plantilla/plantilla.zul"?>
+<zk  contentStyle="overflow:auto" with="100%" >
+    <hbox self="@define(content)" apply="org.zkoss.bind.BindComposer" 
+          viewModel="@id('vm') @init('com.ec.controlador.AdministrarPedidos')" width="100%">
+       
+        <div class="container-fluid">
+       
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                        
+                <separator height="5px"/>
+            </div>
+            <div class="col-6 col-sm-6 col-md-2 col-lg-2" >
+                <button  class="btn btn btn-primary btn-sm"
+                                     label="MATERIAL" 
+                                     onClick="@command('guardar')" 
+                                     tooltiptext="Solicitar material"/>        
+            </div> 
+            <div class="col-6 col-sm-6 col-md-2 col-lg-2" >
+                <button  class="btn btn btn-success btn-sm"
+                                     label="Despachar" 
+                                     onClick="@command('confirmar')" 
+                                     tooltiptext="Solicitar material"/>        
+            </div> 
+            <div class="col-1 col-sm-1 col-md-2 col-lg-2" >
+                <button src="/iconos/pdfrep2.png"   class="btn btn-secondary btn-sm"
+                                     label="Reporte" 
+                                     onClick="@command('reportePedido')" 
+                                     tooltiptext="Solicitar material"/>        
+            </div> 
+<!--        </div>
+                    
+                <div class="row">-->
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12" >
+                    <listbox  model="@load(vm.listaPedidoModel)"
+                              nonselectableTags="*" checkmark="true"  multiple="true" mold="paging" 
+                              pageSize="9" 
+                              onSelect="@command('seleccionarRegistros')"  width="99%">
+                        <custom-attributes org.zkoss.zul.listbox.rod="true"/>
+                                               
+                                        
+                        <listhead>
+                            <listheader width="5%"  label="" align="left" />
+                            <!--<listheader width="10%"  label="CODIGO" align="left" />-->
+                            <listheader width="10%"  label="CANTIDAD" align="left"  /> 
+                            <listheader width="40%"  label="DESCRIPCIÓN" align="left" />
+                            <listheader width="20%"  label="PROVEEDOR" align="left" /> 
+                            <listheader width="10%"  label="FECHA" align="left" />
+                            <listheader width="10%"  label="ESTADO" align="left" />
+                            <listheader width="5%"  label="ACCION" align="left" />
+                                                                                                                            
+                        </listhead>
+                    
+                        <template name="model">                                                            
+                            <listitem>
+                                <listcell>
+                                                    
+                                </listcell>
+                                          
+                                <listcell>
+                                    <spinner onOK="@command('nuevoRegistro')" 
+                                             format="###.##" value="@bind(each.pedCantidad)" width="90%"  />
+                                </listcell>
+                                <listcell>
+                                    <textbox onOK="@command('nuevoRegistro')"
+                                             value="@bind(each.pedDescripcion)"
+                                             multiline="true" rows="2"
+                                             onChange="self.setValue(self.getValue().toUpperCase());"
+                                             width="99%" />
+                                </listcell>
+                                <listcell>
+                                    <textbox onOK="@command('nuevoRegistro')"
+                                             value="@bind(each.pedProveedor)"  
+                                             onChange="self.setValue(self.getValue().toUpperCase());" width="99%" />
+                                </listcell>
+                                <listcell>
+                                    <datebox compact="true" value="@bind(each.pedFecha)"
+                                             buttonVisible="false" lenient="true" 
+                                             readonly="true"
+                                             format="medium" width="98%"  />
+                                </listcell>
+                                <listcell>
+                                    <label value="@bind(each.pedEstado)" width="96%" />
+                                </listcell>
+                                <listcell>
+                       
+                                         <image  src="/iconos/eliminar.png" 
+                                                class="btn btn btn-secondary btn-sm grow"
+                                                onClick="@command('eliminarItem',valor=each)" 
+                                                tooltiptext="Eliminar registro"/>
+                                </listcell>
+                                    
+                            </listitem>
+                        </template>
+
+                    </listbox>
+                </div>
+            </div>
+        </div>     
+    
+                     
+        
+    </hbox>
+
+
+</zk>

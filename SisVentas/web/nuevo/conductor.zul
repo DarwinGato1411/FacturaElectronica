@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window  id="windowCliente"  position="center" class="col-12 col-sm-12 col-md-8 col-lg-6" closable="true"  
+         apply="org.zkoss.bind.BindComposer" 
+         viewModel="@id('vm') @init('com.ec.controlador.NuevoConductor')">
+    
+    <caption label="Transportista" style="font-weight:bold"
+    /> 
+    <div  class="container" >
+        <div  class="row" >
+            <div class="col-12 col-6 col-md-4 col-lg-4  form-group "  >
+                <label value="(*) " style="color:red;font-weight:bold"/>Tipo de Identif.
+                <combobox  model="@load(vm.listaIdentificacionCompras)"  
+                           class="badge badge-default   btn-secondary  textoFechaDateBox"  
+                           selectedItem="@bind(vm.identificacionCompra)" width="70%"
+                           readonly="true" >
+                                          
+                    <template name="model">
+                        <comboitem  label="@bind(each.tidNombre)"/>
+                    </template>                                      
+                </combobox>
+              
+            </div>
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4  form-group "  >
+                <label   style="color:red;font-weight:bold" value="(*) "  />CI/Ruc:
+                <textbox  maxlength="13"  
+                          value="@bind(vm.transportista.trpCedula)" 
+                          class="form-control" />
+            </div>          
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4  form-group "  >
+                <label value="(*) " style="color:red;font-weight:bold"/>Nombre del transportista:
+                
+                <textbox  maxlength="100" 
+                          onChange="self.setValue(self.getValue().toUpperCase())"
+                          value="@bind(vm.transportista.trpRazonSocial)" 
+                          class="form-control" />
+            </div>
+            
+           
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4  form-group "  >
+                <label value="(*) " style="color:red;font-weight:bold"/>Telefono Convencional:
+                
+                <textbox  maxlength="100"
+                          value="@bind(vm.transportista.trpTelefono)" 
+                          
+                          class="form-control" />
+            </div>
+            
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4  form-group "  >
+                <label value="(*)" style="color:transparent;font-weight:bold"/>Telefono Celular:
+              
+                <textbox  maxlength="10"  
+                          value="@bind(vm.transportista.trpMovil)"
+                          class="form-control" />
+            </div> 
+            
+      
+           
+            <div class="col-12 col-sm-12 col-md-6 col-lg-6  form-group "  >
+                <label value="(*) "  style="color:red;font-weight:bold"/>Dirección:
+               
+                <textbox id="txtDireccion" maxlength="100" 
+                         value="@bind(vm.transportista.trpDireccion)" 
+                         onChange="self.setValue(self.getValue().toUpperCase());" 
+                          
+                         class="form-control" />
+            </div>    
+               
+            <div class="col-12 col-sm-12 col-md-6 col-lg-6  form-group "  >
+                <label value="(*)" style="color:transparent;font-weight:bold"/>Correo:
+              
+                <textbox  maxlength="100" 
+                          value="@bind(vm.transportista.trpCorreo)"
+                          class="form-control" />
+            </div>
+            <div class="col-12 col-sm-12 col-md-6 col-lg-6  form-group "  >
+                <label value="(*)" style="color:transparent;font-weight:bold"/>Ciudad:
+              
+                <textbox  maxlength="100" 
+                          onChange="self.setValue(self.getValue().toUpperCase());"
+                          value="@bind(vm.transportista.trpCiudad)"
+                          class="form-control" />
+            </div>
+            
+                     
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12  form-group" align="center" >
+                    
+                <image src="/iconos/guardar.png"  
+                       onClick="@command('guardar')"
+                       tooltiptext="Guardar Registro"/>
+ 
+
+            </div> 
+        </div>
+   
+    </div>
+    
+                    
+                  
+</window>

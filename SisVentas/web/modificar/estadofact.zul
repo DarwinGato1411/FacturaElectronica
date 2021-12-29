@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window  id="windowEstFact"  position="center" class="col-12 col-sm-12 col-md-4 col-lg-4"  closable="true"  
+         apply="org.zkoss.bind.BindComposer" 
+         viewModel="@id('vm') @init('com.ec.controlador.CambioEstadoFactura')">
+    
+    <caption label="Estado de la factura" style="font-weight:bold"/> 
+    
+    <div  class="container-fluid" >
+        <div  class="row" >
+            <div class="col-12 col-sm-6 col-md-12 col-lg-12  form-group "  >
+                <label value="(*) " style="color:red;font-weight:bold"/>Estado: 
+                <combobox readonly="true"                                        
+                          selectedItem="@bind(vm.facturar.estadosri)"                                >
+                    <comboitem label="ANULADA" value="ANULADA" />                    
+                    <comboitem label="AUTORIZADO" value="AUTORIZADO" />
+                    <comboitem label="DEVUELTA" value="DEVUELTA" />
+                    <comboitem label="NO AUTORIZADO" value="NO AUTORIZADO" />
+                </combobox>
+              
+            </div>
+            
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12  form-group "  >
+                <label value="(*)" style="color:transparent;font-weight:bold"/>Descripcion:
+              
+                <textbox maxlength="150" 
+                         value="@bind(vm.facturar.mensajesri)"
+                         class="form-control" />
+            </div>
+                     
+            <div class="col-12 col-sm-6 col-md-12 col-lg-12  form-group" align="center" >
+                    
+                <image src="/iconos/guardar.png"  
+                       onClick="@command('guardar')"
+                       tooltiptext="Guardar Registro"/>
+ 
+
+            </div> 
+        </div>
+   
+    </div>
+   
+                  
+
+                    
+                  
+</window>

@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?link rel="stylesheet" type="text/css" href="/css/style.css"?>
+<?link rel="stylesheet" type="text/css" href="/css/boostrap/bootstrap.css"?>  
+<?init class="com.ec.seguridad.Autentificador"?>
+<zk class="border border-primary">
+
+    <div  apply="org.zkoss.bind.BindComposer" 
+          viewModel="@id('vm') @init('com.ec.controlador.Configuracion')" >
+        <div  class="container" >
+            <div  class="row border border-primary" >
+                <div class="col-12 col-sm-12 col-md-6 col-lg-6  form-group "  align="center" >
+              
+                    <radiogroup class="form-control form-control-sm " 
+                                onCheck="@command('ambienteCodigo')"
+                                selectedItem="@bind(vm.amCodifo)" >
+                        Modo de configuracion:
+                        <space bar="true"  />                        
+                        <radio label="PRUEBAS" value="1"/>
+                        <space bar="true"  /> 
+                        <radio label="PRODUCCION" value="2"/>
+                        <space bar="true"  />  
+                        
+                    </radiogroup>          
+                       
+                    
+                </div>
+                
+                
+                <div class="col-12 col-sm-12 col-md-6 col-lg-6  form-group " align="center"  >
+                   
+                    <radiogroup class=" form-control form-control-sm" 
+                                selectedItem="@bind(vm.llevaContabilidad)" >
+                        Lleva contabilidad:
+                        <space bar="true"  />   
+                        <radio label="NO" value="NO"  />
+                        <space bar="true"  />
+                        <radio label="SI" value="SI"  />                        
+                        <space bar="true"  /> 
+                    </radiogroup>          
+                       
+                    
+                </div>
+               
+                
+                <div class="col-12 col-sm-12 col-md-3 col-lg-3  form-group"  >
+                    <label value="RUTA BASE:"/>
+                    <combobox  model="@load(vm.listaDicos)" readonly="false"
+                               class="badge badge-default btn-secondary  textoFechaDateBox"  
+                               selectedItem="@bind(vm.tipoambiente.amUnidadDisco)"
+                               tooltiptext="Ruta base dependiendo del sistema operativo (D: ó /Documentos)" >
+                                          
+                        <template name="model">
+                            <comboitem  label="@bind(each)"/>
+                        </template>                                      
+                    </combobox> 
+                    
+                    
+                               
+                </div>  
+                <div class="col-12 col-sm-12 col-md-3 col-lg-3  form-group "  >
+                    
+                    <textbox value="@bind(vm.tipoambiente.amRuc)" 
+                             placeholder="RUC..."
+                             onOK="@command('buscarCatastro')"
+                             class="form-control form-control-sm"
+                             tooltiptext="RUC" />
+                </div>
+                <div class="col-12 col-sm-12 col-md-3 col-lg-3  form-group "  >
+                   
+                    <textbox value="@bind(vm.tipoambiente.amRazonSocial)" 
+                             placeholder="Razon Social"
+                             class="form-control form-control-sm"
+                             tooltiptext="Razon Social" />
+                </div>
+                <div class="col-12 col-sm-12 col-md-3 col-lg-3  form-group "  >
+                    
+                    <textbox value="@bind(vm.tipoambiente.amNombreComercial)" 
+                             placeholder="Nombre Comercial"
+                             class="form-control form-control-sm"
+                             tooltiptext="Nombre Comercial" />
+                </div>     
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12  form-group "  >
+                                      
+                    <checkbox id="chkRM" label="CONTRIBUYENTE REGIMEN MICROEMPRESAS" checked="@bind(vm.tipoambiente.amMicroEmp)" />
+                    <checkbox id="chkAR" label="AGENTE DE RETENCION" checked="@bind(vm.tipoambiente.amAgeRet)"/>
+                    <checkbox id="chkCE" label="CONTRIBUYENTE ESPECIAL"  checked="@bind(vm.tipoambiente.amContrEsp)"/>
+                    <checkbox id="chkEX" label="EXPORTADORES"  checked="@bind(vm.tipoambiente.amExp)"/>
+                </div>     
+                   
+                <div class="col-12 col-sm-12 col-md-4 col-lg-4  form-group " >
+                  
+                    <div class="input-group "  >
+                        <textbox value="@bind(vm.tipoambiente.amDirFirma)" 
+                                 placeholder="INGRESE SU FIRMA DIGITAL"
+                                 class="form-control form-control-sm"
+                                 tooltiptext="Nombre de la firma electrónica (fernando_perez.p12)" />
+                        <image src="/iconos/carpeta.png"   
+                               onClick="@command('subirFirma')"  
+                               tooltiptext="Subir archivos"
+                               style="font-size:20px;font-weight:bold"/>
+                    </div>      
+                    
+                                   
+                </div>
+                <div class="col-12 col-sm-12 col-md-4 col-lg-4  form-group "  >
+                   
+                    <textbox  type="password"
+                              value="@bind(vm.tipoambiente.amClaveAccesoSri)" 
+                              placeholder="Clave emitida por el SRI"
+                              class="form-control form-control-sm"
+                              tooltiptext="Clave emitida por el SRI" />
+                </div>
+                
+               
+                <div class="col-12 col-sm-12 col-md-4 col-lg-4  form-group "  >
+                    
+                    <div class="input-group "  >
+                        <textbox value="@bind(vm.tipoambiente.am_DirImgPuntoVenta)" 
+                                 placeholder="Logotipo de la empresa"
+                                 class="form-control form-control-sm"
+                                 tooltiptext="Nombre de la firma electrónica (fernando_perez.p12)" />
+                        <image src="/iconos/carpeta.png"   
+                               onClick="@command('subirPathImagen')"  
+                               tooltiptext="Subir logotipo de la empresa"
+                               style="font-size:20px;font-weight:bold"/>
+                    </div>      
+                    
+                                   
+                </div>
+                <div class="col-12 col-sm-12 col-md-4 col-lg-2  form-group " align="center" >                    
+                    <textbox value="@bind(vm.tipoambiente.amTelefono)" 
+                             placeholder="062918661"
+                             maxlength="10"
+                             class="form-control form-control-sm"
+                             tooltiptext="Contacto de la empresa" />
+                </div>
+                
+                 
+               
+                <div class="col-12 col-sm-12 col-md-4 col-lg-2  form-group " align="center" >
+                  
+                    <textbox value="@bind(vm.tipoambiente.amNroContribuyente)" 
+                             placeholder="Numero contribuyente"
+                             class="form-control form-control-sm"
+                             tooltiptext="Número de contribuyente" />
+                </div>
+                <div class="col-12 col-sm-12 col-md-4 col-lg-2  form-group " align="center" >
+                  
+                    <textbox value="@bind(vm.tipoambiente.amEstab)" 
+                             placeholder="Establecimiento: 001"
+                             maxlength="3"
+                             class="form-control form-control-sm"
+                             tooltiptext="Establecimiento asigando por el SRI (001)" />
+                </div>
+                <div class="col-12 col-sm-12 col-md-4 col-lg-2  form-group " align="center" >
+                  
+                    <textbox value="@bind(vm.tipoambiente.amPtoemi)" 
+                             placeholder="Punto emision: 001"
+                             maxlength="3"
+                             class="form-control form-control-sm"
+                             tooltiptext="Punto de emision" />
+                </div>
+                
+                <div class="col-12 col-sm-12 col-md-6 col-lg-6  form-group "  >
+                   
+                    <textbox value="@bind(vm.tipoambiente.amDireccionMatriz)" 
+                             placeholder="Direccion Matriz"
+                             class="form-control form-control-sm"
+                             tooltiptext="Direccion matriz" >
+                    </textbox>
+                </div>
+                
+                <div class="col-12 col-sm-12 col-md-6 col-lg-6  form-group "  >
+                    
+                    <textbox value="@bind(vm.tipoambiente.amDireccionSucursal)" 
+                             placeholder="Direccion establecimiento sucursal"
+                             class="form-control form-control-sm"
+                             tooltiptext="Direccion establecimiento" />
+                </div>
+                
+                <div class="col-12 col-sm-12 col-md-2 col-lg-2  form-group "  >
+                 
+                    <textbox value="@bind(vm.tipoambiente.amProtocol)" 
+                             placeholder="protocolo: smtp"
+                             class="form-control form-control-sm"
+                             tooltiptext="Protocolo: smtp" />
+                </div> 
+                <div class="col-12 col-sm-12 col-md-2 col-lg-2  form-group "  >
+                  
+                    <textbox value="@bind(vm.tipoambiente.amPort)" 
+                             placeholder="puerto: 587"
+                             class="form-control form-control-sm"
+                             tooltiptext="Pueto: 587" />
+                </div> 
+                <div class="col-12 col-sm-12 col-md-2 col-lg-2  form-group "  >
+                    
+                    <textbox value="@bind(vm.tipoambiente.amHost)" 
+                             placeholder="smtp.gmail.com"
+                             class="form-control form-control-sm"
+                             tooltiptext="Host: smtp.gmail.com" />
+                </div> 
+                <div class="col-12 col-sm-12 col-md-4 col-lg-4  form-group "  >
+                    
+                    <textbox value="@bind(vm.tipoambiente.amUsuarioSmpt)" 
+                             placeholder="deckxelec@gmail.com"
+                             class="form-control form-control-sm"
+                             tooltiptext="Host: deckxelec@gmail.com" />
+                </div> 
+                <div class="col-12 col-sm-12 col-md-2 col-lg-2  form-group "  >
+                   
+                    <textbox value="@bind(vm.tipoambiente.amPassword)"                            
+                             placeholder="Password123"
+                             class="form-control form-control-sm"
+                             tooltiptext="Host: Password123" />
+                </div> 
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12  form-group" align="center" >
+                    
+                    <button src="/iconos/guardar.png"  
+                            class="btn btn btn-secondary btn-sm "
+                            onClick="@command('guardar')"
+                            tooltiptext="Guardar informacion"/>
+ 
+
+                </div> 
+            </div>
+        </div>
+        
+    </div>
+    <!--</window>-->
+</zk>
+

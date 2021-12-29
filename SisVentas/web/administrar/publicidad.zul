@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?init class="com.ec.seguridad.Autentificador"?>
+<?link rel="stylesheet" type="text/css" href="/css/boostrap/bootstrap.css"?>  
+<?link rel="stylesheet" type="text/css" href="/css/style.css"?>
+<?init class="org.zkoss.zk.ui.util.Composition" arg0="/plantilla/plantilla.zul"?>
+
+<hbox self="@define(content)" apply="org.zkoss.bind.BindComposer" 
+      viewModel="@id('vm') @init('com.ec.controlador.PublicidadViewModel')" width="100%">
+    <tabbox id="tboxPrincipal"  width="100%" tabscroll="true">
+        <tabs >
+            <tab label="MAIL MASIVO" sclass="menutabs" /> 
+                
+        </tabs>
+        <tabpanels >
+                
+            <tabpanel id="tabListaCotizacion" >
+                <panel  height="100%" width="100%" >
+                    <panelchildren >
+                        <hbox spacing="0" width="100%" >
+                            <vbox spacing="0" width="100%" align="center"  >
+                                <image content="@bind(vm.foto1)"  height="450px" width="600px" 
+                                />    
+                                <button  image="/imagenes/photo.png" label="Adjuntar imagen" onClick="@command('subirArchivo')"  tooltiptext="Adjuntar archivo PDF"/>
+                            </vbox>
+                                         
+                            <splitter id="s2" collapse="before"/>
+                            <vbox spacing="0">
+                                <listbox id="DescripcionPedido" model="@load(vm.listaMailModel)"
+                                         nonselectableTags="*" checkmark="true"  multiple="true"   width="100%"  height="600px"
+                                         onSelect="@command('registrosSeleccionados')"  mold="paging" pageSize="100"   >
+                                    <custom-attributes org.zkoss.zul.listbox.rod="false"/>   
+                                    <auxhead>
+                                        <auxheader colspan="9" > 
+                                            ASUNTO: 
+                                            <textbox  value="@bind(vm.asuntoMensage)" width="80%" />
+                                        
+                                        </auxheader>
+                                    </auxhead>                   
+                                    <auxhead>
+                                        <auxheader colspan="9" > 
+                                            INGRESE EL TEXTO QUE DESEA ENVIAR: 
+                                          
+                                        </auxheader>
+                                    </auxhead>                   
+                                    <auxhead>
+                                        <auxheader colspan="9" > 
+                                            
+                                            <textbox multiline="true" rows="5"   value="@bind(vm.mensaje)" width="99%" />
+                                        </auxheader>
+                                    </auxhead>                   
+                                    <auxhead>
+                                        <auxheader colspan="9" align="center" > 
+                                            <button  image="/imagenes/envmail.png" autodisable="self" label="Enviar mail" onClick="@command('enviarMail')"  tooltiptext="Enviar e-mails"/>
+                                          
+                                        </auxheader>
+                                    </auxhead>                   
+                                    <auxhead>
+                                        <auxheader colspan="9"> 
+                                            <space bar="false" /> 
+                                            Buscar por mail: 
+                                            <textbox width="20%" value="@bind(vm.buscarMail)"   />
+                                            <button image="/imagenes/find.png"  onClick="@command('buscarMailing')"  tooltiptext="Buscar mail por correo"/>
+                                            <space bar="false"  /> 
+                                            Categoria:
+                                            <combobox  selectedItem="@bind(vm.categoria)">
+                                                <comboitem label="CLIENTES FRECUENTES" value="CLIENTES FRECUENTES" />
+                                                <comboitem label="CLIENTE PASIVOS" value="CLIENTE PASIVOS" />
+                                                <comboitem label="POSIBLES CLIENTE" value="POSIBLES CLIENTE" />
+                                                <comboitem label="PROVEEDORES" value="PROVEEDORES" />
+                                                <comboitem label="OTROS" value="OTROS" />
+                                            </combobox>
+                                            <button image="/imagenes/find.png"  onClick="@command('buscarMailingCategoria')"  tooltiptext="Buscar mail por categoria"/>
+                                        </auxheader>
+                                    </auxhead>                   
+                                    <listhead>
+                                        <listheader width="10%" /> 
+                                        <listheader width="40%"  label="Razon Social" align="left"  /> 
+                                        <listheader width="50%"  label="Email" align="left"  /> 
+                           
+                                                                                              
+                                    </listhead>  
+                    
+                                    <template name="model">                                                            
+                                        <listitem>
+                                            <listcell >
+                                            </listcell>
+                                            <listcell>
+                                                <label value="@bind(each.clienet)" width="99%" />
+                                            </listcell>
+                                            <listcell>
+                                                <label value="@bind(each.email)" width="99%" />
+                                            </listcell>
+                                
+                                
+                                        </listitem>
+                                    </template>
+
+                                </listbox>
+                            </vbox>
+                        </hbox>
+                    </panelchildren>
+                </panel>
+            </tabpanel>
+                
+
+
+        </tabpanels>
+            
+    </tabbox>
+</hbox>

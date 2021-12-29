@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window  id="windowIdUsuario"  position="center" class="col-12 col-sm-12 col-md-6 col-lg-4" closable="true"  
+         apply="org.zkoss.bind.BindComposer" 
+         viewModel="@id('vm') @init('com.ec.controlador.AgregarUsuario')">
+    
+    <caption label="Registrar usuario" style="font-weight:bold"
+    /> 
+    <div  class="container" >
+        <div  class="row" >         
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12  form-group "  >
+                <label value="(*) " style="color:red;font-weight:bold"/>Nombre del responsable de la cuenta:
+                
+                <textbox  maxlength="100" 
+                          onChange="self.setValue(self.getValue().toUpperCase())"
+                          value="@bind(vm.usuarioSistema.usuNombre)" 
+                          class="form-control" />
+            </div>
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12  form-group "  >
+                <label    value="(*) "  >Tipo de usaurio:</label>
+                <combobox class="badge badge-default   btn-secondary  textoFechaDateBox" 
+                          selectedItem="@bind(vm.tipoUSuario)">
+                    <comboitem label="ADMINISTRADOR" value="1" />
+                    <comboitem label="VENTAS" value="2" />
+                </combobox>    
+
+            </div>
+           
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12  form-group "  >
+                <label value="(*) " style="color:red;font-weight:bold"/>Nombre de usuario:
+                
+                <textbox  maxlength="100"
+                          value="@bind(vm.usuarioSistema.usuLogin)"                           
+                          class="form-control" />
+            </div>
+            
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12  form-group "  >
+                <label value="(*)" style="color:transparent;font-weight:bold"/>Contraseña del usuario:
+              
+                <textbox  maxlength="10"  
+                          value="@bind(vm.usuarioSistema.usuPassword)"
+                          class="form-control" />
+            </div> 
+            
+            
+                     
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12  form-group" align="center" >
+                    
+                <image src="/iconos/guardar.png"  
+                       onClick="@command('guardar')"
+                       tooltiptext="Guardar Registro"/>
+ 
+
+            </div> 
+        </div>
+   
+    </div>
+    
+                    
+                  
+</window>

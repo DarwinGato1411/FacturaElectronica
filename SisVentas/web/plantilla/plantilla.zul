@@ -1,0 +1,29 @@
+<?link rel="stylesheet" type="text/css" href="/css/boostrap/bootstrap.css"?>  
+<?link rel="stylesheet" type="text/css" href="/css/style.css"?>
+<zk>
+    <borderlayout  >
+        <north   border="none" >
+            <include src="/plantilla/banner.zul"/>
+            
+        </north>
+<!--        <west width="auto"  border="none"  autoscroll="true" collapsible="true" splittable="true"  >
+               
+            <include src="/plantilla/menuOpciones.zul"/>
+        </west>-->
+        <center  id="mainContentAsesor" autoscroll="true" self="@{insert(content)}"  >
+            
+        </center>
+        <south autoscroll="true" self="@{insert(footer)}">
+<!--            <div apply="org.zkoss.bind.BindComposer" 
+          viewModel="@id('vm') @init('com.ec.controlador.MenuToolbar')">
+                <toolbar id="tb" height="30px"  align="end" style="background-color:#d6eefd;" >
+                    <toolbarbutton image="/iconos/fact.png" label="Facturar" onClick="@command('facturar')" />
+                    <toolbarbutton image="/iconos/page.png" label="Producto" onClick="@command('nuevoProducto')" />
+                    <toolbarbutton image="/iconos/user.png" label="Cliente" onClick="@command('nuevoCliente')" />
+         
+          
+                </toolbar>
+            </div>-->
+        </south>
+    </borderlayout>
+</zk>

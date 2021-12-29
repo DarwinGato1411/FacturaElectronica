@@ -1,0 +1,27 @@
+<?init class="com.ec.seguridad.Autentificador"?>
+<?link rel="stylesheet" type="text/css" href="/css/boostrap/bootstrap.css"?>  
+<?link rel="stylesheet" type="text/css" href="/css/style.css"?>
+<zk>
+
+
+
+    
+<!--    <div  viewModel="@id('vm')" id="gridMenu" apply="com.ec.controlador.MenuOpciones" >
+        
+        <menubar id="menubar" orient="vertical"  autodrop="true">
+            <menuitem label="Emitir Facturas" id="btnFacturar" image="/iconmenu/cart_add.png" />
+            <menuitem label="Facturas emitidas" id="btnNotaVentas" image="/iconmenu/page_gear.png" />
+            <menuitem label="Venta sin factura" id="btnSinFact" image="/iconmenu/page.png" />
+            <menuitem label="Proformas emitidas" id="btnProformasEmitidas" image="/iconmenu/page_green.png" />
+            <menuitem label="Ingreso de mercaderia" id="btnIngresoCompras" image="/iconmenu/page_add.png" />
+            <menuitem label="Mercaderia ingresada" id="btnListaCompras" image="/iconmenu/page_attach.png" />
+            <menuitem label="Kardex por producto" id="btnKardex" image="/iconmenu/page_red.png" />
+            <menuitem label="Estadistica venta" id="btnListaVentaDiaria" image="/iconmenu/chart_bar.png" />
+            <menuitem label="Registrar pedido" id="btnPedidos" image="/iconmenu/page_edit.png" />
+            <menuitem label="Contabilidad" id="btnContabilidad" image="/iconmenu/page_refresh.png" />
+            <menuitem label="Catalogos" id="btnAdministarVenta" image="/iconmenu/cog.png" />
+
+        </menubar>
+    </div>-->
+                
+</zk>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window  id="windowProveedorBuscar"  position="center" class="col-12 col-sm-12 col-md-10 col-lg-10" closable="true"  
+         apply="org.zkoss.bind.BindComposer" contentStyle="overflow:auto"
+         viewModel="@id('vm') @init('com.ec.controlador.Compras')">
+    
+    <caption label="Registrar proveedor" style="font-weight:bold"             /> 
+   
+   
+    <listbox model="@load(vm.listaProveedoresAll)" 
+             nonselectableTags="*"  mold="paging" pageSize="15"  >
+        <custom-attributes org.zkoss.zul.listbox.rod="true"/>
+                    
+                    
+        <listhead> 
+            <listheader width="10%"  label="" >
+                <textbox value="@bind(vm.buscarProvCedula)" 
+                         class="form-control form-control-sm"
+                         placeholder="Cèdula"
+                         onOK="@command('buscarProveedorCedula')"  />
+            </listheader>     
+            <listheader width="27%"  label="" >
+                <textbox value="@bind(vm.buscarProvNombre)" 
+                         class="form-control form-control-sm"
+                         onChange="self.setValue(self.getValue().toUpperCase());"
+                         placeholder="Nombre"
+                         onOK="@command('buscarProveedorNombre')" />
+            </listheader> 
+            <listheader width="33%"  label="DIRECCION "  /> 
+            <!--<listheader width="8%"  label="TELEFONO "  />-->        
+            <listheader width="8%"  label="MOVIL"/>
+            <listheader width="20%"  label="CORREO"/>
+            <listheader width="5%"  label="OPCIONES" align="center"/>
+                            
+        </listhead>  
+                    
+        <template name="model">                                                            
+            <listitem>
+                <listcell  style="font-size:10px;background-color:#d6eefd" zclass = "mycss-listcell"
+                          onClick="@command('seleccionarProveedorLista',valor=each)" >
+                    <textbox readonly="true" style="font-size:12px ;background:#EBF5FB" 
+                             class="form-control form-control-sm"                        
+                             value="@bind(each.provCedula)" 
+                             onClick="@command('seleccionarProveedorLista',valor=each)" />
+                </listcell>
+                <listcell  style="font-size:10px;background-color:#d6eefd" zclass = "mycss-listcell" 
+                          onClick="@command('seleccionarProveedorLista',valor=each)">
+                    <textbox readonly="true" style="font-size:12px ;background:#EBF5FB" 
+                             class="form-control form-control-sm"
+                             value="@bind(each.provNombre)" 
+                             onClick="@command('seleccionarProveedorLista',valor=each)" />
+                </listcell>
+                
+                <listcell  style="font-size:10px;background-color:#d6eefd" zclass = "mycss-listcell"
+                           onClick="@command('seleccionarProveedorLista',valor=each)">
+                    <textbox readonly="true" style="font-size:12px ;background:#EBF5FB" 
+                             class="form-control form-control-sm"
+                             value="@bind(each.provDireccion)" 
+                             onClick="@command('seleccionarProveedorLista',valor=each)"/>
+                </listcell>
+                <!--                <listcell style="font-size:11px;" zclass = "mycss-listcell" >
+                    <label 
+                        class="form-control form-control-sm"
+                        style="font-size:10px;" 
+                        value="@bind(each.provTelefono)" />
+                </listcell>-->
+                <listcell  style="font-size:10px;background-color:#d6eefd" zclass = "mycss-listcell">
+                    <textbox readonly="true" style="font-size:12px ;background:#EBF5FB" 
+                             class="form-control form-control-sm" 
+                             value="@bind(each.provMovil)" />
+                </listcell>
+                <listcell  style="font-size:10px;background-color:#d6eefd" zclass = "mycss-listcell" >
+                    <textbox readonly="true" style="font-size:12px ;background:#EBF5FB" 
+                             class="form-control form-control-sm"
+                             if="${!empty each.provCorreo}"                          
+                             value="@bind(each.provCorreo)" />
+                    <textbox readonly="true" style="font-size:12px ;background:#EBF5FB" 
+                             class="form-control form-control-sm"
+                             if="${empty each.provCorreo}"                       
+                             value="------" />
+                </listcell>
+                <listcell zclass = "mycss-listcell" style="font-size:12px ;background:#EBF5FB">     
+                    <image   src="/iconos/ok24x24.png"
+                             onClick="@command('seleccionarProveedorLista',valor=each)" 
+                             tooltiptext="Seleccionar registro"/>
+                </listcell>
+            </listitem>
+        </template>
+    </listbox>
+                           
+                  
+</window>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window  id="windowInfoFactura"  position="center" class="col-12 col-sm-12 col-md-5 col-lg-5"  closable="true"  
+         apply="org.zkoss.bind.BindComposer"
+         viewModel="@id('vm') @init('com.ec.controlador.paneles.InfoFactura')">
+    
+    <caption label="Informacion de la factura" style="font-weight:bold"/> 
+    
+    <div  class="container-fluid" >
+        <div  class="row" >
+              
+            <div class="col-12 col-sm-6 col-md-6 col-lg-6  form-group "  >
+                <label   style="color:transparent;font-weight:bold" value="(*) "  />Ruc
+                <textbox   readonly="true"
+                           style="background:transparent;" 
+                           onOK="@command('buscarAduana')"
+                           value="@bind(vm.factura.idCliente.cliCedula)" 
+                           class="form-control" />
+            </div>   
+            <div class="col-12 col-sm-12 col-md-6 col-lg-6  form-group "  >
+                <label value="(*)" style="color:transparent;font-weight:bold"/>Razon social:
+              
+                <textbox  readonly="true"
+                          style="background:transparent;"
+                          value="@bind(vm.factura.idCliente.cliNombres)"
+                          class="form-control" />
+            </div>        
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12  form-group "  >
+                <label value="(*)" style="color:transparent;font-weight:bold"/>Nombre comercial:
+              
+                <textbox  readonly="true"
+                          style="background:transparent;"
+                          value="@bind(vm.factura.idCliente.cliNombre)"
+                          class="form-control" />
+            </div>        
+            <div class="col-12 col-sm-6 col-md-12 col-lg-12  form-group "  >
+                <label value="(*) " style="color:transparent;font-weight:bold"/>Correo:
+                
+                <textbox  readonly="true"
+                          style="background:transparent;"
+                          onChange="self.setValue(self.getValue().toUpperCase())"
+                          value="@bind(vm.factura.idCliente.cliCorreo)" 
+                          class="form-control" />
+            </div>
+            <div class="col-12 col-sm-12 col-md-6 col-lg-6  form-group "  >
+                <label value="(*)" style="color:transparent;font-weight:bold"/>Emision:
+              
+                <datebox compact="true" value="@bind(vm.factura.facFecha)" 
+                         readonly="true"    
+                         style="background:transparent;font-size:1em;font-weight:bold" buttonVisible="false" 
+                         lenient="true" 
+                         format="dd/MM/yyyy" />
+            </div> 
+            <div class="col-12 col-sm-12 col-md-6 col-lg-6  form-group "  >
+                <label value="(*)" style="color:transparent;font-weight:bold"/>Autorizacion
+              
+                <datebox compact="true" value="@bind(vm.factura.facFechaAutorizacion)" 
+                         readonly="true"  
+                         style="background:transparent;font-size:1em;font-weight:bold" buttonVisible="false" 
+                         lenient="true" 
+                         format="dd/MM/yyyy" />
+            </div> 
+            <div class="col-6 col-sm-6 col-md-12 col-lg-12  form-group "  >
+                <label value="(*) " style="color:transparent;font-weight:bold"/>Clave de acceso: 
+                
+                <textbox  readonly="true"
+                          maxlength="100" 
+                           style="background:transparent;"
+                          value="@bind(vm.factura.facClaveAcceso)" 
+                          onChange="self.setValue(self.getValue().toUpperCase().trim());"                           
+                          class="form-control" />
+            </div>
+
+            <div class="col-12 col-sm-6 col-md-12 col-lg-12  form-group "  >
+                <label value="(*) " style="color:transparent;font-weight:bold"/>Clave de autorizacion:
+                
+                <textbox  readonly="true"
+                           style="background:transparent;"
+                          value="@bind(vm.factura.facClaveAutorizacion)"                           
+                          class="form-control" />
+            </div>
+            
+        </div>
+   
+    </div>
+   
+                  
+
+                    
+                  
+</window>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window  id="wAutoLote"  position="center,top" class="col-10 col-sm-10 col-md-4 col-lg-4" closable="true"  
+         apply="org.zkoss.bind.BindComposer" contentStyle="overflow:auto"
+         viewModel="@id('vm') @init('com.ec.controlador.AutorizarEnLote')">
+    
+    <caption label="Autorizar el lote" style="font-weight:bold"
+    /> 
+    <div  class="container" >
+        <div  class="row" >
+            <div class="col-12 col-12 col-md-12 col-lg-12  form-group " align="center" >
+               
+               <image  src="/imagenes/procesando.gif"  ></image>
+            </div>
+            
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12  form-group" align="center" >
+                    
+                <button label="AUTORIZAR EN LOTE"  
+                       onClick="@command('autorizarEnLote')"
+                       tooltiptext="Autorizar facturas en lote"/>
+ 
+
+            </div> 
+        </div>
+   
+    </div>
+    
+                    
+                  
+</window>

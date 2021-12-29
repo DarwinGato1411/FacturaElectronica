@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window  id="windowMoto"  position="center" class="col-12 col-sm-12 col-md-6 col-lg-6"  closable="true"  
+         apply="org.zkoss.bind.BindComposer" 
+         viewModel="@id('vm') @init('com.ec.controlador.Motocicleta')">
+    
+    <caption label="Registro para la matriculacion" style="font-weight:bold"/> 
+    
+    <div  class="container-fluid" >
+        <div  class="row" >
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12  form-group "  >
+                <label value="(*) " style="color:red;font-weight:bold"/>Identificacion:
+                <radiogroup  selectedItem="@bind(vm.detalledao.tipoIdentificacionPropietario)"   >
+                    <space bar="true"  /> 
+                    <radio label="CEDULA" value="C" />  
+                    <space bar="true"  />                                                                        
+                    <radio  label="RUC" value="R"/>     
+                    <space bar="true"  />                                                                        
+                    <radio  label="PASAPORTE" value="P"/>     
+                                                                                  
+                </radiogroup>
+              
+            </div>
+            <div class="col-12 col-sm-12 col-md-6 col-lg-6  form-group "  >
+                <label   style="color:red;font-weight:bold" value="(*) "  />Certificado de Aduana:
+                <textbox     value="@bind(vm.detalledao.detCamvcpn)" 
+                             class="form-control" />
+            </div>          
+            
+            <div class="col-12 col-sm-12 col-md-6 col-lg-6  form-group "  >
+                <label   style="color:red;font-weight:bold" value="(*) "  />Chasis:
+                <textbox     
+                    value="@bind(vm.detalledao.detSerialvin)" 
+                    class="form-control" />
+            </div>                                 
+            
+            <div class="col-12 col-sm-6 col-md-6 col-lg-6  form-group "  >
+                <label value="(*) " style="color:red;font-weight:bold"/>Tipo de dirección:
+                <radiogroup  selectedItem="@bind(vm.detalledao.tipodir)"   >
+                    <space bar="true"  /> 
+                    <radio label="RESIDENCIA" value="RESIDENCIA" />  
+                    <space bar="true"  />                                                                                                                                                                              
+                    <radio label="OFICINA" value="OFICINA" />  
+                    <space bar="true"  />                                                                                                                                                                              
+                </radiogroup>
+              
+            </div>   
+            <div class="col-12 col-sm-12 col-md-6 col-lg-6  form-group "  >
+                <label value="(*) " style="color:red;font-weight:bold"/>Provincia:
+                <radiogroup  selectedItem="@bind(vm.detalledao.provincia)"   >
+                    <space bar="true"  /> 
+                    <radio label="PICHINCHA" value="217" />  
+                    <space bar="true"  />                                                                                                                                                                              
+                    <radio label="GUAYAS" value="109" />  
+                    <space bar="true"  />                                                                                                                                                                              
+                </radiogroup>
+              
+            </div>
+            <div class="col-4 col-sm-4 col-md-4 col-lg-4  form-group "  >
+                <label value="" style="color:red;font-weight:bold"/>Canton:
+                
+                <combobox readonly="true"    
+                          style="width:110px"                                    
+                          selectedItem="@bind(vm.detalledao.codigoCantonMatriculacion)" >
+                    <comboitem label="CAYAMBE" value="21702" />                    
+                    <comboitem label="MEJIA" value="21703" />
+                    <comboitem label="PEDRO MONCAYO" value="21704" />
+                    <comboitem label="PEDRO VICENTE MALDONADO" value="21708" />
+                    <comboitem label="PUERTO QUITO" value="21709" />
+                    <comboitem label="QUITO" value="21701" />
+                    <comboitem label="RUMIÑAHUI" value="21705" />
+                    <comboitem label="SAN MIGUEL DE LOS BANCOS" value="21707" />
+             
+                </combobox>
+            </div>      
+            
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4  form-group "  >
+                <label   style="color:red;font-weight:bold" value="(*) "  />Calle:
+                <textbox     
+                    value="@bind(vm.detalledao.calle)" 
+                    class="form-control" />
+            </div>          
+            
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4  form-group "  >
+                <label   style="color:red;font-weight:bold" value="(*) "  />Numero:
+                <textbox     
+                    value="@bind(vm.detalledao.numero)" 
+                    class="form-control" />
+            </div>          
+            
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4  form-group "  >
+                <label   style="color:red;font-weight:bold" value="(*) "  />Interseccion:
+                <textbox     
+                    value="@bind(vm.detalledao.interseccion)" 
+                    class="form-control" />
+            </div>          
+            
+                        
+            <div class="col-12 col-sm-12 col-md-6 col-lg-6  form-group "  >
+                <label value="(*) " style="color:red;font-weight:bold"/>Tipo telefono:
+                <radiogroup  selectedItem="@bind(vm.detalledao.tipotel)"   >
+                    <space bar="true"  /> 
+                    <radio label="FIJO" value="FIJO" />  
+                    <space bar="true"  />                                                                                                                                                                              
+                    <radio label="MOVIL" value="MOVIL" />  
+                    <space bar="true"  />                                                                                                                                                                              
+                </radiogroup>
+              
+            </div>  
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4  form-group "  >
+                <label   style="color:red;font-weight:bold" value="(*) "  />Teléfono:
+                <textbox     
+                    value="@bind(vm.detalledao.numerotel)" 
+                    class="form-control" />
+            </div>          
+            
+                     
+            <div class="col-12 col-sm-6 col-md-12 col-lg-12  form-group" align="center" >
+                    
+                <image src="/iconos/guardar.png"  
+                       onClick="@command('guardar')"
+                       tooltiptext="Guardar Registro"/>
+ 
+
+            </div> 
+        </div>
+   
+    </div>
+   
+                  
+
+                    
+                  
+</window>

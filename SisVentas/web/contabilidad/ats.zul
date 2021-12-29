@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?link rel="stylesheet" type="text/css" href="/css/boostrap/bootstrap.css"?>  
+<?link rel="stylesheet" type="text/css" href="/css/style.css"?>
+<?init class="com.ec.seguridad.Autentificador"?>
+<?init class="org.zkoss.zk.ui.util.Composition" arg0="/plantilla/plantilla.zul"?>
+<zk  contentStyle="overflow:auto" with="100%" >
+    <hbox self="@define(content)" apply="org.zkoss.bind.BindComposer" 
+          viewModel="@id('vm') @init('com.ec.controlador.ATS')" width="99%">
+        
+        <tabbox  width="100%"  tabscroll="true" >
+            <tabs >
+                <tab label="Anexo Transaccional Simplificado" sclass="menutabs"/>
+                
+            </tabs>
+            <tabpanels >
+                <tabpanel  height="100%" width="98%"  >
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div  class="col-12 col-sm-12 col-md-2 col-lg-2 ">
+                                <label value="Inicio: "   />
+                                <datebox   value="@bind(vm.inicio)" 
+                                           readonly="true" style="font-weight:bold;" 
+                                           onCreate="self.value = new Date()"                                                    
+                                           buttonVisible="true" 
+                                           lenient="true"  format="dd/MM/yyyy" 
+                                           constraint="no empty: Ingrese de inicio de la busqueda"/> 
+                            </div>
+                            <div  class="col-12 col-sm-12 col-md-3 col-lg-3 ">
+                                <label value="Fin: "  />
+                                <datebox   value="@bind(vm.fin)" 
+                                           readonly="true" style="font-weight:bold;" 
+                                           onCreate="self.value = new Date()"                                                   
+                                           buttonVisible="true" 
+                                           lenient="true"  format="dd/MM/yyyy" 
+                                           constraint="no empty: IBuscar por fecha fin de la busqueda"/> 
+                                <button   image="/imagenes/buscar1.png"  
+                                          onClick="@command('buscarForFechas')"  
+                                          class="btn btn-primary btn-sm "
+                                          tooltiptext="Buscar"/>
+                       
+                            </div>
+                            <div class="col-12 col-sm-12 col-md-2 col-lg-2">
+                                <image src="/iconos/xml.png"   
+                                       class="btn btn btn-secondary btn-sm "
+                                       onClick="@command('descargaATS')"
+                                       tooltiptext="General ATS"/>
+
+                            </div>
+                        </div>
+                  
+                        <div class="row " align="center">
+                            
+                            <div class="col-12 col-sm-12 col-md-6 col-lg-6 " align="start">
+                                <listbox model="@load(vm.listaCabeceraCompras)" width="99%"
+                                         nonselectableTags=""  mold="paging" pageSize="12"  >
+                                    <custom-attributes org.zkoss.zul.listbox.rod="true"/>   
+                                    
+                                    <auxhead>
+                                        <auxheader colspan="12" >  
+                                            <div class="row">
+                                                <div class="col-12 col-sm-12 col-md-12 col-lg-12 ">
+                                                    
+                                                    <label value="Compras de mercaderia ingresadas "   />
+                                                   
+                                                </div>
+                                            </div>
+                                
+                                        </auxheader>
+                                    </auxhead>                                                     
+                                    <listhead> 
+                                        <listheader width="10%"  label="# Factura" /> 
+                                        <listheader width="35%"  label="Autorizacion" /> 
+                                        <listheader width="16%"  label="Fecha" />    
+                                        <listheader width="13%"  label="Sub Total" />        
+                                        <listheader width="13%"  label="IVA" />        
+                                        <listheader width="13%"  label="Total" />               
+                                    </listhead>  
+                        
+                    
+                                    <template name="model">                                                            
+                                        <listitem>
+                                            <listcell>
+                                                <label value="@bind(each.cabNumFactura)" width="96%" />
+                                            </listcell>
+                                            <listcell>
+                                                <label value="@bind(each.cabAutorizacion)" width="96%" />
+                                            </listcell>
+                                            <listcell>
+                                                <datebox value="@bind(each.cabFechaEmision)" 
+                                                         buttonVisible="false" 
+                                                         lenient="true" 
+                                                         format="medium"   />
+                                            </listcell>
+                                            <listcell>
+                                                <decimalbox format="###.##" 
+                                                            readonly="true"  
+                                                            value="@bind(each.cabSubTotal)" width="96%" />
+                                            </listcell>
+                                            <listcell>
+                                                <decimalbox format="###.##" 
+                                                            readonly="true"  
+                                                            value="@bind(each.cabIva)" width="96%" />
+                                            </listcell>
+                                            <listcell>
+                                                <decimalbox format="###.##" 
+                                                            readonly="true"  
+                                                            value="@bind(each.cabTotal)" width="96%" />
+                                            </listcell>                                            
+                                        </listitem>
+                                    </template>
+                                </listbox>
+                    
+                            </div>
+                            <div class="col-12 col-sm-12 col-md-6 col-lg-6 " align="start">
+                                <listbox model="@load(vm.listaAcumuladoventas)" 
+                                         nonselectableTags=""  
+                                         mold="paging" pageSize="12"  >
+                                    <custom-attributes org.zkoss.zul.listbox.rod="true"/>
+                                    
+                                    <auxhead>
+                                        <auxheader colspan="12" >  
+                                            <div class="row">
+                                                <div class="col-12 col-sm-12 col-md-12 col-lg-12 ">
+                                                    
+                                                    <label value="Ventas acumuladas"   />
+                                                   
+                                                </div>
+                                            </div>
+                                
+                                        </auxheader>
+                                    </auxhead>       
+                                    
+                                    <listhead> 
+                                        <listheader width="15%"  label="Cant. Compr" /> 
+                                        <listheader width="20%"  label="Cedula" /> 
+                                        <listheader width="20%"  label="Fecha" />    
+                                        <listheader width="15%"  label="Base Gravada" />    
+                                        <listheader width="15%"  label="IVA" />        
+                                        <listheader width="15%"  label="Codigo" />                                                             
+                                    </listhead>  
+                        
+                    
+                                    <template name="model">                                                            
+                                        <listitem>
+                                            <listcell>
+                                                <label value="@bind(each.numCompro)" width="96%" />
+                                            </listcell>
+                                            <listcell>
+                                                <label value="@bind(each.cliCedula)" width="96%" />
+                                            </listcell>
+                                            <listcell>
+                                                <datebox value="@bind(each.facFecha)" 
+                                                         buttonVisible="false" 
+                                                         lenient="true" 
+                                                         format="medium" width="98%"  />
+                                            </listcell>
+                                            <listcell>
+                                                <decimalbox format="###.##" 
+                                                            readonly="true"  
+                                                            value="@bind(each.facTotalBaseGravaba)" width="96%" />
+                                            </listcell>
+                                            <listcell>
+                                                <decimalbox format="###.##" 
+                                                            readonly="true"  
+                                                            value="@bind(each.facIva)" width="96%" />
+                                            </listcell>
+                                            <listcell>
+                                                <decimalbox format="###.##" 
+                                                            readonly="true"  
+                                                            value="@bind(each.forCodigo)" width="96%" />
+                                            </listcell>                                            
+                                        </listitem>
+                                    </template>
+                                </listbox>
+                            </div>
+                        </div>
+                    </div>
+                </tabpanel>
+            </tabpanels>
+        </tabbox>
+        
+    </hbox>
+
+
+</zk>

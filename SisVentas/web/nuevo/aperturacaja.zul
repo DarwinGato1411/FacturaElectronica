@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window  id="windowAperCaja"  position="center" class="col-12 col-sm-12 col-md-4 col-lg-4 " closable="true"  
+         apply="org.zkoss.bind.BindComposer" 
+         viewModel="@id('vm') @init('com.ec.controlador.AperturaCajaVm')">
+    
+
+    <caption label="Apertura de caja" style="font-weight:bold" /> 
+    
+    
+    <div  class="container" >
+        <div  class="row" >
+            
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12  form-group "  >
+                <label value="(*) " style="color:red;font-weight:bold"/>Fecha:
+                
+                <datebox compact="true" value="@bind(vm.cierreCaja.cieFecha)" 
+                           readonly="true"   
+                           style="font-weight:bold" buttonVisible="false" 
+                           lenient="true" 
+                           format="dd/MM/yyyy" />           
+            </div>        
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12  form-group "  >
+                <label value="(*) " style="color:red;font-weight:bold"/>Valor de inicio de caja:
+                
+                <textbox    constraint="/^[0-9]{1,9}(?:[.][0-9]{1,3})?$/:Ingrese solo numeros"                                                                                    
+                            value="@bind(vm.cierreCaja.cieValorInicio)"   
+                            class="form-control" />              
+            </div>        
+            <div class="col-12 col-sm-6 col-md-12 col-lg-12  form-group" align="center" >
+                    
+                <image src="/iconos/guardar.png"  
+                       onClick="@command('guardar')"
+                       tooltiptext="Guardar Registro"/>
+ 
+
+            </div> 
+   
+        </div>
+    </div>
+   
+                    
+                  
+</window>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?link rel="stylesheet" type="text/css" href="/css/style.css"?>
+<?link rel="stylesheet" type="text/css" href="/css/boostrap/bootstrap.css"?>  
+<?init class="com.ec.seguridad.Autentificador"?>
+<zk  contentStyle="overflow:auto" with="100%" >
+    <hbox self="@define(content)" apply="org.zkoss.bind.BindComposer" 
+          viewModel="@id('vm') @init('com.ec.controlador.ListaSriCatastro')" width="100%">                   
+                
+        <listbox model="@load(vm.listaSriCatastro)" 
+                   nonselectableTags="*" mold="paging" pageSize="8"  >
+            <custom-attributes org.zkoss.zul.listbox.rod="true"/>
+                                        
+            <listhead> 
+                <listheader width="10%" >
+                    <textbox value="@bind(vm.buscar)" 
+                             class="form-control form-control-sm"
+                             tooltiptext="Cedula"
+                             placeholder="Identificacion"
+                             onOK="@command('buscarForCedula')"
+                             onChange="self.setValue(self.getValue().toUpperCase());" />
+                </listheader>     
+                <listheader width="30%" label = "Razon Social"  style= "font-size:14px;background:#F0F2F2" >
+                    
+                </listheader>
+                <listheader width="60%" label = "Descripcion"  style= "font-size:14px;background:#F0F2F2" >
+                </listheader> 
+                            
+                            
+            </listhead>  
+                    
+            <template name="model">                                                            
+                <listitem class="container-fluid ">
+                    <listcell zclass = "mycss-listcell">
+                        <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"
+                                 class="form-control form-control-sm"  value="@bind(each.micRuc)"  />
+                    </listcell>
+                    <listcell zclass = "mycss-listcell">
+                        <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"
+                                 class="form-control form-control-sm"  value="@bind(each.razonSocial)"  />
+                   </listcell>
+                   <listcell zclass = "mycss-listcell">
+                        <textbox readonly="true" style="font-size:12px;background:#EBF5FB"
+                                 class="form-control form-control-sm"  value="@bind(each.nombre)"  />
+                    </listcell>
+                    
+                                
+                </listitem>
+            </template>
+        </listbox>
+    </hbox>
+
+
+</zk>
+

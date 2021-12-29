@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?link rel="stylesheet" type="text/css" href="/css/boostrap/bootstrap.css"?>  
+<?link rel="stylesheet" type="text/css" href="/css/style.css"?>
+<?init class="com.ec.seguridad.Autentificador"?>
+<?init class="org.zkoss.zk.ui.util.Composition" arg0="/plantilla/plantilla.zul"?>
+<?link rel="icon" type="image/x-icon" href="/iconos/deckxel.ico"?>
+<zk  contentStyle="overflow:auto" with="100%" >
+    <hbox self="@define(content)" apply="org.zkoss.bind.BindComposer" 
+          viewModel="@id('vm') @init('com.ec.controlador.ListaCompras')" width="100%">
+        <tabbox id="tboxPrincipal"  width="100%">
+            <tabs >
+                <tab label="Lista de compras" sclass="menutabs" /> 
+            </tabs>
+            <tabpanels >
+                
+                <tabpanel  height="98%" width="99%"  >                    
+                   
+                    <listbox model="@load(vm.listaCabeceraCompras)" 
+                             nonselectableTags=""  mold="paging" pageSize="12"  >
+                        <custom-attributes org.zkoss.zul.listbox.rod="true"/>
+                        <auxhead>
+                            <auxheader colspan="12" >  
+                                <div class="row">
+                                  
+                                    <div  class="col-12 col-sm-12 col-md-2 col-lg-2 ">
+                                        <label value="Inicio: "   />
+                                        <datebox   value="@bind(vm.inicio)" 
+                                                   readonly="true" style="font-weight:bold;" 
+                                                   onCreate="self.value = new Date()"                                                    
+                                                   buttonVisible="true" 
+                                                   lenient="true"  format="dd/MM/yyyy" 
+                                                   constraint="no empty: Ingrese de inicio de la busqueda"/> 
+                                    </div>
+                                    <div  class="col-12 col-sm-12 col-md-3 col-lg-3 ">
+                                        <label value="Fin: "  />
+                                        <datebox   value="@bind(vm.fin)" 
+                                                   readonly="true" style="font-weight:bold;" 
+                                                   onCreate="self.value = new Date()"                                                   
+                                                   buttonVisible="true" 
+                                                   lenient="true"  format="dd/MM/yyyy" 
+                                                   constraint="no empty: IBuscar por fecha fin de la busqueda"/> 
+                                        <button   image="/imagenes/buscar1.png"  
+                                                  onClick="@command('buscarForFechas')"  
+                                                  class="btn btn-primary btn-sm "
+                                                  tooltiptext="Buscar"/>
+                       
+                                    </div>
+                                    <div  class="col-12 col-sm-12 col-md-3 col-lg-3 ">
+                                        <button   image="/imagenes/excel.png"  
+                                                  onClick="@command('exportListboxToExcel')"  
+                                                  class="btn btn-primary btn-sm "
+                                                  tooltiptext="Descargar"/>
+
+                                    </div>
+
+                                </div>
+                                
+                            </auxheader>
+                        </auxhead>
+                       
+                        <listhead> 
+                            <listheader width="10%"  label="" >
+                                <textbox value="@bind(vm.buscarNumFac)"  
+                                         tooltiptext="Nº Factura"
+                                         class="form-control form-control-sm"                                         
+                                         placeholder="Nº Factura"
+                                         onOK="@command('buscarForNumFactura')"
+                                         onChange="self.setValue(self.getValue().toUpperCase());" />
+                            </listheader> 
+                            <listheader width="10%"  label="FECHA" />    
+                            <listheader width="10%"  label="SUBTOTAL" />        
+                            <listheader width="10%"  label="IVA" />        
+                            <listheader width="10%"  label="TOTAL" />        
+                            <listheader width="10%"  label="ESTADO" />        
+                            <listheader width="25%"  label="" >
+                                <textbox placeholder="Proveedor"
+                                         value="@bind(vm.buscar)" 
+                                         class="form-control form-control-sm"
+                                         onOK="@command('buscarForProveedor')"
+                                         onChange="self.setValue(self.getValue().toUpperCase());"/>
+                            </listheader>        
+                            <listheader width="25%"  label="QUIEN INGRESO" />        
+                            <listheader width="5%"  label="" align="center" />        
+                            <listheader width="5%"  label="" align="center" />        
+                        </listhead>  
+                        
+                    
+                        <template name="model">                                                            
+                            <listitem>
+                                <listcell zclass = "mycss-listcell">
+                                  <textbox readonly="true" style="font-size:12px ;background:#EBF5FB"
+                                           class="form-control form-control-sm" 
+                                           value="@bind(each.cabNumFactura)" />
+                                </listcell>
+                                <listcell zclass = "mycss-listcell" style="font-size:12px;background:#F8F9F9">
+                                    <datebox style="font-size:12px"
+                                              class=" form-control-sm" 
+                                             value="@bind(each.cabFechaEmision)" 
+                                             buttonVisible="false" 
+                                             lenient="true" 
+                                             format="medium"   />
+                                </listcell>
+                                <listcell zclass = "mycss-listcell">
+                                    <decimalbox style="font-size:12px ;background:#EBF5FB"
+                                                class="form-control form-control-sm" 
+                                                format="###.##" 
+                                                readonly="true"  
+                                                value="@bind(each.cabSubTotal)" />
+                                </listcell>
+                                <listcell zclass = "mycss-listcell">
+                                    <decimalbox style="font-size:12px ;background:#EBF5FB"
+                                                class="form-control form-control-sm" 
+                                                format="###.##" 
+                                                readonly="true"  
+                                                value="@bind(each.cabIva)"  />
+                                </listcell>
+                                <listcell zclass = "mycss-listcell">
+                                    <decimalbox style="font-size:12px ;background:#EBF5FB"
+                                                class="form-control form-control-sm" 
+                                                format="###.##" 
+                                                readonly="true"  
+                                                value="@bind(each.cabTotal)"  />
+                                </listcell>
+                                <listcell zclass = "mycss-listcell">
+                                    <textbox readonly="true"  style="font-size:12px"
+                                           class="form-control form-control-sm" 
+                                           value="@bind(each.cabEstado)" />
+                                </listcell>
+                                <listcell zclass = "mycss-listcell">
+                                    <textbox readonly="true"  style="font-size:12px ;background:#EBF5FB"
+                                           class="form-control form-control-sm" 
+                                           value="@bind(each.cabProveedor)" />
+                                </listcell>
+                                <listcell zclass = "mycss-listcell">
+                                    <textbox readonly="true"  style="font-size:12px ;background:#EBF5FB"
+                                           class="form-control form-control-sm" 
+                                           value="@bind(each.idUsuario.usuNombre)"  />
+                                    
+                                </listcell>
+                                <listcell zclass = "mycss-listcell" style="font-size:12px;background:#F8F9F9">
+                                    <image if="${each.cabRetencionAutori!='S'}"
+                                           src="/iconos/pdfcotizacion.png" 
+                                           class=" grow"
+                                           onClick="@command('crearRetencionCompra',valor=each)" 
+                                           tooltiptext="Crear retencion"/>
+                                    
+                                    <image if="${each.cabRetencionAutori=='S'}" 
+                                           src="/iconos/listo_uno.png"   
+                                            class=" grow"                                          
+                                           tooltiptext="No se puede autorizar por que se encuentra en estado autorizado"/> 
+                                </listcell>
+                                <listcell zclass = "mycss-listcell" style="font-size:12px;background:#F8F9F9">
+                                    <image if="${each.cabRetencionAutori!='S'}" 
+                                           src="/iconos/editar.png"
+                                           class=" grow"
+                                           onClick="@command('modificarFactura',valor=each)" 
+                                           tooltiptext="Modificar factura"/>
+                                    <image if="${each.cabRetencionAutori=='S'}" 
+                                           src="/iconos/listo_uno.png"   
+                                                 class=" grow"                                       
+                                           tooltiptext="No se puede autorizar por que se encuentra en estado autorizado"/> 
+                                </listcell>
+                                
+                                
+                                
+                            </listitem>
+                        </template>
+                    </listbox>
+                
+                </tabpanel>
+                
+
+            </tabpanels>
+            
+        </tabbox>
+    </hbox>
+
+
+</zk>
