@@ -1,5 +1,6 @@
 ### Sistema de facturacion Electronica DECKXEL
-
+- Para descargar el proyecto ejecute el comando git clone https://github.com/DarwinGato1411/FacturaElectronica.git
+ 
 - Sistema desarrollado para ferreterias, restaurantes y cualquirer tipo de negocio
 - Emisión de documentos electronicos.
 		Facturas
