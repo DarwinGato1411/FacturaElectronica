@@ -1,3 +1,33 @@
+Skip to content
+Search or jump to…
+Pull requests
+Issues
+Marketplace
+Explore
+ 
+@DarwinGato1411 
+DarwinGato1411
+/
+Bomberos
+Public
+Code
+Issues
+Pull requests
+Actions
+Projects
+Wiki
+Security
+Insights
+Settings
+Bomberos/.gitignore
+@DarwinGat0
+DarwinGat0 configurar
+Latest commit 83284d2 26 days ago
+ History
+ 2 contributors
+@DarwinGat0@DarwinGato1411
+52 lines (47 sloc)  794 Bytes
+   
 # Compiled class file
 *.class
 
@@ -11,7 +41,7 @@
 .mtj.tmp/
 
 # Package Files #
-*.jar
+#*.jar
 *.war
 *.nar
 *.ear
@@ -21,3 +51,32 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+/GestionBomberos/dist/
+/GestionBomberos/build/
+### NetBeans ###
+**/nbproject/private/**
+**/nbproject/Makefile-*.mk
+**/nbproject/Package-*.bash
+core
+nbproject/**
+nbproject/private/*  
+nbproject/project.properties
+nbproject/project.xml
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+/nbbuild/
+/dist/
+/dist/**
+/build/
+/build/**
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+/GestionBomberos/nbproject/**
+/GestionBomberos/nbproject/private/**
+/GestionBomberos/nbproject/private/private.properties
