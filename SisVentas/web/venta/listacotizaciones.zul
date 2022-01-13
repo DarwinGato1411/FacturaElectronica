@@ -67,6 +67,7 @@
                                     <listheader width="6%"  label="Saldo "  />        
                                     <listheader width="5%"  label=" " align="center" />        
                                     <listheader width="5%"  label=" " align="center" />        
+                                    <listheader width="5%"  label=" " align="center" />        
                                     <listheader width="5%"  label="" align="center" />        
                                 </listhead>  
                         
@@ -130,6 +131,14 @@
                                          
                                                    onClick="@command('reporteCotizacion',valor=each)"
                                                    tooltiptext="Ver factura"/>
+                                        </listcell>
+                                        <listcell zclass = "mycss-listcell">    
+                                            <!--<button  src="/imagenes/pdfRep.png" label="Ver" onClick="@command('reporteCotizacion',valor=each)" tooltiptext="Ver cotizacion"/>-->
+                                    
+                                            <image src="/iconos/tecketera.jpg"  
+                                                   class=" grow"
+                                                   onClick="@command('reporteCotizacionPuntoVent',valor=each)"
+                                                   tooltiptext="Imprimir comprobante"/>
                                         </listcell>
                                         <listcell zclass = "mycss-listcell">    
                                             <!--<button  src="/imagenes/pdfRep.png" label="Ver" onClick="@command('reporteCotizacion',valor=each)" tooltiptext="Ver cotizacion"/>-->

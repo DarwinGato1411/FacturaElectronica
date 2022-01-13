@@ -6,23 +6,33 @@ package com.ec.controlador;
 
 import com.ec.entidad.CabeceraCompra;
 import com.ec.entidad.Tipoambiente;
+import com.ec.servicio.HelperPersistencia;
 import com.ec.servicio.ServicioAcumuladoVentas;
 import com.ec.servicio.ServicioCompra;
 import com.ec.servicio.ServicioDetalleCompra;
 import com.ec.servicio.ServicioFactura;
 import com.ec.servicio.ServicioTipoAmbiente;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.activation.MimetypesFileTypeMap;
 import javax.mail.internet.ParseException;
+import javax.naming.NamingException;
+import javax.persistence.EntityManager;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperRunManager;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFFont;
@@ -33,6 +43,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.NotifyChange;
+import org.zkoss.util.media.AMedia;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zul.Filedownload;
 import org.zkoss.zul.Messagebox;
@@ -57,6 +68,10 @@ public class ListaCompras {
     private String buscarNumFac = "";
     private Date inicio = new Date();
     private Date fin = new Date();
+
+    //reporte
+    AMedia fileContent = null;
+    Connection con = null;
 
     public ListaCompras() {
         findByBetweenFecha();
@@ -296,6 +311,53 @@ public class ListaCompras {
 
     }
 
-    
+    @Command
+    public void reporteFacturaCompra(@BindingParam("valor") CabeceraCompra valor) throws JRException, IOException, NamingException, SQLException {
+        reporteGeneral(valor.getIdCabecera());
+    }
+
+    public void reporteGeneral(Integer idCabera) throws JRException, IOException, NamingException, SQLException {
+        EntityManager emf = HelperPersistencia.getEMF();
+        try {
+
+            emf.getTransaction().begin();
+            con = emf.unwrap(Connection.class);
+            String reportFile = Executions.getCurrent().getDesktop().getWebApp()
+                    .getRealPath("/reportes");
+            String reportPath = reportFile + File.separator + "facturacompra.jasper";
+
+            Map<String, Object> parametros = new HashMap<String, Object>();
+
+            //  parametros.put("codUsuario", String.valueOf(credentialLog.getAdUsuario().getCodigoUsuario()));
+            parametros.put("id_cabecera", idCabera);
+
+            if (con != null) {
+                System.out.println("Conexión Realizada Correctamenteeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
+            }
+            FileInputStream is = null;
+            is = new FileInputStream(reportPath);
+
+            byte[] buf = JasperRunManager.runReportToPdf(is, parametros, con);
+            InputStream mediais = new ByteArrayInputStream(buf);
+            AMedia amedia = new AMedia("Reporte", "pdf", "application/pdf", mediais);
+            fileContent = amedia;
+            final HashMap<String, AMedia> map = new HashMap<String, AMedia>();
+//para pasar al visor
+            map.put("pdf", fileContent);
+            org.zkoss.zul.Window window = (org.zkoss.zul.Window) Executions.createComponents(
+                    "/venta/contenedorReporte.zul", null, map);
+            window.doModal();
+        } catch (FileNotFoundException e) {
+            System.out.println("FileNotFoundException " + e.getMessage());
+        } catch (JRException e) {
+            System.out.println("JRException " + e.getMessage());
+        } finally {
+            if (emf != null) {
+                emf.getTransaction().commit();
+            }
+
+        }
+
+    }
 
 }

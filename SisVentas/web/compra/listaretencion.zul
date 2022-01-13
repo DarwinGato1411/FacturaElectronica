@@ -81,6 +81,7 @@
                             <listheader width="5%"  label="" />             
                             <listheader width="5%"  label="" />             
                             <listheader width="5%"  label="" />             
+                            <listheader width="5%"  label="" />             
                         </listhead>  
                         
                     
@@ -126,6 +127,18 @@
                                   <textbox readonly="true" style="font-size:12px ;background:#EBF5FB"
                                            class="form-control form-control-sm"
                                            value="@bind(each.rcoAutorizacion)"  />
+                                </listcell>
+                                <listcell zclass = "mycss-listcell" style="font-size:12px;background:#F8F9F9">
+                                    <image  if="${each.drcEstadosri!='AUTORIZADO'}" 
+                                        src="/iconos/pdfcotizacion.png" 
+                                           class=" grow"
+                                           onClick="@command('crearRetencionCompra',valor=each)" 
+                                           tooltiptext="Crear retencion"/>
+                                    
+                                    <image if="${each.drcEstadosri=='S'}" 
+                                           src="/iconos/listo_uno.png"   
+                                            class=" grow"                                          
+                                           tooltiptext="No se puede autorizar por que se encuentra en estado autorizado"/> 
                                 </listcell>
                                 <listcell zclass = "mycss-listcell" style="font-size:12px;background:#F8F9F9">
                                     <image if="${each.drcEstadosri!='AUTORIZADO'}"

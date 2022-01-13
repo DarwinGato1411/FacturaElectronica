@@ -55,6 +55,7 @@ import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.util.media.AMedia;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zul.Filedownload;
+import org.zkoss.zul.Messagebox;
 
 /**
  *
@@ -690,5 +691,20 @@ public class ListaRetenciones {
 
         }
 
+    }
+
+    @Command
+    public void crearRetencionCompra(@BindingParam("valor") RetencionCompra retencionCompra) {
+        try {
+            final HashMap<String, CabeceraCompra> map = new HashMap<String, CabeceraCompra>();
+
+            map.put("valor", retencionCompra.getIdCabecera());
+            org.zkoss.zul.Window window = (org.zkoss.zul.Window) Executions.createComponents(
+                    "/compra/retencion.zul", null, map);
+            window.doModal();
+//            window.detach();
+        } catch (Exception e) {
+            Messagebox.show("Error " + e.toString(), "Atención", Messagebox.OK, Messagebox.INFORMATION);
+        }
     }
 }

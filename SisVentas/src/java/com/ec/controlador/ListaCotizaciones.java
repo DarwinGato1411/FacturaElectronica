@@ -13,6 +13,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
@@ -117,6 +118,12 @@ public class ListaCotizaciones {
     }
 
     @Command
+
+    public void reporteCotizacionPuntoVent(@BindingParam("valor") Factura valor) throws JRException, IOException, NamingException, SQLException {
+        reporteGeneral(valor.getFacNumProforma(), "PROFPV");
+    }
+
+    @Command
     public void reporteCotizacionSinDet(@BindingParam("valor") Factura valor) throws JRException, IOException, NamingException, SQLException {
         reporteGeneral(valor.getFacNumProforma(), "SINDET");
     }
@@ -152,8 +159,11 @@ public class ListaCotizaciones {
             String reportPath = "";
             if (consindet.equals("DET")) {
                 reportPath = reportFile + File.separator + "proforma.jasper";
-            } else {
+            } else if (consindet.equals("SINDET")) {
                 reportPath = reportFile + File.separator + "proformasindet.jasper";
+
+            } else {
+                reportPath = reportFile + File.separator + "proformapuntoventa.jasper";
             }
 
             Map<String, Object> parametros = new HashMap<String, Object>();
@@ -177,8 +187,10 @@ public class ListaCotizaciones {
             org.zkoss.zul.Window window = (org.zkoss.zul.Window) Executions.createComponents(
                     "/venta/contenedorReporte.zul", null, map);
             window.doModal();
-        } catch (Exception e) {
-            System.out.println("ERROR EL PRESENTAR EL REPORTE " + e.getMessage());
+        } catch (FileNotFoundException e) {
+            System.out.println("FileNotFoundException " + e.getMessage());
+        } catch (JRException e) {
+            System.out.println("JRException " + e.getMessage());
         } finally {
             if (emf != null) {
                 emf.getTransaction().commit();
