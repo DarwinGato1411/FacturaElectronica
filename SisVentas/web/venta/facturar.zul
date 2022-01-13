@@ -262,8 +262,8 @@
                                 <div class="col-12 col-sm-12 col-md-7 col-lg-7 " align="end">
                                     <listbox id="lstFacturar"
                                              model="@load(vm.listaDetalleFacturaDAOMOdel)"
-                                             mold="paging" pageSize="10"
-                                             height="340px" 
+                                             mold="paging" pageSize="14"
+                                             height="460px" 
                                              nonselectableTags="*" checkmark="true"  
                                              multiple="true" 
                                              onSelect="@command('seleccionarRegistros')"  >

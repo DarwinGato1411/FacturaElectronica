@@ -213,7 +213,7 @@
                                 <div class="col-12 col-sm-12 col-md-7 col-lg-7 hidden-sm-down" align="end" >
                                     <listbox  model="@load(vm.listaCompraProductosMOdel)"
                                               mold="paging"
-                                              height="340px" autopaging="true" 
+                                              height="460px" pageSize="14"
                                               nonselectableTags="*" checkmark="true"  
                                               multiple="true" 
                                               onSelect="@command('seleccionarRegistros')"  width="99%">
