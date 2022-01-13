@@ -40,15 +40,14 @@
             <div class="col-12 col-sm-12 col-md-4 col-lg-4  form-group "  >
                 <label value="(*) " style="color:red;font-weight:bold"/>Secuencial:
                 
-                <textbox  maxlength="10" 
+                    <textbox  maxlength="10" 
                           value="@bind(vm.retencionVenta.rveSecuencial)"
                           
-                          onChange="self.setValue(self.getValue().toUpperCase().trim());" 
                           constraint="no empty: Campo requerido"
                           class="form-control" />
             </div>
             <div class="col-12 col-sm-12 col-md-8 col-lg-8  form-group "  >
-                <label value="(*) " style="color:red;font-weight:bold"/>rveAutorizacion:
+                <label value="(*) " style="color:red;font-weight:bold"/>Autorizacion:
                 
                 <textbox  maxlength="100" 
                           value="@bind(vm.retencionVenta.rveAutorizacion)"

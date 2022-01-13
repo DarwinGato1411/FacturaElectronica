@@ -79,10 +79,9 @@ public class RetencionVenta implements Serializable {
     private String rvePuntoEmision;
     @Column(name = "rve_establecimiento")
     private String rveEstablecimiento;
-    @Basic(optional = false)
-    //@NotNull
+
     @Column(name = "rve_secuencial")
-    private int rveSecuencial;
+    private BigDecimal rveSecuencial;
     @Basic(optional = false)
     //@NotNull
     @Size(min = 1, max = 3)
@@ -117,7 +116,7 @@ public class RetencionVenta implements Serializable {
         this.rveCodigo = rveCodigo;
     }
 
-    public RetencionVenta(Integer rveCodigo, String rveAutorizacion, Date rveFecha, String rvePuntoEmision, int rveSecuencial, String rveSerie, BigDecimal rveValorRetencionIva100, BigDecimal rveValorRetencionIva30, BigDecimal rveValorRetencionIva70, BigDecimal rveValorRetencionRenta) {
+    public RetencionVenta(Integer rveCodigo, String rveAutorizacion, Date rveFecha, String rvePuntoEmision, BigDecimal rveSecuencial, String rveSerie, BigDecimal rveValorRetencionIva100, BigDecimal rveValorRetencionIva30, BigDecimal rveValorRetencionIva70, BigDecimal rveValorRetencionRenta) {
         this.rveCodigo = rveCodigo;
         this.rveAutorizacion = rveAutorizacion;
         this.rveFecha = rveFecha;
@@ -162,11 +161,11 @@ public class RetencionVenta implements Serializable {
         this.rvePuntoEmision = rvePuntoEmision;
     }
 
-    public int getRveSecuencial() {
+    public BigDecimal getRveSecuencial() {
         return rveSecuencial;
     }
 
-    public void setRveSecuencial(int rveSecuencial) {
+    public void setRveSecuencial(BigDecimal rveSecuencial) {
         this.rveSecuencial = rveSecuencial;
     }
 

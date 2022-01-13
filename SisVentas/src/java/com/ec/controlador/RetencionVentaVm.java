@@ -41,7 +41,7 @@ public class RetencionVentaVm {
 
         facturaSelected = valor;
 
-        RetencionVenta recup = servicioRetencionVenta.findByFactura(valor);
+            RetencionVenta recup = servicioRetencionVenta.findByFactura(valor);
         if (recup != null) {
             accion = "update";
             retencionVenta = recup;
@@ -61,8 +61,7 @@ public class RetencionVentaVm {
     public void guardar() {
         try {
             retencionVenta.setIdFactura(facturaSelected);
-            if (retencionVenta.getIdFactura() != null
-                    && retencionVenta.getRveSecuencial() > 0) {
+            if (facturaSelected != null) {
 
                 if (accion.equals("new")) {
                     servicioRetencionVenta.crear(retencionVenta);
