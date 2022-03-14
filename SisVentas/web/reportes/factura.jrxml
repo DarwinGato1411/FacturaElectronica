@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="factura" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 	<property name="ireport.zoom" value="1.2100000000000002"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="28"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -226,6 +226,7 @@ where factura.fac_numero=$P{numfactura};]]>
 	<field name="am_age_ret" class="java.lang.Boolean"/>
 	<field name="am_contr_esp" class="java.lang.Boolean"/>
 	<field name="am_exp" class="java.lang.Boolean"/>
+	<field name="am_ripme" class="java.lang.Boolean"/>
 	<field name="id_factura" class="java.lang.Integer"/>
 	<field name="id_estado" class="java.lang.Integer"/>
 	<field name="id_usuario" class="java.lang.Integer"/>
@@ -285,6 +286,18 @@ where factura.fac_numero=$P{numfactura};]]>
 	<field name="fac_propina" class="java.math.BigDecimal"/>
 	<field name="fac_mesa" class="java.lang.Integer"/>
 	<field name="fac_mesa_historial" class="java.lang.Integer"/>
+	<field name="id_orden_trabajo" class="java.lang.Integer"/>
+	<field name="fac_fecha_cobro" class="java.sql.Date"/>
+	<field name="fac_placa" class="java.lang.String"/>
+	<field name="fac_marca" class="java.lang.String"/>
+	<field name="fac_anio" class="java.lang.Integer"/>
+	<field name="fac_cilindraje" class="java.lang.String"/>
+	<field name="fac_kilometraje" class="java.lang.String"/>
+	<field name="fac_chasis" class="java.lang.String"/>
+	<field name="fac_madre" class="java.lang.String"/>
+	<field name="fac_hija" class="java.lang.String"/>
+	<field name="fac_destino" class="java.lang.String"/>
+	<field name="id_referencia" class="java.lang.Integer"/>
 	<field name="cli_cedula" class="java.lang.String"/>
 	<field name="cli_nombre" class="java.lang.String"/>
 	<field name="cli_razon_social" class="java.lang.String"/>
@@ -532,16 +545,7 @@ where factura.fac_numero=$P{numfactura};]]>
 				<textElement/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{am_nro_contribuyente}]]></textFieldExpression>
 			</textField>
-			<staticText>
-				<reportElement x="11" y="227" width="273" height="14">
-					<printWhenExpression><![CDATA[$F{am_micro_emp}]]></printWhenExpression>
-				</reportElement>
-				<textElement>
-					<font size="9" isBold="true"/>
-				</textElement>
-				<text><![CDATA[CONTRIBUYENTE RÉGIMEN MICROEMPRESA]]></text>
-			</staticText>
-			<image>
+			<image onErrorType="Blank">
 				<reportElement x="31" y="4" width="219" height="70"/>
 				<imageExpression class="java.lang.String"><![CDATA[$F{am_dir_img_punto_venta}]]></imageExpression>
 			</image>
@@ -552,6 +556,11 @@ where factura.fac_numero=$P{numfactura};]]>
 				<textElement/>
 				<text><![CDATA[AGENTE DE RETENCION: NAC-DNCRASC20-00000001]]></text>
 			</staticText>
+			<textField>
+				<reportElement x="11" y="221" width="273" height="15"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{am_ripme}?"CONTRIBUYENTE REGIMEN RIMPE":"REGIMEN GENERAL"]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<pageHeader>

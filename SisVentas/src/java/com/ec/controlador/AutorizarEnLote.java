@@ -192,13 +192,18 @@ public class AutorizarEnLote {
                         /*CREA EL ARCHIVO XML AUTORIZADO*/
                         System.out.println("pathArchivoNoAutorizado " + pathArchivoNoAutorizado);
                         nuevo = new FileOutputStream(pathArchivoNoAutorizado);
-                        nuevo.write(autorizacion.getComprobante()!=null?autorizacion.getComprobante().getBytes():null);
+                        if (autorizacion.getComprobante() != null) {
+                            nuevo.write(autorizacion.getComprobante().getBytes());
+                        }
                         if (!autorizacion.getEstado().equals("AUTORIZADO")) {
 
-                            String texto = autorizacion.getMensajes().getMensaje().get(0).getMensaje();
-                            String smsInfo = autorizacion.getMensajes().getMensaje().get(0).getInformacionAdicional();
-                            nuevo.write(autorizacion.getMensajes().getMensaje().get(0).getMensaje().getBytes());
-                            if (autorizacion.getMensajes().getMensaje().get(0).getInformacionAdicional() != null) {
+                            String texto = "Sin Identificar el error";
+                            String smsInfo = "Sin identificar el error";
+
+                            if (!autorizacion.getMensajes().getMensaje().isEmpty()) {
+                                texto = autorizacion.getMensajes().getMensaje().get(0).getMensaje();
+                                smsInfo = autorizacion.getMensajes().getMensaje().get(0).getInformacionAdicional();
+                                nuevo.write(autorizacion.getMensajes().getMensaje().get(0).getMensaje().getBytes());
                                 nuevo.write(autorizacion.getMensajes().getMensaje().get(0).getInformacionAdicional().getBytes());
                             }
 
@@ -241,9 +246,12 @@ public class AutorizarEnLote {
                             }
                             if (valor.getIdCliente().getCliCorreo() != null) {
                                 mail.sendMailSimple(valor.getIdCliente().getCliCorreo(),
-                                        "Gracias por preferirnos se ha emitido nuestra factura electrónica",
                                         attachFiles,
-                                        "FACTURACION ELECTRONICA", valor.getFacClaveAcceso());
+                                        "FACTURA ELECTRONICA",
+                                        valor.getFacClaveAcceso(),
+                                        valor.getFacNumeroText(),
+                                        valor.getFacTotal(),
+                                        valor.getIdCliente().getCliNombre());
                             }
                         }
 

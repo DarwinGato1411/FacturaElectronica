@@ -426,9 +426,12 @@ public class ListaGuia {
                             }
                             if (valor.getIdCliente().getCliCorreo() != null) {
                                 mail.sendMailSimple(valor.getIdCliente().getCliCorreo(),
-                                        "Gracias por preferirnos se ha emitido nuestra guia de remision electrónica",
                                         attachFiles,
-                                        "GUIA DE REMISION ELECTRONICA", valor.getFacClaveAcceso());
+                                        "GUIA DE REMISION ELECTRONICA",
+                                        valor.getFacClaveAcceso(),
+                                        valor.getFacNumeroText(),
+                                        valor.getFacTotal(),
+                                        valor.getIdCliente().getCliNombre());
                             }
                         }
 
@@ -600,9 +603,12 @@ public class ListaGuia {
                 }
                 if (valor.getIdCliente().getCliCorreo() != null) {
                     mail.sendMailSimple(valor.getIdCliente().getCliCorreo(),
-                            "Gracias por preferirnos se ha emitido nuestra guia de remision electrónica",
                             attachFiles,
-                            "GUIA DE REMISION ELECTRONICA", valor.getFacClaveAcceso());
+                            "GUIA DE REMISION ELECTRONICA",
+                            valor.getFacClaveAcceso(),
+                            valor.getFacNumeroText(),
+                            valor.getFacTotal(),
+                            valor.getIdCliente().getCliNombre());
                 }
 
             }

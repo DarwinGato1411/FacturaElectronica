@@ -56,6 +56,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "CabeceraCompra.findByCabDescripcion", query = "SELECT c FROM CabeceraCompra c WHERE c.cabDescripcion = :cabDescripcion")})
 public class CabeceraCompra implements Serializable {
 
+
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -116,6 +118,17 @@ public class CabeceraCompra implements Serializable {
     private Usuario idUsuario;
     @OneToMany(mappedBy = "idCompra")
     private Collection<DetalleKardex> detalleKardexCollection;
+
+    @Column(name = "id_tipo_identificacion_compra")
+    private Integer idTipoIdentificacionCompra;
+    @JoinColumn(name = "est_id_estado", referencedColumnName = "id_estado")
+    @ManyToOne
+    private EstadoFacturas estIdEstado;
+    @JoinColumn(name = "usu_id_usuario", referencedColumnName = "id_usuario")
+    @ManyToOne
+    private Usuario usuIdUsuario;
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCabecera")
+//    private Collection<RetencionCompraSri> retencionCompraSriCollection;
 
     @JoinColumn(name = "id_proveedor", referencedColumnName = "id_proveedor")
     @ManyToOne
@@ -345,4 +358,40 @@ public class CabeceraCompra implements Serializable {
     public String toString() {
         return "com.ec.entidad.CabeceraCompra[ idCabecera=" + idCabecera + " ]";
     }
+
+
+    public Integer getIdTipoIdentificacionCompra() {
+        return idTipoIdentificacionCompra;
+    }
+
+    public void setIdTipoIdentificacionCompra(Integer idTipoIdentificacionCompra) {
+        this.idTipoIdentificacionCompra = idTipoIdentificacionCompra;
+    }
+
+    public EstadoFacturas getEstIdEstado() {
+        return estIdEstado;
+    }
+
+    public void setEstIdEstado(EstadoFacturas estIdEstado) {
+        this.estIdEstado = estIdEstado;
+    }
+
+    public Usuario getUsuIdUsuario() {
+        return usuIdUsuario;
+    }
+
+    public void setUsuIdUsuario(Usuario usuIdUsuario) {
+        this.usuIdUsuario = usuIdUsuario;
+    }
+
+//    @XmlTransient
+//    public Collection<RetencionCompraSri> getRetencionCompraSriCollection() {
+//        return retencionCompraSriCollection;
+//    }
+//
+//    public void setRetencionCompraSriCollection(Collection<RetencionCompraSri> retencionCompraSriCollection) {
+//        this.retencionCompraSriCollection = retencionCompraSriCollection;
+//    }
+
+
 }

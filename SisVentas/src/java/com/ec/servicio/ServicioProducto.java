@@ -37,6 +37,11 @@ public class ServicioProducto {
             em.getTransaction().commit();
         } catch (Exception e) {
             System.out.println("Error en insertar producto " + e.getMessage());
+            StackTraceElement[] elems = e.getStackTrace();
+            for (int i = 0; i < elems.length; i++) {
+                System.out.println("ERROR CREAR PRODUCTO COMPRA SRI " + elems[i].toString());
+            }
+
         } finally {
             em.close();
         }
@@ -87,6 +92,7 @@ public class ServicioProducto {
             em.getTransaction().commit();
         } catch (Exception e) {
             System.out.println("Error en lsa consulta producto");
+            e.printStackTrace();
         } finally {
             em.close();
         }
@@ -146,7 +152,7 @@ public class ServicioProducto {
             em = HelperPersistencia.getEMF();
             em.getTransaction().begin();
             Query query = em.createNamedQuery("Producto.findLikeProdCodigo", Producto.class);
-             query.setMaxResults(200);
+            query.setMaxResults(200);
             query.setParameter("prodCodigo", buscar);
 
             listaProducto = (List<Producto>) query.getResultList();
@@ -243,12 +249,13 @@ public class ServicioProducto {
 
             em.getTransaction().commit();
         } catch (Exception e) {
-            System.out.println("Error en insertar producto "+e.getMessage());
+            System.out.println("Error en insertar producto " + e.getMessage());
         } finally {
             em.close();
         }
 
     }
+
     /*PARA PRODUCTOS GLP*/
     public List<Producto> findLikeProdGlp(String buscar) {
 
@@ -262,7 +269,7 @@ public class ServicioProducto {
             listaProductos = (List<Producto>) query.getResultList();
             em.getTransaction().commit();
         } catch (Exception e) {
-            System.out.println("Error findLikeProdGlp "+e.getMessage());
+            System.out.println("Error findLikeProdGlp " + e.getMessage());
         } finally {
             em.close();
         }

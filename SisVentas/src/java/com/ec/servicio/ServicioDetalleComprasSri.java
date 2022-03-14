@@ -5,8 +5,13 @@
 package com.ec.servicio;
 
 
+import com.ec.entidad.sri.CabeceraCompraSri;
 import com.ec.entidad.sri.DetalleCompraSri;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 /**
  *
@@ -34,6 +39,10 @@ public class ServicioDetalleComprasSri {
             em.getTransaction().commit();
         } catch (Exception e) {
             System.out.println("Error en insertar detalleCompraSri " + e.getMessage());
+            StackTraceElement[] elems = e.getStackTrace();
+            for (int i = 0; i < elems.length; i++) {
+                System.out.println("ERROR CREAR ServicioDetalleComprasSri "+elems[i].toString());
+            }
         } finally {
             em.close();
         }
@@ -49,7 +58,7 @@ public class ServicioDetalleComprasSri {
             em.getTransaction().commit();
 
         } catch (Exception e) {
-            System.out.println("Error en eliminar  detalleCompraSri" + e.getMessage());
+            System.out.println("Error en eliminar  ServicioDetalleComprasSri" + e.getMessage());
         } finally {
             em.close();
         }
@@ -69,6 +78,27 @@ public class ServicioDetalleComprasSri {
             em.close();
         }
 
+    }
+    
+     public List<DetalleCompraSri> findByBetweenFechaSRI(Date incio, Date fin) {
+
+        List<DetalleCompraSri> listaCabeceraCompras = new ArrayList<DetalleCompraSri>();
+        try {
+            //Connection connection = em.unwrap(Connection.class);
+            em = HelperPersistencia.getEMF();
+            em.getTransaction().begin();
+            Query query = em.createQuery("SELECT c FROM DetalleCompraSri c WHERE c.idCabeceraSri.cabFechaEmision BETWEEN :inicio AND :fin ORDER BY c.idCabeceraSri.cabFechaEmision DESC");
+            query.setParameter("inicio", incio);
+            query.setParameter("fin", fin);
+            listaCabeceraCompras = (List<DetalleCompraSri>) query.getResultList();
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            System.out.println("Error en lsa consulta DetalleCompraSri " + e.getMessage());
+        } finally {
+            em.close();
+        }
+
+        return listaCabeceraCompras;
     }
 
 }

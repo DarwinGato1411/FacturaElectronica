@@ -220,7 +220,6 @@ public class ListaFacturas {
             org.zkoss.zul.Window window = (org.zkoss.zul.Window) Executions.createComponents(
                     "/paneles/infofactura.zul", null, map);
             window.doModal();
-            
 
         } catch (Exception e) {
             Messagebox.show("Error " + e.toString(), "Atención", Messagebox.OK, Messagebox.INFORMATION);
@@ -716,11 +715,13 @@ public class ListaFacturas {
                         }
 
                         if (!autorizacion.getEstado().equals("AUTORIZADO")) {
+                            String texto = "Sin Identificar el error";
+                            String smsInfo = "Sin identificar el error";
 
-                            String texto = autorizacion.getMensajes().getMensaje().get(0).getMensaje();
-                            String smsInfo = autorizacion.getMensajes().getMensaje().get(0).getInformacionAdicional();
-                            nuevo.write(autorizacion.getMensajes().getMensaje().get(0).getMensaje().getBytes());
-                            if (autorizacion.getMensajes().getMensaje().get(0).getInformacionAdicional() != null) {
+                            if (!autorizacion.getMensajes().getMensaje().isEmpty()) {
+                                texto = autorizacion.getMensajes().getMensaje().size() > 0 ? autorizacion.getMensajes().getMensaje().get(0).getMensaje() : "ERROR SIN DEFINIR " + autorizacion.getEstado();
+                                smsInfo = autorizacion.getMensajes().getMensaje().size() > 0 ? autorizacion.getMensajes().getMensaje().get(0).getInformacionAdicional() : " ERROR SIN DEFINIR " + autorizacion.getEstado();
+                                nuevo.write(autorizacion.getMensajes().getMensaje().get(0).getMensaje().getBytes());
                                 nuevo.write(autorizacion.getMensajes().getMensaje().get(0).getInformacionAdicional().getBytes());
                             }
 
@@ -763,9 +764,12 @@ public class ListaFacturas {
                             }
                             if (valor.getIdCliente().getCliCorreo() != null) {
                                 mail.sendMailSimple(valor.getIdCliente().getCliCorreo(),
-                                        "Gracias por preferirnos se ha emitido nuestra factura electrónica",
                                         attachFiles,
-                                        "FACTURACION ELECTRONICA", valor.getFacClaveAcceso());
+                                        "FACTURA ELECTRONICA",
+                                        valor.getFacClaveAcceso(),
+                                        valor.getFacNumeroText(),
+                                        valor.getFacTotal(),
+                                        valor.getIdCliente().getCliNombre());
                             }
                         }
 
@@ -936,9 +940,12 @@ public class ListaFacturas {
                 }
                 if (valor.getIdCliente().getCliCorreo() != null) {
                     mail.sendMailSimple(valor.getIdCliente().getCliCorreo(),
-                            "Gracias por preferirnos se ha emitido nuestra factura electrónica",
                             attachFiles,
-                            "FACTURACION ELECTRONICA", valor.getFacClaveAcceso());
+                            "FACTURA ELECTRONICA",
+                            valor.getFacClaveAcceso(),
+                            valor.getFacNumeroText(),
+                            valor.getFacTotal(),
+                            valor.getIdCliente().getCliNombre());
                 }
 
             }

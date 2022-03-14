@@ -303,13 +303,6 @@ public class Facturar extends SelectorComposer<Component> {
 
             List<Factura> listaFacturasPendientes = servicioFactura.findEstadoCliente("PE", clienteBuscado);
             saldoFacturas = BigDecimal.ZERO;
-//            BigDecimal sumaPendientes = BigDecimal.ZERO;
-//            for (Factura listaFacturasPendiente : listaFacturasPendientes) {
-//
-//                sumaPendientes = sumaPendientes.add(listaFacturasPendiente.getFacSaldoAmortizado());
-//            }
-//            saldoFacturas = clienteBuscado.getCliMontoAsignado().subtract(sumaPendientes);
-//            saldoFacturas.setScale(2, RoundingMode.FLOOR);
         } else if (valor.getBusqueda().equals("producto") || valor.getBusqueda().equals("cliente")) {
 
         } else if (valor.getBusqueda().equals("cambio")) {

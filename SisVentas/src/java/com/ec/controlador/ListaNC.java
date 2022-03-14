@@ -427,9 +427,12 @@ public class ListaNC {
                             }
                             if (valor.getIdFactura().getIdCliente().getCliCorreo() != null) {
                                 mail.sendMailSimple(valor.getIdFactura().getIdCliente().getCliCorreo(),
-                                        "Gracias por preferirnos se ha emitido nuestra Nota de credito",
                                         attachFiles,
-                                        "NOTA DE CREDITO", valor.getFacClaveAcceso());
+                                        "NOTA DE CREDITO ELECTRONICA",
+                                        valor.getFacClaveAcceso(),
+                                        valor.getFacNumeroText(),
+                                        valor.getFacTotal(),
+                                        valor.getIdFactura().getIdCliente().getCliNombre());
 
                             }
                         }
@@ -607,9 +610,12 @@ public class ListaNC {
                 }
                 if (valor.getIdFactura().getIdCliente().getCliCorreo() != null) {
                     mail.sendMailSimple(valor.getIdFactura().getIdCliente().getCliCorreo(),
-                            "Gracias por preferirnos se ha emitido nuestra Nota de credito",
                             attachFiles,
-                            "NOTA DE CREDITO", valor.getFacClaveAcceso());
+                            "NOTA DE CREDITO ELECTRONICA",
+                            valor.getFacClaveAcceso(),
+                            valor.getFacNumeroText(),
+                            valor.getFacTotal(),
+                            valor.getIdFactura().getIdCliente().getCliNombre());
 
                 }
 

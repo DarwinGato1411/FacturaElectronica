@@ -37,6 +37,11 @@ public class ServicioDetalleKardex {
             em.getTransaction().commit();
         } catch (Exception e) {
             System.out.println("Error en insertar detalleKardex simple " + e.getMessage());
+            e.getStackTrace();
+            StackTraceElement[] elems = e.getStackTrace();
+            for (int i = 0; i < elems.length; i++) {
+                System.out.println("ERROR CREAR deTALLE kARDEX "+elems[i].toString());
+            }
         } finally {
             em.close();
         }

@@ -11,9 +11,17 @@ import com.ec.untilitario.ParamFactura;
 import com.ec.vista.servicios.ServicioSriCatastro;
 import com.ec.vistas.SriCatastro;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.ContextParam;
@@ -151,14 +159,38 @@ public class Configuracion extends SelectorComposer<Component> {
                 if (!baseDir.exists()) {
                     baseDir.mkdirs();
                 }
+                HSSFWorkbook wb = new HSSFWorkbook(media.getStreamData());
                 Files.copy(new File(filePath + media.getName()),
-                        media.getStreamData());
+                            media.getStreamData());
                 tipoambiente.setAmDirFirma(nombre);
+
+                HSSFSheet sheet = wb.getSheetAt(0);
+
+                int rows = sheet.getLastRowNum();
+                for (int i = 1; i < rows; ++i) {
+                    HSSFRow row = sheet.getRow(i);
+
+                    HSSFCell productCell = row.getCell(0);
+                    HSSFCell priceCell = row.getCell(1);
+                    HSSFCell linkCell = row.getCell(2);
+
+                    String product = productCell.getStringCellValue();
+                    BigDecimal price = new BigDecimal(priceCell.getNumericCellValue()).setScale(2, BigDecimal.ROUND_HALF_DOWN);
+                    String link = linkCell.getStringCellValue();
+
+                    System.out.printf("%s, %s, %s%n", product, price.toString(), link);
+                }
             }
 
         }
     }
 
+    public void LeerExcel() {
+
+        
+   
+
+    }
     //Imagen ruta 
     private String filePathImg;
 
@@ -183,7 +215,7 @@ public class Configuracion extends SelectorComposer<Component> {
                     baseDir.mkdirs();
                 }
                 Files.copy(new File(filePathImg + media.getName()),
-                        media.getStreamData());
+                            media.getStreamData());
                 tipoambiente.setAm_DirImgPuntoVenta(filePathImg + File.separator + nombre);
             }
 
@@ -207,7 +239,7 @@ public class Configuracion extends SelectorComposer<Component> {
         tipoambiente.setAmEnviocliente("ENVIARCLIENTE");
         servicioTipoAmbiente.modificar(tipoambiente);
         Clients.showNotification("Información registrada exitosamente",
-                Clients.NOTIFICATION_TYPE_INFO, null, "end_center", 3000, true);
+                    Clients.NOTIFICATION_TYPE_INFO, null, "end_center", 3000, true);
 
     }
 

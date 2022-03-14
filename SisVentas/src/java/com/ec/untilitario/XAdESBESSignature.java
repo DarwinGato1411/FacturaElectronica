@@ -7,12 +7,10 @@ package com.ec.untilitario;
 
 import com.ec.entidad.Tipoambiente;
 import es.mityc.firmaJava.libreria.xades.DataToSign;
-import es.mityc.firmaJava.libreria.xades.EnumFormatoFirma;
 import es.mityc.firmaJava.libreria.xades.XAdESSchemas;
 import es.mityc.javasign.xml.refs.InternObjectToSign;
 import es.mityc.javasign.xml.refs.ObjectToSign;
 import java.io.File;
-import java.util.Date;
 import org.w3c.dom.Document;
 
 /**

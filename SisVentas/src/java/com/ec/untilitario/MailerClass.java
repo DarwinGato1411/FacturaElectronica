@@ -7,8 +7,12 @@ package com.ec.untilitario;
 import com.ec.entidad.Tipoambiente;
 import com.ec.servicio.ServicioTipoAmbiente;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.activation.DataHandler;
 import javax.activation.FileDataSource;
 import javax.mail.Session;
@@ -22,6 +26,7 @@ import javax.mail.Address;
 import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.PasswordAuthentication;
+import javax.mail.internet.MimeUtility;
 
 /**
  * Clase que permite el envio de e-mails utilizando el API javamail.
@@ -87,6 +92,8 @@ public class MailerClass {
             // Get the default Session object.
             Session session = Session.getInstance(properties, auth);
             MimeMessage m = new MimeMessage(session);
+            String nickFrom = MimeUtility.encodeText("Plataforma de búsqueda de funciones");
+            String nickTo = MimeUtility.encodeText("Usuario genial");
             Address addressfrom = new InternetAddress();
             InternetAddress[] recipientAddress = new InternetAddress[address.size()];
             int count = 0;
@@ -169,9 +176,13 @@ public class MailerClass {
         } catch (javax.mail.MessagingException e) {
             System.out.println("error" + e);
             e.printStackTrace();
+            return false;
 
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(MailerClass.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
+
     }
 
     class SmtpAuthenticator extends Authenticator {
@@ -196,8 +207,9 @@ public class MailerClass {
 //    
 //      m.setRecipients(Message.RecipientType.TO,
 //                    InternetAddress.parse(address));
-    public boolean sendMailSimple(String address, String mensaje,
-            String[] attachFiles, String asuntoInf, String acceso)
+    public boolean sendMailSimple(String address,
+            String[] attachFiles, String asuntoInf, String acceso,
+            String numeroDocumento, BigDecimal valorTotal, String cliente)
             throws java.rmi.RemoteException {
 
         try {
@@ -237,67 +249,85 @@ public class MailerClass {
             // Get the default Session object.
             Session session = Session.getInstance(properties, auth);
             MimeMessage m = new MimeMessage(session);
-            Address addressfrom = new InternetAddress(usuarioSmpt);
+            String nickFrom = MimeUtility.encodeText(amb.getAmNombreComercial());
+//            String nickTo = MimeUtility.encodeText(amb.getAmNombreComercial());
+            Address addressfrom = new InternetAddress(usuarioSmpt, nickFrom);
 
             m.setFrom(addressfrom);
 
             BodyPart texto = new MimeBodyPart();
-//            texto.setText("Informacion que  se desee enviar");
-//            String linkFacebook = "https://www.facebook.com/papeleriacom/?fref=ts";
-//            String linkPortal = "http://186.4.130.202:8080/ventas/portal/inicio.zul";
-//            String nombrePortal = "Portal para sus facturas electonicas";
+            String HTMLENVIO = "<body style=\"color: #666; font-size: 14px; font-family: 'Open Sans',Helvetica,Arial,sans-serif;\">\n"
+                    + "<div class=\"box-content\" style=\"width: 80%; margin: 20px auto; max-width: 800px; min-width: 600px;\">\n"
+                    + "    <div class=\"header-tip\" style=\"font-size: 10px;\n"
+                    + "                                   color: #010e07;\n"
+                    + "                                   text-align: right;\n"
+                    + "                                   padding-right: 25px;\n"
+                    + "                                   padding-bottom: 10px;\">\n"
+                    + "      DESAROLLO DE SOFTWARE SOBRE MEDIDA\n"
+                    + "    </div>\n"
+                    + "    <div class=\"info-top\" style=\"padding: 15px 25px;\n"
+                    + "                                 border-top-left-radius: 10px;\n"
+                    + "                                 border-top-right-radius: 10px;\n"
+                    + "                                 background: #007ff7;\n"
+                    + "                                 color: #fff;\n"
+                    + "                                 overflow: hidden;\n"
+                    + "                                 line-height: 32px;\">\n"
+                    + "        <div style=\"color:#00000;font-size:18px\"><strong>\n"
+                    + "		 DOCUMENTO ELETRONICO DE: " + amb.getAmNombreComercial().toUpperCase() + "</strong></div>\n"
+                    + "		<div style=\"color:#00000;font-size:11px\"><strong>\n"
+                    + "		SISTEMA DE FACTURACION ELECTRONICA  </strong></div>\n"
+                    + "    </div>\n"
+                    + "    <div class=\"info-wrap\" style=\"border-bottom-left-radius: 10px;\n"
+                    + "                                  border-bottom-right-radius: 10px;\n"
+                    + "                                  border:1px solid #ddd;\n"
+                    + "                                  overflow: hidden;\n"
+                    + "                                  padding: 15px 15px 20px;\">\n"
+                    + "        <div class=\"tips\" style=\"padding:15px;\">\n"
+                    + "            <p style=\" list-style: 160%; margin: 10px 0;\">Estimado cliente,</p>\n"
+                    + "            <p style=\" list-style: 160%; margin: 10px 0;\">" + cliente + "</p>\n"
+                    + "			<p style=\" list-style: 160%; margin: 10px 0;\">Su documento electronico se ha generado correctamente</p>\n"
+                    + "			<p style=\" list-style: 160%; margin: 10px 0;\">Numero de documento:"
+                    + "                 <strong style=\"color:#010e07\"> " + numeroDocumento + "</strong></p>\n"
+                    + "			<p style=\" list-style: 160%; margin: 10px 0;\">Clave de acceso:"
+                    + "                 <strong style=\"color:#010e07\"> " + acceso + "</strong></p>\n"
+                    + "            <p style=\" list-style: 160%; margin: 10px 0;\">Sus archivos PDF y XML se enviaron de forma adjunta, por favor reviselos</p>\n"
+                    + "        </div>\n"
+                    + "        <div class=\"time\" style=\"text-align: right; color: #999; padding: 0 15px 15px;\">Valor total:"
+                    + "<strong style=\"color:#010e07\"> $" + ArchivoUtils.redondearDecimales(valorTotal, 2) + "</strong> </div>\n"
+                    + "        <br>\n"
+                    + "        <table class=\"list\" style=\"width: 100%; border-collapse: collapse; border-top:1px solid #eee\">\n"
+                    + "            <thead>\n"
+                    + "            <tr style=\" background: #fafafa; color: #333; border-bottom: 1px solid #eee\">\n"
+                    + "                Si tienes alguna consulta con respecto a esta informacion no dudes en comunicarte con nosotros, caso contrario no es necesario responder a este correo electrónico.\n"
+                    + "            </tr>\n"
+                    + "            </thead>\n"
+                    + "            <tbody>\n"
+                    + "	\n"
+                    + "			  <tr style=\" background: #fafafa; color: #333; border-bottom: 1px solid #eee;;font-size:7px\n"
+                    + "				align-items: center;display: flex;justify-content: center;\">\n"
+                    + "			  <td style=\" font-size:9px\">Copyright © 2022 Deckxel, All rights reserved.</td>\n"
+                    + "\n"
+                    + "			 </tr>\n"
+                    + "			 <tr style=\" background: #fafafa; color: #333; border-bottom: 1px solid #eee;;font-size:7px\n"
+                    + "				align-items: center;display: flex;justify-content: center;\">\n"
+                    + "			  <td style=\" font-size:9px\">Darwin Morocho - Tlf. 0993530018</td>\n"
+                    + "\n"
+                    + "			 </tr>\n"
+                    + "\n"
+                    + "			  <tr style=\" background: #fafafa; color: #333; border-bottom: 1px solid #eee;;font-size:7px\n"
+                    + "				align-items: center;display: flex;justify-content: center;\">\n"
+                    + "			  <td style=\" font-size:9px\">Quito, Tabacundo , Otavalo - Ecuador </td>\n"
+                    + "\n"
+                    + "			 </tr>\n"
+                    + "\n"
+                    + "            </tbody>\n"
+                    + "        </table>\n"
+                    + "    </div>\n"
+                    + "</div>\n"
+                    + "</body>\n"
+                    + "";
 
-            texto.setContent("<h4>" + mensaje + "</h4><br>"
-                    + "<table>\n"
-                    + " <tr>\n"
-                    + "	<td colspan='2'><h1>" + amb.getAmNombreComercial().toUpperCase() + "</h1></td>\n"
-                    + "</tr>\n"
-                    + "	<td colspan='2'><h2>" + amb.getAmRuc() + "</h2></td>\n"
-                    + "</tr>\n"
-                    //                    + " <tr>\n"
-                    //                    + "	<td><h2>Portal de factura electronica:</h2></td>\n"
-                    //                    + "	<td>\n"
-                    //                    + "	<a href=" + linkPortal + "> " + nombrePortal + "</a>\n"
-                    //                    + "	</td>"
-                    //                    + "</tr>\n"
-                    //                    + " <tr>\n"
-                    //                    + "	<td><h2>Su factura Nº:</h2></td>\n"
-                    //                    + "	<td>\n" + factura.getFacNumeroText() + "</td>\n"
-                    //                    + "</tr>\n"
-                    + " <tr>\n"
-                    + "	<td><h2>Clave de acceso:</h2></td>\n"
-                    + "	<td>\n" + acceso + "</td>\n"
-                    + "</tr>\n"
-                    + " <tr>\n"
-                    + "	<td><h2>Autorización:</h2></td>\n"
-                    + "	<td>\n" + acceso + "</td>"
-                    + "</tr>\n"
-                    //                    + " <tr>\n"
-                    //                    + "	<td><h2>Usuario:</h2></td>\n"
-                    //                    + "	<td><h2>\n" + factura.getIdCliente().getCliCedula() + "</h2></td>"
-                    //                    + "</tr>\n"
-                    //                    + " <tr>\n"
-                    //                    + "	<td><h2>Contraseña:</h2></td>\n"
-                    //                    + "	<td><h2>" + factura.getIdCliente().getCliClave() + "</h2></td>"
-                    //                    + "</tr>\n"
-                    //                    + " <tr>\n"
-                    //                    + "	<td>Visitanos en facebook:</td>\n"
-                    //                    + "	<td>\n"
-                    //                    + "	<a href=" + linkFacebook + "> " + linkFacebook + "</a>\n"
-                    //                    + "	</td>"
-                    //                    + "</tr>\n"
-                    //                    + " <tr>\n"
-                    //                    + " <td>Contactenos:</td>\n"
-                    //                    + "	<td>Gonzales Suarez- Otavalo \n"
-                    //                    + "</td>"
-                    //                    + "</tr>\n"
-                    //                    + " <tr>\n"
-                    //                    + "	<td>Telefax:</td><td> 062918661</td>\n"
-                    //                    + "</tr>\n"
-                    //                    + " <tr>\n"
-                    //                    + "	<td>Movil:</td><td> 0987987986</td>\n"
-                    //                    + "</tr>\n"
-                    + "</table>", "text/html");
+            texto.setContent(HTMLENVIO, "text/html");
 
             MimeMultipart multiParte = new MimeMultipart();
             // inicio adjunto
@@ -335,6 +365,9 @@ public class MailerClass {
             System.out.println("error" + e);
             e.printStackTrace();
 
+            return false;
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(MailerClass.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }

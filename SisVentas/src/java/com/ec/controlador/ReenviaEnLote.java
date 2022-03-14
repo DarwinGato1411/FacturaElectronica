@@ -241,9 +241,12 @@ public class ReenviaEnLote {
                 }
                 if (valor.getIdCliente().getCliCorreo() != null) {
                     mail.sendMailSimple(valor.getIdCliente().getCliCorreo(),
-                            "Gracias por preferirnos se ha emitido nuestra factura electrónica",
                             attachFiles,
-                            "FACTURACION ELECTRONICA", valor.getFacClaveAcceso());
+                            "FACTURA ELECTRONICA",
+                            valor.getFacClaveAcceso(),
+                            valor.getFacNumeroText(),
+                            valor.getFacTotal(),
+                            valor.getIdCliente().getCliNombre());
                 }
 
             }

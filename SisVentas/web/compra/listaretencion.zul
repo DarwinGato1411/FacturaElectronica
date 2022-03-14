@@ -78,10 +78,10 @@
                             <listheader width="20%"  label="Estado SRI" />  
                             <listheader width="12%"  label="Fecha Autorizacion" />       
                             <listheader width="43%"  label="Autorizacion" />                             
-                            <listheader width="5%"  label="" />             
-                            <listheader width="5%"  label="" />             
-                            <listheader width="5%"  label="" />             
-                            <listheader width="5%"  label="" />             
+                            <listheader width="3%"  label="" />             
+                            <listheader width="3%"  label="" />             
+                            <listheader width="3%"  label="" />             
+                            <listheader width="3%"  label="" />             
                         </listhead>  
                         
                     
@@ -130,10 +130,10 @@
                                 </listcell>
                                 <listcell zclass = "mycss-listcell" style="font-size:12px;background:#F8F9F9">
                                     <image  if="${each.drcEstadosri!='AUTORIZADO'}" 
-                                        src="/iconos/pdfcotizacion.png" 
+                                        src="/iconos/editar.png" 
                                            class=" grow"
                                            onClick="@command('crearRetencionCompra',valor=each)" 
-                                           tooltiptext="Crear retencion"/>
+                                           tooltiptext="editar retencion"/>
                                     
                                     <image if="${each.drcEstadosri=='S'}" 
                                            src="/iconos/listo_uno.png"   

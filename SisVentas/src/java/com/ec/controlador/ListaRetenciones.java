@@ -26,6 +26,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -305,10 +306,15 @@ public class ListaRetenciones {
 //                            servicioRetencionCompra.modificar(mod);
 //                        }
                             if (valor.getIdCabecera().getIdProveedor().getProvCorreo() != null) {
+
                                 mail.sendMailSimple(valor.getIdCabecera().getIdProveedor().getProvCorreo(),
-                                        "Gracias por preferirnos se ha emitido su retencion electrónica",
                                         attachFiles,
-                                        "RETENCION ELECTRONICA", valor.getRcoAutorizacion());
+                                        "RETENCION ELECTRONICA",
+                                        valor.getRcoAutorizacion(),
+                                        valor.getRcoSecuencialText(),
+                                        BigDecimal.ZERO,
+                                        valor.getIdCabecera().getIdProveedor().getProvNombre());
+
                             }
                         }
 
@@ -485,9 +491,12 @@ public class ListaRetenciones {
 //                        }
                     if (valor.getIdCabecera().getIdProveedor().getProvCorreo() != null) {
                         mail.sendMailSimple(valor.getIdCabecera().getIdProveedor().getProvCorreo(),
-                                "Gracias por preferirnos se ha emitido su retencion electrónica",
                                 attachFiles,
-                                "RETENCION ELECTRONICA", valor.getRcoAutorizacion());
+                                "RETENCION ELECTRONICA",
+                                valor.getRcoAutorizacion(),
+                                valor.getRcoSecuencialText(),
+                                BigDecimal.ZERO,
+                                valor.getIdCabecera().getIdProveedor().getProvNombre());
                     }
                 }
 

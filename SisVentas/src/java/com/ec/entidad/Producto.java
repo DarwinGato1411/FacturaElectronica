@@ -26,7 +26,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -65,10 +64,10 @@ public class Producto implements Serializable {
     @Basic(optional = false)
     @Column(name = "id_producto")
     private Integer idProducto;
-    @Size(max = 100)
+
     @Column(name = "prod_codigo")
     private String prodCodigo;
-    @Size(max = 100)
+
     @Column(name = "prod_nombre")
     private String prodNombre;
     @Column(name = "prod_abreviado")

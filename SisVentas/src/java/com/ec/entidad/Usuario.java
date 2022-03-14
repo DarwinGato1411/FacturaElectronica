@@ -52,6 +52,61 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Usuario.findByUsuNivel", query = "SELECT u FROM Usuario u WHERE u.usuNivel = :usuNivel")})
 public class Usuario implements Serializable {
 
+    @Column(name = "usu_foto")
+    private Character usuFoto;
+    @Size(max = 20)
+    @Column(name = "usu_whatsapp")
+    private String usuWhatsapp;
+    @Size(max = 100)
+    @Column(name = "usu_pagina")
+    private String usuPagina;
+    @Size(max = 100)
+    @Column(name = "usu_facebook")
+    private String usuFacebook;
+    @Column(name = "usu_numero_fotos")
+    private Integer usuNumeroFotos;
+    @Size(max = 150)
+    @Column(name = "usu_fotografia")
+    private String usuFotografia;
+    @Size(max = 150)
+    @Column(name = "usu_actividad")
+    private String usuActividad;
+    @Size(max = 150)
+    @Column(name = "usu_servlet")
+    private String usuServlet;
+    @Column(name = "usu_activa_movil")
+    private Boolean usuActivaMovil;
+    @Column(name = "usu_fecha_reg_mov")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date usuFechaRegMov;
+    @Column(name = "usu_fecha_caduca")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date usuFechaCaduca;
+    @Size(max = 300)
+    @Column(name = "usu_descripcion_negocio")
+    private String usuDescripcionNegocio;
+    @Size(max = 100)
+    @Column(name = "usu_long_negocio")
+    private String usuLongNegocio;
+    @Size(max = 100)
+    @Column(name = "usu_lat_negocio")
+    private String usuLatNegocio;
+    @Column(name = "usu_es_drive")
+    private Boolean usuEsDrive;
+    @Column(name = "usu_drive_activo")
+    private Boolean usuDriveActivo;
+    @Size(max = 10)
+    @Column(name = "usu_drive_placa")
+    private String usuDrivePlaca;
+    @Size(max = 20)
+    @Column(name = "usu_drive_color")
+    private String usuDriveColor;
+    @Column(name = "usu_drive_disponible")
+    private Boolean usuDriveDisponible;
+    @JoinColumn(name = "id_parroquia", referencedColumnName = "id_parroquia")
+    @ManyToOne
+    private Parroquia idParroquia;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -72,9 +127,6 @@ public class Usuario implements Serializable {
     private String usuCorreo;
     @Column(name = "usu_nivel")
     private Integer usuNivel;
-    @Lob
-    @Column(name = "usu_foto")
-    private byte[] usuFoto;
     @Size(max = 100)
     @Column(name = "usu_tipo_usuario")
     private String usuTipoUsuario;
@@ -144,13 +196,13 @@ public class Usuario implements Serializable {
         this.usuNivel = usuNivel;
     }
 
-    public byte[] getUsuFoto() {
-        return usuFoto;
-    }
-
-    public void setUsuFoto(byte[] usuFoto) {
-        this.usuFoto = usuFoto;
-    }
+//    public byte[] getUsuFoto() {
+//        return usuFoto;
+//    }
+//
+//    public void setUsuFoto(byte[] usuFoto) {
+//        this.usuFoto = usuFoto;
+//    }
 
     public String getUsuTipoUsuario() {
         return usuTipoUsuario;
@@ -226,5 +278,165 @@ public class Usuario implements Serializable {
     @Override
     public String toString() {
         return "com.ec.entidad.Usuario[ idUsuario=" + idUsuario + " ]";
+    }
+
+    public Character getUsuFoto() {
+        return usuFoto;
+    }
+
+    public void setUsuFoto(Character usuFoto) {
+        this.usuFoto = usuFoto;
+    }
+
+    public String getUsuWhatsapp() {
+        return usuWhatsapp;
+    }
+
+    public void setUsuWhatsapp(String usuWhatsapp) {
+        this.usuWhatsapp = usuWhatsapp;
+    }
+
+    public String getUsuPagina() {
+        return usuPagina;
+    }
+
+    public void setUsuPagina(String usuPagina) {
+        this.usuPagina = usuPagina;
+    }
+
+    public String getUsuFacebook() {
+        return usuFacebook;
+    }
+
+    public void setUsuFacebook(String usuFacebook) {
+        this.usuFacebook = usuFacebook;
+    }
+
+    public Integer getUsuNumeroFotos() {
+        return usuNumeroFotos;
+    }
+
+    public void setUsuNumeroFotos(Integer usuNumeroFotos) {
+        this.usuNumeroFotos = usuNumeroFotos;
+    }
+
+    public String getUsuFotografia() {
+        return usuFotografia;
+    }
+
+    public void setUsuFotografia(String usuFotografia) {
+        this.usuFotografia = usuFotografia;
+    }
+
+    public String getUsuActividad() {
+        return usuActividad;
+    }
+
+    public void setUsuActividad(String usuActividad) {
+        this.usuActividad = usuActividad;
+    }
+
+    public String getUsuServlet() {
+        return usuServlet;
+    }
+
+    public void setUsuServlet(String usuServlet) {
+        this.usuServlet = usuServlet;
+    }
+
+    public Boolean getUsuActivaMovil() {
+        return usuActivaMovil;
+    }
+
+    public void setUsuActivaMovil(Boolean usuActivaMovil) {
+        this.usuActivaMovil = usuActivaMovil;
+    }
+
+    public Date getUsuFechaRegMov() {
+        return usuFechaRegMov;
+    }
+
+    public void setUsuFechaRegMov(Date usuFechaRegMov) {
+        this.usuFechaRegMov = usuFechaRegMov;
+    }
+
+    public Date getUsuFechaCaduca() {
+        return usuFechaCaduca;
+    }
+
+    public void setUsuFechaCaduca(Date usuFechaCaduca) {
+        this.usuFechaCaduca = usuFechaCaduca;
+    }
+
+    public String getUsuDescripcionNegocio() {
+        return usuDescripcionNegocio;
+    }
+
+    public void setUsuDescripcionNegocio(String usuDescripcionNegocio) {
+        this.usuDescripcionNegocio = usuDescripcionNegocio;
+    }
+
+    public String getUsuLongNegocio() {
+        return usuLongNegocio;
+    }
+
+    public void setUsuLongNegocio(String usuLongNegocio) {
+        this.usuLongNegocio = usuLongNegocio;
+    }
+
+    public String getUsuLatNegocio() {
+        return usuLatNegocio;
+    }
+
+    public void setUsuLatNegocio(String usuLatNegocio) {
+        this.usuLatNegocio = usuLatNegocio;
+    }
+
+    public Boolean getUsuEsDrive() {
+        return usuEsDrive;
+    }
+
+    public void setUsuEsDrive(Boolean usuEsDrive) {
+        this.usuEsDrive = usuEsDrive;
+    }
+
+    public Boolean getUsuDriveActivo() {
+        return usuDriveActivo;
+    }
+
+    public void setUsuDriveActivo(Boolean usuDriveActivo) {
+        this.usuDriveActivo = usuDriveActivo;
+    }
+
+    public String getUsuDrivePlaca() {
+        return usuDrivePlaca;
+    }
+
+    public void setUsuDrivePlaca(String usuDrivePlaca) {
+        this.usuDrivePlaca = usuDrivePlaca;
+    }
+
+    public String getUsuDriveColor() {
+        return usuDriveColor;
+    }
+
+    public void setUsuDriveColor(String usuDriveColor) {
+        this.usuDriveColor = usuDriveColor;
+    }
+
+    public Boolean getUsuDriveDisponible() {
+        return usuDriveDisponible;
+    }
+
+    public void setUsuDriveDisponible(Boolean usuDriveDisponible) {
+        this.usuDriveDisponible = usuDriveDisponible;
+    }
+
+    public Parroquia getIdParroquia() {
+        return idParroquia;
+    }
+
+    public void setIdParroquia(Parroquia idParroquia) {
+        this.idParroquia = idParroquia;
     }
 }

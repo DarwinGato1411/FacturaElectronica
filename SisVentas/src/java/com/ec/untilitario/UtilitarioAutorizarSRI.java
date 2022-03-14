@@ -173,7 +173,7 @@ public class UtilitarioAutorizarSRI {
                         /*PARA EL CASO QUE NO AUTORIZA NO ENVIA EL COREEO*/
                         if (!archivoEnvioCliente.equals("")) {
 
-                            ArchivoUtils.reporteGeneralPdfMail(archivoEnvioCliente.replace(".xml", ".pdf"), valor.getFacNumero(),"FACT");
+                            ArchivoUtils.reporteGeneralPdfMail(archivoEnvioCliente.replace(".xml", ".pdf"), valor.getFacNumero(), "FACT");
                             ArchivoUtils.zipFile(fEnvio, archivoEnvioCliente);
 
                             valor.setFacpath(archivoEnvioCliente.replace(".xml", ".pdf"));
@@ -191,9 +191,12 @@ public class UtilitarioAutorizarSRI {
                             if (valor.getIdCliente().getCliCorreo() != null) {
                                 System.out.println("CORREO DESTINO " + valor.getIdCliente().getCliCorreo());
                                 mail.sendMailSimple(valor.getIdCliente().getCliCorreo(),
-                                        "Gracias por preferirnos se ha emitido nuestra factura electrónica",
                                         attachFiles,
-                                        "FACTURACION ELECTRONICA", valor.getFacClaveAcceso());
+                                        "FACTURA ELECTRONICA",
+                                        valor.getFacClaveAcceso(),
+                                        valor.getFacNumeroText(),
+                                        valor.getFacTotal(),
+                                        valor.getIdCliente().getCliNombre());
                             }
                         }
                     }
@@ -344,7 +347,7 @@ public class UtilitarioAutorizarSRI {
                         }
 
                         System.out.println("PATH DEL ARCHIVO PARA ENVIAR AL CLIENTE " + archivoEnvioCliente);
-                        ArchivoUtils.reporteGeneralPdfMail(archivoEnvioCliente.replace(".xml", ".pdf"), valor.getFacNumero(),"NCRE");
+                        ArchivoUtils.reporteGeneralPdfMail(archivoEnvioCliente.replace(".xml", ".pdf"), valor.getFacNumero(), "NCRE");
                         ArchivoUtils.zipFile(fEnvio, archivoEnvioCliente);
                         /*GUARDA EL PATH PDF CREADO*/
                         valor.setFacPath(archivoEnvioCliente.replace(".xml", ".pdf"));
@@ -362,10 +365,12 @@ public class UtilitarioAutorizarSRI {
                         }
                         if (valor.getIdFactura().getIdCliente().getCliCorreo() != null) {
                             mail.sendMailSimple(valor.getIdFactura().getIdCliente().getCliCorreo(),
-                                    "Gracias por preferirnos se ha emitido nuestra Nota de credito",
                                     attachFiles,
-                                    "NOTA DE CREDITO", valor.getFacClaveAcceso());
-
+                                    "NOTA DE CREDITO ELECTRONICA",
+                                    valor.getFacClaveAcceso(),
+                                    valor.getFacNumeroText(),
+                                    valor.getFacTotal(),
+                                    valor.getIdFactura().getIdCliente().getCliNombre());
                         }
 
                     }

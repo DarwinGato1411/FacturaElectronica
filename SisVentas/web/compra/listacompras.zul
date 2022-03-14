@@ -80,8 +80,9 @@
                                          onChange="self.setValue(self.getValue().toUpperCase());"/>
                             </listheader>        
                             <listheader width="25%"  label="QUIEN INGRESO" />        
-                            <listheader width="5%"  label="" align="center" />        
-                            <listheader width="5%"  label="" align="center" />        
+                            <listheader width="3%"  label="" align="center" />        
+                            <listheader width="3%"  label="" align="center" />        
+                            <listheader width="3%"  label="" align="center" />        
                         </listhead>  
                         
                     
@@ -136,6 +137,15 @@
                                            class="form-control form-control-sm" 
                                            value="@bind(each.idUsuario.usuNombre)"  />
                                     
+                                </listcell>
+                                 <listcell  zclass = "mycss-listcell" >    
+                                     
+                                    <image src="/iconos/factelect.jpg"  
+                                       height=" 30px"   
+                                           class="btn btn btn-secondary btn-sm grow"                                         
+                                           onClick="@command('reporteFacturaCompra',valor=each)"
+                                           tooltiptext="Imprimir factura"/>
+                              
                                 </listcell>
                                 <listcell zclass = "mycss-listcell" style="font-size:12px;background:#F8F9F9">
                                     <image if="${each.cabRetencionAutori!='S'}"

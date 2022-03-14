@@ -48,7 +48,7 @@ public class DetalleCompraSri implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "iprod_cantidad")
     private BigDecimal iprodCantidad;
-    @Size(max = 200)
+
     @Column(name = "iprod_descripcion")
     private String iprodDescripcion;
     @Column(name = "iprod_subtotal")

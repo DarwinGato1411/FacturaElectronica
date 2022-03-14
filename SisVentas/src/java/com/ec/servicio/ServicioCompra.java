@@ -285,7 +285,7 @@ public class ServicioCompra {
             //Connection connection = em.unwrap(Connection.class);
             em = HelperPersistencia.getEMF();
             em.getTransaction().begin();
-            Query query = em.createQuery("SELECT c FROM CabeceraCompra c WHERE c.cabFecha BETWEEN :inicio AND :fin AND c.cabHomologado='N' ORDER BY c.cabFechaEmision DESC");
+            Query query = em.createQuery("SELECT c FROM CabeceraCompra c WHERE c.cabFechaEmision BETWEEN :inicio AND :fin AND c.cabHomologado='N' ORDER BY c.cabFechaEmision DESC");
             query.setParameter("inicio", incio);
             query.setParameter("fin", fin);
             listaCabeceraCompras = (List<CabeceraCompra>) query.getResultList();
