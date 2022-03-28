@@ -21,8 +21,8 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
-/GestionBomberos/dist/
-/GestionBomberos/build/
+/SisVentas/dist/
+/SisVentas/build/
 ### NetBeans ###
 **/nbproject/private/**
 **/nbproject/Makefile-*.mk
@@ -47,7 +47,7 @@ nbdist/
 build/
 !**/src/main/**/build/
 !**/src/test/**/build/
-/GestionBomberos/nbproject/**
-/GestionBomberos/nbproject/private/**
-/GestionBomberos/nbproject/private/private.properties
+/SisVentas/nbproject/**
+/SisVentas/nbproject/private/**
+/SisVentas/nbproject/private/private.properties
  /SisVentas/nbproject/*
