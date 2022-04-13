@@ -4,7 +4,9 @@
  */
 package com.ec.seguridad;
 
+import com.ec.entidad.Tipoambiente;
 import com.ec.entidad.Usuario;
+import com.ec.servicio.ServicioTipoAmbiente;
 import com.ec.servicio.ServicioUsuario;
 import java.io.Serializable;
 
@@ -15,7 +17,7 @@ public class AutentificadorLogeo implements AutentificadorService, Serializable 
 
     private static final long serialVersionUID = 1L;
     ServicioUsuario servicioUsuario = new ServicioUsuario();
-
+    ServicioTipoAmbiente  servicioTipoAmbiente= new ServicioTipoAmbiente();
     public UserCredential getUserCredential() {
         Session sess = Sessions.getCurrent();
         UserCredential cre = (UserCredential) sess.getAttribute(EnumSesion.userCredential.getNombre());
@@ -42,11 +44,11 @@ public class AutentificadorLogeo implements AutentificadorService, Serializable 
         if (!dato.getUsuLogin().equals(nombreUsuario) || !dato.getUsuPassword().equals(claveUsuario)) {
             return false;
         }
-
+        Tipoambiente recup=servicioTipoAmbiente.findByUsuario(dato);
         Session sess = Sessions.getCurrent();
         UserCredential cre = new UserCredential(dato, dato.getUsuLogin(), dato.getUsuPassword(), dato.getUsuNivel(), dato.getUsuNombre());
         // System.out.println("VALOR DE LA CREDENCIAL ASIGNADA A LA SESSION"+EnumSesion.userCredential.getNombre());
-
+        cre.setTipoambiente(recup);
         sess.setAttribute(EnumSesion.userCredential.getNombre(), cre);
 
         return true;

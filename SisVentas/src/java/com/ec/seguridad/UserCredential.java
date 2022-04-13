@@ -5,6 +5,7 @@
 package com.ec.seguridad;
 
 import com.ec.entidad.Cliente;
+import com.ec.entidad.Tipoambiente;
 import com.ec.entidad.Usuario;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -19,6 +20,7 @@ public class UserCredential implements Serializable {
     private Integer nivelUsuario;
     private Usuario usuarioSistema;
     private Cliente cliente;
+    private Tipoambiente tipoambiente;
     Set<String> roles = new HashSet<String>();
 
     public UserCredential(Usuario usuario, String account, String name, Integer nivelUsuario, String nombreUsuario) {
@@ -27,6 +29,16 @@ public class UserCredential implements Serializable {
         this.account = account;
         this.nivelUsuario = nivelUsuario;
         this.nombreUsuario = nombreUsuario;
+    }
+
+    public UserCredential(String account, String name, String nombreUsuario, Integer nivelUsuario, Usuario usuarioSistema, Tipoambiente tipoambiente) {
+        this.account = account;
+        this.name = name;
+        this.nombreUsuario = nombreUsuario;
+        this.nivelUsuario = nivelUsuario;
+        this.usuarioSistema = usuarioSistema;
+        
+        this.tipoambiente = tipoambiente;
     }
 
     public UserCredential(Cliente cliente) {
@@ -98,6 +110,14 @@ public class UserCredential implements Serializable {
 
     public void setNombreUsuario(String nombreUsuario) {
         this.nombreUsuario = nombreUsuario;
+    }
+
+    public Tipoambiente getTipoambiente() {
+        return tipoambiente;
+    }
+
+    public void setTipoambiente(Tipoambiente tipoambiente) {
+        this.tipoambiente = tipoambiente;
     }
 
 }

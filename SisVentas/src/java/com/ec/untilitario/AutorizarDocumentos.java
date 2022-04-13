@@ -685,7 +685,7 @@ public class AutorizarDocumentos {
                     //        + "        <contribuyenteEspecial>5368</contribuyenteEspecial>\n"
                     + "        <obligadoContabilidad>" + amb.getLlevarContabilidad() + "</obligadoContabilidad>\n"
                     + "        <tipoIdentificacionSujetoRetenido>" + retencion.getIdCabecera().getIdProveedor().getIdTipoIdentificacionCompra().getTicCodigo() + "</tipoIdentificacionSujetoRetenido>\n"
-                    + "        <razonSocialSujetoRetenido>" + retencion.getIdCabecera().getIdProveedor().getProvNombre() + "</razonSocialSujetoRetenido>\n"
+                    + "        <razonSocialSujetoRetenido>" + removeCaracteres(retencion.getIdCabecera().getIdProveedor().getProvNombre()) + "</razonSocialSujetoRetenido>\n"
                     + "        <identificacionSujetoRetenido>" + retencion.getIdCabecera().getIdProveedor().getProvCedula() + "</identificacionSujetoRetenido>\n"
                     + "        <periodoFiscal>" + formatoPeriodo.format(retencion.getRcoFecha()) + "</periodoFiscal>\n"
                     + "    </infoCompRetencion>\n"

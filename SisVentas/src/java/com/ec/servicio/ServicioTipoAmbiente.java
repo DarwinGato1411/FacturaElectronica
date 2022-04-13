@@ -5,6 +5,7 @@
 package com.ec.servicio;
 
 import com.ec.entidad.Tipoambiente;
+import com.ec.entidad.Usuario;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -34,7 +35,10 @@ public class ServicioTipoAmbiente {
             em.persist(tipoambiente);
             em.getTransaction().commit();
         } catch (Exception e) {
-            System.out.println("Error en insertar tipoambiente "+e.getMessage());
+            if (em != null) {
+                em.getTransaction().rollback();
+            }
+            System.out.println("Error en insertar tipoambiente " + e.getMessage());
         } finally {
             em.close();
         }
@@ -50,7 +54,10 @@ public class ServicioTipoAmbiente {
             em.getTransaction().commit();
 
         } catch (Exception e) {
-            System.out.println("Error en eliminar  tipoambiente "  +e.getMessage());
+            if (em != null) {
+                em.getTransaction().rollback();
+            }
+            System.out.println("Error en eliminar  tipoambiente " + e.getMessage());
         } finally {
             em.close();
         }
@@ -65,7 +72,10 @@ public class ServicioTipoAmbiente {
             em.merge(tipoambiente);
             em.getTransaction().commit();
         } catch (Exception e) {
-            System.out.println("Error en insertar tipoambiente "+e.getMessage());
+            if (em != null) {
+                em.getTransaction().rollback();
+            }
+            System.out.println("Error en insertar tipoambiente " + e.getMessage());
         } finally {
             em.close();
         }
@@ -113,6 +123,30 @@ public class ServicioTipoAmbiente {
             em.getTransaction().commit();
         } catch (Exception e) {
             System.out.println("Error en lsa consulta tipoambiente");
+        } finally {
+            em.close();
+        }
+
+        return tipoambiente;
+    }
+
+    public Tipoambiente findByUsuario(Usuario usuario) {
+
+        List<Tipoambiente> listaTipoambientes = new ArrayList<Tipoambiente>();
+        Tipoambiente tipoambiente = null;
+        try {
+            //Connection connection = em.unwrap(Connection.class);
+            em = HelperPersistencia.getEMF();
+            em.getTransaction().begin();
+            Query query = em.createQuery("SELECT a FROM tipo a where a.idUsuario=:idUsuario AND a.amEstado=TRUE");
+            query.setParameter("idUsuario", usuario);
+            listaTipoambientes = (List<Tipoambiente>) query.getResultList();
+            if (!listaTipoambientes.isEmpty()) {
+                tipoambiente = listaTipoambientes.get(0);
+            }
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            System.out.println("Error en lsa consulta tipoambiente " + e.getMessage());
         } finally {
             em.close();
         }
