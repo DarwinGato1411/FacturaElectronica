@@ -642,7 +642,7 @@ public class Facturar extends SelectorComposer<Component> {
                     costVentaTipoCliente = productoBuscado.getProdCostoPreferencialDos();
                 }
 
-                valor.setTotalInicial(costVentaTipoClienteInicial.setScale(4, RoundingMode.FLOOR));
+                valor.setTotalInicial(ArchivoUtils.redondearDecimales(costVentaTipoClienteInicial, 5) );
                 BigDecimal porcentajeDesc = valor.getDetPordescuento().divide(BigDecimal.valueOf(100.0), 5, RoundingMode.FLOOR);
                 BigDecimal valorDescuentoIva = costVentaTipoCliente.multiply(porcentajeDesc).setScale(5, RoundingMode.FLOOR);;
                 //valor unitario con descuento ioncluido iva

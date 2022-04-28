@@ -366,7 +366,7 @@ public class AutorizarDocumentos {
                     + "<campoAdicional nombre=\"PLAZO\"> DIAS</campoAdicional>\n"
                     + (valor.getFacPlazo().toString().length() > 0 ? "<campoAdicional nombre=\"DIAS\">" + valor.getFacPlazo().setScale(0) + "</campoAdicional>\n" : " ")
                     + (valor.getFacPorcentajeIva().length() > 0 ? "<campoAdicional nombre=\"TARIFAIMP\">" + valor.getFacPorcentajeIva() + "</campoAdicional>\n" : " ")
-                    // + (amb.getAmMicroEmp() ? "<campoAdicional nombre=\"Contribuyente Regimen Microempresas\">Contribuyente Regimen Microempresas</campoAdicional>\n" : "")
+                     + (amb.getAmRimpe() ? "<campoAdicional nombre=\"CONTRIBUYENTE REGIMEN RIMPE\">CONTRIBUYENTE REGIMEN RIMPE</campoAdicional>\n" : "")
                     // + (amb.getAmAgeRet() ? "<campoAdicional nombre=\"Agente de Retencion\">Agente de Retencion Resolucion Nro. NAC-DNCRASC20-00000001</campoAdicional>\n" : "")
                     + "   </infoAdicional>\n"
                     + "</factura>\n");

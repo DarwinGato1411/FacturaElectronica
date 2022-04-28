@@ -41,9 +41,9 @@
                     <button id="buttonEntrar" 
                             class="btn btn-lg btn-primary btn-block" label="Ingresar">
                     </button>   
-                    <button id="buttonConsultar"  
+<!--                    <button id="buttonConsultar"  
                             class="btn btn-lg btn-success btn-block" label="Consultas">
-                    </button>   
+                    </button>   -->
                 </div>
         </div>
     
