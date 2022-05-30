@@ -62,9 +62,9 @@ public class AutorizarDocumentos {
 
     public static String removeCaracteres(String input) {
         // Cadena de caracteres original a sustituir.
-        String original = "áàäéèëíìïóòöúùuñÁÀÄÉÈËÍÌÏÓÒÖÚÙÜÑçÇ$&¨";
+        String original = "áàäéèëíìïóòöúùuñÁÀÄÉÈËÍÌÏÓÒÖÚÙÜÑçÇ$&¨\"";
         // Cadena de caracteres ASCII que reemplazarán los originales.
-        String ascii = "aaaeeeiiiooouuunAAAEEEIIIOOOUUUNcCxy'";
+        String ascii = "aaaeeeiiiooouuunAAAEEEIIIOOOUUUNcCxy''";
         String output = input;
         for (int i = 0; i < original.length(); i++) {
             // Reemplazamos los caracteres especiales.
@@ -333,7 +333,7 @@ public class AutorizarDocumentos {
                             //+ "            <descripcion>" + removeCaracteres(item.getIdProducto().getProdNombre()) + "</descripcion>\n"
                             + "            <cantidad>" + item.getDetCantidad().setScale(2, RoundingMode.FLOOR) + "</cantidad>\n"
                             + "            <precioUnitario>" + ArchivoUtils.redondearDecimales(item.getDetSubtotal(), 5) + "</precioUnitario>\n"
-                            + (item.getIdProducto().getProdTieneSubsidio().equals("S") ? subsidio : "")
+                            +                    (item.getIdProducto().getProdTieneSubsidio().equals("S") ? subsidio : "")
                             + "            <descuento>" + ArchivoUtils.redondearDecimales(item.getDetCantpordescuento(), 2) + "</descuento>\n"
                             + "            <precioTotalSinImpuesto>" + ArchivoUtils.redondearDecimales(item.getDetSubtotaldescuento().multiply(item.getDetCantidad()), 2) + "</precioTotalSinImpuesto>\n"
                             + "            <impuestos>\n"

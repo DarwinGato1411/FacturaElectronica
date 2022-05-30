@@ -502,8 +502,8 @@ public class Tipoambiente implements Serializable {
     }
 
     public Boolean getAmMicroEmp() {
-        
-        return amMicroEmp==null ?false:amMicroEmp;
+
+        return amMicroEmp == null ? false : amMicroEmp;
     }
 
     public void setAmMicroEmp(Boolean amMicroEmp) {
@@ -535,7 +535,7 @@ public class Tipoambiente implements Serializable {
     }
 
     public Boolean getAmRimpe() {
-        return amRimpe==null?Boolean.TRUE:amRimpe;
+        return amRimpe == null ? Boolean.FALSE : amRimpe;
     }
 
     public void setAmRimpe(Boolean amRimpe) {
