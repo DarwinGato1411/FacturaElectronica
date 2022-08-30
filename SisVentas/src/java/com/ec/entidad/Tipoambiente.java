@@ -165,6 +165,9 @@ public class Tipoambiente implements Serializable {
     private Boolean amExp;
     @Column(name = "am_ripme")
     private Boolean amRimpe;
+    
+    @Column(name = "am_general")
+    private Boolean amGeneral;
 
     public Tipoambiente() {
     }
@@ -540,6 +543,14 @@ public class Tipoambiente implements Serializable {
 
     public void setAmRimpe(Boolean amRimpe) {
         this.amRimpe = amRimpe;
+    }
+
+    public Boolean getAmGeneral() {
+        return amGeneral;
+    }
+
+    public void setAmGeneral(Boolean amGeneral) {
+        this.amGeneral = amGeneral;
     }
 
     @Override

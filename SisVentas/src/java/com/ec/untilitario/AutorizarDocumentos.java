@@ -281,7 +281,7 @@ public class AutorizarDocumentos {
                         + "        <totalSinImpuestos>" + ArchivoUtils.redondearDecimales(valor.getFacSubtotal(), 2) + "</totalSinImpuestos>\n"
                         + "         <totalSubsidio>" + valor.getFacSubsidio().setScale(2, RoundingMode.FLOOR) + "</totalSubsidio>\n"
                         + "        <totalDescuento>" + valor.getFacDescuento().setScale(2, RoundingMode.FLOOR) + "</totalDescuento>\n"
-                        + "        <totalConImpuestos>\n"
+                 + "        <totalConImpuestos>\n"
                         + "            <totalImpuesto>\n"
                         + "                <codigo>" + valor.getFacCodIva() + "</codigo>\n"
                         + "                <codigoPorcentaje>0</codigoPorcentaje>\n"
@@ -299,7 +299,7 @@ public class AutorizarDocumentos {
                     No Objeto de Impuesto -->6 
                     EXENTO DE IVA 7   */
                         + "                 <codigoPorcentaje>" + valor.getCodigoPorcentaje() + "</codigoPorcentaje>\n"
-                        + "                 <baseImponible>" + valor.getFacTotalBaseGravaba().setScale(2, RoundingMode.FLOOR) + "</baseImponible>\n"
+                        + "                 <baseImponible>" + valor.getFacTotalBaseGravaba()+ "</baseImponible>\n"
                         + "                 <tarifa>" + valor.getFacPorcentajeIva() + "</tarifa>\n"
                         + "                 <valor>" + valor.getFacIva().setScale(2, RoundingMode.FLOOR) + "</valor>\n"
                         + "              </totalImpuesto>\n"
@@ -364,7 +364,8 @@ public class AutorizarDocumentos {
                         + "<campoAdicional nombre=\"PLAZO\"> DIAS</campoAdicional>\n"
                         + (valor.getFacPlazo().toString().length() > 0 ? "<campoAdicional nombre=\"DIAS\">" + valor.getFacPlazo().setScale(0) + "</campoAdicional>\n" : " ")
                         + (valor.getFacPorcentajeIva().length() > 0 ? "<campoAdicional nombre=\"TARIFAIMP\">" + valor.getFacPorcentajeIva() + "</campoAdicional>\n" : " ")
-                       + (amb.getAmRimpe() ? "<campoAdicional nombre=\"CONTRIBUYENTE REGIMEN RIMPE\">CONTRIBUYENTE REGIMEN RIMPE</campoAdicional>\n" : "<campoAdicional nombre=\"CONTRIBUYENTE REGIMEN GENERAL\">CONTRIBUYENTE REGIMEN GENERAL</campoAdicional>\n")
+                           +(!amb.getAmGeneral()?( (amb.getAmRimpe() ? "<campoAdicional nombre=\"CONTRIBUYENTE REGIMEN RIMPE\">CONTRIBUYENTE REGIMEN RIMPE</campoAdicional>\n" : "<campoAdicional nombre=\"CONTRIBUYENTE REGIMEN RIMPE\">CONTRIBUYENTE NEGOCIO POPULAR REGIMEN RIMPE </campoAdicional>\n")):"")
+                        + (amb.getAmGeneral() ? "<campoAdicional nombre=\"CONTRIBUYENTE REGIMEN GENERAL\">CONTRIBUYENTE REGIMEN GENERAL</campoAdicional>\n" : "")
                         // + (amb.getAmAgeRet() ? "<campoAdicional nombre=\"Agente de Retencion\">Agente de Retencion Resolucion Nro. NAC-DNCRASC20-00000001</campoAdicional>\n" : "")
                         + "   </infoAdicional>\n"
                         + "</factura>\n");

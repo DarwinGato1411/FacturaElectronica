@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<window  id="windowIdUsuario"  position="center" class="window_reg" closable="true"
+         apply="org.zkoss.bind.BindComposer" 
+         viewModel="@id('vm') @init('com.ec.controlador.RegistroUsuarioExt')">
+
+    <caption label="Registrar usuario" style="font-weight:bold" class="caption" />
+    
+   
+    <div class="container_registro">
+        <div class="wrapper">
+            <div class="col_base">
+                <span>RUC de la empresa</span>
+                <div class="wrapper_input">
+                    <div class="fa-solid fa-address-card icon"></div>
+                    <textbox  maxlength="13"   
+                              value="@bind(vm.usuarioSistema.usuRuc)"
+                              class="input" 
+                    />
+                </div>
+            </div>
+            <div class="col_base">
+                <span>Correo</span>
+                <div class="wrapper_input">
+                    <div class="fa-solid fa-envelope icon"></div>
+                    <textbox  maxlength="100"   
+                              value="@bind(vm.usuarioSistema.usuCorreo)" 
+                              class="input" 
+                    />
+                </div>
+            </div>
+            <div class="col_base">
+               
+                <span>Celular (WhatsApp)</span>
+                <div class="wrapper_input">
+                    <div class="fa-solid fa-phone icon"></div>
+                    <textbox  maxlength="12"   
+                              value="@bind(vm.usuarioSistema.usuWhatsapp)" 
+                              class="input" 
+                    />
+                </div>
+            </div>
+            <div class="col_base">
+                <span>Responsable de la cuenta</span>
+                <div class="wrapper_input"> 
+                    <div class="fa-solid fa-user-group icon"></div>
+                    <textbox  maxlength="100"   
+                              value="@bind(vm.usuarioSistema.usuNombre)" 
+                              class="input" 
+                    />
+                </div>
+            </div>
+            <div class="col_base">
+                <span>Usuario</span>
+                <div class="wrapper_input">
+                    <div class="fa-solid fa-user icon"></div>
+                    <textbox  maxlength="25"   
+                              value="@bind(vm.usuarioSistema.usuLogin)"
+                              class="input" 
+                    />
+                </div>
+            </div>
+            <div class="col_base">
+                <span>Contraseña</span> 
+                <div class="wrapper_input">
+                    <div class="fa-solid fa-key icon"></div>
+                    <textbox  maxlength="25"   
+                              type="password"
+                              value="@bind(vm.usuarioSistema.usuPassword)"
+                              class="input" 
+                    />
+                </div>
+            </div>
+
+            <button 
+                class="col_base btn btn_reg" 
+                onClick="@command('guardar')"
+                autodisable="self"
+                label="Ingresar">
+                Guardar
+            </button>   
+            
+        </div>
+    </div>
+                    
+                  
+</window>

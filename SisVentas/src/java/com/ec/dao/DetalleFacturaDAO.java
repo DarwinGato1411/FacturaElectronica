@@ -244,7 +244,7 @@ public class DetalleFacturaDAO {
     }
 
     public Boolean getEsProducto() {
-        return esProducto;
+        return esProducto==null?Boolean.TRUE:esProducto;
     }
 
     public void setEsProducto(Boolean esProducto) {

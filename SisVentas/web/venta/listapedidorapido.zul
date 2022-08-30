@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?link rel="stylesheet" type="text/css" href="/css/boostrap/bootstrap.css"?>  
 <?link rel="stylesheet" type="text/css" href="/css/style.css"?>
+<?link rel="stylesheet" type="text/css" href="/css/app/ventas/modales.css"?>
+<?script src="https://kit.fontawesome.com/484b16c999.js"?>
+
 <?init class="com.ec.seguridad.Autentificador"?>
 <?init class="org.zkoss.zk.ui.util.Composition" arg0="/plantilla/plantilla.zul"?>
 <?link rel="icon" type="image/x-icon" href="/iconos/deckxel.ico"?>

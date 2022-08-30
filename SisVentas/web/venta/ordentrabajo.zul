@@ -1,23 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?link rel="stylesheet" type="text/css" href="/css/boostrap/bootstrap.css"?>  
 <?link rel="stylesheet" type="text/css" href="/css/style.css"?>
+<?link rel="stylesheet" type="text/css" href="/css/app/ventas/facturar.css"?>
+<?link rel="stylesheet" type="text/css" href="/css/app/ventas/modales.css"?>
+<?script src="https://kit.fontawesome.com/484b16c999.js"?>
+
 <?init class="com.ec.seguridad.Autentificador"?>
 <?init class="org.zkoss.zk.ui.util.Composition" arg0="/plantilla/plantilla.zul"?>
 <?link rel="icon" type="image/x-icon" href="/iconos/deckxel.ico"?>
 <zk  contentStyle="overflow:auto" class="container" >
     
-    <style>
+<!--    <style>
         .z-listbox-autopaging .z-listcell-cnt {
         height: 15px;
         overflow: hidden;
         }
         
-    </style>
+    </style>-->
    
     <div self="@define(content)" apply="org.zkoss.bind.BindComposer"            
          viewModel="@id('vm') @init('com.ec.controlador.OrdenTrabajoVm')" 
-         style="margin-top:5px"
-         class=" mb-12 col-11 col-sm-11 col-md-12 col-lg-12">
+        width="100%">
                           
         <div class="container">
             <div class="row">

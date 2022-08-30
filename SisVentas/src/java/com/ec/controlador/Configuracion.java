@@ -159,36 +159,16 @@ public class Configuracion extends SelectorComposer<Component> {
                 if (!baseDir.exists()) {
                     baseDir.mkdirs();
                 }
-                HSSFWorkbook wb = new HSSFWorkbook(media.getStreamData());
                 Files.copy(new File(filePath + media.getName()),
                             media.getStreamData());
                 tipoambiente.setAmDirFirma(nombre);
 
-                HSSFSheet sheet = wb.getSheetAt(0);
-
-                int rows = sheet.getLastRowNum();
-                for (int i = 1; i < rows; ++i) {
-                    HSSFRow row = sheet.getRow(i);
-
-                    HSSFCell productCell = row.getCell(0);
-                    HSSFCell priceCell = row.getCell(1);
-                    HSSFCell linkCell = row.getCell(2);
-
-                    String product = productCell.getStringCellValue();
-                    BigDecimal price = new BigDecimal(priceCell.getNumericCellValue()).setScale(2, BigDecimal.ROUND_HALF_DOWN);
-                    String link = linkCell.getStringCellValue();
-
-                    System.out.printf("%s, %s, %s%n", product, price.toString(), link);
-                }
             }
 
         }
     }
 
     public void LeerExcel() {
-
-        
-   
 
     }
     //Imagen ruta 

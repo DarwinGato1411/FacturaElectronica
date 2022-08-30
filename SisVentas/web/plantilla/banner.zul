@@ -13,7 +13,7 @@
             <div class="col-12 col-sm-12 col-md-5 col-lg-5  " align="start" style="float: right; " >
                 <div apply="org.zkoss.bind.BindComposer" 
                      viewModel="@id('vm') @init('com.ec.controlador.MenuToolbar')">
-                    <toolbar id="tb" height="30px"  style="background-color:#1ebea5;" >
+                    <toolbar id="tb" height="30px"  style="background-color:transparent" >
                         <!--<toolbarbutton image="/iconos/fact.png" label="Facturar" onClick="@command('facturar')" />-->
                         <toolbarbutton image="/iconos/page.png" label="Producto" if="${sessionScope.usuario.usuarioSistema.usuNivel == 1}" onClick="@command('nuevoProducto')" />
                         <toolbarbutton image="/iconos/user.png" label="Cliente" onClick="@command('nuevoCliente')" />
@@ -44,7 +44,7 @@
                                 <menuitem label="Emitir Facturas" id="btnFacturar"  />
                                 <!--<menuitem label="Orden de trabajo" id="btnOrdenTrab"  />-->
                                  <menuitem label="Facturas por cobrar" id="btnfactCobra"  />
-                                <menuitem label="Cierre de caja" id="btnCierreCajaUsu"  />
+                                <!--<menuitem label="Cierre de caja" id="btnCierreCajaUsu"  />-->
                             </menupopup>
                         </menu>
                         <menu label="Gestion de ventas"  id="menuVentas">

@@ -1,0 +1,159 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap");
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box !important;
+}
+
+* {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+body {
+  line-height: 1.5 !important;
+  -webkit-font-smoothing: antialiased !important;
+  font-family: "Poppins", sans-serif !important;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+.main_container {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* 
+ * Seccione de registro
+*/
+
+.container_registro {
+  width: 80%;
+  border: none !important;
+}
+
+.container_registro {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  gap: 2px;
+}
+
+.container_registro > .col_base {
+  border: solid blue 1px;
+  width: 48%;
+}
+
+.container_registro > .col_base:last-child {
+  flex: auto;
+}
+
+.window_reg {
+  width: 80% !important;
+}
+
+.caption {
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 1rem;
+  padding: 0.5em !important;
+}
+
+.z-caption,
+.z-caption-l {
+  font-size: 16px !important;
+  color: gray;
+}
+
+.container_registro {
+  padding: 2em 1em !important;
+}
+
+.container_registro > .wrapper {
+  background-color: transparent !important;
+  width: 100%;
+  display: flex !important;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.container_registro > .wrapper > .col_base {
+  width: 100%;
+}
+
+.col_base > .wrapper_input > span * {
+  display: block;
+  margin-bottom: 1em !important;
+}
+
+.col_base > .wrapper_input {
+  position: relative;
+  margin-top: 0.7em !important;
+}
+
+.col_base > .wrapper_input > .icon {
+  position: absolute;
+  top: 5px;
+  margin-left: 0.3em !important;
+  color: #1247b9;
+}
+
+.col_base > .wrapper_input > .input {
+  width: 100%;
+  padding: 3px 3px 3px 25px !important;
+  outline: none !important;
+  border: solid 1px #ccc;
+  border-radius: 5px;
+}
+
+.btn_reg {
+  height: 30px !important;
+  margin-top: 28px !important;
+  padding: 3px 3px 3px 25px;
+}
+
+.btn {
+  width: 100%;
+  border-radius: 7px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  background-color: #1247b9;
+  border: none !important;
+}
+
+.btn:active {
+  transform: translateY(-2px);
+}
+
+@media only screen and (min-width: 768px) {
+  .window_reg {
+    width: 400px !important;
+  }
+
+  /* .container_registro > .wrapper {
+    flex-direction: row !important;
+    flex-wrap: wrap;
+  } */
+
+  /* .container_registro > .wrapper > .col_base {
+    width: 215px;
+  } */
+}

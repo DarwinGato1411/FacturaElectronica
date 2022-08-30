@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+
 <window  id="windowCliente"  position="center" class="col-12 col-sm-12 col-md-8 col-lg-6 " closable="true"  
-         apply="org.zkoss.bind.BindComposer" 
+         apply="org.zkoss.bind.BindComposTer" 
          viewModel="@id('vm') @init('com.ec.controlador.NuevoProducto')">
     
 
     <caption label="Producto" style="font-weight:bold" /> 
     
     
-    <div  class="container" >
+    <div  class="container wrapp" >
         <div  class="row" >
             <div class="col-12 col-sm-12 col-md-12 col-lg-12  form-group "  > 
                 <radiogroup 

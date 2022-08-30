@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<window  id="windowCliente"  position="center" class="col-12 col-sm-12 col-md-8 col-lg-6" closable="true"  
+<window  id="windowCliente"  position="center" closable="true"  
          apply="org.zkoss.bind.BindComposer" 
          viewModel="@id('vm') @init('com.ec.controlador.NuevoProveedor')">
     
     <caption label="Proveedor" style="font-weight:bold"
     /> 
-    <div  class="container" >
+    <!-- <div  class="container" >
         <div  class="row" >
             <div class="col-12 col-6 col-md-4 col-lg-4  form-group "  >
                 <label value="(*) " style="color:red;font-weight:bold"/>Tipo de Identifi.
@@ -23,11 +23,12 @@
             <div class="col-12 col-sm-12 col-md-4 col-lg-4  form-group "  >
                 <label   style="color:red;font-weight:bold" value="(*) "  />CI/Ruc:
                 <textbox  maxlength="13"  
+                          onOK="@command('buscarAduana')"
                           value="@bind(vm.proveedor.provCedula)" 
                           class="form-control" />
             </div>          
             <div class="col-12 col-sm-12 col-md-4 col-lg-4  form-group "  >
-                <label value="(*) " style="color:red;font-weight:bold"/>Nombre del proveedor:
+                <label value="(*) " style="color:red;font-weight:bold"/>wrapper_input_mod del proveedor:
                 
                 <textbox  maxlength="100" 
                           onChange="self.setValue(self.getValue().toUpperCase())"
@@ -80,7 +81,7 @@
                           class="form-control" />
             </div>
             <div class="col-12 col-sm-12 col-md-6 col-lg-6  form-group "  >
-                <label value="(*)" style="color:transparent;font-weight:bold"/>Nombre del Banco:
+                <label value="(*)" style="color:transparent;font-weight:bold"/>wrapper_input_mod del Banco:
               
                 <textbox  maxlength="100" 
                           value="@bind(vm.proveedor.provBanco)"
@@ -111,7 +112,164 @@
             </div> 
         </div>
    
+    </div> -->
+
+    <div class="container_modal">
+
+        <div class="body">
+            <div class="container_row_input">
+                <div class="wrapper_input_mod">
+                    <span>Identificación: </span>
+                    <div class="wrapper_input_text">
+                        <div class="fa-solid fa-address-card icon"></div>
+                        <combobox  
+                            model="@load(vm.listaIdentificacionCompras)"  
+                            selectedItem="@bind(vm.identificacionCompra)"
+                            readonly="true" 
+                            class="input_select"
+                        >           
+                            <template name="model">
+                                <comboitem  label="@bind(each.ticNombre)"/>
+                            </template>                                      
+                        </combobox>
+                        <div 
+                            class="fa-solid fa-chevron-down"
+                            style="position: absolute; right: 7px; top: 7px; color: #1247b9;font-size: 13px" 
+                        />
+                    </div>
+                </div>
+                <div class="wrapper_input_mod">
+                    <span>Ruc: </span>
+                    <div class="wrapper_input_text">
+                        <div class="fa-solid fa-address-card icon"></div>
+                        <textbox    
+                            onOK="@command('buscarAduana')"
+                            value="@bind(vm.proveedor.provCedula)"
+                            class="input_text" 
+                        />
+                    </div>
+                </div>
+                <div class="wrapper_input_mod">
+                    <span>Nombres: </span>
+                    <div class="wrapper_input_text">
+                        <div class="fa-solid fa-user icon"></div>
+                        <textbox  
+                            maxlength="100" 
+                            onChange="self.setValue(self.getValue().toUpperCase())"
+                            value="@bind(vm.proveedor.provNombre)" 
+                            class="input_text"
+                        />
+                    </div>
+                </div>
+
+            </div>
+            <div class="container_row_input">
+                <div class="wrapper_input_mod">
+                    <span>Telf. Conv.: </span>
+                    <div class="wrapper_input_text">
+                        <div class="fa-solid fa-user icon"></div>
+                        <textbox  
+                            maxlength="100" 
+                            value="@bind(vm.proveedor.provTelefono)" 
+                            class="input_text" 
+                        />
+                    </div>
+                </div>
+                <div class="wrapper_input_mod">
+                    <span>Telf. Cel: </span>
+                    <div class="wrapper_input_text">
+                        <div class="fa-solid fa-clipboard-user icon"></div>
+                        <textbox  id="txtNombreComercial"
+                          maxlength="100" 
+                          value="@bind(vm.proveedor.provMovil)" 
+                          onChange="self.setValue(self.getValue().toUpperCase().trim());" 
+                          
+                          class="input_text" 
+                        />
+                    </div>
+                </div>
+                <div class="wrapper_input_mod">
+                    <span>Dirección: </span>
+                    <div class="wrapper_input_text">
+                        <div class="fa-solid fa-city icon"></div>
+                        <textbox 
+                            id="txtDireccion" maxlength="100" 
+                            value="@bind(vm.proveedor.provDireccion)" 
+                            onChange="self.setValue(self.getValue().toUpperCase());" 
+                            class="input_text"
+                            />
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="body">
+            <div class="container_row_input">
+                <div class="wrapper_input_mod">
+                    <span>Correo: </span>
+                    <div class="wrapper_input_text">
+                        <div class="fa-solid fa-calendar icon"></div>
+                         <textbox  
+                            maxlength="100" 
+                            value="@bind(vm.proveedor.provCorreo)"
+                            class="input_text" />
+                    </div>
+                </div>
+                <div class="wrapper_input_mod">
+                    <span>Pagina web. </span>
+                    <div class="wrapper_input_text">
+                        <div class="fa-solid fa-globe icon"></div>
+                        <textbox  
+                            maxlength="100" 
+                            value="@bind(vm.proveedor.provPagina)"
+                            class="input_text" 
+                        />
+                    </div>
+                </div>
+                <div class="wrapper_input_mod">
+                    <span>Nombre del banco </span>
+                    <div class="wrapper_input_text">
+                        <div class="fa-solid fa-mobile icon"></div>
+                        <textbox  
+                            maxlength="100" 
+                            value="@bind(vm.proveedor.provBanco)"
+                            class="input_text" 
+                        />
+                    </div>
+                </div>
+            </div>
+            <div class="container_row_input">
+                <div class="wrapper_input_mod">
+                    <span>Tipo de cuenta: </span>
+                    <div class="wrapper_input_text">
+                        <div class="fa-solid fa-sack-dollar icon"></div>
+                        <textbox  maxlength="100" 
+                          value="@bind(vm.proveedor.provTipoCuenta)"
+                          class="input_text" />
+                    </div>
+                </div>
+                <div class="wrapper_input_mod" style="flex:auto">
+                    <span style="margin:0 0.5em">Numero de cuenta. </span>
+                    <div class="wrapper_input_text" style="width:100%">
+                        <div class="fa-solid fa-dollar-sign icon"></div>
+                        <textbox  
+                            maxlength="100" 
+                            value="@bind(vm.proveedor.provNumeroCuenta)"
+                            class="input_text" 
+                        />
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <div style="display:flex;justify-content:flex-end;">
+            <button class="btn_modal" style="width:300px" onClick="@command('guardar')">
+                Guardar
+            </button>
+        </div>
     </div>
+
     
                     
                   

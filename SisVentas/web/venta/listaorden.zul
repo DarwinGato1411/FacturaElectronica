@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?link rel="stylesheet" type="text/css" href="/css/boostrap/bootstrap.css"?>  
 <?link rel="stylesheet" type="text/css" href="/css/style.css"?>
+<?link rel="stylesheet" type="text/css" href="/css/app/ventas/facturar.css"?>
+<?link rel="stylesheet" type="text/css" href="/css/app/ventas/modales.css"?>
+<?script src="https://kit.fontawesome.com/484b16c999.js"?>
+
 <?init class="com.ec.seguridad.Autentificador"?>
 <?init class="org.zkoss.zk.ui.util.Composition" arg0="/plantilla/plantilla.zul"?>
 <?link rel="icon" type="image/x-icon" href="/iconos/deckxel.ico"?>
@@ -13,8 +17,9 @@
             </tabs>
             <tabpanels >
                 
-                <tabpanel  height="98%" width="99%"  >                    
-                    <div style="margin-bottom:7px" class="col-12 col-sm-12 col-md-12 col-lg-12" >
+                <tabpanel  height="98%" width="99%"  class="factura" >     
+                     <div class="container_headers" style="margin-bottom:1em">     
+                    <!--<div style="margin-bottom:7px" class="col-12 col-sm-12 col-md-12 col-lg-12" >-->
                         <textbox value="@bind(vm.buscar)"               
                                  tooltiptext="Busqueda por nombre , apellido o numero"
                                  class="form-control form-control-sm col-6 col-sm-6 col-md-2 col-lg-2"                                         
@@ -22,7 +27,10 @@
                                  onOK="@command('buscarOrdenes')"
                                  onChange="self.setValue(self.getValue().toUpperCase());" />
                         
-                    </div>
+                    <!--</div>-->
+                     
+                    </div>  
+                    <div class="factura_body">
                     <listbox model="@load(vm.listaDatos)" 
                              nonselectableTags="*"  mold="paging" pageSize="15"  >
                         <custom-attributes org.zkoss.zul.listbox.rod="true"/>
@@ -104,7 +112,7 @@
                             </listitem>
                         </template>
                     </listbox>
-                
+                </div>
                 </tabpanel>
             </tabpanels>
             

@@ -81,10 +81,34 @@
                 </div>     
                 <div class="col-12 col-sm-12 col-md-12 col-lg-12  form-group "  >
                                       
-                    <checkbox id="chkRM" label="CONTRIBUYENTE REGIMEN MICROEMPRESAS" checked="@bind(vm.tipoambiente.amMicroEmp)" />
-                    <checkbox id="chkAR" label="AGENTE DE RETENCION" checked="@bind(vm.tipoambiente.amAgeRet)"/>
-                    <checkbox id="chkCE" label="CONTRIBUYENTE ESPECIAL"  checked="@bind(vm.tipoambiente.amContrEsp)"/>
-                    <checkbox id="chkEX" label="EXPORTADORES"  checked="@bind(vm.tipoambiente.amExp)"/>
+                    <checkbox 
+                        id="chkRM" 
+                        label="CONTRIBUYENTE REGIMEN GENERAL" 
+                        checked="@bind(vm.tipoambiente.amGeneral)" 
+                    />
+                    <checkbox 
+                        id="chkRG" 
+                        label="CONTRIBUYENTE REGIMEN RIMPE" 
+                        checked="@bind(vm.tipoambiente.amRimpe)" 
+                    />
+
+                    <checkbox 
+                        id="chkAR" 
+                        label="AGENTE DE RETENCION" 
+                        checked="@bind(vm.tipoambiente.amAgeRet)"
+                    />
+
+                    <checkbox 
+                        id="chkCE" 
+                        label="CONTRIBUYENTE ESPECIAL"  
+                        checked="@bind(vm.tipoambiente.amContrEsp)"
+                    />
+
+                    <checkbox 
+                        id="chkEX" 
+                        label="EXPORTADORES"  
+                        checked="@bind(vm.tipoambiente.amExp)"
+                    />
                 </div>     
                    
                 <div class="col-12 col-sm-12 col-md-4 col-lg-4  form-group " >

@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="factura" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 	<property name="ireport.zoom" value="1.2100000000000002"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="28"/>
+	<property name="ireport.y" value="0"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -227,6 +227,7 @@ where factura.fac_numero=$P{numfactura};]]>
 	<field name="am_contr_esp" class="java.lang.Boolean"/>
 	<field name="am_exp" class="java.lang.Boolean"/>
 	<field name="am_ripme" class="java.lang.Boolean"/>
+	<field name="am_general" class="java.lang.Boolean"/>
 	<field name="id_factura" class="java.lang.Integer"/>
 	<field name="id_estado" class="java.lang.Integer"/>
 	<field name="id_usuario" class="java.lang.Integer"/>
@@ -553,13 +554,17 @@ where factura.fac_numero=$P{numfactura};]]>
 				<reportElement positionType="Float" x="10" y="241" width="274" height="14">
 					<printWhenExpression><![CDATA[$F{am_age_ret}]]></printWhenExpression>
 				</reportElement>
-				<textElement/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
 				<text><![CDATA[AGENTE DE RETENCION: NAC-DNCRASC20-00000001]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="11" y="221" width="273" height="15"/>
-				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{am_ripme}?"CONTRIBUYENTE REGIMEN RIMPE":"REGIMEN GENERAL"]]></textFieldExpression>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{am_general}?"REGIMEN POPULAR":($F{am_ripme}?"CONTRIBUYENTE REGIMEN RIMPE":"CONTRIBUYENTE NEGOCIO POPULAR REGIMEN RIMPE")]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>

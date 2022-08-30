@@ -144,7 +144,6 @@ public class Producto implements Serializable {
     private String prodUnidadConversion;
     @Column(name = "prod_factor_conversion")
     private BigDecimal prodFactorConversion;
-    
 
     @OneToMany(mappedBy = "idProducto")
     private Collection<DetalleCompraSri> detalleCompraSriCollection;
@@ -434,8 +433,6 @@ public class Producto implements Serializable {
     public void setProdFactorConversion(BigDecimal prodFactorConversion) {
         this.prodFactorConversion = prodFactorConversion;
     }
-    
-    
 
     @Override
     public int hashCode() {
@@ -445,7 +442,7 @@ public class Producto implements Serializable {
     }
 
     public Boolean getProdGrabaIva() {
-        return prodGrabaIva;
+        return prodGrabaIva == null ? Boolean.TRUE : prodGrabaIva;
     }
 
     public void setProdGrabaIva(Boolean prodGrabaIva) {
@@ -461,7 +458,7 @@ public class Producto implements Serializable {
     }
 
     public String getProdTieneSubsidio() {
-        return prodTieneSubsidio;
+        return prodTieneSubsidio==null?"N":prodTieneSubsidio;
     }
 
     public void setProdTieneSubsidio(String prodTieneSubsidio) {
@@ -515,9 +512,6 @@ public class Producto implements Serializable {
     public void setProdUnidadMedida(String prodUnidadMedida) {
         this.prodUnidadMedida = prodUnidadMedida;
     }
-    
-    
-    
 
     @Override
     public boolean equals(Object object) {

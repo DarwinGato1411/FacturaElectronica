@@ -258,7 +258,8 @@ public class GuiaRemision {
                 guiaremision.setMotivoGuia(motivoGuia);
                 guiaremision.setPartida(partida);
                 guiaremision.setLlegada(llegada);
-                guiaremision.setTipoGuia(tipoGuiaRemision);
+                guiaremision.setFacTotal(BigDecimal.ZERO);
+               guiaremision.setTipoGuia(tipoGuiaRemision);
                 List<DetalleGuiaremision> detalleGuia = new ArrayList<DetalleGuiaremision>();
                 DetalleGuiaremision nuevo = null;
                 for (DetalleGuiaDao itemDet : listaGuiaModel) {

@@ -1,53 +1,80 @@
-<?link rel="stylesheet" type="text/css" href="/css/boostrap/bootstrap.css"?>   
-<?link rel="stylesheet" type="text/css" href="/css/style.css"?>
-<?link rel="icon" type="image/x-icon" href="/iconos/deckxel.ico"?>  
+<?link rel="stylesheet" type="text/css" href="/css/app/base.css"?>   
+<?link rel="stylesheet" type="text/css" href="/css/app/landing/signin.css"?>
+<?link rel="stylesheet" type="text/css" href="/css/app/menu.css"?>
+<?script src="https://kit.fontawesome.com/484b16c999.js"?>
+
+<?link rel="icon" type="image/x-icon" href="/iconos/defact.ico"?>  
 <?page title="Facturacion electrónica" contentType="text/html;charset=UTF-8"?>
 
-<zk contentStyle="overflow:auto" >
+<zk contentStyle="" >
 
-    <style>
-        body{
-        background-image: url('./fondo/fondocrm.jpg');
-        background-position: center center;
-        background-repeat: no-repeat;
-        background-size: cover;
-        background-attachment: fixed;
-  
-        }
-        
-    </style>
-    <div class="container col-12 col-sm-6 col-md-5 col-lg-4 form-control" id="loginWin" style="margin:1% auto;"   
-                 apply="com.ec.controlador.LoginController" >
- 
-    
+    <div class='main_container' id="loginWin" apply="com.ec.controlador.LoginController"> 
+        <div class="wrapper">
+            <div class="nav">
+                <div class="logo_wrapper">
+                    <image src="./imagenes/logodeckxel.png" class="logo"/>
+                </div>
+            </div>
+            
+            <div class="info_wrapper">
+                <div class="form_wrapper">
+                    <div class="form">
+                        <div class="desc">
+                            <span>Inicia sesión</span>
+                            <span>Administrar tus facturas nunca ha sido tan facil!</span>
+                        </div>
 
-            <div class="row " align="lefth">
-                <div class="col-12 col-sm-12 col-md-12 col-lg-12 form-group"  align="center">
-                    <image  src="/imagenes/iniciofactura.png" class="imgRedondaLogoLogin" width="75%" ></image>
+                        <div class="wrapper_container_input">
+                            <div class="wrapper_input">
+                                <div class="fa-solid fa-user icon" />
+                                <textbox id="account" type="text" class="input"
+                                         onCreate="self.focus()"
+                                         placeholder="Ingrese el usuario"   
+                                />
+                            </div>
+                            <div class="wrapper_input">
+                                <div class="fa-solid fa-key icon" />
+                                <textbox id="password" type="password" 
+                                         class="input" 
+                                         placeholder="Ingrese la constraseña" 
+                                />      
+                            </div>
+
+                            
+                            <div class="forgot">
+                                <span id="linkOlvideContrasena">Olvidaste tu contraseña?</span>  
+                                <!--<span id="btnRegistra" >Realiza tu registro aquí</span>-->
+                             
+                            </div>
+                            
+                            
+                            <button 
+                                id="buttonEntrar" 
+                                class="main_btn" 
+                                label="Ingresar">
+                                Ingresar
+                            </button>  
+                            <button 
+                                id="btnRegistra" 
+                                class="registro_btn" 
+                                label="Ingresar">
+                                Realiza tu registro aquí
+                            </button> 
+                        </div>
+
+                    </div>
                 </div>
-                <div class="col-12 col-sm-12 col-md-12 col-lg-12  form-group">
-                    <textbox id="account" type="text" class="form-control" 
-                             onCreate="self.focus()"
-                             placeholder="Ingrese el usuario"   />
-          
+
+                <div class="banner">
+                    <image src="./imagenes/disdefact.png" class="banner_img"/>
                 </div>
-                <div class="col-12 col-sm-12 col-md-12 col-lg-12 form-group">
-                  
-                    <textbox id="password" type="password" 
-                             class="form-control" 
-                             placeholder="Ingrese la constraseña" />      
-                </div>
-                <div class="col-12 col-sm-12 col-md-12 col-lg-12" align="center">
-                    <button id="buttonEntrar" 
-                            class="btn btn-lg btn-primary btn-block" label="Ingresar">
-                    </button>   
-<!--                    <button id="buttonConsultar"  
-                            class="btn btn-lg btn-success btn-block" label="Consultas">
-                    </button>   -->
-                </div>
+            </div>
+
+
+            <div class="foot">
+                <image src="https://deckxel.com/resource/img/wave.svg" class="wave"/>
+            </div>
         </div>
-    
     </div>
-  
     
 </zk>

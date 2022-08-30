@@ -1,4 +1,4 @@
-/*
+    /*
  * 
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -1891,7 +1891,9 @@ public class Facturar extends SelectorComposer<Component> {
                     verificarSecNumeracion();
                 } else if (tipoVenta.equals("NTV") && (!tipoVentaAnterior.equals("FACT"))) {
                     verificarSecNumeracion();
-                } else {
+                } else if (tipoVenta.equals("PROF") && (!tipoVentaAnterior.equals("PROF"))) {
+                    numeroFactura=factura.getFacNumProforma();
+                }else {
 
                     if (tipoVenta.equals("NTV")) {
                         numeroFactura = factura.getFacNumNotaVenta();
