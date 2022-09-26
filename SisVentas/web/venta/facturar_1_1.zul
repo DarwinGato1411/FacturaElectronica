@@ -1,0 +1,437 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?link rel="stylesheet" type="text/css" href="/css/boostrap/bootstrap.css"?>  
+<?link rel="stylesheet" type="text/css" href="/css/style.css"?>
+<?link rel="stylesheet" type="text/css" href="/css/app/ventas/modales.css"?>
+<?script src="https://kit.fontawesome.com/484b16c999.js"?>
+
+<?init class="com.ec.seguridad.Autentificador"?>
+<?init class="org.zkoss.zk.ui.util.Composition" arg0="/plantilla/plantilla.zul"?>
+<zk  contentStyle="overflow:auto" with="100%" class="container" >
+
+    <hbox self="@define(content)" apply="org.zkoss.bind.BindComposer" 
+          viewModel="@id('vm') @init('com.ec.controlador.Facturar')" width="100%">
+        <tabbox  width="100%"  tabscroll="true" >
+            <tabs >
+                <tab label="SISTEMA DE FACTURACION" sclass="menutabs"/>
+            </tabs>
+            <tabpanels >
+                <tabpanel  height="100%" width="98%"  >
+                    <div class="container-fluid">
+                        <div class="row ">
+                            <div class="col-4 col-sm-4 col-md-1 col-lg-1 " align="center">
+                                
+                               
+                                 
+                                <button src="/iconos/imprimir48x48.png"   
+                                        autodisable="self"
+                                        class="btn btn btn-secondary btn-sm "
+                                        onClick="@command('Guardar')"
+                                        tooltiptext="Guardar factura"/>
+                           
+                            </div>
+                            <div class="col-4  col-sm-4 col-md-1 col-lg-1 d-none d-sm-block">
+                                <label value="DESC" class="form-control form-control-sm" style="font-weight:bold"/>
+                
+                                <decimalbox  value="@bind(vm.totalDescuento)"
+                                             format="###.##" 
+                                             readonly="true" style="text-align:center;font-size:1em"
+                                             onChange="self.setValue(self.getValue().toUpperCase().trim());" 
+                                             class="form-control form-control-sm" />
+
+                            </div>
+                            <div class="col-4  col-sm-4 col-md-2 col-lg-2 form-group d-none d-sm-block " align="center"  >
+                                <label value="S. TOTAL" class="form-control form-control-sm" style="font-weight:bold"/>
+                
+                                <decimalbox  value="@bind(vm.subTotalCotizacion)"
+                                             format="###.##" 
+                                             readonly="true" style="text-align:center;font-size:1.2em"
+                                             onChange="self.setValue(self.getValue().toUpperCase().trim());" 
+                                             class="form-control form-control-sm" />
+                            </div>
+                            <div class="col-4  col-sm-4 col-md-2 col-lg-2  form-group d-none d-sm-block" align="center"  >
+                                <label value="IVA" class="form-control form-control-sm" 
+                                       style="font-weight:bold"/>
+                
+                                <decimalbox  value="@bind(vm.ivaCotizacion)"
+                                             format="###.##" 
+                                             readonly="true" style="text-align:center;font-size:1.2em"
+                                             onChange="self.setValue(self.getValue().toUpperCase().trim());" 
+                                             class="form-control form-control-sm" />
+                            </div>
+                            <div class="col-4  col-sm-4 col-md-2 col-lg-2  form-group " align="center"  >
+                                <label value="TOTAL" class="form-control form-control-sm" style="font-weight:bold"/>
+                
+                                <decimalbox  value="@bind(vm.valorTotalCotizacion)"
+                                             format="###.##" 
+                                             readonly="true"  style="text-align:center;font-size:1.2em"
+                                             onChange="self.setValue(self.getValue().toUpperCase().trim());" 
+                                             
+                                             class="form-control form-control-sm" />
+                            </div>
+                            
+                            
+                            <div class="col-4  col-sm-4 col-md-2 col-lg-2 d-none d-sm-block form-group " align="center"  >
+                                
+                                <label value="COBRAR:" class="form-control form-control-sm" />                            
+                                  
+                                <decimalbox format="###.##" 
+                                            onOK="@command('calcularCambio')"
+                                            class="form-control form-control-sm"
+                                            value="@bind(vm.cobro)"
+                                            style="text-align:center;font-size:1.5em;color:green" />
+                            </div>
+                            <div class="col-4 col-sm-4 col-md-2 col-lg-2 form-group d-none d-sm-block " align="center">
+                                
+                                <label value="CAMBIO:" class="form-control form-control-sm" />                            
+                                <decimalbox format="###.##"  
+                                            readonly="true" 
+                                            class="form-control form-control-sm"
+                                            value="@bind(vm.cambio)" 
+                                            style="text-align:center;font-size:1.5em;color:blue"/>
+                            </div>
+                           
+                            
+                        </div>
+                        <div class="row" align="lefth" >
+                            <div class="col-6  col-sm-6 col-md-2 col-lg-2">
+                                <div class="input-group mb-3">
+                                    
+                                    <textbox   class="form-control form-control-sm" 
+                                               placeholder="Cedula"
+                                               value="@bind(vm.clienteBuscado.cliCedula)" 
+                                               onDoubleClick="@command('buscarClienteEnLista')"
+                                               style="font-weight:bold"
+                                               maxlength="13"  />
+                        
+                                    <div class="input-group-append">
+                                        <button   image="/imagenes/buscar1.png" 
+                                                  onClick="@command('buscarClienteEnLista')"  
+                                                  tooltiptext="Buscar cliente"
+                                                  class="btn  btn-warning btn-sm "/>
+                               
+                               
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6 col-sm-6 col-md-2 col-lg-2">
+                                <div class="input-group mb-3">
+                                    <textbox  readonly="true" 
+                                              style="font-weight:bold" 
+                                              placeholder="Nombre comercial"
+                                              class="form-control form-control-sm" 
+                                              value="@bind(vm.clienteBuscado.cliNombre)"  />
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-12 col-md-3 col-lg-3">
+                                <div class="input-group mb-3">
+                                    <textbox  readonly="true" 
+                                              style="font-weight:bold" 
+                                              placeholder="Dirección"
+                                              value="@bind(vm.clienteBuscado.cliDireccion)" 
+                                              class="form-control form-control-sm"   />
+                                </div>
+                            </div>
+                            <div class="col-2 col-sm-2 col-md-2 col-lg-2 d-none d-sm-block ">
+                                <div class="input-group mb-3">
+                                    <textbox  readonly="true" 
+                                              style="font-weight:bold" 
+                                              placeholder="Telefono"
+                                              value="@bind(vm.clienteBuscado.cliTelefono)"
+                                              class="form-control form-control-sm" 
+                                    />
+                                </div>
+                            </div>
+                            <div class="col-1 col-sm-1 col-md-1 col-lg-1" align="end" >
+                            </div>
+                            <div class="col-2 col-sm-2 col-md-2 col-lg-2 d-none d-sm-block "  align="end" >
+                                 
+                                <datebox compact="true" value="@bind(vm.fechafacturacion)" 
+                                         readonly="true" style="font-weight:bold;" 
+                                         class="form-control form-control-sm textoFechaDateBox"  
+                                         buttonVisible="true" 
+                                         lenient="true" format="dd/MM/yyyy" 
+                                         constraint="no empty: Ingrese su fecha de la orden"/>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-sm-6 col-md-3 col-lg-3 d-none d-sm-block ">
+                                <radiogroup Id="idTipoOrdenSinCotizacion"   
+                                            class="form-control form-control-sm " 
+                                            selectedItem="@bind(vm.tipoVenta)" 
+                                            onCheck="@command('verificarNumeracion')" >
+                                    <space bar="true"  />
+                                    <radio label="FACTURA" value="FACT"/>
+                                    <!--<space bar="true"  />-->   
+                                    <!--<radio label="VENTA DIARIA" value="SINF"/>-->
+                                    <space bar="true"  /> 
+                                    <radio label="PROFORMA" value="PROF"/>                             
+                                    <space bar="true"  /> 
+                           
+                                </radiogroup>          
+                                
+                              
+                            </div>
+                            <div class="col-1 col-sm-6 col-md-3 col-lg-3 d-none d-sm-block ">
+                                
+                                <radiogroup  selectedItem="@bind(vm.estdoFactura)"   
+                                             class="form-control form-control-sm ">
+                                    <space bar="true"  /> 
+                                    <radio label="PAGADO" value="PA" />  
+                                    <space bar="true"  />                                                                        
+                                    <radio  label="PENDIENTE" value="PE"/>     
+                                    <space bar="true"  />                                            
+                                </radiogroup>
+                       
+                            </div>
+<!--                            <div class="col-12 col-sm-6 col-md-4 col-lg-3  form-group "  >
+                                <label value="(*) " style="color:red;font-weight:bold"/>Tip venta:
+                
+                                <combobox onSelect="@command('actualizarCostoVenta')"                            
+                                          class="badge badge-default   btn-secondary  textoFechaDateBox"
+                                          selectedItem="@bind(vm.clietipo)"                                >
+                                    <comboitem label="PRECIO VENTA PUBLICO" value="0" />                    
+                                    <comboitem label="PRECIO POR MAYOR" value="1" />
+                                    <comboitem label="PRECIO POR CAJA" value="2" />
+                                </combobox>
+                            </div>-->
+                            
+                            
+                            <div class="col-12 col-sm-12 col-md-3 col-lg-3 form-group d-none d-sm-block ">
+                                <label  style="color:red;font-weight:bold" value="(*) "  ></label>For pago:
+                                        
+                                <combobox  model="@load(vm.listaFormaPago)"  
+                                           class="badge badge-default   btn-secondary  textoFechaDateBox"  
+                                           selectedItem="@bind(vm.formaPagoSelected)" 
+                                           readonly="true" >
+                                          
+                                    <template name="model">
+                                        <comboitem  label="@bind(each.forNombre)"/>
+                                    </template>                                      
+                                </combobox>
+                            </div>
+                         
+                            
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                        
+                                <separator height="15px"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-sm-12 col-md-4 col-lg-4 d-none d-sm-block " >
+                                <listbox model="@load(vm.listaProducto)" 
+                                         nonselectableTags=""   mold="paging" pageSize="10"  >
+                                    <custom-attributes org.zkoss.zul.listbox.rod="true"/>
+      
+                    
+                                    <listhead> 
+                                        <listheader width="20%"   >
+                                            <textbox value="@bind(vm.buscarCodigoProd)"  
+                                                     class="form-control form-control-sm"
+                                                     tooltiptext="Código"
+                                                     placeholder="Código"
+                                                     onOK="@command('buscarLikeCodigoProd')"
+                                                     onChange="self.setValue(self.getValue().toUpperCase());" />
+                                            
+                                        </listheader>     
+                                        <listheader width="45%" align="lefth"   >
+                                            <textbox value="@bind(vm.buscarNombreProd)"  
+                                            id="txtBuscarNombre"
+                                                     class="form-control form-control-sm"
+                                                     tooltiptext="Descripcion"
+                                                     placeholder="Descripcion"
+                                                     onOK="@command('buscarLikeNombreProd')"                                                     
+                                                     onChange="self.setValue(self.getValue().toUpperCase());" />
+                                        </listheader>                         
+                                        <listheader width="25%"  label="P UNIT" align="center" /> 
+                                        <listheader width="10%"  label="OP" align="center"/>
+                           
+                                    </listhead>  
+                    
+                                    <template name="model">                                                            
+                                        <listitem>
+                                            <listcell onDoubleClick="@command('agregarItemLista',valor=each)">
+                                                <label value="@bind(each.prodCodigo)"  width="96%"    onCreate="self.focus()"
+                                                       onDoubleClick="@command('agregarItemLista',valor=each)"/>
+                                                
+                                            </listcell>
+                                            <listcell onDoubleClick="@command('agregarItemLista',valor=each)" >
+                                                <label value="@bind(each.prodNombre)" width="96%" 
+                                                       onDoubleClick="@command('agregarItemLista',valor=each)" />
+                                            </listcell>
+                                            <listcell onDoubleClick="@command('agregarItemLista',valor=each)" >
+                                                <decimalbox onOK="@command('agregarItemLista',valor=each)" 
+                                                            format="###.##"  class="form-control form-control-sm"
+                                                            readonly="true" value="@bind(each.pordCostoVentaFinal)" 
+                                                            width="96%" />
+                                            </listcell>
+                
+                                            <listcell>   
+                                                <image  src="/iconos/ok24x24.png" 
+                                                        onClick="@command('agregarItemLista',valor=each)" 
+                                                        tooltiptext="Asigar producto"/> 
+                    
+                                            </listcell>
+                                        </listitem>
+                                    </template>
+                                </listbox>
+                            </div>
+                            
+                            <div class="col-12 col-sm-12 col-md-8 col-lg-8" align="end">
+                                <listbox id="DescripcionPedidoPrePost" 
+                                         model="@load(vm.listaDetalleFacturaDAOMOdel)"
+                                         nonselectableTags="*" checkmark="true"  
+                                         multiple="true" 
+                                         onSelect="@command('seleccionarRegistros')"  width="99%">
+                                    <custom-attributes org.zkoss.zul.listbox.rod="true"/>
+                                              
+                                        
+                                    <listhead>
+                                        <listheader width="7%"  label="" align="left" >
+                                            <button label="" src="/iconos/delete.png"  
+                                                    onClick="@command('eliminarRegistros')"  
+                                                    class="btn btn btn-secondary btn-sm "
+                                                    tooltiptext="Eliminar registros seleccionados"/>
+                                        </listheader>
+                                        <!--<listheader width="10%"  label="BUS" align="left" />-->
+                                        <listheader width="8%"  label="COD" align="left" />
+                                        <listheader width="8%"  label="CANT" align="left"  /> 
+                                        <!--<listheader width="7%"  label="DES(%)" align="left"  />--> 
+                                        <listheader width="20%"  label="DESCRIPCIÓN" align="left" />
+                                        <listheader width="10%"  label="PRE REAL" align="left" />
+                                        <listheader width="10%"  label="PRECIO" align="left" />                                         
+                                        <listheader width="10%"  label="DESC IND" align="left" />
+                                        <listheader width="10%"  label="DESC TOT" align="left" />
+                                     
+                                        <!--                                        <listheader width="10%"  label="IVA" align="left" />
+                                        <listheader width="10%"  label="DESC" align="left" />
+                                        <listheader width="10%"  label="P UNIT" align="left" />-->
+                                        <listheader width="10%"  label="TOTAL" align="left" />
+                                                                                                                            
+                                    </listhead>
+                    
+                                    <template name="model" >                                                            
+                                        <listitem>
+                                            <listcell>
+                                                    
+                                            </listcell>
+                                         
+<!--                                            <listcell >
+                                              
+                                                <bandbox  mold="rounded" 
+                                                
+                                                          value="@bind(vm.codigo)"
+                                                          onOK="@command('buscarInternoCodigo',valor=each)"                                                         
+                                                          autodrop="true">  
+                                                    <bandpopup onCreate="self.focus()">
+                                                        <listbox model="@bind(vm.listaProductoCmb)" 
+                                                      
+                                                                 height="250px" width="450px" mold="paging" autopaging="true">
+                                                            <listhead>
+                                                                <listheader label="Productos" />
+                                                            </listhead>
+                                                            <template name="model" var="prod">
+                                                                <listitem >
+                                                            
+                                                                    <listcell onDoubleClick="@command('agregarItemLista',valor=prod)">
+                                                                        <label value="@bind(prod.prodCodigo)"  width="96%"  />
+                                                                        / <label value="@bind(prod.prodNombre)"  width="96%"  />
+                                                
+                                                                    </listcell>
+                                                                </listitem>
+                                                            </template> 
+                                                        </listbox>
+                                                    </bandpopup>
+                                                </bandbox>
+                                            </listcell>-->
+                                               <listcell >
+                                                <textbox onCreate="self.focus()"
+                                                         onDoubleClick="@command('cambiarRegistro',valor=each)"
+                                                         class="form-control form-control-sm"
+                                                         value="@bind(each.codigo)" 
+                                                         onOK="@command('buscarPorCodigo',valor=each)" width="99%" />
+                                            </listcell>
+                                            <listcell>
+                                                <spinner onOK="@command('calcularValoresDesCantidad',valor=each)"  
+                                                         class="input-group-append"
+                                                         format="###.##" value="@bind(each.cantidad)" width="95%"  />
+                                            </listcell>
+                                            <!--                                            <listcell>
+                                                <spinner onOK="@command('calcularValoresDesCantidad',valor=each)"  
+                                                         class="input-group-append"
+                                                         format="###.##" value="@bind(each.detPordescuento)" width="95%"  />
+                                            </listcell>-->
+                                            <listcell>
+                                                <label  value="@bind(each.producto.prodNombre)" width="99%" />
+                                            </listcell>
+                                            <!--                                            <listcell>
+                                                <decimalbox readonly="true" format="###.##"
+                                                            class="form-control form-control-sm"
+                                                            value="@bind(each.subTotal)"  width="99%" />
+                                            </listcell>-->
+                                       
+                                            <!--                                            <listcell>
+                                                <decimalbox readonly="true" format="###.##" 
+                                                            class="form-control form-control-sm"
+                                                            value="@bind(each.subTotalDescuento)"  width="99%" />
+                                            </listcell>-->
+                                            <listcell>
+                                                <decimalbox readonly="true" format="###.##" 
+                                                            class="form-control form-control-sm"
+                                                            value="@bind(each.totalInicial)"  width="99%" />
+                                            </listcell>
+                                            <listcell>
+                                                <decimalbox readonly="false" format="###.##"                                              
+                                                            onOK="@command('calcularValoresDesCantidad',valor=each)"
+                                                            class="form-control form-control-sm"
+                                                            value="@bind(each.total)"  width="99%" />
+                                            </listcell>
+                                            
+                                            <listcell>
+                                                <decimalbox readonly="true" format="###.##" 
+                                                            class="form-control form-control-sm"
+                                                            value="@bind(each.detValdescuento)"  width="99%" />
+                                            </listcell>
+                                            <listcell>
+                                                <decimalbox readonly="true" format="###.##" 
+                                                            class="form-control form-control-sm"
+                                                            value="@bind(each.detTotaldescuento)"  width="99%" />
+                                            </listcell>
+                                     
+                                            <listcell>
+                                                <decimalbox readonly="true" format="###.##" 
+                                                            class="form-control form-control-sm"
+                                                            value="@bind(each.detTotalconivadescuento)"  width="99%" />
+                                            </listcell>
+                                           
+                                            <!--                                            <listcell>
+                                                <decimalbox readonly="true" format="###.##"
+                                                            class="form-control form-control-sm"
+                                                            value="@bind(each.detTotalconiva)"  width="99%" />
+                                            </listcell>-->
+                                        </listitem>
+                                    </template>
+
+                                </listbox>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-sm-12 col-md-5 col-lg-5">
+                            </div>
+                            <div class="col-12 col-sm-12 col-md-7 col-lg-7">
+                                
+                                <textbox multiline="true" rows="2" 
+                                         placeholder="Ingrese una observación"
+                                         value="@bind(vm.facturaDescripcion)"
+                                         class="form-control form-control-sm textoFechaDateBox"  
+                                         maxlength="150" />
+                            </div>
+                        </div>
+                    </div>
+                </tabpanel>
+            </tabpanels>
+        </tabbox>    
+    </hbox>
+
+
+</zk>

@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?link rel="stylesheet" type="text/css" href="/css/boostrap/bootstrap.css"?>  
+<?link rel="stylesheet" type="text/css" href="/css/style.css"?>
+<?link rel="stylesheet" type="text/css" href="/css/app/ventas/facturar.css"?>
+<?link rel="stylesheet" type="text/css" href="/css/app/ventas/modales.css"?>
+<?script src="https://kit.fontawesome.com/484b16c999.js"?>
+
+<?init class="com.ec.seguridad.Autentificador"?>
+<?init class="org.zkoss.zk.ui.util.Composition" arg0="/plantilla/plantilla.zul"?>
+<?link rel="icon" type="image/x-icon" href="/iconos/deckxel.ico"?>
+<zk  contentStyle="overflow:auto" with="100%" >
+    <hbox self="@define(content)" apply="org.zkoss.bind.BindComposer" 
+          viewModel="@id('vm') @init('com.ec.controlador.FacturasAutorizadasCtr')" width="100%">
+        <tabbox   width="100%" >
+            <tabs >
+                <tab label="Facturas autorizadas por el  SRI" sclass="menutabs" /> 
+            </tabs>
+            <tabpanels >
+                
+                <tabpanel   height="100%" width="98%" class="factura">                    
+                    <div class="container-fluid">
+                        <!-- <div class="row ">
+                            <div class="row col-12 col-sm-12 col-md-9 col-lg-9">
+                                <div class="col-12 col-sm-12 col-md-12 col-lg-12" align="end" >
+                                    <listbox model="@load(vm.listaFacturasActorizadaSri)" 
+                                             nonselectableTags=""  mold="paging" pageSize="12"  >
+                                        <custom-attributes org.zkoss.zul.listbox.rod="true"/>
+                                        <auxhead>
+                                            <auxheader colspan="12" >  
+                                                <div class="row">
+                                                    <div  class="col-12 col-sm-12 col-md-3 col-lg-3 ">
+                                                        <label value="Inicio: "   />
+                                                        <datebox   value="@bind(vm.inicio)" 
+                                                                   readonly="true" style="font-weight:bold;" 
+                                                                   onCreate="self.value = new Date()"                                                    
+                                                                   buttonVisible="true" 
+                                                                   lenient="true"  format="dd/MM/yyyy" 
+                                                                   constraint="no empty: Ingrese de inicio de la busqueda"/> 
+                                                    </div>
+                                                    <div  class="col-12 col-sm-12 col-md-3 col-lg-3 ">
+                                                        <label value="Fin: "  />
+                                                        <datebox   value="@bind(vm.fin)" 
+                                                                   readonly="true" style="font-weight:bold;" 
+                                                                   onCreate="self.value = new Date()"                                                   
+                                                                   buttonVisible="true" 
+                                                                   lenient="true"  format="dd/MM/yyyy" 
+                                                                   constraint="no empty: IBuscar por fecha fin de la busqueda"/> 
+                                                        <button   image="/imagenes/buscar1.png"  
+                                                                  onClick="@command('buscarForFechas')"  
+                                                                  class="btn btn-primary btn-sm "
+                                                                  tooltiptext="Buscar"/>
+                       
+                                                        
+                       
+                                                    </div>
+                                                    <div  class="col-12 col-sm-12 col-md-3 col-lg-3 ">
+                                                        <button   image="/imagenes/excel.png"  
+                                                                  onClick="@command('exportListboxToExcel')"  
+                                                                  class="btn btn-primary btn-sm "
+                                                                  tooltiptext="Descargar"/>
+
+                                                    </div>
+                                                </div>
+                                
+                                            </auxheader>
+                                        </auxhead>
+                       
+                                        <listhead> 
+                                            <listheader width="25%"  label="# Factura" >                                
+                                            </listheader> 
+                                            <listheader width="25%"  label="Cedula" />         
+                                            <listheader width="25%"  label="Cliente" />         
+                                            <listheader width="25%"  label="Fecha emision" />         
+                                            <listheader width="25%"  label="Subtotal" />  
+                                            <listheader width="25%"  label="Subtotal 12%" />  
+                                            <listheader width="25%"  label="Subtotal 0%" />  
+                                            <listheader width="25%" label="IVA" />       
+                                            <listheader width="25%"  label="Total" />                                         
+                                        </listhead>  
+                        
+                    
+                                        <template name="model">                                                            
+                                            <listitem>
+                                                <listcell zclass = "mycss-listcell">
+                                                    <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"                           
+                                                             class="form-control form-control-sm" value="@bind(each.facNumero)" width="100%" />
+                                                </listcell>
+                                                <listcell zclass = "mycss-listcell">
+                                                    <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"                           
+                                                             class="form-control form-control-sm" value="@bind(each.cliCedula)" width="100%" />
+                                                </listcell>
+                                                <listcell zclass = "mycss-listcell">
+                                                    <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"                           
+                                                             class="form-control form-control-sm" value="@bind(each.cliNombre)" width="100%" />
+                                                </listcell>
+                                                <listcell zclass = "mycss-listcell">
+                                                    <datebox value="@bind(each.facFecha)" 
+                                                             buttonVisible="false" 
+                                                             lenient="true" 
+                                                             format="medium" width="98%"  />
+                                                </listcell >                                
+                                                <listcell zclass = "mycss-listcell">
+                                                    <decimalbox format="###.##" 
+                                                                readonly="true"  
+                                                                value="@bind(each.facSubtotal)" width="100%" />
+                                                </listcell>
+                                                <listcell zclass = "mycss-listcell">
+                                                    <decimalbox format="###.##" 
+                                                                readonly="true"  
+                                                                value="@bind(each.facTotalBaseGravaba)" width="100%" />
+                                                </listcell>
+                                                <listcell zclass = "mycss-listcell">
+                                                    <decimalbox format="###.##" 
+                                                                readonly="true"  
+                                                                value="@bind(each.facTotalBaseCero)" width="100%" />
+                                                </listcell>
+                                
+                                                <listcell zclass = "mycss-listcell">
+                                                    <decimalbox format="###.##" 
+                                                                readonly="true"  
+                                                                value="@bind(each.facIva)" width="100%" />
+                                                </listcell>
+                                                <listcell zclass = "mycss-listcell">
+                                                    <decimalbox format="###.##" 
+                                                                readonly="true"  
+                                                                value="@bind(each.facTotal)" width="100%" />
+                                                </listcell>
+ 
+                                            </listitem>
+                                        </template>
+                                    </listbox>   
+                                </div>            
+                            </div>
+                            <div class="col-12 col-sm-12 col-md-3 col-lg-3" align="center">
+                                <div class="col-12 col-sm-12 col-md-12 col-lg-12 " >
+                                    <label value="NUMERO COMPROBANTES" class="form-control-sm" 
+                                           style="font-weight:bold;font-size:1em"/>
+                                </div>
+                                <div class="col-12 col-sm-12 col-md-12 col-lg-12 " >
+                                    <decimalbox  format="#####"  
+                                                 value="@bind(vm.cantidadTotal.cantidad)"                                             
+                                                 readonly="true" 
+                                                 style="text-align:center;font-size:1.2em;background-color:#FF9990;"
+                                                 onChange="self.setValue(self.getValue().toUpperCase().trim());" 
+                                                 class="form-control form-control-sm" />
+                                </div>
+                                <div class="col-12 col-sm-12 col-md-12 col-lg-12  " >
+                                    <label value="SUBTOTAL BASE CERO" class="form-control-sm"
+                                           style="font-weight:bold;font-size:1em"/>
+                                </div>
+                                <div class="col-12 col-sm-12 col-md-12 col-lg-12  " >
+                                    <decimalbox  format="###.####"  
+                                                 value="@bind(vm.cantidadTotal.baseCero)"
+                                                 readonly="true" 
+                                                 style="text-align:center;font-size:1.2em;background-color:#90DCFF;"
+                                                 onChange="self.setValue(self.getValue().toUpperCase().trim());" 
+                                                 class="form-control form-control-sm" />
+                                </div>
+                                <div class="col-12 col-sm-12 col-md-12 col-lg-12  " >
+                                    <label value="SUBTOTAL 12%" class="form-control-sm"
+                                           style="font-weight:bold;font-size:1em"/>
+                                </div>
+                                <div class="col-12 col-sm-12 col-md-12 col-lg-12  " >
+                                    <decimalbox  format="###.####"  
+                                                 value="@bind(vm.cantidadTotal.baseGravada)"
+                                                 readonly="true" 
+                                                 style="text-align:center;font-size:1.2em;background-color:#90DCFF;"
+                                                 onChange="self.setValue(self.getValue().toUpperCase().trim());" 
+                                                 class="form-control form-control-sm" />
+                                </div>
+                                <div class="col-12 col-sm-12 col-md-12 col-lg-12  " >
+                                    <label value="TOTAL BASE IMPONIBLE" class="form-control-sm"
+                                           style="font-weight:bold;font-size:1em"/>
+                                </div>
+                                <div class="col-12 col-sm-12 col-md-12 col-lg-12  " >
+                                    <decimalbox  format="###.####"  
+                                                 value="@bind(vm.cantidadTotal.sumaTotal)"
+                                                 readonly="true" 
+                                                 style="text-align:center;font-size:1.2em;background-color:#90DCFF;"
+                                                 onChange="self.setValue(self.getValue().toUpperCase().trim());" 
+                                                 class="form-control form-control-sm" />
+                                </div>
+                            </div>
+                        </div> -->
+
+                        
+                            <listbox model="@load(vm.listaFacturasActorizadaSri)" 
+                                             nonselectableTags=""  mold="paging" pageSize="12"  >
+                                        <custom-attributes org.zkoss.zul.listbox.rod="true"/>
+                                        <auxhead>
+                                            <auxheader colspan="12" >  
+
+                                                <!-- <div class="row">
+                                                    <div  class="col-12 col-sm-12 col-md-3 col-lg-3 ">
+                                                        <label value="Inicio: "   />
+                                                        <datebox   value="@bind(vm.inicio)" 
+                                                                   readonly="true" style="font-weight:bold;" 
+                                                                   onCreate="self.value = new Date()"                                                    
+                                                                   buttonVisible="true" 
+                                                                   lenient="true"  format="dd/MM/yyyy" 
+                                                                   constraint="no empty: Ingrese de inicio de la busqueda"/> 
+                                                    </div>
+                                                    <div  class="col-12 col-sm-12 col-md-3 col-lg-3 ">
+                                                        <label value="Fin: "  />
+                                                        <datebox   value="@bind(vm.fin)" 
+                                                                   readonly="true" style="font-weight:bold;" 
+                                                                   onCreate="self.value = new Date()"                                                   
+                                                                   buttonVisible="true" 
+                                                                   lenient="true"  format="dd/MM/yyyy" 
+                                                                   constraint="no empty: IBuscar por fecha fin de la busqueda"/> 
+                                                        <button   image="/imagenes/buscar1.png"  
+                                                                  onClick="@command('buscarForFechas')"  
+                                                                  class="btn btn-primary btn-sm "
+                                                                  tooltiptext="Buscar"/>
+                       
+                                                        
+                       
+                                                    </div>
+                                                    <div  class="col-12 col-sm-12 col-md-3 col-lg-3 ">
+                                                        <button   image="/imagenes/excel.png"  
+                                                                  onClick="@command('exportListboxToExcel')"  
+                                                                  class="btn btn-primary btn-sm "
+                                                                  tooltiptext="Descargar"/>
+
+                                                    </div>
+                                                </div> -->
+
+                                                    <div class="factura_header">
+                                                        <div class="fact_row">
+                                                            <div class="wrapper_data">
+                                                                <div class="wrapper_input">
+                                                                    <span>Inicio:</span>
+                                                                    <datebox   
+                                                                        value="@bind(vm.inicio)" 
+                                                                        readonly="true" 
+                                                                        onCreate="self.value = new Date()"                                                    
+                                                                        buttonVisible="true" 
+                                                                        lenient="true"  
+                                                                        format="dd/MM/yyyy" 
+                                                                        class="input_date"
+                                                                        constraint="no empty: Ingrese de inicio de la busqueda"
+                                                                    /> 
+
+                                                                    <div class="fa-solid fa-calendar icon"/>
+                                                                </div>
+                                                                <div class="wrapper_input">
+                                                                    <span>Fin:</span>
+                                                                    <datebox   
+                                                                        value="@bind(vm.fin)" 
+                                                                        readonly="true" 
+                                                                        onCreate="self.value = new Date()"                                                   
+                                                                        buttonVisible="true" 
+                                                                        lenient="true"  
+                                                                        format="dd/MM/yyyy"
+                                                                        class="input_date" 
+                                                                        constraint="no empty: IBuscar por fecha fin de la busqueda"
+                                                                    /> 
+                                                                    <div class="fa-solid fa-calendar icon"/>
+                                                                </div>
+                                                            </div>
+                                                            <div class="wrapper_data">
+                                                                <button 
+                                                                    class="fa-solid fa-magnifying-glass btn_fact btn_primary"
+                                                                    onClick="@command('buscarForFechas')"  
+                                                                    tooltiptext="Buscar"
+                                                                >
+                                                                    Buscar
+                                                                </button>
+                                                                <button 
+                                                                    class="fa-solid fa-floppy-disk btn_fact btn_access"
+                                                                    onClick="@command('exportListboxToExcel')" 
+                                                                    tooltiptext="Descargar"
+                                                                >
+                                                                    Descargar
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="fact_row">
+                                                            <div class="wrapper_data">
+                                                                <div class="wrapper_input">
+                                                                    <span>Num. Comprobantes:</span>
+                                                                    <decimalbox  
+                                                                        format="#####"  
+                                                                        value="@bind(vm.cantidadTotal.cantidad)"                                             
+                                                                        readonly="true" 
+                                                                        onChange="self.setValue(self.getValue().toUpperCase().trim());" 
+                                                                        class="input" 
+                                                                    />
+                                                                </div>
+                                                                <div class="wrapper_input">
+                                                                    <span>Total Base imponible:</span>
+                                                                    <decimalbox  
+                                                                        format="###.####"  
+                                                                        value="@bind(vm.cantidadTotal.sumaTotal)"
+                                                                        readonly="true" 
+                                                                        onChange="self.setValue(self.getValue().toUpperCase().trim());" 
+                                                                        class="input" 
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                            <div class="wrapper_data">
+                                                                <div class="wrapper_input">
+                                                                    <span>Sub. Base 0:</span>
+                                                                    <decimalbox  
+                                                                        format="###.####"  
+                                                                        value="@bind(vm.cantidadTotal.baseCero)"
+                                                                        readonly="true" 
+                                                                        onChange="self.setValue(self.getValue().toUpperCase().trim());" 
+                                                                        class="input" 
+                                                                    />
+                                                                </div>
+                                                                <div class="wrapper_input">
+                                                                    <span>Sub. 12%:</span>
+                                                                    <decimalbox  
+                                                                        format="###.####"  
+                                                                        value="@bind(vm.cantidadTotal.baseGravada)"
+                                                                        readonly="true" 
+                                                                        onChange="self.setValue(self.getValue().toUpperCase().trim());" 
+                                                                        class="input" 
+                                                                    />
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                
+                                            </auxheader>
+                                        </auxhead>
+                                        
+
+                                        
+                       
+                                        <listhead> 
+                                            <listheader width="25%"  label="# Factura" >                                
+                                            </listheader> 
+                                            <listheader width="25%"  label="Cedula" />         
+                                            <listheader width="25%"  label="Cliente" />         
+                                            <listheader width="25%"  label="Fecha emision" />         
+                                            <listheader width="25%"  label="Subtotal" />  
+                                            <listheader width="25%"  label="Subtotal 12%" />  
+                                            <listheader width="25%"  label="Subtotal 0%" />  
+                                            <listheader width="25%" label="IVA" />       
+                                            <listheader width="25%"  label="Total" />                                         
+                                        </listhead>  
+                        
+                    
+                                        <template name="model">                                                            
+                                            <listitem>
+                                                <listcell zclass = "mycss-listcell">
+                                                    <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"                           
+                                                             class="form-control form-control-sm" value="@bind(each.facNumero)" width="100%" />
+                                                </listcell>
+                                                <listcell zclass = "mycss-listcell">
+                                                    <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"                           
+                                                             class="form-control form-control-sm" value="@bind(each.cliCedula)" width="100%" />
+                                                </listcell>
+                                                <listcell zclass = "mycss-listcell">
+                                                    <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"                           
+                                                             class="form-control form-control-sm" value="@bind(each.cliNombre)" width="100%" />
+                                                </listcell>
+                                                <listcell zclass = "mycss-listcell">
+                                                    <datebox value="@bind(each.facFecha)" 
+                                                             buttonVisible="false" 
+                                                             lenient="true" 
+                                                             format="medium" width="98%"  />
+                                                </listcell >                                
+                                                <listcell zclass = "mycss-listcell">
+                                                    <decimalbox format="###.##" 
+                                                                readonly="true"  
+                                                                value="@bind(each.facSubtotal)" width="100%" />
+                                                </listcell>
+                                                <listcell zclass = "mycss-listcell">
+                                                    <decimalbox format="###.##" 
+                                                                readonly="true"  
+                                                                value="@bind(each.facTotalBaseGravaba)" width="100%" />
+                                                </listcell>
+                                                <listcell zclass = "mycss-listcell">
+                                                    <decimalbox format="###.##" 
+                                                                readonly="true"  
+                                                                value="@bind(each.facTotalBaseCero)" width="100%" />
+                                                </listcell>
+                                
+                                                <listcell zclass = "mycss-listcell">
+                                                    <decimalbox format="###.##" 
+                                                                readonly="true"  
+                                                                value="@bind(each.facIva)" width="100%" />
+                                                </listcell>
+                                                <listcell zclass = "mycss-listcell">
+                                                    <decimalbox format="###.##" 
+                                                                readonly="true"  
+                                                                value="@bind(each.facTotal)" width="100%" />
+                                                </listcell>
+ 
+                                            </listitem>
+                                        </template>
+                                    </listbox> 
+                        
+                    </div>
+                </tabpanel>
+                
+
+            </tabpanels>
+            
+        </tabbox>
+    </hbox>
+
+
+</zk>

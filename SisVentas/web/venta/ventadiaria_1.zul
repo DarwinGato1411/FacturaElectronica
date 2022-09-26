@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?link rel="stylesheet" type="text/css" href="/css/boostrap/bootstrap.css"?>  
+<?link rel="stylesheet" type="text/css" href="/css/style.css"?>
+<?link rel="stylesheet" type="text/css" href="/css/app/ventas/modales.css"?>
+
+<?init class="com.ec.seguridad.Autentificador"?>
+<?init class="org.zkoss.zk.ui.util.Composition" arg0="/plantilla/plantilla.zul"?>
+<zk  contentStyle="overflow:auto" with="100%" >
+    <hbox self="@define(content)" apply="org.zkoss.bind.BindComposer" 
+          viewModel="@id('vm') @init('com.ec.controlador.DiariaSinFacturar')" width="100%">
+        <div class="container-fluid" align="center">
+            <div class="row " align="center">
+                <div class="col-3 col-sm-3 col-md-3 col-lg-3 form-group " align="center"  >
+                    
+                </div>
+                <div class="col-8 col-sm-8 col-md-2 col-lg-2 form-group " align="center"  >
+                    <label value="SUB-TOTAL" class="form-control form-control-sm" style="font-weight:bold"/>
+                
+                    <decimalbox  value="@bind(vm.subTotalCotizacion)"
+                                 format="###.##" 
+                                 readonly="true" style="text-align:center;font-size:1.5em"
+                                 onChange="self.setValue(self.getValue().toUpperCase().trim());" 
+                                 class="form-control form-control-sm" />
+                </div>
+                <div class="col-8 col-sm-8 col-md-2 col-lg-2  form-group " align="center"  >
+                    <label value="IVA" class="form-control form-control-sm" 
+                           style="font-weight:bold"/>
+                
+                    <decimalbox  value="@bind(vm.ivaCotizacion)"
+                                 format="###.####" 
+                                 readonly="true" style="text-align:center;font-size:1.5em"
+                                 onChange="self.setValue(self.getValue().toUpperCase().trim());" 
+                                 class="form-control form-control-sm" />
+                </div>
+                <div class="col-8 col-sm-8 col-md-2 col-lg-2  form-group " align="center"  >
+                    <label value="TOTAL" class="form-control form-control-sm" style="font-weight:bold"/>
+                
+                    <decimalbox  value="@bind(vm.valorTotalCotizacion)"
+                                 format="###.##" 
+                                 readonly="true"  style="text-align:center;font-size:1.5em"
+                                 onChange="self.setValue(self.getValue().toUpperCase().trim());" 
+                                 class="form-control form-control-sm" />
+                </div>
+                <div class="col-8 col-sm-8 col-md-3 col-lg-3  form-group alert-warning  warning" align="center"  >
+                    <div class="alert alert-warning  warning  form-control form-control-sm">
+                        
+                        <label value="DETALLE DE VENTA DIARIA" 
+                                class="form-control form-control-sm " style="font-weight:bold"/>
+                    </div>
+                </div>
+                    
+            </div>
+            <div class="row">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12  form-group " align="center"  >
+                    <listbox  model="@load(vm.listaDetalleFacturaDAOMOdel)"
+                              nonselectableTags="*" checkmark="false"  multiple="false" mold="paging"
+                              pageSize="20" 
+                              onSelect="@command('seleccionarRegistros')"  width="98%">
+                        <custom-attributes org.zkoss.zul.listbox.rod="true"/>
+                                        
+                        <listhead>
+                            <listheader width="10%"  label="CODIGO" align="left" />
+                            <listheader width="10%"  label="CANTIDAD" align="left"  /> 
+                            <listheader width="45%"  label="DESCRIPCIÓN" align="left" />
+                            <listheader width="10%"  label="V.UNIT" align="left" /> 
+                            <listheader width="10%"  label="SUBTOTAL" align="left" />
+                            <listheader width="10%"  label="IVA" align="left" />
+                            <listheader width="10%"  label="TOTAL" align="left" />
+                                                                                                                            
+                        </listhead>
+                    
+                        <template name="model">                                                            
+                            <listitem>
+                                <listcell >
+                                    <textbox
+                                        value="@bind(each.codigo)"
+                                        class="form-control form-control-sm" 
+                                        readonly="true" width="99%" />
+                                </listcell>
+                                <listcell>
+                                    <decimalbox   readonly="true" format="###.#####" 
+                                                  class="form-control form-control-sm" 
+                                                  value="@bind(each.cantidad)" width="90%"  />
+                                </listcell>
+                                <zk if="${each.elementoNuevo=='NO'}"  > 
+                                    <listcell >
+                                        <label  value="@bind(each.producto.prodNombre)" width="99%" />
+                                    </listcell>
+                                </zk>
+                                <zk if="${each.elementoNuevo=='SI'}"  >
+                                    <listcell style="background: #d3edfa">
+                                        <label style="background: #d3edfa" value="@bind(each.producto.prodNombre)" width="99%" />
+                                    </listcell>
+                                </zk>
+                                <listcell>
+                                    <decimalbox readonly="true" 
+                                                class="form-control form-control-sm" 
+                                                format="###.#####" value="@bind(each.subTotal)" 
+                                                width="99%" />
+                                </listcell>
+                                          
+                                <listcell>
+                                    <decimalbox readonly="true" 
+                                                class="form-control form-control-sm" 
+                                                format="###.#####" value="@bind(each.subTotalPorCantidad)" 
+                                                width="99%" />
+                                </listcell>
+                                <listcell>
+                                    <decimalbox readonly="true" 
+                                                class="form-control form-control-sm" 
+                                                format="###.#####" value="@bind(each.detIva)" 
+                                                width="99%" />
+                                </listcell>
+                                <listcell>
+                                    <decimalbox readonly="true" 
+                                                class="form-control form-control-sm" 
+                                                format="###.#####" value="@bind(each.detTotalconiva)" 
+                                                width="99%" />
+                                </listcell>
+                            </listitem>
+                        </template>
+
+                    </listbox>         
+                </div>       
+            </div>       
+        </div>       
+        
+        
+                     
+        
+    </hbox>
+
+
+</zk>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window  id="windowCambioPrecio"  position="center" class="col-12 col-sm-12 col-md-6 col-lg-6 " closable="true"  
+         apply="org.zkoss.bind.BindComposer" 
+         viewModel="@id('vm') @init('com.ec.controlador.Facturar')">
+    
+
+    <caption label="Cambio de precio" style="font-weight:bold" /> 
+    
+    
+    <div  class="container" >
+        <div  class="row" >
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4  form-group "  >
+                
+                <textbox  maxlength="150" 
+                          readonly="true"
+                          value="@bind(vm.PRODUCTOCAMBIO.prodNombre)"
+                          onChange="self.setValue(self.getValue().toUpperCase().trim());" 
+                          constraint="no empty: Campo requerido"
+                          class="form-control" />
+            </div>
+            <div class="col-12 col-sm-12 col-md-2 col-lg-2  form-group " 
+                 onDoubleClick="@command('seleccionPrecioNorm')"            >
+           
+                <textbox    constraint="/^[0-9]{1,9}(?:[.][0-9]{1,3})?$/:Ingrese solo numeros"
+                            readonly="true"
+                            onOK="@command('seleccionPrecioNorm')"     
+                            value="@bind(vm.PRODUCTOCAMBIO.pordCostoVentaFinal)"  
+                            class="form-control"  />
+            </div>
+            
+          
+            <div class="col-12 col-sm-12 col-md-2 col-lg-2  form-group " 
+                 onDoubleClick="@command('seleccionPrecioPref1')"             >
+                <textbox    constraint="/^[0-9]{1,9}(?:[.][0-9]{1,3})?$/:Ingrese solo numeros" 
+                            onOK="@command('seleccionPrecioPref1')"     
+                            readonly="true"
+                            value="@bind(vm.PRODUCTOCAMBIO.prodCostoPreferencial)" 
+                            class="form-control" />
+            </div>
+            
+            <div class="col-12 col-sm-12 col-md-2 col-lg-2  form-group "  
+                 onDoubleClick="@command('seleccionPrecioPref2')"    >
+                <textbox    constraint="/^[0-9]{1,9}(?:[.][0-9]{1,3})?$/:Ingrese solo numeros"
+                            readonly="true"
+                            onOK="@command('seleccionPrecioPref2')"     
+                            value="@bind(vm.PRODUCTOCAMBIO.prodCostoPreferencialDos)" 
+                            class="form-control" />               
+            </div>
+             <div class="col-12 col-sm-12 col-md-2 col-lg-2  form-group "  
+                 onDoubleClick="@command('seleccionPrecioPref3')"    >
+                <textbox    constraint="/^[0-9]{1,9}(?:[.][0-9]{1,3})?$/:Ingrese solo numeros"
+                            readonly="true"
+                            onOK="@command('seleccionPrecioPref3')"     
+                            value="@bind(vm.PRODUCTOCAMBIO.prodCostoPreferencialTres)" 
+                            class="form-control" />               
+            </div>
+                        
+        </div>
+    </div>
+   
+                    
+                  
+</window>

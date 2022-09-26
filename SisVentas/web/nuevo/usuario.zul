@@ -82,34 +82,33 @@
                 <div class="wrapper_input_mod">
                     <span>Tipo Usuario: </span>
                     <div class="wrapper_input_text">
-                        <div class="fa-solid fa-address-card icon"></div>
+                        <!--<div class="fa-solid fa-address-card icon"></div>-->
                          <combobox 
-                            readonly="true"
-                            buttonVisible="@bind(!vm.readOnly)" 
+                           
+                           
                             selectedItem="@bind(vm.tipoUSuario)"
-                            class="input_select"
+                           
                         >
                             <comboitem label="ADMINISTRADOR" value="1" />
                             <comboitem label="VENTAS" value="2" />
                         </combobox>  
-                        <div 
+<!--                        <div 
                             class="fa-solid fa-chevron-down"
                             style="position: absolute; right: 7px; top: 7px; color: #1247b9;font-size: 13px" 
-                        />
+                        />-->
                     </div>
                 </div>
-                <div class="wrapper_input_mod">
+<!--                <div class="wrapper_input_mod">
                     <span>Ruc: </span>
                     <div class="wrapper_input_text">
                         <div class="fa-solid fa-address-card icon"></div>
                        <textbox  
-                            maxlength="20"      
-                            readonly="@bind(vm.readOnly)"                    
+                            maxlength="20"                         
                             value="@bind(vm.usuarioSistema.usuRuc)" 
                             class="input_text" 
                         />
                     </div>
-                </div>
+                </div>-->
                 <div class="wrapper_input_mod">
                     <span>Correo: </span>
                     <div class="wrapper_input_text">
@@ -165,7 +164,8 @@
         </div>
         
         <div style="display:flex;justify-content:flex-end;">
-            <button class="btn_modal" style="width:300px" onClick="@command('guardar')">
+            <button class="btn_modal" style="width:300px" 
+                    onClick="@command('guardar')">
                 Guardar
             </button>
         </div>

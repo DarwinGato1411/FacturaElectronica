@@ -547,7 +547,8 @@ public class Compras {
         try {
             BigDecimal factorIva = (parametrizar.getParIva().divide(BigDecimal.valueOf(100.0)));
             BigDecimal facturIvaMasBase = (factorIva.add(BigDecimal.ONE));
-            if (true) {
+            CabeceraCompra compra=servicioCompra.findCabNumeroForEmpresa(numeroFactura);
+            if (compra==null) {
                 //armar la cabecera de la factura
 
                 cabeceraCompra.setCabRetencionAutori("N");

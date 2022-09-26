@@ -1,0 +1,96 @@
+<?init class="com.ec.seguridad.Autentificador"?>
+<div apply="org.zkoss.bind.BindComposer" 
+     viewModel="@id('vm') @init('com.ec.controlador.AdmConductor')" width="100%" >
+    
+
+    <div class="container_headers" style="margin-bottom:1em">
+        <div 
+            class="fa-solid fa-plus-circle fa-2x icon"
+            onClick="@command('nuevo')"
+            tooltiptext="Nuevo conductor"
+        >
+            <span>Nuevo conductor</span>
+    </div>
+    </div>
+    
+    <div class="cont_body">
+        <div class="cont_body_item">
+            <listbox  width="100%" model="@load(vm.listaProveedores)" mold="paging" pageSize="15"
+                    nonselectableTags="*">
+                <custom-attributes org.zkoss.zul.listbox.rod="true"/>
+                <!-- <auxhead>
+                    <auxheader colspan="11" > 
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-12 col-sm-12 col-md-1 col-lg-1 form-group " align="start"  >
+                                    <image  src="/iconos/nuevo_pro-24.png"
+                                            class="btn btn btn-secondary btn-sm "
+                                            onClick="@command('nuevo')"
+                                            tooltiptext="Nuevo conductor"/>
+                            
+                                </div>
+                                
+                            </div>
+                        </div> 
+                    </auxheader>
+                </auxhead>    -->    
+                <listhead> 
+                    <listheader width="10%"  label="CI/RUC" />     
+                    <listheader width="15%"  >
+                        <textbox value="@bind(vm.buscarNombre)" 
+                                class="form-control form-control-sm"
+                                tooltiptext="Nombre  de conductor"
+                                placeholder="Nombre de conductor"
+                                onOK="@command('buscarLikeNombre')"
+                                onChange="self.setValue(self.getValue().toUpperCase());" />
+                    </listheader> 
+                    <listheader width="25%"  label="Direcccion" /> 
+                    <listheader width="8%"  label="Convencional"  /> 
+                    <listheader width="7%"  label="Movil"  /> 
+                    <listheader width="20%"  label="Correo"  /> 
+                    <listheader width="10%"  label="Ciudad"  /> 
+
+                    <listheader width="5%"  label="" align="center"/>
+                </listhead>  
+                <template name="model">                                                            
+                    <listitem>
+                        <listcell zclass = "mycss-listcell">
+                            <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"                           
+                                    class="form-control form-control-sm"  value="@bind(each.trpCedula)" />
+                        </listcell>
+                        <listcell zclass = "mycss-listcell">
+                            <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"                            
+                                    class="form-control form-control-sm"  value="@bind(each.trpRazonSocial)" />
+                        </listcell>
+                        <listcell zclass = "mycss-listcell">
+                            <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"                           
+                                    class="form-control form-control-sm"  value="@bind(each.trpDireccion)" />
+                        </listcell>
+                        <listcell zclass = "mycss-listcell">
+                            <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"                           
+                                    class="form-control form-control-sm"  value="@bind(each.trpTelefono)" />
+                        </listcell>
+                        <listcell zclass = "mycss-listcell">
+                            <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"                           
+                                    class="form-control form-control-sm"  value="@bind(each.trpMovil)" />
+                        </listcell>
+                        <listcell zclass = "mycss-listcell">
+                            <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"                           
+                                    class="form-control form-control-sm"  value="@bind(each.trpCorreo)" />
+                        </listcell>
+                        <listcell zclass = "mycss-listcell">
+                            <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"                            
+                                    class="form-control form-control-sm"  value="@bind(each.trpCiudad)" />
+                        </listcell>
+                        <listcell zclass = "mycss-listcell" style="font-size:12px;background:#F8F9F9">    
+                                <image src="/iconos/editar.png"
+                                class="grow"
+                                onClick="@command('actualizar',valor=each)" 
+                                tooltiptext="Modificar proveedor"/> 
+                        </listcell>
+                    </listitem>
+                </template>
+            </listbox>       
+        </div>
+    </div>
+</div>

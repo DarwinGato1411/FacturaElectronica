@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?link rel="stylesheet" type="text/css" href="/css/boostrap/bootstrap.css"?>  
+<?link rel="stylesheet" type="text/css" href="/css/style.css"?>
+<?link rel="stylesheet" type="text/css" href="/css/app/ventas/facturar.css"?>
+<?link rel="stylesheet" type="text/css" href="/css/app/ventas/modales.css"?>
+<?script src="https://kit.fontawesome.com/484b16c999.js"?>
+
+<?init class="com.ec.seguridad.Autentificador"?>
+<?init class="org.zkoss.zk.ui.util.Composition" arg0="/plantilla/plantilla.zul"?>
+<?link rel="icon" type="image/x-icon" href="/iconos/deckxel.ico"?>
+
+
+<zk  contentStyle="overflow:auto" class="col-12 col-sm-12 col-md-12 col-lg-12" >
+    <hbox self="@define(content)" apply="org.zkoss.bind.BindComposer" 
+          viewModel="@id('vm') @init('com.ec.controlador.ListaNC')" >
+        <tabbox id="tboxPrincipal"  width="100%" >
+            <tabs >
+                <tab label="Lista de notas de credito" sclass="menutabs" /> 
+            </tabs>
+            <tabpanels >
+                
+                <tabpanel  width="99%" class="factura" >                    
+                    
+                
+
+
+                     <div class="factura_header paint_all_row">
+                        <div class="fact_row fact_only_row">
+                            <div class="wrapper_data" style="max-width:300px">
+
+                                <div class="wrapper_input" >
+                                    <span style="width:unset">Inicio:</span>
+                                    <datebox 
+                                        compact="true" 
+                                        readonly="true" 
+                                        buttonVisible="true" 
+                                        class="input_date"
+                                        lenient="true" 
+                                        value="@bind(vm.fechainicio)" 
+                                        format="dd/MM/yyyy" 
+                                        constraint="no empty: Ingrese la fecha"
+                                    />
+                                    <div class="fa-solid fa-calendar icon" />
+                                </div>
+                            </div>
+
+                            <div class="wrapper_data " style="max-width:300px">
+                                <div class="wrapper_input">
+                                    <span style="width:unset">Fin:</span>
+                                    <datebox 
+                                        compact="true" 
+                                        readonly="true" 
+                                        buttonVisible="true" 
+                                        value="@bind(vm.fechafin)" 
+                                        class="input_date"
+                                        lenient="true" 
+                                        format="dd/MM/yyyy" 
+                                        constraint="no empty: Ingrese la fecha"
+                                    />
+                                    <div class="fa-solid fa-calendar icon" />
+                                </div>
+                            </div>
+                            <div class="wrapper_data ">
+                            
+                                <button 
+                                    class="fa-solid fa-magnifying-glass btn_fact btn_primary btn_one_element"
+                                    style="height:unset;"
+                                >
+                                    Buscar por fecha
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                   
+
+                    <div class="factura_body">
+                        <listbox model="@load(vm.lstCreditoDebitos)" 
+                                nonselectableTags=""  mold="paging" pageSize="12"  >
+                            <custom-attributes org.zkoss.zul.listbox.rod="true"/>
+                        
+                            <listhead> 
+                                <listheader width="10%"  label="N° Fact" /> 
+                                <listheader width="10%"  >
+                                    <textbox value="@bind(vm.buscarCedula)"  
+                                            tooltiptext="Cedula"
+                                            class="form-control form-control-sm"                                         
+                                            placeholder="Cedula"
+                                            onOK="@command('buscarLikeCedula')"
+                                            onChange="self.setValue(self.getValue().toUpperCase());" />
+                                    
+                                </listheader>    
+                                <listheader width="28%"  >
+                                    <textbox value="@bind(vm.buscarCliente)"  
+                                            class="form-control form-control-sm"
+                                            tooltiptext="Nombre del cliente"
+                                            placeholder="Nombre del cliente"
+                                            onOK="@command('buscarLikeCliente')"
+                                            onChange="self.setValue(self.getValue().toUpperCase());" />
+                                    
+                                </listheader> 
+                                <listheader width="8%"  label="Fecha" />                                                        
+                                <listheader width="8%"  label="Estado SRI" align="rigth" /> 
+                                <listheader width="8%"  label="Fecha Aut." align="rigth" /> 
+                                <listheader width="40%"  label="Clave Autorizacion"  />                                   
+                                <listheader width="3%"  label="" align="center" />        
+                                <listheader width="3%"  label="" align="center" />        
+                                <listheader width="3%"  label="" align="center" />               
+                            </listhead>  
+                            
+                        
+                            <template name="model">                                                            
+                                <listitem>
+                                    <listcell  zclass = "mycss-listcell">
+                                        <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"                            
+                                                class="form-control form-control-sm" value="@bind(each.facNumeroText)"  />
+                                    </listcell>
+                                    <listcell zclass = "mycss-listcell">
+                                        <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"                            
+                                                class="form-control form-control-sm" value="@bind(each.idFactura.idCliente.cliCedula)"  />
+                                    </listcell>
+                                    <listcell zclass = "mycss-listcell">
+                                        <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"                            
+                                                class="form-control form-control-sm" value="@bind(each.idFactura.idCliente.cliNombre)"  />
+                                    </listcell>
+                                <listcell zclass = "mycss-listcell">
+                                        <datebox compact="true" value="@bind(each.facFecha)" 
+                                                buttonVisible="false" lenient="true" readonly="true"
+                                                width="100%"
+                                                format="medium"   />
+                                    </listcell>
+                                <listcell  zclass = "mycss-listcell" >
+                                        <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"                            
+                                                class="form-control form-control-sm" value="@bind(each.estadosri)" 
+                                            tooltiptext="@bind(each.mensajesri)"
+                                            />
+                                    </listcell>
+                                    <listcell zclass = "mycss-listcell">
+                                        <datebox compact="true" value="@bind(each.facFechaAutorizacion)" 
+                                                buttonVisible="false" lenient="true" 
+                                                tooltiptext="@bind(each.mensajesri)"
+                                                readonly="true"
+                                                 width="100%"
+                                                format="medium"   />
+                                    </listcell>
+                
+                                    <listcell zclass = "mycss-listcell">
+                                        <textbox multiline="true" rows="1" readonly="true" 
+                                        width="100%"
+                                                value="@bind(each.facClaveAutorizacion)" />
+                                    </listcell>
+                            
+                                    <listcell zclass = "mycss-listcell">    
+                                        
+                                        <image src="/iconos/factelect.jpg"   
+                                            class="grow"                                         
+                                            onClick="@command('reporteGeneral',valor=each)"
+                                            tooltiptext="Imprimir guia"/>
+                                
+                                    </listcell>
+                                    
+                                    
+                                    <zk if="${each.estadosri=='PENDIENTE'}"  > 
+                                        <listcell zclass = "mycss-listcell">    
+                                            <image  src="/iconos/sri24x24.png" 
+                                                    class="grow"
+                                                    onClick="@command('autorizarSRI',valor=each)" 
+                                                    tooltiptext="Autorizar guia"/>
+                                        </listcell>
+                                    </zk>
+                            
+                                    <zk if="${each.estadosri!='PENDIENTE'}"  >
+                                        <listcell zclass = "mycss-listcell">                                         
+                                            <image src="/iconos/listo_uno.png"   
+                                                class="grow "       
+                                                tooltiptext="Ya se encuentra autorizado"/>
+                                
+                                        </listcell>
+                                    </zk>
+                                    <zk if="${each.estadosri!='AUTORIZADO'}"  > 
+                                        <listcell zclass = "mycss-listcell">    
+                                            <image  src="/iconos/reenviar.png" 
+                                                    class="grow"
+                                                    onClick="@command('reenviarSRI',valor=each)" 
+                                                    tooltiptext="Reenviar su guia a autorizar"/>
+                                        </listcell>
+                                    </zk>
+                                    <zk if="${each.estadosri=='AUTORIZADO'}"  > 
+                                        <listcell zclass = "mycss-listcell">   
+                                            <image  src="/iconos/reenviar.png" 
+                                                    class="grow"
+                                                    onClick="@command('reenviarSRI',valor=each)" 
+                                                    tooltiptext="Reenviar su factura a autorizar"/>
+                                            <!--                                        <image src="/iconos/listo_uno.png"   
+                                            class="btn-secondary btn-sm"                                               
+                                            tooltiptext="No se puede autorizar por que se encuentra en estado autorizado"/> -->
+                                        </listcell>
+                                    </zk>
+                                                                
+                                    
+                                </listitem>
+                            </template>
+                        </listbox>
+                    </div>
+         
+                </tabpanel>
+                
+
+            </tabpanels>
+            
+        </tabbox>
+    </hbox>
+
+
+</zk>

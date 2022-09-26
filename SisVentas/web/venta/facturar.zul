@@ -13,6 +13,7 @@
 
                <!--onCreate="@command('aperturaCaja')"-->
     <hbox self="@define(content)" apply="org.zkoss.bind.BindComposer" 
+    onCreate="@command('aperturaCaja')"
           viewModel="@id('vm') @init('com.ec.controlador.Facturar')" width="100%">
     
         <timer id="timer" delay="300000" repeats="true" onTimer="@command('refrescarPagina')" />
@@ -299,7 +300,7 @@
                                                     onChange="self.setValue(self.getValue().toUpperCase());" />
                                     
                                     </listheader>     
-                                    <listheader width="45%" align="left"   >
+                                    <listheader width="50%" align="left"   >
                                         <textbox value="@bind(vm.buscarNombreProd)"  
                                                     id="idBusquedaProd"
                                                     class="form-control form-control-sm"
@@ -309,7 +310,7 @@
                                                     onChange="self.setValue(self.getValue().toUpperCase());" />
                                     </listheader>                         
                                     <listheader width="10%"   label="KARDEX" align="center" /> 
-                                    <listheader width="13%"  label="PV X MAYOR" align="center" /> 
+                                    <!--<listheader width="13%"  label="PV X MAYOR" align="center" />--> 
                                     <listheader width="13%"  label="PVP" align="center" /> 
                                     <listheader width="8%"  label="" align="center"/>
                                 </listhead>  
@@ -353,14 +354,14 @@
                                                     value="@bind(each.karTotal)" 
                                                     width="96%" />
                                         </listcell>
-                                        <listcell zclass = "mycss-listcell" 
+<!--                                        <listcell zclass = "mycss-listcell" 
                                                     onDoubleClick="@command('agregarItemLista',valor=each.idProducto)" >                                                    
                                             <label onOK="@command('agregarItemLista',valor=each.idProducto)" 
                                                     class="form-control form-control-sm"
                                                     value="@bind(each.idProducto.prodCostoPreferencial)"
                                                     style="font-size:11px; font-weight: bold" 
                                                     width="96%" />
-                                        </listcell>
+                                        </listcell>-->
                                         <listcell zclass = "mycss-listcell" 
                                                     onDoubleClick="@command('agregarItemLista',valor=each.idProducto)" >                                                    
                                             <label onOK="@command('agregarItemLista',valor=each.idProducto)" 
@@ -371,15 +372,15 @@
                                         </listcell>
         
                                         <listcell zclass = "mycss-listcell">  
-                                            <div 
+<!--                                            <div 
                                                 class="fa-solid fa-chevron-right"
                                                 style="font-size:16px; padding:0.5em; cursor:pointer;font-weight: bold"
                                                 onClick="@command('agregarItemLista',valor=each.idProducto)"
                                                 tooltiptext="Asignar producto"
-                                            />
-                                            <!-- <image  src="/iconos/Forward.png" 
+                                            />-->
+                                             <image  src="/iconos/fact.png" 
                                                     onClick="@command('agregarItemLista',valor=each.idProducto)" 
-                                                    tooltiptext="Asigar producto"/> -->
+                                                    tooltiptext="Asigar producto"/> 
                                             
                                         </listcell>
                                     </listitem>

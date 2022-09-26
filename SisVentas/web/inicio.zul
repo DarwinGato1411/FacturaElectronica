@@ -1,80 +1,85 @@
-<?link rel="stylesheet" type="text/css" href="/css/app/base.css"?>   
-<?link rel="stylesheet" type="text/css" href="/css/app/landing/signin.css"?>
-<?link rel="stylesheet" type="text/css" href="/css/app/menu.css"?>
+<?link rel="stylesheet" type="text/css" href="/css/app/landing/signin.css?v2"?>
 <?script src="https://kit.fontawesome.com/484b16c999.js"?>
+<?script src="./js/inicio.js?v1"?>
 
 <?link rel="icon" type="image/x-icon" href="/iconos/defact.ico"?>  
 <?page title="Facturacion electrónica" contentType="text/html;charset=UTF-8"?>
 
-<zk contentStyle="" >
+<zk >
 
-    <div class='main_container' id="loginWin" apply="com.ec.controlador.LoginController"> 
-        <div class="wrapper">
-            <div class="nav">
-                <div class="logo_wrapper">
-                    <image src="./imagenes/logodeckxel.png" class="logo"/>
+   <div class="login_container"  id="loginWin" apply="com.ec.controlador.LoginController">
+        <div class="wrapper_login">
+            <div class="container_img">
+                <image src="./imagenes/logodeckxel.png" class="logo"/>
+                <div class="wrapper_title">
+                    <span class="title">Sistema de Facturación Electrónica</span>
+                   
+                    <div class="desc">
+                        Estimado usuario envenido a nuestro sistema.
+                    </div>
+                    <div class="desc">
+                       Obten tu firma electronica con nosotros.
+                    </div>
+                    <div class="desc">
+                       Asesoramiento directo.
+                    </div>
+                    <div class="desc">DECKXEL - DEFACT   </div>
+                   <div class="desc">099 742 8125   </div>
+                   <div class="desc">www.deckxel.com   </div>
+                    <!--<button class="btn btn_reg" id="btnRegistra" >Registro</button> -->
                 </div>
             </div>
-            
-            <div class="info_wrapper">
-                <div class="form_wrapper">
-                    <div class="form">
-                        <div class="desc">
-                            <span>Inicia sesión</span>
-                            <span>Administrar tus facturas nunca ha sido tan facil!</span>
-                        </div>
-
-                        <div class="wrapper_container_input">
-                            <div class="wrapper_input">
-                                <div class="fa-solid fa-user icon" />
-                                <textbox id="account" type="text" class="input"
-                                         onCreate="self.focus()"
-                                         placeholder="Ingrese el usuario"   
-                                />
-                            </div>
-                            <div class="wrapper_input">
-                                <div class="fa-solid fa-key icon" />
-                                <textbox id="password" type="password" 
-                                         class="input" 
-                                         placeholder="Ingrese la constraseña" 
-                                />      
-                            </div>
-
-                            
-                            <div class="forgot">
-                                <span id="linkOlvideContrasena">Olvidaste tu contraseña?</span>  
-                                <!--<span id="btnRegistra" >Realiza tu registro aquí</span>-->
-                             
-                            </div>
-                            
-                            
-                            <button 
-                                id="buttonEntrar" 
-                                class="main_btn" 
-                                label="Ingresar">
-                                Ingresar
-                            </button>  
-                            <button 
-                                id="btnRegistra" 
-                                class="registro_btn" 
-                                label="Ingresar">
-                                Realiza tu registro aquí
-                            </button> 
-                        </div>
-
+            <div class="container_signin">
+                <image src="./imagenes/pichincha/logo2.png" class="logo"/>
+                <span class="title" >Iniciar Sesión</span>
+                <span class="subtitle">Bienvenido su mejor opción en facturación electrónica</span> 
+                <div class="wrapper_all_inputs">
+                    <div class="wrapper_input">
+                        <span class="fas fa-user icon"></span>
+                        <textbox 
+                            type="text" 
+                            placeholder="Usuario" 
+                            class="input"
+                            id="account"
+                            onCreate="self.focus()"
+                        />
+                    </div>
+                    <div class="wrapper_input">
+                        <span class="fas fa-lock icon"></span>
+                        <textbox 
+                            type="password" 
+                            placeholder="Contraseña" 
+                             id="password"
+                            class="input input_password"
+                        />
+                        <span class="fa-solid fa-eye icon_eye icon"></span>
                     </div>
                 </div>
 
-                <div class="banner">
-                    <image src="./imagenes/disdefact.png" class="banner_img"/>
+                <!--<span class="forgot_text" id="linkOlvideContrasena">Olvide mi contraseña</span>-->
+                
+                <div class="wrapper_buttons">
+                    <button 
+                        class="btn btn_sign" 
+                        id="buttonEntrar"
+                    >Iniciar Sesión
+                    </button>
+<!--                    <button 
+                        class="btn btn_sign_reg"
+                        id="btnRegistra"
+                    >Registro
+                    </button>-->
                 </div>
-            </div>
-
-
-            <div class="foot">
-                <image src="https://deckxel.com/resource/img/wave.svg" class="wave"/>
+                
+                
             </div>
         </div>
     </div>
-    
+
+    <div class="wrapper_loading loading_inicio">
+        <div class="lds-heart">
+            <div></div>
+        </div>
+    </div>
+
 </zk>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+    <window  id="windowRecibidoContenedor"  position="center"
+             class="container-fluid col-12 col-sm-12 col-md-9 col-lg-9"             
+             height="90%" closable="true"  sizable="true" 
+             apply="org.zkoss.bind.BindComposer"  maximizable="true" 
+           
+             onCtrlKey="@command('cerrar')"
+             viewModel="@id('vm') @init('com.ec.controlador.ContenedorReporteViewModel')" >
+        <caption label="Informes" style="font-weight:bold" >
+            <progressmeter id="pm" width="100px" style="align:rigth" value="100" onCancel="@command('cerrar')" />
+        </caption> 
+        
+        <iframe height="100%" class="col-12 col-sm-12 col-md-12 col-lg-12" id="reportframe1"
+                
+                content="@bind(vm.fileContent)"/>       
+    </window>

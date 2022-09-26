@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window  id="windowDetallePago"  position="center" 
+         class="col-12 col-sm-12 col-md-6 col-lg-6" closable="true"  
+         apply="org.zkoss.bind.BindComposer" 
+         viewModel="@id('vm') @init('com.ec.controlador.ListaDetallePago')">
+    
+    <caption label="Detalle de pago" style="font-weight:bold"/> 
+    <div class="row">
+     
+        <div class=" input-group col-12 col-sm-12 col-md-12 col-lg-12 ">
+
+            <label value="# Meses" style="font-weight: bold;padding: 5px;"  visible="@bind(vm.generar)"   />
+            <intbox   placeholder=""
+                      value="@bind(vm.numeroMeses)" 
+                      onOK="@command('calculoCuota')" 
+                       visible="@bind(vm.generar)"  
+                      style="font-weight:bold;font-size:1em;width:80px;"
+                      maxlength="3"  />
+            <div class="input-group-append">
+<!--                <button   image="/iconos/cal.png"  
+                          onClick="@command('calculoCuota')"  
+                          class="btn btn-primary btn-sm  "
+                          tooltiptext="Generar tabla"/> -->
+                 <button   image="/iconos/guardar.png"  
+                          onClick="@command('confirmarTabla')"
+                          visible="@bind(vm.generar)"   
+                          class="btn btn-primary btn-sm  "
+                          tooltiptext="Guardar tabla"/>  
+                                                         
+            </div>
+                  
+<!--        </div>
+        <div class=" input-group col-12 col-sm-12 col-md-12 col-lg-12 ">-->
+            <label value="Total: " style="font-weight: bold;padding: 5px;;font-size:1.5em"   />
+            <decimalbox format="###.####"  value="@bind(vm.totalFactura)" 
+                        style="font-weight: bold;padding: 5px; color:blue; width:120px;font-size:1.5em;margin-top: 4px;"   />
+            <label value="Saldo:" style="font-weight: bold;padding: 5px;font-size:1.5em"   />
+            <decimalbox format="###.####"  value="@bind(vm.saldo)" 
+                        style="font-weight: bold;padding: 5px; color:red;width:120px; font-size:1.5em;margin-top: 4px;"   />
+        </div>
+    </div>
+    <listbox model="@load(vm.lstPagos)" 
+             nonselectableTags="*"  mold="paging" pageSize="12"  >
+        <custom-attributes org.zkoss.zul.listbox.rod="true"/>
+                        
+        <listhead> 
+            <listheader width="10%"  label="# Pago"  /> 
+            <listheader width="60%"  label="Fecha-Cobro" /> 
+            <!--<listheader width="20%"  label="Fecha-Pago" />-->                                                           
+            <!--<listheader width="20%"  label="Valor " align="right"  />--> 
+            <listheader width="20%"  label="Abono" align="right" /> 
+            <!--<listheader width="15%"  label="Saldo" align="right" />-->               
+            <listheader width="10%"  label="" align="right" />               
+        </listhead>    
+                    
+        <template name="model">                                                            
+            <listitem>
+                <listcell >
+                    <label value="@bind(each.detpNumPago)" width="96%" />
+                </listcell>
+                <listcell >
+                    <datebox compact="true" value="@bind(each.detpFechaCobro)" 
+                             buttonVisible="true" lenient="true" readonly="true"
+                             format="medium" width="98%"  />
+                </listcell>
+<!--                <listcell >
+                    <datebox compact="true" value="@bind(each.detpFechaPago)" 
+                             buttonVisible="false" lenient="true" readonly="true"
+                             format="medium" width="98%"  />
+                </listcell>-->
+<!--                <listcell   >
+                    <decimalbox format="###.####" readonly="true" 
+                                value="@bind(each.detpTotal)" width="96%"/>
+                </listcell>-->
+                <listcell  >
+                    <decimalbox format="###.####" 
+                    readonly="@bind(vm.generar)"
+                                onOK="@command('modificar',valor=each)"  
+                                value="@bind(each.detpAbono)" width="96%"/>
+                </listcell>
+<!--                <listcell  >
+                    <decimalbox format="###.####" readonly="true" 
+                                value="@bind(each.detpSaldo)" width="96%"/>
+                </listcell>-->
+                <listcell>    
+                    <image  src="/iconos/guardar.png" 
+                            onClick="@command('modificar',valor=each)" 
+                            tooltiptext="Modificar pago"/>
+
+                </listcell>
+            </listitem>
+        </template>
+    </listbox>
+                           
+                  
+</window>

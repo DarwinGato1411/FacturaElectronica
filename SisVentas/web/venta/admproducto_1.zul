@@ -1,0 +1,201 @@
+<?init class="com.ec.seguridad.Autentificador"?>
+<?link rel="stylesheet" type="text/css" href="/css/boostrap/bootstrap.css"?>  
+<?link rel="stylesheet" type="text/css" href="/css/style.css"?>
+<?link rel="stylesheet" type="text/css" href="/css/app/ventas/modales.css"?>
+<?link rel="stylesheet" type="text/css" href="/css/app/ventas/modales.css"?>
+<?script src="https://kit.fontawesome.com/484b16c999.js"?>
+
+<div apply="org.zkoss.bind.BindComposer" 
+     viewModel="@id('vm') @init('com.ec.controlador.AdmProducto')"  width="100%"  >
+
+    <!-- <div class="container-fluid">
+        <div class="row">
+            <div class="col-2 col-sm-2 col-md-1 col-lg-1 form-group " align="start"  >
+                <image  src="/iconos/nuevo_pro-24.png"
+                        class="btn btn btn-secondary btn-sm "
+                        onClick="@command('nuevoCliente')"
+                        tooltiptext="Nuevo producto"/>
+        
+            </div>
+            <div class="col-2 col-sm-2 col-md-1 col-lg-1 form-group " align="start"  >
+                <image  src="/iconos/armareval.png"
+                        class="btn btn btn-secondary btn-sm "
+                        onClick="@command('inicializarKardex')"
+                        tooltiptext="Iniciar inventario de productos anteriores"/>
+        
+            </div>
+            <div class="col-2 col-sm-2 col-md-1 col-lg-1  " align="start"  >
+            
+                <intbox value="@bind(vm.cantidadCodBar)" 
+                    placeholder="Cantidad"
+                            class="form-control form-control-sm  "
+                            tooltiptext="Cantidad de veces que imprimira cada codigo de barras"/>
+                    </div>
+            <div class="col-3 col-sm-2 col-md-1 col-lg-1 " align="start"  >
+                
+                <image  src="/iconos/codbar.jpg"
+                        class="btn btn btn-secondary btn-sm "
+                        onClick="@command('crearCodigoBarras')"
+                        tooltiptext="Generar codigos de barras"/>
+        
+            </div>
+            <div class="col-2 col-sm-2 col-md-1 col-lg-1 " align="start"  >
+                
+                <image  src="/iconos/excel1.png"
+                        class="btn btn btn-secondary btn-sm "
+                        onClick="@command('exportListboxToExcel')"
+                        tooltiptext="Descargar productos"/>
+        
+            </div>
+            <div class="col-2 col-sm-2 col-md-1 col-lg-1 " align="start"  >
+                
+                <image  src="/iconos/excel1.png"
+                        class="btn btn btn-secondary btn-sm "
+                        onClick="@command('exportListboxToExcelTodo')"
+                        tooltiptext="Descargar todos los productos"/>
+        
+            </div>
+        </div>
+    </div> -->
+
+    <div class="container_headers" style="margin-bottom:1em">
+
+        <div 
+            class="fa-solid fa-plus-circle fa-2x icon"
+            onClick="@command('nuevoCliente')"
+            tooltiptext="Nuevo producto"
+        >
+             <span>Nuevo producto </span>
+        </div>
+       
+        <div 
+            class="fa-solid fa-list-check fa-2x icon"
+            onClick="@command('inicializarKardex')"
+            tooltiptext="Iniciar inventario de productos anteriores"
+        >
+          <span>Iniciar inventario </span>
+        </div>
+        <div 
+            class="fa-solid fa-barcode fa-2x icon"
+            onClick="@command('crearCodigoBarras')"
+            tooltiptext="Generar codigos de barras"
+        >
+        <span>Crear codigos de barras</span>
+        </div>
+        <div 
+            class="fa-solid fa-file-excel fa-2x icon"
+            onClick="@command('exportListboxToExcelTodo')"
+            tooltiptext="Descargar todos los productos"
+        >
+        <span>Exportar</span>
+        </div>
+         <div class="wrapper_input_head">
+            <span>Cant. cod barras</span>
+            <intbox 
+                value="@bind(vm.cantidadCodBar)" 
+                placeholder="Cantidad"
+                class="input_head"
+                tooltiptext="Cantidad de veces que imprimira cada codigo de barras"
+            />
+        </div>
+    </div>
+
+    <div class="cont_body">
+        <div class="cont_body_item">
+            <listbox  width="100%" model="@load(vm.listaProductosModel)" 
+                    mold="paging" pageSize="15"
+                    checkmark="true"  
+                    multiple="true" 
+                    onSelect="@command('seleccionarRegistros')"
+                    nonselectableTags="*">
+                <custom-attributes org.zkoss.zul.listbox.rod="true"/>
+
+                <listhead> 
+                    <listheader width="30px"   sort="auto(prodCodigo)" ></listheader>
+                    <listheader width="18%"   sort="auto(prodCodigo)" >
+                        <textbox value="@bind(vm.buscarCodigo)" 
+                                class="form-control form-control-sm"
+                                tooltiptext="Codigo "                         
+                                placeholder="Codigo"
+                                onOK="@command('buscarLikeCodigo')"
+                                onChange="self.setValue(self.getValue().toUpperCase());" />
+                    </listheader>     
+                    <listheader width="35%"  sort="auto(prodNombre)" >
+                        <textbox value="@bind(vm.buscarNombre)" 
+                                class="form-control form-control-sm"
+                                tooltiptext="Nombre "                         
+                                placeholder="Nombre del producto"
+                                onOK="@command('buscarLikeNombre')"
+                                onChange="self.setValue(self.getValue().toUpperCase());" />
+
+                        
+                    </listheader> 
+                    <listheader width="10%"  label="Cantidad Inicial" />  
+                    <listheader width="10%"  label="Precio Compra" />  
+                    <listheader width="10%"  label="Precio por unidad"  /> 
+                    <listheader width="10%"  label="Precio por 3 unidades"  /> 
+                    <listheader width="10%"  label="Precio por 6 unidades"  /> 
+                    <listheader width="10%"  label="Precio por caja"  /> 
+                    <listheader width="5%"  label="" align="center"/>
+                    <!--<listheader width="5%"  label="" align="center"/>-->
+                </listhead>  
+                <template name="model">                                                            
+                    <listitem>
+                        <listcell   style="height: 10px;overflow: hidden;">  </listcell>
+                        <listcell zclass = "mycss-listcell">
+                            <textbox readonly="true" style="font-size:12px;background:#EBF5FB"
+                                    class="form-control form-control-sm"  value="@bind(each.prodCodigo)"  />
+                        </listcell>
+                        <listcell zclass = "mycss-listcell">
+                            <textbox readonly="true" style="font-size:12px;background:#EBF5FB"
+                                        class="form-control form-control-sm" value="@bind(each.prodNombre)" />
+                        </listcell>
+                        <listcell zclass = "mycss-listcell">
+                            <decimalbox format="###.#####" readonly="true"
+                                        style="font-size:12px;background:#EBF5FB"
+                                        class="form-control form-control-sm"
+                                        value="@bind(each.prodCantidadInicial)"  />
+                        </listcell>
+                        <listcell zclass = "mycss-listcell">
+                            <decimalbox format="###.#####" readonly="true"
+                        style="font-size:12px;background:#EBF5FB"
+                                        class="form-control form-control-sm"
+                                        value="@bind(each.pordCostoVentaRef)"  />
+                        </listcell>
+                        <listcell zclass = "mycss-listcell">
+                            <decimalbox format="###.#####" readonly="true"  
+                                    style="font-size:12px;background:#EBF5FB"
+                                        class="form-control form-control-sm"
+                                        value="@bind(each.pordCostoVentaFinal)" />
+                        </listcell>
+                        <listcell zclass = "mycss-listcell">
+                            <decimalbox format="###.#####" readonly="true" 
+                                        class="form-control form-control-sm"
+                                    style="font-size:12px;background:#EBF5FB"
+                                        value="@bind(each.prodCostoPreferencial)"  />
+                        </listcell>
+                        <listcell zclass = "mycss-listcell">
+                            <decimalbox format="###.#####" readonly="true" 
+                                        class="form-control form-control-sm"
+                                    style="font-size:12px;background:#EBF5FB"
+                                        value="@bind(each.prodCostoPreferencialDos)"  />
+                        </listcell>
+                        <listcell zclass = "mycss-listcell">
+                            <decimalbox format="###.#####" readonly="true" 
+                                        class="form-control form-control-sm"
+                                    style="font-size:12px;background:#EBF5FB"
+                                        value="@bind(each.prodCostoPreferencialTres)"  />
+                        </listcell>
+                    
+                        <listcell zclass = "mycss-listcell" style="font-size:12px;background:#F8F9F9">    
+                            <image src="/iconos/editar.png"
+                                class="grow"
+                                onClick="@command('actualizarCliente',valor=each)" 
+                                tooltiptext="Modificar producto"/> 
+                        </listcell>
+                    </listitem>
+                </template>
+            </listbox>       
+        </div>
+    </div>
+</div>

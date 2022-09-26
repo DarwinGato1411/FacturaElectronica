@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?link rel="stylesheet" type="text/css" href="/css/boostrap/bootstrap.css"?>  
+<?link rel="stylesheet" type="text/css" href="/css/style.css"?>
+<?link rel="stylesheet" type="text/css" href="/css/app/ventas/modales.css"?>
+<?script src="https://kit.fontawesome.com/484b16c999.js"?>
+
+<?init class="com.ec.seguridad.Autentificador"?>
+<?init class="org.zkoss.zk.ui.util.Composition" arg0="/plantilla/plantilla.zul"?>
+<zk  contentStyle="overflow:auto" with="100%" >
+    <hbox self="@define(content)" apply="org.zkoss.bind.BindComposer" 
+          viewModel="@id('vm') @init('com.ec.controlador.CierreCajaView')" width="100%">
+        
+        <div  class="container-fluid" >
+        <div  class="row" >
+               <div class="col-12 col-sm-6 col-md-4 col-lg-4  form-group "  >
+                <label value="(*) " style="color:red;font-weight:bold"/>Tipo de identificacion
+                <combobox  model="@load(vm.listaIdentificaciones)"  
+                          
+                           selectedItem="@bind(vm.tipoadentificacion)" width="70%"
+                           readonly="true" >
+                                          
+                    <template name="model">
+                        <comboitem  label="@bind(each.tidNombre)"/>
+                    </template>                                      
+                </combobox>
+              
+               </div>
+        </div>
+        </div>
+        
+    </hbox>
+       <grid width="100%" >
+        <columns>                               
+            <column label="Etiquetas" width="40%" align="left"/>
+            <column label="Descripcion" width="60%"/>
+                   
+        </columns>
+                     
+        <rows >
+            <row>
+                <cell colspan="1">
+                    <label  style="color:red;font-weight:bold"/>VALOR DE LA VENTA DEL DIA: 
+                                   
+                </cell>
+                <cell colspan="1">
+                    <decimalbox format="###.####" style="font-weight:bold;font-size:20px;color:red"  value="@bind(vm.cierreCaja.cieValor)" />
+                </cell>
+            </row>
+            <row>
+                <cell colspan="1">
+                    <label  style="color:red;font-weight:bold"/>DESCRIPCION DE SOBRE LAS VENTAS (NOVEDAD):  
+                </cell>
+                <cell colspan="1">
+                    <textbox   multiline="true" rows="5" maxlength="280" value="@bind(vm.cierreCaja.cieDescripcion)" onChange="self.setValue(self.getValue().toUpperCase().trim());" constraint="no empty: Campo requerido" sclass="textBoxMedio" />
+                </cell>
+            </row> 
+            <row>
+                <cell colspan="1">
+                    <label value="(*) " style="color:red;font-weight:bold"/>VALOR ACTUAL DE LA CAJA: 
+                </cell>
+                <cell colspan="1">
+                    <decimalbox format="###.####"  onOK="@command('calcularDiferencia')" style="font-weight:bold;font-size:20px;color:green"  value="@bind(vm.cierreCaja.cieCuadre)" />
+                </cell>
+            </row> 
+            <row>
+                <cell colspan="1">
+                    <label  style="color:red;font-weight:bold"/>SALDO: 
+                </cell> 
+                <cell colspan="1">
+                     <decimalbox format="###.####" style="font-weight:bold;font-size:20px;color:blue"   value="@bind(vm.cierreCaja.cieDiferencia)" />
+                <label value="(-) " style="color:red;font-weight:bold"/> SALDO A FAVOR
+                </cell>
+            </row> 
+            <row>
+                <cell align="center" colspan="4">
+                    <hbox>
+                        <button label="Guardar" image="/imagenes/save.png"  onClick="@command('guardar')"  tooltiptext="Guardar cierreCaja"/> 
+                    </hbox>
+                
+                </cell>  
+            </row>
+        </rows>
+                  
+    </grid> 
+        
+    </hbox>
+
+
+</zk>

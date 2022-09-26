@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?link rel="stylesheet" type="text/css" href="/css/boostrap/bootstrap.css"?>  
+<?link rel="stylesheet" type="text/css" href="/css/style.css"?>
+<?link rel="stylesheet" type="text/css" href="/css/app/ventas/facturar.css"?>
+<?link rel="stylesheet" type="text/css" href="/css/app/ventas/modales.css"?>
+<?script src="https://kit.fontawesome.com/484b16c999.js"?>
+
+
+<?init class="com.ec.seguridad.Autentificador"?>
+<?init class="org.zkoss.zk.ui.util.Composition" arg0="/plantilla/plantilla.zul"?>
+<?link rel="icon" type="image/x-icon" href="/iconos/deckxel.ico"?>
+<zk  contentStyle="overflow:auto" class="col-12 col-sm-12 col-md-12 col-lg-12" >
+    
+      
+   
+    
+    <hbox self="@define(content)" apply="org.zkoss.bind.BindComposer" 
+          viewModel="@id('vm') @init('com.ec.controlador.vistas.FacturasPorCobrarVm')" >
+        <tabbox   width="100%" >
+            <tabs >
+                <tab label="Facturas por cobrar" sclass="menutabs" /> 
+            </tabs>
+            <tabpanels >
+                
+                <tabpanel  width="99%"  >                    
+                    <!-- <div class="row">
+                       
+                        <div class=" input-group col-12 col-sm-12 col-md-3 col-lg-3 ">
+                            <textbox value="@bind(vm.nombre)"  
+                                     tooltiptext="Buscar por cedula o nombre"
+                                     class="form-control form-control-sm"                                         
+                                     placeholder="Buscar"
+                                     height="30PX"
+                                     onOK="@command('buscar')"
+                                     onChange="self.setValue(self.getValue().toUpperCase());" />
+                        </div>
+                        <div class=" input-group col-12 col-sm-12 col-md-2 col-lg-2 borderBox ">
+                           
+                            <radiogroup 
+                                onCheck="@command('buscar')" 
+                                selectedItem="@bind(vm.groupby)"  >                   
+                               
+                                <space bar="false"  />   
+                                <radio label="Detallado" value="${false}" />    
+                                <space bar="false"  />     
+                                <radio label="Agrupar" value="${true}" />                    
+                            </radiogroup>
+                                 
+                        </div>
+                       
+                    </div> -->
+
+                    
+
+                    <div class="factura_header paint_all_row">
+                        <div class="fact_row ">
+                            <div class="wrapper_data wrapper_data_only">
+                                <div class="wrapper_input">
+                                    <textbox 
+                                        class="input input_without_label" 
+                                        value="@bind(vm.nombre)"  
+                                        tooltiptext="Buscar por cedula o nombre"                                      
+                                        placeholder="Buscar"
+                                        height="30PX"
+                                        onOK="@command('buscar')"
+                                        onChange="self.setValue(self.getValue().toUpperCase());"
+                                    />
+                                    <div class="fa-solid fa-magnifying-glass icon" />
+                                </div>
+                            </div>
+                            <div class="wrapper_data">
+                                <div class="wrapper_input">
+                                    <radiogroup 
+                                        class="radio_group" 
+                                        onCheck="@command('buscar')" 
+                                        selectedItem="@bind(vm.groupby)"
+                                    >
+                                        <radio label="Detallado" value="${false}" />
+                                        <radio label="Agrupar" value="${true}" />  
+                                    </radiogroup>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="factura_body">
+                        <listbox model="@load(vm.listaFacturas)" 
+                                nonselectableTags=""  mold="paging" pageSize="12"  >
+                            <custom-attributes org.zkoss.zul.listbox.rod="true"/>
+                        
+                            <listhead> 
+                                <listheader width="10%"  label="N° Fact" /> 
+                                                            
+                                <listheader width="10%"  label="Cedula" />                                                        
+                                <listheader width="60%"  label="Nombre" align="rigth" /> 
+                                <listheader width="10%"  label="Saldo ($)" align="rigth" /> 
+                                <listheader width="10%"  label="Dias "  />                      
+                            </listhead>  
+                            
+                        
+                            <template name="model">                                                            
+                                <listitem>
+                                    <listcell  zclass = "mycss-listcell">
+                                        <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"                            
+                                                class="form-control form-control-sm" 
+                                                width="100%"
+                                                value="@bind(each.facNumeroText)"  />
+                                    </listcell>
+                                    <listcell  zclass = "mycss-listcell">
+                                        <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"                            
+                                                class="form-control form-control-sm" 
+                                                width="100%"
+                                                value="@bind(each.cliCedula)"  />
+                                    </listcell>
+                                    <listcell zclass = "mycss-listcell">
+                                        <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"                            
+                                                class="form-control form-control-sm" 
+                                                width="100%"
+                                                value="@bind(each.cliNombres)"  />
+                                    </listcell>
+                                    <listcell zclass = "mycss-listcell">
+                                        <decimalbox format="###.##" readonly="true" 
+                                                    style="font-size:12px;background:#EBF5FB"
+                                                    value="@bind(each.facSaldoAmortizado)" width="100%"/>
+                                    </listcell>
+                                    <listcell zclass = "mycss-listcell">
+                                        <decimalbox format="###.##" readonly="true" 
+                                                    style="font-size:12px;background:#EBF5FB"
+                                                    value="@bind(each.dias)" width="100%"/>
+                                    </listcell>
+                                    
+                                                                
+                                    
+                                </listitem>
+                            </template>
+                        </listbox>
+                    </div>
+
+         
+                </tabpanel>
+                
+
+            </tabpanels>
+            
+        </tabbox>
+    </hbox>
+
+
+</zk>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window  id="windowProductoBuscar"  position="center" class="col-12 col-sm-12 col-md-11 col-lg-11" closable="true"  
+         apply="org.zkoss.bind.BindComposer" contentStyle="overflow:auto"
+         viewModel="@id('vm') @init('com.ec.controlador.Facturar')">
+    
+    <caption label="Buscar Cliente" style="font-weight:bold"/> 
+   
+   
+    <listbox model="@load(vm.listaProducto)" 
+             checkmark="false"  
+             multiple="false"     
+             nonselectableTags="*"  
+             onSelect="@command('seleccionarRegistros')" 
+             mold="paging" pageSize="10"  >
+        <custom-attributes org.zkoss.zul.listbox.rod="true"/>
+      
+                    
+        <listhead> 
+<!--            <listheader width="5%"   >
+                
+            </listheader>-->
+            <listheader width="10%"   >
+                <textbox value="@bind(vm.buscarCodigoProd)"  
+                         class="form-control form-control-sm"
+                         tooltiptext="Código"
+                         placeholder="Código"
+                         onOK="@command('buscarLikeCodigoProd')"
+                         onChange="self.setValue(self.getValue().toUpperCase());" />
+            </listheader>     
+            <listheader width="30%"  >
+                <textbox value="@bind(vm.buscarNombreProd)"  
+                onCreate="self.focus()"
+                         class="form-control form-control-sm"
+                         tooltiptext="Descripcion"
+                         placeholder="Descripcion"
+                         onOK="@command('buscarLikeNombreProd')"
+                         onChange="self.setValue(self.getValue().toUpperCase());" />
+            </listheader> 
+            <listheader width="10%"  label="COSTO COMPRA" /> 
+            <listheader width="10%"  label="COSTO PREFE 1" /> 
+            <listheader width="10%"  label="COSTO PREFE 2" /> 
+            <listheader width="10%"  label="COSTO PREFE 3" /> 
+            <listheader width="10%"  label="COSTO NORMAL"  /> 
+            <listheader width="10%"  label="OPCIONES" align="center"/>
+                            
+        </listhead>  
+                    
+        <template name="model">                                                            
+            <listitem onOK="@command('seleccionarProductoLista',valor=each)">
+<!--                <listcell  onOK="@command('seleccionarProductoLista',valor=each)" >
+                    <div ></div>
+                </listcell>-->
+                <listcell onClick="@command('seleccionarProductoLista',valor=each)">
+                    <label value="@bind(each.prodCodigo)"  width="96%"  
+                           onClick="@command('seleccionarProductoLista',valor=each)"/>
+                </listcell>
+                <listcell onClick="@command('seleccionarProductoLista',valor=each)" >
+                    <label value="@bind(each.prodNombre)" width="96%" onClick="@command('seleccionarProductoLista',valor=each)" />
+                </listcell>
+                <listcell >
+                    <label  class="form-control form-control-sm"
+                                 value="@bind(each.pordCostoVentaRef)" width="96%"  />
+                </listcell >
+                <listcell>
+                    <label  class="form-control form-control-sm"
+                                 value="@bind(each.prodCostoPreferencial)" width="96%" />
+                </listcell>
+                <listcell>
+                    <label  class="form-control form-control-sm"
+                                 value="@bind(each.prodCostoPreferencialDos)" width="96%" />
+                </listcell>
+                <listcell>
+                    <label  class="form-control form-control-sm"
+                                 
+                                value="@bind(each.prodCostoPreferencialTres)" width="96%" />
+                </listcell>
+                <listcell >
+                    <label  class="form-control form-control-sm"
+                                 value="@bind(each.pordCostoVentaFinal)" width="96%" />
+                </listcell>
+                
+                <listcell>   
+                    <image  src="/iconos/ok24x24.png" 
+                            onClick="@command('seleccionarProductoLista',valor=each)" 
+                            tooltiptext="Asigar producto"/> 
+                    
+                </listcell>
+            </listitem>
+        </template>
+    </listbox>
+                           
+                  
+</window>

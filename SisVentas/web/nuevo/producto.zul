@@ -258,7 +258,7 @@
                         />
                     </div>
                 </div>
-                <div class="wrapper_input_mod">
+<!--                <div class="wrapper_input_mod">
                     <span>Graba ICE: </span>
                     <div class="wrapper_input_text">
                         <radiogroup  
@@ -283,7 +283,7 @@
                                     class="input_text" 
                         />
                     </div>
-                </div>
+                </div>-->
 
             </div>
         </div>

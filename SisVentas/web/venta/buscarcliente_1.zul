@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window  id="windowClienteBuscar"  position="center" class="col-12 col-sm-12 col-md-11 col-lg-11" closable="true"  
+         apply="org.zkoss.bind.BindComposer" contentStyle="overflow:auto"
+         viewModel="@id('vm') @init('com.ec.controlador.Facturar')">
+    
+    <caption label="Seleccionar cliente" style="font-weight:bold"/> 
+   
+    <listbox model="@load(vm.listaClientesAll)" 
+             nonselectableTags="*"  mold="paging" pageSize="14"  >
+        <custom-attributes org.zkoss.zul.listbox.rod="true"/>
+                    
+      
+                    
+        <listhead> 
+            <listheader width="8%"   >
+                <textbox value="@bind(vm.buscarCedula)"  
+                         class="form-control form-control-sm"
+                         tooltiptext="Cédula"
+                         placeholder="Cédula"
+                         onOK="@command('buscarClienteCedula')"
+                         onChange="self.setValue(self.getValue().toUpperCase());" />
+            </listheader>     
+            
+            <listheader width="20%"  >
+                <textbox value="@bind(vm.buscarRazonSocial)"  
+                         class="form-control form-control-sm"
+                         tooltiptext="Nombre...."
+                         placeholder="Nombre...."
+                         onOK="@command('buscarClienteRazon')"
+                         onChange="self.setValue(self.getValue().toUpperCase());" />
+            </listheader> 
+            <listheader width="20%"  >
+                <textbox value="@bind(vm.buscarNombre)"  
+                         class="form-control form-control-sm"
+                         tooltiptext="Nombre Comercial.."
+                         placeholder="Nombre Comercial.."
+                         onCreate="self.focus()"
+                         onOK="@command('buscarClienteNombre')"
+                         onChange="self.setValue(self.getValue().toUpperCase());" />
+            </listheader> 
+            <listheader width="15%"  label="DIRECCION "  /> 
+            <listheader width="8%"  label="TELEFONO "  />        
+            <listheader width="8%"  label="MOVIL"/>
+            <listheader width="20%"  label="CORREO"/>
+            <listheader width="5%"  label="OPCIONES" align="center"/>
+                            
+        </listhead>  
+                    
+        <template name="model">                                                            
+            <listitem onOK="@command('seleccionarClienteLista',cliente=each)">
+                <listcell  style="font-size:10px;background-color:#d6eefd" zclass = "mycss-listcell" 
+                           onClick="@command('seleccionarClienteLista',cliente=each)" >
+                    <textbox readonly="true" style="font-size:12px ;background:#EBF5FB" 
+                             class="form-control form-control-sm"
+                          
+                             value="@bind(each.cliCedula)" 
+                             onClick="@command('seleccionarClienteLista',cliente=each)" />
+                </listcell>
+                
+                <listcell  style="font-size:10px;background-color:#d6eefd" zclass = "mycss-listcell" 
+                           onClick="@command('seleccionarClienteLista',cliente=each)">
+                    <textbox readonly="true" style="font-size:12px ;background:#EBF5FB" 
+                             class="form-control form-control-sm"
+                          
+                             value="@bind(each.nombresCompletso)" 
+                             onClick="@command('seleccionarClienteLista',cliente=each)" />
+                </listcell>
+                <listcell  style="font-size:10px;background-color:#d6eefd" zclass = "mycss-listcell" 
+                           onClick="@command('seleccionarClienteLista',cliente=each)">
+                    <textbox readonly="true" style="font-size:12px ;background:#EBF5FB"
+                             class="form-control form-control-sm"
+                         
+                           
+                             value="@bind(each.cliNombre)" 
+                             onClick="@command('seleccionarClienteLista',cliente=each)" />
+                </listcell>
+                <listcell   style="font-size:10px;background-color:#d6eefd" zclass = "mycss-listcell" 
+                            onClick="@command('seleccionarClienteLista',cliente=each)" >
+                    <textbox readonly="true" style="font-size:12px ;background:#EBF5FB"
+                             class="form-control form-control-sm"
+                           
+                             value="@bind(each.cliDireccion)"  onClick="@command('seleccionarClienteLista',cliente=each)"  />
+                </listcell>
+                <listcell  style="font-size:10px;background-color:#d6eefd" zclass = "mycss-listcell" 
+                           onClick="@command('seleccionarClienteLista',cliente=each)" >
+                    <textbox readonly="true" style="font-size:12px ;background:#EBF5FB"
+                             class="form-control form-control-sm"
+                         
+                             value="@bind(each.cliTelefono)" 
+                             onClick="@command('seleccionarClienteLista',cliente=each)"  />
+                </listcell>
+                <listcell  style="font-size:10px;background-color:#d6eefd" zclass = "mycss-listcell" 
+                           onClick="@command('seleccionarClienteLista',cliente=each)" >
+                    <textbox readonly="true" style="font-size:12px ;background:#EBF5FB"
+                             class="form-control form-control-sm"                      
+                             value="@bind(each.cliMovil)" 
+                             onClick="@command('seleccionarClienteLista',cliente=each)"  />
+                </listcell>
+                <listcell  style="font-size:10px;background-color:#d6eefd" zclass = "mycss-listcell" 
+                           onClick="@command('seleccionarClienteLista',cliente=each)" >
+                    <textbox readonly="true" style="font-size:12px ;background:#EBF5FB"
+                             class="form-control form-control-sm"                          
+                             value="@bind(each.cliCorreo)" 
+                             onClick="@command('seleccionarClienteLista',cliente=each)"  />
+                </listcell>
+                <listcell zclass = "mycss-listcell" style="font-size:12px ;background:#EBF5FB">    
+                    <image  src="/iconos/ok24x24.png" 
+                            onClick="@command('seleccionarClienteLista',cliente=each)" 
+                            tooltiptext="Asigar cliente"/>
+
+                </listcell>
+            </listitem>
+        </template>
+    </listbox>
+                           
+                  
+</window>

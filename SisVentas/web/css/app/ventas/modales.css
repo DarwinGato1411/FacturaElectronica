@@ -1,4 +1,11 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap");
+@import "https://fonts.googleapis.com/css2?family=Nunito:wght@300&family=Poppins&family=Raleway:wght@300&display=swap";
+
+:root {
+  --primary-color: #3e6e55;
+  --secondary-color: #3e6e55;
+  --tertiary-color: #d5ecfb;
+  --background-color: #fff;
+}
 
 *,
 *::before,
@@ -93,7 +100,7 @@ body {
   right: 10px;
   top: 5px;
   cursor: pointer;
-  color: #1247b9;
+  color: var(--secondary-color);
 }
 
 .wrapper_input_mod > .input_date > input,
@@ -143,7 +150,7 @@ body {
   top: 8px;
   left: 6px;
   font-size: 10px;
-  color: #1247b9;
+  color: var(--secondary-color);
 }
 
 .btn_modal {
@@ -152,7 +159,7 @@ body {
   cursor: pointer;
   border: none;
   outline: none;
-  background-color: #1247b9;
+  background-color: var(--secondary-color);
   color: #fff;
   width: 100%;
   transition: ease 0.3s;
@@ -210,7 +217,7 @@ body {
   position: absolute;
   top: 5px;
   right: 10px;
-  color: #1247b9;
+  color: var(--secondary-color);
   cursor: pointer;
 }
 

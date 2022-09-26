@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?link rel="stylesheet" type="text/css" href="/css/boostrap/bootstrap.css"?>  
+<?link rel="stylesheet" type="text/css" href="/css/style.css"?>
+<?link rel="stylesheet" type="text/css" href="/css/app/ventas/modales.css"?>
+<?script src="https://kit.fontawesome.com/484b16c999.js"?>
+
+<?init class="com.ec.seguridad.Autentificador"?>
+<?init class="org.zkoss.zk.ui.util.Composition" arg0="/plantilla/plantilla.zul"?>
+<?link rel="icon" type="image/x-icon" href="/iconos/deckxel.ico"?>
+<zk  contentStyle="overflow:auto" with="100%" >
+    <hbox self="@define(content)" apply="org.zkoss.bind.BindComposer" 
+          viewModel="@id('vm') @init('com.ec.controlador.ListaPedidoRapido')" width="100%">
+        <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-12 col-sm-12 col-md-2 col-lg-2">
+                                Cliente:
+                                <textbox     
+                                    value="@bind(vm.pedidoRapido.pedNombre)" 
+                                    class="form-control" /> 
+                            </div>                         
+                            <div class="col-12 col-sm-12 col-md-2 col-lg-2">
+                                Inicio:
+                                <datebox value="@bind(each.pedFecha)" 
+                                         buttonVisible="false" 
+                                         lenient="true" 
+                                         format="medium" width="98%"  />
+                            </div> 
+                            <div class="col-12 col-sm-12 col-md-2 col-lg-2">
+                                Despacho:
+                                <datebox value="@bind(each.pedDespacho)" 
+                                         buttonVisible="false" 
+                                         lenient="true" 
+                                         format="medium" width="98%"  />
+                            </div> 
+                            <div class="col-12 col-sm-12 col-md-2 col-lg-2">
+                                Entrega:
+                                <textbox     
+                                    value="@bind(vm.pedidoRapido.pedEntrega)" 
+                                    class="form-control" /> 
+                            </div> 
+                            <div class="col-12 col-sm-12 col-md-2 col-lg-2">
+                                Detalle:
+                                <textbox     
+                                    value="@bind(vm.pedidoRapido.pedDetalle)" 
+                                    class="form-control" /> 
+                            </div> 
+                            <div class="col-12 col-sm-12 col-md-2 col-lg-2">
+                                Observacion:
+                                <textbox     
+                                    value="@bind(vm.pedidoRapido.pedObservacion)" 
+                                    class="form-control" /> 
+                            </div> 
+                            <div class="col-12 col-sm-12 col-md-2 col-lg-2">
+                                Estado:
+                                <radiogroup  
+                                    selectedItem="@bind(vm.producto.pedEstado)"  >                                            
+                                    <radio label="RECIBIDO" value="RE"/>
+                                    <space bar="false"  />   
+                                    <radio label="DESPACHADO" value="DE"/>                          
+                                    <space bar="false"  />   
+                                    <radio label="ENTREGADO" value="en/>                          
+                                </radiogroup>
+                            </div> 
+                        </div> 
+                    </div>
+                    </div>
+        <tabbox id="tboxPrincipal"  width="100%">
+            <tabs >
+                <tab label="Pedido rapido" sclass="menutabs" /> 
+            </tabs>
+            <tabpanels >
+                
+                <tabpanel  height="98%" width="99%"  > 
+                    
+                                      
+            
+                 
+                    <listbox model="@load(vm.lstPedidoRapido)" 
+                             nonselectableTags="*"  mold="paging" pageSize="15"  >
+                        <custom-attributes org.zkoss.zul.listbox.rod="true"/>
+  
+                        <listhead> 
+                            <listheader width="10%"  label="" >
+                                <textbox value="@bind(vm.buscar)"  
+                                         class="form-control form-control-sm"
+                                         tooltiptext="Nombre del cliente"
+                                         placeholder="Nombre del cliente"
+                                         onOK="@command('buscarLikeCliente')"
+                                         onChange="self.setValue(self.getValue().toUpperCase());" />
+                                
+                            </listheader> 
+                            <listheader width="8%"  label="Fecha" />    
+                            <listheader width="7%"  label="Hora Inicio" />                                                     
+                            <listheader width="8%"  label="Hora Despacho" />                                                     
+                            <listheader width="7%"  label="Hora Entrega" />                                                     
+                            <listheader width="20%"  label="Razon Social" /> 
+                            <listheader width="20%"  label="Detalle" /> 
+                            <listheader width="20%"  label="Observacion" /> 
+                            <listheader width="10%"  label="Estado" />                                 
+                            <listheader width="5%"  label="" />                                 
+                        </listhead>  
+                        
+                    
+                        <template name="model">                                                            
+                            <listitem>
+                                <listcell zclass = "mycss-listcell">
+                                    <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"                            
+                                             class="form-control form-control-sm" value="@bind(each.pedNombre)"  />
+                                </listcell>
+                                <listcell zclass = "mycss-listcell">
+                                    <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"                            
+                                             class="form-control form-control-sm" value="@bind(each.pedFecha)"  />
+                                </listcell>
+                                <listcell zclass = "mycss-listcell">
+                                    <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"                            
+                                             class="form-control form-control-sm" value="@bind(each.pedInicio)"  />
+                                </listcell>
+                                <listcell zclass = "mycss-listcell">
+                                    <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"                            
+                                             class="form-control form-control-sm" value="@bind(each.pedDespacho)"  />
+                                </listcell>
+                                <listcell zclass = "mycss-listcell">
+                                    <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"                            
+                                             class="form-control form-control-sm" value="@bind(each.pedEntrega)"  />
+                                </listcell>
+                                <listcell zclass = "mycss-listcell">
+                                    <datebox value="@bind(each.pedDetalle)" 
+                                             buttonVisible="false" 
+                                             lenient="true" 
+                                             format="medium" width="98%"  />
+                                </listcell>
+                                <listcell zclass = "mycss-listcell">
+                                    <decimalbox format="###.####" 
+                                                readonly="true" 
+                                                value="@bind(each.pedObservacion)" />
+                                </listcell>
+                              
+                                <listcell zclass = "mycss-listcell" style="background: orange" >
+                                    <label value="@bind(each.pedEstado)" />
+                                </listcell>
+                           
+                                
+                                <listcell zclass = "mycss-listcell">                                     
+                                </listcell>
+                            </listitem>
+                        </template>
+                    </listbox>
+                
+                </tabpanel>
+            </tabpanels>
+            
+        </tabbox>
+    </hbox>
+
+
+</zk>

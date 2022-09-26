@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?link rel="stylesheet" type="text/css" href="/css/boostrap/bootstrap.css"?>  
+<?link rel="stylesheet" type="text/css" href="/css/style.css"?>
+<?link rel="stylesheet" type="text/css" href="/css/app/ventas/facturar.css"?>
+<?link rel="stylesheet" type="text/css" href="/css/app/ventas/modales.css"?>
+<?script src="https://kit.fontawesome.com/484b16c999.js"?>
+
+<?init class="com.ec.seguridad.Autentificador"?>
+<?init class="org.zkoss.zk.ui.util.Composition" arg0="/plantilla/plantilla.zul"?>
+<?link rel="icon" type="image/x-icon" href="/iconos/deckxel.ico"?>
+<zk  contentStyle="overflow:auto" class="mb-12 col-12 col-sm-12 col-md-12 col-lg-12">
+    <hbox self="@define(content)" apply="org.zkoss.bind.BindComposer" 
+          viewModel="@id('vm') @init('com.ec.controlador.ListaCotizaciones')" width="100%">
+        <tabbox id="tboxPrincipal"  width="100%">
+            <tabs >
+                <tab label="Proformas enviadas" sclass="menutabs" /> 
+            </tabs>
+            <tabpanels >
+                
+                <tabpanel  height="98%" width="99%" class="factura" >     
+                                   
+                    <div class="row container-fluid">
+                    
+
+                        <div class="factura_header paint_all_row">
+                            <div class="fact_row fact_only_row_wrap">
+                                <div class="wrapper_data wrapper_data_only">
+                                    <div class="wrapper_input">
+                                        <span>Buscar</span>
+                                        <textbox 
+                                            class="input"
+                                            onChange="self.setValue(self.getValue().toUpperCase());"  
+                                            value="@bind(vm.buscarCliente)"                                                   
+                                            onOK="@command('buscarLikeCliente')"                                               
+                                            maxlength="100" 
+                                        />
+                                        <div 
+                                            class="fa-solid fa-magnifying-glass icon" style="font-size:10px;background-color:trasnsparent;font-weight:bold"
+                                            onClick="@command('buscarLikeCliente')"  
+                                            tooltiptext="Buscar "
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="factura_body">
+                            <listbox model="@load(vm.lstFacturas)" 
+                                     nonselectableTags="*"  mold="paging" pageSize="15"  >
+                                <custom-attributes org.zkoss.zul.listbox.rod="true"/>
+  
+                                <listhead> 
+                                    <listheader width="5%"  label="N° Fact" /> 
+                                    <listheader width="10%"  label="RUC/CI" />    
+                                    <listheader width="18%" label="Nobre comercial"  >
+                               
+                                
+                                
+                                    </listheader> 
+                                    <listheader width="18%"  label="Razon Social" /> 
+                                    <listheader width="10%"  label="Movil" /> 
+                                    <listheader width="10%"  label="Fecha" /> 
+                                    <listheader width="8%"  label="Total " align="center"  /> 
+                                    <listheader width="5%"  label="Estado " align="rigth" /> 
+                                    <listheader width="6%"  label="Abono "  /> 
+                                    <listheader width="6%"  label="Saldo "  />        
+                                    <listheader width="3%"  label=" " align="center" />        
+                                    <listheader width="3%"  label=" " align="center" />        
+                                    <listheader width="3%"  label=" " align="center" />        
+                                    <listheader width="3%"  label="" align="center" />        
+                                </listhead>  
+                        
+                    
+                                <template name="model">                                                            
+                                    <listitem>
+                                        <listcell zclass = "mycss-listcell">
+                                            <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"                            
+                                                     class="form-control form-control-sm" value="@bind(each.facNumProforma)"  />
+                                        </listcell>
+                                        <listcell zclass = "mycss-listcell">
+                                            <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"                            
+                                                     class="form-control form-control-sm" value="@bind(each.idCliente.cliCedula)"  />
+                                        </listcell>
+                                        <listcell zclass = "mycss-listcell">
+                                            <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"                            
+                                                     class="form-control form-control-sm" value="@bind(each.idCliente.cliNombres)"  />
+                                        </listcell>
+                                        <listcell zclass = "mycss-listcell">
+                                            <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"                            
+                                                     class="form-control form-control-sm" value="@bind(each.idCliente.cliRazonSocial)"  />
+                                        </listcell>
+                                        <listcell zclass = "mycss-listcell">
+                                            <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"                            
+                                                     class="form-control form-control-sm" value="@bind(each.idCliente.cliMovil)"  />
+                                        </listcell>
+                                        <listcell zclass = "mycss-listcell">
+                                            <datebox value="@bind(each.facFecha)" 
+                                                     buttonVisible="false" 
+                                                     lenient="true" 
+                                                     format="medium" width="98%"  />
+                                        </listcell>
+                                        <listcell zclass = "mycss-listcell">
+                                            <decimalbox format="###.####" 
+                                                        readonly="true" 
+                                                         width="100%"
+                                                        value="@bind(each.facTotal)" />
+                                        </listcell>
+                                        <zk if="${each.facEstado=='PE'}" > 
+                                            <listcell zclass = "mycss-listcell" style="background: orange" >
+                                                <label value="@bind(each.facEstado)" />
+                                            </listcell>
+                                        </zk>
+                                        <zk if="${each.facEstado=='PA'}"  > 
+                                            <listcell zclass = "mycss-listcell" style="background: greenyellow"  >
+                                                <label value="@bind(each.facEstado)" />
+                                            </listcell>
+                                        </zk>
+                                        <listcell zclass = "mycss-listcell">
+                                            <decimalbox format="###.####"
+                                                        readonly="true"  value="@bind(each.facAbono)" />
+                                        </listcell>
+                                        <listcell zclass = "mycss-listcell">
+                                            <decimalbox format="###.####" 
+                                                        readonly="true"  value="@bind(each.facSaldo)" />
+                                        </listcell>
+                                        <listcell zclass = "mycss-listcell">    
+                                            <!--<button  src="/imagenes/pdfRep.png" label="Ver" onClick="@command('reporteCotizacion',valor=each)" tooltiptext="Ver cotizacion"/>-->
+                                    
+                                            <image src="/iconos/pdfrep2.png"   
+                                                   class=" grow"
+                                         
+                                                   onClick="@command('reporteCotizacion',valor=each)"
+                                                   tooltiptext="Ver factura"/>
+                                        </listcell>
+                                        <listcell zclass = "mycss-listcell">    
+                                            <!--<button  src="/imagenes/pdfRep.png" label="Ver" onClick="@command('reporteCotizacion',valor=each)" tooltiptext="Ver cotizacion"/>-->
+                                    
+                                            <image src="/iconos/tecketera.jpg"  
+                                                   class=" grow"
+                                                   onClick="@command('reporteCotizacionPuntoVent',valor=each)"
+                                                   tooltiptext="Imprimir comprobante"/>
+                                        </listcell>
+                                        <listcell zclass = "mycss-listcell">    
+                                            <!--<button  src="/imagenes/pdfRep.png" label="Ver" onClick="@command('reporteCotizacion',valor=each)" tooltiptext="Ver cotizacion"/>-->
+                                    
+                                            <image src="/iconos/perzonalizado.png"   
+                                                   class=" grow"                                         
+                                                   onClick="@command('reporteCotizacionSinDet',valor=each)"
+                                                   tooltiptext="Ver factura"/>
+                                        </listcell>
+                                        <listcell zclass = "mycss-listcell">    
+                                            <image src="/iconos/editar.png"   
+                                                   class=" grow"
+                                         
+                                                   onClick="@command('modificarCotizacion',valor=each)"
+                                                   tooltiptext="Modificar cotizacion"/>
+                                        </listcell>
+                                    </listitem>
+                                </template>
+                            </listbox>
+                
+                        </div>
+                    </div>
+                    
+                </tabpanel>
+            </tabpanels>
+            
+        </tabbox>
+    </hbox>
+
+
+</zk>

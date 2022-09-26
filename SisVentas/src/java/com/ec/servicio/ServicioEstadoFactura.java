@@ -4,7 +4,9 @@
  */
 package com.ec.servicio;
 
+import com.ec.entidad.CabeceraCompra;
 import com.ec.entidad.EstadoFacturas;
+import com.ec.entidad.Tipoambiente;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -113,4 +115,6 @@ public class ServicioEstadoFactura {
 
         return listaEstadoFacturass;
     }
+    
+     
 }

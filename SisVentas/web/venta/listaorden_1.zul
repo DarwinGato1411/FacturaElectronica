@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?link rel="stylesheet" type="text/css" href="/css/boostrap/bootstrap.css"?>  
+<?link rel="stylesheet" type="text/css" href="/css/style.css"?>
+<?link rel="stylesheet" type="text/css" href="/css/app/ventas/facturar.css"?>
+<?link rel="stylesheet" type="text/css" href="/css/app/ventas/modales.css"?>
+<?script src="https://kit.fontawesome.com/484b16c999.js"?>
+
+<?init class="com.ec.seguridad.Autentificador"?>
+<?init class="org.zkoss.zk.ui.util.Composition" arg0="/plantilla/plantilla.zul"?>
+<?link rel="icon" type="image/x-icon" href="/iconos/deckxel.ico"?>
+<zk  contentStyle="overflow:auto" with="100%" >
+    <hbox self="@define(content)" apply="org.zkoss.bind.BindComposer" 
+          viewModel="@id('vm') @init('com.ec.controlador.ListaOrden')" width="100%">
+        <tabbox id="tboxPrincipal"  width="100%">
+            <tabs >
+                <tab label="Ordenes de trabajo" sclass="menutabs" /> 
+            </tabs>
+            <tabpanels >
+                
+                <tabpanel  height="98%" width="99%"  class="factura" >     
+                     <div class="container_headers" style="margin-bottom:1em">     
+                    <!--<div style="margin-bottom:7px" class="col-12 col-sm-12 col-md-12 col-lg-12" >-->
+                        <textbox value="@bind(vm.buscar)"               
+                                 tooltiptext="Busqueda por nombre , apellido o numero"
+                                 class="form-control form-control-sm col-6 col-sm-6 col-md-2 col-lg-2"                                         
+                                 placeholder="Buscar"
+                                 onOK="@command('buscarOrdenes')"
+                                 onChange="self.setValue(self.getValue().toUpperCase());" />
+                        
+                    <!--</div>-->
+                     
+                    </div>  
+                    <div class="factura_body">
+                    <listbox model="@load(vm.listaDatos)" 
+                             nonselectableTags="*"  mold="paging" pageSize="15"  >
+                        <custom-attributes org.zkoss.zul.listbox.rod="true"/>
+  
+                        <listhead> 
+                            <listheader width="10%"  label="N° Ord" /> 
+                            <listheader width="10%"  label="RUC/CI" />    
+                            <listheader width="20%" label="Cliente"  >                                
+                            </listheader> 
+                            <listheader width="25%"  label="Razon Social" /> 
+                            <listheader width="10%"  label="Movil" /> 
+                            <listheader width="10%"  label="Fecha" />                           
+                            <listheader width="10%"  label="Estado " align="rigth" />                           
+                            <listheader width="5%"  label=" " align="center" />        
+                            <listheader width="5%"  label=" " align="center" />        
+                                
+                        </listhead>  
+                        
+                    
+                        <template name="model">                                                            
+                            <listitem>
+                                <listcell zclass = "mycss-listcell">
+                                    <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"                            
+                                             class="form-control form-control-sm" 
+                                             value="@bind(each.ordNumText)"  />
+                                </listcell>
+                                <listcell zclass = "mycss-listcell">
+                                    <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"                            
+                                             class="form-control form-control-sm" 
+                                             value="@bind(each.idCliente.cliCedula)"  />
+                                </listcell>
+                                <listcell zclass = "mycss-listcell">
+                                    <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"                            
+                                             class="form-control form-control-sm" 
+                                             value="@bind(each.idCliente.cliNombre)"  />
+                                </listcell>
+                                <listcell zclass = "mycss-listcell">
+                                    <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"                            
+                                             class="form-control form-control-sm" 
+                                             value="@bind(each.idCliente.cliRazonSocial)"  />
+                                </listcell>
+                                <listcell zclass = "mycss-listcell">
+                                    <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"                            
+                                             class="form-control form-control-sm" 
+                                             value="@bind(each.idCliente.cliMovil)"  />
+                                </listcell>
+                                <listcell zclass = "mycss-listcell">
+                                    <datebox value="@bind(each.ordFecha)" 
+                                             buttonVisible="false" 
+                                             lenient="true" 
+                                             format="medium" width="98%"  />
+                                </listcell>
+                               
+                                <zk if="${each.idEstado.estCodigo=='PE'}" > 
+                                    <listcell zclass = "mycss-listcell" style="background:#FCFE74" >
+                                        <label value="@bind(each.idEstado.estNombre)" />
+                                    </listcell>
+                                </zk>
+                                <zk if="${each.idEstado.estCodigo=='PA'}"  > 
+                                    <listcell zclass = "mycss-listcell" style="background: greenyellow"  >
+                                        <label value="@bind(each.idEstado.estNombre)" />
+                                    </listcell>
+                                </zk>
+                                
+                                <listcell zclass = "mycss-listcell">    
+                                    <image src="/iconos/pdfrep2.png"   
+                                           class=" grow"
+                                         
+                                           onClick="@command('reporteCotizacion',valor=each)"
+                                           tooltiptext="Ver factura"/>
+                                </listcell>
+                               
+                                <listcell zclass = "mycss-listcell">    
+                                    <image src="/iconos/editar.png"   
+                                           class=" grow"                                         
+                                           onClick="@command('modificarOrden',valor=each)"
+                                           tooltiptext="Modificar orden"/>
+                                </listcell>
+                            </listitem>
+                        </template>
+                    </listbox>
+                </div>
+                </tabpanel>
+            </tabpanels>
+            
+        </tabbox>
+    </hbox>
+
+
+</zk>

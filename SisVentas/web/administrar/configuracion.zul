@@ -130,7 +130,7 @@
                    
                     <textbox  type="password"
                               value="@bind(vm.tipoambiente.amClaveAccesoSri)" 
-                              placeholder="Clave emitida por el SRI"
+                              placeholder="Clave de la firma electronica"
                               class="form-control form-control-sm"
                               tooltiptext="Clave emitida por el SRI" />
                 </div>

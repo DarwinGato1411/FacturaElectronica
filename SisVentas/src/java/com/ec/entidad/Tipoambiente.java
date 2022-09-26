@@ -165,7 +165,7 @@ public class Tipoambiente implements Serializable {
     private Boolean amExp;
     @Column(name = "am_ripme")
     private Boolean amRimpe;
-    
+
     @Column(name = "am_general")
     private Boolean amGeneral;
 
@@ -522,7 +522,7 @@ public class Tipoambiente implements Serializable {
     }
 
     public Boolean getAmContrEsp() {
-        return amContrEsp;
+        return amContrEsp == null ? Boolean.FALSE : amContrEsp;
     }
 
     public void setAmContrEsp(Boolean amContrEsp) {
@@ -530,7 +530,7 @@ public class Tipoambiente implements Serializable {
     }
 
     public Boolean getAmExp() {
-        return amExp;
+        return amExp == null ? Boolean.FALSE : amExp;
     }
 
     public void setAmExp(Boolean amExp) {
@@ -546,7 +546,7 @@ public class Tipoambiente implements Serializable {
     }
 
     public Boolean getAmGeneral() {
-        return amGeneral;
+        return amGeneral == null ? Boolean.FALSE : amGeneral;
     }
 
     public void setAmGeneral(Boolean amGeneral) {
