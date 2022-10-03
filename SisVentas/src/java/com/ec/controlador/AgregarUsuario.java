@@ -61,22 +61,7 @@ public class AgregarUsuario {
     @Command
     @NotifyChange("usuarioSistema")
     public void guardar() {
-        if (usuarioSistema != null && !usuarioSistema.getUsuNombre().equals("")
-                && !usuarioSistema.getUsuLogin().equals("")
-                && !tipoUSuario.equals("")) {
-            usuarioSistema.setUsuNivel(Integer.valueOf(tipoUSuario));
-
-            if (Integer.valueOf(tipoUSuario) == 1) {
-                usuarioSistema.setUsuTipoUsuario("ADMINISTRADOR");
-            } else if (Integer.valueOf(tipoUSuario) == 2) {
-                usuarioSistema.setUsuTipoUsuario("VENTAS");
-            }
-            servicioUsuario.modificar(usuarioSistema);
-            usuarioSistema = new Usuario();
-           windowIdUsuario.detach();
-
-        } else {
-            Messagebox.show("Verifique la informacion ingresada", "Atención", Messagebox.OK, Messagebox.ERROR);
-        }
+        System.out.println(usuarioSistema.getUsuCorreo());
+        
     }
 }
