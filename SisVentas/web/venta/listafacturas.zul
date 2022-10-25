@@ -13,7 +13,7 @@
  
     <hbox self="@define(content)" apply="org.zkoss.bind.BindComposer" 
           viewModel="@id('vm') @init('com.ec.controlador.ListaFacturas')" >
-        <tabbox id="tboxPrincipal"  width="100%" >
+        <tabbox   width="100%" >
             <tabs >
                 <tab label="Lista de facturas emitidas" sclass="menutabs" /> 
             </tabs>

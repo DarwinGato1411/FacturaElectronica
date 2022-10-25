@@ -23,6 +23,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.Reader;
 import java.math.BigDecimal;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.sql.Connection;
@@ -62,6 +63,13 @@ import org.zkoss.zk.ui.Executions;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import javax.xml.xpath.XPathExpressionException;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -606,66 +614,54 @@ public class ArchivoUtils {
         return BigDecimal.valueOf(resultado);
     }
     
-    public static AduanaJson obtenerdatoAduana(String cedulaParam) {
-//        final String url = "http://www.ecuadorlegalonline.com/apijson/aduana.api.php";
-        //final String url = cont.getString(R.string.host) + "validacliente/";
-        //Log.i("PRODUCTO", "INICIO DE LLAMDO REST VALIDAR CLIENTE");
+   public static AduanaJson obtenerdatoAduana(String cedulaParam) throws URISyntaxException, IOException, XPathExpressionException, JSONException {
         AduanaJson respuesta = new AduanaJson();
-        String urlweb = "http://www.ecuadorlegalonline.com/apijson/aduana.api.php";
+        String stubsApiBaseUri = "https://srienlinea.sri.gob.ec/movil-servicios/api/v1.0/deudas/porIdentificacion/" + cedulaParam;
 
-        String charset = "UTF-8";
-        String boundary = Long.toHexString(System.currentTimeMillis());
-        // Just generate some unique random value.
-        String CRLF = "\r\n";
-        // Line separator required by multipart/form-data.
+        HttpClient client = HttpClients.createDefault();
 
-        URLConnection connection = null;
-        try {
-            connection = new URL(urlweb).openConnection();
-        } catch (IOException e) {
-            e.printStackTrace();
+        URIBuilder builder = new URIBuilder(stubsApiBaseUri);
+
+        String listStubsUri = builder.build().toString();
+        HttpGet getStubMethod = new HttpGet(listStubsUri);
+        HttpResponse getStubResponse = client.execute(getStubMethod);
+        int getStubStatusCode = getStubResponse.getStatusLine()
+                    .getStatusCode();
+        if (getStubStatusCode < 200 || getStubStatusCode >= 300) {
+            // Handle non-2xx status code
+            respuesta.setCedula("");
+            respuesta.setNombre("");
+            respuesta.setMensaje("");
         }
-        connection.setDoOutput(true);
-        connection.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
+        String contenido = EntityUtils
+                    .toString(getStubResponse.getEntity());
 
+        System.out.println(contenido);
+
+        //JSONObject outlineArray = new JSONObject(contenido);
         try {
-            OutputStream output = connection.getOutputStream();
-            PrintWriter writer = new PrintWriter(new OutputStreamWriter(output, charset), true);
-
-            // Send normal param.
-            writer.append("--" + boundary).append(CRLF);
-            writer.append("Content-Disposition: form-data; name=\"ci\"").append(CRLF);
-            writer.append("Content-Type: text/plain; charset=" + charset).append(CRLF);
-            writer.append(CRLF).append(cedulaParam).append(CRLF).flush();
-
-            BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(), "utf-8"));
-
-            String contenido = br.readLine();
-//                Log.i("CONTENIDO", contenido);
-            br.close();
-
-            //JSONObject outlineArray = new JSONObject(contenido);
+             if (!contenido.equals("")) {
             JSONObject appObject = new JSONObject(contenido);
 
-            String cedula = appObject.getString("cedula");
-            String nombre = appObject.getString("nombre");
-            String mensaje = appObject.getString("mensaje");
+            JSONObject appObjectInf = appObject.getJSONObject("contribuyente");
+            String nombre = appObjectInf.getString("nombreComercial");
+            String mensaje = appObjectInf.getString("clase");
+            String cedula = appObjectInf.getString("identificacion");
 
             respuesta.setCedula(cedula);
             respuesta.setNombre(nombre);
             respuesta.setMensaje(mensaje);
-
-        } catch (IOException e) {
-//                Log.e("ERROR", e.getMessage());
-            respuesta.setCedula("");
-            respuesta.setNombre("");
-            respuesta.setMensaje("");
-        } catch (JSONException e) {
-            //                Log.e("ERROR", e.getMessage());
+        } else {
             respuesta.setCedula("");
             respuesta.setNombre("");
             respuesta.setMensaje("");
         }
+        } catch (JSONException e) {
+            respuesta.setCedula("");
+            respuesta.setNombre("");
+            respuesta.setMensaje("");
+        }
+
         return respuesta;
     }
 }

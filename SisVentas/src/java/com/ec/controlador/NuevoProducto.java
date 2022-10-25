@@ -167,6 +167,7 @@ public class NuevoProducto {
     @Command
     @NotifyChange({"producto"})
     public void calculoutilidad() {
+        calcularValores();
         BigDecimal precioventasobrereferen = producto.getPordCostoVentaFinal().divide(producto.getPordCostoVentaRef(), 3, RoundingMode.FLOOR);
         BigDecimal precioventasobrereferenporcien = precioventasobrereferen.multiply(BigDecimal.valueOf(100));
         BigDecimal utilidad = precioventasobrereferenporcien.subtract(BigDecimal.valueOf(100));
@@ -176,6 +177,7 @@ public class NuevoProducto {
     @Command
     @NotifyChange({"producto"})
     public void calculoutilidadUno() {
+        calcularValores();
         BigDecimal precioventasobrereferen = producto.getProdCostoPreferencial().divide(producto.getPordCostoVentaRef(), 3, RoundingMode.FLOOR);
         BigDecimal precioventasobrereferenporcien = precioventasobrereferen.multiply(BigDecimal.valueOf(100));
         BigDecimal utilidad = precioventasobrereferenporcien.subtract(BigDecimal.valueOf(100));
@@ -185,6 +187,7 @@ public class NuevoProducto {
     @Command
     @NotifyChange({"producto"})
     public void calculoutilidadDos() {
+        calcularValores();
         BigDecimal precioventasobrereferen = producto.getProdCostoPreferencialDos().divide(producto.getPordCostoVentaRef(), 3, RoundingMode.FLOOR);
         BigDecimal precioventasobrereferenporcien = precioventasobrereferen.multiply(BigDecimal.valueOf(100));
         BigDecimal utilidad = precioventasobrereferenporcien.subtract(BigDecimal.valueOf(100));

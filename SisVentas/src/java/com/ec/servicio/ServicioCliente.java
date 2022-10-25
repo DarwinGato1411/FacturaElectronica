@@ -34,7 +34,7 @@ public class ServicioCliente {
             em.persist(cliente);
             em.getTransaction().commit();
         } catch (Exception e) {
-            System.out.println("Error en insertar cliente");
+            System.out.println("Error en insertar cliente "+e.getMessage());
         } finally {
             em.close();
         }
@@ -50,7 +50,7 @@ public class ServicioCliente {
             em.getTransaction().commit();
 
         } catch (Exception e) {
-            System.out.println("Error en eliminar  cliente" + e);
+            System.out.println("Error en eliminar  cliente "+e.getMessage());
         } finally {
             em.close();
         }
@@ -65,7 +65,7 @@ public class ServicioCliente {
             em.merge(cliente);
             em.getTransaction().commit();
         } catch (Exception e) {
-            System.out.println("Error en insertar cliente");
+            System.out.println("Error en insertar cliente "+e.getMessage());
         } finally {
             em.close();
         }
