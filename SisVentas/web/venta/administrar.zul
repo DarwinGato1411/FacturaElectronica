@@ -69,12 +69,12 @@
                                             onOK="@command('buscarClienteCedula')"
                                             onChange="self.setValue(self.getValue().toUpperCase());" />
                                 </listheader>     
-                                <listheader width="14%"   >
+<!--                                <listheader width="14%"   >
                                 </listheader> 
                                 <listheader width="15%"   >
                                     
-                                </listheader> 
-                                <listheader width="13%"   > 
+                                </listheader> -->
+                                <listheader width="25%"   > 
                                     <textbox value="@bind(vm.buscarNombre)" 
                                             class="form-control form-control-sm"
                                             tooltiptext="Nombre Comercial"
@@ -83,7 +83,7 @@
                                             onChange="self.setValue(self.getValue().toUpperCase());" />
                                 </listheader>
                                 
-                                <listheader width="15%"  label="Direccion "  /> 
+                                <listheader width="32%"  label="Direccion "  /> 
                                 <listheader width="7%"  label="Telefono "  />        
                                 <listheader width="8%"  label="Movil"/>
                                 <listheader width="15%"  label="Correo"/>
@@ -97,14 +97,14 @@
                                         <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"
                                                 class="form-control form-control-sm"  value="@bind(each.cliCedula)"  />
                                     </listcell>
-                                    <listcell zclass = "mycss-listcell">
+<!--                                    <listcell zclass = "mycss-listcell">
                                         <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"
                                                 class="form-control form-control-sm"  value="@bind(each.cliNombres)"  />
                                     </listcell>
                                     <listcell zclass = "mycss-listcell">
                                         <textbox readonly="true" style="font-size:12px;background:#EBF5FB"
                                             class="form-control form-control-sm"  value="@bind(each.cliApellidos)"  />
-                                    </listcell>
+                                    </listcell>-->
                                     <listcell zclass = "mycss-listcell">
                                         <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"
                                                 class="form-control form-control-sm"  value="@bind(each.cliNombre)"  />
