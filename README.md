@@ -13,7 +13,7 @@
 		Clientes. 
 		Proveedores.
 
-# DESARROLLO DE OSFTWARE SOBRE MEDIDA
+# DESARROLLO DE SOFTWARE SOBRE MEDIDA
 
 ![](https://scontent.fuio27-1.fna.fbcdn.net/v/t39.30808-6/p960x960/261220065_459102675789598_6501594629657053097_n.jpg?_nc_cat=111&ccb=1-5&_nc_sid=36a2c1&_nc_ohc=ArMrufJ8g8gAX-A7LWe&_nc_ht=scontent.fuio27-1.fna&oh=00_AT-3hLW9ydG60V9dZys4fu_kCQGs-67WpTINLxvIEhZwxw&oe=61D1488C)
 

@@ -998,110 +998,13 @@ exists or setup the property manually. For example like this:
     <target depends="init,compile,compile-jsps,-pre-dist,-do-dist-with-manifest,-do-dist-without-manifest" name="do-dist"/>
     <target depends="init" if="dist.ear.dir" name="library-inclusion-in-manifest">
         <copyfiles files="${libs.ZK6.5.3CE.classpath}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${libs.Jasper.classpath}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${file.reference.commons-codec-1.9.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${file.reference.commons-logging-1.2.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${file.reference.httpclient-4.5.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${file.reference.httpcore-4.4.3.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${file.reference.apache-commons-net.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${file.reference.commons-net-3.3-ftp.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${libs.Jasper.classpath}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.JTattoo.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.XadesBes.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.appframework-1.0.3.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.barcode4j-2.0.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.batik-anim-1.9.1.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.batik-awt-util-1.9.1.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.batik-bridge-1.9.1.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.batik-css-1.9.1.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.batik-dom-1.9.1.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.batik-ext-1.9.1.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.batik-gvt-1.9.1.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.batik-i18n-1.9.1.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.batik-parser-1.9.1.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.batik-script-1.9.1.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.batik-svg-dom-1.9.1.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.batik-util-1.7.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.batik-util-1.9.1.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.batik-xml-1.9.1.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.bcmail-jdk16-1.43.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.bcprov-jdk16-1.43.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.bctsp-jdk16-1.43.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.cglib-2.2.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.cliente-ws-offline.jar-2}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.commons-beanutils-1.8.2.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.commons-collections-3.2.1.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.commons-digester-1.7.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.commons-io.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.commons-javaflow-20060411.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.commons-lang-2.4.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.commons-logging-1.1.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.firma-xades.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.groovy-2.4.6.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.groovy-all-1.7.5.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.groovy-all-1.8.0.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.groovy-ant-2.4.6.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.groovy-bsf-2.4.6.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.groovy-console-2.4.6.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.groovy-docgenerator-2.4.6.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.groovy-groovydoc-2.4.6.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.groovy-groovysh-2.4.6.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.groovy-jmx-2.4.6.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.groovy-json-2.4.6.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.groovy-jsr223-2.4.6.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.groovy-nio-2.4.6.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.groovy-servlet-2.4.6.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.groovy-sql-2.4.6.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.groovy-swing-2.4.6.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.groovy-templates-2.4.6.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.groovy-test-2.4.6.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.groovy-testng-2.4.6.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.groovy-xml-2.4.6.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.hsqldb-1_8_0_10.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.iText-2.1.7.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.jasperreports-6.4.3.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.jasperreports-chart-customizers-6.4.3.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.jasperreports-chart-themes-6.4.3.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.jasperreports-fonts-6.4.3.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.jasperreports-functions-6.4.3.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.jasperreports-javaflow-6.4.3.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.jcalendarbutton-1.4.5.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.jruby-complete-9.0.4.0.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.log4j-1.2.16.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.mail.jar-2}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.napkinlaf-alpha001.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.org-apache-commons-logging.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.spring-aop-3.2.7.RELEASE.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.spring-aspects-3.2.7.RELEASE.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.spring-beans-3.2.7.RELEASE.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.spring-build-src-3.2.7.RELEASE.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.spring-context-3.2.7.RELEASE.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.spring-context-support-3.2.7.RELEASE.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.spring-core-3.2.7.RELEASE.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.spring-expression-3.2.7.RELEASE.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.spring-framework-bom-3.2.7.RELEASE.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.spring-instrument-3.2.7.RELEASE.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.spring-instrument-tomcat-3.2.7.RELEASE.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.spring-jdbc-3.2.7.RELEASE.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.spring-jms-3.2.7.RELEASE.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.spring-orm-3.2.7.RELEASE.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.spring-oxm-3.2.7.RELEASE.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.spring-struts-3.2.7.RELEASE.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.spring-test-3.2.7.RELEASE.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.spring-tx-3.2.7.RELEASE.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.spring-web-3.2.7.RELEASE.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.spring-webmvc-3.2.7.RELEASE.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.spring-webmvc-portlet-3.2.7.RELEASE.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.swing-worker-1.1.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.tradise-common.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.tradise-crypto-api.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.tradise-utils.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.tradise_crypto_transport.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.xml-apis-ext.jar-2}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.xml-apis.jar-2}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.xmlgraphics-commons-2.2.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.xmlpull-1.1.3.1.jar-2}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.xmlsec-1.4.2-ADSI-1.0.jar-2}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.xstream-1.4.1.jar-2}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${file.reference.mail.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${file.reference.barcode.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${file.reference.validation-api-1.0.0.GA.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
@@ -1225,110 +1128,13 @@ exists or setup the property manually. For example like this:
     </target>
     <target depends="init" name="library-inclusion-in-archive" unless="dist.ear.dir">
         <copyfiles files="${libs.ZK6.5.3CE.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
+        <copyfiles files="${libs.Jasper.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copyfiles files="${file.reference.commons-codec-1.9.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copyfiles files="${file.reference.commons-logging-1.2.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copyfiles files="${file.reference.httpclient-4.5.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copyfiles files="${file.reference.httpcore-4.4.3.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copyfiles files="${file.reference.apache-commons-net.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copyfiles files="${file.reference.commons-net-3.3-ftp.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${libs.Jasper.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.JTattoo.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.XadesBes.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.appframework-1.0.3.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.barcode4j-2.0.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.batik-anim-1.9.1.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.batik-awt-util-1.9.1.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.batik-bridge-1.9.1.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.batik-css-1.9.1.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.batik-dom-1.9.1.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.batik-ext-1.9.1.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.batik-gvt-1.9.1.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.batik-i18n-1.9.1.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.batik-parser-1.9.1.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.batik-script-1.9.1.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.batik-svg-dom-1.9.1.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.batik-util-1.7.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.batik-util-1.9.1.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.batik-xml-1.9.1.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.bcmail-jdk16-1.43.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.bcprov-jdk16-1.43.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.bctsp-jdk16-1.43.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.cglib-2.2.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.cliente-ws-offline.jar-2}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.commons-beanutils-1.8.2.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.commons-collections-3.2.1.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.commons-digester-1.7.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.commons-io.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.commons-javaflow-20060411.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.commons-lang-2.4.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.commons-logging-1.1.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.firma-xades.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.groovy-2.4.6.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.groovy-all-1.7.5.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.groovy-all-1.8.0.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.groovy-ant-2.4.6.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.groovy-bsf-2.4.6.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.groovy-console-2.4.6.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.groovy-docgenerator-2.4.6.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.groovy-groovydoc-2.4.6.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.groovy-groovysh-2.4.6.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.groovy-jmx-2.4.6.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.groovy-json-2.4.6.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.groovy-jsr223-2.4.6.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.groovy-nio-2.4.6.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.groovy-servlet-2.4.6.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.groovy-sql-2.4.6.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.groovy-swing-2.4.6.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.groovy-templates-2.4.6.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.groovy-test-2.4.6.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.groovy-testng-2.4.6.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.groovy-xml-2.4.6.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.hsqldb-1_8_0_10.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.iText-2.1.7.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.jasperreports-6.4.3.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.jasperreports-chart-customizers-6.4.3.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.jasperreports-chart-themes-6.4.3.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.jasperreports-fonts-6.4.3.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.jasperreports-functions-6.4.3.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.jasperreports-javaflow-6.4.3.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.jcalendarbutton-1.4.5.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.jruby-complete-9.0.4.0.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.log4j-1.2.16.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.mail.jar-2}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.napkinlaf-alpha001.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.org-apache-commons-logging.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.spring-aop-3.2.7.RELEASE.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.spring-aspects-3.2.7.RELEASE.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.spring-beans-3.2.7.RELEASE.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.spring-build-src-3.2.7.RELEASE.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.spring-context-3.2.7.RELEASE.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.spring-context-support-3.2.7.RELEASE.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.spring-core-3.2.7.RELEASE.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.spring-expression-3.2.7.RELEASE.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.spring-framework-bom-3.2.7.RELEASE.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.spring-instrument-3.2.7.RELEASE.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.spring-instrument-tomcat-3.2.7.RELEASE.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.spring-jdbc-3.2.7.RELEASE.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.spring-jms-3.2.7.RELEASE.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.spring-orm-3.2.7.RELEASE.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.spring-oxm-3.2.7.RELEASE.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.spring-struts-3.2.7.RELEASE.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.spring-test-3.2.7.RELEASE.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.spring-tx-3.2.7.RELEASE.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.spring-web-3.2.7.RELEASE.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.spring-webmvc-3.2.7.RELEASE.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.spring-webmvc-portlet-3.2.7.RELEASE.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.swing-worker-1.1.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.tradise-common.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.tradise-crypto-api.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.tradise-utils.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.tradise_crypto_transport.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.xml-apis-ext.jar-2}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.xml-apis.jar-2}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.xmlgraphics-commons-2.2.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.xmlpull-1.1.3.1.jar-2}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.xmlsec-1.4.2-ADSI-1.0.jar-2}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.xstream-1.4.1.jar-2}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copyfiles files="${file.reference.mail.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copyfiles files="${file.reference.barcode.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copyfiles files="${file.reference.validation-api-1.0.0.GA.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
