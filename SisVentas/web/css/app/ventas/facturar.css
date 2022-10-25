@@ -1,8 +1,8 @@
 @import "https://fonts.googleapis.com/css2?family=Nunito:wght@300&family=Poppins&family=Raleway:wght@300&display=swap";
 
 :root {
-  --primary-color: #3e6e55;
-  --secondary-color: #3e6e55;
+  --primary-color: #03aff1;
+  --secondary-color:#0b0d3e;
   --tertiary-color: #d5ecfb;
   --background-color: #fff;
 }
@@ -664,3 +664,19 @@ div.z-listheader-cnt {
 .z-menu-inner-m .z-menu-btn, .z-menuitem-inner-m .z-menuitem-btn {
     color: black;
 }
+
+.factura table,.factura tbody,.factura th,.factura td{
+    display: block; 
+}
+
+.encabezado1 ,.tabla1{
+    display: grid;
+    grid-template-columns:20% 50% 10% 12% 8%;
+}
+
+.encabezado2 ,.tabla2{
+    display: grid;
+    grid-template-columns:5% 10% 10% 10% 35% 10% 10% 10%;
+}
+
+
