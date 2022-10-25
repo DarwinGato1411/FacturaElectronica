@@ -287,7 +287,7 @@
                     <div class="factura_body factura_body_content">
                     
 
-                        <div class="factura_body_item factura" >
+                        <div class="factura_body_item facturacion" >
                             <listbox model="@load(vm.listaKardexProducto)" 
                                         nonselectableTags=""    mold="paging" pageSize="10"  >
                                 <custom-attributes org.zkoss.zul.listbox.rod="true"/>
