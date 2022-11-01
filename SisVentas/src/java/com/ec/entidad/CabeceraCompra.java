@@ -82,6 +82,8 @@ public class CabeceraCompra implements Serializable {
     private BigDecimal cabIva;
     @Column(name = "cab_total")
     private BigDecimal cabTotal;
+    @Column(name = "cab_saldo_factura")
+    private BigDecimal cabSaldoFactura;
     @Size(max = 100)
     @Column(name = "cab_descripcion")
     private String cabDescripcion;
@@ -394,6 +396,14 @@ public class CabeceraCompra implements Serializable {
 
     public void setAmortizacionCompraCollection(Collection<AmortizacionCompra> amortizacionCompraCollection) {
         this.amortizacionCompraCollection = amortizacionCompraCollection;
+    }
+
+    public BigDecimal getCabSaldoFactura() {
+        return cabSaldoFactura;
+    }
+
+    public void setCabSaldoFactura(BigDecimal cabSaldoFactura) {
+        this.cabSaldoFactura = cabSaldoFactura;
     }
 
 

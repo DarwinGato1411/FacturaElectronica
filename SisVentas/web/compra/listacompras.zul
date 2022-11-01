@@ -83,19 +83,20 @@
                             <listheader width="3%"  label="" align="center" />        
                             <listheader width="3%"  label="" align="center" />        
                             <listheader width="3%"  label="" align="center" />        
+                            <listheader width="3%"   tooltiptext="Tabla de amortizacion" label="" align="center" />        
                         </listhead>  
                         
                     
                         <template name="model">                                                            
                             <listitem>
                                 <listcell zclass = "mycss-listcell">
-                                  <textbox readonly="true" style="font-size:12px ;background:#EBF5FB"
-                                           class="form-control form-control-sm" 
-                                           value="@bind(each.cabNumFactura)" />
+                                    <textbox readonly="true" style="font-size:12px ;background:#EBF5FB"
+                                             class="form-control form-control-sm" 
+                                             value="@bind(each.cabNumFactura)" />
                                 </listcell>
                                 <listcell zclass = "mycss-listcell" style="font-size:12px;background:#F8F9F9">
                                     <datebox style="font-size:12px"
-                                              class=" form-control-sm" 
+                                             class=" form-control-sm" 
                                              value="@bind(each.cabFechaEmision)" 
                                              buttonVisible="false" 
                                              lenient="true" 
@@ -124,24 +125,24 @@
                                 </listcell>
                                 <listcell zclass = "mycss-listcell">
                                     <textbox readonly="true"  style="font-size:12px"
-                                           class="form-control form-control-sm" 
-                                           value="@bind(each.cabEstado)" />
+                                             class="form-control form-control-sm" 
+                                             value="@bind(each.cabEstado)" />
                                 </listcell>
                                 <listcell zclass = "mycss-listcell">
                                     <textbox readonly="true"  style="font-size:12px ;background:#EBF5FB"
-                                           class="form-control form-control-sm" 
-                                           value="@bind(each.cabProveedor)" />
+                                             class="form-control form-control-sm" 
+                                             value="@bind(each.cabProveedor)" />
                                 </listcell>
                                 <listcell zclass = "mycss-listcell">
                                     <textbox readonly="true"  style="font-size:12px ;background:#EBF5FB"
-                                           class="form-control form-control-sm" 
-                                           value="@bind(each.idUsuario.usuNombre)"  />
+                                             class="form-control form-control-sm" 
+                                             value="@bind(each.idUsuario.usuNombre)"  />
                                     
                                 </listcell>
-                                 <listcell  zclass = "mycss-listcell" >    
+                                <listcell  zclass = "mycss-listcell" >    
                                      
                                     <image src="/iconos/factelect.jpg"  
-                                       height=" 30px"   
+                                           height=" 30px"   
                                            class="btn btn btn-secondary btn-sm grow"                                         
                                            onClick="@command('reporteFacturaCompra',valor=each)"
                                            tooltiptext="Imprimir factura"/>
@@ -150,24 +151,41 @@
                                 <listcell zclass = "mycss-listcell" style="font-size:12px;background:#F8F9F9">
                                     <image if="${each.cabRetencionAutori!='S'}"
                                            src="/iconos/pdfcotizacion.png" 
-                                           class=" grow"
+                                           height=" 30px" 
+                                           class="btn btn btn-secondary btn-sm grow"
                                            onClick="@command('crearRetencionCompra',valor=each)" 
                                            tooltiptext="Crear retencion"/>
                                     
                                     <image if="${each.cabRetencionAutori=='S'}" 
                                            src="/iconos/listo_uno.png"   
-                                            class=" grow"                                          
+                                           height=" 30px" 
+                                           class=" grow"                                          
                                            tooltiptext="No se puede autorizar por que se encuentra en estado autorizado"/> 
                                 </listcell>
                                 <listcell zclass = "mycss-listcell" style="font-size:12px;background:#F8F9F9">
                                     <image if="${each.cabRetencionAutori!='S'}" 
+                                           height=" 30px" 
                                            src="/iconos/editar.png"
-                                           class=" grow"
+                                           class="btn btn btn-secondary btn-sm grow"
                                            onClick="@command('modificarFactura',valor=each)" 
                                            tooltiptext="Modificar factura"/>
                                     <image if="${each.cabRetencionAutori=='S'}" 
+                                           height=" 30px" 
                                            src="/iconos/listo_uno.png"   
-                                                 class=" grow"                                       
+                                           class=" grow"                                       
+                                           tooltiptext="No se puede autorizar por que se encuentra en estado autorizado"/> 
+                                </listcell>
+                                <listcell zclass = "mycss-listcell" style="font-size:12px;background:#F8F9F9">
+                                    <image if="${each.cabEstado=='PE'}" 
+                                           src="/iconos/page_add.png"
+                                           height=" 30px" 
+                                           class="btn btn btn-secondary btn-sm grow"
+                                           onClick="@command('verDetallePago',valor=each)" 
+                                           tooltiptext="Modificar factura"/>
+                                    <image if="${each.cabEstado=='PA'}" 
+                                           src="/iconos/listo_uno.png"  
+                                           height=" 30px"  
+                                           class=" grow"                                       
                                            tooltiptext="No se puede autorizar por que se encuentra en estado autorizado"/> 
                                 </listcell>
                                 

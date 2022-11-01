@@ -5,6 +5,7 @@
 package com.ec.controlador;
 
 import com.ec.entidad.CabeceraCompra;
+import com.ec.entidad.Factura;
 import com.ec.entidad.Tipoambiente;
 import com.ec.servicio.HelperPersistencia;
 import com.ec.servicio.ServicioAcumuladoVentas;
@@ -356,6 +357,21 @@ public class ListaCompras {
                 emf.getTransaction().commit();
             }
 
+        }
+
+    }
+    
+     @Command
+    public void verDetallePago(@BindingParam("valor") CabeceraCompra valor) throws JRException, IOException, NamingException, SQLException {
+        try {
+            final HashMap<String, CabeceraCompra> map = new HashMap<String, CabeceraCompra>();
+
+            map.put("valor", valor);
+            org.zkoss.zul.Window window = (org.zkoss.zul.Window) Executions.createComponents(
+                        "/compra/detallepagocompra.zul", null, map);
+            window.doModal();
+        } catch (Exception e) {
+            Messagebox.show("Error " + e.toString(), "Atención", Messagebox.OK, Messagebox.INFORMATION);
         }
 
     }
