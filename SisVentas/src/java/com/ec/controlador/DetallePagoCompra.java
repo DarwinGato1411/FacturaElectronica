@@ -79,33 +79,41 @@ public class DetallePagoCompra {
             saldo = ArchivoUtils.redondearDecimales(saldo, 2);
 
         } else {
-            generar = Boolean.TRUE;
+
+            saldo = totalFactura;
         }
     }
 
     @Command
-    @NotifyChange({"lstPagos", "generar", "saldo"})
+    @NotifyChange({"lstPagos", "valorPago", "saldo"})
     public void agregarPago() {
 
         if (Messagebox.show("¿Desea registrar un pago de " + valorPago + " Dolares ?", "Atención", Messagebox.YES | Messagebox.NO, Messagebox.INFORMATION) == Messagebox.YES) {
-            saldo = BigDecimal.ZERO;
-            AmortizacionCompra nuevopago = new AmortizacionCompra();
-            nuevopago.setDetDias(numeroMeses);
-            nuevopago.setDetFecha(fecha);
-            nuevopago.setDetValor(valorPago);
-            nuevopago.setIdCompra(factura);
-            servicioDetallePago.crear(nuevopago);
+            
+            if (valorPago.doubleValue() <= saldo.doubleValue()) {
+                AmortizacionCompra nuevopago = new AmortizacionCompra();
+                nuevopago.setDetDias(numeroMeses);
+                nuevopago.setDetFecha(fecha);
+                nuevopago.setDetValor(valorPago);
+                nuevopago.setIdCompra(factura);
+                servicioDetallePago.crear(nuevopago);
 
-            for (AmortizacionCompra lstPago : lstPagos) {
-                saldo = saldo.add(lstPago.getDetValor());
+                for (AmortizacionCompra lstPago : lstPagos) {
+                    saldo = saldo.add(lstPago.getDetValor());
+                }
+                saldo.setScale(2, RoundingMode.UP);
+                generar = Boolean.FALSE;
+                valorPago=BigDecimal.ZERO;
+                consultarDetallepago();
+                Clients.showNotification("Pago registrado correctamente",
+                            Clients.NOTIFICATION_TYPE_INFO, null, "end_center", 2000, true);
+            } else {
+                Clients.showNotification("No puede ingresar un valor superior al saldo",
+                            Clients.NOTIFICATION_TYPE_INFO, null, "end_center", 2000, true);
             }
-            saldo.setScale(2, RoundingMode.UP);
-            generar = Boolean.FALSE;
-            consultarDetallepago();
-            Clients.showNotification("Pago registrado correctamente",
-                        Clients.NOTIFICATION_TYPE_INFO, null, "end_center", 2000, true);
 
         }
+          consultarDetallepago();
     }
 
     @Command
