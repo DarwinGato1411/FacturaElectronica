@@ -135,8 +135,7 @@
                                     <span>Estado:</span>
                                     <radiogroup 
                                         selectedItem="@bind(vm.estdoFactura)" 
-                                        class="radio_group"
-                                    >
+                                        class="radio_group">
                                         <radio label="Pagado" value="PA" />
                                         <radio label="Pendiente" value="PE"/>                                               
                                     </radiogroup>
