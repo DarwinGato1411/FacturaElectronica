@@ -324,7 +324,7 @@
                                                     onChange="self.setValue(self.getValue().toUpperCase());" />
                                     </listheader>                         
                                     <listheader width="100%"   label="KARDEX" align="center" /> 
-                                    <listheader width="13%"  label="PV X MAYOR" align="center" />
+                                    <listheader width="100%"  label="PV X MAYOR" align="center" />
                                     <listheader width="100%"  label="PVP" align="center" /> 
                                     <listheader width="100%"  label="" align="center"/>
                                 </listhead>  
