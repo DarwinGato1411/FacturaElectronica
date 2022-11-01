@@ -324,7 +324,7 @@
                                                     onChange="self.setValue(self.getValue().toUpperCase());" />
                                     </listheader>                         
                                     <listheader width="100%"   label="KARDEX" align="center" /> 
-                                    <!--<listheader width="13%"  label="PV X MAYOR" align="center" />--> 
+                                    <listheader width="13%"  label="PV X MAYOR" align="center" />
                                     <listheader width="100%"  label="PVP" align="center" /> 
                                     <listheader width="100%"  label="" align="center"/>
                                 </listhead>  
@@ -368,14 +368,14 @@
                                                     value="@bind(each.karTotal)" 
                                                      />
                                         </listcell>
-<!--                                        <listcell zclass = "mycss-listcell" 
+                                       <listcell zclass = "mycss-listcell" 
                                                     onDoubleClick="@command('agregarItemLista',valor=each.idProducto)" >                                                    
                                             <label onOK="@command('agregarItemLista',valor=each.idProducto)" 
                                                     class="form-control form-control-sm"
                                                     value="@bind(each.idProducto.prodCostoPreferencial)"
                                                     style="font-size:11px; font-weight: bold" 
                                                     width="96%" />
-                                        </listcell>-->
+                                        </listcell>
                                         <listcell zclass = "mycss-listcell" 
                                                     onDoubleClick="@command('agregarItemLista',valor=each.idProducto)" >                                                    
                                             <label onOK="@command('agregarItemLista',valor=each.idProducto)" 
