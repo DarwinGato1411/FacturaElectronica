@@ -135,8 +135,7 @@
                                     <span>Estado:</span>
                                     <radiogroup 
                                         selectedItem="@bind(vm.estdoFactura)" 
-                                        class="radio_group"
-                                    >
+                                        class="radio_group">
                                         <radio label="Pagado" value="PA" />
                                         <radio label="Pendiente" value="PE"/>                                               
                                     </radiogroup>
@@ -324,7 +323,7 @@
                                                     onChange="self.setValue(self.getValue().toUpperCase());" />
                                     </listheader>                         
                                     <listheader width="100%"   label="KARDEX" align="center" /> 
-                                    <listheader width="13%"  label="PV X MAYOR" align="center" />
+                                    <listheader width="100%"  label="PV X MAYOR" align="center" />
                                     <listheader width="100%"  label="PVP" align="center" /> 
                                     <listheader width="100%"  label="" align="center"/>
                                 </listhead>  

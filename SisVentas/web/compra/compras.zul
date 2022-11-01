@@ -62,13 +62,13 @@
                                 </div>
                                 
                                 <div class="col-12 col-sm-12 col-md-2 col-lg-2">
-                                    <div class="input-group mb-3">
+<!--                                    <div class="input-group mb-3">
                                         <textbox  readonly="true" 
                                                   style="font-weight:bold" 
                                                   placeholder="022222222"
                                                   class="form-control form-control-sm" 
                                                   value="@bind(vm.proveedorSeleccionado.provTelefono)"  />
-                                    </div>
+                                    </div>-->
                                 </div>
                                 <div class="col-12 col-sm-12 col-md-5 col-lg-5">
                                     <div class="input-group mb-3">
@@ -84,7 +84,7 @@
                                 
                                 
                                 <div class="col-12 col-sm-12 col-md-6 col-lg-6">
-                                    <div class="input-group mb-3">
+<!--                                    <div class="input-group mb-3">
                                         <label value="AUTORZA:" class="labelNuevoNegro" />
                                         <textbox  readonly="false" 
                                                   maxlength="49" 
@@ -92,7 +92,7 @@
                                                   value="@bind(vm.cabeceraCompra.cabAutorizacion)" 
                                                   class="form-control form-control-sm"   />
                                
-                                    </div>
+                                    </div>-->
                                 </div>
                                
                                 <div class="col-12 col-sm-12 col-md-3 col-lg-3 " align="center">
@@ -115,7 +115,7 @@
                                 <div class="col-12 col-sm-12 col-md-3 col-lg-3  form-group " align="center"  >
                               
                                     <div class="input-group mb-3">
-                                        <label value="F FACTURA:" class="labelNuevoNegro" />
+                                        <label value="Fecha Fact:" class="labelNuevoNegro" />
                                         <datebox compact="true" value="@bind(vm.fechafacturacion)" 
                                                  readonly="true" style="font-weight:bold;"                                          
                                                  buttonVisible="true" 

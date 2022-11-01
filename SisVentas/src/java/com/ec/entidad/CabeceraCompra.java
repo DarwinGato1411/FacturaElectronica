@@ -133,6 +133,10 @@ public class CabeceraCompra implements Serializable {
     @JoinColumn(name = "id_proveedor", referencedColumnName = "id_proveedor")
     @ManyToOne
     private Proveedores idProveedor;
+    
+    @OneToMany(mappedBy = "idCompra")
+    private Collection<AmortizacionCompra> amortizacionCompraCollection;
+    
 
     public CabeceraCompra() {
     }
@@ -384,14 +388,14 @@ public class CabeceraCompra implements Serializable {
         this.usuIdUsuario = usuIdUsuario;
     }
 
-//    @XmlTransient
-//    public Collection<RetencionCompraSri> getRetencionCompraSriCollection() {
-//        return retencionCompraSriCollection;
-//    }
-//
-//    public void setRetencionCompraSriCollection(Collection<RetencionCompraSri> retencionCompraSriCollection) {
-//        this.retencionCompraSriCollection = retencionCompraSriCollection;
-//    }
+    public Collection<AmortizacionCompra> getAmortizacionCompraCollection() {
+        return amortizacionCompraCollection;
+    }
+
+    public void setAmortizacionCompraCollection(Collection<AmortizacionCompra> amortizacionCompraCollection) {
+        this.amortizacionCompraCollection = amortizacionCompraCollection;
+    }
+
 
 
 }
