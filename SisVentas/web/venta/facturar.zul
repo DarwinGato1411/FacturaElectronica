@@ -104,7 +104,7 @@
                                         model="@load(vm.listaFormaPago)"  
                                         selectedItem="@bind(vm.formaPagoSelected)" 
                                         readonly="true" 
-                                        width="100%"
+                                        width="300px"
                                         class="textoFechaDateBox">
                                         <template name="model">
                                             <comboitem  label="@bind(each.forNombre)"/>
@@ -117,7 +117,7 @@
                                     <combobox 
                                         onSelect="@command('actualizarCostoVenta')"  
                                         readonly="true"
-                                        width="100%"         
+                                        width="300px"        
                                        class="  textoFechaDateBox"                              
                                         selectedItem="@bind(vm.facplazo)">
                                          <comboitem label="CONTADO" value="0"/> 
@@ -141,6 +141,7 @@
                                         <radio label="Pendiente" value="PE"/>                                               
                                     </radiogroup>
                                 </div>
+                                
                                 <div class="wrapper_input">
                                     <span>Documento:</span>
 
@@ -152,9 +153,18 @@
                                         <radio label="Proforma" value="PROF"/>
                                     </radiogroup>
                                 </div>
-<!--                                <div class="wrapper_input">
-                                    
-                                </div>-->
+                                <div class="wrapper_input">
+                                    <span>Tipo venta:</span>
+                                     <combobox onSelect="@command('actualizarCostoVenta')"   
+					width="300px"
+					readonly="true"										
+                                        class=" textoFechaDateBox"
+                                        selectedItem="@bind(vm.clietipo)"                                >
+                                    <comboitem label="PRECIO VENTA PUBLICO" value="0" />                    
+                                    <comboitem label="PRECIO POR MAYOR" value="1" />
+                                    <comboitem label="PRECIO POR CAJA" value="2" />
+                                </combobox>
+                                </div>
                             </div>
                         </div>
                         <div class="fact_row">

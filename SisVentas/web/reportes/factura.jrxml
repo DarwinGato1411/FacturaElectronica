@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="factura" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 	<property name="ireport.zoom" value="1.9487171000000014"/>
-	<property name="ireport.x" value="20"/>
-	<property name="ireport.y" value="433"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="96"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -194,9 +194,6 @@ where factura.id_factura=$P{id_factura};]]>
 	<parameter name="numfactura" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
-	<parameter name="codTipoAmbiente" class="java.lang.Integer">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
 	<queryString>
 		<![CDATA[SELECT
 *
@@ -205,7 +202,7 @@ tipoambiente
 INNER JOIN factura ON factura.cod_tipoambiente = tipoambiente.cod_tipoambiente
 INNER JOIN cliente ON factura.id_cliente = cliente.id_cliente
 INNER JOIN forma_pago ON factura.id_forma_pago = forma_pago.id_forma_pago
-where tipoambiente.cod_tipoambiente=$P{codTipoAmbiente} and  factura.fac_numero=$P{numfactura};]]>
+where   factura.fac_numero=$P{numfactura};]]>
 	</queryString>
 	<field name="cod_tipoambiente" class="java.lang.Integer"/>
 	<field name="am_codigo" class="java.lang.String"/>
@@ -254,19 +251,10 @@ where tipoambiente.cod_tipoambiente=$P{codTipoAmbiente} and  factura.fac_numero=
 	<field name="am_contr_esp" class="java.lang.Boolean"/>
 	<field name="am_exp" class="java.lang.Boolean"/>
 	<field name="am_ripme" class="java.lang.Boolean"/>
-	<field name="am_sec_factura" class="java.lang.Integer"/>
-	<field name="am_sec_retencion" class="java.lang.Integer"/>
-	<field name="am_sec_nota_credito" class="java.lang.Integer"/>
-	<field name="am_sec_guia" class="java.lang.Integer"/>
-	<field name="am_valor_iva" class="java.math.BigDecimal"/>
 	<field name="am_general" class="java.lang.Boolean"/>
-	<field name="am_graba_ice" class="java.lang.Boolean"/>
-	<field name="am_valor_ice" class="java.math.BigDecimal"/>
-	<field name="am_comprobante_imprime" class="java.lang.String"/>
-	<field name="am_codigo_ice" class="java.lang.String"/>
-	<field name="id_usuario" class="java.lang.Integer"/>
 	<field name="id_factura" class="java.lang.Integer"/>
 	<field name="id_estado" class="java.lang.Integer"/>
+	<field name="id_usuario" class="java.lang.Integer"/>
 	<field name="id_cliente" class="java.lang.Integer"/>
 	<field name="fac_numero" class="java.lang.Integer"/>
 	<field name="fac_fecha" class="java.sql.Date"/>
@@ -297,7 +285,7 @@ where tipoambiente.cod_tipoambiente=$P{codTipoAmbiente} and  factura.fac_numero=
 	<field name="fac_unidad_tiempo" class="java.lang.String"/>
 	<field name="estadosri" class="java.lang.String"/>
 	<field name="mensajesri" class="java.lang.String"/>
-	<field name="fac_fecha_autorizacion" class="java.sql.Timestamp"/>
+	<field name="fac_fecha_autorizacion" class="java.sql.Date"/>
 	<field name="fac_clave_acceso" class="java.lang.String"/>
 	<field name="fac_clave_autorizacion" class="java.lang.String"/>
 	<field name="fac_path" class="java.lang.String"/>

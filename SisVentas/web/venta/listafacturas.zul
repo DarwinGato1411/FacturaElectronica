@@ -192,6 +192,7 @@
                                 <listheader width="3%"  label="" align="rigth" />        
                                 <listheader width="3%"  label="" align="rigth" />        
                                 <listheader width="3%"  label="" align="rigth" />        
+                                <listheader width="3%"  label="" align="rigth" />        
                                     
                             </listhead>  
                             
@@ -414,14 +415,13 @@
                                             tooltiptext="Solo se puede crear la tabla de amortizacion en estado Pendiente (PE)"/>
                                 
                                     </listcell>
-                                    
-    <!--                                <listcell   zclass = "mycss-listcell"  >   
-                                            
-                                        <image src="/iconos/xml.png"  
-                                            onClick="@command('exportarRegXML',valor=each)"  
-                                            class="btn-secondary btn-sm"                                               
-                                            tooltiptext="Generar XML para la matriculacion"/> 
-                                    </listcell>-->
+                                    <listcell  zclass = "mycss-listcell" >   
+                                        <image src="/iconos/email.png"   
+                                               height="30px"  
+                                               onClick="@command('reenviarMail',valor=each)" 
+                                               class="btn-secondary btn-sm "       
+                                               tooltiptext="Reenviar correo electronico"/>
+                                    </listcell> 
                                 </listitem>
                             </template>
                         </listbox>

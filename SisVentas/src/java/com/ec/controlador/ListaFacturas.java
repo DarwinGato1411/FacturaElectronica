@@ -752,11 +752,10 @@ public class ListaFacturas {
 
                             System.out.println("PATH DEL ARCHIVO PARA ENVIAR AL CLIENTE " + archivoEnvioCliente);
                             ArchivoUtils.reporteGeneralPdfMail(archivoEnvioCliente.replace(".xml", ".pdf"), valor.getFacNumero(), "FACT");
-                         
+
 //                            ArchivoUtils.zipFile(fEnvio, archivoEnvioCliente);
                             //GUARDA EL PATH PDF CREADO/
-
- //envia el mail/
+                            //envia el mail/
                             String[] attachFiles = new String[2];
                             attachFiles[0] = archivoEnvioCliente.replace(".xml", ".pdf");
                             attachFiles[1] = archivoEnvioCliente.replace(".xml", ".xml");
@@ -1318,6 +1317,56 @@ public class ListaFacturas {
 
     public void setBuscarNumFactura(String buscarNumFactura) {
         this.buscarNumFactura = buscarNumFactura;
+    }
+
+    @Command
+    public void reenviarMail(@BindingParam("valor") Factura valor) throws JRException, IOException, NamingException, SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+
+        String foldervoAutorizado = PATH_BASE + File.separator + amb.getAmAutorizados()
+                    + File.separator + new Date().getYear()
+                    + File.separator + new Date().getMonth();
+
+        AutorizarDocumentos aut = new AutorizarDocumentos();
+
+        /*Ubicacion del archivo firmado para obtener la informacion*/
+
+ /*PARA CREAR EL ARCHIVO XML FIRMADO*/
+        String nombreArchivoXML = File.separator + "FACT-"
+                    + valor.getCodestablecimiento()
+                    + valor.getPuntoemision()
+                    + valor.getFacNumeroText() + ".xml";
+
+
+        /*RUTAS FINALES DE,LOS ARCHIVOS XML FIRMADOS Y AUTORIZADOS*/
+        String archivoEnvioCliente = "";
+
+        archivoEnvioCliente = aut.generaXMLFactura(valor, amb, foldervoAutorizado, nombreArchivoXML, valor.getFacFechaAutorizacion() == null ? Boolean.FALSE : Boolean.TRUE, valor.getFacFechaAutorizacion() == null ? valor.getFacFecha() : valor.getFacFechaAutorizacion());
+
+        System.out.println("PATH REENVIO MAIL  " + archivoEnvioCliente);
+        ArchivoUtils.reporteGeneralPdfMail(archivoEnvioCliente.replace(".xml", ".pdf"), valor.getFacNumero(), "FACT");
+        /*envia el mail*/
+
+        String[] attachFiles = new String[2];
+        attachFiles[0] = archivoEnvioCliente.replace(".xml", ".pdf");
+        attachFiles[1] = archivoEnvioCliente.replace(".xml", ".xml");
+        MailerClass mail = new MailerClass();
+        if (valor.getIdCliente().getCliCorreo() != null) {
+            if (mail.sendMailSimple(valor.getIdCliente().getCliCorreo(),
+                        attachFiles,
+                        "FACTURA ELECTRONICA",
+                        valor.getFacClaveAcceso(),
+                        valor.getFacNumeroText(),
+                        valor.getFacTotal(),
+                        valor.getIdCliente().getCliNombre()))
+            {
+                System.out.println("ENVIO CORRECTO");
+                File file= new File(archivoEnvioCliente);
+                file.deleteOnExit();
+            }else {
+                System.out.println("CORREO NO ENVIADO");
+            }
+        }
+
     }
 
 }
