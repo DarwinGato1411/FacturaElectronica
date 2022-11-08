@@ -407,11 +407,11 @@ public class ServicioFactura {
             //Connection connection = em.unwrap(Connection.class);
             em = HelperPersistencia.getEMF();
             em.getTransaction().begin();
-            Query query = em.createQuery("SELECT f FROM Factura f WHERE (f.idCliente.cliNombres LIKE :cliente OR f.idCliente.cliRazonSocial like :razon OR CAST(f.facNumProforma as string ) like :numero ) AND f.facTipo='PROF' ORDER BY f.idFactura DESC");
+            Query query = em.createQuery("SELECT f FROM Factura f WHERE (f.idCliente.cliNombre LIKE :cliente OR f.idCliente.cliRazonSocial like :razon ) AND f.facTipo='PROF' ORDER BY f.idFactura DESC");
             query.setMaxResults(400);
             query.setParameter("cliente", "%" + cliente + "%");
             query.setParameter("razon", "%" + cliente + "%");
-            query.setParameter("numero", "%" + cliente + "%");
+//            query.setParameter("numero", "%" + cliente + "%");
 
             listaFacturas = (List<Factura>) query.getResultList();
             em.getTransaction().commit();

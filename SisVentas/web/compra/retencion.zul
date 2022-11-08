@@ -43,20 +43,22 @@
                             <div class="col-12 col-sm-12 col-md-2 col-lg-2 form-group" align="center">
                                 
                                 <label value="IVA" class="form-control form-control-sm" />                            
-                                <decimalbox format="###.###"  
-                                            readonly="true" 
-                                            class="form-control form-control-sm"
-                                            value="@bind(vm.cabeceraCompra.cabIva)" 
-                                            style="text-align:center;font-size:1.5em;color:blue"/>
+                                <textbox    
+                                    constraint="/^[0-9]{1,9}(?:[.][0-9]{1,5})?$/:Ingrese solo numeros"        
+                                    readonly="true" 
+                                    class="form-control form-control-sm"
+                                    value="@bind(vm.cabeceraCompra.cabIva)" 
+                                    style="text-align:center;font-size:1.5em;color:blue"/>
                             </div>
                             <div class="col-12 col-sm-12 col-md-2 col-lg-2 form-group" align="center">
                                 
                                 <label value="TOTAL" class="form-control form-control-sm" />                            
-                                <decimalbox format="###.##"  
-                                            readonly="true" 
-                                            class="form-control form-control-sm"
-                                            value="@bind(vm.cabeceraCompra.cabTotal)" 
-                                            style="text-align:center;font-size:1.5em;color:blue"/>
+                                <textbox    
+                                    constraint="/^[0-9]{1,9}(?:[.][0-9]{1,5})?$/:Ingrese solo numeros"    
+                                    readonly="true" 
+                                    class="form-control form-control-sm"
+                                    value="@bind(vm.cabeceraCompra.cabTotal)" 
+                                    style="text-align:center;font-size:1.5em;color:blue"/>
                             </div>
                             
                         </div>
@@ -99,10 +101,11 @@
                             <div class="col-12 col-sm-12 col-md-4 col-lg-4">
                                 <div class="input-group mb-3">
                                     <label value="Base imponible: " class="labelNuevoNegro" />
-                                    <decimalbox readonly="false" format="###.#####" 
-                                                style="font-weight:bold"                                              
-                                                value="@bind(vm.baseImponible)" 
-                                                class="form-control form-control-sm"   />
+                                    <textbox    
+                                        constraint="/^[0-9]{1,9}(?:[.][0-9]{1,5})?$/:Ingrese solo numeros"     
+                                        style="font-weight:bold"                                              
+                                        value="@bind(vm.baseImponible)" 
+                                        class="form-control form-control-sm"   />
                                 </div>
                             </div>
                             <div class="col-12 col-sm-12 col-md-4 col-lg-4" visible="@load(vm.activaIvaRenta)">
@@ -175,7 +178,7 @@
                                                 <label  value="@bind(each.tireCodigo.tireNombre)" width="99%"
                                                         if="${each.codImpuestoAsignado == '1'}"/>
                                                 <label  value="Retencion IVA" width="99%" 
-                                                          if="${each.codImpuestoAsignado == '2'}"/>
+                                                        if="${each.codImpuestoAsignado == '2'}"/>
                                             </listcell>
                                             <listcell>
                                                 <label  value="@bind(each.drcDescripcion)" width="99%" />

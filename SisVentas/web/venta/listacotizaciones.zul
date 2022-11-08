@@ -40,7 +40,18 @@
                                             tooltiptext="Buscar "
                                         />
                                     </div>
+                                
                                 </div>
+                                <div class="wrapper_data wrapper_data_only">
+                                <div class="wrapper_input">
+                                    <button 
+                                        class="fa-solid fa-magnifying-glass btn_fact btn_primary"
+                                        onClick="@command('corregirProformasDiaActual')"  
+                                        tooltiptext="Corregir proformas repetidas">
+                                        Corregir proformas
+                                    </button>
+                                </div>
+                            </div>
                             </div>
                         </div>
 
@@ -102,7 +113,7 @@
                                         <listcell zclass = "mycss-listcell">
                                             <decimalbox format="###.####" 
                                                         readonly="true" 
-                                                         width="100%"
+                                                        width="100%"
                                                         value="@bind(each.facTotal)" />
                                         </listcell>
                                         <zk if="${each.facEstado=='PE'}" > 

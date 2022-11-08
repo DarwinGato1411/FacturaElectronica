@@ -7,6 +7,7 @@ package com.ec.controlador;
 import com.ec.entidad.Factura;
 import com.ec.servicio.HelperPersistencia;
 import com.ec.servicio.ServicioFactura;
+import com.ec.servicio.ServicioGeneral;
 import com.ec.untilitario.ParamFactura;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
@@ -57,6 +58,7 @@ import org.zkoss.zul.Messagebox;
  */
 public class ListaCotizaciones {
 
+    ServicioGeneral servicioGeneral = new ServicioGeneral();
     ServicioFactura servicioFactura = new ServicioFactura();
     private List<Factura> lstFacturas = new ArrayList<Factura>();
     //reporte
@@ -139,7 +141,7 @@ public class ListaCotizaciones {
             param.setBusqueda("ninguna");
             map.put("valor", param);
             org.zkoss.zul.Window window = (org.zkoss.zul.Window) Executions.createComponents(
-                    "/modificar/factura.zul", null, map);
+                        "/modificar/factura.zul", null, map);
             window.doModal();
 //            window.detach();
             consultarFacturas();
@@ -155,7 +157,7 @@ public class ListaCotizaciones {
             emf.getTransaction().begin();
             con = emf.unwrap(Connection.class);
             String reportFile = Executions.getCurrent().getDesktop().getWebApp()
-                    .getRealPath("/reportes");
+                        .getRealPath("/reportes");
             String reportPath = "";
             if (consindet.equals("DET")) {
                 reportPath = reportFile + File.separator + "proforma.jasper";
@@ -185,7 +187,7 @@ public class ListaCotizaciones {
 //para pasar al visor
             map.put("pdf", fileContent);
             org.zkoss.zul.Window window = (org.zkoss.zul.Window) Executions.createComponents(
-                    "/venta/contenedorReporte.zul", null, map);
+                        "/venta/contenedorReporte.zul", null, map);
             window.doModal();
         } catch (FileNotFoundException e) {
             System.out.println("FileNotFoundException " + e.getMessage());
@@ -205,6 +207,14 @@ public class ListaCotizaciones {
     @NotifyChange({"lstFacturas", "buscarCliente"})
     public void buscarLikeCliente() {
 
+        consultarFacturas();
+
+    }
+
+    @Command
+    @NotifyChange({"lstFacturas", "buscarCliente"})
+    public void corregirProformasDiaActual() {
+        servicioGeneral.corregitfacturasDiaActual();
         consultarFacturas();
 
     }
@@ -244,15 +254,15 @@ public class ListaCotizaciones {
         }
 
         jfreechartMes = ChartFactory.createBarChart(
-                "ESTADÍSTICA POR VENTA MENSUAL", // título del
-                // grafico
-                "", // título de las categorias(eje x)
-                "", // titulo de las series(eje y)
-                defaultcategorydataset, // conjunto de datos
-                PlotOrientation.VERTICAL, // orientación del gráfico
-                true, // incluye o no las series
-                false, // tooltips?
-                false // URLs?
+                    "ESTADÍSTICA POR VENTA MENSUAL", // título del
+                    // grafico
+                    "", // título de las categorias(eje x)
+                    "", // titulo de las series(eje y)
+                    defaultcategorydataset, // conjunto de datos
+                    PlotOrientation.VERTICAL, // orientación del gráfico
+                    true, // incluye o no las series
+                    false, // tooltips?
+                    false // URLs?
         );
         jfreechartMes.setBackgroundPaint(Color.decode("#ffffff"));
         // plot maneja el dataset, axes(categories and series) y el rendered
@@ -261,7 +271,7 @@ public class ListaCotizaciones {
         // renderer se uitiliza para getionar las barras
         CategoryItemRenderer renderer = plot.getRenderer();
         CategoryItemLabelGenerator generator = new StandardCategoryItemLabelGenerator(
-                "{2}", new DecimalFormat("0"));
+                    "{2}", new DecimalFormat("0"));
         renderer.setBaseItemLabelGenerator(generator);
 
         BarRenderer rerender1 = (BarRenderer) plot.getRenderer();
@@ -299,7 +309,7 @@ public class ListaCotizaciones {
         reporteMes = new AImage("foto", graficoBarrasMes);
 
         String directorioReportes = Executions.getCurrent().getDesktop().getWebApp()
-                .getRealPath("/reportes");
+                    .getRealPath("/reportes");
 
         //crea la carpeta en el caso que no exista
         File baseDir = new File(directorioReportes);
@@ -309,7 +319,7 @@ public class ListaCotizaciones {
         pathSalidaMes = directorioReportes + File.separator + "reportGenero.jpg";
         System.out.println("RUTA " + pathSalidaMes);
         ChartUtilities.saveChartAsJPEG(new File(pathSalidaMes), jfreechartMes, 500,
-                300);
+                    300);
 
     }
 

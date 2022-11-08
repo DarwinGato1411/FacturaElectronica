@@ -130,8 +130,6 @@ public class NuevoCliente {
     public void guardar() {
         /*getCliNombre es el nombre comercial*/
         if (cliente.getCliCedula() != null
-                && cliente.getCliNombres() != null
-                && cliente.getCliApellidos() != null
                 && cliente.getCliNombre() != null
                 && cliente.getCliDireccion() != null
                 && cliente.getCliTelefono() != null

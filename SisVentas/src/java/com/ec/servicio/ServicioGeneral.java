@@ -12,7 +12,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.ParameterMode;
 import javax.persistence.Query;
+import javax.persistence.StoredProcedureQuery;
 
 /**
  *
@@ -69,4 +71,28 @@ public class ServicioGeneral {
 
         return compraVenta;
     }
+
+    public void corregitfacturasDiaActual() {
+        try {
+            em = HelperPersistencia.getEMF();
+
+            em.getTransaction().begin();
+//           Query elimina= em.createNativeQuery("delete from model_ruta;");
+//            int i=elimina.executeUpdate();
+//            System.out.println("VALOR BORRA "+i);
+            StoredProcedureQuery queryStore = em.createStoredProcedureQuery("corregirproformasrepetidasdiaactual");
+//            queryStore.registerStoredProcedureParameter("mes", Integer.class, ParameterMode.IN);
+//            queryStore.registerStoredProcedureParameter("fecha", Date.class, ParameterMode.IN);
+//            queryStore.setParameter("mes", mes);
+//            queryStore.setParameter("fecha", fecha);
+            queryStore.executeUpdate();
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            System.out.println("error corregitfacturasDiaActual " + e.getMessage());
+        } finally {
+            em.close();
+        }
+
+    }
+
 }

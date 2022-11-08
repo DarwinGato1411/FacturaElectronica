@@ -150,6 +150,7 @@
                                         onCheck="@command('verificarNumeracion')">
                                         <radio label="Factura" value="FACT"/>
                                         <radio label="Proforma" value="PROF"/>
+                                        <radio label="Nota Venta" value="NTV"/>
                                     </radiogroup>
                                 </div>
                                 <div class="wrapper_input">
@@ -159,9 +160,9 @@
 					readonly="true"										
                                         class=" textoFechaDateBox"
                                         selectedItem="@bind(vm.clietipo)"                                >
-                                    <comboitem label="PRECIO VENTA PUBLICO" value="0" />                    
-                                    <comboitem label="PRECIO POR MAYOR" value="1" />
-                                    <comboitem label="PRECIO POR CAJA" value="2" />
+                                    <comboitem label="Precio venta publico" value="0" />                    
+                                    <comboitem label="Precio por mayor" value="1" />
+                                    <comboitem label="Precio por caja" value="2" />
                                 </combobox>
                                 </div>
                             </div>
@@ -252,18 +253,6 @@
 
                             </div>
                             <div class="fact_row wrapper_buttons">
-                                
-                                
-                                <!-- <button 
-                                    class="btn_fact btn_primary"
-                                    autodisable="self"                     
-                                    onClick="@command('verNotasEntrega')"
-                                    tooltiptext="Cargar notas de entrega"
-                                >
-                                    Cargar notas
-                                </button> -->
-                                
-                              
                                 <button 
                                     autodisable="self"   
                                     class="fa-solid fa-floppy-disk btn_fact btn_primary"                  
@@ -288,10 +277,6 @@
                             </div>
                         </div>
                     </div>
-
-
-
-
 
                     <div class="factura_body factura_body_content">
                     
@@ -391,7 +376,9 @@
                                                 onClick="@command('agregarItemLista',valor=each.idProducto)"
                                                 tooltiptext="Asignar producto"
                                             />-->
-                                             <image  src="/iconos/fact.png" 
+                                             <image  src="/iconos/agregar.jpg" 
+                                             width="35px"
+                                               class="btn btn btn-secondary btn-sm grow"
                                                     onClick="@command('agregarItemLista',valor=each.idProducto)" 
                                                     tooltiptext="Asigar producto"/> 
                                             

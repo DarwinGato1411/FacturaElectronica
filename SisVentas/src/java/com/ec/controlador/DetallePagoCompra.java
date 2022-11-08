@@ -105,11 +105,15 @@ public class DetallePagoCompra {
                 generar = Boolean.FALSE;
                 valorPago=BigDecimal.ZERO;
                 consultarDetallepago();
+                if (saldo.doubleValue()==0) {
+                    factura.setCabEstado("PA");
+                    servicioCompra.modificar(factura);
+                }
                 Clients.showNotification("Pago registrado correctamente",
                             Clients.NOTIFICATION_TYPE_INFO, null, "end_center", 2000, true);
             } else {
                 Clients.showNotification("No puede ingresar un valor superior al saldo",
-                            Clients.NOTIFICATION_TYPE_INFO, null, "end_center", 2000, true);
+                            Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 2000, true);
             }
 
         }
@@ -137,7 +141,7 @@ public class DetallePagoCompra {
 //                valor.setDetpAbono(BigDecimal.ZERO);
                 saldo = saldoInicial;
                 Clients.showNotification("No se puede realizar un cobro superior al saldo pendiente",
-                            Clients.NOTIFICATION_TYPE_INFO, null, "end_center", 2000, true);
+                            Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 2000, true);
                 return;
 
             }
@@ -154,6 +158,8 @@ public class DetallePagoCompra {
             servicioDetallePago.modificar(valor);
             factura.setCabSaldoFactura(saldo);
             servicioCompra.modificar(factura);
+            Clients.showNotification("Registro correcto",
+                            Clients.NOTIFICATION_TYPE_INFO, null, "end_center", 2000, true);
 //            windowDetallePago.detach();
         } catch (Exception e) {
             Messagebox.show("Error " + e.toString(), "Atención", Messagebox.OK, Messagebox.ERROR);

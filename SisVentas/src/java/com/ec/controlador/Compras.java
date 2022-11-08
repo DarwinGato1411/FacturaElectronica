@@ -339,7 +339,7 @@ public class Compras {
         final HashMap<String, String> map = new HashMap<String, String>();
         map.put("valor", "proveedor");
         org.zkoss.zul.Window window = (org.zkoss.zul.Window) Executions.createComponents(
-                "/compra/buscarproveedor.zul", null, map);
+                    "/compra/buscarproveedor.zul", null, map);
         window.doModal();
         proveedorSeleccionado = servicioProveedor.findProvCedula(buscarCedulaProveedor);
     }
@@ -370,7 +370,7 @@ public class Compras {
         final HashMap<String, String> map = new HashMap<String, String>();
         map.put("valor", "producto");
         org.zkoss.zul.Window window = (org.zkoss.zul.Window) Executions.createComponents(
-                "/compra/buscarproducto.zul", null, map);
+                    "/compra/buscarproducto.zul", null, map);
         window.doModal();
         productoBuscado = servicioProducto.findByProdCodigo(codigoBusqueda);
         if (productoBuscado != null) {
@@ -533,22 +533,36 @@ public class Compras {
     @Command
     @NotifyChange({"listaCompraProductosMOdel", "subTotalCotizacion", "ivaCotizacion", "valorTotalCotizacion"})
     public void Guardar() {
-        if (!proveedorSeleccionado.getProvCedula().equals("")
-                && !numeroFactura.equals("")) {
-            guardarCompra();
-
-        } else {
-            Messagebox.show("Verifique el proveedor, numero de factura, numero de autorizacion", "Atención", Messagebox.OK, Messagebox.ERROR);
+        if (proveedorSeleccionado.getProvCedula().equals("")) {
+            Clients.showNotification("Verifique el proveedor",
+                        Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 2000, true);
+            return;
         }
+        if (cabeceraCompra.getCabEstablecimiento() == null || cabeceraCompra.getCabPuntoEmi() == null
+                    || numeroFactura.isEmpty()) {
+            Clients.showNotification("Verifique el establecimiento, punto de emisión y numero de factura",
+                        Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 2000, true);
+            return;
+        }
+
+        if (numeroFactura.length() != 9) {
+            Clients.showNotification("El número de factura debe tener 9 digitos",
+                        Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 2000, true);
+            return;
+        }
+
+        guardarCompra();
+
     }
 
     private void guardarCompra() {
 
         try {
+
             BigDecimal factorIva = (parametrizar.getParIva().divide(BigDecimal.valueOf(100.0)));
             BigDecimal facturIvaMasBase = (factorIva.add(BigDecimal.ONE));
-            CabeceraCompra compra=servicioCompra.findCabNumeroForEmpresa(numeroFactura);
-            if (compra==null) {
+            CabeceraCompra compra = servicioCompra.findCabNumeroForEmpresa(numeroFactura);
+            if (compra == null) {
                 //armar la cabecera de la factura
 
                 cabeceraCompra.setCabRetencionAutori("N");

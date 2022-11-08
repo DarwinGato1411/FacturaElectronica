@@ -66,20 +66,21 @@
                                          placeholder="Nº Factura"
                                          onOK="@command('buscarForNumFactura')"
                                          onChange="self.setValue(self.getValue().toUpperCase());" />
-                            </listheader> 
-                            <listheader width="10%"  label="FECHA" />    
-                            <listheader width="10%"  label="SUBTOTAL" />        
-                            <listheader width="10%"  label="IVA" />        
-                            <listheader width="10%"  label="TOTAL" />        
-                            <listheader width="10%"  label="ESTADO" />        
+                            </listheader>
                             <listheader width="25%"  label="" >
                                 <textbox placeholder="Proveedor"
                                          value="@bind(vm.buscar)" 
                                          class="form-control form-control-sm"
                                          onOK="@command('buscarForProveedor')"
                                          onChange="self.setValue(self.getValue().toUpperCase());"/>
-                            </listheader>        
-                            <listheader width="25%"  label="QUIEN INGRESO" />        
+                            </listheader>  
+                            <listheader width="10%"  label="FECHA" />    
+                            <listheader width="10%"  label="SUBTOTAL" />        
+                            <listheader width="10%"  label="IVA" />        
+                            <listheader width="10%"  label="TOTAL" />        
+                            <listheader width="10%"  label="ESTADO" />        
+                                   
+                            <listheader width="25%"  label="RESPONSABLE" />        
                             <listheader width="3%"  label="" align="center" />        
                             <listheader width="3%"  label="" align="center" />        
                             <listheader width="3%"  label="" align="center" />        
@@ -93,6 +94,11 @@
                                     <textbox readonly="true" style="font-size:12px ;background:#EBF5FB"
                                              class="form-control form-control-sm" 
                                              value="@bind(each.cabNumFactura)" />
+                                </listcell>
+                                  <listcell zclass = "mycss-listcell">
+                                    <textbox readonly="true"  style="font-size:12px ;background:#EBF5FB"
+                                             class="form-control form-control-sm" 
+                                             value="@bind(each.cabProveedor)" />
                                 </listcell>
                                 <listcell zclass = "mycss-listcell" style="font-size:12px;background:#F8F9F9">
                                     <datebox style="font-size:12px"
@@ -123,16 +129,19 @@
                                                 readonly="true"  
                                                 value="@bind(each.cabTotal)"  />
                                 </listcell>
-                                <listcell zclass = "mycss-listcell">
-                                    <textbox readonly="true"  style="font-size:12px"
+                                <listcell if="${each.cabEstado=='PA'}"  style="background:#C7FEC1" zclass = "mycss-listcell">
+                                    <textbox readonly="true"   style="background:#C7FEC1"
                                              class="form-control form-control-sm" 
-                                             value="@bind(each.cabEstado)" />
+                                             value="PAGADO" />
                                 </listcell>
-                                <listcell zclass = "mycss-listcell">
-                                    <textbox readonly="true"  style="font-size:12px ;background:#EBF5FB"
+                                
+                                <listcell if="${each.cabEstado=='PE'}" style="background:#FF8F8F" zclass = "mycss-listcell">
+                                    <textbox readonly="true"  
+                                    style="background:#FF8F8F"
                                              class="form-control form-control-sm" 
-                                             value="@bind(each.cabProveedor)" />
+                                             value="PENDIENTE" />
                                 </listcell>
+                              
                                 <listcell zclass = "mycss-listcell">
                                     <textbox readonly="true"  style="font-size:12px ;background:#EBF5FB"
                                              class="form-control form-control-sm" 

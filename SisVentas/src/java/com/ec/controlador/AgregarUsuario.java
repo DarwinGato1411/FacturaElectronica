@@ -15,6 +15,8 @@ import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
+import org.zkoss.zk.ui.util.Clients;
+import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Window;
 
 /**
@@ -28,6 +30,7 @@ public class AgregarUsuario {
     ServicioUsuario servicioUsuario = new ServicioUsuario();
     private Usuario usuarioSistema = new Usuario();
     private String tipoUSuario = "1";
+    private String accion = "create";
 
     @AfterCompose
     public void afterCompose(@ExecutionArgParam("usuario") Usuario usuarioSistema, @ContextParam(ContextType.VIEW) Component view) {
@@ -35,9 +38,10 @@ public class AgregarUsuario {
         if (usuarioSistema != null) {
             this.usuarioSistema = usuarioSistema;
             tipoUSuario = this.usuarioSistema.getUsuNivel().toString();
+            accion = "create";
         } else {
             this.usuarioSistema = new Usuario();
-
+            accion = "update";
         }
     }
 
@@ -60,7 +64,24 @@ public class AgregarUsuario {
     @Command
     @NotifyChange("usuarioSistema")
     public void guardar() {
-        System.out.println(usuarioSistema.getUsuCorreo());
-        
+        if (usuarioSistema != null && !usuarioSistema.getUsuNombre().equals("")
+                    && !usuarioSistema.getUsuLogin().equals("")
+                    && !tipoUSuario.equals("")) {
+            usuarioSistema.setUsuNivel(Integer.valueOf(tipoUSuario));
+
+            if (Integer.valueOf(tipoUSuario) == 1) {
+                usuarioSistema.setUsuTipoUsuario("ADMINISTRADOR");
+            } else if (Integer.valueOf(tipoUSuario) == 2) {
+                usuarioSistema.setUsuTipoUsuario("VENTAS");
+            }
+            servicioUsuario.modificar(usuarioSistema);
+            usuarioSistema = new Usuario();
+            windowIdUsuario.detach();
+
+        } else {
+           Clients.showNotification("Verifique la informacion requerida",
+                    Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 3000, true);
+        }
+
     }
 }

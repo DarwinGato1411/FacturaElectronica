@@ -2333,6 +2333,10 @@ public class Facturar extends SelectorComposer<Component> {
 
             }
 
+            
+            /*Verificar numero de proforma */
+            
+            
             reporteGeneral();
             if (accion.equals("create")) {
                 Executions.sendRedirect("/venta/facturar.zul");
