@@ -230,6 +230,13 @@ public class Factura implements Serializable {
     @JoinColumn(name = "id_referencia", referencedColumnName = "id_referencia")
     @ManyToOne
     private Referencia idReferencia;
+    
+     @JoinColumn(name = "id_pais_destino", referencedColumnName = "id_pais")
+    @ManyToOne
+    private Pais idPaisDestino;
+    @JoinColumn(name = "id_pais_origen", referencedColumnName = "id_pais")
+    @ManyToOne
+    private Pais idPaisOrigen;
 
     public Factura() {
     }
@@ -761,6 +768,22 @@ public class Factura implements Serializable {
 
     public void setDetallePagoCollection(Collection<DetallePago> detallePagoCollection) {
         this.detallePagoCollection = detallePagoCollection;
+    }
+
+    public Pais getIdPaisDestino() {
+        return idPaisDestino;
+    }
+
+    public void setIdPaisDestino(Pais idPaisDestino) {
+        this.idPaisDestino = idPaisDestino;
+    }
+
+    public Pais getIdPaisOrigen() {
+        return idPaisOrigen;
+    }
+
+    public void setIdPaisOrigen(Pais idPaisOrigen) {
+        this.idPaisOrigen = idPaisOrigen;
     }
 
     @Override

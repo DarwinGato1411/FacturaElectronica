@@ -275,10 +275,30 @@ public class AutorizarDocumentos {
                         + "        <dirEstablecimiento>" + removeCaracteres(amb.getAmDireccionMatriz()) + "</dirEstablecimiento>\n"
                         //   + "        <contribuyenteEspecial>0047</contribuyenteEspecial>\n"
                         + "        <obligadoContabilidad>" + amb.getLlevarContabilidad() + "</obligadoContabilidad>\n"
+                        
+                        //EXPORTACION
+                        + "        <comercioExterior>" + amb.getLlevarContabilidad() + "</comercioExterior>\n"
+                        + "        <IncoTermFactura>" + amb.getLlevarContabilidad() + "</IncoTermFactura>\n"
+                        + "        <lugarIncoTerm>" + amb.getLlevarContabilidad() + "</lugarIncoTerm>\n"
+                        + "        <paisOrigen>" + amb.getLlevarContabilidad() + "</paisOrigen>\n"
+                        + "        <puertoEmbarque>" + amb.getLlevarContabilidad() + "</puertoEmbarque>\n"
+                        + "        <paisOrigen>" + amb.getLlevarContabilidad() + "</paisOrigen>\n"
+                        + "        <puertoDestino>" + amb.getLlevarContabilidad() + "</puertoDestino>\n"
+                        + "        <paisDestino>" + amb.getLlevarContabilidad() + "</paisDestino>\n"
+                        + "        <paisAdquisicion>" + amb.getLlevarContabilidad() + "</paisAdquisicion>\n"
+                   
+                        
+                        
+                        
                         + "        <tipoIdentificacionComprador>" + valor.getIdCliente().getIdTipoIdentificacion().getTidCodigo() + "</tipoIdentificacionComprador>\n"
                         + "        <razonSocialComprador>" + removeCaracteres(valor.getIdCliente().getCliNombre()) + "</razonSocialComprador>\n"
                         + "        <identificacionComprador>" + valor.getIdCliente().getCliCedula() + "</identificacionComprador>\n"
                         + "        <totalSinImpuestos>" + ArchivoUtils.redondearDecimales(valor.getFacSubtotal(), 2) + "</totalSinImpuestos>\n"
+                        
+                        
+                        //EXPORTACION
+                        + "        <incoTermTotalSinImpuestos>FOB</incoTermTotalSinImpuestos>\n"
+                        
                         + "         <totalSubsidio>" + valor.getFacSubsidio().setScale(2, RoundingMode.FLOOR) + "</totalSubsidio>\n"
                         + "        <totalDescuento>" + valor.getFacDescuento().setScale(2, RoundingMode.FLOOR) + "</totalDescuento>\n"
                  + "        <totalConImpuestos>\n"
@@ -288,6 +308,9 @@ public class AutorizarDocumentos {
                         + "                <baseImponible>" + valor.getFacTotalBaseCero().setScale(2, RoundingMode.FLOOR) + "</baseImponible>\n"
                         + "                <tarifa>0</tarifa>\n"
                         + "                <valor>0.00</valor>\n"
+                        
+                    
+                        
                         + "             </totalImpuesto>\n"
                         + "             <totalImpuesto>\n"
                         /*CODIGO DEL IVA 2, ICE 3 IRBPNR 6*/
@@ -305,6 +328,15 @@ public class AutorizarDocumentos {
                         + "              </totalImpuesto>\n"
                         + "         </totalConImpuestos>\n"
                         + "                 <propina>0</propina>\n"
+                        
+                        //EXPORTACION    
+                           + "                <fleteInternacional>0.00</fleteInternacional>\n"
+                           + "                <seguroInternacional>0.00</seguroInternacional>\n"
+                           + "                <gastos Aduaneros>0.00</gastos Aduaneros>\n"
+                           + "                <gastosTransporteOtros>0.00</gastosTransporteOtros>\n"
+                        
+                        
+                        
                         + "                 <importeTotal>" + ArchivoUtils.redondearDecimales(valor.getFacTotal(), 2) + "</importeTotal>\n"
                         + "                 <moneda>" + valor.getFacMoneda() + "</moneda>\n"
                         + "         <pagos>\n"

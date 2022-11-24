@@ -85,6 +85,7 @@
 
                                     <datebox 
                                         compact="true" 
+                                        
                                         value="@bind(vm.facFechaCobro)" 
                                         readonly="true" 
                                         buttonVisible="true" 
@@ -95,6 +96,30 @@
                                     />
                                     <div class="fa-solid fa-calendar icon" />
                                 </div>
+                                <div class="wrapper_input">
+                                    <span>Pais Origen:</span>
+                                     <combobox onSelect="@command('actualizarCostoVenta')"   
+					width="150px"
+					readonly="true"										
+                                       style="margin-lefth:1px"
+                                        selectedItem="@bind(vm.clietipo)"                                >
+                                    <comboitem label="Precio venta publico" value="0" />                    
+                                    <comboitem label="Precio por mayor" value="1" />
+                                    <comboitem label="Precio por caja" value="2" />
+                                </combobox>
+                                </div>
+                                <div class="wrapper_input">
+                                    <span>Pais destino:</span>
+                                     <combobox onSelect="@command('actualizarCostoVenta')"   
+					width="150px"
+					readonly="true"										
+                                        class=" textoFechaDateBox"
+                                        selectedItem="@bind(vm.clietipo)"                                >
+                                    <comboitem label="Precio venta publico" value="0" />                    
+                                    <comboitem label="Precio por mayor" value="1" />
+                                    <comboitem label="Precio por caja" value="2" />
+                                </combobox>
+                                </div>
                             </div>
                             <div class="wrapper_data">
                                 <div class="wrapper_input">
@@ -104,7 +129,7 @@
                                         model="@load(vm.listaFormaPago)"  
                                         selectedItem="@bind(vm.formaPagoSelected)" 
                                         readonly="true" 
-                                        width="300px"
+                                        width="150px"
                                         class="textoFechaDateBox">
                                         <template name="model">
                                             <comboitem  label="@bind(each.forNombre)"/>
@@ -117,7 +142,7 @@
                                     <combobox 
                                         onSelect="@command('actualizarCostoVenta')"  
                                         readonly="true"
-                                        width="300px"        
+                                        width="150px"     
                                        class="  textoFechaDateBox"                              
                                         selectedItem="@bind(vm.facplazo)">
                                          <comboitem label="CONTADO" value="0"/> 
@@ -158,7 +183,7 @@
                                 <div class="wrapper_input">
                                     <span>Tipo venta:</span>
                                      <combobox onSelect="@command('actualizarCostoVenta')"   
-					width="300px"
+					width="150px"
 					readonly="true"										
                                         class=" textoFechaDateBox"
                                         selectedItem="@bind(vm.clietipo)"                                >
