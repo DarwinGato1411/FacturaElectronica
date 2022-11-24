@@ -138,8 +138,8 @@ public class ServicioTipoAmbiente {
             //Connection connection = em.unwrap(Connection.class);
             em = HelperPersistencia.getEMF();
             em.getTransaction().begin();
-            Query query = em.createQuery("SELECT a FROM tipo a where a.idUsuario=:idUsuario AND a.amEstado=TRUE");
-            query.setParameter("idUsuario", usuario);
+            Query query = em.createQuery("SELECT a FROM Tipoambiente a WHERE a.amEstado=TRUE");
+//            query.setParameter("idUsuario", usuario);
             listaTipoambientes = (List<Tipoambiente>) query.getResultList();
             if (!listaTipoambientes.isEmpty()) {
                 tipoambiente = listaTipoambientes.get(0);

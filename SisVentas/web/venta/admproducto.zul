@@ -98,6 +98,13 @@
                 tooltiptext="Cantidad de veces que imprimira cada codigo de barras"
             />
         </div>
+             <div 
+            class="fa-solid fa-file-excel fa-2x icon"
+            onClick="@command('cargarProducto')"
+            tooltiptext="Cargar productos"
+        >
+            <span>Cargar producto</span>
+        </div>
     </div>
 
     <div class="cont_body">

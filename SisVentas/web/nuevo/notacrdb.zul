@@ -12,126 +12,7 @@
             <tabpanels >
                 <tabpanel  height="100%" width="98%"  >
                     <div class="container-fluid">
-                        <!-- <div class="row ">
-                            <div class="col-12 col-sm-12 col-md-1 col-lg-1 " align="center">
-                                
-                               
-                                 
-                                <button src="/iconos/guardar.png"   
-                                        autodisable="self"
-                                        class="btn btn btn-secondary btn-sm "
-                                        onClick="@command('Guardar')"
-                                        tooltiptext="Guardar factura"/>
-                           
-                            </div>
-                            <div class="col-12 col-sm-12 col-md-1 col-lg-1">
-                                <label value="DESC" class="form-control form-control-sm" style="font-weight:bold"/>
-                
-                                <decimalbox  value="@bind(vm.totalDescuento)"
-                                             format="###.##" 
-                                             readonly="true" style="text-align:center;font-size:1em"
-                                             onChange="self.setValue(self.getValue().toUpperCase().trim());" 
-                                             class="form-control form-control-sm" />
-
-                            </div>
-                            <div class="col-8 col-sm-8 col-md-2 col-lg-2 form-group " align="center"  >
-                                <label value="SUB-TOTAL" class="form-control form-control-sm" style="font-weight:bold"/>
-                
-                                <decimalbox  value="@bind(vm.subTotalCotizacion)"
-                                             format="###.##" 
-                                             readonly="true" style="text-align:center;font-size:1.2em"
-                                             onChange="self.setValue(self.getValue().toUpperCase().trim());" 
-                                             class="form-control form-control-sm" />
-                            </div>
-                            <div class="col-8 col-sm-8 col-md-2 col-lg-2 form-group " align="center"  >
-                                <label value="SUB-CERO" class="form-control form-control-sm" style="font-weight:bold"/>
-                
-                                <decimalbox  value="@bind(vm.subTotalBaseCero)"
-                                             format="###.##" 
-                                             readonly="true" style="text-align:center;font-size:1.2em"
-                                             onChange="self.setValue(self.getValue().toUpperCase().trim());" 
-                                             class="form-control form-control-sm" />
-                            </div>
-                            <div class="col-8 col-sm-8 col-md-2 col-lg-2  form-group " align="center"  >
-                                <label value="IVA" class="form-control form-control-sm" 
-                                       style="font-weight:bold"/>
-                
-                                <decimalbox  value="@bind(vm.ivaCotizacion)"
-                                             format="###.##" 
-                                             readonly="true" style="text-align:center;font-size:1.2em"
-                                             onChange="self.setValue(self.getValue().toUpperCase().trim());" 
-                                             class="form-control form-control-sm" />
-                            </div>
-                            <div class="col-8 col-sm-8 col-md-2 col-lg-2  form-group " align="center"  >
-                                <label value="TOTAL" class="form-control form-control-sm" style="font-weight:bold"/>
-                
-                                <decimalbox  value="@bind(vm.valorTotalCotizacion)"
-                                             format="###.##" 
-                                             readonly="true"  style="text-align:center;font-size:1.2em"
-                                             onChange="self.setValue(self.getValue().toUpperCase().trim());" 
-                                             class="form-control form-control-sm" />
-                            </div>
-                            
-                            
-
-                            
-                        </div>
-                        <div class="row" align="lefth" >
-                            <div class="col-2 col-sm-2 col-md-2 col-lg-2">
-                                <div class="input-group mb-3">
-                                    
-                                    <textbox   class="form-control form-control-sm" 
-                                               placeholder="Cedula"
-                                               readonly="true"
-                                               value="@bind(vm.clienteBuscado.cliCedula)"                                                
-                                               style="font-weight:bold"
-                                               maxlength="13"  />
-                        
-
-                                </div>
-                            </div>
-                            <div class="col-2 col-sm-2 col-md-2 col-lg-2">
-                                <div class="input-group mb-3">
-                                    <textbox  readonly="true" 
-                                              style="font-weight:bold" 
-                                              placeholder="Nombre comercial"
-                                              class="form-control form-control-sm" 
-                                              value="@bind(vm.clienteBuscado.cliNombre)"  />
-                                </div>
-                            </div>
-                            <div class="col-3 col-sm-3 col-md-3 col-lg-3">
-                                <div class="input-group mb-3">
-                                    <textbox  readonly="true" 
-                                              style="font-weight:bold" 
-                                              placeholder="Dirección"
-                                              value="@bind(vm.clienteBuscado.cliDireccion)" 
-                                              class="form-control form-control-sm"   />
-                                </div>
-                            </div>
-                            <div class="col-2 col-sm-2 col-md-2 col-lg-2">
-                                <div class="input-group mb-3">
-                                    <textbox  readonly="true" 
-                                              style="font-weight:bold" 
-                                              placeholder="Telefono"
-                                              value="@bind(vm.clienteBuscado.cliTelefono)"
-                                              class="form-control form-control-sm" 
-                                    />
-                                </div>
-                            </div>
-                            <div class="col-1 col-sm-1 col-md-1 col-lg-1" align="end" >
-                            </div>
-                            <div class="col-2 col-sm-2 col-md-2 col-lg-2" align="end" >
-                                 
-                                <datebox compact="true" value="@bind(vm.fechafacturacion)" 
-                                         readonly="true" style="font-weight:bold;" 
-                                         class="form-control form-control-sm textoFechaDateBox"  
-                                         buttonVisible="true" 
-                                         lenient="true" format="dd/MM/yyyy" 
-                                         constraint="no empty: Ingrese su fecha de la orden"/>
-
-                            </div>
-                        </div> -->
-
+            
                          <div class="factura_header">
                         <div class="fact_row">
                             <div class="wrapper_data">
@@ -235,6 +116,17 @@
                                         format="dd/MM/yyyy" 
                                         constraint="no empty: Ingrese su fecha de la orden"
                                     />
+                                </div>
+                                <div class="wrapper_input">
+                                    <span>Motivo :</span>
+                                    
+                                    <textbox  
+                                        readonly="false"  
+                                        placeholder="Motivo"
+                                       value="@bind(vm.motivo)" 
+                                        class="input" 
+                                    />
+                                   
                                 </div>
                             </div>
                           

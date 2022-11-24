@@ -447,7 +447,7 @@ public class AutorizarDocumentos {
                         + "                 <valor>" + valor.getFacIva().setScale(2, RoundingMode.FLOOR) + "</valor>\n"
                         + "              </totalImpuesto>\n"
                         + "        </totalConImpuestos>\n"
-                        + "        <motivo>" + motivo + "</motivo>\n" //Motivo
+                        + "        <motivo>" + valor.getMotivo() + "</motivo>\n" //Motivo
                         + "    </infoNota" + tipoDocumento + ">\n");
             build.append(linea);
             if (tipoDocumento.equals("Credito")) {

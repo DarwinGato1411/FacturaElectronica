@@ -113,7 +113,7 @@ public class NuevoCliente {
                     }
                     cliente.setCliApellidos(apellidoPersona);
                     cliente.setCliNombres(nombrePersona);
-                    cliente.setCliNombre(nombrePersona + " " + apellidoPersona);
+                    cliente.setCliNombre(aduana.getNombre());
                     cliente.setCliRazonSocial(nombrePersona + " " + apellidoPersona);
                 }
             }

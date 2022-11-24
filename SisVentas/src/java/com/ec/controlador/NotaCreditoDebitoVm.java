@@ -8,6 +8,7 @@ package com.ec.controlador;
 import com.ec.dao.DetalleFacturaDAO;
 import com.ec.entidad.Cliente;
 import com.ec.entidad.DetalleFactura;
+import com.ec.entidad.DetalleKardex;
 import com.ec.entidad.Factura;
 import com.ec.entidad.FormaPago;
 import com.ec.entidad.Kardex;
@@ -16,6 +17,7 @@ import com.ec.entidad.Parametrizar;
 import com.ec.entidad.Producto;
 import com.ec.entidad.Tipoambiente;
 import com.ec.entidad.Tipocomprobante;
+import com.ec.entidad.Tipokardex;
 import com.ec.seguridad.EnumSesion;
 import com.ec.seguridad.UserCredential;
 import com.ec.servicio.HelperPersistencia;
@@ -34,6 +36,7 @@ import com.ec.servicio.ServicioTipoAmbiente;
 import com.ec.servicio.ServicioTipoKardex;
 import com.ec.untilitario.ArchivoUtils;
 import com.ec.untilitario.ParamFactura;
+import com.ec.untilitario.TotalKardex;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -124,7 +127,7 @@ public class NotaCreditoDebitoVm {
     private BigDecimal totalDescuento = BigDecimal.ZERO;
     private BigDecimal subsidioTotal = BigDecimal.ZERO;
     private BigDecimal subTotalBaseCero = BigDecimal.ZERO;
-     private BigDecimal valorTotalInicialVent = BigDecimal.ZERO;
+    private BigDecimal valorTotalInicialVent = BigDecimal.ZERO;
     //Cabecera de la factura
     private String estdoFactura = "PA";
     private String tipoVenta = "FACT";
@@ -157,10 +160,13 @@ public class NotaCreditoDebitoVm {
     private String tipoDoc = "";
     private String clietipo = "0";
 
+
     /*RUTAS PARA LOS ARCHIVPOS XML SRI*/
     private static String PATH_BASE = "";
     //tabla para los parametros del SRI
     private Tipoambiente amb = new Tipoambiente();
+
+    private String motivo = "";
 
     @AfterCompose
     public void afterCompose(@ExecutionArgParam("valor") ParamFactura valor, @ContextParam(ContextType.VIEW) Component view) {
@@ -179,7 +185,7 @@ public class NotaCreditoDebitoVm {
         amb = servicioTipoAmbiente.FindALlTipoambiente();
         //OBTIENE LAS RUTAS DE ACCESO A LOS DIRECTORIOS DE LA TABLA TIPOAMBIENTE
         PATH_BASE = amb.getAmDirBaseArchivos() + File.separator
-                + amb.getAmDirXml();
+                    + amb.getAmDirXml();
 
         Session sess = Sessions.getCurrent();
         UserCredential cre = (UserCredential) sess.getAttribute(EnumSesion.userCredential.getNombre());
@@ -295,7 +301,7 @@ public class NotaCreditoDebitoVm {
     }
 
     @Command
-    @NotifyChange({"listaDetalleFacturaDAOMOdel","subTotalBaseCero", "subTotalCotizacion", "ivaCotizacion", "valorTotalCotizacion","totalDescuento"})
+    @NotifyChange({"listaDetalleFacturaDAOMOdel", "subTotalBaseCero", "subTotalCotizacion", "ivaCotizacion", "valorTotalCotizacion", "totalDescuento"})
     public void seleccionarRegistros() {
         registrosSeleccionados = ((ListModelList<DetalleFacturaDAO>) getListaDetalleFacturaDAOMOdel()).getSelection();
         calcularValoresTotales();
@@ -553,7 +559,7 @@ public class NotaCreditoDebitoVm {
         final HashMap<String, ParamFactura> map = new HashMap<String, ParamFactura>();
         map.put("valor", paramFactura);
         org.zkoss.zul.Window window = (org.zkoss.zul.Window) Executions.createComponents(
-                "/venta/buscarcliente.zul", null, map);
+                    "/venta/buscarcliente.zul", null, map);
         window.doModal();
         System.out.println("clinete de la lsitas buscarCliente " + buscarCliente);
         clienteBuscado = servicioCliente.FindClienteForCedula(buscarCliente);
@@ -627,8 +633,8 @@ public class NotaCreditoDebitoVm {
         BigDecimal Subtotal = BigDecimal.ZERO;
         BigDecimal basecero = BigDecimal.ZERO;
         BigDecimal basedoce = BigDecimal.ZERO;
-        
-           BigDecimal factorIva = (parametrizar.getParIva().divide(BigDecimal.valueOf(100.0)));
+
+        BigDecimal factorIva = (parametrizar.getParIva().divide(BigDecimal.valueOf(100.0)));
         BigDecimal facturIvaMasBase = (factorIva.add(BigDecimal.ONE));
 //        BigDecimal descuentoValorFinal = BigDecimal.ZERO;
         BigDecimal valorTotalInicial = BigDecimal.ZERO;
@@ -649,62 +655,59 @@ public class NotaCreditoDebitoVm {
             listaPedido = listaDetalleFacturaDAOMOdel.getInnerList();
         }
 
-
-            for (DetalleFacturaDAO item : listaPedido) {
-                sumaDeItems = sumaDeItems.add(BigDecimal.ONE);
-                if (item.getProducto() != null) {
-                    valorTotal = valorTotal.add(item.getProducto().getProdGrabaIva() ? item.getSubTotalDescuento().multiply(item.getCantidad()) : BigDecimal.ZERO);
-                    valorIva = valorIva.add(item.getDetIva());
+        for (DetalleFacturaDAO item : listaPedido) {
+            sumaDeItems = sumaDeItems.add(BigDecimal.ONE);
+            if (item.getProducto() != null) {
+                valorTotal = valorTotal.add(item.getProducto().getProdGrabaIva() ? item.getSubTotalDescuento().multiply(item.getCantidad()) : BigDecimal.ZERO);
+                valorIva = valorIva.add(item.getDetIva());
 //                    valorTotalConIva = valorTotalConIva.add(item.getDetTotalconivadescuento());
-                    valorDescuento = valorDescuento.add(item.getDetCantpordescuento());
-                    valorTotalInicial = valorTotalInicial.add(item.getTotalInicial().multiply(item.getCantidad()));
-                    baseCero = baseCero.add(!item.getProducto().getProdGrabaIva() ? item.getSubTotalDescuento().multiply(item.getCantidad()) : BigDecimal.ZERO);
-                    /*COSTO SIN SUBSIDIO*/
+                valorDescuento = valorDescuento.add(item.getDetCantpordescuento());
+                valorTotalInicial = valorTotalInicial.add(item.getTotalInicial().multiply(item.getCantidad()));
+                baseCero = baseCero.add(!item.getProducto().getProdGrabaIva() ? item.getSubTotalDescuento().multiply(item.getCantidad()) : BigDecimal.ZERO);
+                /*COSTO SIN SUBSIDIO*/
 
-                    if (item.getProducto().getProdTieneSubsidio().equals("S")) {
-                        BigDecimal precioSinSubporcantidad = item.getProducto().getProdSubsidio().multiply(item.getCantidad());
-                        sumaSubsidio = sumaSubsidio.add(precioSinSubporcantidad.setScale(5, RoundingMode.FLOOR));
-                    }
-
+                if (item.getProducto().getProdTieneSubsidio().equals("S")) {
+                    BigDecimal precioSinSubporcantidad = item.getProducto().getProdSubsidio().multiply(item.getCantidad());
+                    sumaSubsidio = sumaSubsidio.add(precioSinSubporcantidad.setScale(5, RoundingMode.FLOOR));
                 }
+
             }
+        }
 
 //            totalItems = "ITEMS: " + (sumaDeItems.intValue() - 1);
-            System.out.println("**********************************************************");
-            System.out.println("valor total:::: subTotalCotizacion " + valorTotal);
-            //valorTotal.setScale(5, RoundingMode.UP);
-            try {
-              subsidioTotal = sumaSubsidio;
-                subTotalCotizacion = valorTotal;
-                // subTotalCotizacion.setScale(5, RoundingMode.UP);
-                subTotalBaseCero = baseCero;
-                /*Obtiene el porcentaje del IVA*/
+        System.out.println("**********************************************************");
+        System.out.println("valor total:::: subTotalCotizacion " + valorTotal);
+        //valorTotal.setScale(5, RoundingMode.UP);
+        try {
+            subsidioTotal = sumaSubsidio;
+            subTotalCotizacion = valorTotal;
+            // subTotalCotizacion.setScale(5, RoundingMode.UP);
+            subTotalBaseCero = baseCero;
+            /*Obtiene el porcentaje del IVA*/
 //                BigDecimal valorIva = subTotalCotizacion.multiply(parametrizar.getParIva());
 
-                ivaCotizacion = valorIva;
-                // ivaCotizacion.setScale(5, RoundingMode.UP);
+            ivaCotizacion = valorIva;
+            // ivaCotizacion.setScale(5, RoundingMode.UP);
 
-                valorTotalCotizacion = valorTotal.add(baseCero.add(valorIva));
-                // valorTotalCotizacion.setScale(5, RoundingMode.UP);
+            valorTotalCotizacion = valorTotal.add(baseCero.add(valorIva));
+            // valorTotalCotizacion.setScale(5, RoundingMode.UP);
 
-                valorTotalInicialVent = valorTotalInicial;
-                //  valorTotalInicialVent.setScale(5, RoundingMode.UP);
+            valorTotalInicialVent = valorTotalInicial;
+            //  valorTotalInicialVent.setScale(5, RoundingMode.UP);
 
-                
-                //  descuentoValorFinal.setScale(5, RoundingMode.UP);
-                totalDescuento = valorDescuento;
-                //descuentoValorFinal.setScale(5, RoundingMode.UP);
+            //  descuentoValorFinal.setScale(5, RoundingMode.UP);
+            totalDescuento = valorDescuento;
+            //descuentoValorFinal.setScale(5, RoundingMode.UP);
 
-                subTotalCotizacion = ArchivoUtils.redondearDecimales(subTotalCotizacion, 2);
-                subTotalBaseCero = ArchivoUtils.redondearDecimales(subTotalBaseCero, 2);
-                valorTotalCotizacion = ArchivoUtils.redondearDecimales(valorTotalCotizacion, 2);
-                valorTotalInicialVent = ArchivoUtils.redondearDecimales(valorTotalInicialVent, 2);
-                ivaCotizacion = ArchivoUtils.redondearDecimales(ivaCotizacion, 2);
-                
+            subTotalCotizacion = ArchivoUtils.redondearDecimales(subTotalCotizacion, 2);
+            subTotalBaseCero = ArchivoUtils.redondearDecimales(subTotalBaseCero, 2);
+            valorTotalCotizacion = ArchivoUtils.redondearDecimales(valorTotalCotizacion, 2);
+            valorTotalInicialVent = ArchivoUtils.redondearDecimales(valorTotalInicialVent, 2);
+            ivaCotizacion = ArchivoUtils.redondearDecimales(ivaCotizacion, 2);
 
-            } catch (Exception e) {
-                System.out.println("error de calculo de valores " + e);
-            }
+        } catch (Exception e) {
+            System.out.println("error de calculo de valores " + e);
+        }
 
     }
 //    }
@@ -760,6 +763,7 @@ public class NotaCreditoDebitoVm {
             creditoDebito.setCodigoPorcentaje(factura.getCodigoPorcentaje());
             creditoDebito.setFacAbono(BigDecimal.ZERO);
             creditoDebito.setFacCodIce(factura.getFacCodIce());
+            creditoDebito.setMotivo(motivo);
             creditoDebito.setFacCodIva(factura.getFacCodIva());
             creditoDebito.setFacDescripcion(factura.getFacDescripcion());
             creditoDebito.setFacDescuento(totalDescuento);
@@ -789,6 +793,46 @@ public class NotaCreditoDebitoVm {
             creditoDebito.setTipodocumentomod("01");
 
             servicioNotaCredito.guardarNotaCreditoDebito(detalleFactura, creditoDebito);
+            /*INGRESAMOS LO MOVIMIENTOS AL KARDEX*/
+            Kardex kardex = null;
+            DetalleKardex detalleKardex = null;
+
+            for (DetalleFacturaDAO item : detalleFactura) {
+                if (item.getProducto() != null) {
+
+                    Tipokardex tipokardex = servicioTipoKardex.findByTipkSigla("ING");
+                    if (servicioKardex.FindALlKardexs(item.getProducto()) == null) {
+                        kardex = new Kardex();
+                        kardex.setIdProducto(item.getProducto());
+                        kardex.setKarDetalle("Inicio de inventario desde la facturacion para el producto: " + item.getProducto().getProdNombre());
+                        kardex.setKarFecha(new Date());
+                        kardex.setKarFechaKardex(new Date());
+                        kardex.setKarTotal(BigDecimal.ZERO);
+                        servicioKardex.crear(kardex);
+                    }
+                    detalleKardex = new DetalleKardex();
+                    kardex = servicioKardex.FindALlKardexs(item.getProducto());
+                    detalleKardex.setIdKardex(kardex);
+                    detalleKardex.setDetkFechakardex(fechafacturacion);
+                    detalleKardex.setDetkFechacreacion(new Date());
+                    detalleKardex.setIdTipokardex(tipokardex);
+                    detalleKardex.setDetkKardexmanual(Boolean.FALSE);
+                    detalleKardex.setDetkDetalles("Aumenta al kardex Nota de Credito con: NC-" + creditoDebito.getFacNumeroText());
+
+                    detalleKardex.setDetkIngresoCantidadSinTransformar(item.getCantidad());
+                    detalleKardex.setDetkUnidadOrigen(item.getProducto().getProdUnidadMedida() != null ? item.getProducto().getProdUnidadMedida() : "S/U");
+                    detalleKardex.setDetkUnidadFin(item.getProducto().getProdUnidadConversion() != null ? item.getProducto().getProdUnidadConversion() : "S/U");
+                    //se cambia a la conversion 
+                    //detalleKardex.setDetkCantidad(item.getCantidad());
+//                            detalleKardex.setDetkCantidad(item.getTotalTRanformado());
+                    servicioDetalleKardex.crear(detalleKardex);
+                    TotalKardex totales = servicioKardex.totalesForKardex(kardex);
+                    BigDecimal total = totales.getTotalKardex();
+                    kardex.setKarTotal(total);
+                    servicioKardex.modificar(kardex);
+                }
+
+            }
 
             reporteGeneral();
             if (accion.equals("create")) {
@@ -871,7 +915,7 @@ public class NotaCreditoDebitoVm {
 
                 //  con = emf.unwrap(Connection.class);
                 String reportFile = Executions.getCurrent().getDesktop().getWebApp()
-                        .getRealPath("/reportes");
+                            .getRealPath("/reportes");
                 String reportPath = "";
 //                con = ConexionReportes.Conexion.conexion();
 
@@ -897,7 +941,7 @@ public class NotaCreditoDebitoVm {
 //para pasar al visor
                 map.put("pdf", fileContent);
                 org.zkoss.zul.Window window = (org.zkoss.zul.Window) Executions.createComponents(
-                        "/venta/contenedorReporte.zul", null, map);
+                            "/venta/contenedorReporte.zul", null, map);
                 window.doModal();
                 con.close();
             }
@@ -911,7 +955,6 @@ public class NotaCreditoDebitoVm {
         }
 
     }
-
 
     public Integer getNumeroProforma() {
         return numeroProforma;
@@ -1007,6 +1050,14 @@ public class NotaCreditoDebitoVm {
 
     public void setNumeroFacturaText(String numeroFacturaText) {
         this.numeroFacturaText = numeroFacturaText;
+    }
+
+    public String getMotivo() {
+        return motivo;
+    }
+
+    public void setMotivo(String motivo) {
+        this.motivo = motivo;
     }
 
 }

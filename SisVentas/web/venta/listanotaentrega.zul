@@ -31,13 +31,13 @@
                                 
                 <listcell></listcell>
                 <listcell>
-                    <label value="@bind(each.idCliente.cliCedula)" width="96%" />
+                    <label value="@bind(each.idCliente.cliCedula)" width="96%" style="color:black" />
                 </listcell>
                 <listcell>
-                    <label value="@bind(each.idCliente.cliNombre)" width="96%" />
+                    <label value="@bind(each.idCliente.cliNombre)" width="96%" style="color:black" />
                 </listcell>
                 <listcell>
-                    <label value="@bind(each.facNumNotaEntrega)" width="96%" />
+                    <label value="@bind(each.facNumNotaEntrega)" width="96%" style="color:black" />
                 </listcell>
                             
                 <listcell>

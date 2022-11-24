@@ -131,18 +131,10 @@
                                     
                                     <!--<div class="fa-solid fa-chevron-down icon" />-->
                                 </div>
-                                <div class="wrapper_input">
-                                    <span>Estado:</span>
-                                    <radiogroup 
-                                        selectedItem="@bind(vm.estdoFactura)" 
-                                        class="radio_group">
-                                        <radio label="Pagado" value="PA" />
-                                        <radio label="Pendiente" value="PE"/>                                               
-                                    </radiogroup>
-                                </div>
+                                
                                 
                                 <div class="wrapper_input">
-                                    <span>Documento:</span>
+                                    <!--<span>Documento:</span>-->
 
                                     <radiogroup 
                                         class="radio_group"  
@@ -151,6 +143,16 @@
                                         <radio label="Factura" value="FACT"/>
                                         <radio label="Proforma" value="PROF"/>
                                         <radio label="Nota Venta" value="NTV"/>
+                                         <radio label="Nota Entrega " value="NTE"/>
+                                    </radiogroup>
+                                </div>
+                                <div class="wrapper_input">
+                                    <!--<span>Estado:</span>-->
+                                    <radiogroup 
+                                        selectedItem="@bind(vm.estdoFactura)" 
+                                        class="radio_group">
+                                        <radio label="Pagado" value="PA" />
+                                        <radio label="Pendiente" value="PE"/>                                               
                                     </radiogroup>
                                 </div>
                                 <div class="wrapper_input">
@@ -250,9 +252,25 @@
                                         value="@bind(vm.cambio)" 
                                     />
                                 </div>
+                                
+                                
+                                
 
                             </div>
+                            
+                            <div class="wrapper_input">
+                                    
+                                     
+                                </div>
                             <div class="fact_row wrapper_buttons">
+                                <button src="/iconos/fact.png"   
+                                                    autodisable="self"
+                                                    label="Nota entrega"
+                                                   width="100%"
+                                                    style="font-size:18px; height:46px"                                                   
+                                                    class="btn btn btn-secondary btn-sm "
+                                                    onClick="@command('verNotasEntrega')"
+                                                    tooltiptext="Cargar notas de entrega"/>
                                 <button 
                                     autodisable="self"   
                                     class="fa-solid fa-floppy-disk btn_fact btn_primary"                  
