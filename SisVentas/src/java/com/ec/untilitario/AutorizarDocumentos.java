@@ -351,6 +351,11 @@ public class AutorizarDocumentos {
 
 //            build.append(linea);
             linea = ("    </detalles>\n");
+            //RUBRO DE TERCEROS
+            
+            
+            
+            
             build.append(linea);
             linea = ("    <infoAdicional>\n"
                         + (valor.getIdCliente().getCliDireccion().length() > 0 ? "<campoAdicional nombre=\"DIRECCION\">" + removeCaracteres(valor.getIdCliente().getCliDireccion()) + "</campoAdicional>\n" : " ")
