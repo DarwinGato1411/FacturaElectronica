@@ -1109,6 +1109,12 @@ public class Facturar extends SelectorComposer<Component> {
     public void calcularValoresDesCantidad(@BindingParam("valor") DetalleFacturaDAO valor) {
         try {
 
+            if (valor.getEsProducto() && valor.getTotalInicial().doubleValue() < valor.getTotal().doubleValue()) {
+                Clients.showNotification("El precio ingresado no puede superar al precio inicial, si desea colocar un precio superior cree un servicio.",
+                            Clients.NOTIFICATION_TYPE_ERROR, null, "middle_center", 4000, true);
+                return;
+            }
+
             if (valor.getCantidad() == null) {
                 return;
             }
@@ -2333,10 +2339,7 @@ public class Facturar extends SelectorComposer<Component> {
 
             }
 
-            
             /*Verificar numero de proforma */
-            
-            
             reporteGeneral();
             if (accion.equals("create")) {
                 Executions.sendRedirect("/venta/facturar.zul");
