@@ -98,27 +98,72 @@
                                 </div>
                                 <div class="wrapper_input">
                                     <span>Pais Origen:</span>
-                                     <combobox onSelect="@command('actualizarCostoVenta')"   
-					width="150px"
-					readonly="true"										
-                                       style="margin-lefth:1px"
-                                        selectedItem="@bind(vm.clietipo)"                                >
-                                    <comboitem label="Precio venta publico" value="0" />                    
-                                    <comboitem label="Precio por mayor" value="1" />
-                                    <comboitem label="Precio por caja" value="2" />
-                                </combobox>
+                                    <combobox  
+                                        model="@load(vm.listaPaisOrigen)"  
+                                        selectedItem="@bind(vm.paisOrigenSelected)" 
+                                        readonly="true" 
+                                        width="150px"
+                                        class="textoFechaDateBox">
+                                        <template name="model">
+                                            <comboitem  label="@bind(each.paNombre)"/>
+                                        </template>                                      
+                                    </combobox>
+
                                 </div>
                                 <div class="wrapper_input">
                                     <span>Pais destino:</span>
-                                     <combobox onSelect="@command('actualizarCostoVenta')"   
-					width="150px"
-					readonly="true"										
-                                        class=" textoFechaDateBox"
-                                        selectedItem="@bind(vm.clietipo)"                                >
-                                    <comboitem label="Precio venta publico" value="0" />                    
-                                    <comboitem label="Precio por mayor" value="1" />
-                                    <comboitem label="Precio por caja" value="2" />
-                                </combobox>
+                                     <combobox  
+                                        model="@load(vm.listaPaisDestino)"  
+                                        selectedItem="@bind(vm.paisDestinoSelected)" 
+                                        readonly="true" 
+                                        width="150px"
+                                        class="textoFechaDateBox">
+                                        <template name="model">
+                                            <comboitem  label="@bind(each.paNombre)"/>
+                                        </template>                                      
+                                    </combobox>
+
+                                </div>
+                                <div class="wrapper_input">
+                                    <span>Pais adquisicion:</span>
+                                     <combobox  
+                                        model="@load(vm.listaPaisadquisicion)"  
+                                        selectedItem="@bind(vm.paisAdquisicionSelected)" 
+                                        readonly="true" 
+                                        width="150px"
+                                          onChange="self.setValue(self.getValue().toUpperCase().trim());" 
+                                        class="textoFechaDateBox">
+                                        <template name="model">
+                                            <comboitem  label="@bind(each.paNombre)"/>
+                                        </template>                                      
+                                    </combobox>
+
+                                </div>
+                                <div class="wrapper_input">
+                                    <span>Lugar origen:</span>
+                                    <textbox 
+                                        value="@bind(vm.factura.lugarIncoTerm)" 
+                                        class="input" 
+                                          onChange="self.setValue(self.getValue().toUpperCase().trim());" 
+                                        readonly="false" 
+                                    />
+                                </div>
+                                <div class="wrapper_input">
+                                    <span>Puerto embarque:</span>
+                                    <textbox 
+                                        value="@bind(vm.factura.puertoEmbarque)" 
+                                        class="input" 
+                                          onChange="self.setValue(self.getValue().toUpperCase().trim());" 
+                                        readonly="false" 
+                                    />
+                                </div>
+                                <div class="wrapper_input">
+                                    <span>Puerto destino::</span>
+                                    <textbox 
+                                        value="@bind(vm.factura.puertoDestino)" 
+                                        class="input" 
+                                        readonly="false" 
+                                    />
                                 </div>
                             </div>
                             <div class="wrapper_data">
@@ -191,6 +236,61 @@
                                     <comboitem label="Precio por mayor" value="1" />
                                     <comboitem label="Precio por caja" value="2" />
                                 </combobox>
+                                </div>
+                                
+                                <div class="wrapper_input">
+                                    <span>Embalaje:</span>
+                                    <textbox 
+                                        value="@bind(vm.factura.embalaje)" 
+                                        class="input" 
+                                          onChange="self.setValue(self.getValue().toUpperCase().trim());" 
+                                        readonly="false" 
+                                    />
+                                </div>
+                                <div class="wrapper_input">
+                                    <span>Peso neto:</span>
+                                    <textbox 
+                                        value="@bind(vm.factura.pesoNeto)" 
+                                        class="input" 
+                                          onChange="self.setValue(self.getValue().toUpperCase().trim());" 
+                                        readonly="false" 
+                                    />
+                                </div>
+                                <div class="wrapper_input">
+                                    <span>Numero butos:</span>
+                                    <textbox 
+                                        value="@bind(vm.factura.numero_bulto)" 
+                                        class="input" 
+                                          onChange="self.setValue(self.getValue().toUpperCase().trim());" 
+                                        readonly="false" 
+                                    />
+                                </div>
+                                <div class="wrapper_input">
+                                    <span>Peso Bruto</span>
+                                    <textbox 
+                                        value="@bind(vm.factura.pesoBruto)" 
+                                        class="input" 
+                                          onChange="self.setValue(self.getValue().toUpperCase().trim());" 
+                                        readonly="false" 
+                                    />
+                                </div>
+                                <div class="wrapper_input">
+                                    <span>Via embarque</span>
+                                    <textbox 
+                                        value="@bind(vm.factura.viaEmbarque)" 
+                                        class="input" 
+                                          onChange="self.setValue(self.getValue().toUpperCase().trim());" 
+                                        readonly="false" 
+                                    />
+                                </div>
+                                <div class="wrapper_input">
+                                    <span>Referencia produccion</span>
+                                    <textbox 
+                                        value="@bind(vm.factura.referenciaProduccion)" 
+                                        class="input" 
+                                          onChange="self.setValue(self.getValue().toUpperCase().trim());" 
+                                        readonly="false" 
+                                    />
                                 </div>
                             </div>
                         </div>
@@ -526,142 +626,7 @@
                         </div>                         
                     </div>
                          
-                         
-                        <!--<div class="row  " style="margin-top:5px">
-                            <div class="  col-12 col-sm-12 col-md-12 col-lg-12">
-                                
-                                
-                                 <toolbar  id="tb" height="65px"  align="end" style="background-color:#d6eefd;" >
-                                    <div class="row  col-12 col-sm-12 col-md-12 col-lg-12">
-                                        <div class="col-12 col-sm-12 col-md-1 col-lg-1">                            
-                                            <label value="SINDESCUEN" 
-                                                   style="font-weight:bold;font-size:0.8em"/>
-      
-                                            <decimalbox  format="###.##"   
-                                                         width="99%"
-                                                         value="@bind(vm.valorTotalInicialVent)"                                             
-                                                         readonly="true" 
-                                                         style="text-align:center;font-size:2em;background-color:#90FFBF;"
-                                                         onChange="self.setValue(self.getValue().toUpperCase().trim());"  />
-                                        </div>
-                                        <div class="col-12 col-sm-12 col-md-1 col-lg-1">
-                                            <label value="DESCUENTO" class="form-control-sm"
-                                                   style="font-weight:bold;font-size:0.8em"/>
-                              
-                              
-                                            <decimalbox  format="###.##"   
-                                                         width="98%"
-                                                         value="@bind(vm.descuentoValorFinal)"
-                                                         readonly="true" 
-                                                         style="text-align:center;font-size:2em;background-color:#90DCFF;"
-                                                         onChange="self.setValue(self.getValue().toUpperCase().trim());" 
-                                                         class="form-control-sm" />
-                                        </div>   
-                                
-                                        <div class="col-12 col-sm-12 col-md-1 col-lg-1">         
-                                            <label value="BASE12%" class="form-control-sm" 
-                                                   style="font-weight:bold;font-size:0.8em"/>
-                                                                  
-                                            <decimalbox  format="###.##"   
-                                                         width="98%"
-                                                         value="@bind(vm.subTotalCotizacion)" 
-                                                         readonly="true" style="text-align:center;font-size:2em"
-                                                         onChange="self.setValue(self.getValue().toUpperCase().trim());" 
-                                                         class="form-control-sm" />
-                                        </div>   
-                                
-                                        <div class="col-12 col-sm-12 col-md-1 col-lg-1">       
-                                            <label value="BASE0%" class="form-control-sm" 
-                                                   style="font-weight:bold;font-size:0.8em"/>
-                               
-                                            <decimalbox  format="###.##"   
-                                                         width="98%"
-                                                         value="@bind(vm.subTotalBaseCero)" 
-                                                         readonly="true" style="text-align:center;font-size:2em"
-                                                         onChange="self.setValue(self.getValue().toUpperCase().trim());" 
-                                                         class="form-control-sm" />
-                                        </div>   
-                                
-                                        <div class="col-12 col-sm-12 col-md-1 col-lg-1">     
-                                            <label value="T. IVA" class="form-control-sm" 
-                                                   style="font-weight:bold;font-size:0.8em"/>
-                                
-                                            <decimalbox  format="###.##"   
-                                                         width="98%"
-                                                         value="@bind(vm.ivaCotizacion)"
-                                                         readonly="true" style="text-align:center;font-size:2em"
-                                                         class="form-control-sm" />
-                                        </div>   
-                                
-                                        <div class="col-12 col-sm-12 col-md-1 col-lg-1">    
-                                            <label value="TOTAL" class="form-control-sm" 
-                                                   style="font-weight:bold;font-size:0.8em"/>
-                              
-                                   
-                                            <decimalbox  format="###.##"   
-                                                         width="98%"
-                                                         value="@bind(vm.valorTotalCotizacion)"                                                 
-                                                         readonly="true"  
-                                                         style="text-align:center;font-size:2em;font-weight:bold;background-color:red;color:white"                                                                                                       
-                                                         class="form-control-sm" />
-                                        </div>   
-                                
-                                        <div class="col-12 col-sm-12 col-md-1 col-lg1">    
-                                            <label value="COBRAR:" class="form-control-sm"
-                                                   style="font-weight:bold;font-size:0.8em"/>
-                               
-                                            <textbox    constraint="/^[0-9]{1,9}(?:[.][0-9]{1,2})?$/:Ingrese solo numeros" 
-                                                        width="98%"
-                                                        onOK="@command('calcularCambio')"
-                                                        class="form-control-sm"
-                                                        value="@bind(vm.cobro)"
-                                                        style="text-align:center;font-size:2em;color:green" />
-                                        </div>   
-                                
-                                        <div class="col-12 col-sm-12 col-md-1 col-lg-1">   
-                                            <label value="CAMBIO:" class="form-control-sm" 
-                                                   style="font-weight:bold;font-size:0.8em"/>
-                                
-                                            <decimalbox  format="###.##"   
-                                                         width="98%"
-                                                         readonly="true" 
-                                                         class="form-control-sm"
-                                                         value="@bind(vm.cambio)" 
-                                                         style="text-align:center;font-size:2em;color:blue"/>
-                               
-                                        </div>   
-                         
-                                        <div class="col-12 col-sm-12 col-md-1 col-lg-1">   
-                                            <button src="/iconos/fact.png"   
-                                                    autodisable="self"
-                                                    style="height:50px "                                                   
-                                                    class="btn btn btn-secondary btn-sm "
-                                                    onClick="@command('verNotasEntrega')"
-                                                    tooltiptext="Cargar notas de entrega"/>
-                                        </div>   
-                                        <div class="col-12 col-sm-12 col-md-1 col-lg-1">   
-                                            <label  class=" col-12 col-sm-12 col-md-12 col-lg-12 "
-                                                    style="color:transparent;font-weight:bold;font-size:15px" 
-                                                    value="@bind(vm.numeroFacturaText)"  >
-                                            </label>
-                                        </div>   
-                                    
-                                
-                                        <div class=" col-12 col-sm-12 col-md-2 col-lg-2" align="end">   
-                                            <button src="/iconos/guardar.png"  
-                                                    style="height:50px "            
-                                                    autodisable="self"
-                                                    label="Guardar"
-                                                    class="btn btn btn-success btn-sm "
-                                                    onClick="@command('Guardar',valor='SG')"
-                                                    tooltiptext="Guardar factura"/>                                                                                    
-                                        </div>   
-                                
-                           
-                                    </div>
-                                </toolbar> 
-                            </div>
-                        </div> -->
+                        
                     </div>
                     
                 </tabpanel>

@@ -105,7 +105,7 @@ public class ServicioPais {
             Query query = em.createQuery("SELECT a FROM Pais a WHERE a.paOrigen=:paOrigen ORDER BY a.paNombre ASC");
             query.setParameter("paOrigen", Boolean.TRUE);
             List<Pais> listaPaiss = (List<Pais>) query.getResultList();
-            if (listaPaiss.isEmpty()) {
+            if (!listaPaiss.isEmpty()) {
                 return listaPaiss.get(0);
             }
             em.getTransaction().commit();

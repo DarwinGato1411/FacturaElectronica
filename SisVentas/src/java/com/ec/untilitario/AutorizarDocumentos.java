@@ -179,21 +179,6 @@ public class AutorizarDocumentos {
 
     }
 
-//    public RespuestaComprobante autoriza(String clave) {
-//        try {
-//            URL url = new URL("https://"+servicioTipoAmbiente.FindALlTipoambiente().getAmUrlsri()+"/comprobantes-electronicos-ws/RecepcionComprobantesOffline?wsdl");
-//            QName qname = new QName("http://ec.gob.sri.ws.autorizacion", "AutorizacionComprobantesOfflineService");
-//            AutorizacionComprobantesOfflineService service = new AutorizacionComprobantesOfflineService(url, qname);
-//
-//            AutorizacionComprobantesOffline portAut = service.getAutorizacionComprobantesOfflinePort();
-//            return portAut.autorizacionComprobante(clave);
-//
-//        } catch (MalformedURLException ex) {
-////            Logger.getLogger(GeneracionXMLFacade.class
-////                    .getName()).log(Level.SEVERE, null, ex);
-//        }
-//        return null;
-//    }
     public void instalarCertificado() {
         TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManager() {
             @Override
@@ -275,42 +260,30 @@ public class AutorizarDocumentos {
                         + "        <dirEstablecimiento>" + removeCaracteres(amb.getAmDireccionMatriz()) + "</dirEstablecimiento>\n"
                         //   + "        <contribuyenteEspecial>0047</contribuyenteEspecial>\n"
                         + "        <obligadoContabilidad>" + amb.getLlevarContabilidad() + "</obligadoContabilidad>\n"
-                        
                         //EXPORTACION
-                        + "        <comercioExterior>" + amb.getLlevarContabilidad() + "</comercioExterior>\n"
-                        + "        <IncoTermFactura>" + amb.getLlevarContabilidad() + "</IncoTermFactura>\n"
-                        + "        <lugarIncoTerm>" + amb.getLlevarContabilidad() + "</lugarIncoTerm>\n"
-                        + "        <paisOrigen>" + amb.getLlevarContabilidad() + "</paisOrigen>\n"
-                        + "        <puertoEmbarque>" + amb.getLlevarContabilidad() + "</puertoEmbarque>\n"
-                        + "        <paisOrigen>" + amb.getLlevarContabilidad() + "</paisOrigen>\n"
-                        + "        <puertoDestino>" + amb.getLlevarContabilidad() + "</puertoDestino>\n"
-                        + "        <paisDestino>" + amb.getLlevarContabilidad() + "</paisDestino>\n"
-                        + "        <paisAdquisicion>" + amb.getLlevarContabilidad() + "</paisAdquisicion>\n"
-                   
-                        
-                        
-                        
+                        + "        <comercioExterior>EXPORTADOR</comercioExterior>\n"
+                        + "        <incoTermFactura>FOB</incoTermFactura>\n"
+                        + "        <lugarIncoTerm>" + valor.getLugarIncoTerm() + "</lugarIncoTerm>\n"
+                        + "        <paisOrigen>" + valor.getIdPaisOrigen().getPaCodigo() + "</paisOrigen>\n"
+                        + "        <puertoEmbarque>" + valor.getPuertoEmbarque() + "</puertoEmbarque>\n"
+                        + "        <puertoDestino>" + valor.getPuertoDestino() + "</puertoDestino>\n"
+                        + "        <paisDestino>" + valor.getIdPaisDestino().getPaCodigo() + "</paisDestino>\n"
+                        + "        <paisAdquisicion>" + valor.getIdPaisAdquisicion().getPaCodigo() + "</paisAdquisicion>\n"
                         + "        <tipoIdentificacionComprador>" + valor.getIdCliente().getIdTipoIdentificacion().getTidCodigo() + "</tipoIdentificacionComprador>\n"
                         + "        <razonSocialComprador>" + removeCaracteres(valor.getIdCliente().getCliNombre()) + "</razonSocialComprador>\n"
                         + "        <identificacionComprador>" + valor.getIdCliente().getCliCedula() + "</identificacionComprador>\n"
                         + "        <totalSinImpuestos>" + ArchivoUtils.redondearDecimales(valor.getFacSubtotal(), 2) + "</totalSinImpuestos>\n"
-                        
-                        
                         //EXPORTACION
                         + "        <incoTermTotalSinImpuestos>FOB</incoTermTotalSinImpuestos>\n"
-                        
-                        + "         <totalSubsidio>" + valor.getFacSubsidio().setScale(2, RoundingMode.FLOOR) + "</totalSubsidio>\n"
+//                        + "         <totalSubsidio>" + valor.getFacSubsidio().setScale(2, RoundingMode.FLOOR) + "</totalSubsidio>\n"
                         + "        <totalDescuento>" + valor.getFacDescuento().setScale(2, RoundingMode.FLOOR) + "</totalDescuento>\n"
-                 + "        <totalConImpuestos>\n"
+                        + "        <totalConImpuestos>\n"
                         + "            <totalImpuesto>\n"
                         + "                <codigo>" + valor.getFacCodIva() + "</codigo>\n"
                         + "                <codigoPorcentaje>0</codigoPorcentaje>\n"
                         + "                <baseImponible>" + valor.getFacTotalBaseCero().setScale(2, RoundingMode.FLOOR) + "</baseImponible>\n"
                         + "                <tarifa>0</tarifa>\n"
                         + "                <valor>0.00</valor>\n"
-                        
-                    
-                        
                         + "             </totalImpuesto>\n"
                         + "             <totalImpuesto>\n"
                         /*CODIGO DEL IVA 2, ICE 3 IRBPNR 6*/
@@ -322,21 +295,17 @@ public class AutorizarDocumentos {
                     No Objeto de Impuesto -->6 
                     EXENTO DE IVA 7   */
                         + "                 <codigoPorcentaje>" + valor.getCodigoPorcentaje() + "</codigoPorcentaje>\n"
-                        + "                 <baseImponible>" + valor.getFacTotalBaseGravaba()+ "</baseImponible>\n"
+                        + "                 <baseImponible>" + valor.getFacTotalBaseGravaba() + "</baseImponible>\n"
                         + "                 <tarifa>" + valor.getFacPorcentajeIva() + "</tarifa>\n"
                         + "                 <valor>" + valor.getFacIva().setScale(2, RoundingMode.FLOOR) + "</valor>\n"
                         + "              </totalImpuesto>\n"
                         + "         </totalConImpuestos>\n"
                         + "                 <propina>0</propina>\n"
-                        
                         //EXPORTACION    
-                           + "                <fleteInternacional>0.00</fleteInternacional>\n"
-                           + "                <seguroInternacional>0.00</seguroInternacional>\n"
-                           + "                <gastos Aduaneros>0.00</gastos Aduaneros>\n"
-                           + "                <gastosTransporteOtros>0.00</gastosTransporteOtros>\n"
-                        
-                        
-                        
+                        + "                <fleteInternacional>0.00</fleteInternacional>\n"
+                        + "                <seguroInternacional>0.00</seguroInternacional>\n"
+                        + "                <gastosAduaneros>0.00</gastosAduaneros>\n"
+                        + "                <gastosTransporteOtros>0.00</gastosTransporteOtros>\n"
                         + "                 <importeTotal>" + ArchivoUtils.redondearDecimales(valor.getFacTotal(), 2) + "</importeTotal>\n"
                         + "                 <moneda>" + valor.getFacMoneda() + "</moneda>\n"
                         + "         <pagos>\n"
@@ -365,7 +334,7 @@ public class AutorizarDocumentos {
                             //+ "            <descripcion>" + removeCaracteres(item.getIdProducto().getProdNombre()) + "</descripcion>\n"
                             + "            <cantidad>" + item.getDetCantidad().setScale(2, RoundingMode.FLOOR) + "</cantidad>\n"
                             + "            <precioUnitario>" + ArchivoUtils.redondearDecimales(item.getDetSubtotal(), 5) + "</precioUnitario>\n"
-                            +                    (item.getIdProducto().getProdTieneSubsidio().equals("S") ? subsidio : "")
+                            + (item.getIdProducto().getProdTieneSubsidio().equals("S") ? subsidio : "")
                             + "            <descuento>" + ArchivoUtils.redondearDecimales(item.getDetCantpordescuento(), 2) + "</descuento>\n"
                             + "            <precioTotalSinImpuesto>" + ArchivoUtils.redondearDecimales(item.getDetSubtotaldescuento().multiply(item.getDetCantidad()), 2) + "</precioTotalSinImpuesto>\n"
                             + "            <impuestos>\n"
@@ -396,9 +365,16 @@ public class AutorizarDocumentos {
                         + "<campoAdicional nombre=\"PLAZO\"> DIAS</campoAdicional>\n"
                         + (valor.getFacPlazo().toString().length() > 0 ? "<campoAdicional nombre=\"DIAS\">" + valor.getFacPlazo().setScale(0) + "</campoAdicional>\n" : " ")
                         + (valor.getFacPorcentajeIva().length() > 0 ? "<campoAdicional nombre=\"TARIFAIMP\">" + valor.getFacPorcentajeIva() + "</campoAdicional>\n" : " ")
-                           +(!amb.getAmGeneral()?( (amb.getAmRimpe() ? "<campoAdicional nombre=\"CONTRIBUYENTE REGIMEN RIMPE\">CONTRIBUYENTE REGIMEN RIMPE</campoAdicional>\n" : "<campoAdicional nombre=\"CONTRIBUYENTE REGIMEN RIMPE\">CONTRIBUYENTE NEGOCIO POPULAR REGIMEN RIMPE </campoAdicional>\n")):"")
+                        + (!amb.getAmGeneral() ? ((amb.getAmRimpe() ? "<campoAdicional nombre=\"CONTRIBUYENTE REGIMEN RIMPE\">CONTRIBUYENTE REGIMEN RIMPE</campoAdicional>\n" : "<campoAdicional nombre=\"CONTRIBUYENTE REGIMEN RIMPE\">CONTRIBUYENTE NEGOCIO POPULAR REGIMEN RIMPE </campoAdicional>\n")) : "")
                         + (amb.getAmGeneral() ? "<campoAdicional nombre=\"CONTRIBUYENTE REGIMEN GENERAL\">CONTRIBUYENTE REGIMEN GENERAL</campoAdicional>\n" : "")
                         // + (amb.getAmAgeRet() ? "<campoAdicional nombre=\"Agente de Retencion\">Agente de Retencion Resolucion Nro. NAC-DNCRASC20-00000001</campoAdicional>\n" : "")
+
+                        + (valor.getEmbalaje()!=null?(valor.getEmbalaje().length() > 0 ? "<campoAdicional nombre=\"EMABALAJE\">" + valor.getEmbalaje() + "</campoAdicional>\n" : " "):"")
+                        +(valor.getPesoNeto()!=null?(valor.getPesoNeto().length() > 0 ? "<campoAdicional nombre=\"PESO NETO\">" + valor.getPesoNeto() + "</campoAdicional>\n" : " "):"")
+                       +(valor.getNumero_bulto()!=null?(valor.getNumero_bulto().length() > 0 ? "<campoAdicional nombre=\"NUMERO BULTO\">" + valor.getNumero_bulto() + "</campoAdicional>\n" : " "):"")
+                       + (valor.getPesoBruto()!=null?(valor.getPesoBruto().length() > 0 ? "<campoAdicional nombre=\"PESO BRUTO\">" + valor.getPesoBruto() + "</campoAdicional>\n" : " "):"")
+                       + (valor.getViaEmbarque()!=null?(valor.getViaEmbarque().length() > 0 ? "<campoAdicional nombre=\"VIA EMBARQUE\">" + valor.getViaEmbarque() + "</campoAdicional>\n" : " "):"")
+                        +(valor.getReferenciaProduccion()!=null?(valor.getReferenciaProduccion().length() > 0 ? "<campoAdicional nombre=\"REFERENCIA PRODUCCION\">" + valor.getReferenciaProduccion() + "</campoAdicional>\n" : " "):"")
                         + "   </infoAdicional>\n"
                         + "</factura>\n");
             build.append(linea);
@@ -650,7 +626,7 @@ public class AutorizarDocumentos {
                         + ("        <campoAdicional nombre=\"CIUDAD\">" + valor.getIdCliente().getCiudad() + "</campoAdicional>\n"
                         + (amb.getAmMicroEmp() ? "<campoAdicional nombre=\"Contribuyente Regimen Microempresas\">Contribuyente Regimen Microempresas</campoAdicional>\n" : "")
                         + (amb.getAmAgeRet() ? "<campoAdicional nombre=\"Agente de Retencion\">Agente de Retencion Resolucion Nro. NAC-DNCRASC20-00000001</campoAdicional>\n" : "")
-                   + (amb.getAmRimpe() ? "<campoAdicional nombre=\"CONTRIBUYENTE REGIMEN RIMPE\">CONTRIBUYENTE REGIMEN RIMPE</campoAdicional>\n" : "<campoAdicional nombre=\"CONTRIBUYENTE REGIMEN GENERAL\">CONTRIBUYENTE REGIMEN GENERAL</campoAdicional>\n")
+                        + (amb.getAmRimpe() ? "<campoAdicional nombre=\"CONTRIBUYENTE REGIMEN RIMPE\">CONTRIBUYENTE REGIMEN RIMPE</campoAdicional>\n" : "<campoAdicional nombre=\"CONTRIBUYENTE REGIMEN GENERAL\">CONTRIBUYENTE REGIMEN GENERAL</campoAdicional>\n")
                         + "    </infoAdicional>\n"
                         + "</guiaRemision>");
             build.append(linea);
@@ -747,7 +723,7 @@ public class AutorizarDocumentos {
                         + ("<campoAdicional nombre=\"SUMA\">" + suma.toString() + "</campoAdicional>\n")
                         + (amb.getAmMicroEmp() ? "<campoAdicional nombre=\"Contribuyente Regimen Microempresas\">Contribuyente Regimen Microempresas</campoAdicional>\n" : "")
                         + (amb.getAmAgeRet() ? "<campoAdicional nombre=\"Agente de Retencion\">Agente de Retencion Resolucion Nro. NAC-DNCRASC20-00000001</campoAdicional>\n" : "")
-                     + (amb.getAmRimpe() ? "<campoAdicional nombre=\"CONTRIBUYENTE REGIMEN RIMPE\">CONTRIBUYENTE REGIMEN RIMPE</campoAdicional>\n" : "<campoAdicional nombre=\"CONTRIBUYENTE REGIMEN GENERAL\">CONTRIBUYENTE REGIMEN GENERAL</campoAdicional>\n")
+                        + (amb.getAmRimpe() ? "<campoAdicional nombre=\"CONTRIBUYENTE REGIMEN RIMPE\">CONTRIBUYENTE REGIMEN RIMPE</campoAdicional>\n" : "<campoAdicional nombre=\"CONTRIBUYENTE REGIMEN GENERAL\">CONTRIBUYENTE REGIMEN GENERAL</campoAdicional>\n")
                         + "    </infoAdicional>\n"
                         + "</comprobanteRetencion>");
             build.append(linea);

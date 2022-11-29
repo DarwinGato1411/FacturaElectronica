@@ -47,6 +47,8 @@ public class Pais implements Serializable {
     private Collection<Factura> facturaCollection;
     @OneToMany(mappedBy = "idPaisOrigen")
     private Collection<Factura> facturaCollection1;
+    @OneToMany(mappedBy = "idPaisAdquisicion")
+    private Collection<Factura> facturaCollection2;
 
     public Pais() {
     }
@@ -109,6 +111,14 @@ public class Pais implements Serializable {
 
     public void setFacturaCollection1(Collection<Factura> facturaCollection1) {
         this.facturaCollection1 = facturaCollection1;
+    }
+
+    public Collection<Factura> getFacturaCollection2() {
+        return facturaCollection2;
+    }
+
+    public void setFacturaCollection2(Collection<Factura> facturaCollection2) {
+        this.facturaCollection2 = facturaCollection2;
     }
 
     @Override
