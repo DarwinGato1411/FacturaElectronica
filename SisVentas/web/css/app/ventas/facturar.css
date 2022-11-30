@@ -88,6 +88,17 @@ body {
     width: unset !important;
 }
 
+.fact_row > .wrapper_data > .wrapper_input > .textoFechaDateBox{
+    display: flex;
+}
+
+.fact_row > .wrapper_data > .wrapper_input > .textoFechaDateBox input{
+    width: 100% !important;
+}
+.fact_row > .wrapper_data > .wrapper_input > .textoFechaDateBox i{
+    
+}
+
 .wrapper_input > span {
     display: block;
     width: 130px !important;
@@ -611,13 +622,13 @@ div.z-listheader-cnt {
 
 @media only screen and (min-width: 1070px) {
     .factura_header {
-        flex-direction: row;
+        flex-direction: column;
         justify-content: space-between;
     }
 
     .factura_header > .fact_row {
-        width: 50%;
-        flex-direction: row;
+        width: 100%;
+        flex-direction: column;
     }
 
     .wrapper_buttons {
@@ -627,6 +638,22 @@ div.z-listheader-cnt {
     .factura_header > .fact_row:first-child:after {
         display: none;
     }
+
+    .factura_header > .fact_row > .wh{
+        display: grid;
+        grid-template-columns: repeat(4,1fr);
+    }
+
+
+    .factura_header > .fact_row > .wi{
+        display: grid;
+        grid-template-columns: repeat(3,1fr);
+    }
+
+    .factura_header > .wd{
+
+    }
+
 
     .radio_group > label {
         width: unset;
@@ -666,7 +693,7 @@ div.z-listheader-cnt {
 }
 
 .facturacion table,.facturacion tbody,.facturacion th,.facturacion td{
-    display: block; 
+    display: block;
 }
 
 .encabezado1 ,.tabla1{
