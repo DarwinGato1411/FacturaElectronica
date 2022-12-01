@@ -101,10 +101,11 @@ body {
 
 .wrapper_input > span {
     display: block;
-    width: 130px !important;
+    width: 110px !important;
     font-size: 12px;
     font-weight: bold;
     color: #666;
+    margin-left: 4px;
 }
 
 .fact_row > .wrapper_data > .wrapper_input > .input_without_label {
@@ -115,7 +116,7 @@ body {
 .fact_row > .wrapper_data > .wrapper_input > .input_date > input,
 .fact_row > .wrapper_data > .wrapper_input > .input_select > input {
     width: 90%;
-    padding: 5px 10px;
+    padding: 5px 5px;
     border: solid 1px #ccc;
     border-radius: 6px;
     outline: none;
@@ -620,6 +621,49 @@ div.z-listheader-cnt {
     color: var(--primary-color);
 }
 
+
+@media only screen and (min-width: 1070px) {
+    .factura_header_total {
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .factura_header_total > .fact_row {
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .wrapper_buttons {
+        width: 100%;
+    }
+
+    .factura_header_total > .fact_row:first-child:after {
+        display: none;
+    }
+
+    .factura_header_total > .fact_row > .wh{
+        display: grid;
+        grid-template-columns: repeat(9,1fr);
+    }
+
+
+    .factura_header_total > .fact_row > .wi{
+        display: grid;
+        grid-template-columns: repeat(8,1fr);
+    }
+
+    .factura_header_total > .wd{
+
+    }
+    
+}
+
+
+
+
+
+
+
 @media only screen and (min-width: 1070px) {
     .factura_header {
         flex-direction: column;
@@ -641,7 +685,7 @@ div.z-listheader-cnt {
 
     .factura_header > .fact_row > .wh{
         display: grid;
-        grid-template-columns: repeat(4,1fr);
+        grid-template-columns: repeat(5,1fr);
     }
 
 
@@ -654,6 +698,8 @@ div.z-listheader-cnt {
 
     }
 
+    
+    
 
     .radio_group > label {
         width: unset;

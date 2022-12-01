@@ -30,6 +30,114 @@
 
 
                         
+                        <div class="factura_header_total">
+                            <div class="fact_row">
+                                <div class="wrapper_data wh">
+                                    <div class="wrapper_input">
+                                        <span>Sindesc:</span>
+                                        <decimalbox  
+                                            format="###.##"   
+                                            value="@bind(vm.valorTotalInicialVent)"                                             
+                                            readonly="true" 
+                                            class="input"
+                                            onChange="self.setValue(self.getValue().toUpperCase().trim());"  
+                                        />
+                                    </div>
+                                    <div class="wrapper_input">
+                                        <span>Descuento:</span>
+                                        <decimalbox  
+                                            format="###.##"  
+                                            value="@bind(vm.descuentoValorFinal)"
+                                            readonly="true" 
+                                            onChange="self.setValue(self.getValue().toUpperCase().trim());" 
+                                            class="input" 
+                                        />
+                                    </div>
+                                    <div class="wrapper_input">
+                                        <span>Base 0%:</span>
+                                        <decimalbox  
+                                            format="###.##"   
+                                            value="@bind(vm.subTotalBaseCero)" 
+                                            readonly="true"
+                                            onChange="self.setValue(self.getValue().toUpperCase().trim());" 
+                                            class="input" 
+                                        />
+                                    </div>
+                                    <div class="wrapper_input">
+                                        <span>Base 12%:</span>
+                                        <decimalbox  
+                                            format="###.##"   
+                                            value="@bind(vm.subTotalCotizacion)" 
+                                            readonly="true"
+                                            onChange="self.setValue(self.getValue().toUpperCase().trim());" 
+                                            class="input" 
+                                        />
+                                    </div>
+                                
+                                    <!--                                </div>
+                                    <div class="wrapper_data wh">-->
+                                    <div class="wrapper_input">
+                                        <span>IVA:</span>
+                                        <decimalbox  
+                                            format="###.##"  
+                                            value="@bind(vm.ivaCotizacion)"
+                                            readonly="true" 
+                                            class="input" 
+                                        />
+                                    </div>
+                                    <!--                                <div class="wrapper_input">
+                                        <span>ICE :</span>
+                                        <decimalbox  
+                                            format="###.##"   
+                                            value="@bind(vm.valorIce)" 
+                                            readonly="true"
+                                            onChange="self.setValue(self.getValue().toUpperCase().trim());" 
+                                            class="input" 
+                                        />
+                                    </div>-->
+
+                                    <div class="wrapper_input">
+                                        <span>Cobrar:</span>
+                                        <textbox 
+                                            class="input" 
+                                            constraint="/^[0-9]{1,9}(?:[.][0-9]{1,2})?$/:Ingrese solo numeros" 
+                                            onOK="@command('calcularCambio')"
+                                            value="@bind(vm.cobro)"
+                                        />
+                                    </div>
+                                    <div class="wrapper_input">
+                                        <span>Cambio:</span>
+                                        <decimalbox  
+                                            format="###.##"   
+                                            readonly="true" 
+                                            class="input"
+                                            value="@bind(vm.cambio)" 
+                                        />
+                                    </div>
+                                
+                                
+                                
+                                    <div class="wrapper_input ">
+                                    
+                                   
+                                        <span>Total:</span>
+
+                                        <decimalbox  
+                                            format="###.##" 
+                                            value="@bind(vm.valorTotalCotizacion)"                                                 
+                                            readonly="true"
+                                        
+                                        />
+                              
+
+                                
+                                    </div>
+                                </div>
+                            
+                          
+                                
+                            </div>
+                        </div>
                         <div class="factura_header">
                             <div class="fact_row">
                                 <div class="wrapper_data wh">
@@ -197,7 +305,7 @@
                                             <radio label="Factura" value="FACT"/>
                                             <radio label="Proforma" value="PROF"/>
                                             <radio label="Nota Venta" value="NTV"/>
-                                            <radio label="Nota Entrega " value="NTE"/>
+                                            <!--<radio label="Nota Entrega " value="NTE"/>-->
                                         </radiogroup>
                                     </div>
                                     <div class="wrapper_input">
@@ -294,130 +402,35 @@
                                         />
                                     
                                     </div>
-                                </div>
-                            </div>
-                            <div class="fact_row wd">
-                                <div class="wrapper_data wh">
-                                    <div class="wrapper_input">
-                                        <span>Sindesc:</span>
-                                        <decimalbox  
-                                            format="###.##"   
-                                            value="@bind(vm.valorTotalInicialVent)"                                             
-                                            readonly="true" 
-                                            class="input"
-                                            onChange="self.setValue(self.getValue().toUpperCase().trim());"  
-                                        />
-                                    </div>
-                                    <div class="wrapper_input">
-                                        <span>Descuento:</span>
-                                        <decimalbox  
-                                            format="###.##"  
-                                            value="@bind(vm.descuentoValorFinal)"
-                                            readonly="true" 
-                                            onChange="self.setValue(self.getValue().toUpperCase().trim());" 
-                                            class="input" 
-                                        />
-                                    </div>
-                                    <div class="wrapper_input">
-                                        <span>Base 0%:</span>
-                                        <decimalbox  
-                                            format="###.##"   
-                                            value="@bind(vm.subTotalBaseCero)" 
-                                            readonly="true"
-                                            onChange="self.setValue(self.getValue().toUpperCase().trim());" 
-                                            class="input" 
-                                        />
-                                    </div>
-                                    <div class="wrapper_input">
-                                        <span>Base 12%:</span>
-                                        <decimalbox  
-                                            format="###.##"   
-                                            value="@bind(vm.subTotalCotizacion)" 
-                                            readonly="true"
-                                            onChange="self.setValue(self.getValue().toUpperCase().trim());" 
-                                            class="input" 
-                                        />
-                                    </div>
-                                
-                                </div>
-                                <div class="wrapper_data wh">
-                                    <div class="wrapper_input">
-                                        <span>IVA:</span>
-                                        <decimalbox  
-                                            format="###.##"  
-                                            value="@bind(vm.ivaCotizacion)"
-                                            readonly="true" 
-                                            class="input" 
-                                        />
-                                    </div>
-                                    <!--                                <div class="wrapper_input">
-                                        <span>ICE :</span>
-                                        <decimalbox  
-                                            format="###.##"   
-                                            value="@bind(vm.valorIce)" 
-                                            readonly="true"
-                                            onChange="self.setValue(self.getValue().toUpperCase().trim());" 
-                                            class="input" 
-                                        />
-                                    </div>-->
-
-                                    <div class="wrapper_input">
-                                        <span>Cobrar:</span>
-                                        <textbox 
-                                            class="input" 
-                                            constraint="/^[0-9]{1,9}(?:[.][0-9]{1,2})?$/:Ingrese solo numeros" 
-                                            onOK="@command('calcularCambio')"
-                                            value="@bind(vm.cobro)"
-                                        />
-                                    </div>
-                                    <div class="wrapper_input">
-                                        <span>Cambio:</span>
-                                        <decimalbox  
-                                            format="###.##"   
-                                            readonly="true" 
-                                            class="input"
-                                            value="@bind(vm.cambio)" 
-                                        />
-                                    </div>
-                                
-                                
-                                
-
-                                </div>
-                            
-                          
-                                <div class="fact_row wrapper_buttons wi">
-                                    <button src="/iconos/fact.png"   
+                                    <div class="wrapper_input " align="end"></div>
+                                    <div class="wrapper_input " align="end"></div>
+                                    <div class="wrapper_input " align="end"></div>
+                                    <div class=" " align="end">
+<!--                                    <button src="/iconos/fact.png"   
                                             autodisable="self"
                                             label="Nota entrega"
-                                            width="100%"
+                                            width="45%"
                                             style="font-size:18px; height:46px"                                                   
                                             class="btn btn btn-secondary btn-sm "
                                             onClick="@command('verNotasEntrega')"
-                                            tooltiptext="Cargar notas de entrega"/>
+                                            tooltiptext="Cargar notas de entrega"/>-->
+<!--                                    </div>
+                                     <div class=" " align="end">-->
                                     <button 
                                         autodisable="self"   
                                         class="fa-solid fa-floppy-disk btn_fact btn_primary"                  
                                         onClick="@command('Guardar',valor='SG')"
                                         tooltiptext="Guardar"
                                         label="Facturar"
+                                         width="105%"
                                         style="font-size:18px; height:46px"
                                     />
-
-                                    <div class="wrapper_input wrapper_total">
-                                        <span style="text_total">Total:</span>
-
-                                        <decimalbox  
-                                            format="###.##"   
-                                            value="@bind(vm.valorTotalCotizacion)"                                                 
-                                            readonly="true"
-                                        
-                                        />
-                                    </div> 
-
-                                
+                                     </div>
                                 </div>
+                                
+
                             </div>
+                            
                         </div>
 
                         <div class="factura_body factura_body_content">
