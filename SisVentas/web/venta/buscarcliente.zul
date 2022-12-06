@@ -21,15 +21,15 @@
                          onChange="self.setValue(self.getValue().toUpperCase());" />
             </listheader>     
             
-            <listheader width="20%"  >
+<!--            <listheader width="20%"  >
                 <textbox value="@bind(vm.buscarRazonSocial)"  
                          class="form-control form-control-sm"
                          tooltiptext="Nombre...."
                          placeholder="Nombre...."
                          onOK="@command('buscarClienteRazon')"
                          onChange="self.setValue(self.getValue().toUpperCase());" />
-            </listheader> 
-            <listheader width="20%"  >
+            </listheader> -->
+            <listheader width="40%"  >
                 <textbox value="@bind(vm.buscarNombre)"  
                          class="form-control form-control-sm"
                          tooltiptext="Nombre Comercial.."
@@ -57,14 +57,14 @@
                              onClick="@command('seleccionarClienteLista',cliente=each)" />
                 </listcell>
                 
-                <listcell  style="font-size:10px;background-color:#d6eefd" zclass = "mycss-listcell" 
+<!--                <listcell  style="font-size:10px;background-color:#d6eefd" zclass = "mycss-listcell" 
                            onClick="@command('seleccionarClienteLista',cliente=each)">
                     <textbox readonly="true" style="font-size:12px ;background:#EBF5FB" 
                              class="form-control form-control-sm"
                           
                              value="@bind(each.nombresCompletso)" 
                              onClick="@command('seleccionarClienteLista',cliente=each)" />
-                </listcell>
+                </listcell>-->
                 <listcell  style="font-size:10px;background-color:#d6eefd" zclass = "mycss-listcell" 
                            onClick="@command('seleccionarClienteLista',cliente=each)">
                     <textbox readonly="true" style="font-size:12px ;background:#EBF5FB"
