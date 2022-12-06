@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="puntoventa" language="groovy" pageWidth="212" pageHeight="400" columnWidth="190" leftMargin="9" rightMargin="13" topMargin="2" bottomMargin="20" isIgnorePagination="true">
 	<property name="ireport.zoom" value="2.4793388429752063"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="292"/>
+	<property name="ireport.y" value="88"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -451,7 +451,7 @@ and tipoambiente.am_estado is true limit 1;]]>
 				<textElement textAlignment="Center">
 					<font size="10" isBold="false"/>
 				</textElement>
-				<text><![CDATA[YANEZ VILLANBA OSCAR ROBERTO]]></text>
+				<text><![CDATA[GISSELA ELIZABETH GARCIA BRACHO]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
 				<reportElement x="2" y="72" width="190" height="13"/>
