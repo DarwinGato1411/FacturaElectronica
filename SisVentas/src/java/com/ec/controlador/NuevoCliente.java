@@ -89,32 +89,32 @@ public class NuevoCliente {
                 if (aduana != null) {
 
                     String nombreApellido[] = aduana.getNombre().split(" ");
-                    String nombrePersona = "";
+                    String nombrePersona = aduana.getNombre();
                     String apellidoPersona = "";
                     switch (nombreApellido.length) {
                         case 1:
                             apellidoPersona = nombreApellido[0];
-                            nombrePersona = "A";
+//                            nombrePersona = "A";
                             break;
                         case 2:
                             apellidoPersona = nombreApellido[0];
-                            nombrePersona = nombreApellido[1];
+//                            nombrePersona = nombreApellido[1];
                             break;
                         case 3:
                             apellidoPersona = nombreApellido[0] + " " + nombreApellido[1];
-                            nombrePersona = nombreApellido[2];
+//                            nombrePersona = nombreApellido[2];
                             break;
                         case 4:
                             apellidoPersona = nombreApellido[0] + " " + nombreApellido[1];
-                            nombrePersona = nombreApellido[2] + " " + nombreApellido[3];
+//                            nombrePersona = nombreApellido[2] + " " + nombreApellido[3];
                             break;
                         default:
                             break;
                     }
                     cliente.setCliApellidos(apellidoPersona);
                     cliente.setCliNombres(nombrePersona);
-                    cliente.setCliNombre(nombrePersona + " " + apellidoPersona);
-                    cliente.setCliRazonSocial(nombrePersona + " " + apellidoPersona);
+                    cliente.setCliNombre(aduana.getNombre());
+                    cliente.setCliRazonSocial(nombrePersona );
                 }
             }
         }

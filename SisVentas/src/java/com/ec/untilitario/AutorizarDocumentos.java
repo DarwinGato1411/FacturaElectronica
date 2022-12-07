@@ -351,6 +351,11 @@ public class AutorizarDocumentos {
 
 //            build.append(linea);
             linea = ("    </detalles>\n");
+            //RUBRO DE TERCEROS
+            
+            
+            
+            
             build.append(linea);
             linea = ("    <infoAdicional>\n"
                         + (valor.getIdCliente().getCliDireccion().length() > 0 ? "<campoAdicional nombre=\"DIRECCION\">" + removeCaracteres(valor.getIdCliente().getCliDireccion()) + "</campoAdicional>\n" : " ")
@@ -447,7 +452,7 @@ public class AutorizarDocumentos {
                         + "                 <valor>" + valor.getFacIva().setScale(2, RoundingMode.FLOOR) + "</valor>\n"
                         + "              </totalImpuesto>\n"
                         + "        </totalConImpuestos>\n"
-                        + "        <motivo>" + motivo + "</motivo>\n" //Motivo
+                        + "        <motivo>" + valor.getMotivo() + "</motivo>\n" //Motivo
                         + "    </infoNota" + tipoDocumento + ">\n");
             build.append(linea);
             if (tipoDocumento.equals("Credito")) {

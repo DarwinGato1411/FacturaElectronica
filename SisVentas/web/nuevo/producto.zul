@@ -20,7 +20,7 @@
                 </radiogroup>
             </div>
             <div class="wrapper_input_mod">
-                <span>Declaración: </span>
+                <span>Impuesto: </span>
                 <radiogroup
                     class="radio_group" 
                     onCheck="@command('colocarIva')" 

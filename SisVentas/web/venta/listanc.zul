@@ -63,6 +63,7 @@
                             <div class="wrapper_data ">
                             
                                 <button 
+                                     onClick="@command('buscarFechas')"
                                     class="fa-solid fa-magnifying-glass btn_fact btn_primary btn_one_element"
                                     style="height:unset;"
                                 >

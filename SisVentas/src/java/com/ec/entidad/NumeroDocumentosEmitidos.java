@@ -57,7 +57,7 @@ public class NumeroDocumentosEmitidos implements Serializable {
     }
 
     public Long getNumero() {
-        return numero;
+        return numero == null ? 0 : numero;
     }
 
     public void setNumero(Long numero) {

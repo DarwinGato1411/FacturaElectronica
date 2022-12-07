@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="factura" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 	<property name="ireport.zoom" value="1.9487171000000014"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="473"/>
+	<property name="ireport.y" value="423"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -600,7 +600,7 @@ where   factura.fac_numero=$P{numfactura};]]>
 						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					</datasetRun>
 					<jr:column width="66">
-						<jr:columnHeader style="table_TD" height="17" rowSpan="1">
+						<jr:columnHeader style="table_TD" height="18" rowSpan="1">
 							<staticText>
 								<reportElement mode="Opaque" x="0" y="0" width="66" height="17"/>
 								<box leftPadding="2" bottomPadding="0" rightPadding="2">
@@ -627,7 +627,7 @@ where   factura.fac_numero=$P{numfactura};]]>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="47">
-						<jr:columnHeader style="table_TD" height="17" rowSpan="1">
+						<jr:columnHeader style="table_TD" height="18" rowSpan="1">
 							<staticText>
 								<reportElement mode="Opaque" x="0" y="0" width="47" height="17"/>
 								<box leftPadding="2" bottomPadding="0" rightPadding="2">
@@ -653,10 +653,10 @@ where   factura.fac_numero=$P{numfactura};]]>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="90">
-						<jr:columnHeader style="table_TD" height="17" rowSpan="1">
+					<jr:column width="201">
+						<jr:columnHeader style="table_TD" height="18" rowSpan="1">
 							<staticText>
-								<reportElement mode="Opaque" x="0" y="0" width="90" height="17" forecolor="#000000" backcolor="#FFFFFF"/>
+								<reportElement mode="Opaque" x="0" y="0" width="201" height="17" forecolor="#000000" backcolor="#FFFFFF"/>
 								<box leftPadding="2" bottomPadding="0" rightPadding="2">
 									<pen lineWidth="0.25"/>
 									<topPen lineWidth="0.25"/>
@@ -672,7 +672,7 @@ where   factura.fac_numero=$P{numfactura};]]>
 						</jr:columnHeader>
 						<jr:detailCell style="table_TD" height="15" rowSpan="1">
 							<textField isStretchWithOverflow="true">
-								<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="90" height="15"/>
+								<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="201" height="15"/>
 								<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font size="6"/>
@@ -681,38 +681,8 @@ where   factura.fac_numero=$P{numfactura};]]>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="111">
-						<jr:columnHeader height="17" rowSpan="1">
-							<staticText>
-								<reportElement mode="Opaque" x="0" y="0" width="111" height="17" forecolor="#000000" backcolor="#FFFFFF"/>
-								<box leftPadding="2" bottomPadding="0" rightPadding="2">
-									<pen lineWidth="0.25"/>
-									<topPen lineWidth="0.25"/>
-									<leftPen lineWidth="0.25"/>
-									<bottomPen lineWidth="0.25"/>
-									<rightPen lineWidth="0.25"/>
-								</box>
-								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" lineSpacing="Single" markup="none">
-									<font fontName="SansSerif" size="6" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
-								</textElement>
-								<text><![CDATA[Descripción]]></text>
-							</staticText>
-						</jr:columnHeader>
-						<jr:detailCell style="table_TD" height="15" rowSpan="1">
-							<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
-								<reportElement mode="Transparent" x="0" y="0" width="111" height="15" isPrintWhenDetailOverflows="true" forecolor="#000000" backcolor="#FFFFFF"/>
-								<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
-									<bottomPen lineWidth="0.0"/>
-								</box>
-								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" lineSpacing="Single" markup="none">
-									<font fontName="SansSerif" size="6" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
-								</textElement>
-								<textFieldExpression class="java.lang.String"><![CDATA[$F{det_detalle}]]></textFieldExpression>
-							</textField>
-						</jr:detailCell>
-					</jr:column>
 					<jr:column width="60">
-						<jr:columnHeader style="table_TD" height="17" rowSpan="1">
+						<jr:columnHeader style="table_TD" height="18" rowSpan="1">
 							<staticText>
 								<reportElement mode="Opaque" x="0" y="0" width="60" height="17"/>
 								<box leftPadding="2" bottomPadding="0" rightPadding="2">
@@ -739,7 +709,7 @@ where   factura.fac_numero=$P{numfactura};]]>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="60">
-						<jr:columnHeader style="table_TD" height="17" rowSpan="1">
+						<jr:columnHeader style="table_TD" height="18" rowSpan="1">
 							<staticText>
 								<reportElement mode="Opaque" x="0" y="0" width="60" height="17"/>
 								<box leftPadding="2" bottomPadding="0" rightPadding="2">
@@ -766,7 +736,7 @@ where   factura.fac_numero=$P{numfactura};]]>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="60">
-						<jr:columnHeader style="table_TD" height="17" rowSpan="1">
+						<jr:columnHeader style="table_TD" height="18" rowSpan="1">
 							<staticText>
 								<reportElement mode="Opaque" x="0" y="0" width="60" height="17" forecolor="#000000" backcolor="#FFFFFF"/>
 								<box leftPadding="2" bottomPadding="0" rightPadding="2">
@@ -793,7 +763,7 @@ where   factura.fac_numero=$P{numfactura};]]>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="60">
-						<jr:columnHeader style="table_TD" height="17" rowSpan="1">
+						<jr:columnHeader style="table_TD" height="18" rowSpan="1">
 							<staticText>
 								<reportElement x="0" y="0" width="60" height="17"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -1156,7 +1126,7 @@ Se recuerda que el envio de los comprobantes de retenciones debe realizarse dent
 			<textField>
 				<reportElement x="12" y="91" width="331" height="15"/>
 				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{am_general}?"RÉGIMEN GENERA":""]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{am_general}?"RÉGIMEN GENERAL":""]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
