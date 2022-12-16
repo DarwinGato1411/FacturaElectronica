@@ -245,7 +245,7 @@ public class GuiaRemision {
                 guiaremision.setPuntoemision("001");
                 guiaremision.setCodestablecimiento("001");
                 guiaremision.setEstadosri("PENDIENTE");
-                String claveAccesoGuia = ArchivoUtils.generaClave(guiaremision.getFacFecha(), "06", tipoambiente.getAmRuc(), tipoambiente.getAmCodigo(), "001001", numeroGuiaText, "12345678", "1");
+                String claveAccesoGuia = ArchivoUtils.generaClave(guiaremision.getFacFecha(), "06", tipoambiente.getAmRuc(), tipoambiente.getAmCodigo(),  tipoambiente.getAmEstab()+tipoambiente.getAmPtoemi(), numeroGuiaText, "12345678", "1");
                 guiaremision.setFacClaveAcceso(claveAccesoGuia);
                 guiaremision.setFacClaveAutorizacion(claveAccesoGuia);
                 guiaremision.setCodTipoambiente(tipoambiente.getCodTipoambiente());

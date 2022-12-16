@@ -129,4 +129,51 @@ public class ServicioTipoRetencion {
         return listaTipoRetencions;
     }
 
+    public List<TipoRetencion> findTireCodigo(String tireCodigo) {
+
+        List<TipoRetencion> listaTipoRetencions = new ArrayList<TipoRetencion>();
+        try {
+            //Connection connection = em.unwrap(Connection.class);
+            em = HelperPersistencia.getEMF();
+            em.getTransaction().begin();
+            Query query = em.createQuery("SELECT a FROM TipoRetencion a WHERE a.tireCodigo LIKE :tireCodigo and a.tireTipo='RET' ORDER BY a.tireCodigo ASC");
+            query.setParameter("tireCodigo", "%" + tireCodigo + "%");
+            listaTipoRetencions = (List<TipoRetencion>) query.getResultList();
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            System.out.println("Error en lsa consulta tipoRetencion " + e.getMessage());
+        } finally {
+            em.close();
+        }
+
+        return listaTipoRetencions;
+    }
+
+    public TipoRetencion findOneTireCodigo(String tireCodigo) {
+
+        List<TipoRetencion> listaTipoRetencions = new ArrayList<TipoRetencion>();
+        try {
+            //Connection connection = em.unwrap(Connection.class);
+            em = HelperPersistencia.getEMF();
+            em.getTransaction().begin();
+            Query query = em.createQuery("SELECT a FROM TipoRetencion a WHERE a.tireCodigo LIKE :tireCodigo");
+            query.setParameter("tireCodigo", "%" + tireCodigo + "%");
+            listaTipoRetencions = (List<TipoRetencion>) query.getResultList();
+            em.getTransaction().commit();
+            if (!listaTipoRetencions.isEmpty()) {
+                return listaTipoRetencions.get(0);
+            } else {
+                return null;
+            }
+
+        } catch (Exception e) {
+            
+            System.out.println("Error en lsa consulta tipoRetencion " + e.getMessage());
+            return null;
+        } finally {
+            em.close();
+        }
+
+//        return listaTipoRetencions;
+    }
 }

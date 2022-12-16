@@ -643,19 +643,19 @@ public class Facturar extends SelectorComposer<Component> {
                     costVentaTipoCliente = productoBuscado.getProdCostoPreferencialDos();
                 }
 
-                valor.setTotalInicial(ArchivoUtils.redondearDecimales(costVentaTipoClienteInicial, 5));
-                BigDecimal porcentajeDesc = valor.getDetPordescuento().divide(BigDecimal.valueOf(100.0), 5, RoundingMode.FLOOR);
-                BigDecimal valorDescuentoIva = costVentaTipoCliente.multiply(porcentajeDesc).setScale(5, RoundingMode.FLOOR);;
+                valor.setTotalInicial(ArchivoUtils.redondearDecimales(costVentaTipoClienteInicial, 6));
+                BigDecimal porcentajeDesc = valor.getDetPordescuento().divide(BigDecimal.valueOf(100.0), 6, RoundingMode.FLOOR);
+                BigDecimal valorDescuentoIva = costVentaTipoCliente.multiply(porcentajeDesc).setScale(6, RoundingMode.FLOOR);;
                 //valor unitario con descuento ioncluido iva
-                BigDecimal valorTotalIvaDesc = costVentaTipoCliente.subtract(valorDescuentoIva).setScale(5, RoundingMode.FLOOR);
+                BigDecimal valorTotalIvaDesc = costVentaTipoCliente.subtract(valorDescuentoIva).setScale(6, RoundingMode.FLOOR);
                 //valor unit sin iva sin descuento
-                BigDecimal subTotal = costVentaTipoCliente.divide(factorSacarSubtotal, 5, RoundingMode.FLOOR);
+                BigDecimal subTotal = costVentaTipoCliente.divide(factorSacarSubtotal, 6, RoundingMode.FLOOR);
                 valor.setSubTotal(subTotal);
                 //valor unitario sin iva con descuento
-                BigDecimal subTotalDescuento = valorTotalIvaDesc.divide(factorSacarSubtotal, 5, RoundingMode.FLOOR);
+                BigDecimal subTotalDescuento = valorTotalIvaDesc.divide(factorSacarSubtotal, 6, RoundingMode.FLOOR);
                 valor.setSubTotalDescuento(subTotalDescuento);
                 //valor del descuento
-                BigDecimal valorDescuento = valor.getSubTotal().subtract(valor.getSubTotalDescuento()).setScale(5, RoundingMode.FLOOR);
+                BigDecimal valorDescuento = valor.getSubTotal().subtract(valor.getSubTotalDescuento()).setScale(6, RoundingMode.FLOOR);
                 valor.setDetValdescuento(valorDescuento);
                 BigDecimal valorIva = subTotal.multiply(factorIva).multiply(valor.getCantidad());
 //                valor.setDetIva(valorIva);
@@ -663,7 +663,7 @@ public class Facturar extends SelectorComposer<Component> {
                 BigDecimal valorIvaDesc = subTotalDescuento.multiply(factorIva).multiply(valor.getCantidad());
                 valor.setDetIva(valorIvaDesc);
                 //valor total sin decuento y con iva
-                valor.setTotal(valorTotalIvaDesc.setScale(5, RoundingMode.FLOOR));
+                valor.setTotal(valorTotalIvaDesc.setScale(6, RoundingMode.FLOOR));
                 //valor total con decuento y con iva
                 valor.setDetTotaldescuento(valorTotalIvaDesc);
                 valor.setDetTotalconiva(valor.getCantidad().multiply(costVentaTipoCliente));
@@ -872,19 +872,19 @@ public class Facturar extends SelectorComposer<Component> {
                         costVentaTipoCliente = buscadoPorCodigo.getProdCostoPreferencialDos();
                     }
 
-                    valor.setTotalInicial(costVentaTipoClienteInicial);
-                    BigDecimal porcentajeDesc = valor.getDetPordescuento().divide(BigDecimal.valueOf(100.0), 4, RoundingMode.FLOOR);
-                    BigDecimal valorDescuentoIva = costVentaTipoCliente.multiply(porcentajeDesc);
+                    valor.setTotalInicial(ArchivoUtils.redondearDecimales(costVentaTipoClienteInicial, 6));
+                    BigDecimal porcentajeDesc = valor.getDetPordescuento().divide(BigDecimal.valueOf(100.0), 6, RoundingMode.FLOOR);
+                    BigDecimal valorDescuentoIva = costVentaTipoCliente.multiply(porcentajeDesc).setScale(6, RoundingMode.FLOOR);;
                     //valor unitario con descuento ioncluido iva
-                    BigDecimal valorTotalIvaDesc = costVentaTipoCliente.subtract(valorDescuentoIva);
+                    BigDecimal valorTotalIvaDesc = costVentaTipoCliente.subtract(valorDescuentoIva).setScale(6, RoundingMode.FLOOR);
                     //valor unit sin iva sin descuento
-                    BigDecimal subTotal = costVentaTipoCliente.divide(factorSacarSubtotal, 4, RoundingMode.FLOOR);
+                    BigDecimal subTotal = costVentaTipoCliente.divide(factorSacarSubtotal, 6, RoundingMode.FLOOR);
                     valor.setSubTotal(subTotal);
                     //valor unitario sin iva con descuento
-                    BigDecimal subTotalDescuento = valorTotalIvaDesc.divide(factorSacarSubtotal, 4, RoundingMode.FLOOR);
+                    BigDecimal subTotalDescuento = valorTotalIvaDesc.divide(factorSacarSubtotal, 6, RoundingMode.FLOOR);
                     valor.setSubTotalDescuento(subTotalDescuento);
                     //valor del descuento
-                    BigDecimal valorDescuento = valor.getSubTotal().subtract(valor.getSubTotalDescuento());
+                    BigDecimal valorDescuento = valor.getSubTotal().subtract(valor.getSubTotalDescuento()).setScale(6, RoundingMode.FLOOR);
                     valor.setDetValdescuento(valorDescuento);
                     BigDecimal valorIva = subTotal.multiply(factorIva).multiply(valor.getCantidad());
 //                valor.setDetIva(valorIva);
@@ -892,7 +892,7 @@ public class Facturar extends SelectorComposer<Component> {
                     BigDecimal valorIvaDesc = subTotalDescuento.multiply(factorIva).multiply(valor.getCantidad());
                     valor.setDetIva(valorIvaDesc);
                     //valor total sin decuento y con iva
-                    valor.setTotal(costVentaTipoCliente);
+                    valor.setTotal(valorTotalIvaDesc.setScale(6, RoundingMode.FLOOR));
                     //valor total con decuento y con iva
                     valor.setDetTotaldescuento(valorTotalIvaDesc);
                     valor.setDetTotalconiva(valor.getCantidad().multiply(costVentaTipoCliente));
@@ -1141,18 +1141,18 @@ public class Facturar extends SelectorComposer<Component> {
                 BigDecimal valorDescuentoIva = BigDecimal.ZERO;
                 if (valor.getEsProducto()) {
                     porcentajeDesc = valor.getTotal().multiply(BigDecimal.valueOf(100.0));
-                    valorPorcentaje = porcentajeDesc.divide(valor.getTotalInicial(), 5, RoundingMode.FLOOR);
+                    valorPorcentaje = porcentajeDesc.divide(valor.getTotalInicial(), 6, RoundingMode.FLOOR);
                     valorDescuentoIva = valor.getTotalInicial().subtract(valor.getTotal());
                 }
 
                 /*COLOCAMOS EN EL CAMPO DE DESCUENTO*/
-                BigDecimal porcentajeDiferencia = BigDecimal.valueOf(100.0).subtract(valorPorcentaje).setScale(5, RoundingMode.FLOOR);
+                BigDecimal porcentajeDiferencia = BigDecimal.valueOf(100.0).subtract(valorPorcentaje).setScale(6, RoundingMode.FLOOR);
                 valor.setDetPordescuento(porcentajeDiferencia);
                 //valor unitario con descuento ioncluido iva
                 BigDecimal valorTotalIvaDesc = valor.getTotalInicial().subtract(valorDescuentoIva);
 
                 //valor unitario sin iva con descuento
-                BigDecimal subTotalDescuento = valorTotalIvaDesc.divide(factorSacarSubtotal, 5, RoundingMode.FLOOR);
+                BigDecimal subTotalDescuento = valorTotalIvaDesc.divide(factorSacarSubtotal, 6, RoundingMode.FLOOR);
 
                 valor.setSubTotalDescuento(subTotalDescuento);
                 //valor del descuento
@@ -1161,7 +1161,7 @@ public class Facturar extends SelectorComposer<Component> {
                     valor.setSubTotal(valor.getSubTotalDescuento());
                 }
                 if (valor.getEsProducto()) {
-                    valorDescuento = ArchivoUtils.redondearDecimales(valor.getSubTotal(), 5).subtract(ArchivoUtils.redondearDecimales(valor.getSubTotalDescuento(), 5));
+                    valorDescuento = ArchivoUtils.redondearDecimales(valor.getSubTotal(), 6).subtract(ArchivoUtils.redondearDecimales(valor.getSubTotalDescuento(), 6));
                 }
                 valor.setDetValdescuento(valorDescuento);
                 //valor del iva con descuento
@@ -2122,7 +2122,7 @@ public class Facturar extends SelectorComposer<Component> {
                     factura.setIdCliente(clienteBuscado);
                     /*GENERAMOS LA CLAVE DE ACCESO PARA ENVIAR LA FACTURA DIRECTAMENTE ASI NO ESTE 
                     AUTORIZADA*/
-                    String claveAcceso = ArchivoUtils.generaClave(factura.getFacFecha(), "01", amb.getAmRuc(), amb.getAmCodigo(), "001001", factura.getFacNumeroText(), "12345678", "1");
+                    String claveAcceso = ArchivoUtils.generaClave(factura.getFacFecha(), "01", amb.getAmRuc(), amb.getAmCodigo(), amb.getAmEstab()+amb.getAmPtoemi(), factura.getFacNumeroText(), "12345678", "1");
                     factura.setFacClaveAcceso(claveAcceso);
                     factura.setFacClaveAutorizacion(claveAcceso);
 
@@ -2159,7 +2159,7 @@ public class Facturar extends SelectorComposer<Component> {
                         guiaremision.setPuntoemision(factura.getPuntoemision());
                         guiaremision.setCodestablecimiento(factura.getCodestablecimiento());
                         guiaremision.setEstadosri("PENDIENTE");
-                        String claveAccesoGuia = ArchivoUtils.generaClave(guiaremision.getFacFecha(), "06", amb.getAmRuc(), amb.getAmCodigo(), "001001", guiaremision.getFacNumeroText(), "12345678", "1");
+                        String claveAccesoGuia = ArchivoUtils.generaClave(guiaremision.getFacFecha(), "06", amb.getAmRuc(), amb.getAmCodigo(),  amb.getAmEstab()+amb.getAmPtoemi(), guiaremision.getFacNumeroText(), "12345678", "1");
                         guiaremision.setFacClaveAcceso(claveAccesoGuia);
                         guiaremision.setFacClaveAutorizacion(claveAccesoGuia);
                         guiaremision.setCodTipoambiente(factura.getCod_tipoambiente().getCodTipoambiente());
