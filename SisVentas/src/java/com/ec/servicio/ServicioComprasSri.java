@@ -58,8 +58,8 @@ public class ServicioComprasSri {
         } catch (ConstraintViolationException e) {
             System.out.println("Error en insertar comprasSri " + e.getMessage());
             for (ConstraintViolation actual : e.getConstraintViolations()) {
-            System.out.println(actual.toString());
-        }
+                System.out.println(actual.toString());
+            }
         } finally {
             em.close();
         }
@@ -72,6 +72,7 @@ public class ServicioComprasSri {
             em = HelperPersistencia.getEMF();
             em.getTransaction().begin();
             em.remove(em.merge(comprasSri));
+
             em.getTransaction().commit();
 
         } catch (Exception e) {
@@ -124,10 +125,10 @@ public class ServicioComprasSri {
             em = HelperPersistencia.getEMF();
             em.getTransaction().begin();
             Query query = em.createQuery("SELECT a FROM ComprasSri a WHERE a.csriAutorizacion=:csriAutorizacion");
-           query.setParameter("csriAutorizacion", csriAutorizacion);
-          List<ComprasSri>  datos = (List<ComprasSri>) query.getResultList();
-            if (datos.size()>0) {
-                retorno=datos.get(0);
+            query.setParameter("csriAutorizacion", csriAutorizacion);
+            List<ComprasSri> datos = (List<ComprasSri>) query.getResultList();
+            if (datos.size() > 0) {
+                retorno = datos.get(0);
             }
             em.getTransaction().commit();
         } catch (Exception e) {
@@ -158,9 +159,9 @@ public class ServicioComprasSri {
 
         return listaComprasSris;
     }
-    
+
     /*documentos no procesados por rango de fechas*/
-    public List<ComprasSri> findNoVerificadosBetweenFecha(Date inicio,Date fin) {
+    public List<ComprasSri> findNoVerificadosBetweenFecha(Date inicio, Date fin) {
 
         List<ComprasSri> listaComprasSris = new ArrayList<ComprasSri>();
         try {
@@ -168,7 +169,7 @@ public class ServicioComprasSri {
             em = HelperPersistencia.getEMF();
             em.getTransaction().begin();
             Query query = em.createQuery("SELECT a FROM ComprasSri a WHERE a.csriVerificado='N' AND a.csriFechaEmision BETWEEN :inicio and :fin");
-            query.setParameter("inicio",inicio);
+            query.setParameter("inicio", inicio);
             query.setParameter("fin", fin);
             listaComprasSris = (List<ComprasSri>) query.getResultList();
             em.getTransaction().commit();
@@ -180,6 +181,25 @@ public class ServicioComprasSri {
 
         return listaComprasSris;
     }
-     
-    
+
+    public void eliminarCabeceraSri(Date inicio, Date fin) {
+
+        try {
+            em = HelperPersistencia.getEMF();
+            em.getTransaction().begin();
+            Query query = em.createQuery("DELETE FROM ComprasSri a WHERE a.csriFechaEmision BETWEEN :inicio and :fin");
+            query.setParameter("inicio", inicio);
+            query.setParameter("fin", fin);
+            int i = query.executeUpdate();
+
+            em.getTransaction().commit();
+
+        } catch (Exception e) {
+            System.out.println("Error en eliminar  comprasSri " + e.getMessage());
+        } finally {
+            em.close();
+        }
+
+    }
+
 }

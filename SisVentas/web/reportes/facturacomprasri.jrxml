@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="facturacomprasri" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
-	<property name="ireport.zoom" value="1.3310000000000015"/>
+	<property name="ireport.zoom" value="1.7715610000000024"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<style name="table">
@@ -28,8 +28,8 @@
 			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 		</parameter>
 		<queryString>
-			<![CDATA[select * from detalle_compra_sri dt, producto pr
-where dt.id_producto=pr.id_producto and dt.id_cabecera_sri=$P{id_cabecera}]]>
+			<![CDATA[select * from detalle_compra_sri dt
+where  dt.id_cabecera_sri=$P{id_cabecera}]]>
 		</queryString>
 		<field name="id_ingreso_prod_sri" class="java.lang.Integer"/>
 		<field name="id_cabecera_sri" class="java.lang.Integer"/>
@@ -39,57 +39,15 @@ where dt.id_producto=pr.id_producto and dt.id_cabecera_sri=$P{id_cabecera}]]>
 		<field name="iprod_subtotal" class="java.math.BigDecimal"/>
 		<field name="iprod_total" class="java.math.BigDecimal"/>
 		<field name="iprod_codigo_provee" class="java.lang.String"/>
-		<field name="id_sub_categoria" class="java.lang.Integer"/>
-		<field name="prod_codigo" class="java.lang.String"/>
-		<field name="prod_nombre" class="java.lang.String"/>
-		<field name="pord_costo_venta_ref" class="java.math.BigDecimal"/>
-		<field name="pord_costo_venta_final" class="java.math.BigDecimal"/>
-		<field name="prod_estado" class="java.lang.Integer"/>
-		<field name="prod_trasnporte" class="java.math.BigDecimal"/>
-		<field name="prod_iva" class="java.math.BigDecimal"/>
-		<field name="prod_utilidad_normal" class="java.math.BigDecimal"/>
-		<field name="prod_mano_obra" class="java.math.BigDecimal"/>
-		<field name="prod_utilidad_preferencial" class="java.math.BigDecimal"/>
-		<field name="prod_costo_preferencial" class="java.math.BigDecimal"/>
-		<field name="prod_costo_preferencial_dos" class="java.math.BigDecimal"/>
-		<field name="prod_costo_preferencial_tres" class="java.math.BigDecimal"/>
-		<field name="prod_principal" class="java.lang.Integer"/>
-		<field name="prod_abreviado" class="java.lang.String"/>
-		<field name="prod_isprincipal" class="java.lang.Boolean"/>
-		<field name="pord_costo_compra" class="java.math.BigDecimal"/>
-		<field name="prod_qr" class="java.lang.Object"/>
-		<field name="prod_cantidad_inicial" class="java.lang.Integer"/>
-		<field name="prod_utilidad_dos" class="java.math.BigDecimal"/>
-		<field name="prod_cant_minima" class="java.math.BigDecimal"/>
-		<field name="prod_path_codbar" class="java.lang.String"/>
-		<field name="prod_imprime_codbar" class="java.lang.Boolean"/>
-		<field name="prod_graba_iva" class="java.lang.Boolean"/>
-		<field name="prod_esproducto" class="java.lang.Boolean"/>
-		<field name="prod_subsidio" class="java.math.BigDecimal"/>
-		<field name="prod_tiene_subsidio" class="java.lang.String"/>
-		<field name="prod_precio_sin_subsidio" class="java.math.BigDecimal"/>
-		<field name="prod_glp" class="java.lang.String"/>
-		<field name="prod_descripcion" class="java.lang.String"/>
-		<field name="id_usuario" class="java.lang.Integer"/>
-		<field name="id_parroquia" class="java.lang.Integer"/>
-		<field name="prod_imagen" class="java.lang.String"/>
-		<field name="prod_publicado" class="java.lang.Boolean"/>
-		<field name="prod_servlet_url" class="java.lang.String"/>
-		<field name="prod_espropina" class="java.lang.String"/>
-		<field name="pord_costo_promedio_compra" class="java.math.BigDecimal"/>
-		<field name="prod_fecha_registro" class="java.sql.Date"/>
-		<field name="prod_factor_conversion" class="java.math.BigDecimal"/>
-		<field name="prod_unidad_medida" class="java.lang.String"/>
-		<field name="prod_unidad_conversion" class="java.lang.String"/>
-		<field name="prod_esreceta" class="java.lang.Boolean"/>
+		<field name="iprod_codigo_producto" class="java.lang.String"/>
+		<field name="iprod_graba_iva" class="java.lang.Boolean"/>
 	</subDataset>
 	<parameter name="id_cabecera" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[select * from cabecera_compra_sri cb,  proveedores pro
-where pro.id_proveedor=cb.id_proveedor
-and cb.id_cabecera_sri=$P{id_cabecera} limit 1]]>
+		<![CDATA[select * from cabecera_compra_sri cb
+where cb.id_cabecera_sri=$P{id_cabecera} limit 1;]]>
 	</queryString>
 	<field name="id_cabecera_sri" class="java.lang.Integer"/>
 	<field name="est_id_estado" class="java.lang.Integer"/>
@@ -119,27 +77,21 @@ and cb.id_cabecera_sri=$P{id_cabecera} limit 1]]>
 	<field name="categoria_factura" class="java.lang.String"/>
 	<field name="cab_xml_sri" class="java.lang.String"/>
 	<field name="cab_casillero" class="java.lang.String"/>
-	<field name="prov_cedula" class="java.lang.String"/>
-	<field name="prov_nombre" class="java.lang.String"/>
-	<field name="prov_direccion" class="java.lang.String"/>
-	<field name="prov_telefono" class="java.lang.String"/>
-	<field name="prov_movil" class="java.lang.String"/>
-	<field name="prov_correo" class="java.lang.String"/>
-	<field name="prov_pagina" class="java.lang.String"/>
-	<field name="prov_banco" class="java.lang.String"/>
-	<field name="prov_tipo_cuenta" class="java.lang.String"/>
-	<field name="prov_numero_cuenta" class="java.lang.String"/>
-	<field name="prov_nom_comercial" class="java.lang.String"/>
+	<field name="cab_correo" class="java.lang.String"/>
+	<field name="cab_direccion" class="java.lang.String"/>
 	<title>
-		<band height="138" splitType="Stretch">
+		<band height="118" splitType="Stretch">
 			<rectangle radius="10">
-				<reportElement x="0" y="0" width="555" height="138"/>
+				<reportElement x="0" y="0" width="276" height="114"/>
 				<graphicElement>
 					<pen lineWidth="0.5"/>
 				</graphicElement>
 			</rectangle>
+			<rectangle radius="10">
+				<reportElement x="288" y="0" width="267" height="114"/>
+			</rectangle>
 			<staticText>
-				<reportElement x="1" y="99" width="66" height="16"/>
+				<reportElement x="1" y="90" width="66" height="16"/>
 				<box leftPadding="2" rightPadding="2"/>
 				<textElement>
 					<font size="10" isBold="true"/>
@@ -147,28 +99,28 @@ and cb.id_cabecera_sri=$P{id_cabecera} limit 1]]>
 				<text><![CDATA[Dirección:]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="67" y="83" width="291" height="16"/>
+				<reportElement x="67" y="74" width="209" height="16"/>
 				<textElement>
 					<font size="10"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{prov_nombre}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{cab_proveedor}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement x="67" y="99" width="485" height="16"/>
+				<reportElement x="67" y="90" width="209" height="24"/>
 				<textElement>
 					<font size="10"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{prov_direccion}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{cab_direccion}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="401" y="83" width="152" height="16"/>
+				<reportElement x="67" y="58" width="152" height="16"/>
 				<textElement>
 					<font size="10"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{prov_cedula}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{cab_ruc_proveedor}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="358" y="83" width="42" height="16"/>
+				<reportElement x="1" y="58" width="66" height="16"/>
 				<box leftPadding="2" rightPadding="2"/>
 				<textElement>
 					<font size="10" isBold="true"/>
@@ -176,7 +128,7 @@ and cb.id_cabecera_sri=$P{id_cabecera} limit 1]]>
 				<text><![CDATA[RUC:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1" y="83" width="66" height="16"/>
+				<reportElement x="1" y="74" width="66" height="16"/>
 				<box leftPadding="2" rightPadding="2"/>
 				<textElement>
 					<font size="10" isBold="true"/>
@@ -187,27 +139,12 @@ and cb.id_cabecera_sri=$P{id_cabecera} limit 1]]>
 				<reportElement x="288" y="0" width="263" height="37"/>
 				<box leftPadding="2"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="15"/>
+					<font size="14"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA["Nº: "+$F{cab_num_factura}]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement x="67" y="115" width="485" height="16"/>
-				<textElement>
-					<font size="10"/>
-				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{prov_correo}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA["Factura Nº: "+$F{cab_num_factura}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="1" y="115" width="66" height="16"/>
-				<box leftPadding="2" rightPadding="2"/>
-				<textElement>
-					<font size="10" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Correo:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement style="table_TD" positionType="Float" mode="Transparent" x="0" y="0" width="288" height="83" isPrintWhenDetailOverflows="true" forecolor="#000000" backcolor="#FFFFFF"/>
+				<reportElement style="table_TD" positionType="Float" mode="Transparent" x="0" y="0" width="276" height="58" isPrintWhenDetailOverflows="true" forecolor="#000000" backcolor="#FFFFFF"/>
 				<box leftPadding="2" rightPadding="2">
 					<pen lineWidth="0.0"/>
 					<topPen lineWidth="0.0"/>
@@ -221,18 +158,44 @@ and cb.id_cabecera_sri=$P{id_cabecera} limit 1]]>
 				<text><![CDATA[FACTURA DE COMPRA]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToBandHeight" x="288" y="58" width="264" height="25" isPrintWhenDetailOverflows="true"/>
-				<textElement textAlignment="Center">
+				<reportElement stretchType="RelativeToBandHeight" x="289" y="55" width="263" height="24" isPrintWhenDetailOverflows="true"/>
+				<textElement>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{cab_clave_acceso}]]></textFieldExpression>
 			</textField>
+			<staticText>
+				<reportElement style="table_TD" positionType="Float" mode="Transparent" x="288" y="37" width="263" height="18" isPrintWhenDetailOverflows="true" forecolor="#000000" backcolor="#FFFFFF"/>
+				<box leftPadding="2" rightPadding="2">
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle" rotation="None" lineSpacing="Single" markup="none">
+					<font fontName="SansSerif" size="13" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+				</textElement>
+				<text><![CDATA[CLAVE DE ACCESO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="290" y="79" width="122" height="21"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha de emisión:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy HH:mm:ss" isBlankWhenNull="true">
+				<reportElement x="412" y="79" width="139" height="21"/>
+				<textElement/>
+				<textFieldExpression class="java.util.Date"><![CDATA[$F{cab_fecha_emision}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<detail>
-		<band height="39" splitType="Stretch">
+		<band height="34" splitType="Stretch">
 			<componentElement>
-				<reportElement key="table" positionType="Float" stretchType="RelativeToTallestObject" mode="Transparent" x="0" y="0" width="555" height="34" isPrintWhenDetailOverflows="true"/>
+				<reportElement key="table" positionType="Float" stretchType="RelativeToTallestObject" mode="Transparent" x="1" y="0" width="555" height="34" isPrintWhenDetailOverflows="true"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
 					<datasetRun subDataset="detalle">
 						<datasetParameter name="id_cabecera">
@@ -270,10 +233,42 @@ and cb.id_cabecera_sri=$P{id_cabecera} limit 1]]>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="375">
+					<jr:column width="64">
 						<jr:columnHeader height="15" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="375" height="15" isPrintWhenDetailOverflows="true"/>
+								<reportElement x="0" y="0" width="64" height="15" isPrintWhenDetailOverflows="true"/>
+								<box>
+									<pen lineWidth="0.5"/>
+									<topPen lineWidth="0.5"/>
+									<leftPen lineWidth="0.5"/>
+									<bottomPen lineWidth="0.5"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement textAlignment="Center">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[CODIGO]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table_TD" height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="64" height="15" isPrintWhenDetailOverflows="true"/>
+								<box leftPadding="2" rightPadding="2">
+									<pen lineWidth="0.0"/>
+									<topPen lineWidth="0.0"/>
+									<leftPen lineWidth="0.0"/>
+									<bottomPen lineWidth="0.0"/>
+									<rightPen lineWidth="0.0"/>
+								</box>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{iprod_codigo_producto}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="187">
+						<jr:columnHeader height="15" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="187" height="15" isPrintWhenDetailOverflows="true"/>
 								<box>
 									<pen lineWidth="0.5"/>
 									<topPen lineWidth="0.5"/>
@@ -288,15 +283,66 @@ and cb.id_cabecera_sri=$P{id_cabecera} limit 1]]>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="table_TD" height="15" rowSpan="1">
-							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-								<reportElement x="0" y="0" width="375" height="15" isPrintWhenDetailOverflows="true"/>
-								<box leftPadding="2" rightPadding="2">
-									<bottomPen lineWidth="0.0"/>
-								</box>
+							<textField>
+								<reportElement x="0" y="0" width="187" height="15"/>
 								<textElement>
 									<font size="8"/>
 								</textElement>
-								<textFieldExpression class="java.lang.String"><![CDATA[$F{prod_nombre}]]></textFieldExpression>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{iprod_descripcion}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="61">
+						<jr:columnHeader height="15" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="61" height="15" isPrintWhenDetailOverflows="true"/>
+								<box>
+									<pen lineWidth="0.5"/>
+									<topPen lineWidth="0.5"/>
+									<leftPen lineWidth="0.5"/>
+									<bottomPen lineWidth="0.5"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement textAlignment="Center">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[% IVA]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table_TD" height="15" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="61" height="15"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{iprod_graba_iva}?"12":"0"]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="64">
+						<jr:columnHeader height="15" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="64" height="15" isPrintWhenDetailOverflows="true"/>
+								<box>
+									<pen lineWidth="0.5"/>
+									<topPen lineWidth="0.5"/>
+									<leftPen lineWidth="0.5"/>
+									<bottomPen lineWidth="0.5"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement textAlignment="Center">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[IVA]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table_TD" height="15" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="64" height="15"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression class="java.lang.Number"><![CDATA[$F{iprod_subtotal}.divide(BigDecimal.valueOf(12), 2, RoundingMode.FLOOR )]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>

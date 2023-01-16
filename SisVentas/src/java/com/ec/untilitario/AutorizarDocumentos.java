@@ -266,8 +266,8 @@ public class AutorizarDocumentos {
                         + "        <ptoEmi>" + amb.getAmPtoemi() + "</ptoEmi>\n"
                         + "        <secuencial>" + valor.getFacNumeroText() + "</secuencial>\n"
                         + "        <dirMatriz>" + removeCaracteres(amb.getAmDireccionMatriz()) + "</dirMatriz>\n"
-                        + (amb.getAmMicroEmp() ? "     <regimenMicroempresas>CONTRIBUYENTE R\u00c9GIMEN MICROEMPRESAS</regimenMicroempresas>\n" : "")
                         + (amb.getAmAgeRet() ? "<agenteRetencion>1</agenteRetencion>\n" : "")
+                        + (!amb.getAmGeneral() ? ((amb.getAmRimpe() ? "<contribuyenteRimpe>CONTRIBUYENTE R\u00c9GIMEN RIMPE</contribuyenteRimpe>\n" : "")) : "")
                         //  + "        <agenteRetencion>12345678</agenteRetencion>\n"
                         + "</infoTributaria>\n"
                         + "<infoFactura>\n"
@@ -291,14 +291,14 @@ public class AutorizarDocumentos {
                         + "             </totalImpuesto>\n"
                         + "             <totalImpuesto>\n"
                         /*CODIGO DEL IVA 2, ICE 3 IRBPNR 6*/
-                        + "             <codigo>" + valor.getFacCodIva() + "</codigo>\n"
                         /*CODIGO VALOR DEL IVA SI ES IVA 
                     0 --> 0 
                     SI 12-->2 
                     SI 14-->3 
                     No Objeto de Impuesto -->6 
                     EXENTO DE IVA 7   */
-                        + "                 <codigoPorcentaje>" + valor.getCodigoPorcentaje() + "</codigoPorcentaje>\n"
+                        + "             <codigo>" + valor.getFacCodIva() + "</codigo>\n"
+                        + "                 <codigoPorcentaje>2</codigoPorcentaje>\n"
                         + "                 <baseImponible>" + valor.getFacTotalBaseGravaba() + "</baseImponible>\n"
                         + "                 <tarifa>" + valor.getFacPorcentajeIva() + "</tarifa>\n"
                         + "                 <valor>" + valor.getFacIva().setScale(2, RoundingMode.FLOOR) + "</valor>\n"
@@ -342,7 +342,7 @@ public class AutorizarDocumentos {
                             + "                    <codigoPorcentaje>" + item.getDetCodPorcentaje() + "</codigoPorcentaje>\n"
                             + "                    <tarifa>" + item.getDetTarifa() + "</tarifa>\n"
                             + "                    <baseImponible>" + ArchivoUtils.redondearDecimales(item.getDetSubtotaldescuento().multiply(item.getDetCantidad()), 2) + "</baseImponible>\n"
-                            + "                    <valor>" + item.getDetIva().setScale(2, RoundingMode.FLOOR) + "</valor>\n"
+                            + "                    <valor>" + ArchivoUtils.redondearDecimales(item.getDetIva(), 2) + "</valor>\n"
                             + "                </impuesto>\n"
                             + "            </impuestos>\n"
                             + "        </detalle>\n");
@@ -364,7 +364,7 @@ public class AutorizarDocumentos {
                         + "<campoAdicional nombre=\"PLAZO\"> DIAS</campoAdicional>\n"
                         + (valor.getFacPlazo().toString().length() > 0 ? "<campoAdicional nombre=\"DIAS\">" + valor.getFacPlazo().setScale(0) + "</campoAdicional>\n" : " ")
                         + (valor.getFacPorcentajeIva().length() > 0 ? "<campoAdicional nombre=\"TARIFAIMP\">" + valor.getFacPorcentajeIva() + "</campoAdicional>\n" : " ")
-                        + (!amb.getAmGeneral() ? ((amb.getAmRimpe() ? "<campoAdicional nombre=\"CONTRIBUYENTE REGIMEN RIMPE\">CONTRIBUYENTE REGIMEN RIMPE</campoAdicional>\n" : "<campoAdicional nombre=\"CONTRIBUYENTE REGIMEN RIMPE\">CONTRIBUYENTE NEGOCIO POPULAR REGIMEN RIMPE </campoAdicional>\n")) : "")
+                        //                        + (!amb.getAmGeneral() ? ((amb.getAmRimpe() ? "<campoAdicional nombre=\"CONTRIBUYENTE REGIMEN RIMPE\">CONTRIBUYENTE REGIMEN RIMPE</campoAdicional>\n" : "<campoAdicional nombre=\"CONTRIBUYENTE REGIMEN RIMPE\">CONTRIBUYENTE NEGOCIO POPULAR REGIMEN RIMPE </campoAdicional>\n")) : "")
                         + (amb.getAmGeneral() ? "<campoAdicional nombre=\"CONTRIBUYENTE REGIMEN GENERAL\">CONTRIBUYENTE REGIMEN GENERAL</campoAdicional>\n" : "")
                         + (amb.getAmCodigoArtesano() != null ? (!amb.getAmCodigoArtesano().equals("") ? "<campoAdicional nombre=\"CODIGO ARTESANO\">" + amb.getAmCodigoArtesano() + "</campoAdicional>\n" : "") : "")
                         // + (amb.getAmAgeRet() ? "<campoAdicional nombre=\"Agente de Retencion\">Agente de Retencion Resolucion Nro. NAC-DNCRASC20-00000001</campoAdicional>\n" : "")

@@ -255,7 +255,7 @@ public class MenuOpciones extends SelectorComposer<Component> {
     }
     @Listen("onClick = #btnPreciPromCompra")
     public void btnPreciPromCompra() {
-        Executions.sendRedirect("/reportevistas/listacomprapromedio.zul");
+        Executions.sendRedirect("/reportevistas/listacomprapromedio2.zul");
     }
     @Listen("onClick = #btnPreciPromVenta")
     public void btnPreciPromVenta() {

@@ -58,6 +58,11 @@ public class DetalleCompraSri implements Serializable {
     @Size(max = 50)
     @Column(name = "iprod_codigo_provee")
     private String iprodCodigoProvee;
+    @Column(name = "iprod_codigo_producto")
+    private String iprodCodigoProducto;
+    @Column(name = "iprod_graba_iva")
+    private Boolean iprodGrabaIva;
+   
     @JoinColumn(name = "id_cabecera_sri", referencedColumnName = "id_cabecera_sri")
     @ManyToOne
     private CabeceraCompraSri idCabeceraSri;
@@ -136,6 +141,24 @@ public class DetalleCompraSri implements Serializable {
         this.idProducto = idProducto;
     }
 
+    public String getIprodCodigoProducto() {
+        return iprodCodigoProducto;
+    }
+
+    public void setIprodCodigoProducto(String iprodCodigoProducto) {
+        this.iprodCodigoProducto = iprodCodigoProducto;
+    }
+
+    public Boolean getIprodGrabaIva() {
+        return iprodGrabaIva;
+    }
+
+    public void setIprodGrabaIva(Boolean iprodGrabaIva) {
+        this.iprodGrabaIva = iprodGrabaIva;
+    }
+
+  
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -160,5 +183,5 @@ public class DetalleCompraSri implements Serializable {
     public String toString() {
         return "com.ec.entidad.sri.DetalleCompraSri[ idIngresoProdSri=" + idIngresoProdSri + " ]";
     }
-    
+
 }

@@ -8,13 +8,20 @@ import com.ec.entidad.Proveedores;
 import com.ec.entidad.TipoIdentificacionCompra;
 import com.ec.servicio.ServicioProveedor;
 import com.ec.servicio.ServicioTipoIdentificacionCompra;
+import com.ec.untilitario.AduanaJson;
+import com.ec.untilitario.ArchivoUtils;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.xml.xpath.XPathExpressionException;
+import org.json.JSONException;
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.ContextParam;
 import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.bind.annotation.ExecutionArgParam;
+import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
@@ -47,7 +54,7 @@ public class NuevoProveedor {
         } else {
             this.proveedor = new Proveedores();
             accion = "create";
-             identificacionCompra = null;
+            identificacionCompra = null;
         }
         cargarTipoIdentificacion();
 
@@ -60,25 +67,45 @@ public class NuevoProveedor {
     @Command
     public void guardar() {
         if (proveedor.getProvCedula() != null
-                && proveedor.getProvNombre() != null
-                && proveedor.getProvTelefono() != null
-                && proveedor.getProvDireccion() != null
-                && identificacionCompra != null) {
+                    && proveedor.getProvNombre() != null
+                    && proveedor.getProvTelefono() != null
+                    && proveedor.getProvDireccion() != null
+                    && identificacionCompra != null) {
             proveedor.setIdTipoIdentificacionCompra(identificacionCompra);
             if (accion.equals("create")) {
                 servicioProveedor.crear(proveedor);
-               // Messagebox.show("Guardado con exito");
+                // Messagebox.show("Guardado con exito");
 
                 windowCliente.detach();
             } else {
                 servicioProveedor.modificar(proveedor);
-               // Messagebox.show("Guardado con exito");
+                // Messagebox.show("Guardado con exito");
 
                 windowCliente.detach();
             }
 
         } else {
             Messagebox.show("Verifique la informacion requerida", "Atención", Messagebox.OK, Messagebox.ERROR);
+        }
+    }
+
+    @Command
+    @NotifyChange({"proveedor"})
+    public void buscarAduana() throws URISyntaxException, IOException, XPathExpressionException, JSONException {
+        if (proveedor.getProvCedula() != null) {
+            if (!proveedor.getProvCedula().equals("")) {
+                String cedulaBuscar = "";
+                if (proveedor.getProvCedula().length() > 10) {
+                    cedulaBuscar = proveedor.getProvCedula().substring(0, 10);
+                } else {
+                    cedulaBuscar = proveedor.getProvCedula();
+                }
+                AduanaJson aduana = ArchivoUtils.obtenerdatoAduana(cedulaBuscar);
+                String nombreApellido = aduana.getNombre();
+
+                proveedor.setProvNombre(nombreApellido);
+
+            }
         }
     }
 

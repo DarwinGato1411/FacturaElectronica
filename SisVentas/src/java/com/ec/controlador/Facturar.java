@@ -2382,8 +2382,8 @@ public class Facturar extends SelectorComposer<Component> {
         System.out.println("formaPagoSelected " + formaPagoSelected);
         facConSinGuia = valor;
         if (!clienteBuscado.getCliCedula().equals("") && formaPagoSelected != null) {
-            if (valorTotalCotizacion.intValue() >= 200 && clienteBuscado.getCliCedula().contains("999999999")) {
-                Clients.showNotification("El valor de la factura no puede pasar de $200 para enviarla como Consumidor Final ", "error", null, "end_before", 3000, true);
+            if (valorTotalCotizacion.intValue() >= 50 && clienteBuscado.getCliCedula().contains("999999999")) {
+                Clients.showNotification("El valor de la factura no puede pasar de $50 para enviarla como Consumidor Final ", "error", null, "end_before", 3000, true);
                 return;
             }
             if (listaDetalleFacturaDAOMOdel.size() > 0) {

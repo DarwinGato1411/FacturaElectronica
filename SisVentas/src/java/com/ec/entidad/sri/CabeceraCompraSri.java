@@ -144,6 +144,18 @@ public class CabeceraCompraSri implements Serializable {
     @JoinColumn(name = "id_categoria_compras", referencedColumnName = "id_categoria_compras")
     @ManyToOne
     private CategoriaCompras idCategoriaCompras;
+    @Column(name = "cab_correo")
+    private String cabCorreo;
+    @Column(name = "cab_direccion")
+    private String cabDireccion;
+    @Column(name = "cab_establecimiento")
+    private String cabEstablecimiento;
+    @Column(name = "cab_punto_emision")
+    private String cabPuntoEmision;
+
+//    @Column(name = "cab_fecha_autorizacion")
+//    @Temporal(TemporalType.TIMESTAMP)
+//    private Date cabFechaAutorizacion;
 
     public CabeceraCompraSri() {
     }
@@ -385,6 +397,22 @@ public class CabeceraCompraSri implements Serializable {
         this.cabCasillero = cabCasillero;
     }
 
+    public String getCabCorreo() {
+        return cabCorreo;
+    }
+
+    public void setCabCorreo(String cabCorreo) {
+        this.cabCorreo = cabCorreo;
+    }
+
+    public String getCabDireccion() {
+        return cabDireccion;
+    }
+
+    public void setCabDireccion(String cabDireccion) {
+        this.cabDireccion = cabDireccion;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -410,4 +438,30 @@ public class CabeceraCompraSri implements Serializable {
         return "com.ec.entidad.sri.CabeceraCompraSri[ idCabeceraSri=" + idCabeceraSri + " ]";
     }
 
+//    public Date getCabFechaAutorizacion() {
+//        return cabFechaAutorizacion;
+//    }
+//
+//    public void setCabFechaAutorizacion(Date cabFechaAutorizacion) {
+//        this.cabFechaAutorizacion = cabFechaAutorizacion;
+//    }
+
+    public String getCabEstablecimiento() {
+        return cabEstablecimiento;
+    }
+
+    public void setCabEstablecimiento(String cabEstablecimiento) {
+        this.cabEstablecimiento = cabEstablecimiento;
+    }
+
+    public String getCabPuntoEmision() {
+        return cabPuntoEmision;
+    }
+
+    public void setCabPuntoEmision(String cabPuntoEmision) {
+        this.cabPuntoEmision = cabPuntoEmision;
+    }
+
+    
+    
 }

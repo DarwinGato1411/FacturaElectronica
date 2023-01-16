@@ -1320,6 +1320,57 @@ public class ListaFacturas {
     }
 
     @Command
+    public void verificarFactura(@BindingParam("valor") Factura valor) {
+        try {
+            String folderDescargados = PATH_BASE + File.separator + "COMPRASDESCARGADAS"
+                        + File.separator + new Date().getYear()
+                        + File.separator + new Date().getMonth();
+            String pathArchivoXML = "";
+            File folderGen = new File(folderDescargados);
+            if (!folderGen.exists()) {
+                folderGen.mkdirs();
+            }
+            AutorizarDocumentos autorizarDocumentos = new AutorizarDocumentos();
+            RespuestaComprobante resComprobante = autorizarDocumentos.autorizarComprobante(valor.getFacClaveAcceso());
+            for (Autorizacion autorizacion : resComprobante.getAutorizaciones().getAutorizacion()) {
+                FileOutputStream nuevo = null;
+//                FileOutputStream nuevo = null;
+
+                if (!autorizacion.getEstado().equals("AUTORIZADO")) {
+                    System.out.println("COMPROBANTE NO AUTORIZADO");
+                } else {
+                    pathArchivoXML = folderDescargados + File.separator + autorizacion.getNumeroAutorizacion() + ".xml";
+//                CREA EL ARCHIVO XML AUTORIZADO
+
+                    nuevo = new FileOutputStream(pathArchivoXML);
+                    nuevo.write(autorizacion.getComprobante().getBytes());
+
+                    ec.gob.sri.comprobantes.modelo.factura.Factura adto
+                                = ec.gob.sri.comprobantes.util.xml.XML2Java.unmarshalFactura(pathArchivoXML);
+                    if (adto.getInfoFactura().getIdentificacionComprador().length() == 13) {
+                        String RUC = adto.getInfoFactura().getIdentificacionComprador();
+                        if (RUC.contains("9999999999999")) {
+                            Cliente clienteBuscado = servicioCliente.findClienteLikeCedula("999999999");
+                            valor.setIdCliente(clienteBuscado);
+                            servicioFactura.modificar(valor);
+                        }
+
+//                        identificacionCompra = servicioTipoIdentificacionCompra.findByCedulaRuc("04");
+                    }
+
+                    /*envia el mail*/
+                }
+            }
+        } catch (RespuestaAutorizacionException ex) {
+            Logger.getLogger(ListaFacturas.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(ListaFacturas.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(ListaFacturas.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Command
     public void reenviarMail(@BindingParam("valor") Factura valor) throws JRException, IOException, NamingException, SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
 
         String foldervoAutorizado = PATH_BASE + File.separator + amb.getAmAutorizados()
@@ -1357,12 +1408,11 @@ public class ListaFacturas {
                         valor.getFacClaveAcceso(),
                         valor.getFacNumeroText(),
                         valor.getFacTotal(),
-                        valor.getIdCliente().getCliNombre()))
-            {
+                        valor.getIdCliente().getCliNombre())) {
                 System.out.println("ENVIO CORRECTO");
-                File file= new File(archivoEnvioCliente);
+                File file = new File(archivoEnvioCliente);
                 file.deleteOnExit();
-            }else {
+            } else {
                 System.out.println("CORREO NO ENVIADO");
             }
         }

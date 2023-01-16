@@ -5,6 +5,7 @@
 package com.ec.servicio;
 
 
+import com.ec.entidad.ComprasSri;
 import com.ec.entidad.sri.CabeceraCompraSri;
 import com.ec.entidad.sri.DetalleCompraSri;
 import java.util.ArrayList;
@@ -90,6 +91,27 @@ public class ServicioDetalleComprasSri {
             Query query = em.createQuery("SELECT c FROM DetalleCompraSri c WHERE c.idCabeceraSri.cabFechaEmision BETWEEN :inicio AND :fin ORDER BY c.idCabeceraSri.cabFechaEmision DESC");
             query.setParameter("inicio", incio);
             query.setParameter("fin", fin);
+            listaCabeceraCompras = (List<DetalleCompraSri>) query.getResultList();
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            System.out.println("Error en lsa consulta DetalleCompraSri " + e.getMessage());
+        } finally {
+            em.close();
+        }
+
+        return listaCabeceraCompras;
+    }
+     
+     public List<DetalleCompraSri> detallebyCompraSri(CabeceraCompraSri valor) {
+
+        List<DetalleCompraSri> listaCabeceraCompras = new ArrayList<DetalleCompraSri>();
+        try {
+            //Connection connection = em.unwrap(Connection.class);
+            em = HelperPersistencia.getEMF();
+            em.getTransaction().begin();
+            Query query = em.createQuery("SELECT c FROM DetalleCompraSri c WHERE c.idCabeceraSri=:idCabeceraSri ORDER BY c.idCabeceraSri.cabFechaEmision DESC");
+            query.setParameter("idCabeceraSri", valor);
+//            query.setParameter("fin", fin);
             listaCabeceraCompras = (List<DetalleCompraSri>) query.getResultList();
             em.getTransaction().commit();
         } catch (Exception e) {

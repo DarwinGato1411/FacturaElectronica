@@ -82,6 +82,7 @@
                             <listheader width="3%"  label="" />             
                             <listheader width="3%"  label="" />             
                             <listheader width="3%"  label="" />             
+                            <listheader width="3%"  label="" />             
                         </listhead>  
                         
                     
@@ -175,6 +176,19 @@
                                            tooltiptext="Imprimir retencion"/> 
                                 </listcell>
                            
+                                 <listcell zclass = "mycss-listcell" style="font-size:12px;background:#F8F9F9">
+                                    
+                                    
+                                    <image if="${each.drcEstadosri!='AUTORIZADO'}"
+                                           src="/iconos/delete.png"   
+                                           class="grow"  
+                                           onClick="@command('eliminarRetencion',valor=each)"                                              
+                                           tooltiptext="Eliminar retencion"/> 
+                                    <image if="${each.drcEstadosri=='AUTORIZADO'}" 
+                                           src="/iconos/listo_uno.png"   
+                                           class="grow"                                               
+                                           tooltiptext="No se puede eliminar por que se encuentra en estado autorizado"/> 
+                                </listcell>
                                 
                                 
                                 
