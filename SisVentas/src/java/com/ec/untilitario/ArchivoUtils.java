@@ -747,14 +747,15 @@ public class ArchivoUtils {
     public static DetalleCompra detalleSriToDetalleCompra(DetalleCompraSri valor, CabeceraCompra compra) {
         DetalleCompra detalleCom = new DetalleCompra();
         Parametrizar parametrizar = new Parametrizar();
-        parametrizar=servicioParametrizar.FindALlParametrizar();
+        parametrizar = servicioParametrizar.FindALlParametrizar();
         BigDecimal factorIva = BigDecimal.ONE.add(parametrizar.getParIvaActual().divide(BigDecimal.valueOf(100)));
         BigDecimal factorUtilidad = BigDecimal.ONE.add(BigDecimal.valueOf(0.47));
         Producto buscado = servicioProducto.findByProdCodigo(valor.getIprodCodigoProducto());
         Producto nuevoProd = new Producto();
         if (buscado == null) {
             BigDecimal costoInicial = valor.getIprodSubtotal().setScale(2, RoundingMode.CEILING);
-            BigDecimal calCostoCompr = (costoInicial.divide(factorIva, 3, RoundingMode.FLOOR));
+            BigDecimal calCostoCompr = valor.getIprodGrabaIva() ? (costoInicial.divide(factorIva, 3, RoundingMode.FLOOR)) : costoInicial;
+
             System.out.println("PRODUCTO NUEVO " + valor.getIprodDescripcion());
             nuevoProd = new Producto();
             nuevoProd.setPordCostoCompra(calCostoCompr);
@@ -763,17 +764,22 @@ public class ArchivoUtils {
             nuevoProd.setProdAbreviado("");
             nuevoProd.setProdCantMinima(BigDecimal.TEN);
             nuevoProd.setProdCantidadInicial(BigDecimal.TEN);
-            nuevoProd.setProdCodigo(valor.getIprodCodigoProducto().length() > 199 ? valor.getIprodCodigoProducto().substring(0, 199) : valor.getIprodCodigoProducto());
+            nuevoProd.setProdCodigo(valor.getIprodCodigoProducto().length() > 199 ? valor.getIprodCodigoProducto().substring(0, 199).toUpperCase() : valor.getIprodCodigoProducto().toUpperCase());
             nuevoProd.setProdCostoPreferencial(BigDecimal.ZERO);
             nuevoProd.setProdCostoPreferencialDos(BigDecimal.ZERO);
             nuevoProd.setProdCostoPreferencialTres(BigDecimal.ZERO);
             nuevoProd.setProdIsPrincipal(Boolean.FALSE);
-            nuevoProd.setProdIva(parametrizar.getParIvaActual());
+            nuevoProd.setProdEsproducto(Boolean.TRUE);
+            nuevoProd.setProdIva(valor.getIprodGrabaIva() ? parametrizar.getParIvaActual() : BigDecimal.ZERO);
             nuevoProd.setProdManoObra(BigDecimal.ZERO);
-            nuevoProd.setProdNombre(valor.getIprodDescripcion().length() > 199 ? valor.getIprodDescripcion().substring(0, 199) : valor.getIprodDescripcion());
+            nuevoProd.setProdNombre(valor.getIprodDescripcion().length() > 199 ? valor.getIprodDescripcion().substring(0, 199).toUpperCase() : valor.getIprodDescripcion().toUpperCase());
             nuevoProd.setProdTrasnporte(BigDecimal.ZERO);
             nuevoProd.setProdUtilidadNormal(BigDecimal.ZERO);
             nuevoProd.setProdUtilidadPreferencial(BigDecimal.ZERO);
+            nuevoProd.setProdPrecioSinSubsidio(BigDecimal.ZERO);
+            nuevoProd.setProdTieneSubsidio("N");
+            nuevoProd.setProdGrabaIva(valor.getIprodGrabaIva());
+            
             servicioProducto.crear(nuevoProd);
             detalleCom.setIdProducto(nuevoProd);
         }

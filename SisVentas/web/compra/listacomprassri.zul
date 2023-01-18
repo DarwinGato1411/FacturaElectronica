@@ -35,7 +35,7 @@
                                               style="border: 1px solid #efefef;display: inline-block;padding: 6px 12px; cursor: pointer;"
                                               label="Eliminar datos del archivo txt"
                                               class="btn-danger"
-                                              tooltiptext="Cargar su archivo TXT, obtenido desde el SRI"/>
+                                              tooltiptext="Eliminar registros"/>
 
                                     
                                 </div>
@@ -63,11 +63,6 @@
                                               onClick="@command('exportarDocumentosSRI')"  
                                               class="btn btn-primary btn-sm "
                                               tooltiptext="Buscar"/>
-                       
-                
-                
-                                                                                 
-
              
                                     <button   image="/iconos/sri.png" 
                                     label="Traer documentos del SRI" 
@@ -167,6 +162,12 @@
                                             class="btn btn-primary btn-sm "
                                             label="Cargar facturas sistema" 
                                             tooltiptext="Exportar facturas"/>
+                                    <button   image="/iconos/delete.png"  
+                                              onClick="@command('eliminarCabeceraCabeceraSRI')"                                               
+                                              style="border: 1px solid #efefef;display: inline-block;padding: 6px 12px; cursor: pointer;"
+                                              label="Eliminar datos del archivo txt"
+                                              class="btn-danger"
+                                              tooltiptext="Elminar facturas obtenidas del SRI"/>
                                 </div>
                             </div>
                             <listbox model="@load(vm.listaComprasSriModel)" 

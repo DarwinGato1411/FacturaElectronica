@@ -138,4 +138,23 @@ public class ServicioCabeceraComprasSri {
         return respuesta;
     }
 
+    public void eliminarCabeceraComprasSri(Date inicio, Date fin) {
+
+        try {
+            em = HelperPersistencia.getEMF();
+            em.getTransaction().begin();
+            Query query = em.createQuery("DELETE FROM CabeceraCompraSri a WHERE a.cabFecha BETWEEN :inicio and :fin");
+            query.setParameter("inicio", inicio);
+            query.setParameter("fin", fin);
+            int i = query.executeUpdate();
+
+            em.getTransaction().commit();
+
+        } catch (Exception e) {
+            System.out.println("Error en eliminar  comprasSri " + e.getMessage());
+        } finally {
+            em.close();
+        }
+
+    }
 }
