@@ -39,11 +39,11 @@
             class="col-12 col-sm-12 col-md-12 col-lg-12" >
          
                     <menubar id="menubar" orient="horizontal"  autodrop="true">
-                        <menu label="Ventas" >
+<!--                        <menu label="Ventas" >
                             <menupopup> 
                                 <menuitem label="Emitir Facturas" id="btnFacturar"  />
-                                <!--<menuitem label="Orden de trabajo" id="btnOrdenTrab"  />-->
-                                <!--<menuitem label="Lista ordenes de trabajo" id="btnListaOrden"  />-->
+                                <menuitem label="Orden de trabajo" id="btnOrdenTrab"  />
+                                <menuitem label="Lista ordenes de trabajo" id="btnListaOrden"  />
                                  <menuitem label="Facturas por cobrar" id="btnfactCobra"  />
                                 <menuitem label="Cierre de caja" id="btnCierreCajaUsu"  />
                             </menupopup>
@@ -61,33 +61,33 @@
                              
 
                             </menupopup>
-                        </menu> 
-                        <menu label="Gestion de compras" id="menuCompras">
+                        </menu> -->
+                        <menu label="Compras" id="menuCompras">
                             <menupopup>                     
                       
-                                <menuitem label="Ingreso de mercaderia" id="btnIngresoCompras"  />                                
+<!--                                <menuitem label="Ingreso de mercaderia" id="btnIngresoCompras"  />                                
                                 <menuitem label="Mercaderia ingresada" id="btnListaCompras"  />                                                          
                                 <menuitem label="Retenciones" id="btnRetenciones"  />
-                              
-                                <menuitem label="ComprasSRI" id="btnListaComprasSRI"  />     
+                              -->
+                                <menuitem label="Descargar comptras desde el SRI" id="btnListaComprasSRI"  />     
                             </menupopup>
                         </menu>          
                                      
-                        <menu label="Kardex" id="menuKardex">
+<!--                        <menu label="Kardex" id="menuKardex">
                             <menupopup>  
                                 <menuitem label="Ajuste de Entrada/Salida" id="btnAjuste"  />                                                                       
                                 <menuitem label="Kardex detallado" id="btnKardex"  /> 
                                  <menuitem label="Kardex general" id="btnKardexPorProd"  />                                               
                                                                          
-<!--                                <menuitem label="Contabilidad" id="btnContabilidad" image="/iconmenu/page_refresh.png" />-->
+                                <menuitem label="Contabilidad" id="btnContabilidad" image="/iconmenu/page_refresh.png" />
                                
                             </menupopup>
-                        </menu>
-                         <menu label="Reportes" id="menuReportes">
+                        </menu>-->
+<!--                         <menu label="Reportes" id="menuReportes">
                             <menupopup>                                                                         
                                 <menuitem label="Facturas autorizadas SRI" id="btnFactAutori"  />                              
                                 <menuitem label="Compras vs Ventas" id="btnBalanceUtilidad"  />
-                                <!--<menuitem label="Cantidad de venta (GLP)" id="btnRepVentCant" />-->
+                                <menuitem label="Cantidad de venta (GLP)" id="btnRepVentCant" />
                                 <menuitem label="Acumulado de ventas" id="btnAcumuladoventas" />
                                 <menuitem label="Rotacion Productos" id="btnRotacionProducto" />
                                 <menuitem label="Lista de cierre de caja" id="btnListarCierre" /> 
@@ -95,10 +95,10 @@
                                 <menuitem label="ATS Compras y Ventas" id="btnContabilidadATS"  /> 
                                 <menuitem label="Retenciones por casillero" id="btnRetencionesCasillero"  />
                                 <menuitem label="Precio promedio compra" id="btnPreciPromCompra"  />
-                                <!--<menuitem label="Precio promedio venta" id="btnPreciPromVenta"  />-->
+                                <menuitem label="Precio promedio venta" id="btnPreciPromVenta"  />
                             </menupopup>
                         </menu>
-                        
+                        -->
                         <menuitem label="Catalogos" id="btnAdministarVenta"  />
 <!--                        <menuitem image="/iconos/fact.png" label="Facturar" onClick="@command('facturar')" />
                         <menuitem image="/iconos/page.png" label="Producto" onClick="@command('nuevoProducto')" />

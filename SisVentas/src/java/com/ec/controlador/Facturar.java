@@ -1750,12 +1750,15 @@ public class Facturar extends SelectorComposer<Component> {
         BigDecimal baseCero = BigDecimal.ZERO;
         BigDecimal sumaSubsidio = BigDecimal.ZERO;
         BigDecimal sumaDeItems = BigDecimal.ZERO;
+        BigDecimal totalizado = BigDecimal.ZERO;
 
         List<DetalleFacturaDAO> listaPedido = listaDetalleFacturaDAOMOdel.getInnerList();
         if (listaPedido.size() > 0) {
             for (DetalleFacturaDAO item : listaPedido) {
                 sumaDeItems = sumaDeItems.add(BigDecimal.ONE);
                 if (item.getProducto() != null) {
+
+                    totalizado = totalizado.add(item.getDetTotalconivadescuento());
                     valorTotal = valorTotal.add(item.getProducto().getProdGrabaIva() ? item.getSubTotalDescuento().multiply(item.getCantidad()) : BigDecimal.ZERO);
                     valorIva = valorIva.add(item.getDetIva());
 //                    valorTotalConIva = valorTotalConIva.add(item.getDetTotalconivadescuento());
@@ -1787,7 +1790,7 @@ public class Facturar extends SelectorComposer<Component> {
                 ivaCotizacion = ArchivoUtils.redondearDecimales(valorIva, 2);
 
                 // ivaCotizacion.setScale(5, RoundingMode.UP);
-                valorTotalCotizacion = subTotalCotizacion.add(subTotalBaseCero.add(ivaCotizacion));
+                valorTotalCotizacion = ArchivoUtils.redondearDecimales(totalizado, 2);
                 // valorTotalCotizacion.setScale(5, RoundingMode.UP);
 
                 valorTotalInicialVent = valorTotalInicial;
@@ -2122,7 +2125,7 @@ public class Facturar extends SelectorComposer<Component> {
                     factura.setIdCliente(clienteBuscado);
                     /*GENERAMOS LA CLAVE DE ACCESO PARA ENVIAR LA FACTURA DIRECTAMENTE ASI NO ESTE 
                     AUTORIZADA*/
-                    String claveAcceso = ArchivoUtils.generaClave(factura.getFacFecha(), "01", amb.getAmRuc(), amb.getAmCodigo(), amb.getAmEstab()+amb.getAmPtoemi(), factura.getFacNumeroText(), "12345678", "1");
+                    String claveAcceso = ArchivoUtils.generaClave(factura.getFacFecha(), "01", amb.getAmRuc(), amb.getAmCodigo(), amb.getAmEstab() + amb.getAmPtoemi(), factura.getFacNumeroText(), "12345678", "1");
                     factura.setFacClaveAcceso(claveAcceso);
                     factura.setFacClaveAutorizacion(claveAcceso);
 
@@ -2159,7 +2162,7 @@ public class Facturar extends SelectorComposer<Component> {
                         guiaremision.setPuntoemision(factura.getPuntoemision());
                         guiaremision.setCodestablecimiento(factura.getCodestablecimiento());
                         guiaremision.setEstadosri("PENDIENTE");
-                        String claveAccesoGuia = ArchivoUtils.generaClave(guiaremision.getFacFecha(), "06", amb.getAmRuc(), amb.getAmCodigo(),  amb.getAmEstab()+amb.getAmPtoemi(), guiaremision.getFacNumeroText(), "12345678", "1");
+                        String claveAccesoGuia = ArchivoUtils.generaClave(guiaremision.getFacFecha(), "06", amb.getAmRuc(), amb.getAmCodigo(), amb.getAmEstab() + amb.getAmPtoemi(), guiaremision.getFacNumeroText(), "12345678", "1");
                         guiaremision.setFacClaveAcceso(claveAccesoGuia);
                         guiaremision.setFacClaveAutorizacion(claveAccesoGuia);
                         guiaremision.setCodTipoambiente(factura.getCod_tipoambiente().getCodTipoambiente());
