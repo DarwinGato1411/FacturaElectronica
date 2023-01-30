@@ -15,15 +15,15 @@
           viewModel="@id('vm') @init('com.ec.controlador.AdministrarVenta')" width="100%">
         <tabbox id="tboxPrincipal"  width="100%">
             <tabs >
-                <tab label="Clientes" sclass="menutabs" /> 
+<!--                <tab label="Clientes" sclass="menutabs" /> 
                 <tab label="Productos" sclass="menutabs" /> 
                 <tab label="Proveedores" sclass="menutabs" /> 
                 <tab label="Conductor" sclass="menutabs" /> 
 
-                <tab label="Usuario" sclass="menutabs" /> 
+                <tab label="Usuario" sclass="menutabs" /> -->
 
                 <tab label="Configuracion SRI" sclass="menutabs" /> 
-                <tab label="Parametrizar Empresa" sclass="menutabs" /> 
+                <!--<tab label="Parametrizar Empresa" sclass="menutabs" />--> 
                 <!--<tab label="Consultar catastro" sclass="menutabs" />--> 
 <!--
                 <tab label="Configuraciones" sclass="menutabs" /> 
@@ -34,7 +34,7 @@
             
             <tabpanels >
                 
-                <tabpanel  height="98%" width="99%"  > 
+<!--                <tabpanel  height="98%" width="99%"  > 
 
                 <div class="container_headers" style="margin-bottom:1em">
                     <div 
@@ -69,11 +69,11 @@
                                             onOK="@command('buscarClienteCedula')"
                                             onChange="self.setValue(self.getValue().toUpperCase());" />
                                 </listheader>     
-<!--                                <listheader width="14%"   >
+                                <listheader width="14%"   >
                                 </listheader> 
                                 <listheader width="15%"   >
                                     
-                                </listheader> -->
+                                </listheader> 
                                 <listheader width="25%"   > 
                                     <textbox value="@bind(vm.buscarNombre)" 
                                             class="form-control form-control-sm"
@@ -97,14 +97,14 @@
                                         <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"
                                                 class="form-control form-control-sm"  value="@bind(each.cliCedula)"  />
                                     </listcell>
-<!--                                    <listcell zclass = "mycss-listcell">
+                                    <listcell zclass = "mycss-listcell">
                                         <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"
                                                 class="form-control form-control-sm"  value="@bind(each.cliNombres)"  />
                                     </listcell>
                                     <listcell zclass = "mycss-listcell">
                                         <textbox readonly="true" style="font-size:12px;background:#EBF5FB"
                                             class="form-control form-control-sm"  value="@bind(each.cliApellidos)"  />
-                                    </listcell>-->
+                                    </listcell>
                                     <listcell zclass = "mycss-listcell">
                                         <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"
                                                 class="form-control form-control-sm"  value="@bind(each.cliNombre)"  />
@@ -217,13 +217,13 @@
 
 
 
-                </tabpanel>              
+                </tabpanel>              -->
                 <tabpanel height="100%" hflex="min">
                     <include src="/administrar/configuracion.zul"/>  
                 </tabpanel>
-                <tabpanel height="100%" hflex="min">
+<!--                <tabpanel height="100%" hflex="min">
                     <include src="/administrar/parametrizar.zul"/>  
-                </tabpanel>
+                </tabpanel>-->
 
 
             </tabpanels>

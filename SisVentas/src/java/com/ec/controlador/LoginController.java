@@ -79,9 +79,9 @@ public class LoginController extends SelectorComposer<Component> {
                 Session sess = Sessions.getCurrent();
                 UserCredential cre = (UserCredential) sess.getAttribute(EnumSesion.userCredential.getNombre());
                 if (cre.getNivelUsuario().intValue() == GrupoUsuarioEnum.USUARIO.getCodigo()) {
-                    Executions.sendRedirect("/venta/facturar.zul");
+                    Executions.sendRedirect("/compra/listacomprassri.zul");
                 } else if (cre.getNivelUsuario().intValue() == GrupoUsuarioEnum.ADMINISTRADOR.getCodigo()) {
-                    Executions.sendRedirect("/venta/facturar.zul");
+                    Executions.sendRedirect("/compra/listacomprassri.zul");
                 }
             } else {
                 Messagebox.show("Usuario o Contraseña incorrecto. \n Contactese con el administrador.", "Atención", Messagebox.OK, Messagebox.EXCLAMATION);

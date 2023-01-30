@@ -69,7 +69,7 @@
                                 <menuitem label="Mercaderia ingresada" id="btnListaCompras"  />                                                          
                                 <menuitem label="Retenciones" id="btnRetenciones"  />
                               -->
-                                <menuitem label="Descargar comptras desde el SRI" id="btnListaComprasSRI"  />     
+                                <menuitem label="Descargar compras desde el SRI" id="btnListaComprasSRI"  />     
                             </menupopup>
                         </menu>          
                                      
