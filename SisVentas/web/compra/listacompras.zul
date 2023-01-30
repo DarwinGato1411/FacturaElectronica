@@ -86,6 +86,7 @@
                             <listheader width="3%"  label="" align="center" />        
                             <listheader width="3%"  label="" align="center" />        
                             <listheader width="3%"   tooltiptext="Tabla de amortizacion" label="" align="center" />        
+                            <listheader width="3%"   tooltiptext="Tabla de amortizacion" label="" align="center" />        
                         </listhead>  
                         
                     
@@ -200,14 +201,22 @@
                                            height=" 30px" 
                                            class="btn btn btn-secondary btn-sm grow"
                                            onClick="@command('verDetallePago',valor=each)" 
-                                           tooltiptext="Modificar factura"/>
+                                           tooltiptext="Ver detalle de pago"/>
                                     <image if="${each.cabEstado=='PA'}" 
                                            src="/iconos/listo_uno.png"  
                                            height=" 30px"  
                                            class=" grow"                                       
-                                           tooltiptext="No se puede autorizar por que se encuentra en estado autorizado"/> 
+                                           tooltiptext="No se puede verificar por que se encuentra en estado autorizado"/> 
                                 </listcell>
-                                
+                                <listcell zclass = "mycss-listcell" style="font-size:12px;background:#F8F9F9">
+                                    <image 
+                                           src="/iconos/delete.png"
+                                           height=" 30px" 
+                                           class="btn btn btn-secondary btn-sm grow"
+                                           onClick="@command('eliminarCompra',valor=each)" 
+                                           tooltiptext="eliminar factura"/>
+                                    
+                                </listcell>
                                 
                                 
                             </listitem>
