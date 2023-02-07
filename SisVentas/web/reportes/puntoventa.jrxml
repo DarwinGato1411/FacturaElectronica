@@ -486,7 +486,21 @@ and tipoambiente.am_estado is true limit 1;]]>
 					<jr:column width="97">
 						<jr:detailCell height="13" rowSpan="1">
 							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-								<reportElement x="0" y="0" width="97" height="13" isPrintWhenDetailOverflows="true"/>
+								<reportElement x="0" y="0" width="97" height="13" isPrintWhenDetailOverflows="true">
+									<printWhenExpression><![CDATA[$F{prod_graba_iva}]]></printWhenExpression>
+								</reportElement>
+								<box>
+									<bottomPen lineWidth="0.25"/>
+								</box>
+								<textElement verticalAlignment="Middle">
+									<font size="7" isBold="true"/>
+								</textElement>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{det_descripcion}+"*"]]></textFieldExpression>
+							</textField>
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="97" height="13" isPrintWhenDetailOverflows="true">
+									<printWhenExpression><![CDATA[!$F{prod_graba_iva}]]></printWhenExpression>
+								</reportElement>
 								<box>
 									<bottomPen lineWidth="0.25"/>
 								</box>

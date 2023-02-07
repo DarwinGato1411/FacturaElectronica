@@ -1,7 +1,22 @@
 package com.ec.untilitario;
 
+import com.ec.entidad.CabeceraCompra;
+import com.ec.entidad.DetalleCompra;
+import com.ec.entidad.Parametrizar;
+import com.ec.entidad.Producto;
+import com.ec.entidad.Proveedores;
+import com.ec.entidad.TipoIdentificacionCompra;
 import com.ec.entidad.Tipoambiente;
+import com.ec.entidad.sri.CabeceraCompraSri;
+import com.ec.entidad.sri.DetalleCompraSri;
+import com.ec.seguridad.EnumSesion;
+import com.ec.seguridad.UserCredential;
 import com.ec.servicio.HelperPersistencia;
+import com.ec.servicio.ServicioEstadoFactura;
+import com.ec.servicio.ServicioParametrizar;
+import com.ec.servicio.ServicioProducto;
+import com.ec.servicio.ServicioProveedor;
+import com.ec.servicio.ServicioTipoIdentificacionCompra;
 import ec.gob.sri.comprobantes.util.xml.LectorXPath;
 import ec.gob.sri.comprobantes.util.xml.XStreamUtil;
 import ec.gob.sri.comprobantes.ws.RespuestaSolicitud;
@@ -20,12 +35,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
 import java.io.Reader;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.URISyntaxException;
-import java.net.URL;
-import java.net.URLConnection;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -81,8 +94,23 @@ import org.w3c.dom.Text;
 import org.w3c.dom.DOMException;
 
 import org.xml.sax.SAXException;
+import org.zkoss.zk.ui.Session;
+import org.zkoss.zk.ui.Sessions;
 
 public class ArchivoUtils {
+
+    private static UserCredential credential = new UserCredential();
+    private static ServicioEstadoFactura servicioEstadoFactura = new ServicioEstadoFactura();
+    private static ServicioProveedor servicioProveedor = new ServicioProveedor();
+    private static ServicioTipoIdentificacionCompra servicioTipoIdentificacionCompra = new ServicioTipoIdentificacionCompra();
+    private static ServicioProducto servicioProducto = new ServicioProducto();
+    private static ServicioParametrizar servicioParametrizar = new ServicioParametrizar();
+
+    public ArchivoUtils() {
+        Session sess = Sessions.getCurrent();
+        credential = (UserCredential) sess.getAttribute(EnumSesion.userCredential.getNombre());
+
+    }
 
     public static String archivoToString(String rutaArchivo) {
         /*  70 */ StringBuffer buffer = new StringBuffer();
@@ -131,7 +159,7 @@ public class ArchivoUtils {
     }
 
     public static byte[] archivoToByte(File file)
-            throws IOException {
+                throws IOException {
         /* 136 */ byte[] buffer = new byte[(int) file.length()];
         /* 137 */ InputStream ios = null;
         try {
@@ -263,7 +291,7 @@ public class ArchivoUtils {
     }
 
     private static Document merge(String exp, File[] files)
-            throws Exception {
+                throws Exception {
         /* 537 */ XPathFactory xPathFactory = XPathFactory.newInstance();
         /* 538 */ XPath xpath = xPathFactory.newXPath();
         /* 539 */ XPathExpression expression = xpath.compile(exp);
@@ -320,9 +348,9 @@ public class ArchivoUtils {
             //in = new FileInputStream(Utilidades.DirXMLPrincipal + Utilidades.DirFirmados + prefijo + establecimiento + "-" + puntoemision + "-" + secuencial + ".xml");
             in = new FileInputStream(pathArchivo);
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-           
+
             DocumentBuilder builder
-                    = factory.newDocumentBuilder();
+                        = factory.newDocumentBuilder();
             Document document = builder.parse(in);
 
             Source source = new DOMSource(document);
@@ -335,19 +363,19 @@ public class ArchivoUtils {
 
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Tipoambiente.class
-                    .getName()).log(Level.SEVERE, null, ex);
+                        .getName()).log(Level.SEVERE, null, ex);
 
         } catch (ParserConfigurationException e) {
             Logger.getLogger(Tipoambiente.class
-                    .getName()).log(Level.SEVERE, null, e);
+                        .getName()).log(Level.SEVERE, null, e);
 
         } catch (TransformerConfigurationException ex) {
             Logger.getLogger(Tipoambiente.class
-                    .getName()).log(Level.SEVERE, null, ex);
+                        .getName()).log(Level.SEVERE, null, ex);
 
         } catch (TransformerException ex) {
             Logger.getLogger(Tipoambiente.class
-                    .getName()).log(Level.SEVERE, null, ex);
+                        .getName()).log(Level.SEVERE, null, ex);
         } catch (SAXException ex) {
             Logger.getLogger(ArchivoUtils.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -403,7 +431,7 @@ public class ArchivoUtils {
         Connection con = null;
         try {
             String reportFile = Executions.getCurrent().getDesktop().getWebApp()
-                    .getRealPath("/reportes");
+                        .getRealPath("/reportes");
             String reportPath = "";
             emf.getTransaction().begin();
             con = emf.unwrap(Connection.class);
@@ -526,12 +554,12 @@ public class ArchivoUtils {
 
     /*CREAR LA CLAVE DE ACCESO*/
     public static String generaClave(Date fechaEmision,
-            String tipoComprobante,
-            String ruc,
-            String ambiente,
-            String serie,
-            String numeroComprobante,
-            String codigoNumerico, String tipoEmision) {
+                String tipoComprobante,
+                String ruc,
+                String ambiente,
+                String serie,
+                String numeroComprobante,
+                String codigoNumerico, String tipoEmision) {
         String claveGenerada = "";
         int verificador = 0;
 
@@ -613,8 +641,8 @@ public class ArchivoUtils {
         resultado = (divide.add(BigDecimal.valueOf(parteEntera))).doubleValue();
         return BigDecimal.valueOf(resultado);
     }
-    
-   public static AduanaJson obtenerdatoAduana(String cedulaParam) throws URISyntaxException, IOException, XPathExpressionException, JSONException {
+
+    public static AduanaJson obtenerdatoAduana(String cedulaParam) throws URISyntaxException, IOException, XPathExpressionException, JSONException {
         AduanaJson respuesta = new AduanaJson();
         String stubsApiBaseUri = "https://srienlinea.sri.gob.ec/movil-servicios/api/v1.0/deudas/porIdentificacion/" + cedulaParam;
 
@@ -640,22 +668,22 @@ public class ArchivoUtils {
 
         //JSONObject outlineArray = new JSONObject(contenido);
         try {
-             if (!contenido.equals("")) {
-            JSONObject appObject = new JSONObject(contenido);
+            if (!contenido.equals("")) {
+                JSONObject appObject = new JSONObject(contenido);
 
-            JSONObject appObjectInf = appObject.getJSONObject("contribuyente");
-            String nombre = appObjectInf.getString("nombreComercial");
-            String mensaje = appObjectInf.getString("clase");
-            String cedula = appObjectInf.getString("identificacion");
+                JSONObject appObjectInf = appObject.getJSONObject("contribuyente");
+                String nombre = appObjectInf.getString("nombreComercial");
+                String mensaje = appObjectInf.getString("clase");
+                String cedula = appObjectInf.getString("identificacion");
 
-            respuesta.setCedula(cedula);
-            respuesta.setNombre(nombre);
-            respuesta.setMensaje(mensaje);
-        } else {
-            respuesta.setCedula("");
-            respuesta.setNombre("");
-            respuesta.setMensaje("");
-        }
+                respuesta.setCedula(cedula);
+                respuesta.setNombre(nombre);
+                respuesta.setMensaje(mensaje);
+            } else {
+                respuesta.setCedula("");
+                respuesta.setNombre("");
+                respuesta.setMensaje("");
+            }
         } catch (JSONException e) {
             respuesta.setCedula("");
             respuesta.setNombre("");
@@ -663,5 +691,110 @@ public class ArchivoUtils {
         }
 
         return respuesta;
+    }
+
+    public static CabeceraCompra compraSriToCompra(CabeceraCompraSri valor) {
+        CabeceraCompra compra = new CabeceraCompra();
+        Proveedores prov = servicioProveedor.findProvCedula(valor.getCabRucProveedor());
+        if (prov != null) {
+            compra.setIdProveedor(prov);
+        } else {
+            Proveedores provNuevo = new Proveedores();
+            //DEPENDE DEL PROVEEDOR SI ES CEDULA O RUC
+            TipoIdentificacionCompra identificacionCompra = null;
+            if (valor.getCabRucProveedor().length() == 13) {
+                identificacionCompra = servicioTipoIdentificacionCompra.findByCedulaRuc("04");
+            } else if (valor.getCabRucProveedor().length() == 10) {
+                identificacionCompra = servicioTipoIdentificacionCompra.findByCedulaRuc("05");
+            }
+            provNuevo.setIdTipoIdentificacionCompra(identificacionCompra);
+            provNuevo.setProvBanco("S/N");
+            provNuevo.setProvNombre(valor.getCabProveedor());
+            provNuevo.setProvNomComercial(valor.getCabProveedor());
+            provNuevo.setProvCedula(valor.getCabRucProveedor());
+            provNuevo.setProvDireccion(valor.getCabDireccion());
+            servicioProveedor.crear(provNuevo);
+            compra.setIdProveedor(provNuevo);
+//            prov = provNuevo;
+        }
+
+        compra.setCabDescripcion("PROCESADA");
+        compra.setIdUsuario(credential.getUsuarioSistema());
+        compra.setIdEstado(servicioEstadoFactura.findByEstCodigo("PA"));
+        compra.setCabNumFactura(valor.getCabNumFactura());
+        compra.setCabEstado("PE");
+
+        compra.setCabFecha(valor.getCabFecha());
+        compra.setCabSubTotal(valor.getCabSubTotal());
+        compra.setCabIva(valor.getCabIva());
+        compra.setCabTotal(valor.getCabTotal());
+        compra.setCabSubTotalCero(valor.getCabSubTotalCero());
+
+        compra.setCabEstado("PE");
+        compra.setCabProveedor(valor.getCabProveedor());
+        compra.setCabClaveAcceso(valor.getCabAutorizacion());
+        compra.setCabAutorizacion(valor.getCabAutorizacion());
+        compra.setCabFechaEmision(valor.getCabFecha());
+        compra.setDrcCodigoSustento("01");
+        compra.setCabRetencionAutori("N");
+        compra.setCabTraeSri(Boolean.TRUE);
+        compra.setCabEstablecimiento(valor.getCabEstablecimiento());
+        compra.setCabPuntoEmi(valor.getCabPuntoEmision());
+
+        return compra;
+    }
+
+    public static DetalleCompra detalleSriToDetalleCompra(DetalleCompraSri valor, CabeceraCompra compra) {
+        DetalleCompra detalleCom = new DetalleCompra();
+        Parametrizar parametrizar = new Parametrizar();
+        parametrizar = servicioParametrizar.FindALlParametrizar();
+        BigDecimal factorIva = BigDecimal.ONE.add(parametrizar.getParIvaActual().divide(BigDecimal.valueOf(100)));
+        BigDecimal factorUtilidad = BigDecimal.ONE.add(BigDecimal.valueOf(0.47));
+        Producto buscado = servicioProducto.findByProdCodigo(valor.getIprodCodigoProducto());
+        Producto nuevoProd = new Producto();
+        if (buscado == null) {
+            BigDecimal costoInicial = valor.getIprodSubtotal().setScale(2, RoundingMode.CEILING);
+            BigDecimal calCostoCompr = valor.getIprodGrabaIva() ? (costoInicial.divide(factorIva, 3, RoundingMode.FLOOR)) : costoInicial;
+
+            System.out.println("PRODUCTO NUEVO " + valor.getIprodDescripcion());
+            nuevoProd = new Producto();
+            nuevoProd.setPordCostoCompra(calCostoCompr);
+            nuevoProd.setPordCostoVentaFinal(costoInicial.multiply(factorUtilidad).setScale(4, RoundingMode.CEILING));
+            nuevoProd.setPordCostoVentaRef(costoInicial.setScale(4, RoundingMode.CEILING));
+            nuevoProd.setProdAbreviado("");
+            nuevoProd.setProdCantMinima(BigDecimal.TEN);
+            nuevoProd.setProdCantidadInicial(BigDecimal.TEN);
+            nuevoProd.setProdCodigo(valor.getIprodCodigoProducto().length() > 199 ? valor.getIprodCodigoProducto().substring(0, 199).toUpperCase() : valor.getIprodCodigoProducto().toUpperCase());
+            nuevoProd.setProdCostoPreferencial(BigDecimal.ZERO);
+            nuevoProd.setProdCostoPreferencialDos(BigDecimal.ZERO);
+            nuevoProd.setProdCostoPreferencialTres(BigDecimal.ZERO);
+            nuevoProd.setProdIsPrincipal(Boolean.FALSE);
+            nuevoProd.setProdEsproducto(Boolean.TRUE);
+            nuevoProd.setProdIva(valor.getIprodGrabaIva() ? parametrizar.getParIvaActual() : BigDecimal.ZERO);
+            nuevoProd.setProdManoObra(BigDecimal.ZERO);
+            nuevoProd.setProdNombre(valor.getIprodDescripcion().length() > 199 ? valor.getIprodDescripcion().substring(0, 199).toUpperCase() : valor.getIprodDescripcion().toUpperCase());
+            nuevoProd.setProdTrasnporte(BigDecimal.ZERO);
+            nuevoProd.setProdUtilidadNormal(BigDecimal.ZERO);
+            nuevoProd.setProdUtilidadPreferencial(BigDecimal.ZERO);
+            nuevoProd.setProdPrecioSinSubsidio(BigDecimal.ZERO);
+            nuevoProd.setProdTieneSubsidio("N");
+            nuevoProd.setProdGrabaIva(valor.getIprodGrabaIva());
+            
+            servicioProducto.crear(nuevoProd);
+            detalleCom.setIdProducto(nuevoProd);
+        }
+
+        if (buscado != null) {
+            detalleCom.setIdProducto(buscado);
+        }
+        detalleCom.setIdCabecera(compra);
+        detalleCom.setIprodCantidad(valor.getIprodCantidad());
+        detalleCom.setDetDescripcion(valor.getIprodDescripcion());
+        detalleCom.setIprodSubtotal(valor.getIprodSubtotal());
+        detalleCom.setIprodTotal(valor.getIprodTotal());
+        detalleCom.setDetValorInicial(BigDecimal.ONE);
+        detalleCom.setDetFactor(BigDecimal.ONE);
+
+        return detalleCom;
     }
 }

@@ -193,6 +193,7 @@
                                 <listheader width="3%"  label="" align="rigth" />        
                                 <listheader width="3%"  label="" align="rigth" />        
                                 <listheader width="3%"  label="" align="rigth" />        
+                                <!--<listheader width="3%"  label="" align="rigth" />-->        
                                     
                             </listhead>  
                             
@@ -422,6 +423,13 @@
                                                class="btn-secondary btn-sm "       
                                                tooltiptext="Reenviar correo electronico"/>
                                     </listcell> 
+<!--                                    <listcell  zclass = "mycss-listcell" >   
+                                        <image src="/iconos/email.png"   
+                                               height="30px"  
+                                               onClick="@command('verificarFactura',valor=each)" 
+                                               class="btn-secondary btn-sm "       
+                                               tooltiptext="Verificarfactura correo electronico"/>
+                                    </listcell> -->
                                 </listitem>
                             </template>
                         </listbox>

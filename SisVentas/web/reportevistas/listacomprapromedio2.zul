@@ -59,8 +59,13 @@
                         </auxhead>
                        
                         <listhead> 
+<<<<<<< HEAD
                             <listheader width="70%"  label="Producto" sort="auto(descripcion)"  />
                             <listheader width="15%"  label="Fecha"  sort="auto(fecha)"/>    
+=======
+                            <listheader width="75%"  label="Producto" sort="auto(descripcion)"  />
+                            <listheader width="10%"  label="Fecha"  sort="auto(fecha)"/>    
+>>>>>>> 8f771d6784b66712bd6450e40016b89e8767658e
                             <listheader width="15%"  label="Precio promedio" sort="auto(subtotal)" />
                                                              
                         </listhead>  

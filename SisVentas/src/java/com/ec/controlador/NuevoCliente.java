@@ -74,7 +74,7 @@ public class NuevoCliente {
         }
 
     }
-@Command
+    @Command
     @NotifyChange({"cliente"})
     public void buscarAduana() throws URISyntaxException, IOException, XPathExpressionException, JSONException {
         if (cliente.getCliCedula() != null) {

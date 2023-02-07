@@ -1,0 +1,466 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?link rel="stylesheet" type="text/css" href="/css/boostrap/bootstrap.css"?>  
+<?link rel="stylesheet" type="text/css" href="/css/style.css"?>
+<?init class="com.ec.seguridad.Autentificador"?>
+<?init class="org.zkoss.zk.ui.util.Composition" arg0="/plantilla/plantilla.zul"?>
+<!--<zk   class="col-12 col-sm-12 col-md-12 col-lg-12">-->
+<hbox self="@define(content)" apply="org.zkoss.bind.BindComposer" 
+      class=" container col-12 col-sm-12 col-md-11 col-lg-11"
+      viewModel="@id('vm') @init('com.ec.controlador.ListaComprasSri')" >
+    <!--<div class="container">-->
+            
+ 
+    <div class="row">
+        <tabbox id="tboxPrincipal"  width="100%">
+            <tabs >
+                <tab label="Documentos para descargar SRI" sclass="menutabs" /> 
+                <!--<tab label="Factua de Compras SRI" sclass="menutabs" />--> 
+                <!--<tab label="Retenciones SRI" sclass="menutabs" />--> 
+            </tabs>
+            <tabpanels >
+                
+                      
+                <tabpanel  >                    
+                    <div class="row ">
+                        <div class=" col-12 col-sm-12 col-md-6 col-lg-6">
+                                   
+                            <div  class="col-12 col-sm-12 col-md-12 col-lg-12 ">
+                                <button   image="/imagenes/folder.png"  
+                                        onClick="@command('subirArchivo')"                                               
+                                        style="border: 1px solid #efefef;display: inline-block;padding: 6px 12px; cursor: pointer;"
+                                        label="Subir su archivo TXT"
+                                        class="btn-success"
+                                        tooltiptext="Cargar su archivo TXT, obtenido desde el SRI"/>
+                                <button   image="/iconos/delete.png"  
+                                        onClick="@command('eliminarCabeceraSRI')"                                               
+                                        style="border: 1px solid #efefef;display: inline-block;padding: 6px 12px; cursor: pointer;"
+                                        label="Eliminar datos del archivo txt"
+                                        class="btn-danger"
+                                        tooltiptext="Cargar su archivo TXT, obtenido desde el SRI"/>
+<!--                                <button   image="/imagenes/folder.png"  
+                                        onClick="@command('subirArchivo')"                                               
+                                        style="border: 1px solid #efefef;display: inline-block;padding: 6px 12px; cursor: pointer;"
+                                        label="Subir su archivo TXT"
+                                        tooltiptext="Cargar su archivo TXT, obtenido desde el SRI"/>-->
+                                    
+                            </div>
+                            <div  class="col-12 col-sm-12 col-md-12 col-lg-12 ">
+                                <label value="Inicio: "   />
+                                <datebox   value="@bind(vm.inicio)" 
+                                         style="font-weight:bold;"                                                   
+                                         buttonVisible="true" 
+                                         lenient="true"  format="dd/MM/yyyy" 
+                                         constraint="no empty: Ingrese de inicio de la busqueda"/> 
+               
+                                <label value="Fin: "  />
+                                <datebox   value="@bind(vm.fin)" 
+                                         style="font-weight:bold;" 
+                                         onCreate="self.value = new Date()"                                                   
+                                         buttonVisible="true" 
+                                         lenient="true"  format="dd/MM/yyyy" 
+                                         constraint="no empty: IBuscar por fecha fin de la busqueda"/> 
+                                <button   image="/imagenes/buscar1.png"  
+                                        onClick="@command('buscarComprasSri')"  
+                                        class="btn btn-primary btn-sm "
+                                        tooltiptext="Buscar"/>
+                                
+                                <button   image="/iconos/excel.png"  
+                                        onClick="@command('exportarDocumentosSRI')"  
+                                        class="btn btn-primary btn-sm "
+                                        tooltiptext="Buscar"/>
+                       
+                
+                
+                                                                                 
+
+             
+                                <button   image="/iconos/sri.png"  
+                                        onClick="@command('cargarComprasSRI')"  
+                                        class="btn btn-primary btn-sm "
+                                        tooltiptext="Descargar"/>               
+                                  
+                                   
+                            </div>
+                            <!--                    </div>
+                            <div class="row col-12 col-sm-12 col-md-6 col-lg-6">-->
+                            <listbox model="@load(vm.listaComprasSris)" 
+                                     nonselectableTags=""  mold="paging" pageSize="15"  >
+                                <custom-attributes org.zkoss.zul.listbox.rod="true"/>
+
+                       
+                                <listhead> 
+                                      
+                                    <listheader width="10%"  label="Tipo Doc" />        
+                                    <listheader width="15%"  label="RUC" />        
+                                    <listheader width="35%"  label="Emisor" />        
+                                    <listheader width="25%"  label="Nº Comprobante" />        
+                                    <listheader width="15%"  label="Fecha emision" />        
+                                    <listheader width="20%"  label="Clave acceso" />        
+                                          
+                                </listhead>  
+                        
+                    
+                                <template name="model">                                                            
+                                    <listitem zclass = "mycss-listcell">
+                                        <listcell zclass = "mycss-listcell">
+                                            <textbox  class="form-control form-control-sm" 
+                                                     style="font-size:12px;background:#EBF5FB"
+                                                     readonly="true" value="@bind(each.csriComprobante)" width="100%" />
+                                        </listcell>
+                                        <listcell zclass = "mycss-listcell">
+                                            <textbox  class="form-control form-control-sm" 
+                                                     style="font-size:12px;background:#EBF5FB"
+                                                     readonly="true" value="@bind(each.csriRucEmisor)" width="100%" />
+                                        </listcell>
+                                               
+                                        <listcell zclass = "mycss-listcell">
+                                            <textbox class="form-control form-control-sm"                                                               
+                                                     style="font-size:12px;background:#EBF5FB"
+                                                     readonly="true" value="@bind(each.csriRazonSocial)" width="100%" />
+                                        </listcell>
+                                        <listcell zclass = "mycss-listcell">
+                                            <textbox class="form-control form-control-sm"                                                     
+                                                     readonly="true" value="@bind(each.csriSerieComprobante)" width="100%" />
+                                        </listcell>
+                                      
+                                              
+
+                                        <listcell>
+                                            <datebox value="@bind(each.csriFechaEmision)" 
+                                                     buttonVisible="false" 
+                                                     readonly="true"
+                                                     lenient="true" 
+                                                     format="medium" width="100%"  />
+                                        </listcell>   
+                                        <listcell zclass = "mycss-listcell">
+                                            <textbox class="form-control form-control-sm"                                                     
+                                                     readonly="true" value="@bind(each.csriClaveAcceso)" width="100%" />
+                                        </listcell>  
+                                    </listitem>
+                                </template>
+                            </listbox>
+                        </div>   
+                        <div class=" col-12 col-sm-12 col-md-6 col-lg-6">
+                    
+                            <div class="row">
+                                <div apply="com.ec.controlador.ListaComprasSri" class="col-12 col-sm-12 col-md-12 col-lg-12 "  >                                  
+                                    <button id="uploadFacturas" label="Subir sus archivos XML "                                    
+                                            style="border: 1px solid #efefef;display: inline-block;padding: 6px 12px; cursor: pointer; pading-bottom:2px"
+                                            upload="true,maxsize=-1,multiple=true"/>
+                                    <button   image="/imagenes/procesar.gif"  
+                                              onClick="@command('procesarXMLFactura')"                                              
+                                              class="btn btn-primary btn-sm "
+                                              label="Procesar XML(s) seleccionados" 
+                                              tooltiptext="Exportar facturas"/>
+                                    
+                                </div>  
+                                <div  class="col-12 col-sm-12 col-md-12 col-lg-12 ">
+<!--                                    <label value="Inicio: "   />
+                                    <datebox   value="@bind(vm.inicioComp)" 
+                                             style="font-weight:bold;"                                                   
+                                             buttonVisible="true" 
+                                             lenient="true"  format="dd/MM/yyyy" 
+                                             constraint="no empty: Ingrese de inicio de la busqueda"/> 
+               
+                                    <label value="Fin: "  />
+                                    <datebox   value="@bind(vm.finComp)" 
+                                             style="font-weight:bold;" 
+                                             onCreate="self.value = new Date()"                                                   
+                                             buttonVisible="true" 
+                                             lenient="true"  format="dd/MM/yyyy" 
+                                             constraint="no empty: IBuscar por fecha fin de la busqueda"/> 
+                                    <button   image="/imagenes/buscar1.png"  
+                                            onClick="@command('buscarComprasSriProcesadas')"  
+                                            class="btn btn-primary btn-sm "
+                                            tooltiptext="Buscar"/>-->
+                                    <button   image="/iconos/excel.png"  
+                                            label="General"
+                                            onClick="@command('exportListboxToExcelCabe')"  
+                                            class="btn btn-primary btn-sm "
+                                            tooltiptext="Exportar facturas"/>
+                                    <button   image="/iconos/excel.png"  
+                                            label="Detallado"
+                                            onClick="@command('exportListboxToExcel')"  
+                                            class="btn btn-primary btn-sm "
+                                            tooltiptext="Exportar facturas"/>
+                          
+                            
+                             
+                                                       
+
+             
+
+                                    
+
+                                </div>
+                            </div>
+                            <listbox model="@load(vm.listaCabeceraCompraSris)" 
+                                     nonselectableTags=""  mold="paging" pageSize="15"  >
+                                <custom-attributes org.zkoss.zul.listbox.rod="true"/>
+
+                       
+                                <listhead> 
+                                    <listheader width="10%"  label="" >
+                                        <textbox value="@bind(vm.buscarNumFac)"  
+                                                 tooltiptext="Nº Factura"
+                                                 class="form-control form-control-sm"                                         
+                                                 placeholder="Nº Factura"
+                                                 onOK="@command('buscarForNumFactura')"
+                                                 onChange="self.setValue(self.getValue().toUpperCase());" />
+                                    </listheader> 
+                                    <listheader width="10%"  label="Fecha" />    
+                                    <listheader width="10%"  label="Base 12" />        
+                                    <listheader width="10%"  label="Base 0" />        
+                                    <listheader width="10%"  label="IVA" />        
+                                    <listheader width="10%"  label="Total" />        
+                                    <listheader width="10%"  label="Estado" />        
+                                    <listheader width="30%"  label="" >
+                                        <textbox placeholder="Proveedor"
+                                                 value="@bind(vm.buscar)" 
+                                                 class="form-control form-control-sm"
+                                                 onOK="@command('buscarForProveedor')"
+                                                 onChange="self.setValue(self.getValue().toUpperCase());"/>
+                                    </listheader>        
+<!--                                    <listheader width="15%"  label="categoria" />                                                                                 
+                                    <listheader width="15%"  label="Casillero" />                                                                                 -->
+                                    <listheader width="5%"  label="" />                                                                                 
+                                    <!--<listheader width="5%"  label="" />-->                                                                                 
+                                </listhead>  
+                        
+                    
+                                <template name="model">                                                            
+                                    <listitem>
+                                        <listcell zclass = "mycss-listcell">
+                                            <textbox class="form-control form-control-sm"                                                               
+                                                     style="font-size:12px;background:#EBF5FB"
+                                                     readonly="true"
+                                                     value="@bind(each.cabNumFactura)" width="96%" />
+                                        </listcell>
+                                        <listcell zclass = "mycss-listcell">
+                                            <datebox value="@bind(each.cabFechaEmision)" 
+                                                     buttonVisible="false" 
+                                                     lenient="true" 
+                                                     format="medium" width="98%"  />
+                                        </listcell>
+                                        <listcell zclass = "mycss-listcell">
+                                            <decimalbox format="###.##" 
+                                                        class="form-control form-control-sm"                                                               
+                                                        style="font-size:12px;background:#EBF5FB"
+                                                        readonly="true"  
+                                                        value="@bind(each.cabSubTotal)" width="96%" />
+                                        </listcell>
+                                        <listcell zclass = "mycss-listcell">
+                                            <decimalbox format="###.##" 
+                                                        class="form-control form-control-sm"                                                               
+                                                        style="font-size:12px;background:#EBF5FB"
+                                                        readonly="true"  
+                                                        value="@bind(each.cabSubTotalCero)" width="96%" />
+                                        </listcell>
+                                        <listcell zclass = "mycss-listcell">
+                                            <decimalbox format="###.##" 
+                                                        class="form-control form-control-sm"                                                               
+                                                        style="font-size:12px;background:#EBF5FB"
+                                                        readonly="true"  
+                                                        value="@bind(each.cabIva)" width="96%" />
+                                        </listcell>
+                                        <listcell zclass = "mycss-listcell">
+                                            <decimalbox format="###.##" 
+                                                        class="form-control form-control-sm"                                                               
+                                                        style="font-size:12px;background:#EBF5FB"
+                                                        readonly="true"  
+                                                        value="@bind(each.cabTotal)" width="96%" />
+                                        </listcell>
+                                        <listcell zclass = "mycss-listcell">
+                                            <textbox class="form-control form-control-sm"                                                               
+                                                     style="font-size:12px;background:#EBF5FB"
+                                                     readonly="true"
+                                                     value="@bind(each.cabEstado)" width="96%" />
+                                        </listcell>
+                                        <listcell zclass = "mycss-listcell">
+                                            <textbox class="form-control form-control-sm"                                                               
+                                                     style="font-size:12px;background:#EBF5FB"
+                                                     readonly="true"
+                                                     value="@bind(each.cabProveedor)" width="96%" />
+                                        </listcell>
+<!--                                        <listcell zclass = "mycss-listcell">
+                                            <combobox readonly="true"    
+                                                      style="font-size:12px;width:100px"                                   
+                                                      selectedItem="@bind(each.categoriaFactura)" >
+                                                <comboitem label="Inventario" value="Inventario" />                    
+                                                <comboitem label="Alimentacion" value="Alimentacion" />
+                                                <comboitem label="Educacion" value="Educacion" />
+                                                <comboitem label="Vestimenta" value="Vestimenta" />
+                                                <comboitem label="Vivienda" value="Vivienda" />
+                                                <comboitem label="Salud" value="Salud" />
+                                            </combobox>
+                                    
+                                        </listcell>                             
+                                        <listcell zclass = "mycss-listcell">
+                                            <combobox readonly="true"    
+                                                      style="font-size:12px;width:100px"                                  
+                                                      selectedItem="@bind(each.cabCasillero)" >
+                                                <comboitem label="500" value="500" 
+                                                           description="@bind(each ne null ? ''.concat('Adquisiciones y pagos (excluye activos fijos) gravados tarifa diferente de cero (con derecho a crédito tributario)') : ''))"/>                    
+                                                <comboitem label="501" value="501" />
+                                                <comboitem label="502" value="502" />
+                                                <comboitem label="503" value="503" />
+                                                <comboitem label="504" value="504" />
+                                                <comboitem label="505" value="505" />
+                                                <comboitem label="506" value="506" />
+                                                <comboitem label="507" value="507" />
+                                                <comboitem label="508" value="508" />
+                                                <comboitem label="526" value="526" />
+                                                <comboitem label="527" value="527" />
+                                             
+                                            </combobox>
+                                    
+                                        </listcell>   -->
+                                        <listcell  zclass = "mycss-listcell" >    
+                                     
+                                            <image src="/iconos/factelect.jpg"  
+                                                   height=" 30px"   
+                                                   class="btn btn btn-secondary btn-sm grow"                                         
+                                                   onClick="@command('reporteFacturaCompra',valor=each)"
+                                                   tooltiptext="Imprimir factura"/>
+                              
+                                        </listcell>                          
+                                        <!--                                        <listcell zclass = "mycss-listcell">
+                                            <button src="/iconos/guardar.png"  
+                                                    style="height:30px "            
+                                                    autodisable="self"                                                    
+                                                    class="btn btn-sm "
+                                                    onClick="@command('actualizar',valor=each)"
+                                                    tooltiptext="Guardar factura"/>    
+                                        </listcell>      -->
+
+                                    </listitem>
+                                </template>
+                            </listbox>
+                        </div>
+                    </div>
+                
+                </tabpanel>
+                
+                <tabpanel  height="98%" width="99%"  >                    
+                    
+                           
+                </tabpanel>
+                <tabpanel  height="98%" width="100%"  >                    
+                    <div class="row">
+                        <div apply="com.ec.controlador.ListaComprasSri" class="col-12 col-sm-12 col-md-12 col-lg-12 "  >                                  
+                            <button id="upload" label="Subir sus archivos XML " 
+                                    style="border: 1px solid #efefef;display: inline-block;padding: 6px 12px; cursor: pointer;"
+                                    upload="true,maxsize=-1,multiple=true"/>
+                            <button   image="/imagenes/procesar.gif"  
+                                         onClick="@command('procesarXMLRetencion')"  
+                                         class="btn btn-primary btn-sm "
+                                         label="Procesar XML(s) seleccionados" 
+                                         style="border: 1px solid #efefef;display: inline-block;padding: 6px 12px; cursor: pointer;"
+                                         tooltiptext="Exportar retencion"/>
+                        </div>
+                        <div  class="col-12 col-sm-12 col-md-12 col-lg-12 " >
+                            <label value="Inicio: "   />
+                            <datebox   value="@bind(vm.inicioRet)" 
+                                       style="font-weight:bold;"                                                   
+                                       buttonVisible="true" 
+                                       lenient="true"  format="dd/MM/yyyy" 
+                                       constraint="no empty: Ingrese de inicio de la busqueda"/> 
+               
+                            <label value="Fin: "  />
+                            <datebox   value="@bind(vm.finRet)" 
+                                       style="font-weight:bold;" 
+                                       onCreate="self.value = new Date()"                                                   
+                                       buttonVisible="true" 
+                                       lenient="true"  format="dd/MM/yyyy" 
+                                       constraint="no empty: IBuscar por fecha fin de la busqueda"/> 
+                            <button   image="/imagenes/buscar1.png"  
+                                      onClick="@command('buscarRetencionesSRI')"  
+                                      class="btn btn-primary btn-sm "
+                                      tooltiptext="Buscar"/>
+                                                       
+                            <button   image="/iconos/excel.png"  
+                                      onClick="@command('exportarRetenciones')"  
+                                      class="btn btn-primary btn-sm "
+                                      tooltiptext="Exportar retencion"/>
+                                    
+                         
+             
+
+                                    
+
+                        </div>
+                    </div>
+                    <listbox model="@load(vm.listaRetencioSri)" 
+                             nonselectableTags=""  mold="paging" pageSize="12"  >
+                        <custom-attributes org.zkoss.zul.listbox.rod="true"/>
+
+                       
+                        <listhead> 
+                                 
+                            <listheader width="10%"  label="RUC" />    
+                            <listheader width="30%"  label="NOMBRE" />    
+                            <listheader width="10%"  label="FECHA" />           
+                            <listheader width="10%"  label="VALOR RET" />                                                                                                                         
+                            <listheader width="40%"  label="AUTORIZACION" />                                                                                                                         
+                            <listheader width="5%"  label="" />                                                                                 
+                        </listhead>  
+                        
+                    
+                        <template name="model">                                                            
+                            <listitem>
+                                <listcell zclass = "mycss-listcell">
+                                    <textbox class="form-control form-control-sm"                                                               
+                                             style="font-size:12px;background:#EBF5FB"
+                                             readonly="true"
+                                             value="@bind(each.rcoRuc)" width="96%" />
+                                </listcell>
+                                <listcell zclass = "mycss-listcell">
+                                    <textbox class="form-control form-control-sm"                                                               
+                                             style="font-size:12px;background:#EBF5FB"
+                                             readonly="true"
+                                             value="@bind(each.rcoNombre)" width="96%" />
+                                </listcell>
+                                <listcell zclass = "mycss-listcell">
+                                    <datebox value="@bind(each.cabFechaEmision)" 
+                                             buttonVisible="false" 
+                                             lenient="true" 
+                                             format="medium" width="98%"  />
+                                </listcell>
+                                <listcell zclass = "mycss-listcell">
+                                    <decimalbox format="###.##" 
+                                                class="form-control form-control-sm"                                                               
+                                                style="font-size:12px;background:#EBF5FB"
+                                                readonly="true"  
+                                                value="@bind(each.rcoBaseGravaIva)" width="96%" />
+                                </listcell>
+                                        
+                                <listcell zclass = "mycss-listcell">
+                                    <textbox class="form-control form-control-sm"                                                               
+                                             style="font-size:12px;background:#EBF5FB"
+                                             readonly="true"
+                                             value="@bind(each.rcoAutorizacion)" width="96%" />
+                                </listcell>
+                                                               
+                                <listcell zclass = "mycss-listcell">
+                                    <button src="/iconos/factelect.jpg"   
+                                            style="height:30px "            
+                                            autodisable="self"                                                    
+                                            class="btn btn-sm "
+                                            onClick="@command('imprimirRetencion',valor=each)"
+                                            tooltiptext="Guardar factura"/>    
+                                </listcell>      
+
+                            </listitem>
+                        </template>
+                    </listbox>
+                           
+                </tabpanel>
+            </tabpanels>
+            
+        </tabbox>
+    </div>
+    <!--</div>-->
+</hbox>
+
+
+<!--</zk>-->

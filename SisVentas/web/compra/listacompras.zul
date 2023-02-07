@@ -75,15 +75,17 @@
                                          onChange="self.setValue(self.getValue().toUpperCase());"/>
                             </listheader>  
                             <listheader width="10%"  label="FECHA" />    
-                            <listheader width="10%"  label="SUBTOTAL" />        
-                            <listheader width="10%"  label="IVA" />        
-                            <listheader width="10%"  label="TOTAL" />        
-                            <listheader width="10%"  label="ESTADO" />        
+                            <listheader width="7%"  label="SUBTOTAL" />        
+                            <listheader width="7%"  label="IVA" />        
+                            <listheader width="7%"  label="TOTAL" />        
+                            <listheader width="8%"  label="ESTADO" />        
                                    
-                            <listheader width="25%"  label="RESPONSABLE" />        
+                            <listheader width="10%"  label="RESPONSABLE" />        
+                            <listheader width="25%"  label="CLAVE DE AUTORIZACION" />        
                             <listheader width="3%"  label="" align="center" />        
                             <listheader width="3%"  label="" align="center" />        
                             <listheader width="3%"  label="" align="center" />        
+                            <listheader width="3%"   tooltiptext="Tabla de amortizacion" label="" align="center" />        
                             <listheader width="3%"   tooltiptext="Tabla de amortizacion" label="" align="center" />        
                         </listhead>  
                         
@@ -95,7 +97,7 @@
                                              class="form-control form-control-sm" 
                                              value="@bind(each.cabNumFactura)" />
                                 </listcell>
-                                  <listcell zclass = "mycss-listcell">
+                                <listcell zclass = "mycss-listcell">
                                     <textbox readonly="true"  style="font-size:12px ;background:#EBF5FB"
                                              class="form-control form-control-sm" 
                                              value="@bind(each.cabProveedor)" />
@@ -137,7 +139,7 @@
                                 
                                 <listcell if="${each.cabEstado=='PE'}" style="background:#FF8F8F" zclass = "mycss-listcell">
                                     <textbox readonly="true"  
-                                    style="background:#FF8F8F"
+                                             style="background:#FF8F8F"
                                              class="form-control form-control-sm" 
                                              value="PENDIENTE" />
                                 </listcell>
@@ -146,6 +148,15 @@
                                     <textbox readonly="true"  style="font-size:12px ;background:#EBF5FB"
                                              class="form-control form-control-sm" 
                                              value="@bind(each.idUsuario.usuNombre)"  />
+                                    
+                                </listcell>
+                                <listcell zclass = "mycss-listcell">
+                                    <textbox readonly="false" 
+                                             maxlength="49" 
+                                             style="font-size:12px "
+                                             class="form-control form-control-sm" 
+                                             onOK="@command('modificarRegistro',valor=each)"
+                                             value="@bind(each.cabAutorizacion)"  />
                                     
                                 </listcell>
                                 <listcell  zclass = "mycss-listcell" >    
@@ -190,14 +201,22 @@
                                            height=" 30px" 
                                            class="btn btn btn-secondary btn-sm grow"
                                            onClick="@command('verDetallePago',valor=each)" 
-                                           tooltiptext="Modificar factura"/>
+                                           tooltiptext="Ver detalle de pago"/>
                                     <image if="${each.cabEstado=='PA'}" 
                                            src="/iconos/listo_uno.png"  
                                            height=" 30px"  
                                            class=" grow"                                       
-                                           tooltiptext="No se puede autorizar por que se encuentra en estado autorizado"/> 
+                                           tooltiptext="No se puede verificar por que se encuentra en estado autorizado"/> 
                                 </listcell>
-                                
+                                <listcell zclass = "mycss-listcell" style="font-size:12px;background:#F8F9F9">
+                                    <image 
+                                           src="/iconos/delete.png"
+                                           height=" 30px" 
+                                           class="btn btn btn-secondary btn-sm grow"
+                                           onClick="@command('eliminarCompra',valor=each)" 
+                                           tooltiptext="eliminar factura"/>
+                                    
+                                </listcell>
                                 
                                 
                             </listitem>

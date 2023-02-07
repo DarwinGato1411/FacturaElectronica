@@ -8,8 +8,6 @@ import com.ec.entidad.DetalleKardex;
 import com.ec.entidad.Kardex;
 import com.ec.entidad.Producto;
 import com.ec.entidad.Tipoambiente;
-import com.ec.seguridad.EnumSesion;
-import com.ec.seguridad.UserCredential;
 import com.ec.servicio.HelperPersistencia;
 import com.ec.servicio.ServicioDetalleKardex;
 import com.ec.servicio.ServicioGeneral;
@@ -59,8 +57,6 @@ import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.io.Files;
 import org.zkoss.util.media.AMedia;
 import org.zkoss.zk.ui.Executions;
-import org.zkoss.zk.ui.Session;
-import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Filedownload;
 import org.zkoss.zul.Fileupload;
@@ -742,7 +738,7 @@ public class AdmProducto {
                     row = sheet.getRow(i);
 //                    for (int j = 0; j < row.getLastCellNum(); j++) {
                     for (int j = 0; j < 6; j++) {
-
+                        List<Producto> prodcutos = servicioProducto.findLikeProdNombre(String.valueOf(row.getCell(1)));
                         if (servicioProducto.findLikeProdNombre(String.valueOf(row.getCell(1))).isEmpty()) {
                             cell = row.getCell(j);
                             prod = new Producto();
@@ -778,7 +774,38 @@ public class AdmProducto {
                             servicioProducto.crear(prod);
                             System.out.println("Valor: " + cell.toString());
                         } else {
+                            Producto selected = prodcutos.get(0);
                             System.out.println("El producto existe " + String.valueOf(row.getCell(1)));
+//                            selected.setProdCodigo(String.valueOf(row.getCell(0)));
+//                            selected.setProdNombre(String.valueOf(row.getCell(1)));
+//                            selected.setPordCostoVentaRef(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(2)))));
+                            selected.setPordCostoVentaFinal(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(3)))));
+                            selected.setProdCostoPreferencial(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(4)))));
+                            selected.setProdCostoPreferencialDos(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(5)))));
+                            selected.setProdCostoPreferencialTres(BigDecimal.ZERO);
+//                            prod.setCodTipoambiente(amb);
+                            selected.setProdCantMinima(BigDecimal.ONE);
+                            selected.setProdFechaRegistro(new Date());
+
+                            if (row.getCell(6) != null) {
+                                String valor = String.valueOf(row.getCell(6));
+                                selected.setProdGrabaIva(String.valueOf(row.getCell(6)).contains("1") ? Boolean.TRUE : Boolean.FALSE);
+
+                                if (selected.getProdGrabaIva()) {
+                                    BigDecimal precioIva = BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(2))));
+                                    BigDecimal precioCompra = precioIva.divide(BigDecimal.valueOf(1.12), 4, RoundingMode.FLOOR);
+                                    selected.setPordCostoCompra(precioCompra);
+//                                    prod.setpro
+                                } else {
+                                    selected.setPordCostoCompra(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(2)))));
+                                }
+
+                            } else {
+                                selected.setProdGrabaIva(Boolean.FALSE);
+                                selected.setPordCostoCompra(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(2)))));
+                            }
+//                            selected.setProdCantidadInicial(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(6)))));
+                            servicioProducto.modificar(selected);
                         }
 
                     }

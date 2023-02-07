@@ -35,12 +35,12 @@
                                         <div class="">
                                             <div class="input-group mb-2">
                                                 <textbox     
-                                                           placeholder="Cedula"
-                                                           readonly="false" 
-                                                           onDoubleClick="@command('buscarProveedorEnLista')" 
-                                                           value="@bind(vm.proveedorSeleccionado.provCedula)" 
-                                                           style="font-weight:bold"
-                                                           maxlength="13"  />
+                                                    placeholder="Cedula"
+                                                    readonly="false" 
+                                                    onDoubleClick="@command('buscarProveedorEnLista')" 
+                                                    value="@bind(vm.proveedorSeleccionado.provCedula)" 
+                                                    style="font-weight:bold"
+                                                    maxlength="13"  />
                                                 <div class="input-group-append">
                                                     <button   image="/imagenes/buscar1.png" 
                                                               onClick="@command('buscarProveedorEnLista')"  
@@ -66,7 +66,7 @@
                                         </div>
                                 
                                        
-<!--                                        <div class="">
+                                        <!--                                        <div class="">
                                             <div class="">
                                                 <textbox  readonly="true" 
                                                           style="font-weight:bold" 
@@ -75,7 +75,7 @@
                                                           value="@bind(vm.proveedorSeleccionado.provDireccion)"  />
                                             </div>
                                         </div>-->
-                                    <div class="fecha" align="center"  >
+                                        <div class="fecha" align="center"  >
                               
                                             <div class="input-group mb-3">
                                                 <label value="Fecha Factura:"  />
@@ -117,6 +117,15 @@
                                                 <radio label="Pendiente" value="PE"/>                                               
                                             </radiogroup>
                                         </div>
+                                        <div class="">
+                                            <div class="">
+                                                <textbox maxlength="49"   
+                                                         placeholder=" Clave autorizacion"
+                                                         class="form-control form-control-sm" 
+                                                         value="@bind(vm.cabeceraCompra.cabAutorizacion)"   />
+                                            </div>
+                                        </div>
+                                        
                                     </div>
                                     <div class="contendor-boton">
                                         

@@ -1750,12 +1750,14 @@ public class Facturar extends SelectorComposer<Component> {
         BigDecimal baseCero = BigDecimal.ZERO;
         BigDecimal sumaSubsidio = BigDecimal.ZERO;
         BigDecimal sumaDeItems = BigDecimal.ZERO;
+        BigDecimal totalizado = BigDecimal.ZERO;
 
         List<DetalleFacturaDAO> listaPedido = listaDetalleFacturaDAOMOdel.getInnerList();
         if (listaPedido.size() > 0) {
             for (DetalleFacturaDAO item : listaPedido) {
                 sumaDeItems = sumaDeItems.add(BigDecimal.ONE);
                 if (item.getProducto() != null) {
+                    totalizado=totalizado.add(item.getDetTotalconivadescuento());
                     valorTotal = valorTotal.add(item.getProducto().getProdGrabaIva() ? item.getSubTotalDescuento().multiply(item.getCantidad()) : BigDecimal.ZERO);
                     valorIva = valorIva.add(item.getDetIva());
 //                    valorTotalConIva = valorTotalConIva.add(item.getDetTotalconivadescuento());
@@ -1787,7 +1789,8 @@ public class Facturar extends SelectorComposer<Component> {
                 ivaCotizacion = ArchivoUtils.redondearDecimales(valorIva, 2);
 
                 // ivaCotizacion.setScale(5, RoundingMode.UP);
-                valorTotalCotizacion = subTotalCotizacion.add(subTotalBaseCero.add(ivaCotizacion));
+                valorTotalCotizacion = totalizado;
+//                valorTotalCotizacion = subTotalCotizacion.add(subTotalBaseCero.add(ivaCotizacion));
                 // valorTotalCotizacion.setScale(5, RoundingMode.UP);
 
                 valorTotalInicialVent = valorTotalInicial;
@@ -2382,8 +2385,8 @@ public class Facturar extends SelectorComposer<Component> {
         System.out.println("formaPagoSelected " + formaPagoSelected);
         facConSinGuia = valor;
         if (!clienteBuscado.getCliCedula().equals("") && formaPagoSelected != null) {
-            if (valorTotalCotizacion.intValue() >= 200 && clienteBuscado.getCliCedula().contains("999999999")) {
-                Clients.showNotification("El valor de la factura no puede pasar de $200 para enviarla como Consumidor Final ", "error", null, "end_before", 3000, true);
+            if (valorTotalCotizacion.intValue() >= 50 && clienteBuscado.getCliCedula().contains("999999999")) {
+                Clients.showNotification("El valor de la factura no puede pasar de $50 para enviarla como Consumidor Final ", "error", null, "end_before", 3000, true);
                 return;
             }
             if (listaDetalleFacturaDAOMOdel.size() > 0) {

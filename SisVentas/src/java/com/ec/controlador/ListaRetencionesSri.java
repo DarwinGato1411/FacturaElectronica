@@ -7,17 +7,17 @@ package com.ec.controlador;
 import com.ec.dao.xml.Impuesto;
 import com.ec.dao.xml.RetencionXML;
 import com.ec.dao.xml.factura.Detalle;
+import com.ec.dao.xml.factura.Detalles;
 import com.ec.dao.xml.factura.FacturaCompraXML;
+import com.ec.dao.xml.factura.TotalConImpuestos;
 import com.ec.dao.xml.factura.TotalImpuesto;
 import com.ec.entidad.CabeceraCompra;
 import com.ec.entidad.ComprasSri;
-import com.ec.entidad.DetalleCompra;
-import com.ec.entidad.DetalleKardex;
-import com.ec.entidad.Kardex;
 import com.ec.entidad.Parametrizar;
 import com.ec.entidad.Producto;
+import com.ec.entidad.Proveedores;
+import com.ec.entidad.TipoIdentificacionCompra;
 import com.ec.entidad.Tipoambiente;
-import com.ec.entidad.Tipokardex;
 import com.ec.entidad.docsri.RetencionCompraSri;
 import com.ec.entidad.sri.CabeceraCompraSri;
 import com.ec.entidad.sri.DetalleCompraSri;
@@ -30,21 +30,16 @@ import com.ec.servicio.ServicioCompra;
 import com.ec.servicio.ServicioComprasSri;
 import com.ec.servicio.ServicioDetalleCompra;
 import com.ec.servicio.ServicioDetalleComprasSri;
-import com.ec.servicio.ServicioDetalleKardex;
 import com.ec.servicio.ServicioDetalleRetencionSri;
 import com.ec.servicio.ServicioEstadoFactura;
-import com.ec.servicio.ServicioGeneral;
-import com.ec.servicio.ServicioKardex;
 import com.ec.servicio.ServicioParametrizar;
 import com.ec.servicio.ServicioProducto;
 import com.ec.servicio.ServicioProveedor;
 import com.ec.servicio.ServicioRetencionSri;
 import com.ec.servicio.ServicioTipoAmbiente;
 import com.ec.servicio.ServicioTipoIdentificacionCompra;
-import com.ec.servicio.ServicioTipoKardex;
 import com.ec.untilitario.ArchivoUtils;
 import com.ec.untilitario.AutorizarDocumentos;
-import com.ec.untilitario.TotalKardex;
 import ec.gob.sri.comprobantes.modelo.factura.Factura;
 import ec.gob.sri.comprobantes.ws.aut.Autorizacion;
 import ec.gob.sri.comprobantes.ws.aut.RespuestaComprobante;
@@ -61,6 +56,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -68,11 +64,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.activation.MimetypesFileTypeMap;
@@ -111,13 +105,12 @@ import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.UploadEvent;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
-import org.zkoss.zul.ListModelList;
 
 /**
  *
  * @author gato
  */
-public class ListaComprasSri extends SelectorComposer<Component> {
+public class ListaRetencionesSri extends SelectorComposer<Component> {
 
     private static String PATH_BASE = "";
     ServicioTipoAmbiente servicioTipoAmbiente = new ServicioTipoAmbiente();
@@ -158,9 +151,6 @@ public class ListaComprasSri extends SelectorComposer<Component> {
     private Date inicioComp = new Date();
     private Date finComp = new Date();
 
-    /*Compras*/
-    private ListModelList<CabeceraCompraSri> listaComprasSriModel;
-    private Set<CabeceraCompraSri> registrosSeleccionados = new HashSet<CabeceraCompraSri>();
     private List<CabeceraCompraSri> listaCabeceraCompraSris = new ArrayList<CabeceraCompraSri>();
 
     ServicioRetencionSri retencionSri = new ServicioRetencionSri();
@@ -171,18 +161,13 @@ public class ListaComprasSri extends SelectorComposer<Component> {
 
     private static String SRIFACCOMPRAS = "SRIFACCOMPRAS";
     private static String SRIRETENCION = "SRIRETENCION";
-    /*DETALLE DEL KARDEX Y DETALLE KARDEX*/
-    ServicioKardex servicioKardex = new ServicioKardex();
-    ServicioDetalleKardex servicioDetalleKardex = new ServicioDetalleKardex();
-    ServicioTipoKardex servicioTipoKardex = new ServicioTipoKardex();
-    ServicioGeneral servicioGeneral = new ServicioGeneral();
 
     public void doAfterCompose(Component comp) throws Exception {
         super.doAfterCompose(comp);
 
     }
 
-    public ListaComprasSri() {
+    public ListaRetencionesSri() {
 
         //muestra 7 dias atras
         Calendar calendar = Calendar.getInstance(); //obtiene la fecha de hoy 
@@ -212,11 +197,6 @@ public class ListaComprasSri extends SelectorComposer<Component> {
 
     }
 
-    @Command
-    public void seleccionarRegistros() {
-        registrosSeleccionados = ((ListModelList<CabeceraCompraSri>) getListaComprasSriModel()).getSelection();
-    }
-
     private void buscarLikeNombre() {
         listaCabeceraCompras = servicioCompra.findCabProveedorSRI(buscar);
     }
@@ -231,10 +211,7 @@ public class ListaComprasSri extends SelectorComposer<Component> {
     }
 
     private void findCabeceraComprasSriByBetweenFecha() {
-
         listaCabeceraCompraSris = servicioCabeceraComprasri.findByBetweenFechaSRI(inicio, fin);
-        setListaComprasSriModel(new ListModelList<CabeceraCompraSri>(getListaCabeceraCompraSris()));
-        ((ListModelList<CabeceraCompraSri>) listaComprasSriModel).setMultiple(true);
 
     }
 
@@ -247,70 +224,15 @@ public class ListaComprasSri extends SelectorComposer<Component> {
     }
 
     @Command
-    @NotifyChange({"listaComprasSris", "inicio", "fin", "listaComprasSriModel"})
+    @NotifyChange({"listaComprasSris", "inicio", "fin", "listaCabeceraCompraSris"})
     public void eliminarCabeceraSRI() {
-        if (Messagebox.show("Esta seguro de eliminar los registros?", "Question", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION) == Messagebox.OK) {
-            servicioComprasSri.eliminarCabeceraSri(inicio, fin);
-            findComprasSriByBetweenFecha();
-            Clients.showNotification("Registros eliminados correctamente ",
-                        Clients.NOTIFICATION_TYPE_INFO, null, "middle_center", 1000, true);
-        }
+
+        servicioComprasSri.eliminarCabeceraSri(inicio, fin);
+        findComprasSriByBetweenFecha();
     }
 
     @Command
-    @NotifyChange({"listaComprasSris", "inicio", "fin", "listaComprasSriModel"})
-    public void cargarfacturasSistema() {
-        for (CabeceraCompraSri item : registrosSeleccionados) {
-            if (servicioCompra.findByNumeroFacturaAndProveedor(item.getCabNumFactura(), item.getCabProveedor()).isEmpty()) {
-                CabeceraCompra cabecera = ArchivoUtils.compraSriToCompra(item);
-                servicioCompra.crear(cabecera);
-
-                for (DetalleCompraSri object : servicioDetalleComprasSri.detallebyCompraSri(item)) {
-                    DetalleCompra detalleCompra = ArchivoUtils.detalleSriToDetalleCompra(object, cabecera);
-                    servicioDetalleCompra.crear(detalleCompra);
-
-                    /*INGRESAMOS LO MOVIMIENTOS AL KARDEX*/
-                    Kardex kardex = null;
-                    DetalleKardex detalleKardex = null;
-                    Tipokardex tipokardex = servicioTipoKardex.findByTipkSigla("ING");
-                    if (servicioKardex.FindALlKardexs(detalleCompra.getIdProducto()) == null) {
-                        kardex = new Kardex();
-                        kardex.setIdProducto(detalleCompra.getIdProducto());
-                        kardex.setKarDetalle("Inicio de inventario desde la facturacion para el producto: " + detalleCompra.getIdProducto().getProdNombre());
-                        kardex.setKarFecha(new Date());
-                        kardex.setKarFechaKardex(new Date());
-                        kardex.setKarTotal(BigDecimal.ZERO);
-                        servicioKardex.crear(kardex);
-                    }
-                    detalleKardex = new DetalleKardex();
-                    kardex = servicioKardex.FindALlKardexs(detalleCompra.getIdProducto());
-                    detalleKardex.setIdKardex(kardex);
-                    detalleKardex.setDetkFechakardex(item.getCabFecha());
-                    detalleKardex.setDetkFechacreacion(new Date());
-                    detalleKardex.setIdTipokardex(tipokardex);
-                    detalleKardex.setDetkKardexmanual(Boolean.FALSE);
-                    detalleKardex.setDetkDetalles("Aumenta al kardex facturacion con: FACTC-" + item.getCabNumFactura());
-                    detalleKardex.setIdCompra(cabecera);
-
-                    detalleKardex.setDetkCantidad(detalleCompra.getIprodCantidad());
-                    servicioDetalleKardex.crear(detalleKardex);
-                    TotalKardex totales = servicioKardex.totalesForKardex(kardex);
-                    BigDecimal total = totales.getTotalKardex();
-                    kardex.setKarTotal(total);
-                    servicioKardex.modificar(kardex);
-                }
-
-            }
-
-        }
-        servicioGeneral.corregirProductos();
-        Clients.showNotification("Facturas cargadas correctamente ",
-                    Clients.NOTIFICATION_TYPE_INFO, null, "middle_center", 1000, true);
-
-    }
-
-    @Command
-    @NotifyChange({"listaComprasSris", "inicio", "fin", "listaComprasSriModel"})
+    @NotifyChange({"listaComprasSris", "inicio", "fin", "listaCabeceraCompraSris"})
     public void buscarComprasSri() {
         findComprasSriByBetweenFecha();
         findCabeceraComprasSriByBetweenFecha();
@@ -323,7 +245,7 @@ public class ListaComprasSri extends SelectorComposer<Component> {
     }
 
     @Command
-    @NotifyChange({"listaComprasSriModel", "inicioComp", "finComp"})
+    @NotifyChange({"listaCabeceraCompraSris", "inicioComp", "finComp"})
     public void buscarComprasSriProcesadas() {
 
         findCabeceraComprasSriByBetweenFecha();
@@ -691,7 +613,7 @@ public class ListaComprasSri extends SelectorComposer<Component> {
         /*formato de la fecha*/
         try {
             Date dt = sm.parse(adto.getInfoFactura().getFechaEmision());
-            cabeceraCompra.setCabFecha(dt);
+            cabeceraCompra.setCabFecha(new Date());
             cabeceraCompra.setCabFechaEmision(dt);
         } catch (java.text.ParseException e) {
             System.out.println("ERROR FECHA " + e.getMessage());
@@ -724,8 +646,6 @@ public class ListaComprasSri extends SelectorComposer<Component> {
         cabeceraCompra.setCabSubTotalCero(baseCero);
         cabeceraCompra.setCabCorreo(buscar);
         cabeceraCompra.setCabDireccion(adto.getInfoTributaria().getDirMatriz());
-        cabeceraCompra.setCabEstablecimiento(adto.getInfoTributaria().getEstab());
-        cabeceraCompra.setCabPuntoEmision(adto.getInfoTributaria().getPtoEmi());
 
         /*VERIFICAMOS EL PROVEEDOR Y SI NO LO CREAMOS*/
 //        Proveedores prov = servicioProveedor.findProvCedula(adto.getInfoTributaria().getRuc());
@@ -2224,34 +2144,6 @@ public class ListaComprasSri extends SelectorComposer<Component> {
         }
         return pathSalida;
 
-    }
-
-    public ListModelList<CabeceraCompraSri> getListaComprasSriModel() {
-        return listaComprasSriModel;
-    }
-
-    public void setListaComprasSriModel(ListModelList<CabeceraCompraSri> listaComprasSriModel) {
-        this.listaComprasSriModel = listaComprasSriModel;
-    }
-
-    public Set<CabeceraCompraSri> getRegistrosSeleccionados() {
-        return registrosSeleccionados;
-    }
-
-    public void setRegistrosSeleccionados(Set<CabeceraCompraSri> registrosSeleccionados) {
-        this.registrosSeleccionados = registrosSeleccionados;
-    }
-
-    @Command
-    @NotifyChange({"inicio", "fin", "listaComprasSriModel"})
-    public void eliminarCabeceraCabeceraSRI() {
-        if (Messagebox.show("Esta seguro de eliminar los registros?", "Question", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION) == Messagebox.OK) {
-            servicioCabeceraComprasri.eliminarCabeceraComprasSri(inicio, fin);
-            findCabeceraComprasSriByBetweenFecha();
-            Clients.showNotification("Registros eliminados correctamente ",
-                        Clients.NOTIFICATION_TYPE_INFO, null, "middle_center", 1000, true);
-
-        }
     }
 
 }

@@ -491,14 +491,28 @@ fac_tipo='PROF' and  factura.fac_num_proforma=$P{numfactura};]]>
 						</jr:columnHeader>
 						<jr:detailCell style="table_TD" height="15" rowSpan="1">
 							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-								<reportElement x="0" y="0" width="375" height="15" isPrintWhenDetailOverflows="true"/>
+								<reportElement x="0" y="0" width="375" height="15" isPrintWhenDetailOverflows="true">
+									<printWhenExpression><![CDATA[!$F{prod_graba_iva}]]></printWhenExpression>
+								</reportElement>
 								<box leftPadding="2" rightPadding="2">
 									<bottomPen lineWidth="0.0"/>
 								</box>
-								<textElement>
-									<font size="8"/>
+								<textElement verticalAlignment="Middle">
+									<font size="5"/>
 								</textElement>
 								<textFieldExpression class="java.lang.String"><![CDATA[$F{det_descripcion}]]></textFieldExpression>
+							</textField>
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="375" height="15" isPrintWhenDetailOverflows="true">
+									<printWhenExpression><![CDATA[$F{prod_graba_iva}]]></printWhenExpression>
+								</reportElement>
+								<box leftPadding="2" rightPadding="2">
+									<bottomPen lineWidth="0.0"/>
+								</box>
+								<textElement verticalAlignment="Middle">
+									<font size="5" isBold="true"/>
+								</textElement>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{det_descripcion}+" * "]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>

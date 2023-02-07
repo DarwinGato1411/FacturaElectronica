@@ -109,11 +109,11 @@ public class ServicioCompra {
             DetalleCompra ingreso = null;
             for (DetalleCompraUtil item : detalleCompra) {
                 ingreso = new DetalleCompra(item.getCantidad(),
-                        item.getDescripcion(),
-                        item.getSubtotal(),
-                        item.getTotal(),
-                        compra,
-                        item.getProducto());
+                            item.getDescripcion(),
+                            item.getSubtotal(),
+                            item.getTotal(),
+                            compra,
+                            item.getProducto());
                 ingreso.setDetValorInicial(item.getCantidad());
                 ingreso.setDetFactor(item.getFactor());
                 ingreso.setIprodCantidad(item.getTotalTRanformado());
@@ -156,7 +156,7 @@ public class ServicioCompra {
             em = HelperPersistencia.getEMF();
             em.getTransaction().begin();
             Query query = em.createQuery("SELECT c FROM CabeceraCompra c WHERE c.cabFechaEmision BETWEEN :inicio AND :fin "
-                    + " ORDER BY c.cabFechaEmision DESC");
+                        + " ORDER BY c.cabFechaEmision DESC");
             query.setParameter("inicio", incio);
             query.setParameter("fin", fin);
             listaCabeceraCompras = (List<CabeceraCompra>) query.getResultList();
@@ -256,7 +256,7 @@ public class ServicioCompra {
 
         return cabeceraCompra;
     }
-    
+
     /*CABECERAS DEL SRI*/
     public List<CabeceraCompra> findCabProveedorSRI(String valor) {
 
@@ -277,7 +277,7 @@ public class ServicioCompra {
 
         return listaCabeceraCompras;
     }
-    
+
     public List<CabeceraCompra> findByBetweenFechaSRI(Date incio, Date fin) {
 
         List<CabeceraCompra> listaCabeceraCompras = new ArrayList<CabeceraCompra>();
@@ -298,7 +298,7 @@ public class ServicioCompra {
 
         return listaCabeceraCompras;
     }
-    
+
     public List<CabeceraCompra> findByNumeroFacturaSRI(String cabNumFactura) {
 
         List<CabeceraCompra> listaCabeceraCompras = new ArrayList<CabeceraCompra>();
@@ -318,7 +318,7 @@ public class ServicioCompra {
 
         return listaCabeceraCompras;
     }
-    
+
     public List<CompraPromedio> findByBetweenFechaPromedio(Date incio, Date fin) {
 
         List<CompraPromedio> listaCabeceraCompras = new ArrayList<CompraPromedio>();
@@ -333,14 +333,14 @@ public class ServicioCompra {
             listaCabeceraCompras = (List<CompraPromedio>) query.getResultList();
             em.getTransaction().commit();
         } catch (Exception e) {
-            System.out.println("Error en lsa consulta compra findByBetweenFechaPromedio "+e.getMessage());
+            System.out.println("Error en lsa consulta compra findByBetweenFechaPromedio " + e.getMessage());
         } finally {
             em.close();
         }
 
         return listaCabeceraCompras;
     }
-    
+
     /**/
     public CabeceraCompra findCabNumeroForEmpresa(String cabNumFactura) {
         CabeceraCompra cabeceraCompra = null;
@@ -366,4 +366,26 @@ public class ServicioCompra {
 
         return cabeceraCompra;
     }
+
+    public List<CabeceraCompra> findByNumeroFacturaAndProveedor(String cabNumFactura, String cabProveedor) {
+
+        List<CabeceraCompra> listaCabeceraCompras = new ArrayList<CabeceraCompra>();
+        try {
+            //Connection connection = em.unwrap(Connection.class);
+            em = HelperPersistencia.getEMF();
+            em.getTransaction().begin();
+            Query query = em.createQuery("SELECT c FROM CabeceraCompra c WHERE c.cabNumFactura LIKE :cabNumFactura AND c.cabProveedor LIKE :cabProveedor ORDER BY c.cabNumFactura DESC");
+            query.setParameter("cabNumFactura", "%" + cabNumFactura + "%");
+            query.setParameter("cabProveedor", "%" + cabProveedor + "%");
+            listaCabeceraCompras = (List<CabeceraCompra>) query.getResultList();
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            System.out.println("Error en lsa consulta compra " + e.getMessage());
+        } finally {
+            em.close();
+        }
+
+        return listaCabeceraCompras;
+    }
+
 }

@@ -108,7 +108,7 @@
                                         class="form-control form-control-sm"   />
                                 </div>
                             </div>
-                            <div class="col-12 col-sm-12 col-md-4 col-lg-4" visible="@load(vm.activaIvaRenta)">
+                            <div class="col-12 col-sm-12 col-md-3 col-lg-3" visible="@load(vm.activaIvaRenta)">
                                 <label value="% Desc." class="labelNuevoNegro" />
                                 <combobox  model="@load(vm.listaTipoivaretencion)"                                             
                                            selectedItem="@bind(vm.tipoivaretencion)" width="60%"
@@ -119,7 +119,7 @@
                                     </template>                                      
                                 </combobox>
                             </div>                                                       
-                            <div class="col-12 col-sm-12 col-md-4 col-lg-4" visible="@load(!vm.activaIvaRenta)">
+                            <div class="col-12 col-sm-12 col-md-3 col-lg-3" visible="@load(!vm.activaIvaRenta)">
                                 <label value="Tipo ret. " class="labelNuevoNegro" />
                                 <combobox  model="@load(vm.listaTipoRetencion)"                                             
                                            selectedItem="@bind(vm.tipoRetencionSelected)" width="60%"
@@ -131,11 +131,18 @@
                                     </template>                                      
                                 </combobox>
                             </div>                                                       
-                            <div class="col-12 col-sm-12 col-md-3 col-lg-3">
+                            <div class="col-12 col-sm-12 col-md-2 col-lg-2">
                                 <button label="Agregar" src="/iconos/add.png"  
                                         onClick="@command('agregarRegistro')"  
                                         class="btn btn btn-primary btn-sm "
                                         tooltiptext="Agregar item"/>
+                                        <separator width="10px"></separator>
+                            </div>
+                            <div class="col-12 col-sm-12 col-md-1 col-lg-1">
+                                <button label="Guardar" src="/iconos/add.png"  
+                                          onClick="@command('guardar')"
+                                        class="btn btn btn-primary btn-sm "
+                                        tooltiptext="Guardar"/>
                             </div>
                             
                             

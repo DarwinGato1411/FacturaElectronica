@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="guia" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 	<property name="ireport.zoom" value="1.9487171000000019"/>
-	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="192"/>
+	<property name="ireport.x" value="117"/>
+	<property name="ireport.y" value="336"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -191,19 +191,11 @@ where  guiaremision.fac_numero=$P{numfactura};]]>
 	<field name="am_contr_esp" class="java.lang.Boolean"/>
 	<field name="am_exp" class="java.lang.Boolean"/>
 	<field name="am_ripme" class="java.lang.Boolean"/>
-	<field name="am_sec_factura" class="java.lang.Integer"/>
-	<field name="am_sec_retencion" class="java.lang.Integer"/>
-	<field name="am_sec_nota_credito" class="java.lang.Integer"/>
-	<field name="am_sec_guia" class="java.lang.Integer"/>
-	<field name="am_valor_iva" class="java.math.BigDecimal"/>
 	<field name="am_general" class="java.lang.Boolean"/>
-	<field name="am_graba_ice" class="java.lang.Boolean"/>
-	<field name="am_valor_ice" class="java.math.BigDecimal"/>
-	<field name="am_comprobante_imprime" class="java.lang.String"/>
-	<field name="am_codigo_ice" class="java.lang.String"/>
-	<field name="id_usuario" class="java.lang.Integer"/>
+	<field name="am_codigo_artesano" class="java.lang.String"/>
 	<field name="id_guiaremision" class="java.lang.Integer"/>
 	<field name="id_factura" class="java.lang.Integer"/>
+	<field name="id_usuario" class="java.lang.Integer"/>
 	<field name="fac_fecha" class="java.sql.Date"/>
 	<field name="fac_subtotal" class="java.math.BigDecimal"/>
 	<field name="fac_iva" class="java.math.BigDecimal"/>
@@ -483,14 +475,14 @@ where  guiaremision.fac_numero=$P{numfactura};]]>
 				</textElement>
 				<text><![CDATA[Fecha fin transporte:]]></text>
 			</staticText>
-			<textField>
+			<textField pattern="dd/MM/yyyy">
 				<reportElement x="145" y="323" width="133" height="13"/>
 				<textElement>
 					<font size="9"/>
 				</textElement>
 				<textFieldExpression class="java.util.Date"><![CDATA[$F{fechainitranspguia}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField pattern="MM/dd/yyyy">
 				<reportElement x="418" y="323" width="132" height="13"/>
 				<textElement>
 					<font size="9"/>
