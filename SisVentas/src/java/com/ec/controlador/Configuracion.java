@@ -123,18 +123,18 @@ public class Configuracion extends SelectorComposer<Component> {
 
     }
 
-    @Command
-    @NotifyChange({"tipoambiente"})
-    public void ambienteCodigo() {
-        /*COLOCA EL ANTERIOR EN FALSO*/
-        tipoambiente.setAmEstado(Boolean.FALSE);
-        servicioTipoAmbiente.modificar(tipoambiente);
-        tipoambiente = servicioTipoAmbiente.findByAmCodigo(amCodifo);
-        /*COLOCA EL NUEVO AMBIENTE EN ACTIVO*/
-        tipoambiente.setAmEstado(Boolean.TRUE);
-        servicioTipoAmbiente.modificar(tipoambiente);
-
-    }
+//    @Command
+//    @NotifyChange({"tipoambiente"})
+//    public void ambienteCodigo() {
+//        /*COLOCA EL ANTERIOR EN FALSO*/
+//        tipoambiente.setAmEstado(Boolean.FALSE);
+//        servicioTipoAmbiente.modificar(tipoambiente);
+//        tipoambiente = servicioTipoAmbiente.findByAmCodigo(amCodifo);
+//        /*COLOCA EL NUEVO AMBIENTE EN ACTIVO*/
+//        tipoambiente.setAmEstado(Boolean.TRUE);
+//        servicioTipoAmbiente.modificar(tipoambiente);
+//
+//    }
     //subir pdf
     private String filePath;
     byte[] buffer = new byte[1024 * 1024];

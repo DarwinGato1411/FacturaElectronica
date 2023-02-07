@@ -7,6 +7,7 @@ package com.ec.entidad.sri;
 
 import com.ec.entidad.EstadoFacturas;
 import com.ec.entidad.Proveedores;
+import com.ec.entidad.Tipoambiente;
 import com.ec.entidad.Usuario;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -156,6 +157,9 @@ public class CabeceraCompraSri implements Serializable {
 //    @Column(name = "cab_fecha_autorizacion")
 //    @Temporal(TemporalType.TIMESTAMP)
 //    private Date cabFechaAutorizacion;
+    @JoinColumn(name = "cod_tipoambiente", referencedColumnName = "cod_tipoambiente")
+    @ManyToOne
+    private Tipoambiente codTipoambiente;
 
     public CabeceraCompraSri() {
     }
@@ -445,7 +449,6 @@ public class CabeceraCompraSri implements Serializable {
 //    public void setCabFechaAutorizacion(Date cabFechaAutorizacion) {
 //        this.cabFechaAutorizacion = cabFechaAutorizacion;
 //    }
-
     public String getCabEstablecimiento() {
         return cabEstablecimiento;
     }
@@ -462,6 +465,12 @@ public class CabeceraCompraSri implements Serializable {
         this.cabPuntoEmision = cabPuntoEmision;
     }
 
-    
-    
+    public Tipoambiente getCodTipoambiente() {
+        return codTipoambiente;
+    }
+
+    public void setCodTipoambiente(Tipoambiente codTipoambiente) {
+        this.codTipoambiente = codTipoambiente;
+    }
+
 }

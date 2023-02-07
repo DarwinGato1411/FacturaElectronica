@@ -140,6 +140,8 @@ public class Usuario implements Serializable {
     private Collection<CabeceraCompraSri> cabeceraCompraSriCollection;
     @OneToMany(mappedBy = "idUsuario")
     private Collection<OrdenTrabajo> ordenTrabajoCollection;
+    @OneToMany(mappedBy = "idUsuario")
+    private Collection<Tipoambiente> tipoambienteCollection;
 
     public Usuario() {
     }
@@ -203,7 +205,6 @@ public class Usuario implements Serializable {
 //    public void setUsuFoto(byte[] usuFoto) {
 //        this.usuFoto = usuFoto;
 //    }
-
     public String getUsuTipoUsuario() {
         return usuTipoUsuario;
     }
@@ -439,4 +440,13 @@ public class Usuario implements Serializable {
     public void setIdParroquia(Parroquia idParroquia) {
         this.idParroquia = idParroquia;
     }
+
+    public Collection<Tipoambiente> getTipoambienteCollection() {
+        return tipoambienteCollection;
+    }
+
+    public void setTipoambienteCollection(Collection<Tipoambiente> tipoambienteCollection) {
+        this.tipoambienteCollection = tipoambienteCollection;
+    }
+
 }

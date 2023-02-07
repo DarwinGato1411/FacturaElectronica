@@ -5,6 +5,7 @@
 package com.ec.servicio;
 
 import com.ec.entidad.ComprasSri;
+import com.ec.entidad.Tipoambiente;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -142,14 +143,16 @@ public class ServicioComprasSri {
     }
 
     /*documentos no procesados por rango de fechas*/
-    public List<ComprasSri> findNoVerificadosBetweenFecha(Date inicio, Date fin) {
+    public List<ComprasSri> findNoVerificadosBetweenFecha(Date inicio, Date fin, Tipoambiente codTipoambiente) {
 
         List<ComprasSri> listaComprasSris = new ArrayList<ComprasSri>();
         try {
             //Connection connection = em.unwrap(Connection.class);
             em = HelperPersistencia.getEMF();
             em.getTransaction().begin();
-            Query query = em.createQuery("SELECT a FROM ComprasSri a WHERE a.csriVerificado='N' AND a.csriFechaEmision BETWEEN :inicio and :fin");
+            Query query = em.createQuery("SELECT a FROM ComprasSri a WHERE a.codTipoambiente=:codTipoambiente and a.csriVerificado='N' AND a.csriFechaEmision BETWEEN :inicio and :fin");
+            query.setParameter("codTipoambiente", codTipoambiente);
+            query.setParameter("inicio", inicio);
             query.setParameter("inicio", inicio);
             query.setParameter("fin", fin);
             listaComprasSris = (List<ComprasSri>) query.getResultList();

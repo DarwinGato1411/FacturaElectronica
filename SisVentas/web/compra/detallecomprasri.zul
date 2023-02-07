@@ -66,9 +66,9 @@
                                                onCreate="self.value = new Date()"                                                   
                                                buttonVisible="true" 
                                                lenient="true"  format="dd/MM/yyyy" 
-                                               constraint="no empty: IBuscar por fecha fin de la busqueda"/> 
+                                               constraint="no empty: Buscar por fecha fin de la busqueda"/> 
                                     <button   image="/imagenes/buscar1.png"  
-                                              onClick="@command('buscarComprasSri')"  
+                                              onClick="@command('buscarDetalleCompra')"  
                                               class="btn btn-primary btn-sm "
                                               tooltiptext="Buscar"/>
                                 
@@ -77,17 +77,13 @@
                                               class="btn btn-primary btn-sm "
                                               tooltiptext="Buscar"/>
              
-                                    <button   image="/iconos/sri.png" 
-                                    label="Traer documentos del SRI" 
-                                              onClick="@command('cargarComprasSRI')"  
-                                              class="btn btn-primary btn-sm "
-                                              tooltiptext="Descargar"/>               
+                                               
                                   
                                    
                                 </div>
                             </div>
                             
-                            <listbox model="@load(vm.listaComprasSris)" 
+                            <listbox model="@load(vm.listaDetalleCompraSris)" 
                                      nonselectableTags="*"  mold="paging" pageSize="15"  >
                                 <custom-attributes org.zkoss.zul.listbox.rod="true"/>
 

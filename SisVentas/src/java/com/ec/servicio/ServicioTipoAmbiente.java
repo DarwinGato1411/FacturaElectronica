@@ -106,19 +106,65 @@ public class ServicioTipoAmbiente {
         return tipoambiente;
     }
 
-    public Tipoambiente findByAmCodigo(String amCodigo) {
+//    public Tipoambiente FindALlTipoambiente() {
+//
+//        List<Tipoambiente> listaTipoambientes = new ArrayList<Tipoambiente>();
+//        Tipoambiente tipoambiente = null;
+//        try {
+//            //Connection connection = em.unwrap(Connection.class);
+//            em = HelperPersistencia.getEMF();
+//            em.getTransaction().begin();
+//            Query query = em.createNamedQuery("Tipoambiente.findAllActivo", Tipoambiente.class);
+////           query.setParameter("codigoUsuario", tipoambiente);
+//            listaTipoambientes = (List<Tipoambiente>) query.getResultList();
+//            if (listaTipoambientes.size() > 0) {
+//                tipoambiente = listaTipoambientes.get(0);
+//            }
+//            em.getTransaction().commit();
+//        } catch (Exception e) {
+//            System.out.println("Error en lsa consulta tipoambiente");
+//        } finally {
+//            em.close();
+//        }
+//
+//        return tipoambiente;
+//    }
+
+    public List<Tipoambiente> findAll(Usuario idUsuario) {
 
         List<Tipoambiente> listaTipoambientes = new ArrayList<Tipoambiente>();
-        Tipoambiente tipoambiente = null;
+
         try {
             //Connection connection = em.unwrap(Connection.class);
             em = HelperPersistencia.getEMF();
             em.getTransaction().begin();
-            Query query = em.createNamedQuery("Tipoambiente.findByAmCodigo", Tipoambiente.class);
-            query.setParameter("amCodigo", amCodigo);
+            Query query = em.createQuery("SELECT a FROM Tipoambiente a  WHERE a.idUsuario=:idUsuario ORDER BY a.amNombreComercial ASC");
+            query.setParameter("idUsuario", idUsuario);
+            listaTipoambientes = (List<Tipoambiente>) query.getResultList();
+
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            System.out.println("Error en lsa consulta tipoambiente");
+        } finally {
+            em.close();
+        }
+
+        return listaTipoambientes;
+    }
+
+    public Tipoambiente finSelectFirst(Usuario usuario) {
+
+        List<Tipoambiente> listaTipoambientes = new ArrayList<Tipoambiente>();
+        Tipoambiente selected = null;
+        try {
+            //Connection connection = em.unwrap(Connection.class);
+            em = HelperPersistencia.getEMF();
+            em.getTransaction().begin();
+            Query query = em.createQuery("SELECT a FROM Tipoambiente a  WHERE a.idUsuario=:idUsuario ORDER BY a.amNombreComercial asc");
+            query.setParameter("idUsuario", usuario);
             listaTipoambientes = (List<Tipoambiente>) query.getResultList();
             if (listaTipoambientes.size() > 0) {
-                tipoambiente = listaTipoambientes.get(0);
+                selected = listaTipoambientes.get(0);
             }
             em.getTransaction().commit();
         } catch (Exception e) {
@@ -127,7 +173,7 @@ public class ServicioTipoAmbiente {
             em.close();
         }
 
-        return tipoambiente;
+        return selected;
     }
 
     public Tipoambiente findByUsuario(Usuario usuario) {
@@ -153,4 +199,30 @@ public class ServicioTipoAmbiente {
 
         return tipoambiente;
     }
+
+    public Tipoambiente findALlTipoambientePorUsuario(Usuario usuario) {
+
+        List<Tipoambiente> listaTipoambientes = new ArrayList<Tipoambiente>();
+        Tipoambiente tipoambiente = null;
+        try {
+            //Connection connection = em.unwrap(Connection.class);
+            em = HelperPersistencia.getEMF();
+            em.getTransaction().begin();
+            Query query = em.createQuery("SELECT a FROM Tipoambiente a WHERE a.idUsuario=:idUsuario AND a.amEstado=:amEstado");
+            query.setParameter("idUsuario", usuario);
+            query.setParameter("amEstado", Boolean.TRUE);
+            listaTipoambientes = (List<Tipoambiente>) query.getResultList();
+            if (listaTipoambientes.size() > 0) {
+                tipoambiente = listaTipoambientes.get(0);
+            }
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            System.out.println("Error en lsa consulta tipoambiente");
+        } finally {
+            em.close();
+        }
+
+        return tipoambiente;
+    }
+
 }

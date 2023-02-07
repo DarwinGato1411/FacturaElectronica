@@ -177,6 +177,8 @@ public class ListaComprasSri extends SelectorComposer<Component> {
     ServicioTipoKardex servicioTipoKardex = new ServicioTipoKardex();
     ServicioGeneral servicioGeneral = new ServicioGeneral();
 
+    private List<Tipoambiente> listaTipoambientes = new ArrayList<Tipoambiente>();
+
     public void doAfterCompose(Component comp) throws Exception {
         super.doAfterCompose(comp);
 
@@ -194,20 +196,24 @@ public class ListaComprasSri extends SelectorComposer<Component> {
         credential = cre;
         parametrizar = servicioParametrizar.FindALlParametrizar();
         findByBetweenFecha();
-        amb = servicioTipoAmbiente.FindALlTipoambiente();
-        //OBTIENE LAS RUTAS DE ACCESO A LOS DIRECTORIOS DE LA TABLA TIPOAMBIENTE
-        PATH_BASE = amb.getAmDirBaseArchivos() + File.separator
-                    + amb.getAmDirXml();
+        listaTipoambientes = servicioTipoAmbiente.findAll(credential.getUsuarioSistema());
 
-        String folderComprasSri = PATH_BASE + File.separator + SRIFACCOMPRAS + File.separator;
-        File folderGen = new File(folderComprasSri);
-        if (!folderGen.exists()) {
-            folderGen.mkdirs();
-        }
-        String folderRetencionesSri = PATH_BASE + File.separator + SRIRETENCION + File.separator;
-        File folderRet = new File(folderRetencionesSri);
-        if (!folderRet.exists()) {
-            folderRet.mkdirs();
+        amb = servicioTipoAmbiente.finSelectFirst(credential.getUsuarioSistema());
+        //OBTIENE LAS RUTAS DE ACCESO A LOS DIRECTORIOS DE LA TABLA TIPOAMBIENTE
+        if (amb != null) {
+            PATH_BASE = amb.getAmDirBaseArchivos() + File.separator
+                        + amb.getAmDirXml();
+
+            String folderComprasSri = PATH_BASE + File.separator + SRIFACCOMPRAS + File.separator;
+            File folderGen = new File(folderComprasSri);
+            if (!folderGen.exists()) {
+                folderGen.mkdirs();
+            }
+            String folderRetencionesSri = PATH_BASE + File.separator + SRIRETENCION + File.separator;
+            File folderRet = new File(folderRetencionesSri);
+            if (!folderRet.exists()) {
+                folderRet.mkdirs();
+            }
         }
 
     }
@@ -226,13 +232,13 @@ public class ListaComprasSri extends SelectorComposer<Component> {
     }
 
     private void findComprasSriByBetweenFecha() {
-        listaComprasSris = servicioComprasSri.findNoVerificadosBetweenFecha(inicio, fin);
+        listaComprasSris = servicioComprasSri.findNoVerificadosBetweenFecha(inicio, fin, amb);
 
     }
 
     private void findCabeceraComprasSriByBetweenFecha() {
 
-        listaCabeceraCompraSris = servicioCabeceraComprasri.findByBetweenFechaSRI(inicio, fin);
+        listaCabeceraCompraSris = servicioCabeceraComprasri.findByBetweenFechaSRI(inicio, fin, amb);
         setListaComprasSriModel(new ListModelList<CabeceraCompraSri>(getListaCabeceraCompraSris()));
         ((ListModelList<CabeceraCompraSri>) listaComprasSriModel).setMultiple(true);
 
@@ -556,7 +562,7 @@ public class ListaComprasSri extends SelectorComposer<Component> {
     }
 
     @Command
-    @NotifyChange({"listaCabeceraCompras", "listaCabeceraCompraSris", "inicio", "fin"})
+    @NotifyChange({"listaCabeceraCompras", "listaCabeceraCompraSris", "inicio", "fin", "listaComprasSriModel"})
     public void cargarComprasSRI()
                 throws JRException, IOException, NamingException, SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
 
@@ -605,19 +611,12 @@ public class ListaComprasSri extends SelectorComposer<Component> {
                         ec.gob.sri.comprobantes.modelo.factura.Factura adto
                                     = ec.gob.sri.comprobantes.util.xml.XML2Java.unmarshalFactura(pathArchivoXML);
                         procesaFactura(adto, autorizacion.getComprobante());
-                    } else if (noVerific.getCsriComprobante().contains("Comprobante de Retenci")) {
-                        System.out.println("RENETENCION " + autorizacion.getComprobante());
-                        //para el caso que sea retencion
-                        ec.gob.sri.comprobantes.modelo.rentencion.ComprobanteRetencion comRetencion
-                                    = ec.gob.sri.comprobantes.util.xml.XML2Java.unmarshalComprobanteRetencion(pathArchivoXML);
-                        comRetencion.getImpuestos().getImpuesto();
-                        procesaRetenciones(comRetencion, autorizacion.getComprobante());
                     }
 
                 }
                 //}
             }
-
+            findCabeceraComprasSriByBetweenFecha();
         } catch (Exception ex) {
             Logger.getLogger(ListaFacturas.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -688,6 +687,7 @@ public class ListaComprasSri extends SelectorComposer<Component> {
         cabeceraCompra.setCabEstado("PA");
         cabeceraCompra.setCabXmlSri(xml);
         cabeceraCompra.setCabCasillero("500");
+        cabeceraCompra.setCodTipoambiente(amb);
         /*formato de la fecha*/
         try {
             Date dt = sm.parse(adto.getInfoFactura().getFechaEmision());
@@ -930,6 +930,7 @@ public class ListaComprasSri extends SelectorComposer<Component> {
                         if (servicioComprasSri.findByAutorizacion(comprasSri.getCsriAutorizacion()) == null) {
 
                             if (!comprasSri.getCsriComprobante().contains("Notas de Cr")) {
+                                comprasSri.setCodTipoambiente(amb);
                                 servicioComprasSri.crear(comprasSri);
                             }
                         } else {
@@ -2253,5 +2254,22 @@ public class ListaComprasSri extends SelectorComposer<Component> {
 
         }
     }
+
+    public List<Tipoambiente> getListaTipoambientes() {
+        return listaTipoambientes;
+    }
+
+    public void setListaTipoambientes(List<Tipoambiente> listaTipoambientes) {
+        this.listaTipoambientes = listaTipoambientes;
+    }
+
+    public Tipoambiente getAmb() {
+        return amb;
+    }
+
+    public void setAmb(Tipoambiente amb) {
+        this.amb = amb;
+    }
+    
 
 }

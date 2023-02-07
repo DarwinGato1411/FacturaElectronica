@@ -205,15 +205,15 @@ public class ListaRetencionesSri extends SelectorComposer<Component> {
         listaCabeceraCompras = servicioCompra.findByBetweenFechaSRI(inicio, fin);
     }
 
-    private void findComprasSriByBetweenFecha() {
-        listaComprasSris = servicioComprasSri.findNoVerificadosBetweenFecha(inicio, fin);
-
-    }
-
-    private void findCabeceraComprasSriByBetweenFecha() {
-        listaCabeceraCompraSris = servicioCabeceraComprasri.findByBetweenFechaSRI(inicio, fin);
-
-    }
+//    private void findComprasSriByBetweenFecha() {
+//        listaComprasSris = servicioComprasSri.findNoVerificadosBetweenFecha(inicio, fin);
+//
+//    }
+//
+//    private void findCabeceraComprasSriByBetweenFecha() {
+//        listaCabeceraCompraSris = servicioCabeceraComprasri.findByBetweenFechaSRI(inicio, fin);
+//
+//    }
 
     private void findByNumFac() {
         listaCabeceraCompras = servicioCompra.findByNumeroFacturaSRI(buscarNumFac);
@@ -228,14 +228,14 @@ public class ListaRetencionesSri extends SelectorComposer<Component> {
     public void eliminarCabeceraSRI() {
 
         servicioComprasSri.eliminarCabeceraSri(inicio, fin);
-        findComprasSriByBetweenFecha();
+//        findComprasSriByBetweenFecha();
     }
 
     @Command
     @NotifyChange({"listaComprasSris", "inicio", "fin", "listaCabeceraCompraSris"})
     public void buscarComprasSri() {
-        findComprasSriByBetweenFecha();
-        findCabeceraComprasSriByBetweenFecha();
+//        findComprasSriByBetweenFecha();
+//        findCabeceraComprasSriByBetweenFecha();
     }
 
     @Command
@@ -248,7 +248,7 @@ public class ListaRetencionesSri extends SelectorComposer<Component> {
     @NotifyChange({"listaCabeceraCompraSris", "inicioComp", "finComp"})
     public void buscarComprasSriProcesadas() {
 
-        findCabeceraComprasSriByBetweenFecha();
+//        findCabeceraComprasSriByBetweenFecha();
     }
 
     @Command
@@ -727,7 +727,7 @@ public class ListaRetencionesSri extends SelectorComposer<Component> {
                         + " " + detalle.getPrecioTotalSinImpuesto());
         }
 
-        findCabeceraComprasSriByBetweenFecha();
+//        findCabeceraComprasSriByBetweenFecha();
     }
 
     @Command
@@ -866,7 +866,7 @@ public class ListaRetencionesSri extends SelectorComposer<Component> {
                     }
                     bfwriter.close();
                     Clients.showNotification("Informacion cargada", "info", null, "end_before", 1000, true);
-                    findComprasSriByBetweenFecha();
+//                    findComprasSriByBetweenFecha();
                 }
             }
 
@@ -2008,7 +2008,7 @@ public class ListaRetencionesSri extends SelectorComposer<Component> {
                         + " " + detalle.getPrecioTotalSinImpuesto());
         }
 
-        findCabeceraComprasSriByBetweenFecha();
+//        findCabeceraComprasSriByBetweenFecha();
     }
 
     @Command

@@ -4,8 +4,8 @@
  */
 package com.ec.servicio;
 
-
 import com.ec.entidad.ComprasSri;
+import com.ec.entidad.Tipoambiente;
 import com.ec.entidad.sri.CabeceraCompraSri;
 import com.ec.entidad.sri.DetalleCompraSri;
 import java.util.ArrayList;
@@ -42,7 +42,7 @@ public class ServicioDetalleComprasSri {
             System.out.println("Error en insertar detalleCompraSri " + e.getMessage());
             StackTraceElement[] elems = e.getStackTrace();
             for (int i = 0; i < elems.length; i++) {
-                System.out.println("ERROR CREAR ServicioDetalleComprasSri "+elems[i].toString());
+                System.out.println("ERROR CREAR ServicioDetalleComprasSri " + elems[i].toString());
             }
         } finally {
             em.close();
@@ -80,8 +80,8 @@ public class ServicioDetalleComprasSri {
         }
 
     }
-    
-     public List<DetalleCompraSri> findByBetweenFechaSRI(Date incio, Date fin) {
+
+    public List<DetalleCompraSri> findByBetweenFechaSRI(Date incio, Date fin) {
 
         List<DetalleCompraSri> listaCabeceraCompras = new ArrayList<DetalleCompraSri>();
         try {
@@ -101,8 +101,8 @@ public class ServicioDetalleComprasSri {
 
         return listaCabeceraCompras;
     }
-     
-     public List<DetalleCompraSri> detallebyCompraSri(CabeceraCompraSri valor) {
+
+    public List<DetalleCompraSri> detallebyCompraSri(CabeceraCompraSri valor) {
 
         List<DetalleCompraSri> listaCabeceraCompras = new ArrayList<DetalleCompraSri>();
         try {
@@ -123,4 +123,24 @@ public class ServicioDetalleComprasSri {
         return listaCabeceraCompras;
     }
 
+    public List<DetalleCompraSri> detalleCompraSriForTipoambiente(Tipoambiente codTipoambiente) {
+
+        List<DetalleCompraSri> listaCabeceraCompras = new ArrayList<DetalleCompraSri>();
+        try {
+            //Connection connection = em.unwrap(Connection.class);
+            em = HelperPersistencia.getEMF();
+            em.getTransaction().begin();
+            Query query = em.createQuery("SELECT c FROM DetalleCompraSri c WHERE c.idCabeceraSri.codTipoambiente=:codTipoambiente ORDER BY c.idCabeceraSri.cabProveedor ASC");
+            query.setParameter("codTipoambiente", codTipoambiente);
+//            query.setParameter("fin", fin);
+            listaCabeceraCompras = (List<DetalleCompraSri>) query.getResultList();
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            System.out.println("Error en lsa consulta DetalleCompraSri " + e.getMessage());
+        } finally {
+            em.close();
+        }
+
+        return listaCabeceraCompras;
+    }
 }

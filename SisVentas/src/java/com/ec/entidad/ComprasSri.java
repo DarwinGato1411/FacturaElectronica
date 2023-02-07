@@ -14,10 +14,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.Size;
 
 /**
  *
@@ -70,6 +71,11 @@ public class ComprasSri implements Serializable {
 
     @Column(name = "csri_verificado")
     private String csriVerificado;
+    
+    
+    @JoinColumn(name = "cod_tipoambiente", referencedColumnName = "cod_tipoambiente")
+    @ManyToOne
+    private Tipoambiente codTipoambiente;
 
     public ComprasSri() {
     }
@@ -222,4 +228,13 @@ public class ComprasSri implements Serializable {
         return "ComprasSri{" + "idCompSri=" + idCompSri + ", csriComprobante=" + csriComprobante + ", csriSerieComprobante=" + csriSerieComprobante + ", csriRucEmisor=" + csriRucEmisor + ", csriRazonSocial=" + csriRazonSocial + ", csriFechaEmision=" + csriFechaEmision + ", csriFechaAutorizacion=" + csriFechaAutorizacion + ", csriTipoEmision=" + csriTipoEmision + ", csriIdentificacionReceptor=" + csriIdentificacionReceptor + ", csriClaveAcceso=" + csriClaveAcceso + ", csriAutorizacion=" + csriAutorizacion + ", csriTotal=" + csriTotal + ", csriVerificado=" + csriVerificado + '}';
     }
 
+    
+    
+    public Tipoambiente getCodTipoambiente() {
+        return codTipoambiente;
+    }
+
+    public void setCodTipoambiente(Tipoambiente codTipoambiente) {
+        this.codTipoambiente = codTipoambiente;
+    }
 }

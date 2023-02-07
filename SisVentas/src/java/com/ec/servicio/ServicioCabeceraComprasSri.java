@@ -4,6 +4,7 @@
  */
 package com.ec.servicio;
 
+import com.ec.entidad.Tipoambiente;
 import com.ec.entidad.sri.CabeceraCompraSri;
 import java.util.ArrayList;
 import java.util.Date;
@@ -96,16 +97,17 @@ public class ServicioCabeceraComprasSri {
 
     }
 
-    public List<CabeceraCompraSri> findByBetweenFechaSRI(Date incio, Date fin) {
+    public List<CabeceraCompraSri> findByBetweenFechaSRI(Date incio, Date fin, Tipoambiente codTipoambiente) {
 
         List<CabeceraCompraSri> listaCabeceraCompras = new ArrayList<CabeceraCompraSri>();
         try {
             //Connection connection = em.unwrap(Connection.class);
             em = HelperPersistencia.getEMF();
             em.getTransaction().begin();
-            Query query = em.createQuery("SELECT c FROM CabeceraCompraSri c WHERE c.cabFechaEmision BETWEEN :inicio AND :fin AND c.cabHomologado='N' ORDER BY c.cabFechaEmision DESC");
+            Query query = em.createQuery("SELECT c FROM CabeceraCompraSri c WHERE c.codTipoambiente=:codTipoambiente and  c.cabFechaEmision BETWEEN :inicio AND :fin AND c.cabHomologado='N' ORDER BY c.cabFechaEmision DESC");
             query.setParameter("inicio", incio);
             query.setParameter("fin", fin);
+            query.setParameter("codTipoambiente", codTipoambiente);
             listaCabeceraCompras = (List<CabeceraCompraSri>) query.getResultList();
             em.getTransaction().commit();
         } catch (Exception e) {

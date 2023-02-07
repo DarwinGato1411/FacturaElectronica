@@ -5,6 +5,7 @@
  */
 package com.ec.entidad;
 
+import com.ec.entidad.sri.CabeceraCompraSri;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
@@ -13,6 +14,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -170,6 +173,15 @@ public class Tipoambiente implements Serializable {
     private Boolean amGeneral;
     @Column(name = "am_codigo_artesano")
     private String amCodigoArtesano;
+
+    @OneToMany(mappedBy = "codTipoambiente")
+    private Collection<CabeceraCompraSri> cabeceraCompraSriCollection;
+    @OneToMany(mappedBy = "codTipoambiente")
+    private Collection<ComprasSri> comprasSriCollection;
+    
+        @JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario")
+    @ManyToOne
+    private Usuario idUsuario;
 
     public Tipoambiente() {
     }
@@ -587,5 +599,31 @@ public class Tipoambiente implements Serializable {
     public String toString() {
         return "com.ec.entidad.Tipoambiente[ codTipoambiente=" + codTipoambiente + " ]";
     }
+
+    public Collection<CabeceraCompraSri> getCabeceraCompraSriCollection() {
+        return cabeceraCompraSriCollection;
+    }
+
+    public void setCabeceraCompraSriCollection(Collection<CabeceraCompraSri> cabeceraCompraSriCollection) {
+        this.cabeceraCompraSriCollection = cabeceraCompraSriCollection;
+    }
+
+    public Collection<ComprasSri> getComprasSriCollection() {
+        return comprasSriCollection;
+    }
+
+    public void setComprasSriCollection(Collection<ComprasSri> comprasSriCollection) {
+        this.comprasSriCollection = comprasSriCollection;
+    }
+
+    public Usuario getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(Usuario idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+    
+    
 
 }
