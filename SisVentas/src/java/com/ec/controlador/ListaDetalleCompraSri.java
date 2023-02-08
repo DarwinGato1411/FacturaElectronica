@@ -39,6 +39,7 @@ import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zul.Filedownload;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.select.SelectorComposer;
+import org.zkoss.zul.ListModelList;
 
 /**
  *
@@ -46,13 +47,11 @@ import org.zkoss.zk.ui.select.SelectorComposer;
  */
 public class ListaDetalleCompraSri extends SelectorComposer<Component> {
 
-   
     ServicioTipoAmbiente servicioTipoAmbiente = new ServicioTipoAmbiente();
     private Tipoambiente amb = new Tipoambiente();
     ServicioDetalleComprasSri servicioDetalleComprasSri = new ServicioDetalleComprasSri();
     private List<DetalleCompraSri> listaDetalleCompraSris = new ArrayList<DetalleCompraSri>();
 
- 
     private String buscar = "";
     private String buscarNumFac = "";
     private Date inicio = new Date();
@@ -77,25 +76,23 @@ public class ListaDetalleCompraSri extends SelectorComposer<Component> {
         Session sess = Sessions.getCurrent();
         UserCredential cre = (UserCredential) sess.getAttribute(EnumSesion.userCredential.getNombre());
         credential = cre;
- 
-      
-        listaTipoambientes = servicioTipoAmbiente.findAll(credential.getUsuarioSistema());
 
+        listaTipoambientes = servicioTipoAmbiente.findAll(credential.getUsuarioSistema());
         amb = servicioTipoAmbiente.finSelectFirst(credential.getUsuarioSistema());
         //OBTIENE LAS RUTAS DE ACCESO A LOS DIRECTORIOS DE LA TABLA TIPOAMBIENTE
-       
-
     }
-
-  
 
     @Command
     @NotifyChange({"listaDetalleCompraSris", "inicio", "fin"})
     public void buscarDetalleCompra() {
-       
+        findDetalleCompraSri();
     }
 
-   
+    private void findDetalleCompraSri() {
+        listaDetalleCompraSris = servicioDetalleComprasSri.detalleCompraSriForTipoambiente(amb);
+        setListaDetalleCompraSris(new ListModelList<DetalleCompraSri>(getListaDetalleCompraSris()));
+
+    }
 
     @Command
     public void exportListboxToExcel() throws Exception {
@@ -240,8 +237,6 @@ public class ListaDetalleCompraSri extends SelectorComposer<Component> {
 
     }
 
-   
-
     public List<Tipoambiente> getListaTipoambientes() {
         return listaTipoambientes;
     }
@@ -265,6 +260,37 @@ public class ListaDetalleCompraSri extends SelectorComposer<Component> {
     public void setListaDetalleCompraSris(List<DetalleCompraSri> listaDetalleCompraSris) {
         this.listaDetalleCompraSris = listaDetalleCompraSris;
     }
-    
+
+    public Date getInicio() {
+        return inicio;
+    }
+
+    public void setInicio(Date inicio) {
+        this.inicio = inicio;
+    }
+
+    public Date getFin() {
+        return fin;
+    }
+
+    public void setFin(Date fin) {
+        this.fin = fin;
+    }
+
+    public String getBuscar() {
+        return buscar;
+    }
+
+    public void setBuscar(String buscar) {
+        this.buscar = buscar;
+    }
+
+    public String getBuscarNumFac() {
+        return buscarNumFac;
+    }
+
+    public void setBuscarNumFac(String buscarNumFac) {
+        this.buscarNumFac = buscarNumFac;
+    }
 
 }

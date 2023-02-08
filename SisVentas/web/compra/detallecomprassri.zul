@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?link rel="stylesheet" type="text/css" href="/css/boostrap/bootstrap.css"?>  
+<?link rel="stylesheet" type="text/css" href="/css/style.css"?>
+<?link rel="stylesheet" type="text/css" href="/css/app/ventas/facturar.css"?>
+<?init class="com.ec.seguridad.Autentificador"?>
+<?init class="org.zkoss.zk.ui.util.Composition" arg0="/plantilla/plantilla.zul"?>
+<!--<zk   class="col-12 col-sm-12 col-md-12 col-lg-12">-->
+<hbox self="@define(content)" apply="org.zkoss.bind.BindComposer" 
+      class="contenedorReporteSRI"
+      viewModel="@id('vm') @init('com.ec.controlador.ListaDetalleCompraSri')" >
+    
+    <div class="contenedorTablas">
+        <div class="contenedorTabla2">
+            <div  class="contenedorBusqueda" style="">
+                <combobox  
+                    model="@load(vm.listaTipoambientes)"  
+                    onSelect="@command('buscarDetalleCompra')"  
+                    selectedItem="@bind(vm.amb)" 
+                    readonly="true" 
+                    
+                    class="textoFechaDateBox">
+                    <template name="model">
+                        <comboitem  label="@bind(each.amNombreComercial)"/>
+                    </template>                                      
+                </combobox>
+                <div  class="contenedorEspe">
+                    <div class="contenidoEspe">
+                        <label class="texto"  width="30%" value="Inicio: "   />
+                        <datebox  class="fecha"  value="@bind(vm.inicio)" 
+                                  style="font-weight:bold;"                                                   
+                                  buttonVisible="true" 
+                                  lenient="true"  format="dd/MM/yyyy" 
+                                  constraint="no empty: Ingrese de inicio de la busqueda"
+                                  width="90%"/> 
+                    </div>
+                    <div class="contenidoEspe">
+                        <label  class="texto"    width="30%" value="Fin: "  />
+                        <datebox  class="fecha" width="90%"  value="@bind(vm.fin)" 
+                                  style="font-weight:bold;" 
+                                  onCreate="self.value = new Date()"                                                   
+                                  buttonVisible="true" 
+                                  lenient="true"  format="dd/MM/yyyy" 
+                                  constraint="no empty: IBuscar por fecha fin de la busqueda"
+                        /> 
+                    </div>
+                    <button   image="/imagenes/buscar1.png"  
+                              onClick="@command('buscarDetalleCompra')"  
+                              class="btn btn-primary btn-sm "
+                              label="Buscar"
+                              tooltiptext="Buscar"/> 
+                </div> 
+            </div>    
+           
+            <listbox model="@load(vm.listaDetalleCompraSris)" 
+                     mold="paging" pageSize="15" 
+            >
+                <custom-attributes org.zkoss.zul.listbox.rod="true"/>
+
+                       
+                <listhead> 
+                    <listheader width="20%"  label="Código" />
+                    <listheader width="20%"  label="Descripción" />
+                    <listheader width="20%"  label="Subtotal" style="font-size:11px;"/>    
+                    <listheader width="20%"  label="Total" style="font-size:11px;"/>        
+                    <listheader width="20%"  label="Código Proveedores" style="font-size:11px;"/>        
+                          
+                  
+                    <!--  <textbox placeholder="Proveedor"
+                        value="@bind(vm.buscar)" 
+                        class="form-control form-control-sm"
+                        onOK="@command('buscarForProveedor')"
+                        onChange="self.setValue(self.getValue().toUpperCase());" style="font-size:11px;"/>
+                    </listheader>        -->
+                                                                                               
+                                                                                       
+                                                                                                
+                </listhead>  
+                        
+                    
+                <template name="model">                                                            
+                    <listitem>
+                    
+                        <listcell zclass = "mycss-listcell">
+                            <textbox class="form-control form-control-sm"                                                               
+                                     style="font-size:11px;background:#EBF5FB"
+                                     readonly="true"
+                                     value="@bind(each. iprodCodigoProducto)" width="96%" />
+                        </listcell>
+                        <listcell zclass = "mycss-listcell">
+                            <textbox class="form-control form-control-sm"                                                               
+                                     style="font-size:11px;background:#EBF5FB"
+                                     readonly="true"
+                                     value="@bind(each.iprodDescripcion)" width="96%" />
+                        </listcell>
+                        <listcell zclass = "mycss-listcell">
+                            <decimalbox format="###.##" 
+                                        class="form-control form-control-sm"                                                               
+                                        style="font-size:11px;background:#EBF5FB"
+                                        readonly="true"  
+                                        value="@bind(each.iprodSubtotal)" width="96%" />
+                        </listcell>
+                        <listcell zclass = "mycss-listcell">
+                            <decimalbox format="###.##" 
+                                        class="form-control form-control-sm"                                                               
+                                        style="font-size:11px;background:#EBF5FB"
+                                        readonly="true"  
+                                        value="@bind(each.iprodTotal)" width="96%" />
+                        </listcell>
+                        <listcell zclass = "mycss-listcell">
+                            <decimalbox format="###.##" 
+                                        class="form-control form-control-sm"                                                               
+                                        style="font-size:11px;background:#EBF5FB"
+                                        readonly="true"  
+                                        value="@bind(each.iprodCodigoProvee)" width="96%" />
+                        </listcell>
+                                                                    
+
+                    </listitem>
+                </template>
+            </listbox>
+        </div>
+    </div>
+    
+</hbox>
+
+
+<!--</zk>-->

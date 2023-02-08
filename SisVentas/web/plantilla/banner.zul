@@ -5,8 +5,8 @@
         <div class="row" >
             
             <div class="col-12 col-sm-12 col-md-7 col-lg-7  " align="start">
-                <!--<image  src="/imagenes/logintrans.jpg" width="30px" height="30px" class="imgRedondaLogo" />-->
-                <label value="DECKXEL  Facturación Electrónica" sclass="banner-head labelNuevo" />   
+                <image  src="/imagenes/logo.png"  width="150px" height="30px" />
+                <label value="Facturación Electrónica" sclass="banner-head labelNuevo" />   
                 
                      
             </div>
@@ -99,7 +99,9 @@
                             </menupopup>
                         </menu>
                         -->
+                        <menuitem label="Detalle compra SRI" id="btnReporteDetallado"  />
                         <menuitem label="Catalogos" id="btnAdministarVenta"  />
+
 <!--                        <menuitem image="/iconos/fact.png" label="Facturar" onClick="@command('facturar')" />
                         <menuitem image="/iconos/page.png" label="Producto" onClick="@command('nuevoProducto')" />
                         <menuitem image="/iconos/user.png" label="Cliente" onClick="@command('nuevoCliente')" />-->

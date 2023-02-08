@@ -587,7 +587,7 @@ body {
 
 div.z-listbox-header th.z-listheader,
 div.z-listbox-header th.z-auxheader {
-    background: var(--primary-color) !important;
+    background: #5086c1 !important;
     color: #fff !important;
 }
 
@@ -595,6 +595,7 @@ div.z-listfooter-cnt,
 div.z-listcell-cnt,
 div.z-listheader-cnt {
     color: #fff;
+    text-align: center;
 }
 
 .td-tabla {
@@ -847,7 +848,7 @@ div.z-listheader-cnt {
 
 
 .contenedorListaCompras .contenedorTablas .contenedorTabla2{
-    margin-bottom: 5px;
+    margin-bottom: 2px;
 
 }
 
@@ -863,4 +864,39 @@ div.z-listheader-cnt {
     margin-bottom: 2px;
 }
 
+@media screen and (max-width: 1300px){
+    .contenedorListaCompras .contenedorTablas{
+        display:grid;
+        grid-template-columns: repeat(1,1fr);
+        gap:10px;
+        padding: 20px;
 
+    }
+}
+
+.contenedorReporteSRI .contenedorTablas{
+    padding: 20px;
+}
+
+.contenedorReporteSRI .contenedorTablas .contenedorTabla2 .contenedorBusqueda {
+    background-color: #eee;
+    padding: 20px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+    width: 50%;
+    display: grid;
+    grid-template-columns: 30% 70%;
+    align-items: center;
+}
+
+.contenedorReporteSRI .contenedorTablas .contenedorTabla2 .contenedorBusqueda .contenedorEspe{
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    align-items: center;
+}
+.contenedorReporteSRI .contenedorTablas .contenedorTabla2 .contenedorBusqueda .contenedorEspe .contenidoEspe{
+    display: grid;
+    grid-template-columns: 30% 70%;
+    height: 10px;
+    align-items: center;
+}
