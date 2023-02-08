@@ -227,9 +227,9 @@ public class ListaDetalleCompraSri extends SelectorComposer<Component> {
                 rownum += 1;
 
             }
-            for (int k = 0; k <= descargar.size(); k++) {
-                s.autoSizeColumn(k);
-            }
+//            for (int k = 0; k <= descargar.size(); k++) {
+//                s.autoSizeColumn(k);
+//            }
             wb.write(archivo);
             archivo.close();
 

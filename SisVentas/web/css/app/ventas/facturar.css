@@ -666,7 +666,7 @@ div.z-listheader-cnt {
 }
 
 .facturacion table,.facturacion tbody,.facturacion th,.facturacion td{
-    display: block; 
+    display: block;
 }
 
 .encabezado1 ,.tabla1{
@@ -761,3 +761,106 @@ div.z-listheader-cnt {
     color: #333;
     height: 30px;
 }
+
+.contenedorListaCompras{
+
+    width: 100%;
+
+}
+
+.contenedorListaCompras .contenedorTablas{
+    display:grid;
+    grid-template-columns: repeat(2,1fr);
+    gap:10px;
+    padding: 20px;
+    padding: 20px;
+}
+
+.contenedorListaCompras .contenedorTablas .contenedorTabla1{
+    margin-bottom: 10px;
+}
+
+.contenedorListaCompras .contenedorTablas .contenedorTabla1 .contenedorBotones{
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap:5px;
+    padding: 20px;
+    background: #eee;
+    margin-bottom: 10px;
+}
+
+.contenedorTabla1 .contenedorBotones .contenedorBusqueda{
+
+
+    border-radius: 20px;
+    display: grid;
+    grid-template-columns: repeat(1,1fr);
+    gap: 5px;
+}
+.contenedorTabla1 .contenedorBotones .contenedorBusqueda .textoFechaDateBox{
+    border-radius: 20px;
+}
+
+.contenedorListaCompras .contenedorTablas .contenedorTabla1 .contenedorBotones .contenedorBusqueda .contenedorEspe{
+    display: grid;
+    grid-template-columns: repeat(1,1fr);
+    gap: 5px;
+}
+
+.contenedorListaCompras .contenedorTablas .contenedorTabla1 .contenedorBotones .contenedorBusqueda .contenedorEspe .contenidoEspe{
+
+    display: grid;
+    grid-template-columns: 30% 70%;
+    gap:5px;
+}
+
+.contenedorListaCompras .contenedorTablas .contenedorTabla1 .contenedorBotones .contenedorBotonera{
+
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap:5px;
+    background: #eee;
+    border-radius: 20px;
+    margin-bottom: 10px;
+}
+
+.btn{
+
+    padding: 7px;
+    height: 32px;
+    border-radius: 20px;
+    background: #42ab49;
+    color:white;
+    font-size: 14px;
+}
+
+.btn1{
+    background: #5086c1;
+}
+.btn2{
+    background: #c63637;
+}
+
+.btn3{
+    background: black;
+}
+
+
+.contenedorListaCompras .contenedorTablas .contenedorTabla2{
+    margin-bottom: 5px;
+
+}
+
+
+
+.contenedorListaCompras .contenedorTablas .contenedorTabla2 .contenedorBotones{
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap:5px;
+    background-color: #eee;
+    padding: 20px;
+    border-radius: 20px;
+    margin-bottom: 2px;
+}
+
+
