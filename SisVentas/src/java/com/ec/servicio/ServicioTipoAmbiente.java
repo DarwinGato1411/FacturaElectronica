@@ -129,7 +129,6 @@ public class ServicioTipoAmbiente {
 //
 //        return tipoambiente;
 //    }
-
     public List<Tipoambiente> findAll(Usuario idUsuario) {
 
         List<Tipoambiente> listaTipoambientes = new ArrayList<Tipoambiente>();
@@ -140,6 +139,29 @@ public class ServicioTipoAmbiente {
             em.getTransaction().begin();
             Query query = em.createQuery("SELECT a FROM Tipoambiente a  WHERE a.idUsuario=:idUsuario ORDER BY a.amNombreComercial ASC");
             query.setParameter("idUsuario", idUsuario);
+            listaTipoambientes = (List<Tipoambiente>) query.getResultList();
+
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            System.out.println("Error en lsa consulta tipoambiente");
+        } finally {
+            em.close();
+        }
+
+        return listaTipoambientes;
+    }
+
+    public List<Tipoambiente> findAllNombre(Usuario idUsuario, String buscar) {
+
+        List<Tipoambiente> listaTipoambientes = new ArrayList<Tipoambiente>();
+
+        try {
+            //Connection connection = em.unwrap(Connection.class);
+            em = HelperPersistencia.getEMF();
+            em.getTransaction().begin();
+            Query query = em.createQuery("SELECT a FROM Tipoambiente a  WHERE a.idUsuario=:idUsuario AND UPPER(a.amNombreComercial) LIKE :amNombreComercial ORDER BY a.amNombreComercial ASC");
+            query.setParameter("idUsuario", idUsuario);
+            query.setParameter("amNombreComercial", "%" + buscar + "%");
             listaTipoambientes = (List<Tipoambiente>) query.getResultList();
 
             em.getTransaction().commit();

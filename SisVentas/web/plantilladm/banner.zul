@@ -19,7 +19,7 @@
                         <toolbarbutton image="/iconos/user.png" label="Cliente" onClick="@command('nuevoCliente')" />
          -->
                         <label value="Usuario: " if="${not sessionScope.userCredential.anonymous}" class="labelNuevo" />
-                        <label value="${sessionScope.usuario.nombreUsuario} / TIPO AMBIENTE ${sessionScope.usuario.usuarioSistema.idUsuario}" class="labelNuevo" if="${not sessionScope.userCredential.anonymous}" />
+                        <label value="${sessionScope.usuario.nombreUsuario}" class="labelNuevo" if="${not sessionScope.userCredential.anonymous}" />
                         <div  align="end" style="float: right; " >
                             <a sclass="logout labelLogout" id="logout" >  
                                 <label  value="Salir " if="${not sessionScope.userCredential.anonymous}" sclass=" labelLogout"/> 
@@ -39,72 +39,20 @@
             class="col-12 col-sm-12 col-md-12 col-lg-12" >
          
                     <menubar id="menubar" orient="horizontal"  autodrop="true">
-<!--                        <menu label="Ventas" >
-                            <menupopup> 
-                                <menuitem label="Emitir Facturas" id="btnFacturar"  />
-                                <menuitem label="Orden de trabajo" id="btnOrdenTrab"  />
-                                <menuitem label="Lista ordenes de trabajo" id="btnListaOrden"  />
-                                 <menuitem label="Facturas por cobrar" id="btnfactCobra"  />
-                                <menuitem label="Cierre de caja" id="btnCierreCajaUsu"  />
-                            </menupopup>
-                        </menu>
-                        <menu label="Gestion de ventas"  id="menuVentas">
-                            <menupopup>                               
-                                <menuitem label="Facturas emitidas" id="btnNotaVentas" />
-                                <menuitem label="Nota de venta" id="btnNotaVenta"  />                                
-                                <menuitem label="Proformas emitidas" id="btnProformasEmitidas"  />
-                                <menuitem label="Emitir Guias de remision" id="btnEmitirGuiaRemision"  />
-                                <menuitem label="Guias de remision emitidas" id="btnGuiaRemision"  />
-                                <menuitem label="Notas credito" id="btnNotaCredito"  />
-                                
-                                <menuitem label="Venta en ruta (GLP)" id="btnVentaRuta" />
-                             
 
-                            </menupopup>
-                        </menu> -->
-                        <menu label="Compras" id="menuCompras">
+<!--                        <menu label="Compras" id="menuCompras">
                             <menupopup>                     
                       
-<!--                                <menuitem label="Ingreso de mercaderia" id="btnIngresoCompras"  />                                
-                                <menuitem label="Mercaderia ingresada" id="btnListaCompras"  />                                                          
-                                <menuitem label="Retenciones" id="btnRetenciones"  />
-                              -->
+
                                 <menuitem label="Descargar compras desde el SRI" id="btnListaComprasSRI"  />     
                             </menupopup>
-                        </menu>          
+                        </menu>          -->
                                      
-<!--                        <menu label="Kardex" id="menuKardex">
-                            <menupopup>  
-                                <menuitem label="Ajuste de Entrada/Salida" id="btnAjuste"  />                                                                       
-                                <menuitem label="Kardex detallado" id="btnKardex"  /> 
-                                 <menuitem label="Kardex general" id="btnKardexPorProd"  />                                               
-                                                                         
-                                <menuitem label="Contabilidad" id="btnContabilidad" image="/iconmenu/page_refresh.png" />
-                               
-                            </menupopup>
-                        </menu>-->
-<!--                         <menu label="Reportes" id="menuReportes">
-                            <menupopup>                                                                         
-                                <menuitem label="Facturas autorizadas SRI" id="btnFactAutori"  />                              
-                                <menuitem label="Compras vs Ventas" id="btnBalanceUtilidad"  />
-                                <menuitem label="Cantidad de venta (GLP)" id="btnRepVentCant" />
-                                <menuitem label="Acumulado de ventas" id="btnAcumuladoventas" />
-                                <menuitem label="Rotacion Productos" id="btnRotacionProducto" />
-                                <menuitem label="Lista de cierre de caja" id="btnListarCierre" /> 
-                                <menuitem label="ATS Ventas" id="btnContabilidad"  /> 
-                                <menuitem label="ATS Compras y Ventas" id="btnContabilidadATS"  /> 
-                                <menuitem label="Retenciones por casillero" id="btnRetencionesCasillero"  />
-                                <menuitem label="Precio promedio compra" id="btnPreciPromCompra"  />
-                                <menuitem label="Precio promedio venta" id="btnPreciPromVenta"  />
-                            </menupopup>
-                        </menu>
-                        -->
-                        <menuitem label="Detalle compra SRI" id="btnReporteDetallado"  />
-                        <menuitem label="Catalogos" id="btnAdministarVenta"  />
 
-<!--                        <menuitem image="/iconos/fact.png" label="Facturar" onClick="@command('facturar')" />
-                        <menuitem image="/iconos/page.png" label="Producto" onClick="@command('nuevoProducto')" />
-                        <menuitem image="/iconos/user.png" label="Cliente" onClick="@command('nuevoCliente')" />-->
+                        <menuitem label="Usuarios" id="btnGestionUsuario"  />
+<!--                        <menuitem label="Catalogos" id="btnAdministarVenta"  />-->
+
+
                       
                     </menubar>    
                                     

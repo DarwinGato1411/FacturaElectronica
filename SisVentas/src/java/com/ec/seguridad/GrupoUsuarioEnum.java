@@ -9,8 +9,8 @@ package com.ec.seguridad;
  * @author Personal
  */
 public enum GrupoUsuarioEnum {
-    USUARIO ("usuario",Integer.valueOf("1")),
-   ADMINISTRADOR("administrador",Integer.valueOf("2"));
+    USUARIO ("usuario",Integer.valueOf("2")),
+   ADMINISTRADOR("administrador",Integer.valueOf("1"));
     
     private String descripcion;
     private Integer codigo;

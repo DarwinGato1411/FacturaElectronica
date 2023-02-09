@@ -50,43 +50,26 @@ public class LoginController extends SelectorComposer<Component> {
         Date actual = new Date();
         Date caduca = new Date();
 
-//        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-//        String dateString = format.format(new Date());
-        //            inicio = format.parse("2020-02-01");
-//            caduca = format.parse("2030-02-21");
-        Parametrizar param = servicioParametrizar.FindALlParametrizar();
-        NumeroDocumentosEmitidos emitidos = servicioNumeroDocumentosEmitidos.findByMes(caduca.getMonth() + 1);
-//        NumeroDocumentosEmitidos emitidos = listaDocum != null ? listaDocum : null;
-        caduca = param.getParCaduca();
-        if (param.getParPlanBasico()) {
-            System.out.println("emitidos " + emitidos);
-            numeroDocumentos = emitidos.getNumero() == null ? 0 : emitidos.getNumero().intValue();
-            System.out.println("numeroDocumentos " + numeroDocumentos);
-            if (numeroDocumentos > param.getParNumeroFactura()) {
-                System.out.println("caduco  " + actual + " vigente hasta " + caduca);
-                Messagebox.show("Usted cuenta con un plan basico y sobre paso el limite de " + param.getParNumeroFactura() + " documentos ¡contactese con el administrador!", "Atención", Messagebox.OK, Messagebox.EXCLAMATION);
-                return;
-            }
-        }
-        System.out.println("actual " + actual);
-        if (actual.after(caduca) && param.getParIlimitadoArriendo()) {
-            System.out.println("caduco  " + actual + " vigente hasta " + caduca);
-            Messagebox.show("Usted cuenta con un plan ilimitado mensual, pero su sistema caduco ¡contactese con el administrador!", "Atención", Messagebox.OK, Messagebox.EXCLAMATION);
-        } else {
-            System.out.println("vigente  " + actual + " vegente hasta " + caduca);
-            AutentificadorLogeo servicioAuth = new AutentificadorLogeo();
-            if (servicioAuth.login(account.getValue(), password.getValue())) {
-                Session sess = Sessions.getCurrent();
-                UserCredential cre = (UserCredential) sess.getAttribute(EnumSesion.userCredential.getNombre());
-                if (cre.getNivelUsuario().intValue() == GrupoUsuarioEnum.USUARIO.getCodigo()) {
-                    Executions.sendRedirect("/compra/listacomprassri.zul");
-                } else if (cre.getNivelUsuario().intValue() == GrupoUsuarioEnum.ADMINISTRADOR.getCodigo()) {
-                    Executions.sendRedirect("/compra/listacomprassri.zul");
-                }
-            } else {
-                Messagebox.show("Usuario o Contraseña incorrecto. \n Contactese con el administrador.", "Atención", Messagebox.OK, Messagebox.EXCLAMATION);
 
+   
+        AutentificadorLogeo servicioAuth = new AutentificadorLogeo();
+        if (servicioAuth.login(account.getValue(), password.getValue())) {
+            Session sess = Sessions.getCurrent();
+            UserCredential cre = (UserCredential) sess.getAttribute(EnumSesion.userCredential.getNombre());
+            if (cre.getNivelUsuario().intValue() == GrupoUsuarioEnum.USUARIO.getCodigo()) {
+
+                if (actual.after(cre.getUsuarioSistema().getUsuCaduca())) {
+                    System.out.println("caduco  " + actual + " vigente hasta " + cre.getUsuarioSistema().getUsuCaduca());
+                    Messagebox.show("Usted cuenta con un plan ilimitado anual, pero su sistema caduco ¡contactese con el administrador!", "Atención", Messagebox.OK, Messagebox.EXCLAMATION);
+                    return;
+                }
+                Executions.sendRedirect("/compra/listacomprassri.zul");
+            } else if (cre.getNivelUsuario().intValue() == GrupoUsuarioEnum.ADMINISTRADOR.getCodigo()) {
+                  Executions.sendRedirect("/administrar/gestionusuarios.zul");
             }
+        } else {
+            Messagebox.show("Usuario o Contraseña incorrecto. \n Contactese con el administrador.", "Atención", Messagebox.OK, Messagebox.EXCLAMATION);
+
         }
 
     }
@@ -94,14 +77,14 @@ public class LoginController extends SelectorComposer<Component> {
     @Listen("onClick = #linkRegistrarme")
     public void doRegistrarme() {
         Window window = (Window) Executions.createComponents(
-                "/celec/candidato/registrame.zul", null, null);
+                    "/celec/candidato/registrame.zul", null, null);
         window.doModal();
     }
 
     @Listen("onClick= #linkOlvideContrasena")
     public void linkOlvideContrasena() {
         Window window = (Window) Executions.createComponents(
-                "/celec/candidato/olvideMiClave.zul", null, null);
+                    "/celec/candidato/olvideMiClave.zul", null, null);
         window.doModal();
     }
 

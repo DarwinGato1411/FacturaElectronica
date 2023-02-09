@@ -178,8 +178,8 @@ public class Tipoambiente implements Serializable {
     private Collection<CabeceraCompraSri> cabeceraCompraSriCollection;
     @OneToMany(mappedBy = "codTipoambiente")
     private Collection<ComprasSri> comprasSriCollection;
-    
-        @JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario")
+
+    @JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario")
     @ManyToOne
     private Usuario idUsuario;
 
@@ -623,7 +623,5 @@ public class Tipoambiente implements Serializable {
     public void setIdUsuario(Usuario idUsuario) {
         this.idUsuario = idUsuario;
     }
-    
-    
 
 }

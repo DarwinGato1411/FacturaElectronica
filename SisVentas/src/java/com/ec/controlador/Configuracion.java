@@ -6,31 +6,27 @@
 package com.ec.controlador;
 
 import com.ec.entidad.Tipoambiente;
+import com.ec.seguridad.EnumSesion;
+import com.ec.seguridad.UserCredential;
 import com.ec.servicio.ServicioTipoAmbiente;
-import com.ec.untilitario.ParamFactura;
 import com.ec.vista.servicios.ServicioSriCatastro;
-import com.ec.vistas.SriCatastro;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Workbook;
 import org.zkoss.bind.annotation.AfterCompose;
+import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.ContextParam;
 import org.zkoss.bind.annotation.ContextType;
-import org.zkoss.bind.annotation.ExecutionArgParam;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.image.Image;
 import org.zkoss.io.Files;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.Session;
+import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
@@ -64,6 +60,9 @@ public class Configuracion extends SelectorComposer<Component> {
     private List<String> listaDicos = new ArrayList<String>();
 
     ServicioSriCatastro servicioSriCatastro = new ServicioSriCatastro();
+    private List<Tipoambiente> listaTipoambientes = new ArrayList<Tipoambiente>();
+    UserCredential credential = new UserCredential();
+    private String buscar = "";
 
     @AfterCompose
     public void afterCompose(@ContextParam(ContextType.VIEW) Component view) {
@@ -72,69 +71,52 @@ public class Configuracion extends SelectorComposer<Component> {
     }
 
     public Configuracion() {
+        Session sess = Sessions.getCurrent();
+        credential = (UserCredential) sess.getAttribute(EnumSesion.userCredential.getNombre());
+        buscarForNombre();
+    }
 
-        tipoambiente = servicioTipoAmbiente.FindALlTipoambiente();
-        if (tipoambiente != null) {
-            amCodifo = tipoambiente.getAmCodigo();
-            if (tipoambiente.getLlevarContabilidad().equals("NO")) {
-                llevaContabilidad = "NO";
-            } else {
-                llevaContabilidad = "SI";
-            }
+    private void buscarForNombre() {
 
-        }
-
-        /*LISTA LAS UNIDADES DEL DISCO PRESENTES EN EL SISTEMA OPERATIVO*/
-        listaDiscos();
+        listaTipoambientes = servicioTipoAmbiente.findAllNombre(credential.getUsuarioSistema(), buscar);
     }
 
     @Command
-    @NotifyChange({"tipoambiente"})
-    public void buscarCatastro() {
-        if (tipoambiente.getAmRuc() != null) {
-
-            if (tipoambiente.getAmRuc().length() == 13) {
-                tipoambiente.setAmMicroEmp(Boolean.FALSE);
-                tipoambiente.setAmAgeRet(Boolean.FALSE);
-                tipoambiente.setAmContrEsp(Boolean.FALSE);
-                tipoambiente.setAmExp(Boolean.FALSE);
-                chkRM.setChecked(Boolean.FALSE);
-                chkAR.setChecked(Boolean.FALSE);
-                chkCE.setChecked(Boolean.FALSE);
-                chkEX.setChecked(Boolean.FALSE);
-                for (SriCatastro catastro : servicioSriCatastro.findCatastro(tipoambiente.getAmRuc())) {
-                    if (catastro.getSigla().equals("MC")) {
-                        tipoambiente.setAmMicroEmp(Boolean.TRUE);
-                        chkRM.setChecked(Boolean.TRUE);
-                    } else if (catastro.getSigla().equals("AR")) {
-                        tipoambiente.setAmAgeRet(Boolean.TRUE);
-                        chkAR.setChecked(Boolean.TRUE);
-                    } else if (catastro.getSigla().equals("CE")) {
-                        tipoambiente.setAmContrEsp(Boolean.TRUE);
-                        chkCE.setChecked(Boolean.TRUE);
-                    } else if (catastro.getSigla().equals("EX")) {
-                        tipoambiente.setAmExp(Boolean.TRUE);
-                        chkEX.setChecked(Boolean.FALSE);
-                    }
-                }
-
-            }
-        }
+    @NotifyChange({"listaTipoambientes", "buscar"})
+    public void buscarEmpresas() throws InterruptedException, IOException {
+        buscarForNombre();
 
     }
 
-//    @Command
-//    @NotifyChange({"tipoambiente"})
-//    public void ambienteCodigo() {
-//        /*COLOCA EL ANTERIOR EN FALSO*/
-//        tipoambiente.setAmEstado(Boolean.FALSE);
-//        servicioTipoAmbiente.modificar(tipoambiente);
-//        tipoambiente = servicioTipoAmbiente.findByAmCodigo(amCodifo);
-//        /*COLOCA EL NUEVO AMBIENTE EN ACTIVO*/
-//        tipoambiente.setAmEstado(Boolean.TRUE);
-//        servicioTipoAmbiente.modificar(tipoambiente);
-//
-//    }
+    @Command
+    @NotifyChange({"listaTipoambientes", "buscar"})
+    public void nuevo() {
+        if (credential.getUsuarioSistema().getUsuNumEmpresas() >= listaTipoambientes.size()) {
+
+            org.zkoss.zul.Window window = (org.zkoss.zul.Window) Executions.createComponents(
+                        "/nuevo/tipoambiente.zul", null, null);
+            window.doModal();
+            buscarForNombre();
+
+        } else {
+            Clients.showNotification("No puede crear mas empresas contactese con el administrador",
+                        Clients.NOTIFICATION_TYPE_INFO, null, "middle_center", 5000, true);
+            return;
+        }
+    }
+
+    @Command
+    @NotifyChange({"listaTipoambientes", "buscar"})
+    public void actualizar(@BindingParam("valor") Tipoambiente valor) {
+
+        final HashMap<String, Tipoambiente> map = new HashMap<String, Tipoambiente>();
+        map.put("valor", valor);
+        org.zkoss.zul.Window window = (org.zkoss.zul.Window) Executions.createComponents(
+                    "/nuevo/tipoambiente.zul", null, map);
+        window.doModal();
+        buscarForNombre();
+    }
+
     //subir pdf
     private String filePath;
     byte[] buffer = new byte[1024 * 1024];
@@ -281,6 +263,22 @@ public class Configuracion extends SelectorComposer<Component> {
             }
         }
 
+    }
+
+    public List<Tipoambiente> getListaTipoambientes() {
+        return listaTipoambientes;
+    }
+
+    public void setListaTipoambientes(List<Tipoambiente> listaTipoambientes) {
+        this.listaTipoambientes = listaTipoambientes;
+    }
+
+    public String getBuscar() {
+        return buscar;
+    }
+
+    public void setBuscar(String buscar) {
+        this.buscar = buscar;
     }
 
 }

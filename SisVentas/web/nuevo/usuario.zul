@@ -90,7 +90,7 @@
                            
                         >
                             <comboitem label="ADMINISTRADOR" value="1" />
-                            <comboitem label="VENTAS" value="2" />
+                            <comboitem label="CONTADOR" value="2" />
                         </combobox>  
 <!--                        <div 
                             class="fa-solid fa-chevron-down"
@@ -109,17 +109,18 @@
                         />
                     </div>
                 </div>-->
-                <div class="wrapper_input_mod">
-                    <span>Correo: </span>
-                    <div class="wrapper_input_text">
-                        <div class="fa-solid fa-envelope icon"></div>
+                <div class="wrapper_input_mod" style="flex:auto">
+                    <span style="margin:0 0.5em">Correo: </span>
+                    <div class="wrapper_input_text" style="width:100%">
+                        <div class="fa-solid fa-dollar-sign icon"></div>
                         <textbox  
-                            maxlength="100"                          
-                            value="@bind(vm.usuarioSistema.usuCorreo)" 
-                            class="input_text"
+                            maxlength="100" 
+                            value="@bind(vm.usuarioSistema.usuCorreo)"
+                            class="input_text" 
                         />
                     </div>
                 </div>
+
                 
 
             </div>
@@ -157,6 +158,40 @@
                             value="@bind(vm.usuarioSistema.usuPassword)"
                             class="input_text" 
                         />
+                    </div>
+                </div>
+            </div>
+            <div class="container_row_input">
+                
+                <div class="wrapper_input_mod">
+                    <span>Caduca </span>
+                    <div class="wrapper_input_text">
+                        <div class="fa-solid fa-clipboard-user icon"></div>
+                        <datebox compact="true" 
+                            value="@bind(vm.usuarioSistema.usuCaduca)" 
+                            readonly="true"   
+                            buttonVisible="true" 
+                            lenient="true" 
+                            format="dd/MM/yyyy"
+                            class="input_date"
+                         />
+                    </div>
+                </div>
+                <div class="wrapper_input_mod">
+                    <span>Numero empresas: </span>
+                    <div class="wrapper_input_text">
+                        <div class="fa-solid fa-city icon"></div>
+                        <textbox  
+                            maxlength="100"
+                            value="@bind(vm.usuarioSistema.usuNumEmpresas)"                           
+                            class="input_text" 
+                        />
+                    </div>
+                </div>
+                <div class="wrapper_input_mod">
+                    <span> </span>
+                    <div class="wrapper_input_text">
+                     
                     </div>
                 </div>
             </div>
