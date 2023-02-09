@@ -127,6 +127,8 @@ public class Usuario implements Serializable {
     private String usuCorreo;
     @Column(name = "usu_nivel")
     private Integer usuNivel;
+    @Column(name = "usu_num_empresas")
+    private Integer usuNumEmpresas;
     @Size(max = 100)
     @Column(name = "usu_tipo_usuario")
     private String usuTipoUsuario;
@@ -142,6 +144,15 @@ public class Usuario implements Serializable {
     private Collection<OrdenTrabajo> ordenTrabajoCollection;
     @OneToMany(mappedBy = "idUsuario")
     private Collection<Tipoambiente> tipoambienteCollection;
+
+    @Column(name = "usu_caduca")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date usuCaduca;
+
+    @Column(name = "usu_ilimitado")
+    private Boolean usuIlimitado;
+    @Column(name = "usu_cobrado")
+    private Boolean usuCobrado;
 
     public Usuario() {
     }
@@ -447,6 +458,38 @@ public class Usuario implements Serializable {
 
     public void setTipoambienteCollection(Collection<Tipoambiente> tipoambienteCollection) {
         this.tipoambienteCollection = tipoambienteCollection;
+    }
+
+    public Integer getUsuNumEmpresas() {
+        return usuNumEmpresas == null ? 1 : usuNumEmpresas;
+    }
+
+    public void setUsuNumEmpresas(Integer usuNumEmpresas) {
+        this.usuNumEmpresas = usuNumEmpresas;
+    }
+
+    public Date getUsuCaduca() {
+        return usuCaduca == null ? new Date() : usuCaduca;
+    }
+
+    public void setUsuCaduca(Date usuCaduca) {
+        this.usuCaduca = usuCaduca;
+    }
+
+    public Boolean getUsuIlimitado() {
+        return usuIlimitado;
+    }
+
+    public void setUsuIlimitado(Boolean usuIlimitado) {
+        this.usuIlimitado = usuIlimitado;
+    }
+
+    public Boolean getUsuCobrado() {
+        return usuCobrado;
+    }
+
+    public void setUsuCobrado(Boolean usuCobrado) {
+        this.usuCobrado = usuCobrado;
     }
 
 }

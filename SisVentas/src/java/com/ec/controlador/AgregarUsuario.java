@@ -66,21 +66,27 @@ public class AgregarUsuario {
     public void guardar() {
         if (usuarioSistema != null && !usuarioSistema.getUsuNombre().equals("")
                     && !usuarioSistema.getUsuLogin().equals("")
+                    && usuarioSistema.getUsuCaduca() != null
+                    && usuarioSistema.getUsuNumEmpresas() != null
                     && !tipoUSuario.equals("")) {
             usuarioSistema.setUsuNivel(Integer.valueOf(tipoUSuario));
 
-            if (Integer.valueOf(tipoUSuario) == 1) {
-                usuarioSistema.setUsuTipoUsuario("ADMINISTRADOR");
-            } else if (Integer.valueOf(tipoUSuario) == 2) {
-                usuarioSistema.setUsuTipoUsuario("VENTAS");
+            if (accion.equals("accion")) {
+                if (Integer.valueOf(tipoUSuario) == 1) {
+                    usuarioSistema.setUsuTipoUsuario("ADMINISTRADOR");
+                } else if (Integer.valueOf(tipoUSuario) == 2) {
+                    usuarioSistema.setUsuTipoUsuario("CONTADOR");
+                }
+                servicioUsuario.crear(usuarioSistema);
+
+                windowIdUsuario.detach();
+            } else {
+                servicioUsuario.modificar(usuarioSistema);
             }
-            servicioUsuario.modificar(usuarioSistema);
-            usuarioSistema = new Usuario();
-            windowIdUsuario.detach();
 
         } else {
-           Clients.showNotification("Verifique la informacion requerida",
-                    Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 3000, true);
+            Clients.showNotification("Verifique la informacion requerida",
+                        Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 3000, true);
         }
 
     }
