@@ -891,8 +891,9 @@ div.z-listheader-cnt {
     border-radius: 20px;
     margin-bottom: 10px;
     width: 100%;
-    display: grid;
-    gap: 10px;
+    
+    display: flex;
+    gap:10px;
     align-items: center;
 }
 
@@ -902,9 +903,8 @@ div.z-listheader-cnt {
     border-radius: 20px;
     margin-bottom: 10px;
     width: 100%;
-    display: grid;
-    
-    align-items: center;
+    display: flex;
+    gap:10px;
 }
 
 .contenedorReporteSRI .contenedorTablas .contenedorTabla2 .contenedorBusqueda1 .contenedorEspe{

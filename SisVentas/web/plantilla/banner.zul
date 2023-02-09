@@ -6,14 +6,9 @@
             
             <div class="col-12 col-sm-12 col-md-7 col-lg-7  " align="start">
                 <image  src="/imagenes/logo.png"  width="150px" height="30px" />
-<<<<<<< HEAD
                 <label value="Descarga Masiva" sclass="banner-head labelNuevo" />   
      
-=======
-                <label value="Descarga tus facturas" sclass="banner-head labelNuevo" />   
-                
-                     
->>>>>>> 251c881c99c4e64d309aab231d410295084c2313
+
             </div>
             <div class="col-12 col-sm-12 col-md-5 col-lg-5  " align="end" style="float: right; " >
                 <div apply="org.zkoss.bind.BindComposer" 

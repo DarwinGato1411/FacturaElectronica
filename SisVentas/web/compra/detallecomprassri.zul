@@ -49,13 +49,8 @@
                                   onClick="@command('buscarDetalleCompra')"  
                                   class="btn btn-primary btn-sm "
                                   label="Buscar"
-                                  tooltiptext="Buscar"/> 
-                        <button   image="/iconos/excel.png"
-                                  label="Descargar Retenciones"
-                                  onClick="@command('exportListboxToExcel')"  
-                                  class="btn btn3"
-                                  tooltiptext="Descargar informacion"/>
-                    
+                                  
+                                  tooltiptext="Buscar"/>                 
                     </div> 
               
                 </div>    
@@ -81,7 +76,11 @@
                         <radio label="NEGOCIO" value="N"/> 
                     </radiogroup>
                     
-                        
+                      <button   image="/iconos/excel.png"
+                                  label="Descargar Retenciones"
+                                  onClick="@command('exportListboxToExcel')"  
+                                  class="btn btn3"
+                                  tooltiptext="Descargar informacion"/>  
                     
                 </div>
             </div>
