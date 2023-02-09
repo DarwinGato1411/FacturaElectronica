@@ -48,6 +48,31 @@
                               class="btn btn-primary btn-sm "
                               label="Buscar"
                               tooltiptext="Buscar"/> 
+                
+                    <radiogroup 
+                        selectedItem="@bind(vm.iprodClasificacio)"
+                        onCheck="@command('buscarDetalleCompra')">                   
+                        <radio label="TODO" value="TODO"/>                               
+                        <radio label="SALUD" value="S"/>
+                        <space bar="false"  />   
+                        <radio label="ALIMENTACION" value="A"/> 
+                        <space bar="false"  />                          
+                        <radio label="VESTIMENTA" value="V"/>                          
+                        <space bar="false"  /> 
+                        <radio label="TURISMO" value="T"/>                          
+                        <space bar="false"  /> 
+                        <radio label="EDUCACION" value="E"/>                          
+                        <space bar="false"  /> 
+                        <radio label="VIVIENDA" value="VI"/>                          
+                        <space bar="false"  /> 
+                        <radio label="NEGOCIO" value="N"/> 
+                    </radiogroup>
+                    
+                     <button   image="/iconos/excel.png"
+                              label="Descargar Retenciones"
+                              onClick="@command('exportListboxToExcel')"  
+                              class="btn btn3"
+                              tooltiptext="Descargar informacion"/>
                 </div> 
             </div>    
            
@@ -58,11 +83,15 @@
 
                        
                 <listhead> 
-                    <listheader width="20%"  label="Código" />
-                    <listheader width="20%"  label="Descripción" />
-                    <listheader width="20%"  label="Subtotal" style="font-size:11px;"/>    
-                    <listheader width="20%"  label="Total" style="font-size:11px;"/>        
-                    <listheader width="20%"  label="Código Proveedores" style="font-size:11px;"/>        
+                    <listheader width="8%"  label="# Fact" />
+                    <listheader width="20%"  label="Proveedor" />
+                    <listheader width="8%"  label="Fecha" />
+                    <listheader width="20%"  label="Item / Producto" />
+                    <listheader width="5%"  label="Base 12%" style="font-size:11px;"/>    
+                    <listheader width="5%"  label="Base 0%" style="font-size:11px;"/>    
+                    <listheader width="5%"  label="Iva" style="font-size:11px;"/>        
+                    <listheader width="5%"  label="Total" style="font-size:11px;"/>        
+                    <listheader width="40%"  label="Claseificar" style="font-size:11px;"/>        
                           
                   
                     <!--  <textbox placeholder="Proveedor"
@@ -84,7 +113,21 @@
                             <textbox class="form-control form-control-sm"                                                               
                                      style="font-size:11px;background:#EBF5FB"
                                      readonly="true"
-                                     value="@bind(each. iprodCodigoProducto)" width="96%" />
+                                     value="@bind(each.idCabeceraSri.cabNumFactura)" width="96%" />
+                        </listcell>
+                        <listcell zclass = "mycss-listcell">
+                            <textbox class="form-control form-control-sm"                                                               
+                                     style="font-size:11px;background:#EBF5FB"
+                                     readonly="true"
+                                     value="@bind(each.idCabeceraSri.cabProveedor)" width="96%" />
+                        </listcell>
+                        <listcell zclass = "mycss-listcell">
+                            <datebox compact="true" value="@bind(each.idCabeceraSri.cabFecha)"     
+                                     height=" 30px" 
+                                     buttonVisible="false" 
+                                     lenient="true" 
+                                     readonly="true"
+                                     format="medium" width="100%"  />
                         </listcell>
                         <listcell zclass = "mycss-listcell">
                             <textbox class="form-control form-control-sm"                                                               
@@ -97,7 +140,21 @@
                                         class="form-control form-control-sm"                                                               
                                         style="font-size:11px;background:#EBF5FB"
                                         readonly="true"  
-                                        value="@bind(each.iprodSubtotal)" width="96%" />
+                                        value="@bind(each.base12)" width="96%" />
+                        </listcell>
+                        <listcell zclass = "mycss-listcell">
+                            <decimalbox format="###.##" 
+                                        class="form-control form-control-sm"                                                               
+                                        style="font-size:11px;background:#EBF5FB"
+                                        readonly="true"  
+                                        value="@bind(each.base0)" width="96%" />
+                        </listcell>
+                        <listcell zclass = "mycss-listcell">
+                            <decimalbox format="###.##" 
+                                        class="form-control form-control-sm"                                                               
+                                        style="font-size:11px;background:#EBF5FB"
+                                        readonly="true"  
+                                        value="@bind(each.iva)" width="96%" />
                         </listcell>
                         <listcell zclass = "mycss-listcell">
                             <decimalbox format="###.##" 
@@ -107,11 +164,24 @@
                                         value="@bind(each.iprodTotal)" width="96%" />
                         </listcell>
                         <listcell zclass = "mycss-listcell">
-                            <decimalbox format="###.##" 
-                                        class="form-control form-control-sm"                                                               
-                                        style="font-size:11px;background:#EBF5FB"
-                                        readonly="true"  
-                                        value="@bind(each.iprodCodigoProvee)" width="96%" />
+                           
+                            <radiogroup 
+                                selectedItem="@bind(each.iprodClasificacion)"
+                                onCheck="@command('clasificar',valor=each)">                   
+                                <radio label="SALUD" value="S"/>
+                                <space bar="false"  />   
+                                <radio label="ALIMENTACION" value="A"/> 
+                                <space bar="false"  />                          
+                                <radio label="VESTIMENTA" value="V"/>                          
+                                <space bar="false"  /> 
+                                <radio label="TURISMO" value="T"/>                          
+                                <space bar="false"  /> 
+                                <radio label="EDUCACION" value="E"/>                          
+                                <space bar="false"  /> 
+                                <radio label="VIVIENDA" value="VI"/>                          
+                                <space bar="false"  /> 
+                                <radio label="NEGOCIO" value="N"/> 
+                            </radiogroup>
                         </listcell>
                                                                     
 

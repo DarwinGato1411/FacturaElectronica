@@ -6,6 +6,7 @@
 package com.ec.entidad.sri;
 
 import com.ec.entidad.Producto;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import javax.persistence.Basic;
@@ -19,6 +20,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -30,13 +32,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "detalle_compra_sri")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "DetalleCompraSri.findAll", query = "SELECT d FROM DetalleCompraSri d")
-    , @NamedQuery(name = "DetalleCompraSri.findByIdIngresoProdSri", query = "SELECT d FROM DetalleCompraSri d WHERE d.idIngresoProdSri = :idIngresoProdSri")
-    , @NamedQuery(name = "DetalleCompraSri.findByIprodCantidad", query = "SELECT d FROM DetalleCompraSri d WHERE d.iprodCantidad = :iprodCantidad")
-    , @NamedQuery(name = "DetalleCompraSri.findByIprodDescripcion", query = "SELECT d FROM DetalleCompraSri d WHERE d.iprodDescripcion = :iprodDescripcion")
-    , @NamedQuery(name = "DetalleCompraSri.findByIprodSubtotal", query = "SELECT d FROM DetalleCompraSri d WHERE d.iprodSubtotal = :iprodSubtotal")
-    , @NamedQuery(name = "DetalleCompraSri.findByIprodTotal", query = "SELECT d FROM DetalleCompraSri d WHERE d.iprodTotal = :iprodTotal")
-    , @NamedQuery(name = "DetalleCompraSri.findByIprodCodigoProvee", query = "SELECT d FROM DetalleCompraSri d WHERE d.iprodCodigoProvee = :iprodCodigoProvee")})
+    @NamedQuery(name = "DetalleCompraSri.findAll", query = "SELECT d FROM DetalleCompraSri d"),
+    @NamedQuery(name = "DetalleCompraSri.findByIdIngresoProdSri", query = "SELECT d FROM DetalleCompraSri d WHERE d.idIngresoProdSri = :idIngresoProdSri"),
+    @NamedQuery(name = "DetalleCompraSri.findByIprodCantidad", query = "SELECT d FROM DetalleCompraSri d WHERE d.iprodCantidad = :iprodCantidad"),
+    @NamedQuery(name = "DetalleCompraSri.findByIprodDescripcion", query = "SELECT d FROM DetalleCompraSri d WHERE d.iprodDescripcion = :iprodDescripcion"),
+    @NamedQuery(name = "DetalleCompraSri.findByIprodSubtotal", query = "SELECT d FROM DetalleCompraSri d WHERE d.iprodSubtotal = :iprodSubtotal"),
+    @NamedQuery(name = "DetalleCompraSri.findByIprodTotal", query = "SELECT d FROM DetalleCompraSri d WHERE d.iprodTotal = :iprodTotal"),
+    @NamedQuery(name = "DetalleCompraSri.findByIprodCodigoProvee", query = "SELECT d FROM DetalleCompraSri d WHERE d.iprodCodigoProvee = :iprodCodigoProvee")})
 public class DetalleCompraSri implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -60,15 +62,26 @@ public class DetalleCompraSri implements Serializable {
     private String iprodCodigoProvee;
     @Column(name = "iprod_codigo_producto")
     private String iprodCodigoProducto;
+
     @Column(name = "iprod_graba_iva")
     private Boolean iprodGrabaIva;
-   
+
+    @Transient
+    private BigDecimal base12;
+    @Transient
+    private BigDecimal base0;
+    @Transient
+    private BigDecimal iva;
+
     @JoinColumn(name = "id_cabecera_sri", referencedColumnName = "id_cabecera_sri")
     @ManyToOne
     private CabeceraCompraSri idCabeceraSri;
     @JoinColumn(name = "id_producto", referencedColumnName = "id_producto")
     @ManyToOne
     private Producto idProducto;
+
+    @Column(name = "iprod_clasificacion")
+    private String iprodClasificacion;
 
     public DetalleCompraSri() {
     }
@@ -157,8 +170,6 @@ public class DetalleCompraSri implements Serializable {
         this.iprodGrabaIva = iprodGrabaIva;
     }
 
-  
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -182,6 +193,37 @@ public class DetalleCompraSri implements Serializable {
     @Override
     public String toString() {
         return "com.ec.entidad.sri.DetalleCompraSri[ idIngresoProdSri=" + idIngresoProdSri + " ]";
+    }
+
+    public String getIprodClasificacion() {
+        return iprodClasificacion;
+    }
+
+    public void setIprodClasificacion(String iprodClasificacion) {
+        this.iprodClasificacion = iprodClasificacion;
+    }
+
+    public BigDecimal getBase12() {
+        if (iprodGrabaIva) {
+            base12 = iprodSubtotal;
+        } else {
+            base12 = BigDecimal.ZERO;
+        }
+        return base12;
+    }
+
+    public BigDecimal getBase0() {
+        if (!iprodGrabaIva) {
+            base0 = iprodSubtotal;
+        } else {
+            base0 = BigDecimal.ZERO;
+        }
+        return base0;
+    }
+
+    public BigDecimal getIva() {
+        iva = iprodSubtotal.multiply(BigDecimal.valueOf(0.12));
+        return iva;
     }
 
 }

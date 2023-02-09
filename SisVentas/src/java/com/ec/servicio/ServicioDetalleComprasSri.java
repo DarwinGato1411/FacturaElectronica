@@ -123,16 +123,29 @@ public class ServicioDetalleComprasSri {
         return listaCabeceraCompras;
     }
 
-    public List<DetalleCompraSri> detalleCompraSriForTipoambiente(Tipoambiente codTipoambiente) {
+    public List<DetalleCompraSri> detalleCompraSriForTipoambiente(Tipoambiente codTipoambiente, String iprodClasificacion) {
 
         List<DetalleCompraSri> listaCabeceraCompras = new ArrayList<DetalleCompraSri>();
         try {
             //Connection connection = em.unwrap(Connection.class);
+
+            String SQL = "SELECT c FROM DetalleCompraSri c WHERE c.idCabeceraSri.codTipoambiente=:codTipoambiente ";
+            String WHERE = " AND c.iprodClasificacion=:iprodClasificacion ";
+            String ORDERBY = " ORDER BY c.idCabeceraSri.cabFecha ASC";
+
+            if (iprodClasificacion.equals("TODO")) {
+                SQL = SQL + ORDERBY;
+            } else {
+                SQL = SQL + WHERE + ORDERBY;
+            }
+            System.out.println("SQL "+SQL);
             em = HelperPersistencia.getEMF();
             em.getTransaction().begin();
-            Query query = em.createQuery("SELECT c FROM DetalleCompraSri c WHERE c.idCabeceraSri.codTipoambiente=:codTipoambiente ORDER BY c.idCabeceraSri.cabProveedor ASC");
+            Query query = em.createQuery(SQL);
             query.setParameter("codTipoambiente", codTipoambiente);
-//            query.setParameter("fin", fin);
+            if (!iprodClasificacion.equals("TODO")) {
+                query.setParameter("iprodClasificacion", iprodClasificacion);
+            }
             listaCabeceraCompras = (List<DetalleCompraSri>) query.getResultList();
             em.getTransaction().commit();
         } catch (Exception e) {

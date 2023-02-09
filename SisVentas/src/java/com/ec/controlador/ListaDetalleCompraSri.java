@@ -31,6 +31,7 @@ import org.apache.poi.hssf.usermodel.HSSFRichTextString;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Executions;
@@ -60,6 +61,8 @@ public class ListaDetalleCompraSri extends SelectorComposer<Component> {
     UserCredential credential = new UserCredential();
     Parametrizar parametrizar = new Parametrizar();
     private List<Tipoambiente> listaTipoambientes = new ArrayList<Tipoambiente>();
+    /**busqueda*/
+    private String iprodClasificacio="TODO";
 
     public void doAfterCompose(Component comp) throws Exception {
         super.doAfterCompose(comp);
@@ -87,9 +90,14 @@ public class ListaDetalleCompraSri extends SelectorComposer<Component> {
     public void buscarDetalleCompra() {
         findDetalleCompraSri();
     }
+    @Command
+    @NotifyChange({"listaDetalleCompraSris"})
+    public void clasificar(@BindingParam("valor") DetalleCompraSri valor) {
+       servicioDetalleComprasSri.modificar(valor);
+    }
 
     private void findDetalleCompraSri() {
-        listaDetalleCompraSris = servicioDetalleComprasSri.detalleCompraSriForTipoambiente(amb);
+        listaDetalleCompraSris = servicioDetalleComprasSri.detalleCompraSriForTipoambiente(amb,iprodClasificacio);
         setListaDetalleCompraSris(new ListModelList<DetalleCompraSri>(getListaDetalleCompraSris()));
 
     }
@@ -179,12 +187,16 @@ public class ListaDetalleCompraSri extends SelectorComposer<Component> {
             ch6.setCellStyle(estiloCelda);
 
             HSSFCell ch7 = r.createCell(j++);
-            ch7.setCellValue(new HSSFRichTextString("SUBTOTAL"));
+            ch7.setCellValue(new HSSFRichTextString(" BASE 12"));
             ch7.setCellStyle(estiloCelda);
 
-            HSSFCell ch8 = r.createCell(j++);
-            ch8.setCellValue(new HSSFRichTextString("TOTAL"));
+                HSSFCell ch8 = r.createCell(j++);
+            ch8.setCellValue(new HSSFRichTextString(" BASE 0"));
             ch8.setCellStyle(estiloCelda);
+            
+            HSSFCell ch9 = r.createCell(j++);
+            ch9.setCellValue(new HSSFRichTextString("TOTAL"));
+            ch9.setCellStyle(estiloCelda);
 
             int rownum = 1;
             int i = 0;
@@ -216,7 +228,10 @@ public class ListaDetalleCompraSri extends SelectorComposer<Component> {
                 c6.setCellValue(new HSSFRichTextString(item.getIprodGrabaIva() ? "12" : "0"));
 
                 HSSFCell c7 = r.createCell(i++);
-                c7.setCellValue(new HSSFRichTextString(ArchivoUtils.redondearDecimales(item.getIprodSubtotal(), 2).toString()));
+                c7.setCellValue(new HSSFRichTextString(ArchivoUtils.redondearDecimales(item.getBase12(), 2).toString()));
+                
+                HSSFCell c71 = r.createCell(i++);
+                c71.setCellValue(new HSSFRichTextString(ArchivoUtils.redondearDecimales(item.getBase0(), 2).toString()));
 
                 HSSFCell c8 = r.createCell(i++);
                 c8.setCellValue(new HSSFRichTextString(ArchivoUtils.redondearDecimales(item.getIprodTotal(), 2).toString()));
@@ -293,4 +308,13 @@ public class ListaDetalleCompraSri extends SelectorComposer<Component> {
         this.buscarNumFac = buscarNumFac;
     }
 
+    public String getIprodClasificacio() {
+        return iprodClasificacio;
+    }
+
+    public void setIprodClasificacio(String iprodClasificacio) {
+        this.iprodClasificacio = iprodClasificacio;
+    }
+
+    
 }
