@@ -6,9 +6,8 @@
             
             <div class="col-12 col-sm-12 col-md-7 col-lg-7  " align="start">
                 <image  src="/imagenes/logo.png"  width="150px" height="30px" />
-                <label value="Facturación Electrónica" sclass="banner-head labelNuevo" />   
-                
-                     
+                <label value="Descarga Masiva" sclass="banner-head labelNuevo" />   
+     
             </div>
             <div class="col-12 col-sm-12 col-md-5 col-lg-5  " align="end" style="float: right; " >
                 <div apply="org.zkoss.bind.BindComposer" 
@@ -99,7 +98,7 @@
                             </menupopup>
                         </menu>
                         -->
-                        <menuitem label="Detalle compra SRI" id="btnReporteDetallado"  />
+                        <menuitem label="Clasificar productos" id="btnReporteDetallado"  />
                         <menuitem label="Catalogos" id="btnAdministarVenta"  />
 
 <!--                        <menuitem image="/iconos/fact.png" label="Facturar" onClick="@command('facturar')" />

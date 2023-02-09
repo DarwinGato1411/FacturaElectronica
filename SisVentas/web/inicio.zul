@@ -12,14 +12,12 @@
             <div class="container_img">
                 <image src="./imagenes/logodeckxel.png" class="logo"/>
                 <div class="wrapper_title">
-                    <span class="title">Sistema de Facturación Electrónica</span>
+                    <span class="title">Sistema de descarga masiva</span>
                    
                     <div class="desc">
-                        Estimado usuario envenido a nuestro sistema.
+                        Estimado usuario bienvenido a nuestro sistema.
                     </div>
-                    <div class="desc">
-                       Obten tu firma electronica con nosotros.
-                    </div>
+                    
                     <div class="desc">
                        Asesoramiento directo.
                     </div>
@@ -32,7 +30,7 @@
             <div class="container_signin">
                 <image src="./imagenes/pichincha/logo2.png" class="logo"/>
                 <span class="title" >Iniciar Sesión</span>
-                <span class="subtitle">Bienvenido su mejor opción en facturación electrónica</span> 
+                <span class="subtitle">Descarga tus docmuentos</span> 
                 <div class="wrapper_all_inputs">
                     <div class="wrapper_input">
                         <span class="fas fa-user icon"></span>

@@ -878,23 +878,41 @@ div.z-listheader-cnt {
     padding: 20px;
 }
 
-.contenedorReporteSRI .contenedorTablas .contenedorTabla2 .contenedorBusqueda {
+.contenedorReporteSRI .contenedorTablas .contenedorTabla2 .content{
+    display: grid;
+    width: 100%;
+    grid-template-columns: 40% 60%;
+    gap:10px;
+}
+
+.contenedorReporteSRI .contenedorTablas .contenedorTabla2 .contenedorBusqueda1 {
     background-color: #eee;
     padding: 20px;
     border-radius: 20px;
     margin-bottom: 10px;
-    width: 50%;
+    width: 100%;
     display: grid;
-    grid-template-columns: 30% 70%;
+    gap: 10px;
     align-items: center;
 }
 
-.contenedorReporteSRI .contenedorTablas .contenedorTabla2 .contenedorBusqueda .contenedorEspe{
+.contenedorReporteSRI .contenedorTablas .contenedorTabla2 .contenedorBusqueda2 {
+    background-color: #eee;
+    padding: 20px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+    width: 100%;
+    display: grid;
+    
+    align-items: center;
+}
+
+.contenedorReporteSRI .contenedorTablas .contenedorTabla2 .contenedorBusqueda1 .contenedorEspe{
     display: grid;
     grid-template-columns: repeat(3,1fr);
     align-items: center;
 }
-.contenedorReporteSRI .contenedorTablas .contenedorTabla2 .contenedorBusqueda .contenedorEspe .contenidoEspe{
+.contenedorReporteSRI .contenedorTablas .contenedorTabla2 .contenedorBusqueda1 .contenedorEspe .contenidoEspe{
     display: grid;
     grid-template-columns: 30% 70%;
     height: 10px;

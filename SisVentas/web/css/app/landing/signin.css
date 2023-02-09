@@ -1,6 +1,6 @@
 @import "https://fonts.googleapis.com/css2?family=Nunito:wght@300&family=Poppins&family=Raleway:wght@300&display=swap";
 :root {
-  --secondary-color: 3,175,241;
+  --secondary-color: 127, 17, 224;
   --primary-color: 11,13,62;
   --background-color: #aaa9a9;
   --alpha: 0.5;
@@ -128,7 +128,7 @@ body {
   right: 0;
   bottom: 0;
   width: 100%;
-  background: url("../../../imagenes/deckxelsing.png");
+  background: url("../../../imagenes/fondo.jpg");
   background-size: cover;
   background-position: center;
   filter: brightness(20%);

@@ -11,48 +11,61 @@
     
     <div class="contenedorTablas">
         <div class="contenedorTabla2">
-            <div  class="contenedorBusqueda" style="">
-                <combobox  
-                    model="@load(vm.listaTipoambientes)"  
-                    onSelect="@command('buscarDetalleCompra')"  
-                    selectedItem="@bind(vm.amb)" 
-                    readonly="true" 
+            <div class="content">
+                <div  class="contenedorBusqueda1" style="">
+                    <combobox  
+                        model="@load(vm.listaTipoambientes)"  
+                        onSelect="@command('buscarDetalleCompra')"  
+                        selectedItem="@bind(vm.amb)" 
+                        readonly="true" 
                     
-                    class="textoFechaDateBox">
-                    <template name="model">
-                        <comboitem  label="@bind(each.amNombreComercial)"/>
-                    </template>                                      
-                </combobox>
-                <div  class="contenedorEspe">
+                        class="textoFechaDateBox">
+                        <template name="model">
+                            <comboitem  label="@bind(each.amNombreComercial)"/>
+                        </template>                                      
+                    </combobox>
                     <div class="contenidoEspe">
                         <label class="texto"  width="30%" value="Inicio: "   />
                         <datebox  class="fecha"  value="@bind(vm.inicio)" 
-                                  style="font-weight:bold;"                                                   
-                                  buttonVisible="true" 
-                                  lenient="true"  format="dd/MM/yyyy" 
-                                  constraint="no empty: Ingrese de inicio de la busqueda"
-                                  width="90%"/> 
+                                      style="font-weight:bold;"                                                   
+                                      buttonVisible="true" 
+                                      lenient="true"  format="dd/MM/yyyy" 
+                                      constraint="no empty: Ingrese de inicio de la busqueda"
+                                      width="90%"/> 
                     </div>
                     <div class="contenidoEspe">
                         <label  class="texto"    width="30%" value="Fin: "  />
                         <datebox  class="fecha" width="90%"  value="@bind(vm.fin)" 
-                                  style="font-weight:bold;" 
-                                  onCreate="self.value = new Date()"                                                   
-                                  buttonVisible="true" 
-                                  lenient="true"  format="dd/MM/yyyy" 
-                                  constraint="no empty: IBuscar por fecha fin de la busqueda"
+                                      style="font-weight:bold;" 
+                                      onCreate="self.value = new Date()"                                                   
+                                      buttonVisible="true" 
+                                      lenient="true"  format="dd/MM/yyyy" 
+                                      constraint="no empty: IBuscar por fecha fin de la busqueda"
                         /> 
                     </div>
-                    <button   image="/imagenes/buscar1.png"  
-                              onClick="@command('buscarDetalleCompra')"  
-                              class="btn btn-primary btn-sm "
-                              label="Buscar"
-                              tooltiptext="Buscar"/> 
-                
+                    <div  class="contenedorEspe">
+                        
+                        <button   image="/imagenes/buscar1.png"  
+                                  onClick="@command('buscarDetalleCompra')"  
+                                  class="btn btn-primary btn-sm "
+                                  label="Buscar"
+                                  tooltiptext="Buscar"/> 
+                        <button   image="/iconos/excel.png"
+                                  label="Descargar Retenciones"
+                                  onClick="@command('exportListboxToExcel')"  
+                                  class="btn btn3"
+                                  tooltiptext="Descargar informacion"/>
+                    
+                    </div> 
+              
+                </div>    
+                <div  class="contenedorBusqueda2" style="">
+                    
                     <radiogroup 
                         selectedItem="@bind(vm.iprodClasificacio)"
                         onCheck="@command('buscarDetalleCompra')">                   
-                        <radio label="TODO" value="TODO"/>                               
+                        <radio label="TODO" value="TODO"/> 
+                        <space bar="false"  />                              
                         <radio label="SALUD" value="S"/>
                         <space bar="false"  />   
                         <radio label="ALIMENTACION" value="A"/> 
@@ -68,14 +81,10 @@
                         <radio label="NEGOCIO" value="N"/> 
                     </radiogroup>
                     
-                     <button   image="/iconos/excel.png"
-                              label="Descargar Retenciones"
-                              onClick="@command('exportListboxToExcel')"  
-                              class="btn btn3"
-                              tooltiptext="Descargar informacion"/>
-                </div> 
-            </div>    
-           
+                        
+                    
+                </div>
+            </div>
             <listbox model="@load(vm.listaDetalleCompraSris)" 
                      mold="paging" pageSize="15" 
             >
