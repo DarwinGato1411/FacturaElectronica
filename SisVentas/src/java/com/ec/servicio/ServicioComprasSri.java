@@ -99,15 +99,16 @@ public class ServicioComprasSri {
         return listaComprasSris;
     }
 
-    public ComprasSri findByAutorizacion(String csriAutorizacion) {
+    public ComprasSri findByAutorizacion(String csriAutorizacion, Tipoambiente codTipoambiente) {
 
         ComprasSri retorno = null;
         try {
             //Connection connection = em.unwrap(Connection.class);
             em = HelperPersistencia.getEMF();
             em.getTransaction().begin();
-            Query query = em.createQuery("SELECT a FROM ComprasSri a WHERE a.csriAutorizacion=:csriAutorizacion");
+            Query query = em.createQuery("SELECT a FROM ComprasSri a WHERE a.csriAutorizacion=:csriAutorizacion AND a.codTipoambiente=:codTipoambiente");
             query.setParameter("csriAutorizacion", csriAutorizacion);
+            query.setParameter("codTipoambiente", codTipoambiente);
             List<ComprasSri> datos = (List<ComprasSri>) query.getResultList();
             if (datos.size() > 0) {
                 retorno = datos.get(0);
