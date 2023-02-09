@@ -20,39 +20,39 @@
                         onSelect="@command('buscarComprasSri')"  
                         selectedItem="@bind(vm.amb)" 
                         readonly="true" 
-                        width="300px"
+                       
                         class="textoFechaDateBox">
                         <template name="model">
                             <comboitem  label="@bind(each.amNombreComercial)"/>
                         </template>                                      
                     </combobox>
-                    <div  class="contenedorEspe">
-                        <div class="contenidoEspe">
-                            <label class="texto"  width="30%" value="Inicio: "   />
-                            <datebox  class="fecha"  value="@bind(vm.inicio)" 
+                    
+                    <div class="contenidoEspe">
+                        <label class="texto"  width="30%" value="Inicio: "   />
+                        <datebox  class="fecha"  value="@bind(vm.inicio)" 
                                       style="font-weight:bold;"                                                   
                                       buttonVisible="true" 
                                       lenient="true"  format="dd/MM/yyyy" 
                                       constraint="no empty: Ingrese de inicio de la busqueda"
                                       width="90%"/> 
-                        </div>
-                        <div class="contenidoEspe">
-                            <label  class="texto"    width="30%" value="Fin: "  />
-                            <datebox  class="fecha" width="90%"  value="@bind(vm.fin)" 
+                    </div>
+                    <div class="contenidoEspe">
+                        <label  class="texto"    width="30%" value="Fin: "  />
+                        <datebox  class="fecha" width="90%"  value="@bind(vm.fin)" 
                                       style="font-weight:bold;" 
                                       onCreate="self.value = new Date()"                                                   
                                       buttonVisible="true" 
                                       lenient="true"  format="dd/MM/yyyy" 
                                       constraint="no empty: IBuscar por fecha fin de la busqueda"
-                            /> 
-                        </div>
-                        <button   image="/imagenes/buscar1.png"  
+                        /> 
+                    </div>
+                    <button   image="/imagenes/buscar1.png"  
                                   onClick="@command('buscarComprasSri')"  
                                   class="btn btn-primary btn-sm "
                                   label="Buscar"
                                   tooltiptext="Buscar"/>
                         
-                    </div> 
+                    
                 </div>
                 
                
