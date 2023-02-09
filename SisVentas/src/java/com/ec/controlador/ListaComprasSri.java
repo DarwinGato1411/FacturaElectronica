@@ -201,7 +201,7 @@ public class ListaComprasSri extends SelectorComposer<Component> {
         amb = servicioTipoAmbiente.finSelectFirst(credential.getUsuarioSistema());
         //OBTIENE LAS RUTAS DE ACCESO A LOS DIRECTORIOS DE LA TABLA TIPOAMBIENTE
         if (amb != null) {
-            PATH_BASE = amb.getAmDirBaseArchivos() + File.separator
+            PATH_BASE = amb.getAmUnidadDisco()+amb.getAmDirBaseArchivos() + File.separator
                         + amb.getAmDirXml();
 
             String folderComprasSri = PATH_BASE + File.separator + SRIFACCOMPRAS + File.separator;
@@ -318,6 +318,21 @@ public class ListaComprasSri extends SelectorComposer<Component> {
     @Command
     @NotifyChange({"listaComprasSris", "inicio", "fin", "listaComprasSriModel"})
     public void buscarComprasSri() {
+        if (amb != null) {
+            PATH_BASE = amb.getAmUnidadDisco()+amb.getAmDirBaseArchivos() + File.separator
+                        + amb.getAmDirXml();
+
+            String folderComprasSri = PATH_BASE + File.separator + SRIFACCOMPRAS + File.separator;
+            File folderGen = new File(folderComprasSri);
+            if (!folderGen.exists()) {
+                folderGen.mkdirs();
+            }
+            String folderRetencionesSri = PATH_BASE + File.separator + SRIRETENCION + File.separator;
+            File folderRet = new File(folderRetencionesSri);
+            if (!folderRet.exists()) {
+                folderRet.mkdirs();
+            }
+        }
         findComprasSriByBetweenFecha();
         findCabeceraComprasSriByBetweenFecha();
     }
@@ -761,36 +776,7 @@ public class ListaComprasSri extends SelectorComposer<Component> {
             Producto buscado = servicioProducto.findByProdCodigo(detalle.getCodigoPrincipal());
             Producto nuevoProd = new Producto();
             detalleCom = new DetalleCompraSri();
-//            if (buscado == null && prov != null) {
-//                BigDecimal costoInicial = detalle.getPrecioUnitario().setScale(2, RoundingMode.FLOOR);
-//                BigDecimal calCostoCompr = (costoInicial.divide(factorIva, 3, RoundingMode.FLOOR));
-//                System.out.println("PRODUCTO NUEVO " + detalle.getDescripcion());
-//                nuevoProd = new Producto();
-//                nuevoProd.setPordCostoCompra(calCostoCompr);
-//                nuevoProd.setPordCostoVentaFinal(detalle.getPrecioUnitario().multiply(factorUtilidad).setScale(4, RoundingMode.CEILING));
-//                nuevoProd.setPordCostoVentaRef(detalle.getPrecioUnitario().setScale(4, RoundingMode.CEILING));
-//                nuevoProd.setProdAbreviado("");
-//                nuevoProd.setProdCantMinima(BigDecimal.TEN);
-//                nuevoProd.setProdCantidadInicial(detalle.getCantidad());
-//                nuevoProd.setProdCodigo(detalle.getCodigoPrincipal().length() > 199 ? detalle.getCodigoPrincipal().substring(0, 199) : detalle.getCodigoPrincipal());
-//                nuevoProd.setProdCostoPreferencial(BigDecimal.ZERO);
-//                nuevoProd.setProdCostoPreferencialDos(BigDecimal.ZERO);
-//                nuevoProd.setProdCostoPreferencialTres(BigDecimal.ZERO);
-//                nuevoProd.setProdIsPrincipal(Boolean.FALSE);
-//                nuevoProd.setProdIva(parametrizar.getParIvaActual());
-//                nuevoProd.setProdManoObra(BigDecimal.ZERO);
-//                nuevoProd.setProdNombre(detalle.getDescripcion().length() > 199 ? detalle.getDescripcion().substring(0, 199) : detalle.getDescripcion());
-//                nuevoProd.setProdTrasnporte(BigDecimal.ZERO);
-//                nuevoProd.setProdUtilidadNormal(BigDecimal.ZERO);
-//                nuevoProd.setProdUtilidadPreferencial(BigDecimal.ZERO);
-//                servicioProducto.crear(nuevoProd);
-//                detalleCom.setIdProducto(nuevoProd);
-//            }
-//
-//            if (buscado != null) {
-//                detalleCom.setIdProducto(buscado);
-//            }
-            // detalleCom.setIdProducto(buscado);
+
             detalleCom.setIdCabeceraSri(cabeceraCompra);
             detalleCom.setIprodCantidad(detalle.getCantidad());
             detalleCom.setIprodDescripcion(detalle.getDescripcion());
@@ -798,7 +784,7 @@ public class ListaComprasSri extends SelectorComposer<Component> {
             detalleCom.setIprodTotal(detalle.getCantidad().multiply(detalle.getPrecioUnitario()));
             detalleCom.setIprodGrabaIva(detalle.getImpuestos().getImpuesto().get(0).getCodigo().equals("2") ? Boolean.TRUE : Boolean.FALSE);
             detalleCom.setIprodCodigoProducto(detalle.getCodigoPrincipal());
-
+            detalleCom.setIprodClasificacion("N");
             servicioDetalleComprasSri.crear(detalleCom);
             System.out.println("DETALLE " + detalle.getCantidad()
                         + " " + detalle.getCodigoPrincipal()
@@ -927,9 +913,9 @@ public class ListaComprasSri extends SelectorComposer<Component> {
                                     "N");
                         System.out.println("iiiii " + i);
                         System.out.println("ComprasSri " + comprasSri.toString());
-                        if (servicioComprasSri.findByAutorizacion(comprasSri.getCsriAutorizacion()) == null) {
+                        if (servicioComprasSri.findByAutorizacion(comprasSri.getCsriAutorizacion(),amb) == null) {
 
-                            if (!comprasSri.getCsriComprobante().contains("Notas de Cr")) {
+                            if (comprasSri.getCsriComprobante().contains("Factura") ) {
                                 comprasSri.setCodTipoambiente(amb);
                                 servicioComprasSri.crear(comprasSri);
                             }
@@ -2270,6 +2256,5 @@ public class ListaComprasSri extends SelectorComposer<Component> {
     public void setAmb(Tipoambiente amb) {
         this.amb = amb;
     }
-    
 
 }

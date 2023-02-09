@@ -157,7 +157,12 @@
                           class="btn btn3"
                           label="Procesar sus archivos XML" 
                           tooltiptext="Exportar facturas"/>
-
+                <div></div>
+                <button   image="/iconos/delete.png"  
+                          onClick="@command('eliminarCabeceraCabeceraSRI')"                                                                        
+                          label="Eliminar datos del archivo txt"
+                          class="btn btn2"
+                          tooltiptext="Elminar facturas obtenidas del SRI"/>
                 <button   image="/iconos/excel.png"  
                           label="General"
                           onClick="@command('exportListboxToExcelCabe')"  
@@ -168,17 +173,12 @@
                           onClick="@command('exportListboxToExcel')"  
                           class="btn btn1"
                           tooltiptext="Exportar facturas"/>                                                                   
-                <button   image="/imagenes/procesar.gif"  
-                          onClick="@command('cargarfacturasSistema')"                                              
-                          class="btn btn3"
-                          label="Cargar facturas sistema" 
-                          tooltiptext="Exportar facturas"/>
-                <button   image="/iconos/delete.png"  
-                          onClick="@command('eliminarCabeceraCabeceraSRI')"                                               
-                        
-                          label="Eliminar datos del archivo txt"
-                          class="btn btn2"
-                          tooltiptext="Elminar facturas obtenidas del SRI"/>
+                <!--                <button   image="/imagenes/procesar.gif"  
+                onClick="@command('cargarfacturasSistema')"                                              
+                class="btn btn3"
+                label="Cargar facturas sistema" 
+                tooltiptext="Exportar facturas"/>-->
+                
                
             </div>
             <listbox model="@load(vm.listaComprasSriModel)" 

@@ -847,7 +847,7 @@ public class ListaRetencionesSri extends SelectorComposer<Component> {
                                     "N");
                         System.out.println("iiiii " + i);
                         System.out.println("ComprasSri " + comprasSri.toString());
-                        if (servicioComprasSri.findByAutorizacion(comprasSri.getCsriAutorizacion()) == null) {
+                        if (servicioComprasSri.findByAutorizacion(comprasSri.getCsriAutorizacion(),amb) == null) {
 
                             if (!comprasSri.getCsriComprobante().contains("Notas de Cr")) {
                                 servicioComprasSri.crear(comprasSri);

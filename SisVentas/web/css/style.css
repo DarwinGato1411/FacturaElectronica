@@ -760,3 +760,17 @@ input, button, select, textarea {
     font-size:12px;
     background:#EBF5FB
 }
+
+.z-loading-indicator {
+    padding: 6px;
+}
+.z-loading-indicator, .z-apply-loading-indicator {
+    border: 1px solid #4c77e4;
+    background-color: #fff;
+    color: #363636;
+    white-space: nowrap;
+    width: 400px;
+    height: 100px;
+    font-size: 47px;
+    align-items: center;
+}
