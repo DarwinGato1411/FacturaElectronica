@@ -13,6 +13,7 @@
         <div class="contenedorTabla2">
             <div class="content">
                 <div  class="contenedorBusqueda1" style="">
+                    Empresa:
                     <combobox  
                         model="@load(vm.listaTipoambientes)"  
                         onSelect="@command('buscarDetalleCompra')"  
@@ -31,11 +32,11 @@
                                       buttonVisible="true" 
                                       lenient="true"  format="dd/MM/yyyy" 
                                       constraint="no empty: Ingrese de inicio de la busqueda"
-                                      width="90%"/> 
+                                      width="60%"/> 
                     </div>
                     <div class="contenidoEspe">
                         <label  class="texto"    width="30%" value="Fin: "  />
-                        <datebox  class="fecha" width="90%"  value="@bind(vm.fin)" 
+                        <datebox  class="fecha"  width="60%"  value="@bind(vm.fin)" 
                                       style="font-weight:bold;" 
                                       onCreate="self.value = new Date()"                                                   
                                       buttonVisible="true" 

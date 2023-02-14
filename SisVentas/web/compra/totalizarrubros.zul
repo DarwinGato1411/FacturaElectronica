@@ -13,6 +13,7 @@
         <div class="contenedorTabla2">
             <div class="content">
                 <div  class="contenedorBusqueda1" style="">
+                    Empresa:
                     <combobox  
                         model="@load(vm.listaTipoambientes)"  
                         onSelect="@command('buscarTotalizadoRubros')"  
@@ -26,16 +27,16 @@
                     </combobox>
                     <div class="contenidoEspe">
                         <label class="texto"  width="30%" value="Inicio: "   />
-                        <datebox  class="fecha"  value="@bind(vm.inicio)" 
+                        <datebox  class="fecha"  width="60%" value="@bind(vm.inicio)" 
                                   style="font-weight:bold;"                                                   
                                   buttonVisible="true" 
                                   lenient="true"  format="dd/MM/yyyy" 
                                   constraint="no empty: Ingrese de inicio de la busqueda"
-                                  width="90%"/> 
+                                  /> 
                     </div>
                     <div class="contenidoEspe">
                         <label  class="texto"    width="30%" value="Fin: "  />
-                        <datebox  class="fecha" width="90%"  value="@bind(vm.fin)" 
+                        <datebox  class="fecha"  width="60%" value="@bind(vm.fin)" 
                                   style="font-weight:bold;" 
                                   onCreate="self.value = new Date()"                                                   
                                   buttonVisible="true" 
@@ -55,6 +56,7 @@
                     <div  class="contenedorEspe">
                         
                         <button   image="/imagenes/excel.png"  
+                        label="Descargar"
                                  onClick="@command('exportListboxToExcel')"  
                                  class="btn btn-primary btn-sm "
                                  tooltiptext="Descargar"/>                

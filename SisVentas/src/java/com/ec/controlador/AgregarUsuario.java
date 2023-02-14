@@ -38,10 +38,10 @@ public class AgregarUsuario {
         if (usuarioSistema != null) {
             this.usuarioSistema = usuarioSistema;
             tipoUSuario = this.usuarioSistema.getUsuNivel().toString();
-            accion = "create";
+            accion = "update";
         } else {
             this.usuarioSistema = new Usuario();
-            accion = "update";
+            accion = "create";
         }
     }
 
@@ -79,11 +79,11 @@ public class AgregarUsuario {
                 }
                 servicioUsuario.crear(usuarioSistema);
 
-                windowIdUsuario.detach();
             } else {
                 servicioUsuario.modificar(usuarioSistema);
-            }
 
+            }
+            windowIdUsuario.detach();
         } else {
             Clients.showNotification("Verifique la informacion requerida",
                         Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 3000, true);
