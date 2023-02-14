@@ -48,14 +48,12 @@ import org.zkoss.zul.ListModelList;
  *
  * @author gato
  */
-public class ListaDetalleCompraSri extends SelectorComposer<Component> {
+public class ListaTotalizadoRubros extends SelectorComposer<Component> {
 
     ServicioTipoAmbiente servicioTipoAmbiente = new ServicioTipoAmbiente();
     private Tipoambiente amb = new Tipoambiente();
-    ServicioDetalleComprasSri servicioDetalleComprasSri = new ServicioDetalleComprasSri();
     ServicioTotalizadoRubros servicioTotalizadoRubro = new ServicioTotalizadoRubros();
 
-    private List<DetalleCompraSri> listaDetalleCompraSris = new ArrayList<DetalleCompraSri>();
     private List<TotalizadoRubros> listaTotalizadoRubros = new ArrayList<TotalizadoRubros>();
 
     private String buscar = "";
@@ -76,7 +74,7 @@ public class ListaDetalleCompraSri extends SelectorComposer<Component> {
 
     }
 
-    public ListaDetalleCompraSri() {
+    public ListaTotalizadoRubros() {
 
         //muestra 7 dias atras
         Calendar calendar = Calendar.getInstance(); //obtiene la fecha de hoy 
@@ -90,23 +88,6 @@ public class ListaDetalleCompraSri extends SelectorComposer<Component> {
         listaTipoambientes = servicioTipoAmbiente.findAll(credential.getUsuarioSistema());
         amb = servicioTipoAmbiente.finSelectFirst(credential.getUsuarioSistema());
         //OBTIENE LAS RUTAS DE ACCESO A LOS DIRECTORIOS DE LA TABLA TIPOAMBIENTE
-    }
-
-    @Command
-    @NotifyChange({"listaDetalleCompraSris", "inicio", "fin"})
-    public void buscarDetalleCompra() {
-        findDetalleCompraSri();
-    }
-
-    private void findDetalleCompraSri() {
-        listaDetalleCompraSris = servicioDetalleComprasSri.detalleCompraSriForTipoambiente(amb, iprodClasificacio);
-        setListaDetalleCompraSris(new ListModelList<DetalleCompraSri>(getListaDetalleCompraSris()));
-    }
-
-    @Command
-    @NotifyChange({"listaDetalleCompraSris"})
-    public void clasificar(@BindingParam("valor") DetalleCompraSri valor) {
-        servicioDetalleComprasSri.modificar(valor);
     }
 
     @Command
@@ -143,7 +124,7 @@ public class ListaDetalleCompraSri extends SelectorComposer<Component> {
         SimpleDateFormat sm = new SimpleDateFormat("yyy-MM-dd");
         String strDate = sm.format(date);
 
-        String pathSalida = directorioReportes + File.separator + "comprassridetallado.xls";
+        String pathSalida = directorioReportes + File.separator + "totalizado_rubros.xls";
         System.out.println("Direccion del reporte  " + pathSalida);
         try {
             int j = 0;
@@ -154,7 +135,7 @@ public class ListaDetalleCompraSri extends SelectorComposer<Component> {
             archivoXLS.createNewFile();
             FileOutputStream archivo = new FileOutputStream(archivoXLS);
             HSSFWorkbook wb = new HSSFWorkbook();
-            HSSFSheet s = wb.createSheet("Comprassri");
+            HSSFSheet s = wb.createSheet("Totalizado_rubros");
 
             HSSFFont fuente = wb.createFont();
             fuente.setBoldweight((short) 700);
@@ -178,89 +159,41 @@ public class ListaDetalleCompraSri extends SelectorComposer<Component> {
             r = s.createRow(0);
 
             HSSFCell ch2 = r.createCell(j++);
-            ch2.setCellValue(new HSSFRichTextString("FACTURA"));
+            ch2.setCellValue(new HSSFRichTextString("Descripcion"));
             ch2.setCellStyle(estiloCelda);
 
             HSSFCell ch0 = r.createCell(j++);
-            ch0.setCellValue(new HSSFRichTextString("RUC"));
+            ch0.setCellValue(new HSSFRichTextString("Subtotal"));
             ch0.setCellStyle(estiloCelda);
 
             HSSFCell ch1 = r.createCell(j++);
-            ch1.setCellValue(new HSSFRichTextString("NOMBRE"));
+            ch1.setCellValue(new HSSFRichTextString("Total"));
             ch1.setCellStyle(estiloCelda);
-
-            HSSFCell ch3 = r.createCell(j++);
-            ch3.setCellValue(new HSSFRichTextString("FECHA EMISION"));
-            ch3.setCellStyle(estiloCelda);
-
-            HSSFCell ch4 = r.createCell(j++);
-            ch4.setCellValue(new HSSFRichTextString("CANTIDAD"));
-            ch4.setCellStyle(estiloCelda);
-
-            HSSFCell ch5 = r.createCell(j++);
-            ch5.setCellValue(new HSSFRichTextString("DESCRIPCION"));
-            ch5.setCellStyle(estiloCelda);
-
-            HSSFCell ch6 = r.createCell(j++);
-            ch6.setCellValue(new HSSFRichTextString("% IVA"));
-            ch6.setCellStyle(estiloCelda);
-
-            HSSFCell ch7 = r.createCell(j++);
-            ch7.setCellValue(new HSSFRichTextString(" BASE 12"));
-            ch7.setCellStyle(estiloCelda);
-
-            HSSFCell ch8 = r.createCell(j++);
-            ch8.setCellValue(new HSSFRichTextString(" BASE 0"));
-            ch8.setCellStyle(estiloCelda);
-
-            HSSFCell ch9 = r.createCell(j++);
-            ch9.setCellValue(new HSSFRichTextString("TOTAL"));
-            ch9.setCellStyle(estiloCelda);
 
             int rownum = 1;
             int i = 0;
 
-            for (DetalleCompraSri item : listaDetalleCompraSris) {
+            for (TotalizadoRubros item : listaTotalizadoRubros) {
                 i = 0;
 
                 r = s.createRow(rownum);
 
                 HSSFCell c0 = r.createCell(i++);
-                c0.setCellValue(new HSSFRichTextString(item.getIdCabeceraSri().getCabNumFactura()));
+                c0.setCellValue(new HSSFRichTextString(item.getClasificacion()));
 
                 HSSFCell c1 = r.createCell(i++);
-                c1.setCellValue(new HSSFRichTextString(item.getIdCabeceraSri().getCabRucProveedor()));
+                c1.setCellValue(new HSSFRichTextString(ArchivoUtils.redondearDecimales(item.getSubtotal(), 2).toString()));
 
                 HSSFCell c2 = r.createCell(i++);
-                c2.setCellValue(new HSSFRichTextString(item.getIdCabeceraSri().getCabProveedor()));
+                c2.setCellValue(new HSSFRichTextString(ArchivoUtils.redondearDecimales(item.getTotal(), 2).toString()));
 
-                HSSFCell c3 = r.createCell(i++);
-                c3.setCellValue(new HSSFRichTextString(sm.format(item.getIdCabeceraSri().getCabFechaEmision())));
-
-                HSSFCell c4 = r.createCell(i++);
-                c4.setCellValue(new HSSFRichTextString(item.getIprodCantidad().toString()));
-
-                HSSFCell c5 = r.createCell(i++);
-                c5.setCellValue(new HSSFRichTextString(item.getIprodDescripcion().toString()));
-
-                HSSFCell c6 = r.createCell(i++);
-                c6.setCellValue(new HSSFRichTextString(item.getIprodGrabaIva() ? "12" : "0"));
-
-                HSSFCell c7 = r.createCell(i++);
-                c7.setCellValue(new HSSFRichTextString(ArchivoUtils.redondearDecimales(item.getBase12(), 2).toString()));
-
-                HSSFCell c71 = r.createCell(i++);
-                c71.setCellValue(new HSSFRichTextString(ArchivoUtils.redondearDecimales(item.getBase0(), 2).toString()));
-
-                HSSFCell c8 = r.createCell(i++);
-                c8.setCellValue(new HSSFRichTextString(ArchivoUtils.redondearDecimales(item.getIprodTotal(), 2).toString()));
                 /*autemta la siguiente fila*/
                 rownum += 1;
 
             }
-//            for (int k = 0; k <= descargar.size(); k++) {
-//                s.autoSizeColumn(k);
-//            }
+            for (int k = 0; k <= listaTotalizadoRubros.size(); k++) {
+                s.autoSizeColumn(k);
+            }
             wb.write(archivo);
             archivo.close();
 
@@ -285,14 +218,6 @@ public class ListaDetalleCompraSri extends SelectorComposer<Component> {
 
     public void setAmb(Tipoambiente amb) {
         this.amb = amb;
-    }
-
-    public List<DetalleCompraSri> getListaDetalleCompraSris() {
-        return listaDetalleCompraSris;
-    }
-
-    public void setListaDetalleCompraSris(List<DetalleCompraSri> listaDetalleCompraSris) {
-        this.listaDetalleCompraSris = listaDetalleCompraSris;
     }
 
     public Date getInicio() {
@@ -335,8 +260,6 @@ public class ListaDetalleCompraSri extends SelectorComposer<Component> {
         this.iprodClasificacio = iprodClasificacio;
     }
 
-    
-
     public List<TotalizadoRubros> getListaTotalizadoRubros() {
         return listaTotalizadoRubros;
     }
@@ -344,7 +267,5 @@ public class ListaDetalleCompraSri extends SelectorComposer<Component> {
     public void setListaTotalizadoRubros(List<TotalizadoRubros> listaTotalizadoRubros) {
         this.listaTotalizadoRubros = listaTotalizadoRubros;
     }
-    
-    
 
 }

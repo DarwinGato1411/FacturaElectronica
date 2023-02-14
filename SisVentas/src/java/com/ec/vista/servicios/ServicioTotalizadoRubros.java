@@ -1,7 +1,4 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.ec.vista.servicios;
 
 import com.ec.entidad.Tipoambiente;
@@ -31,7 +28,7 @@ public class ServicioTotalizadoRubros {
     }
 
     public List<TotalizadoRubros> findTotalizadoRubros(Date inicio, Date fin, Tipoambiente codTipoambiente) {
-
+        System.out.println(inicio+" "+fin+" "+codTipoambiente.getCodTipoambiente());
         List<TotalizadoRubros> listaTotalizadoRubross = new ArrayList<TotalizadoRubros>();
         try {
             em = HelperPersistencia.getEMF();

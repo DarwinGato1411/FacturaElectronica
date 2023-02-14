@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?link rel="stylesheet" type="text/css" href="/css/boostrap/bootstrap.css"?>  
+<?link rel="stylesheet" type="text/css" href="/css/style.css"?>
+<?link rel="stylesheet" type="text/css" href="/css/app/ventas/facturar.css"?>
+<?init class="com.ec.seguridad.Autentificador"?>
+<?init class="org.zkoss.zk.ui.util.Composition" arg0="/plantilla/plantilla.zul"?>
+<!--<zk   class="col-12 col-sm-12 col-md-12 col-lg-12">-->
+<hbox self="@define(content)" apply="org.zkoss.bind.BindComposer" 
+      class="contenedorReporteSRI"
+      viewModel="@id('vm') @init('com.ec.controlador.ListaTotalizadoRubros')" >
+    
+    <div class="contenedorTablas">
+        <div class="contenedorTabla2">
+            <div class="content">
+                <div  class="contenedorBusqueda1" style="">
+                    <combobox  
+                        model="@load(vm.listaTipoambientes)"  
+                        onSelect="@command('buscarTotalizadoRubros')"  
+                        selectedItem="@bind(vm.amb)" 
+                        readonly="true" 
+                    
+                        class="textoFechaDateBox">
+                        <template name="model">
+                            <comboitem  label="@bind(each.amNombreComercial)"/>
+                        </template>                                      
+                    </combobox>
+                    <div class="contenidoEspe">
+                        <label class="texto"  width="30%" value="Inicio: "   />
+                        <datebox  class="fecha"  value="@bind(vm.inicio)" 
+                                  style="font-weight:bold;"                                                   
+                                  buttonVisible="true" 
+                                  lenient="true"  format="dd/MM/yyyy" 
+                                  constraint="no empty: Ingrese de inicio de la busqueda"
+                                  width="90%"/> 
+                    </div>
+                    <div class="contenidoEspe">
+                        <label  class="texto"    width="30%" value="Fin: "  />
+                        <datebox  class="fecha" width="90%"  value="@bind(vm.fin)" 
+                                  style="font-weight:bold;" 
+                                  onCreate="self.value = new Date()"                                                   
+                                  buttonVisible="true" 
+                                  lenient="true"  format="dd/MM/yyyy" 
+                                  constraint="no empty: IBuscar por fecha fin de la busqueda"
+                        /> 
+                    </div>
+                    <div  class="contenedorEspe">
+                        
+                        <button   image="/imagenes/buscar1.png"  
+                                  onClick="@command('buscarTotalizadoRubros')"  
+                                  class="btn btn-primary btn-sm "
+                                  label="Buscar"
+                                  
+                                  tooltiptext="Buscar"/>                 
+                    </div> 
+                    <div  class="contenedorEspe">
+                        
+                        <button   image="/imagenes/excel.png"  
+                                 onClick="@command('exportListboxToExcel')"  
+                                 class="btn btn-primary btn-sm "
+                                 tooltiptext="Descargar"/>                
+                    </div> 
+              
+                </div>    
+              
+            </div>
+            <listbox model="@load(vm.listaTotalizadoRubros)" 
+                     mold="paging" pageSize="15" 
+            >
+                <custom-attributes org.zkoss.zul.listbox.rod="true"/>
+
+                       
+                <listhead> 
+                    <listheader width="80%"  label="Descripción" />
+                    <listheader width="10%"  label="Subtotal" />
+                    <listheader width="10%"  label="Total" />
+                                                         
+                                                                                                
+                </listhead>  
+                        
+                    
+                <template name="model">                                                            
+                    <listitem>
+                    
+                       
+                        <listcell zclass = "mycss-listcell">
+                            <textbox class="form-control form-control-sm"                                                               
+                                     style="font-size:11px;background:#EBF5FB"
+                                     readonly="true"
+                                     value="@bind(each.clasificacion)" width="100%" />
+                        </listcell>
+                        <listcell zclass = "mycss-listcell">
+                          
+                            <decimalbox format="###.##" readonly="true" 
+                                        style="font-size:12px;background:#EBF5FB"
+                                        class="form-control form-control-sm"  
+                                        value="@bind(each.subtotal)" width="100%"/>
+                        </listcell>
+                        <listcell zclass = "mycss-listcell">
+                            
+                            <decimalbox format="###.##" readonly="true" 
+                                        style="font-size:12px;background:#EBF5FB"
+                                        class="form-control form-control-sm"  
+                                        value="@bind(each.total)" width="100%"/>
+                            
+                        </listcell>
+                      
+                                                                    
+
+                    </listitem>
+                </template>
+            </listbox>
+        </div>
+    </div>
+    
+</hbox>
+
+
+<!--</zk>-->

@@ -892,8 +892,7 @@ div.z-listheader-cnt {
 
 .contenedorReporteSRI .contenedorTablas .contenedorTabla2 .content{
     display: grid;
-    width: 100%;
-    grid-template-columns: 40% 60%;
+    width: 100%;  
     gap:10px;
 }
 

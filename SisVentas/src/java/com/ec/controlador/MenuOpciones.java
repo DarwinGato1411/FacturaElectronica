@@ -54,6 +54,9 @@ public class MenuOpciones extends SelectorComposer<Component> {
     Menu menuReportes;
     @Wire("#btnAdministarVenta")
     Menuitem btnAdministarVenta;
+    
+    @Wire("#btnTotalizarRubros")
+    Menuitem btnTotalizarRubros;
 
     @Wire("#btnReporteDetallado")
     Menuitem btnReporteDetallado;
@@ -92,6 +95,11 @@ public class MenuOpciones extends SelectorComposer<Component> {
     @Listen("onClick = #buttonConsultar")
     public void buttonConsultar() {
         Executions.sendRedirect("/consultas.zul");
+    }
+    
+    @Listen("onClick = #btnTotalizarRubros")
+    public void btnTotalizarRubros() {
+        Executions.sendRedirect("/compra/totalizarrubros.zul");
     }
 
     @Listen("onClick = #btnFacturar")
