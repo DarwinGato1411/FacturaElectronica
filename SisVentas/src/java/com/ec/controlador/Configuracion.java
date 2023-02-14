@@ -91,7 +91,7 @@ public class Configuracion extends SelectorComposer<Component> {
     @Command
     @NotifyChange({"listaTipoambientes", "buscar"})
     public void nuevo() {
-        if (credential.getUsuarioSistema().getUsuNumEmpresas() >= listaTipoambientes.size()) {
+        if (credential.getUsuarioSistema().getUsuNumEmpresas() > listaTipoambientes.size()) {
 
             org.zkoss.zul.Window window = (org.zkoss.zul.Window) Executions.createComponents(
                         "/nuevo/tipoambiente.zul", null, null);

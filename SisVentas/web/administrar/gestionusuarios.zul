@@ -54,17 +54,14 @@
                                     <listheader label="Contraseña"  align="left" width="20%"></listheader>
                                     <listheader label="# empresas"  align="left" width="20%"></listheader>
                                     <listheader label="Caduca"  align="left" width="20%"></listheader>
-                                    <listheader label="Direccion"  align="left" width="20%"></listheader>                                   
+                                    <!--<listheader label="Direccion"  align="left" width="20%"></listheader>-->                                   
+                                    <listheader label="Tipo"  align="left" width="20%"></listheader>                                   
                                     <listheader label=""  align="center" width="5%"></listheader>
                                 </listhead>
                         
                         
                                 <template name="model">
                                     <listitem width="100%" > 
-<!--                                        <listcell  zclass = "mycss-listcell">
-                                            <textbox readonly="true" value="@bind(each.usuLogin)"  style="font-size:12px;background:#EBF5FB"
-                                                     class="form-control form-control-sm" />
-                                        </listcell>  -->
                                         <listcell  zclass = "mycss-listcell">
                                             <textbox readonly="true" value="@bind(each.usuNombre)"  
                                                      style="font-size:12px;background:#EBF5FB"
@@ -99,7 +96,12 @@
                                                 constraint="no empty: Ingrese la fecha "
                                             />
                                         </listcell>  
-                                                      
+                                                <listcell  zclass = "mycss-listcell">                          
+                                            <textbox readonly="true" 
+                                                     value="@bind(each.usuTipoUsuario)"  
+                                                     style="font-size:12px;background:#EBF5FB"
+                                                     class="form-control form-control-sm"  />
+                                        </listcell>        
                                         <listcell  zclass = "mycss-listcell">
                                             <image src="/iconos/editar.png"
                                             
