@@ -826,10 +826,7 @@ div.z-listheader-cnt {
 }
 
 .contenedorListaCompras .contenedorTablas .contenedorTabla1 .contenedorBotones .contenedorBotonera{
-
-    display: grid;
-    grid-template-columns: repeat(3,1fr);
-    gap:5px;
+    display: flex;
     background: #eee;
     border-radius: 20px;
     margin-bottom: 10px;
@@ -867,13 +864,12 @@ div.z-listheader-cnt {
 
 
 .contenedorListaCompras .contenedorTablas .contenedorTabla2 .contenedorBotones{
-    display: grid;
-    grid-template-columns: repeat(2,1fr);
-    gap:5px;
+    
+  
     background-color: #eee;
     padding: 20px;
     border-radius: 20px;
-    margin-bottom: 2px;
+   
 }
 
 @media screen and (max-width: 1300px){
@@ -942,4 +938,14 @@ div.z-listheader-cnt {
     height: 100px;
     font-size: 47px;
     align-items: center;
+}
+
+.containerLT{
+    display: grid;
+    grid-template-columns: 50% 50%;
+    align-items: center;
+}
+
+.z-toolbar{
+    border: none;
 }

@@ -100,7 +100,7 @@
                     <listheader width="5%"  label="Base 0%" style="font-size:11px;"/>    
                     <listheader width="5%"  label="Iva" style="font-size:11px;"/>        
                     <listheader width="5%"  label="Total" style="font-size:11px;"/>        
-                    <listheader width="40%"  label="Claseificar" style="font-size:11px;"/>        
+                    <listheader width="40%"  label="Clasificar" style="font-size:11px;"/>        
                           
                   
                     <!--  <textbox placeholder="Proveedor"

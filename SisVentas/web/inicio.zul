@@ -30,7 +30,7 @@
             <div class="container_signin">
                 <image src="./imagenes/pichincha/logo2.png" class="logo"/>
                 <span class="title" >Iniciar Sesión</span>
-                <span class="subtitle">Descarga tus docmuentos</span> 
+                <span class="subtitle">Descarga tus documentos</span> 
                 <div class="wrapper_all_inputs">
                     <div class="wrapper_input">
                         <span class="fas fa-user icon"></span>

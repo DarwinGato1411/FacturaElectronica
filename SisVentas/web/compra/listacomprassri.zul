@@ -65,7 +65,7 @@
                     <button   image="/iconos/delete.png"  
                               onClick="@command('eliminarCabeceraSRI')"                                               
                               style="border: 1px solid #efefef;display: inline-block;padding: 6px 12px; cursor: pointer;"
-                              label="Eliminar datos del archivo txt"
+                              label="Limpiar datos TXT"
                               class="btn btn2 "
                               tooltiptext="Eliminar registros"/>
                     <button   image="/iconos/excel.png"
@@ -74,7 +74,7 @@
                               class="btn btn3"
                               tooltiptext="Descargar Retenciones"/>
                     <button   image="/iconos/sri.png" 
-                              label="Traer documentos del SRI" 
+                              label="Descarga Documentos SRI" 
                               onClick="@command('cargarComprasSRI')"  
                               class="btn btn4"
                               tooltiptext="Descargar"/>   
@@ -147,20 +147,20 @@
         <div class="contenedorTabla2">
                     
             <div class="contenedorBotones">
-                <div apply="com.ec.controlador.ListaComprasSri" class="">                                  
-                    <button id="uploadFacturas" label="Seleccionar sus archivos XML para procesar "                                    
+                <div apply="com.ec.controlador.ListaComprasSri" class="" style="margin-bottom:10px;">                                  
+                    <button id="uploadFacturas" label="Seleccionar archivo XML para procesar "                                    
                             class=""
                             upload="true,maxsize=-1,multiple=true" />
                 </div>  
                 <button   image="/imagenes/procesar.gif"  
                           onClick="@command('procesarXMLFactura')"                                              
                           class="btn btn3"
-                          label="Procesar sus archivos XML" 
+                          label="Procesar archivos" 
                           tooltiptext="Exportar facturas"/>
-                <div></div>
+                
                 <button   image="/iconos/delete.png"  
                           onClick="@command('eliminarCabeceraCabeceraSRI')"                                                                        
-                          label="Eliminar datos del archivo txt"
+                          label="LImpiar datos TXT"
                           class="btn btn2"
                           tooltiptext="Elminar facturas obtenidas del SRI"/>
                 <button   image="/iconos/excel.png"  

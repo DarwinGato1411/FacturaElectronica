@@ -2,24 +2,18 @@
 
     <div class="banner" id="loginWin"  style="height:auto"  width="100%"
          apply="com.ec.controlador.LogoutController" >
-        <div class="row" >
+        <div class="containerLT" >
             
-            <div class="col-12 col-sm-12 col-md-7 col-lg-7  " align="start">
-                <image  src="/imagenes/logo.png"  width="150px" height="30px" />
-                <label value="Descarga Masiva" sclass="banner-head labelNuevo" />   
-     
-
+            <div class="" align="">
+                <image  src="/imagenes/logoSUDMG.png"  width="180px" height="100px" />
             </div>
-            <div class="col-12 col-sm-12 col-md-5 col-lg-5  " align="end" style="float: right; " >
+            <div class="" align="end" style="" >
                 <div apply="org.zkoss.bind.BindComposer" 
                      viewModel="@id('vm') @init('com.ec.controlador.MenuToolbar')">
-                    <toolbar id="tb" height="30px"  style="background-color:transparent;margin-right:10%" align="end"  >
-                        <!--<toolbarbutton image="/iconos/fact.png" label="Facturar" onClick="@command('facturar')" />-->
-<!--                        <toolbarbutton image="/iconos/page.png" label="Producto" if="${sessionScope.usuario.usuarioSistema.usuNivel == 1}" onClick="@command('nuevoProducto')" />
-                        <toolbarbutton image="/iconos/user.png" label="Cliente" onClick="@command('nuevoCliente')" />
-         -->
-                        <label value="Usuario: " if="${not sessionScope.userCredential.anonymous}" class="labelNuevo" />
-                        <label value="${sessionScope.usuario.nombreUsuario} / TIPO AMBIENTE ${sessionScope.usuario.usuarioSistema.idUsuario}" class="labelNuevo" if="${not sessionScope.userCredential.anonymous}" />
+                    <toolbar id="tb"   style="background-color:transparent;margin-right:10%" align="end"  >
+
+                        <label style="font-size:16px;" value="Usuario: " if="${not sessionScope.userCredential.anonymous}" class="labelNuevo" />
+                        <label style="font-size:16px;" value="${sessionScope.usuario.nombreUsuario} / TIPO AMBIENTE ${sessionScope.usuario.usuarioSistema.idUsuario}" class="labelNuevo" if="${not sessionScope.userCredential.anonymous}" />
                         <div  align="end" style="float: right; " >
                             <a sclass="logout labelLogout" id="logout" >  
                                 <label  value="Salir " if="${not sessionScope.userCredential.anonymous}" sclass=" labelLogout"/> 
