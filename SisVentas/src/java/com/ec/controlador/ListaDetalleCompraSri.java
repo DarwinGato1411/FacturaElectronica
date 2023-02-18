@@ -99,7 +99,7 @@ public class ListaDetalleCompraSri extends SelectorComposer<Component> {
     }
 
     private void findDetalleCompraSri() {
-        listaDetalleCompraSris = servicioDetalleComprasSri.detalleCompraSriForTipoambiente(amb, iprodClasificacio);
+        listaDetalleCompraSris = servicioDetalleComprasSri.detalleCompraSriForTipoambiente(amb, iprodClasificacio,inicio,fin);
         setListaDetalleCompraSris(new ListModelList<DetalleCompraSri>(getListaDetalleCompraSris()));
     }
 

@@ -93,14 +93,14 @@
                        
                 <listhead> 
                     <listheader width="8%"  label="# Fact" />
-                    <listheader width="20%"  label="Proveedor" />
-                    <listheader width="8%"  label="Fecha" />
-                    <listheader width="20%"  label="Item / Producto" />
-                    <listheader width="5%"  label="Base 12%" style="font-size:11px;"/>    
-                    <listheader width="5%"  label="Base 0%" style="font-size:11px;"/>    
-                    <listheader width="5%"  label="Iva" style="font-size:11px;"/>        
-                    <listheader width="5%"  label="Total" style="font-size:11px;"/>        
-                    <listheader width="40%"  label="Claseificar" style="font-size:11px;"/>        
+                    <listheader width="18%"  label="Proveedor" />
+                    <listheader width="7%"  label="Fecha" />
+                    <listheader width="18%"  label="Item / Producto" />
+                    <listheader width="4%"  label="Base 12%" style="font-size:11px;"/>    
+                    <listheader width="4%"  label="Base 0%" style="font-size:11px;"/>    
+                    <listheader width="4%"  label="Iva" style="font-size:11px;"/>        
+                    <listheader width="4%"  label="Total" style="font-size:11px;"/>        
+                    <listheader width="50%"  label="Claseificar" style="font-size:11px;"/>        
                           
                   
                     <!--  <textbox placeholder="Proveedor"
