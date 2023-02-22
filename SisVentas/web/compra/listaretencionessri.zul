@@ -20,7 +20,7 @@
             <tabpanels >
                 
                       
-                <tabpanel  >                    
+<!--                <tabpanel  >                    
                     <div class="row ">
                         <div class=" col-12 col-sm-12 col-md-6 col-lg-6">
                                    
@@ -37,11 +37,11 @@
                                         label="Eliminar datos del archivo txt"
                                         class="btn-danger"
                                         tooltiptext="Cargar su archivo TXT, obtenido desde el SRI"/>
-<!--                                <button   image="/imagenes/folder.png"  
+                                <button   image="/imagenes/folder.png"  
                                         onClick="@command('subirArchivo')"                                               
                                         style="border: 1px solid #efefef;display: inline-block;padding: 6px 12px; cursor: pointer;"
                                         label="Subir su archivo TXT"
-                                        tooltiptext="Cargar su archivo TXT, obtenido desde el SRI"/>-->
+                                        tooltiptext="Cargar su archivo TXT, obtenido desde el SRI"/>
                                     
                             </div>
                             <div  class="col-12 col-sm-12 col-md-12 col-lg-12 ">
@@ -81,8 +81,8 @@
                                   
                                    
                             </div>
-                            <!--                    </div>
-                            <div class="row col-12 col-sm-12 col-md-6 col-lg-6">-->
+                                                </div>
+                            <div class="row col-12 col-sm-12 col-md-6 col-lg-6">
                             <listbox model="@load(vm.listaComprasSris)" 
                                      nonselectableTags=""  mold="paging" pageSize="15"  >
                                 <custom-attributes org.zkoss.zul.listbox.rod="true"/>
@@ -155,7 +155,7 @@
                                     
                                 </div>  
                                 <div  class="col-12 col-sm-12 col-md-12 col-lg-12 ">
-<!--                                    <label value="Inicio: "   />
+                                    <label value="Inicio: "   />
                                     <datebox   value="@bind(vm.inicioComp)" 
                                              style="font-weight:bold;"                                                   
                                              buttonVisible="true" 
@@ -172,7 +172,7 @@
                                     <button   image="/imagenes/buscar1.png"  
                                             onClick="@command('buscarComprasSriProcesadas')"  
                                             class="btn btn-primary btn-sm "
-                                            tooltiptext="Buscar"/>-->
+                                            tooltiptext="Buscar"/>
                                     <button   image="/iconos/excel.png"  
                                             label="General"
                                             onClick="@command('exportListboxToExcelCabe')"  
@@ -221,10 +221,10 @@
                                                  onOK="@command('buscarForProveedor')"
                                                  onChange="self.setValue(self.getValue().toUpperCase());"/>
                                     </listheader>        
-<!--                                    <listheader width="15%"  label="categoria" />                                                                                 
-                                    <listheader width="15%"  label="Casillero" />                                                                                 -->
+                                    <listheader width="15%"  label="categoria" />                                                                                 
+                                    <listheader width="15%"  label="Casillero" />                                                                                 
                                     <listheader width="5%"  label="" />                                                                                 
-                                    <!--<listheader width="5%"  label="" />-->                                                                                 
+                                    <listheader width="5%"  label="" />                                                                                 
                                 </listhead>  
                         
                     
@@ -282,7 +282,7 @@
                                                      readonly="true"
                                                      value="@bind(each.cabProveedor)" width="96%" />
                                         </listcell>
-<!--                                        <listcell zclass = "mycss-listcell">
+                                        <listcell zclass = "mycss-listcell">
                                             <combobox readonly="true"    
                                                       style="font-size:12px;width:100px"                                   
                                                       selectedItem="@bind(each.categoriaFactura)" >
@@ -314,7 +314,7 @@
                                              
                                             </combobox>
                                     
-                                        </listcell>   -->
+                                        </listcell>   
                                         <listcell  zclass = "mycss-listcell" >    
                                      
                                             <image src="/iconos/factelect.jpg"  
@@ -324,14 +324,14 @@
                                                    tooltiptext="Imprimir factura"/>
                               
                                         </listcell>                          
-                                        <!--                                        <listcell zclass = "mycss-listcell">
+                                                                                <listcell zclass = "mycss-listcell">
                                             <button src="/iconos/guardar.png"  
                                                     style="height:30px "            
                                                     autodisable="self"                                                    
                                                     class="btn btn-sm "
                                                     onClick="@command('actualizar',valor=each)"
                                                     tooltiptext="Guardar factura"/>    
-                                        </listcell>      -->
+                                        </listcell>      
 
                                     </listitem>
                                 </template>
@@ -339,12 +339,9 @@
                         </div>
                     </div>
                 
-                </tabpanel>
+                </tabpanel>-->
                 
-                <tabpanel  height="98%" width="99%"  >                    
-                    
-                           
-                </tabpanel>
+                
                 <tabpanel  height="98%" width="100%"  >                    
                     <div class="row">
                         <div apply="com.ec.controlador.ListaComprasSri" class="col-12 col-sm-12 col-md-12 col-lg-12 "  >                                  

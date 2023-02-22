@@ -13,7 +13,8 @@
     <div class="row">
         <tabbox id="tboxPrincipal"  width="100%">
             <tabs >
-                <tab label="Documentos para descargar SRI" sclass="menutabs" /> 
+                <tab label="Descargar facturas SRI" sclass="menutabs" /> 
+                <tab label="Descargar Retenciones SRI" sclass="menutabs" /> 
       
             </tabs>
             <tabpanels >
@@ -282,6 +283,116 @@
                 
                 </tabpanel>
             
+            <tabpanel  height="98%" width="100%"  >                    
+                    <div class="row">
+                        <div apply="com.ec.controlador.ListaComprasSri" class="col-12 col-sm-12 col-md-12 col-lg-12 "  >                                  
+                            <button id="upload" label="Subir sus archivos XML " 
+                                    style="border: 1px solid #efefef;display: inline-block;padding: 6px 12px; cursor: pointer;"
+                                    upload="true,maxsize=-1,multiple=true"/>
+                            <button   image="/imagenes/procesar.gif"  
+                                         onClick="@command('procesarXMLRetencion')"  
+                                         class="btn btn-primary btn-sm "
+                                         label="Procesar XML(s) seleccionados" 
+                                         style="border: 1px solid #efefef;display: inline-block;padding: 6px 12px; cursor: pointer;"
+                                         tooltiptext="Exportar retencion"/>
+                        </div>
+                        <div  class="col-12 col-sm-12 col-md-12 col-lg-12 " >
+                            <label value="Inicio: "   />
+                            <datebox   value="@bind(vm.inicioRet)" 
+                                       style="font-weight:bold;"                                                   
+                                       buttonVisible="true" 
+                                       lenient="true"  format="dd/MM/yyyy" 
+                                       constraint="no empty: Ingrese de inicio de la busqueda"/> 
+               
+                            <label value="Fin: "  />
+                            <datebox   value="@bind(vm.finRet)" 
+                                       style="font-weight:bold;" 
+                                       onCreate="self.value = new Date()"                                                   
+                                       buttonVisible="true" 
+                                       lenient="true"  format="dd/MM/yyyy" 
+                                       constraint="no empty: IBuscar por fecha fin de la busqueda"/> 
+                            <button   image="/imagenes/buscar1.png"  
+                                      onClick="@command('buscarRetencionesSRI')"  
+                                      class="btn btn-primary btn-sm "
+                                      tooltiptext="Buscar"/>
+                                                       
+                            <button   image="/iconos/excel.png"  
+                                      onClick="@command('exportarRetenciones')"  
+                                      class="btn btn-primary btn-sm "
+                                      tooltiptext="Exportar retencion"/>
+                                    
+                         
+             
+
+                                    
+
+                        </div>
+                    </div>
+                    <listbox model="@load(vm.listaRetencioSri)" 
+                             nonselectableTags=""  mold="paging" pageSize="12"  >
+                        <custom-attributes org.zkoss.zul.listbox.rod="true"/>
+
+                       
+                        <listhead> 
+                                 
+                            <listheader width="10%"  label="RUC" />    
+                            <listheader width="30%"  label="NOMBRE" />    
+                            <listheader width="10%"  label="FECHA" />           
+                            <listheader width="10%"  label="VALOR RET" />                                                                                                                         
+                            <listheader width="40%"  label="AUTORIZACION" />                                                                                                                         
+                            <listheader width="5%"  label="" />                                                                                 
+                        </listhead>  
+                        
+                    
+                        <template name="model">                                                            
+                            <listitem>
+                                <listcell zclass = "mycss-listcell">
+                                    <textbox class="form-control form-control-sm"                                                               
+                                             style="font-size:12px;background:#EBF5FB"
+                                             readonly="true"
+                                             value="@bind(each.rcoRuc)" width="96%" />
+                                </listcell>
+                                <listcell zclass = "mycss-listcell">
+                                    <textbox class="form-control form-control-sm"                                                               
+                                             style="font-size:12px;background:#EBF5FB"
+                                             readonly="true"
+                                             value="@bind(each.rcoNombre)" width="96%" />
+                                </listcell>
+                                <listcell zclass = "mycss-listcell">
+                                    <datebox value="@bind(each.cabFechaEmision)" 
+                                             buttonVisible="false" 
+                                             lenient="true" 
+                                             format="medium" width="98%"  />
+                                </listcell>
+                                <listcell zclass = "mycss-listcell">
+                                    <decimalbox format="###.##" 
+                                                class="form-control form-control-sm"                                                               
+                                                style="font-size:12px;background:#EBF5FB"
+                                                readonly="true"  
+                                                value="@bind(each.rcoBaseGravaIva)" width="96%" />
+                                </listcell>
+                                        
+                                <listcell zclass = "mycss-listcell">
+                                    <textbox class="form-control form-control-sm"                                                               
+                                             style="font-size:12px;background:#EBF5FB"
+                                             readonly="true"
+                                             value="@bind(each.rcoAutorizacion)" width="96%" />
+                                </listcell>
+                                                               
+                                <listcell zclass = "mycss-listcell">
+                                    <button src="/iconos/factelect.jpg"   
+                                            style="height:30px "            
+                                            autodisable="self"                                                    
+                                            class="btn btn-sm "
+                                            onClick="@command('imprimirRetencion',valor=each)"
+                                            tooltiptext="Guardar factura"/>    
+                                </listcell>      
+
+                            </listitem>
+                        </template>
+                    </listbox>
+                           
+                </tabpanel>
             </tabpanels>
             
         </tabbox>
