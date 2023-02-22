@@ -5,8 +5,7 @@
     <non-jta-data-source>jdbc/deckxel</non-jta-data-source>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
-      <property name="eclipselink.cache.shared.default" value="false"/>
-      <property name="eclipselink.logging.level" value="off"/>
+      <property name="javax.persistence.schema-generation.database.action" value="create"/>
     </properties>
   </persistence-unit>
 </persistence>
