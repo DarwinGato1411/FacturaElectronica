@@ -127,9 +127,9 @@ public class CabeceraCompraSri implements Serializable {
     @JoinColumn(name = "est_id_estado", referencedColumnName = "id_estado")
     @ManyToOne
     private EstadoFacturas estIdEstado;
-    @JoinColumn(name = "id_proveedor", referencedColumnName = "id_proveedor")
-    @ManyToOne
-    private Proveedores idProveedor;
+//    @JoinColumn(name = "id_proveedor", referencedColumnName = "id_proveedor")
+//    @ManyToOne(optional = true)
+//    private Proveedores idProveedor;
     @JoinColumn(name = "usu_id_usuario", referencedColumnName = "id_usuario")
     @ManyToOne
     private Usuario usuIdUsuario;
@@ -340,13 +340,13 @@ public class CabeceraCompraSri implements Serializable {
         this.estIdEstado = estIdEstado;
     }
 
-    public Proveedores getIdProveedor() {
-        return idProveedor;
-    }
-
-    public void setIdProveedor(Proveedores idProveedor) {
-        this.idProveedor = idProveedor;
-    }
+//    public Proveedores getIdProveedor() {
+//        return idProveedor;
+//    }
+//
+//    public void setIdProveedor(Proveedores idProveedor) {
+//        this.idProveedor = idProveedor;
+//    }
 
     public Usuario getUsuIdUsuario() {
         return usuIdUsuario;

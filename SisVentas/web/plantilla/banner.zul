@@ -69,7 +69,7 @@
                                 <menuitem label="Mercaderia ingresada" id="btnListaCompras"  />                                                          
                                 <menuitem label="Retenciones" id="btnRetenciones"  />
                               
-                                <menuitem label="ComprasSRI" id="btnListaComprasSRI"  />     
+                                <!--<menuitem label="ComprasSRI" id="btnListaComprasSRI"  />-->     
                             </menupopup>
                         </menu>          
                                      

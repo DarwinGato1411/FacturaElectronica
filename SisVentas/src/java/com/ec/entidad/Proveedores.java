@@ -109,8 +109,8 @@ public class Proveedores implements Serializable {
     @OneToMany(mappedBy = "idProveedor")
     private Collection<CabeceraCompra> cabeceraCompraCollection;
 
-    @OneToMany(mappedBy = "idProveedor")
-    private Collection<CabeceraCompraSri> cabeceraCompraSriCollection;
+//    @OneToMany(mappedBy = "idProveedor")
+//    private Collection<CabeceraCompraSri> cabeceraCompraSriCollection;
 
     public Proveedores() {
     }
@@ -270,12 +270,12 @@ public class Proveedores implements Serializable {
         return "com.ec.entidad.Proveedores[ idProveedor=" + idProveedor + " ]";
     }
 
-    @XmlTransient
-    public Collection<CabeceraCompraSri> getCabeceraCompraSriCollection() {
-        return cabeceraCompraSriCollection;
-    }
-
-    public void setCabeceraCompraSriCollection(Collection<CabeceraCompraSri> cabeceraCompraSriCollection) {
-        this.cabeceraCompraSriCollection = cabeceraCompraSriCollection;
-    }
+//    @XmlTransient
+//    public Collection<CabeceraCompraSri> getCabeceraCompraSriCollection() {
+//        return cabeceraCompraSriCollection;
+//    }
+//
+//    public void setCabeceraCompraSriCollection(Collection<CabeceraCompraSri> cabeceraCompraSriCollection) {
+//        this.cabeceraCompraSriCollection = cabeceraCompraSriCollection;
+//    }
 }
