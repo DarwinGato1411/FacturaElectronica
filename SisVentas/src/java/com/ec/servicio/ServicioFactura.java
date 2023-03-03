@@ -407,7 +407,7 @@ public class ServicioFactura {
             //Connection connection = em.unwrap(Connection.class);
             em = HelperPersistencia.getEMF();
             em.getTransaction().begin();
-            Query query = em.createQuery("SELECT f FROM Factura f WHERE (f.idCliente.cliNombre LIKE :cliente OR f.idCliente.cliRazonSocial like :razon ) AND f.facTipo='PROF' ORDER BY f.idFactura DESC");
+            Query query = em.createQuery("SELECT f FROM Factura f WHERE (f.idCliente.cliNombre LIKE :cliente OR f.idCliente.cliRazonSocial like :razon ) AND f.facTipo='PROF' ORDER BY f.facNumProforma DESC");
             query.setMaxResults(400);
             query.setParameter("cliente", "%" + cliente + "%");
             query.setParameter("razon", "%" + cliente + "%");
@@ -432,7 +432,7 @@ public class ServicioFactura {
             //Connection connection = em.unwrap(Connection.class);
             em = HelperPersistencia.getEMF();
             em.getTransaction().begin();
-            Query query = em.createNamedQuery("Factura.findAllMaxUltimoVeinte", Factura.class);
+            Query query = em.createQuery("SELECT f FROM Factura f WHERE f.facNumero > 0 AND f.facTipo='FACT' ORDER BY f.facNumero DESC");
             query.setMaxResults(400);
 //           query.setParameter("codigoUsuario", factura);
             listaFacturas = (List<Factura>) query.getResultList();
@@ -453,7 +453,7 @@ public class ServicioFactura {
             //Connection connection = em.unwrap(Connection.class);
             em = HelperPersistencia.getEMF();
             em.getTransaction().begin();
-            Query query = em.createQuery("SELECT f FROM Factura f WHERE  f.facTipo='PROF' ORDER BY f.facFecha DESC");
+            Query query = em.createQuery("SELECT f FROM Factura f WHERE  f.facTipo='PROF' ORDER BY f.facNumProforma DESC");
             query.setMaxResults(400);
 //           query.setParameter("codigoUsuario", factura);
             listaFacturas = (List<Factura>) query.getResultList();
@@ -475,7 +475,7 @@ public class ServicioFactura {
             //Connection connection = em.unwrap(Connection.class);
             em = HelperPersistencia.getEMF();
             em.getTransaction().begin();
-            Query query = em.createNamedQuery("Factura.findAllEstado", Factura.class);
+            Query query = em.createQuery("SELECT f FROM Factura f WHERE  f.facEstado=:facEstado AND f.facNumero > 0 AND f.facTipo='FACT' ORDER BY f.facNumero DESC");
 //            query.setMaxResults(2);
             query.setParameter("facEstado", estado);
             listaFacturas = (List<Factura>) query.getResultList();
