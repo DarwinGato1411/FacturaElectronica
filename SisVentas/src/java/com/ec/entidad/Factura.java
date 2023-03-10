@@ -200,6 +200,9 @@ public class Factura implements Serializable {
     private String facHija;
     @Column(name = "fac_destino")
     private String facDestino;
+    
+    @Column(name = "fac_observacion")
+    private String facObservacion;
 
     @JoinColumn(name = "id_cliente", referencedColumnName = "id_cliente")
     @ManyToOne
@@ -744,6 +747,16 @@ public class Factura implements Serializable {
     public void setIdReferencia(Referencia idReferencia) {
         this.idReferencia = idReferencia;
     }
+
+    public String getFacObservacion() {
+        return facObservacion;
+    }
+
+    public void setFacObservacion(String facObservacion) {
+        this.facObservacion = facObservacion;
+    }
+    
+    
 
     @XmlTransient
     public Collection<Guiaremision> getGuiaremisionCollection() {

@@ -1104,6 +1104,10 @@ public class ListaFacturas {
             HSSFCell ch8 = r.createCell(j++);
             ch8.setCellValue(new HSSFRichTextString("FECHA AUTORIZA"));
             ch8.setCellStyle(estiloCelda);
+            
+            HSSFCell ch9 = r.createCell(j++);
+            ch9.setCellValue(new HSSFRichTextString("OBSERVACIÓN"));
+            ch9.setCellStyle(estiloCelda);
 
             int rownum = 1;
             int i = 0;
@@ -1167,6 +1171,10 @@ public class ListaFacturas {
                 HSSFCell c15 = r.createCell(i++);
                 c15.setCellValue(new HSSFRichTextString(item.getFacFechaAutorizacion() != null ? sm.format(item.getFacFechaAutorizacion()) : ""));
                 /*autemta la siguiente fila*/
+                
+                HSSFCell c16 = r.createCell(i++);
+                c16.setCellValue(new HSSFRichTextString(item.getFacObservacion()) );
+                
                 rownum += 1;
 
             }
