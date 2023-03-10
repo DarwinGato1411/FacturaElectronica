@@ -761,14 +761,17 @@ public class AdmProducto {
                                     BigDecimal precioIva = BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(2))));
                                     BigDecimal precioCompra = precioIva.divide(BigDecimal.valueOf(1.12), 4, RoundingMode.FLOOR);
                                     prod.setPordCostoCompra(precioCompra);
+                                    prod.setProdIva(BigDecimal.valueOf(12));
 //                                    prod.setpro
                                 } else {
                                     prod.setPordCostoCompra(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(2)))));
+                                    prod.setProdIva(BigDecimal.valueOf(0));
                                 }
 
                             } else {
                                 prod.setProdGrabaIva(Boolean.FALSE);
                                 prod.setPordCostoCompra(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(2)))));
+                                prod.setProdIva(BigDecimal.valueOf(0));
                             }
                             prod.setProdCantidadInicial(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(6)))));
                             servicioProducto.crear(prod);
@@ -795,9 +798,11 @@ public class AdmProducto {
                                     BigDecimal precioIva = BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(2))));
                                     BigDecimal precioCompra = precioIva.divide(BigDecimal.valueOf(1.12), 4, RoundingMode.FLOOR);
                                     selected.setPordCostoCompra(precioCompra);
+                                    prod.setProdIva(BigDecimal.valueOf(12));
 //                                    prod.setpro
                                 } else {
                                     selected.setPordCostoCompra(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(2)))));
+                                    prod.setProdIva(BigDecimal.valueOf(0));
                                 }
 
                             } else {
