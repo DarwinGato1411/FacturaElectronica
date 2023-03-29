@@ -54,6 +54,7 @@ public class NuevoProducto {
 
     private String conIva = "S";
     private String esProducto = "P";
+    private String esReceta = "I";
 
     @AfterCompose
     public void afterCompose(@ExecutionArgParam("valor") Producto producto, @ContextParam(ContextType.VIEW) Component view) {
@@ -69,6 +70,13 @@ public class NuevoProducto {
 
             if (producto.getProdEsproducto()) {
                 esProducto = "P";
+
+                if (producto.getProdEsreceta()) {
+                    esReceta = "R";
+                } else {
+                    esReceta = "I";
+                }
+
             } else {
                 esProducto = "S";
             }
@@ -230,10 +238,16 @@ public class NuevoProducto {
     @Command
     public void guardar() {
         if (producto.getProdNombre() != null
-                && producto.getProdCodigo() != null
-                && producto.getPordCostoVentaRef() != null
-                && producto.getPordCostoVentaFinal() != null
-                && producto.getProdCantidadInicial() != null) {
+                    && producto.getProdCodigo() != null
+                    && producto.getPordCostoVentaRef() != null
+                    && producto.getPordCostoVentaFinal() != null
+                    && producto.getProdCantidadInicial() != null) {
+
+            if (esReceta.equals("R")) {
+                producto.setProdEsreceta(Boolean.TRUE);
+            } else {
+                producto.setProdEsreceta(Boolean.FALSE);
+            }
 
             if (conIva.equals("S")) {
                 producto.setProdGrabaIva(Boolean.TRUE);
@@ -249,7 +263,7 @@ public class NuevoProducto {
             if (accion.equals("create")) {
                 if (servicioProducto.findByProdCodigo(producto.getProdCodigo()) != null) {
                     Clients.showNotification("El codigo del prodcuto ya se encuentra registrado",
-                            Clients.NOTIFICATION_TYPE_ERROR, null, "middle_center", 3000, true);
+                                Clients.NOTIFICATION_TYPE_ERROR, null, "middle_center", 3000, true);
                     return;
                 }
 
@@ -335,4 +349,11 @@ public class NuevoProducto {
         this.esProducto = esProducto;
     }
 
+    public String getEsReceta() {
+        return esReceta;
+    }
+
+    public void setEsReceta(String esReceta) {
+        this.esReceta = esReceta;
+    }
 }
