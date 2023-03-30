@@ -145,6 +145,17 @@ public class AdmProducto {
 
     @Command
     @NotifyChange({"listaProductosModel", "buscarNombre"})
+    public void armarCombo(@BindingParam("valor") Producto valor) {
+        buscarNombre = "";
+        final HashMap<String, Producto> map = new HashMap<String, Producto>();
+        map.put("valor", valor);
+        org.zkoss.zul.Window window = (org.zkoss.zul.Window) Executions.createComponents(
+                    "/administrar/admcombo.zul", null, map);
+        window.doModal();
+    }
+
+    @Command
+    @NotifyChange({"listaProductosModel", "buscarNombre"})
     public void crearCodigoBarras() {
 
         List<String> listaImprime = new ArrayList<String>();
@@ -739,7 +750,7 @@ public class AdmProducto {
 //                    for (int j = 0; j < row.getLastCellNum(); j++) {
                     for (int j = 0; j < 6; j++) {
                         List<Producto> prodcutos = servicioProducto.findLikeProdNombre(String.valueOf(row.getCell(1)));
-                        if (servicioProducto.findLikeProdNombre(String.valueOf(row.getCell(1))).isEmpty()) {
+                        if (prodcutos.isEmpty()) {
                             cell = row.getCell(j);
                             prod = new Producto();
                             prod.setProdCodigo(String.valueOf(row.getCell(0)));

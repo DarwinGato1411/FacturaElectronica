@@ -1,0 +1,134 @@
+<?init class="com.ec.seguridad.Autentificador"?>
+<?link rel="stylesheet" type="text/css" href="/css/boostrap/bootstrap.css"?>  
+<?link rel="stylesheet" type="text/css" href="/css/style.css"?>
+<window  id="windowCombo"  position="center" class="col-12 col-sm-12 col-md-11 col-lg-11 " closable="true"  
+         apply="org.zkoss.bind.BindComposer" 
+         viewModel="@id('vm') @init('com.ec.controlador.ComboProductoVm')">
+    
+
+    <caption label="Combo" style="font-weight:bold" /> 
+    
+    <style>
+        .z-listbox-autopaging .z-listcell-cnt {
+        height: 15px;
+        overflow: hidden;
+        }
+        div.z-listbox-body .z-listcell {
+        padding: 0px;
+        }
+        
+    </style>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-6 col-lg-6 form-group " align="start"  > 
+                <listbox  width="100%" model="@load(vm.listaProducto)" 
+                          mold="paging" pageSize="10"
+                          checkmark="false"  
+                          multiple="false"
+                          nonselectableTags="*">
+                    <custom-attributes org.zkoss.zul.listbox.rod="true"/>
+                    <listhead>             
+                        <listheader width="30%"   sort="auto(prodCodigo)" >
+                            <textbox value="@bind(vm.buscarCodigo)" 
+                                     class="form-control form-control-sm"
+                                     tooltiptext="Codigo "                         
+                                     placeholder="Codigo"
+                                     onOK="@command('buscarLikeCodigo')"
+                                     onChange="self.setValue(self.getValue().toUpperCase());" />
+                        </listheader>     
+                        <listheader width="60%"  sort="auto(prodNombre)" >
+                            <textbox value="@bind(vm.buscarNombre)" 
+                                     class="form-control form-control-sm"
+                                     tooltiptext="Nombre "                         
+                                     placeholder="Nombre del producto"
+                                     onOK="@command('buscarLikeNombre')"
+                                     onChange="self.setValue(self.getValue().toUpperCase());" />
+
+                
+                        </listheader> 
+            
+                        <!--<listheader width="15%"  label="" align="center"/>-->           
+                        <listheader width="10%"  label="" align="center"/>           
+                    </listhead>  
+                    <template name="model">                                                            
+                        <listitem>
+               
+                            <listcell zclass = "mycss-listcell">
+                                <textbox readonly="true" style="font-size:12px;background:#EBF5FB"
+                                         class="form-control form-control-sm"  value="@bind(each.prodCodigo)"  />
+                            </listcell>
+                            <listcell zclass = "mycss-listcell">
+                                <textbox readonly="true" style="font-size:12px;background:#EBF5FB"
+                                         class="form-control form-control-sm" value="@bind(each.prodNombre)" />
+                            </listcell>
+                           
+                            <listcell zclass = "mycss-listcell">
+                                <image  src="/iconos/Forward.png" 
+                                        onClick="@command('agregarItemLista',valor=each)" 
+                                        tooltiptext="Asigar producto"/> 
+                            </listcell>
+                
+                        </listitem>
+                    </template>
+                </listbox>       
+            </div>
+            <div class="col-12 col-sm-12 col-md-6 col-lg-6 form-group " align="start"  > 
+                <listbox  width="100%" model="@load(vm.listaComboProductoModel)" 
+                          mold="paging" pageSize="15"
+                          checkmark="true"  
+                          multiple="true" 
+                          onSelect="@command('seleccionarRegistros')"
+                          nonselectableTags="*">
+                    <custom-attributes org.zkoss.zul.listbox.rod="true"/>
+                    <listhead>                         
+                        <listheader width="40px"  label="" >
+                            <button label="" src="/iconos/delete.png"  
+                                    onClick="@command('eliminarRegistros')"  
+                                    class="btn btn btn-secondary btn-sm "
+                                    tooltiptext="Eliminar registros seleccionados"/>
+                        </listheader>  
+                        <listheader width="10%"  label="Cantidad" />  
+                        <listheader width="30%"  label="Codigo" />  
+                        <!--<listheader width="15%"  label="Producto"  />-->    
+                        <listheader width="60%"  label="Producto"  />    
+   
+                    </listhead>  
+                    <template name="model">                                                            
+                        <listitem>
+                            <listcell   style="height: 10px;overflow: hidden;">  </listcell>
+                            <listcell >
+                                <textbox  style="font-size:12px;"
+                                          class="form-control form-control-sm"  
+                                          value="@bind(each.cantidad)"  />
+                            </listcell>
+                            <listcell >
+                                <textbox  readonly="true" style="font-size:12px;background:#EBF5FB"
+                                          class="form-control form-control-sm"  
+                                          value="@bind(each.comboProducto.idProducto.prodCodigo)"  />
+                            </listcell>
+                           
+                            <listcell zclass = "mycss-listcell">
+                                <textbox readonly="true" style="font-size:12px;background:#EBF5FB"
+                                         class="form-control form-control-sm" 
+                                         value="@bind(each.comboProducto.idProducto.prodNombre)" />
+                            </listcell>
+                
+
+                        </listitem>
+                    </template>
+                </listbox>  
+            </div>
+            <div class="col-12 col-sm-16 col-md-12 col-lg-12  form-group" align="center" >
+                    
+                <button src="/iconos/guardar.png"  
+                        label="Guardar"
+                        class="btn btn-primary"
+                        onClick="@command('guardar')"
+                        tooltiptext="Guardar Combo"/>
+ 
+
+            </div> 
+        </div> 
+    </div>
+</window>

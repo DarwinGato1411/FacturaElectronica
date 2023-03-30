@@ -31,6 +31,7 @@
                     <radio label="Sin IVA" value="N"/>                          
                 </radiogroup>
             </div>
+            
             <div class="wrapper_input_mod" style="position: relative">
                 <span>F. Registro: </span>
                 <datebox 
@@ -258,32 +259,21 @@
                         />
                     </div>
                 </div>
-<!--                <div class="wrapper_input_mod">
-                    <span>Graba ICE: </span>
+                <div class="wrapper_input_mod">
+                    <span>Tipo producto: </span>
                     <div class="wrapper_input_text">
                         <radiogroup  
-                            class="radio_group"
-                            selectedItem="@bind(vm.conICE)" 
-                        >                                            
-                            <radio label="SI" value="S"/>
+                            class="radio_group" 
+                            selectedItem="@bind(vm.esReceta)"  >                   
+                            <radio label="INDIVIDUAL" value="I"/>
                             <space bar="false"  />   
-                            <radio label="NO" value="N"/>                          
+                            <radio label="COMBO" value="R"/>                          
                         </radiogroup>
                     </div>
-                    
-                
                 </div>
-                <div class="wrapper_input_mod">
-                    <span>% ICE: </span>
-                    <div class="wrapper_input_text">
-                        <div class="fa-solid fa-dollar-sign icon"></div>
-                        <textbox    constraint="/^[0-9]{1,9}(?:[.][0-9]{1,5})?$/:Ingrese solo numeros"
-                                    onOK="@command('calculoutilidadDos')"
-                                    value="@bind(vm.producto.prodPorcentajeIce)" 
-                                    class="input_text" 
-                        />
-                    </div>
-                </div>-->
+                <div class="wrapper_input_mod"> </div>
+                
+
 
             </div>
         </div>

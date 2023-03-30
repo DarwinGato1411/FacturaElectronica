@@ -152,6 +152,8 @@ public class Producto implements Serializable {
     @Column(name = "prod_fecha_registro")
     @Temporal(TemporalType.DATE)
     private Date prodFechaRegistro;
+    @Column(name = "prod_esreceta")
+    private Boolean prodEsreceta;
 
     public Producto() {
     }
@@ -458,7 +460,7 @@ public class Producto implements Serializable {
     }
 
     public String getProdTieneSubsidio() {
-        return prodTieneSubsidio==null?"N":prodTieneSubsidio;
+        return prodTieneSubsidio == null ? "N" : prodTieneSubsidio;
     }
 
     public void setProdTieneSubsidio(String prodTieneSubsidio) {
@@ -511,6 +513,14 @@ public class Producto implements Serializable {
 
     public void setProdUnidadMedida(String prodUnidadMedida) {
         this.prodUnidadMedida = prodUnidadMedida;
+    }
+
+    public Boolean getProdEsreceta() {
+        return prodEsreceta;
+    }
+
+    public void setProdEsreceta(Boolean prodEsreceta) {
+        this.prodEsreceta = prodEsreceta;
     }
 
     @Override

@@ -8,6 +8,7 @@ package com.ec.controlador;
 import com.ec.dao.DetalleFacturaDAO;
 import com.ec.entidad.CierreCaja;
 import com.ec.entidad.Cliente;
+import com.ec.entidad.ComboProducto;
 import com.ec.entidad.DetalleFactura;
 import com.ec.entidad.DetalleGuiaremision;
 import com.ec.entidad.DetalleKardex;
@@ -31,6 +32,7 @@ import com.ec.seguridad.UserCredential;
 import com.ec.servicio.HelperPersistencia;
 import com.ec.servicio.ServicioCierreCaja;
 import com.ec.servicio.ServicioCliente;
+import com.ec.servicio.ServicioComboProducto;
 import com.ec.servicio.ServicioDetalleFactura;
 import com.ec.servicio.ServicioDetalleGuia;
 import com.ec.servicio.ServicioDetalleKardex;
@@ -288,6 +290,9 @@ public class Facturar extends SelectorComposer<Component> {
 
     ServicioDetallePago servicioDetallePago = new ServicioDetallePago();
     Verificaciones verificaciones = new Verificaciones();
+
+    /*PARA GESTION DE COMBO DE PRODCUTO*/
+    ServicioComboProducto servicioComboProducto = new ServicioComboProducto();
 
     @AfterCompose
     public void afterCompose(@ExecutionArgParam("valor") ParamFactura valor, @ContextParam(ContextType.VIEW) Component view) {
@@ -1539,16 +1544,6 @@ public class Facturar extends SelectorComposer<Component> {
             clienteBuscado = servicioCliente.findClienteLikeCedula("999999999");
         }
         List<Factura> listaFacturasPendientes = servicioFactura.findEstadoCliente("PE", clienteBuscado);
-//        saldoFacturas = BigDecimal.ZERO;
-//        BigDecimal sumaPendientes = BigDecimal.ZERO;
-//        for (Factura listaFacturasPendiente : listaFacturasPendientes) {
-//
-//            sumaPendientes = sumaPendientes.add(listaFacturasPendiente.getFacSaldoAmortizado());
-//        }
-//        if (clienteBuscado != null) {
-//            saldoFacturas = clienteBuscado.getCliMontoAsignado().subtract(sumaPendientes);
-//            saldoFacturas.setScale(2, RoundingMode.FLOOR);
-//        }
         if (clienteBuscado != null) {
             llegada = clienteBuscado.getCliDireccion();
         }
@@ -1757,7 +1752,7 @@ public class Facturar extends SelectorComposer<Component> {
             for (DetalleFacturaDAO item : listaPedido) {
                 sumaDeItems = sumaDeItems.add(BigDecimal.ONE);
                 if (item.getProducto() != null) {
-                    totalizado=totalizado.add(item.getDetTotalconivadescuento());
+                    totalizado = totalizado.add(item.getDetTotalconivadescuento());
                     valorTotal = valorTotal.add(item.getProducto().getProdGrabaIva() ? item.getSubTotalDescuento().multiply(item.getCantidad()) : BigDecimal.ZERO);
                     valorIva = valorIva.add(item.getDetIva());
 //                    valorTotalConIva = valorTotalConIva.add(item.getDetTotalconivadescuento());
@@ -2125,7 +2120,7 @@ public class Facturar extends SelectorComposer<Component> {
                     factura.setIdCliente(clienteBuscado);
                     /*GENERAMOS LA CLAVE DE ACCESO PARA ENVIAR LA FACTURA DIRECTAMENTE ASI NO ESTE 
                     AUTORIZADA*/
-                    String claveAcceso = ArchivoUtils.generaClave(factura.getFacFecha(), "01", amb.getAmRuc(), amb.getAmCodigo(), amb.getAmEstab()+amb.getAmPtoemi(), factura.getFacNumeroText(), "12345678", "1");
+                    String claveAcceso = ArchivoUtils.generaClave(factura.getFacFecha(), "01", amb.getAmRuc(), amb.getAmCodigo(), amb.getAmEstab() + amb.getAmPtoemi(), factura.getFacNumeroText(), "12345678", "1");
                     factura.setFacClaveAcceso(claveAcceso);
                     factura.setFacClaveAutorizacion(claveAcceso);
 
@@ -2162,7 +2157,7 @@ public class Facturar extends SelectorComposer<Component> {
                         guiaremision.setPuntoemision(factura.getPuntoemision());
                         guiaremision.setCodestablecimiento(factura.getCodestablecimiento());
                         guiaremision.setEstadosri("PENDIENTE");
-                        String claveAccesoGuia = ArchivoUtils.generaClave(guiaremision.getFacFecha(), "06", amb.getAmRuc(), amb.getAmCodigo(),  amb.getAmEstab()+amb.getAmPtoemi(), guiaremision.getFacNumeroText(), "12345678", "1");
+                        String claveAccesoGuia = ArchivoUtils.generaClave(guiaremision.getFacFecha(), "06", amb.getAmRuc(), amb.getAmCodigo(), amb.getAmEstab() + amb.getAmPtoemi(), guiaremision.getFacNumeroText(), "12345678", "1");
                         guiaremision.setFacClaveAcceso(claveAccesoGuia);
                         guiaremision.setFacClaveAutorizacion(claveAccesoGuia);
                         guiaremision.setCodTipoambiente(factura.getCod_tipoambiente().getCodTipoambiente());
@@ -2306,37 +2301,70 @@ public class Facturar extends SelectorComposer<Component> {
                 /*INGRESAMOS LO MOVIMIENTOS AL KARDEX*/
                 Kardex kardex = null;
                 DetalleKardex detalleKardex = null;
-
+                Tipokardex tipokardex = servicioTipoKardex.findByTipkSigla("SAL");
                 for (DetalleFacturaDAO item : listaPedido) {
                     if (item.getProducto() != null) {
+                        if (!item.getProducto().getProdEsreceta()) {
 
-                        Tipokardex tipokardex = servicioTipoKardex.findByTipkSigla("SAL");
-                        if (servicioKardex.FindALlKardexs(item.getProducto()) == null) {
-                            kardex = new Kardex();
-                            kardex.setIdProducto(item.getProducto());
-                            kardex.setKarDetalle("Inicio de inventario desde la facturacion para el producto: " + item.getProducto().getProdNombre());
-                            kardex.setKarFecha(new Date());
-                            kardex.setKarFechaKardex(new Date());
-                            kardex.setKarTotal(BigDecimal.ZERO);
-                            servicioKardex.crear(kardex);
+                            if (servicioKardex.FindALlKardexs(item.getProducto()) == null) {
+                                kardex = new Kardex();
+                                kardex.setIdProducto(item.getProducto());
+                                kardex.setKarDetalle("Inicio de inventario desde la facturacion para el producto: " + item.getProducto().getProdNombre());
+                                kardex.setKarFecha(new Date());
+                                kardex.setKarFechaKardex(new Date());
+                                kardex.setKarTotal(BigDecimal.ZERO);
+                                servicioKardex.crear(kardex);
+                            }
+                            detalleKardex = new DetalleKardex();
+                            kardex = servicioKardex.FindALlKardexs(item.getProducto());
+                            detalleKardex.setIdKardex(kardex);
+                            detalleKardex.setDetkFechakardex(fechafacturacion);
+                            detalleKardex.setDetkFechacreacion(new Date());
+                            detalleKardex.setIdTipokardex(tipokardex);
+                            detalleKardex.setDetkKardexmanual(Boolean.FALSE);
+                            detalleKardex.setDetkDetalles("Disminuye al kardex desde facturacion con: " + tipoVenta + "-" + factura.getFacNumeroText());
+                            detalleKardex.setIdFactura(factura);
+                            detalleKardex.setDetkCantidad(item.getCantidad());
+                            servicioDetalleKardex.crear(detalleKardex);
+                            /*ACTUALIZA EL TOTAL DEL KARDEX*/
+                            TotalKardex totales = servicioKardex.totalesForKardex(kardex);
+                            BigDecimal total = totales.getTotalKardex();
+                            kardex.setKarTotal(total);
+                            servicioKardex.modificar(kardex);
+
+                        } else {
+                            List<ComboProducto> lislaRecup = servicioComboProducto.findForProducto(item.getProducto());
+                            for (ComboProducto comboProducto : lislaRecup) {
+                                if (servicioKardex.FindALlKardexs(comboProducto.getIdProducto()) == null) {
+                                    kardex = new Kardex();
+                                    kardex.setIdProducto(comboProducto.getIdProducto());
+                                    kardex.setKarDetalle("Inicio de inventario desde la facturacion para el producto: " + item.getProducto().getProdNombre());
+                                    kardex.setKarFecha(new Date());
+                                    kardex.setKarFechaKardex(new Date());
+                                    kardex.setKarTotal(BigDecimal.ZERO);
+                                    servicioKardex.crear(kardex);
+                                }
+                                detalleKardex = new DetalleKardex();
+                                kardex = servicioKardex.FindALlKardexs(comboProducto.getIdProducto());
+                                detalleKardex.setIdKardex(kardex);
+                                detalleKardex.setDetkFechakardex(fechafacturacion);
+                                detalleKardex.setDetkFechacreacion(new Date());
+                                detalleKardex.setIdTipokardex(tipokardex);
+                                detalleKardex.setDetkKardexmanual(Boolean.FALSE);
+                                detalleKardex.setDetkDetalles("Disminuye kardex con factura: " + tipoVenta + "-" + factura.getFacNumeroText());
+                                detalleKardex.setIdFactura(factura);
+
+                                /*calcular la cantidad a descontar del Kardex*/
+                                BigDecimal cantidadDescuento = comboProducto.getComCantidad().multiply(item.getCantidad());
+                                detalleKardex.setDetkCantidad(cantidadDescuento);
+                                servicioDetalleKardex.crear(detalleKardex);
+                                /*ACTUALIZA EL TOTAL DEL KARDEX*/
+                                TotalKardex totales = servicioKardex.totalesForKardex(kardex);
+                                BigDecimal total = totales.getTotalKardex();
+                                kardex.setKarTotal(total);
+                                servicioKardex.modificar(kardex);
+                            }
                         }
-                        detalleKardex = new DetalleKardex();
-                        kardex = servicioKardex.FindALlKardexs(item.getProducto());
-                        detalleKardex.setIdKardex(kardex);
-                        detalleKardex.setDetkFechakardex(fechafacturacion);
-                        detalleKardex.setDetkFechacreacion(new Date());
-                        detalleKardex.setIdTipokardex(tipokardex);
-                        detalleKardex.setDetkKardexmanual(Boolean.FALSE);
-                        detalleKardex.setDetkDetalles("Disminuye al kardex desde facturacion con: " + tipoVenta + "-" + factura.getFacNumeroText());
-                        detalleKardex.setIdFactura(factura);
-                        detalleKardex.setDetkCantidad(item.getCantidad());
-                        servicioDetalleKardex.crear(detalleKardex);
-                        /*ACTUALIZA EL TOTAL DEL KARDEX*/
-                        TotalKardex totales = servicioKardex.totalesForKardex(kardex);
-                        BigDecimal total = totales.getTotalKardex();
-                        kardex.setKarTotal(total);
-                        servicioKardex.modificar(kardex);
-
                     }
                 }
 
@@ -2493,7 +2521,9 @@ public class Facturar extends SelectorComposer<Component> {
             String reporte = parametrizar.getParImprimeFactura().trim();
             emf.getTransaction().begin();
             /*CONEXION A LA BASE DE DATOS*/
-            con = emf.unwrap(Connection.class);
+            con
+                        = emf.unwrap(Connection.class
+                        );
             if (!tipoVenta.equals("SINF")) {
 
                 //  con = emf.unwrap(Connection.class);
@@ -2643,7 +2673,9 @@ public class Facturar extends SelectorComposer<Component> {
 
         try {
             emf.getTransaction().begin();
-            con = emf.unwrap(Connection.class);
+            con
+                        = emf.unwrap(Connection.class
+                        );
             if (!tipoVenta.equals("SINF")) {
 
                 //  con = emf.unwrap(Connection.class);
