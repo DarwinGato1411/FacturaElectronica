@@ -48,6 +48,7 @@ import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.image.AImage;
 import org.zkoss.util.media.AMedia;
 import org.zkoss.zk.ui.Executions;
+import org.zkoss.zul.Messagebox;
 
 /**
  *
@@ -172,6 +173,16 @@ public class ListaNC {
                 emf.getTransaction().commit();
             }
 
+        }
+
+    }
+    
+    @Command
+    @NotifyChange({"lstCreditoDebitos", "buscarCliente"})
+    public void eliminarNC(@BindingParam("valor") NotaCreditoDebito valor) {
+        if (Messagebox.show("Esta seguro de eliminar la noto de credito?", "Question", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION) == Messagebox.OK) {
+            servicioNotaCredito.eliminar(valor);
+            consultarFacturaFecha();
         }
 
     }
