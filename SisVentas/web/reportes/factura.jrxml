@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="factura" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 	<property name="ireport.zoom" value="1.7715610000000017"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="116"/>
+	<property name="ireport.y" value="298"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -258,7 +258,7 @@ where   factura.fac_numero=$P{numfactura};]]>
 	<field name="id_usuario" class="java.lang.Integer"/>
 	<field name="id_cliente" class="java.lang.Integer"/>
 	<field name="fac_numero" class="java.lang.Integer"/>
-	<field name="fac_fecha" class="java.sql.Date"/>
+	<field name="fac_fecha" class="java.sql.Timestamp"/>
 	<field name="fac_subtotal" class="java.math.BigDecimal"/>
 	<field name="fac_iva" class="java.math.BigDecimal"/>
 	<field name="fac_total" class="java.math.BigDecimal"/>
@@ -286,7 +286,7 @@ where   factura.fac_numero=$P{numfactura};]]>
 	<field name="fac_unidad_tiempo" class="java.lang.String"/>
 	<field name="estadosri" class="java.lang.String"/>
 	<field name="mensajesri" class="java.lang.String"/>
-	<field name="fac_fecha_autorizacion" class="java.sql.Date"/>
+	<field name="fac_fecha_autorizacion" class="java.sql.Timestamp"/>
 	<field name="fac_clave_acceso" class="java.lang.String"/>
 	<field name="fac_clave_autorizacion" class="java.lang.String"/>
 	<field name="fac_path" class="java.lang.String"/>
@@ -492,7 +492,7 @@ where   factura.fac_numero=$P{numfactura};]]>
 				<textElement>
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{am_direccion_matriz}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{am_direccion_sucursal}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement stretchType="RelativeToBandHeight" x="295" y="221" width="255" height="25" isPrintWhenDetailOverflows="true"/>
@@ -608,17 +608,17 @@ where   factura.fac_numero=$P{numfactura};]]>
 				</textElement>
 				<text><![CDATA[Email:]]></text>
 			</staticText>
-			<staticText>
-				<reportElement x="76" y="175" width="204" height="14"/>
-				<textElement>
-					<font size="9" isBold="false"/>
-				</textElement>
-				<text><![CDATA[bazarlabahia@hotmail.com]]></text>
-			</staticText>
 			<textField>
 				<reportElement x="15" y="238" width="202" height="15"/>
 				<textElement/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{am_general}?"RÉGIMEN GENERAL":""]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="76" y="175" width="208" height="14"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{am_usuario_smpt}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
@@ -1155,6 +1155,11 @@ Se recuerda que el envio de los comprobantes de retenciones debe realizarse dent
 				</textElement>
 				<text><![CDATA[(Incluye IVA cuando corresponde)]]></text>
 			</staticText>
+			<textField>
+				<reportElement positionType="Float" x="10" y="62" width="336" height="14"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{fac_observacion}?"Observación: "+$F{fac_observacion}:""]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 </jasperReport>

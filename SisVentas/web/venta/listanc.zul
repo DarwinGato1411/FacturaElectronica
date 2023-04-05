@@ -24,7 +24,7 @@
                 
 
 
-                     <div class="factura_header paint_all_row">
+                    <div class="factura_header paint_all_row">
                         <div class="fact_row fact_only_row">
                             <div class="wrapper_data" style="max-width:300px">
 
@@ -63,7 +63,7 @@
                             <div class="wrapper_data ">
                             
                                 <button 
-                                     onClick="@command('buscarFechas')"
+                                    onClick="@command('buscarFechas')"
                                     class="fa-solid fa-magnifying-glass btn_fact btn_primary btn_one_element"
                                     style="height:unset;"
                                 >
@@ -77,27 +77,27 @@
 
                     <div class="factura_body">
                         <listbox model="@load(vm.lstCreditoDebitos)" 
-                                nonselectableTags=""  mold="paging" pageSize="12"  >
+                                 nonselectableTags=""  mold="paging" pageSize="12"  >
                             <custom-attributes org.zkoss.zul.listbox.rod="true"/>
                         
                             <listhead> 
                                 <listheader width="10%"  label="N° Fact" /> 
                                 <listheader width="10%"  >
                                     <textbox value="@bind(vm.buscarCedula)"  
-                                            tooltiptext="Cedula"
-                                            class="form-control form-control-sm"                                         
-                                            placeholder="Cedula"
-                                            onOK="@command('buscarLikeCedula')"
-                                            onChange="self.setValue(self.getValue().toUpperCase());" />
+                                             tooltiptext="Cedula"
+                                             class="form-control form-control-sm"                                         
+                                             placeholder="Cedula"
+                                             onOK="@command('buscarLikeCedula')"
+                                             onChange="self.setValue(self.getValue().toUpperCase());" />
                                     
                                 </listheader>    
                                 <listheader width="28%"  >
                                     <textbox value="@bind(vm.buscarCliente)"  
-                                            class="form-control form-control-sm"
-                                            tooltiptext="Nombre del cliente"
-                                            placeholder="Nombre del cliente"
-                                            onOK="@command('buscarLikeCliente')"
-                                            onChange="self.setValue(self.getValue().toUpperCase());" />
+                                             class="form-control form-control-sm"
+                                             tooltiptext="Nombre del cliente"
+                                             placeholder="Nombre del cliente"
+                                             onOK="@command('buscarLikeCliente')"
+                                             onChange="self.setValue(self.getValue().toUpperCase());" />
                                     
                                 </listheader> 
                                 <listheader width="8%"  label="Fecha" />                                                        
@@ -106,7 +106,8 @@
                                 <listheader width="40%"  label="Clave Autorizacion"  />                                   
                                 <listheader width="3%"  label="" align="center" />        
                                 <listheader width="3%"  label="" align="center" />        
-                                <listheader width="3%"  label="" align="center" />               
+                                <listheader width="3%"  label="" align="center" /> 
+                                <listheader width="3%"  label="" align="center" />                    
                             </listhead>  
                             
                         
@@ -114,49 +115,49 @@
                                 <listitem>
                                     <listcell  zclass = "mycss-listcell">
                                         <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"                            
-                                                class="form-control form-control-sm" value="@bind(each.facNumeroText)"  />
+                                                 class="form-control form-control-sm" value="@bind(each.facNumeroText)"  />
                                     </listcell>
                                     <listcell zclass = "mycss-listcell">
                                         <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"                            
-                                                class="form-control form-control-sm" value="@bind(each.idFactura.idCliente.cliCedula)"  />
+                                                 class="form-control form-control-sm" value="@bind(each.idFactura.idCliente.cliCedula)"  />
                                     </listcell>
                                     <listcell zclass = "mycss-listcell">
                                         <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"                            
-                                                class="form-control form-control-sm" value="@bind(each.idFactura.idCliente.cliNombre)"  />
+                                                 class="form-control form-control-sm" value="@bind(each.idFactura.idCliente.cliNombre)"  />
                                     </listcell>
-                                <listcell zclass = "mycss-listcell">
+                                    <listcell zclass = "mycss-listcell">
                                         <datebox compact="true" value="@bind(each.facFecha)" 
-                                                buttonVisible="false" lenient="true" readonly="true"
-                                                width="100%"
-                                                format="medium"   />
+                                                 buttonVisible="false" lenient="true" readonly="true"
+                                                 width="100%"
+                                                 format="medium"   />
                                     </listcell>
-                                <listcell  zclass = "mycss-listcell" >
+                                    <listcell  zclass = "mycss-listcell" >
                                         <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"                            
-                                                class="form-control form-control-sm" value="@bind(each.estadosri)" 
-                                            tooltiptext="@bind(each.mensajesri)"
-                                            />
+                                                 class="form-control form-control-sm" value="@bind(each.estadosri)" 
+                                                 tooltiptext="@bind(each.mensajesri)"
+                                        />
                                     </listcell>
                                     <listcell zclass = "mycss-listcell">
                                         <datebox compact="true" value="@bind(each.facFechaAutorizacion)" 
-                                                buttonVisible="false" lenient="true" 
-                                                tooltiptext="@bind(each.mensajesri)"
-                                                readonly="true"
+                                                 buttonVisible="false" lenient="true" 
+                                                 tooltiptext="@bind(each.mensajesri)"
+                                                 readonly="true"
                                                  width="100%"
-                                                format="medium"   />
+                                                 format="medium"   />
                                     </listcell>
                 
                                     <listcell zclass = "mycss-listcell">
                                         <textbox multiline="true" rows="1" readonly="true" 
-                                        width="100%"
-                                                value="@bind(each.facClaveAutorizacion)" />
+                                                 width="100%"
+                                                 value="@bind(each.facClaveAutorizacion)" />
                                     </listcell>
                             
                                     <listcell zclass = "mycss-listcell">    
                                         
                                         <image src="/iconos/factelect.jpg"   
-                                            class="grow"                                         
-                                            onClick="@command('reporteGeneral',valor=each)"
-                                            tooltiptext="Imprimir guia"/>
+                                               class="grow"                                         
+                                               onClick="@command('reporteGeneral',valor=each)"
+                                               tooltiptext="Imprimir guia"/>
                                 
                                     </listcell>
                                     
@@ -173,8 +174,8 @@
                                     <zk if="${each.estadosri!='PENDIENTE'}"  >
                                         <listcell zclass = "mycss-listcell">                                         
                                             <image src="/iconos/listo_uno.png"   
-                                                class="grow "       
-                                                tooltiptext="Ya se encuentra autorizado"/>
+                                                   class="grow "       
+                                                   tooltiptext="Ya se encuentra autorizado"/>
                                 
                                         </listcell>
                                     </zk>
@@ -197,6 +198,17 @@
                                             tooltiptext="No se puede autorizar por que se encuentra en estado autorizado"/> -->
                                         </listcell>
                                     </zk>
+                                    
+                                    <listcell zclass = "mycss-listcell">   
+                                        <image if="${each.estadosri!='AUTORIZADO'}" 
+                                                   src="/iconos/delete.png" 
+                                                   class="grow"
+                                                   onClick="@command('eliminarNC',valor=each)" 
+                                                   tooltiptext="elimnarnota de credito"/>
+                                        <image if="${each.estadosri=='AUTORIZADO'}" src="/iconos/listo_uno.png"   
+                                                    class="grow "       
+                                                    tooltiptext="Ya se encuentra autorizado"/>
+                                    </listcell>
                                                                 
                                     
                                 </listitem>

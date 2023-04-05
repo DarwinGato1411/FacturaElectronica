@@ -83,7 +83,7 @@ public class Factura implements Serializable {
     @Column(name = "fac_numero")
     private Integer facNumero;
     @Column(name = "fac_fecha")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date facFecha;
     @Column(name = "fac_fecha_sustento")
     @Temporal(TemporalType.DATE)
@@ -177,6 +177,8 @@ public class Factura implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date facFechaCobro;
 
+    
+
 //    @Column(name = "fac_placa")
 //    private String facPlaca;
 //
@@ -200,6 +202,9 @@ public class Factura implements Serializable {
     private String facHija;
     @Column(name = "fac_destino")
     private String facDestino;
+
+    @Column(name = "fac_observacion")
+    private String facObservacion;
 
     @JoinColumn(name = "id_cliente", referencedColumnName = "id_cliente")
     @ManyToOne
@@ -744,6 +749,16 @@ public class Factura implements Serializable {
     public void setIdReferencia(Referencia idReferencia) {
         this.idReferencia = idReferencia;
     }
+
+    public String getFacObservacion() {
+        return facObservacion;
+    }
+
+    public void setFacObservacion(String facObservacion) {
+        this.facObservacion = facObservacion;
+    }
+
+    
 
     @XmlTransient
     public Collection<Guiaremision> getGuiaremisionCollection() {
