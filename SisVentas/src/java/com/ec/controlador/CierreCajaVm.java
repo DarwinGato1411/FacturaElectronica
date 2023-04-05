@@ -42,7 +42,7 @@ import org.zkoss.zul.Window;
  * @author gato
  */
 public class CierreCajaVm {
-    
+
     @Wire
     Window windowCierre;
     private CierreCaja cierreCaja = new CierreCaja();
@@ -54,25 +54,25 @@ public class CierreCajaVm {
     private VistaFacturasPorCobrar totalesFactura = new VistaFacturasPorCobrar();
     private BigDecimal totalEmitido = BigDecimal.ZERO;
     private BigDecimal totalDeuda = BigDecimal.ZERO;
-    
+
     ServicioFacturaPorCobrar servicioFacturaPorCobrar = new ServicioFacturaPorCobrar();
     ServicioFactura servicioFactura = new ServicioFactura();
     ServicioAcumuladoDiarioUsuario servicioAcumuladoDiarioUsuario = new ServicioAcumuladoDiarioUsuario();
     private Boolean cajaCerrada = Boolean.FALSE;
-    
+
     @AfterCompose
     public void afterCompose(@ExecutionArgParam("valor") Producto producto, @ContextParam(ContextType.VIEW) Component view) {
         Selectors.wireComponents(view, this, false);
-        
+
         Session sess = Sessions.getCurrent();
         UserCredential cre = (UserCredential) sess.getAttribute(EnumSesion.userCredential.getNombre());
         credential = cre;
         cierreCaja = servicioCierreCaja.findALlCierreCajaForFechaIdUsuario(new Date(), credential.getUsuarioSistema()).get(0);
-        
+
         System.out.println("cierreCaja " + cierreCaja);
         System.out.println("cierreCaja sss " + cierreCaja != null ? cierreCaja.getCieValorInicio() : "NULO");
         if (servicioAcumuladoDiarioUsuario.findCierrePorUsuario(fecha, credential.getUsuarioSistema()).size() > 0) {
-            
+
             ModeloAcumuladoDiaUsuario acumuladoDiaUsuario = servicioAcumuladoDiarioUsuario.findCierrePorUsuario(fecha, credential.getUsuarioSistema()).get(0);
             totNotaVenta = ArchivoUtils.redondearDecimales(acumuladoDiaUsuario.getValorNotaVenta(), 2);
             /*total del credito en facturas*/
@@ -95,34 +95,50 @@ public class CierreCajaVm {
             totNotaVenta = BigDecimal.ZERO;
             cajaCerrada = cierreCaja.getCieCerrada();
         }
-        
+
     }
-    
+
     @Command
     @NotifyChange({"cierreCaja"})
     public void calcularDiferencia() {
+
+        BigDecimal totalRecaudado = BigDecimal.ZERO;
         if (cierreCaja.getCieCuadre() != null) {
-            if (cierreCaja.getCieCuadre().doubleValue() > 0) {
-                cierreCaja.setCieDiferencia(cierreCaja.getCieValor().subtract(cierreCaja.getCieCuadre()));
-            }
+            totalRecaudado = totalRecaudado.add(cierreCaja.getCieCuadre());
+
         }
-        
+        if (cierreCaja.getCieCuadreTransferencia() != null) {
+            totalRecaudado = totalRecaudado.add(cierreCaja.getCieCuadreTransferencia());
+        }
+        if (cierreCaja.getCieCuadreTarjeta() != null) {
+            totalRecaudado = totalRecaudado.add(cierreCaja.getCieCuadreTarjeta());
+
+        }
+        if (cierreCaja.getCieGasto()!= null) {
+            totalRecaudado = totalRecaudado.add(cierreCaja.getCieGasto());
+
+        }
+
+        if (totalRecaudado.doubleValue() > 0) {
+            cierreCaja.setCieDiferencia(cierreCaja.getCieValor().subtract(totalRecaudado));
+        }
+
     }
-    
+
     @Command
     @NotifyChange({"cierreCaja", "cajaCerrada"})
     public void guardar() {
-        
+
         try {
             /*RECALCULAR EL VALOR DEL CUADRE PARA GARANTIZAR EL CIERRE CORRECTO*/
-            cierreCaja.setCieDiferencia(cierreCaja.getCieValor().subtract(cierreCaja.getCieCuadre()));
+//            cierreCaja.setCieDiferencia(cierreCaja.getCieValor().subtract(cierreCaja.getCieCuadre()));
             cierreCaja.setCieCredito(totalDeuda);
             cierreCaja.setCirRecaudado(totFactura);
             cierreCaja.setCieNotaVenta(totNotaVenta);
             cierreCaja.setCieTotal(totalEmitido);
             cierreCaja.setCieCerrada(Boolean.TRUE);
             servicioCierreCaja.modificar(cierreCaja);
-            
+
             System.out.println("cierreCaja " + cierreCaja.getIdCierre());
             DispararReporte.reporteCierrecaja(cierreCaja.getIdCierre());
         } catch (JRException ex) {
@@ -134,72 +150,72 @@ public class CierreCajaVm {
         } catch (SQLException ex) {
             Logger.getLogger(CierreCajaVm.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         windowCierre.detach();
     }
-    
+
     public CierreCaja getCierreCaja() {
         return cierreCaja;
     }
-    
+
     public void setCierreCaja(CierreCaja cierreCaja) {
         this.cierreCaja = cierreCaja;
     }
-    
+
     public Date getFecha() {
         return fecha;
     }
-    
+
     public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
-    
+
     public BigDecimal getTotFactura() {
         return totFactura;
     }
-    
+
     public void setTotFactura(BigDecimal totFactura) {
         this.totFactura = totFactura;
     }
-    
+
     public BigDecimal getTotNotaVenta() {
         return totNotaVenta;
     }
-    
+
     public void setTotNotaVenta(BigDecimal totNotaVenta) {
         this.totNotaVenta = totNotaVenta;
     }
-    
+
     public VistaFacturasPorCobrar getTotalesFactura() {
         return totalesFactura;
     }
-    
+
     public void setTotalesFactura(VistaFacturasPorCobrar totalesFactura) {
         this.totalesFactura = totalesFactura;
     }
-    
+
     public BigDecimal getTotalEmitido() {
         return totalEmitido;
     }
-    
+
     public void setTotalEmitido(BigDecimal totalEmitido) {
         this.totalEmitido = totalEmitido;
     }
-    
+
     public BigDecimal getTotalDeuda() {
         return totalDeuda;
     }
-    
+
     public void setTotalDeuda(BigDecimal totalDeuda) {
         this.totalDeuda = totalDeuda;
     }
-    
+
     public Boolean getCajaCerrada() {
         return cajaCerrada;
     }
-    
+
     public void setCajaCerrada(Boolean cajaCerrada) {
         this.cajaCerrada = cajaCerrada;
     }
-    
+
 }

@@ -46,6 +46,7 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 import javax.xml.namespace.QName;
+import org.zkoss.zk.ui.util.Clients;
 
 /**
  *
@@ -152,16 +153,21 @@ public class AutorizarDocumentos {
 
             //System.setProperty("https.protocols", "SSLv3");
             //System.setProperty(org.apache.axis2.transport.http.HTTPConstants.CHUNKED, Boolean.FALSE);
-            URL url = new URL("https://" + servicioTipoAmbiente.FindALlTipoambiente().getAmUrlsri() + "/comprobantes-electronicos-ws/RecepcionComprobantesOffline?wsdl");
+            String URLRecepcion="https://" + servicioTipoAmbiente.FindALlTipoambiente().getAmUrlsri() + "/comprobantes-electronicos-ws/RecepcionComprobantesOffline?wsdl";
+            URL url = new URL(URLRecepcion);
             QName qname = new QName("http://ec.gob.sri.ws.recepcion", "RecepcionComprobantesOfflineService");
             RecepcionComprobantesOfflineService service = new RecepcionComprobantesOfflineService(url, qname);
             RecepcionComprobantesOffline portRec = service.getRecepcionComprobantesOfflinePort();
-            return portRec.validarComprobante(datos);
+            RespuestaSolicitud respuestaSolicitud=portRec.validarComprobante(datos);
+            return respuestaSolicitud;
 
         } catch (MalformedURLException ex) {
             RespuestaSolicitud response = new RespuestaSolicitud();
             response.setEstado("ERROR SRI: " + ex.getMessage());
+            Clients.showNotification("Ocurrio un error en el SRI o esta temporalmente suspendido ",
+                        Clients.NOTIFICATION_TYPE_ERROR, null, "middle_center", 5000, true);
             return response;
+
         }
 
     }

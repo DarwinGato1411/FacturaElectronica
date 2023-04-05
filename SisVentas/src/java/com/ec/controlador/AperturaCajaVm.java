@@ -44,6 +44,9 @@ public class AperturaCajaVm {
         credential = cre;
         cierreCaja.setCieValorInicio(BigDecimal.ZERO);
         cierreCaja.setCieCuadre(BigDecimal.ZERO);
+        cierreCaja.setCieCuadreTarjeta(BigDecimal.ZERO);
+        cierreCaja.setCieCuadreTransferencia(BigDecimal.ZERO);
+        cierreCaja.setCieGasto(BigDecimal.ZERO);
         cierreCaja.setCieValor(BigDecimal.ZERO);
         cierreCaja.setCieDiferencia(BigDecimal.ZERO);
         cierreCaja.setCieFecha(new Date());

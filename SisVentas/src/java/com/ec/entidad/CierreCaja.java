@@ -78,6 +78,12 @@ public class CierreCaja implements Serializable {
     private BigDecimal cirRecaudado;
     @Column(name = "cie_nota_venta")
     private BigDecimal cieNotaVenta;
+    @Column(name = "cie_cuadre_transferencia")
+    private BigDecimal cieCuadreTransferencia;
+    @Column(name = "cie_cuadre_tarjeta")
+    private BigDecimal cieCuadreTarjeta;
+    @Column(name = "cie_gasto")
+    private BigDecimal cieGasto;
 
     @JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario")
     @ManyToOne
@@ -196,7 +202,6 @@ public class CierreCaja implements Serializable {
     public void setCieNotaVenta(BigDecimal cieNotaVenta) {
         this.cieNotaVenta = cieNotaVenta;
     }
-    
 
     @Override
     public int hashCode() {
@@ -213,7 +218,29 @@ public class CierreCaja implements Serializable {
         this.cieCerrada = cieCerrada;
     }
 
-   
+    public BigDecimal getCieCuadreTransferencia() {
+        return cieCuadreTransferencia;
+    }
+
+    public void setCieCuadreTransferencia(BigDecimal cieCuadreTransferencia) {
+        this.cieCuadreTransferencia = cieCuadreTransferencia;
+    }
+
+    public BigDecimal getCieCuadreTarjeta() {
+        return cieCuadreTarjeta;
+    }
+
+    public void setCieCuadreTarjeta(BigDecimal cieCuadreTarjeta) {
+        this.cieCuadreTarjeta = cieCuadreTarjeta;
+    }
+
+    public BigDecimal getCieGasto() {
+        return cieGasto;
+    }
+
+    public void setCieGasto(BigDecimal cieGasto) {
+        this.cieGasto = cieGasto;
+    }
 
     @Override
     public boolean equals(Object object) {

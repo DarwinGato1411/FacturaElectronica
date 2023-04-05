@@ -11,13 +11,43 @@
     <div  class="container" >
         <div  class="row" >
             <div class="col-12 col-sm-12 col-md-6 col-lg-6  form-group "  >
-                <label value="(*) " style="color:red;font-weight:bold"/>Total en caja:
+                <label value="(*) " style="color:red;font-weight:bold"/>Total efectivo:
                 
                 <textbox    constraint="/^[0-9]{1,9}(?:[.][0-9]{1,2})?$/:Ingrese solo numeros"                                                                                   
                             value="@bind(vm.cierreCaja.cieCuadre)"  
                             readonly="@bind(vm.cajaCerrada)" 
                             onOK="@command('calcularDiferencia')"
-                            onChange="@command('calcularDiferencia')"
+                                onChange="@command('calcularDiferencia')"
+                            class="form-control" />              
+            </div> 
+            <div class="col-12 col-sm-12 col-md-6 col-lg-6  form-group "  >
+                <label value="(*) " style="color:red;font-weight:bold"/>Total transferencia:
+                
+                <textbox    constraint="/^[0-9]{1,9}(?:[.][0-9]{1,2})?$/:Ingrese solo numeros"                                                                                   
+                            value="@bind(vm.cierreCaja.cieCuadreTransferencia)"  
+                            readonly="@bind(vm.cajaCerrada)" 
+                            onOK="@command('calcularDiferencia')"
+                                onChange="@command('calcularDiferencia')"
+                            class="form-control" />              
+            </div> 
+            <div class="col-12 col-sm-12 col-md-6 col-lg-6  form-group "  >
+                <label value="(*) " style="color:red;font-weight:bold"/>Total tarjetas:
+                
+                <textbox    constraint="/^[0-9]{1,9}(?:[.][0-9]{1,2})?$/:Ingrese solo numeros"                                                                                   
+                            value="@bind(vm.cierreCaja.cieCuadreTarjeta)"  
+                            readonly="@bind(vm.cajaCerrada)" 
+                            onOK="@command('calcularDiferencia')"
+                                onChange="@command('calcularDiferencia')"
+                            class="form-control" />              
+            </div> 
+            <div class="col-12 col-sm-12 col-md-6 col-lg-6  form-group "  >
+                <label value="(*) " style="color:red;font-weight:bold"/>Gastos:
+                
+                <textbox    constraint="/^[0-9]{1,9}(?:[.][0-9]{1,2})?$/:Ingrese solo numeros"                                                                                   
+                            value="@bind(vm.cierreCaja.cieGasto)"  
+                            readonly="@bind(vm.cajaCerrada)" 
+                            onOK="@command('calcularDiferencia')"
+                                onChange="@command('calcularDiferencia')"
                             class="form-control" />              
             </div> 
             <div class="col-12 col-sm-12 col-md-6 col-lg-6  form-group "  >
