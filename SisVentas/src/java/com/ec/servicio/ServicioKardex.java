@@ -223,4 +223,26 @@ public class ServicioKardex {
 
         return listaKardexs;
     }
+    
+      public List<Kardex> findByCodOrNameCat(String prodCodigo, String prodNombre, Integer categoria) {
+
+        List<Kardex> listaKardexs = new ArrayList<Kardex>();
+        try {
+            em = HelperPersistencia.getEMF();
+            em.getTransaction().begin();
+            Query query = em.createQuery("SELECT a from Kardex a where a.idProducto.prodCodigo like :prodCodigo AND a.idProducto.prodNombre LIKE :prodNombre AND a.idProducto.idSubCategoria.idSubCategoria =:idSubCategoria ORDER BY a.idProducto.prodNombre ASC");
+            query.setParameter("prodCodigo", "%" + prodCodigo + "%");
+            query.setParameter("prodNombre", "%" + prodNombre + "%");
+            query.setParameter("idSubCategoria", categoria);
+            query.setMaxResults(200);
+            listaKardexs = (List<Kardex>) query.getResultList();
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            System.out.println("Error en la consulta kardex findByCodOrName" + e.getMessage());
+        } finally {
+            em.close();
+        }
+
+        return listaKardexs;
+    }
 }
