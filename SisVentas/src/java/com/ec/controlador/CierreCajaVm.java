@@ -77,10 +77,11 @@ public class CierreCajaVm {
             totNotaVenta = ArchivoUtils.redondearDecimales(acumuladoDiaUsuario.getValorNotaVenta(), 2);
             /*total del credito en facturas*/
             totalesFactura = servicioFacturaPorCobrar.findPorCobrarDia(credential.getUsuarioSistema().getIdUsuario()).size() > 0 ? servicioFacturaPorCobrar.findPorCobrarDia(credential.getUsuarioSistema().getIdUsuario()).get(0) : null;
-            totalEmitido = acumuladoDiaUsuario.getValorFacturas();
-            totalEmitido = ArchivoUtils.redondearDecimales(totalEmitido, 2);
-            totalDeuda = totalesFactura != null ? totalesFactura.getFacSaldoAmortizado() : BigDecimal.ZERO;
+             totalDeuda = totalesFactura != null ? totalesFactura.getFacSaldoAmortizado() : BigDecimal.ZERO;
             totalDeuda = ArchivoUtils.redondearDecimales(totalDeuda, 2);
+            totalEmitido = acumuladoDiaUsuario.getValorFacturas();
+            totalEmitido = ArchivoUtils.redondearDecimales(totalEmitido.add(totalDeuda), 2);
+           
             totFactura = totalEmitido.subtract(totalDeuda);
             totFactura = ArchivoUtils.redondearDecimales(totFactura, 2);
             cierreCaja.setCieValor(ArchivoUtils.redondearDecimales(totNotaVenta, 2).add(ArchivoUtils.redondearDecimales(totFactura, 2)).add(ArchivoUtils.redondearDecimales(cierreCaja.getCieValorInicio(), 2)));

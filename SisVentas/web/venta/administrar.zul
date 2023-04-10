@@ -24,10 +24,7 @@
 
                 <tab label="Configuracion SRI" sclass="menutabs" /> 
                 <tab label="Parametrizar Empresa" sclass="menutabs" /> 
-                <!--<tab label="Consultar catastro" sclass="menutabs" />--> 
-<!--
-                <tab label="Configuraciones" sclass="menutabs" /> 
-                <tab label="Parametrizar Empresa" sclass="menutabs" /> -->
+                    <tab label="Categorias productos" sclass="menutabs" /> 
 
 
             </tabs>
@@ -73,71 +70,71 @@
                                 </listheader> 
                                 <listheader width="15%"   >
                                     
-                                </listheader> -->
-                                <listheader width="25%"   > 
-                                    <textbox value="@bind(vm.buscarNombre)" 
-                                            class="form-control form-control-sm"
-                                            tooltiptext="Nombre Comercial"
-                                            placeholder="Nombre Comercial"
-                                            onOK="@command('buscarClienteNombre')"
-                                            onChange="self.setValue(self.getValue().toUpperCase());" />
-                                </listheader>
+                                    </listheader> -->
+                                    <listheader width="25%"   > 
+                                        <textbox value="@bind(vm.buscarNombre)" 
+                                                 class="form-control form-control-sm"
+                                                 tooltiptext="Nombre Comercial"
+                                                 placeholder="Nombre Comercial"
+                                                 onOK="@command('buscarClienteNombre')"
+                                                 onChange="self.setValue(self.getValue().toUpperCase());" />
+                                    </listheader>
                                 
-                                <listheader width="32%"  label="Direccion "  /> 
-                                <listheader width="7%"  label="Telefono "  />        
-                                <listheader width="8%"  label="Movil"/>
-                                <listheader width="15%"  label="Correo"/>
-                                <listheader width="5%"  label="" align="center"/>
+                                    <listheader width="32%"  label="Direccion "  /> 
+                                    <listheader width="7%"  label="Telefono "  />        
+                                    <listheader width="8%"  label="Movil"/>
+                                    <listheader width="15%"  label="Correo"/>
+                                    <listheader width="5%"  label="" align="center"/>
                                 
-                            </listhead>  
+                                </listhead>  
                         
-                            <template name="model">                                                            
-                                <listitem>
-                                    <listcell zclass = "mycss-listcell">
-                                        <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"
-                                                class="form-control form-control-sm"  value="@bind(each.cliCedula)"  />
-                                    </listcell>
-<!--                                    <listcell zclass = "mycss-listcell">
-                                        <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"
-                                                class="form-control form-control-sm"  value="@bind(each.cliNombres)"  />
-                                    </listcell>
-                                    <listcell zclass = "mycss-listcell">
-                                        <textbox readonly="true" style="font-size:12px;background:#EBF5FB"
-                                            class="form-control form-control-sm"  value="@bind(each.cliApellidos)"  />
-                                    </listcell>-->
-                                    <listcell zclass = "mycss-listcell">
-                                        <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"
-                                                class="form-control form-control-sm"  value="@bind(each.cliNombre)"  />
-                                    </listcell>
-                                    <listcell zclass = "mycss-listcell">
-                                        <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"
-                                                class="form-control form-control-sm" value="@bind(each.cliDireccion)" />
-                                    </listcell>
-                                    <listcell zclass = "mycss-listcell">
-                                        <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"
-                                                class="form-control form-control-sm" value="@bind(each.cliTelefono)" />
-                                    </listcell>
-                                    <listcell zclass = "mycss-listcell">
-                                        <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"
-                                                class="form-control form-control-sm" value="@bind(each.cliMovil)" />
-                                    </listcell>
-                                    <listcell zclass = "mycss-listcell">
-                                        <textbox readonly="true" style="font-size:12px;background:#EBF5FB"
-                                            class="form-control form-control-sm"  value="@bind(each.cliCorreo)" />
-                                    </listcell>
-                                    <listcell zclass = "mycss-listcell" style="font-size:12px;background:#F8F9F9">    
-                                        <image src="/iconos/editar.png"
-                                       if="${each.cliCedula!='9999999999999'}"
-                                            class="grow "
-                                            onClick="@command('actualizarCliente',valor=each)" 
-                                            tooltiptext="Modificar cliente"/>
+                                <template name="model">                                                            
+                                    <listitem>
+                                        <listcell zclass = "mycss-listcell">
+                                            <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"
+                                                     class="form-control form-control-sm"  value="@bind(each.cliCedula)"  />
+                                        </listcell>
+                                        <!--                                    <listcell zclass = "mycss-listcell">
+                                            <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"
+                                                    class="form-control form-control-sm"  value="@bind(each.cliNombres)"  />
+                                        </listcell>
+                                        <listcell zclass = "mycss-listcell">
+                                            <textbox readonly="true" style="font-size:12px;background:#EBF5FB"
+                                                class="form-control form-control-sm"  value="@bind(each.cliApellidos)"  />
+                                        </listcell>-->
+                                        <listcell zclass = "mycss-listcell">
+                                            <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"
+                                                     class="form-control form-control-sm"  value="@bind(each.cliNombre)"  />
+                                        </listcell>
+                                        <listcell zclass = "mycss-listcell">
+                                            <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"
+                                                     class="form-control form-control-sm" value="@bind(each.cliDireccion)" />
+                                        </listcell>
+                                        <listcell zclass = "mycss-listcell">
+                                            <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"
+                                                     class="form-control form-control-sm" value="@bind(each.cliTelefono)" />
+                                        </listcell>
+                                        <listcell zclass = "mycss-listcell">
+                                            <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"
+                                                     class="form-control form-control-sm" value="@bind(each.cliMovil)" />
+                                        </listcell>
+                                        <listcell zclass = "mycss-listcell">
+                                            <textbox readonly="true" style="font-size:12px;background:#EBF5FB"
+                                                     class="form-control form-control-sm"  value="@bind(each.cliCorreo)" />
+                                        </listcell>
+                                        <listcell zclass = "mycss-listcell" style="font-size:12px;background:#F8F9F9">    
+                                            <image src="/iconos/editar.png"
+                                                   if="${each.cliCedula!='9999999999999'}"
+                                                   class="grow "
+                                                   onClick="@command('actualizarCliente',valor=each)" 
+                                                   tooltiptext="Modificar cliente"/>
                                         
-                                    </listcell>
-                                </listitem>
-                            </template>
-                        </listbox>
-                    </div>
-                </div>                   
+                                        </listcell>
+                                    </listitem>
+                                </template>
+                            </listbox>
+                        </div>
+                    </div>                   
                 
 
 
@@ -161,7 +158,7 @@
                             tooltiptext="Nuevo usuario"
                         >
                             <span>Nuevo usuario</span>
-                    </div>
+                        </div>
                     </div>
 
                     <div class="cont_body">
@@ -224,7 +221,9 @@
                 <tabpanel height="100%" hflex="min">
                     <include src="/administrar/parametrizar.zul"/>  
                 </tabpanel>
-
+                <tabpanel height="100%" hflex="min">
+                    <include src="/venta/admcategoriaprod.zul"/>  
+                </tabpanel> 
 
             </tabpanels>
             

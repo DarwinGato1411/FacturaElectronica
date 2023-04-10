@@ -1,0 +1,55 @@
+<?init class="com.ec.seguridad.Autentificador"?>
+<?link rel="stylesheet" type="text/css" href="/css/boostrap/bootstrap.css"?>  
+<?link rel="stylesheet" type="text/css" href="/css/style.css"?>
+<?link rel="stylesheet" type="text/css" href="/css/app/ventas/modales.css"?>
+<?link rel="stylesheet" type="text/css" href="/css/app/ventas/modales.css"?>
+<?script src="https://kit.fontawesome.com/484b16c999.js"?>
+
+<div apply="org.zkoss.bind.BindComposer" 
+     viewModel="@id('vm') @init('com.ec.controlador.AdmSubCategoria')"  width="100%"  >
+
+    
+
+    <div class="container_headers" style="margin-bottom:1em">
+
+        <div 
+            class="fa-solid fa-plus-circle fa-2x icon"
+             onClick="@command('nuevoSubCategoria')"
+            tooltiptext="Nuevo producto"
+        >
+            <span>Nueva categoria </span>
+        </div>
+       
+       
+    </div>
+
+    <div class="cont_body">
+        <div class="cont_body_item">
+            <listbox  width="100%" model="@load(vm.listaSubcategoria)" 
+                      mold="paging" pageSize="12"
+                      nonselectableTags="*">
+              
+                <listhead> 
+                    <listheader width="95%"  label="Descripcion"  sort="auto(subCatDescripcion)" ></listheader>
+                    <listheader width="5%"  label="" align="center"/>
+                </listhead>  
+                <template name="model">                                                            
+                    <listitem>
+                                
+                        <listcell zclass = "mycss-listcell">
+                            <label value="@bind(each.subCatDescripcion)" style="font-size:12px;background:#EBF5FB"
+                                       class="form-control form-control-sm" width="100%" />
+                        </listcell>
+                        <listcell>    
+                            <image src="/iconos/editar.png"
+                                       class="grow"
+                                       onClick="@command('actualizarSubCategoria',valor=each)" 
+                                       tooltiptext="Modificar categoria"/>                                
+                    
+                        </listcell>
+                    </listitem>
+                </template>
+            </listbox>       
+        </div>
+    </div>
+</div>

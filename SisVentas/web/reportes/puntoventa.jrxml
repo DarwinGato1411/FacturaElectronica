@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="puntoventa" language="groovy" pageWidth="212" pageHeight="400" columnWidth="190" leftMargin="9" rightMargin="13" topMargin="2" bottomMargin="20" isIgnorePagination="true">
 	<property name="ireport.zoom" value="2.0490403660952117"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="187"/>
+	<property name="ireport.y" value="197"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -545,7 +545,7 @@ and tipoambiente.am_estado is true limit 1;]]>
 				<elementGroup/>
 			</elementGroup>
 		</band>
-		<band height="157" splitType="Prevent">
+		<band height="187" splitType="Prevent">
 			<textField isBlankWhenNull="true">
 				<reportElement style="table_TD" positionType="Float" x="155" y="55" width="35" height="13"/>
 				<box leftPadding="2" rightPadding="2">
@@ -728,6 +728,13 @@ and tipoambiente.am_estado is true limit 1;]]>
 				</textElement>
 				<text><![CDATA[Revise su mercaderia antes de salir, evitemos inconvenientes  posteriores]]></text>
 			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="2" y="144" width="187" height="43"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Observación: "+ $F{fac_observacion}]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 </jasperReport>
