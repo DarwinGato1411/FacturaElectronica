@@ -68,12 +68,8 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -329,12 +325,13 @@ public class Facturar extends SelectorComposer<Component> {
             /*CREA EL RADIO BUTTON DINAMICO*/
             for (Subcategoria subcategoria : listaSubcategoria) {
                 radiogroup.appendItem(subcategoria.getSubCatDescripcion(), String.valueOf(subcategoria.getIdSubCategoria()));
-                if (validarPrimeracat) {
-                    validarPrimeracat = Boolean.FALSE;
-                    subCategoriaSelected = String.valueOf(subcategoria.getIdSubCategoria());
-                }
+//                if (validarPrimeracat) {
+//                    validarPrimeracat = Boolean.FALSE;
+//                    subCategoriaSelected = String.valueOf(subcategoria.getIdSubCategoria());
+//                }
             }
-            radiogroup.setSelectedIndex(0);
+            subCategoriaSelected=servicioSubCategoria.findPrincipal()!=null?String.valueOf(servicioSubCategoria.findPrincipal().getIdSubCategoria()):"1";
+//            radiogroup.setSelectedIndex(0);
         } else if (valor.getBusqueda().equals("producto") || valor.getBusqueda().equals("cliente")) {
 
         } else if (valor.getBusqueda().equals("cambio")) {
@@ -355,12 +352,13 @@ public class Facturar extends SelectorComposer<Component> {
  /*CREA EL RADIO BUTTON DINAMICO*/
             for (Subcategoria subcategoria : listaSubcategoria) {
                 radiogroup.appendItem(subcategoria.getSubCatDescripcion(), String.valueOf(subcategoria.getIdSubCategoria()));
-                if (validarPrimeracat) {
-                    validarPrimeracat = Boolean.FALSE;
-                    subCategoriaSelected = String.valueOf(subcategoria.getIdSubCategoria());
-                }
+//                if (validarPrimeracat) {
+//                    validarPrimeracat = Boolean.FALSE;
+//                    subCategoriaSelected = String.valueOf(subcategoria.getIdSubCategoria());
+//                }
             }
-            radiogroup.setSelectedIndex(0);
+             subCategoriaSelected=servicioSubCategoria.findPrincipal()!=null?String.valueOf(servicioSubCategoria.findPrincipal().getIdSubCategoria()):"1";
+//            radiogroup.setSelectedIndex(0);
 
         }
 
