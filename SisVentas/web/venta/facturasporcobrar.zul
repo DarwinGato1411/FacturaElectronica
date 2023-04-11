@@ -85,11 +85,12 @@
 
                     <div class="factura_body">
                         <listbox model="@load(vm.listaFacturas)" 
-                                nonselectableTags=""  mold="paging" pageSize="12"  >
+                                 nonselectableTags=""  mold="paging" pageSize="12"  >
                             <custom-attributes org.zkoss.zul.listbox.rod="true"/>
                         
                             <listhead> 
                                 <listheader width="10%"  label="N° Fact" /> 
+                                <listheader width="10%"  label="Fecha" /> 
                                                             
                                 <listheader width="10%"  label="Cedula" />                                                        
                                 <listheader width="60%"  label="Nombre" align="rigth" /> 
@@ -102,21 +103,27 @@
                                 <listitem>
                                     <listcell  zclass = "mycss-listcell">
                                         <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"                            
-                                                class="form-control form-control-sm" 
-                                                width="100%"
-                                                value="@bind(each.facNumeroText)"  />
+                                                 class="form-control form-control-sm" 
+                                                 width="100%"
+                                                 value="@bind(each.facNumeroText)"  />
+                                    </listcell>
+                                    <listcell  zclass = "mycss-listcell">
+                                        <datebox compact="true" value="@bind(each.facFecha)" 
+                                                   height=" 30px" 
+                                                   buttonVisible="false" lenient="true" readonly="true"
+                                                   format="medium" width="100%"  />
                                     </listcell>
                                     <listcell  zclass = "mycss-listcell">
                                         <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"                            
-                                                class="form-control form-control-sm" 
-                                                width="100%"
-                                                value="@bind(each.cliCedula)"  />
+                                                 class="form-control form-control-sm" 
+                                                 width="100%"
+                                                 value="@bind(each.cliCedula)"  />
                                     </listcell>
                                     <listcell zclass = "mycss-listcell">
                                         <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"                            
-                                                class="form-control form-control-sm" 
-                                                width="100%"
-                                                value="@bind(each.cliNombres)"  />
+                                                 class="form-control form-control-sm" 
+                                                 width="100%"
+                                                 value="@bind(each.cliNombres)"  />
                                     </listcell>
                                     <listcell zclass = "mycss-listcell">
                                         <decimalbox format="###.##" readonly="true" 

@@ -54,7 +54,7 @@ public class ServicioFacturaPorCobrar {
         return lista;
     }
 
-    public List<VistaFacturasPorCobrar> findPorCobrarDia(Integer idusuario) {
+    public List<VistaFacturasPorCobrar> findPorCobrarDia(Integer idusuario, Date fecha) {
 
         List<VistaFacturasPorCobrar> lista = new ArrayList<VistaFacturasPorCobrar>();
         try {
@@ -67,9 +67,10 @@ public class ServicioFacturaPorCobrar {
 
             em = HelperPersistencia.getEMF();
 
+            System.out.println("FECHA CREDITO " + new Date());
             em.getTransaction().begin();
             Query query = em.createQuery(SQL + WHERE + GROUPBY);
-            query.setParameter("facFecha", new Date());
+            query.setParameter("facFecha", fecha);
             query.setParameter("idUsuario", idusuario);
             lista = (List<VistaFacturasPorCobrar>) query.getResultList();
             em.getTransaction().commit();

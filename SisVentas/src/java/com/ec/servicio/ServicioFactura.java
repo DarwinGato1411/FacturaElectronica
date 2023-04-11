@@ -11,7 +11,10 @@ import com.ec.entidad.Factura;
 import com.ec.entidad.Usuario;
 import com.ec.untilitario.CompraPromedio;
 import com.ec.untilitario.Totales;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -621,6 +624,14 @@ public class ServicioFactura {
 
         List<Factura> listaFacturas = new ArrayList<Factura>();
         try {
+            inicio.setHours(01);
+           inicio.setMinutes(00);
+           inicio.setSeconds(00);
+            
+           fin.setHours(23);
+           fin.setMinutes(59);
+           fin.setSeconds(59);
+            
             Query query;
 
 //            String SQL = "SELECT f FROM Factura f WHERE f.facFecha BETWEEN :inicio and :fin ORDER BY f.facFecha DESC";
@@ -628,7 +639,7 @@ public class ServicioFactura {
             em = HelperPersistencia.getEMF();
             em.getTransaction().begin();
             if (!estado.equals("TODO")) {
-                query = em.createQuery("SELECT f FROM Factura f WHERE f.facFecha BETWEEN :inicio and :fin AND f.facEstado=:facEstado AND f.facTipo='FACT' ORDER BY f.facFecha DESC");
+                query = em.createQuery("SELECT f FROM Factura f WHERE TO_CHAR(f.facFecha,'YYYY-MM-DD') BETWEEN :inicio and :fin AND f.facEstado=:facEstado AND f.facTipo='FACT' ORDER BY f.facFecha DESC");
                 query.setParameter("inicio", inicio);
                 query.setParameter("fin", fin);
                 query.setParameter("facEstado", estado);

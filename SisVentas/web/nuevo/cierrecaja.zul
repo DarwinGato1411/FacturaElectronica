@@ -70,8 +70,8 @@
                            maxlength="150" />              
             </div>  
         </div>
-        <!--visible="@bind(vm.cajaCerrada)"-->
-        <div  class="row"  >
+        <!---->
+        <div  class="row" visible="@bind(vm.cajaCerrada)"  >
                   
             <div class="col-12 col-sm-12 col-md-4 col-lg-4  form-group "  >
                 <label value="(*) " style="color:red;font-weight:bold"/>Valor de apertura de caja:
@@ -134,8 +134,8 @@
     
    
         </div>
-        <!--visible="@bind(!vm.cajaCerrada)"-->
-        <div class="row " >
+        <!---->
+        <div class="row "  visible="@bind(!vm.cajaCerrada)">
             <div class="col-12 col-sm-6 col-md-12 col-lg-12  form-group" 
                      align="center" >
                     

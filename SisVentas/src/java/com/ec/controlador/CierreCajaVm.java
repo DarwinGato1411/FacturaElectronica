@@ -19,6 +19,7 @@ import com.ec.vista.servicios.ServicioAcumuladoDiarioUsuario;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.SQLException;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -66,6 +67,10 @@ public class CierreCajaVm {
 
         Session sess = Sessions.getCurrent();
         UserCredential cre = (UserCredential) sess.getAttribute(EnumSesion.userCredential.getNombre());
+        Calendar c = Calendar.getInstance();
+        Date now = c.getTime();
+        c.add(Calendar.DATE, -1);
+        fecha = c.getTime();
         credential = cre;
         cierreCaja = servicioCierreCaja.findALlCierreCajaForFechaIdUsuario(new Date(), credential.getUsuarioSistema()).get(0);
 
@@ -76,12 +81,12 @@ public class CierreCajaVm {
             ModeloAcumuladoDiaUsuario acumuladoDiaUsuario = servicioAcumuladoDiarioUsuario.findCierrePorUsuario(fecha, credential.getUsuarioSistema()).get(0);
             totNotaVenta = ArchivoUtils.redondearDecimales(acumuladoDiaUsuario.getValorNotaVenta(), 2);
             /*total del credito en facturas*/
-            totalesFactura = servicioFacturaPorCobrar.findPorCobrarDia(credential.getUsuarioSistema().getIdUsuario()).size() > 0 ? servicioFacturaPorCobrar.findPorCobrarDia(credential.getUsuarioSistema().getIdUsuario()).get(0) : null;
-             totalDeuda = totalesFactura != null ? totalesFactura.getFacSaldoAmortizado() : BigDecimal.ZERO;
+            totalesFactura = servicioFacturaPorCobrar.findPorCobrarDia(credential.getUsuarioSistema().getIdUsuario(), fecha).size() > 0 ? servicioFacturaPorCobrar.findPorCobrarDia(credential.getUsuarioSistema().getIdUsuario(), fecha).get(0) : null;
+            totalDeuda = totalesFactura != null ? totalesFactura.getFacSaldoAmortizado() : BigDecimal.ZERO;
             totalDeuda = ArchivoUtils.redondearDecimales(totalDeuda, 2);
             totalEmitido = acumuladoDiaUsuario.getValorFacturas();
             totalEmitido = ArchivoUtils.redondearDecimales(totalEmitido.add(totalDeuda), 2);
-           
+
             totFactura = totalEmitido.subtract(totalDeuda);
             totFactura = ArchivoUtils.redondearDecimales(totFactura, 2);
             cierreCaja.setCieValor(ArchivoUtils.redondearDecimales(totNotaVenta, 2).add(ArchivoUtils.redondearDecimales(totFactura, 2)).add(ArchivoUtils.redondearDecimales(cierreCaja.getCieValorInicio(), 2)));
@@ -115,7 +120,7 @@ public class CierreCajaVm {
             totalRecaudado = totalRecaudado.add(cierreCaja.getCieCuadreTarjeta());
 
         }
-        if (cierreCaja.getCieGasto()!= null) {
+        if (cierreCaja.getCieGasto() != null) {
             totalRecaudado = totalRecaudado.add(cierreCaja.getCieGasto());
 
         }
