@@ -11,7 +11,7 @@
         
     </style>
               
-    <hbox self="@define(content)" apply="org.zkoss.bind.BindComposer" 
+   <hbox self="@define(content)" apply="org.zkoss.bind.BindComposer" 
     onCreate="@command('aperturaCaja')"
           viewModel="@id('vm') @init('com.ec.controlador.Facturar')" width="100%">
     
@@ -167,6 +167,7 @@
                                 </combobox>
                                 </div>
                             </div>
+                           
                         </div>
                         <div class="fact_row">
                             <div class="wrapper_data">
@@ -299,6 +300,14 @@
                     
 
                         <div class="factura_body_item facturacion" >
+                             <div class="col-12 col-sm-12 col-md-12 col-lg-12 form-group  "  >
+                                    <radiogroup id="radiogroup" class="radio btn-group-horizontal" 
+                                                  style="font-weight:bold;font-size:4px;padding: 10px 50px 30px 0;"  
+                                                onCheck="@command('buscarItems')"
+                                                selectedItem="@bind(vm.subCategoriaSelected)" >
+                                   
+                                    </radiogroup>
+                                </div>
                             <listbox model="@load(vm.listaKardexProducto)" 
                                         nonselectableTags=""    mold="paging" pageSize="10"  >
                                 <custom-attributes org.zkoss.zul.listbox.rod="true"/>
@@ -406,21 +415,6 @@
                         </div>
 
                         <div class="factura_body_item factura">
-                            <div class="wrapper_input_mod" style="flex:auto;display: contents">
-                                <span style="margin:0 4em"> Observación:</span>
-                                <div class="wrapper_input_text" style="width:100%;margin-left:1px">
-                                    <!--<div class="fa-solid fa-dollar-sign icon"></div>-->
-                                    <textbox  
-                                        maxlength="450" 
-                                        multiline="true"
-                                        width="100%"
-                                        style="margin-bottom:15px; margin-left:1px"  
-                                        rows="3"
-                                        value="@bind(vm.factura.facObservacion)"
-                                        class="input_text" 
-                                    />
-                                </div>
-                            </div>
                             <listbox id="lstFacturar"
                                         model="@load(vm.listaDetalleFacturaDAOMOdel)"
                                         mold="paging" pageSize="14"
@@ -512,10 +506,23 @@
                                     </listitem>
                                 </template>
                             </listbox>
-                             
+                            <div class="wrapper_input_mod" style="flex:auto;display: contents">
+                                <span style="margin:0 4em"> Observación:</span>
+                                <div class="wrapper_input_text" style="width:100%;margin-left:1px">
+                                    <!--<div class="fa-solid fa-dollar-sign icon"></div>-->
+                                    <textbox  
+                                        maxlength="450" 
+                                        multiline="true"
+                                        width="100%"
+                                        style="margin-bottom:15px; margin-left:1px"  
+                                        rows="3"
+                                        value="@bind(vm.factura.facObservacion)"
+                                        class="input_text" 
+                                    />
+                                </div>
+                            </div>
                         </div>                         
                     </div>
-                   
                          
                          
                         <!--<div class="row  " style="margin-top:5px">
