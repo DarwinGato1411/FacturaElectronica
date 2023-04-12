@@ -67,10 +67,10 @@ public class CierreCajaVm {
 
         Session sess = Sessions.getCurrent();
         UserCredential cre = (UserCredential) sess.getAttribute(EnumSesion.userCredential.getNombre());
-        Calendar c = Calendar.getInstance();
-        Date now = c.getTime();
-        c.add(Calendar.DATE, -1);
-        fecha = c.getTime();
+//        Calendar c = Calendar.getInstance();
+//        Date now = c.getTime();
+//        c.add(Calendar.DATE, -1);
+//        fecha = c.getTime();
         credential = cre;
         cierreCaja = servicioCierreCaja.findALlCierreCajaForFechaIdUsuario(new Date(), credential.getUsuarioSistema()).get(0);
 
