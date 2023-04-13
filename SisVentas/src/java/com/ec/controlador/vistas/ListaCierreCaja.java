@@ -23,6 +23,7 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import javax.activation.MimetypesFileTypeMap;
 import javax.mail.internet.ParseException;
@@ -42,6 +43,7 @@ import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zul.Filedownload;
+import org.zkoss.zul.Messagebox;
 
 /**
  *
@@ -66,14 +68,34 @@ public class ListaCierreCaja {
 
     @Command
     @NotifyChange({"listaCierreCajaUsuario", "fecha"})
+    public void editarCierre(@BindingParam("valor") CierreCaja valor) {
+
+        try {
+            final HashMap<String, CierreCaja> map = new HashMap<String, CierreCaja>();
+
+            map.put("valor", valor);
+            org.zkoss.zul.Window window = (org.zkoss.zul.Window) Executions.createComponents(
+                        "/nuevo/editarcierre.zul", null, map);
+            window.doModal();
+            consultaCierreCajaUsurio();
+
+        } catch (Exception e) {
+            Messagebox.show("Error " + e.toString(), "Atención", Messagebox.OK, Messagebox.INFORMATION);
+        }
+
+    }
+
+    @Command
+    @NotifyChange({"listaCierreCajaUsuario", "fecha"})
     public void buscarCierre() {
 
         consultaCierreCajaUsurio();
 
     }
-  @Command   
+
+    @Command
     public void reporteCierre(@BindingParam("valor") CierreCaja valor)
-            throws JRException, IOException, NamingException, SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+                throws JRException, IOException, NamingException, SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
 
         DispararReporte.reporteCierrecaja(valor.getIdCierre());
 
@@ -93,8 +115,6 @@ public class ListaCierreCaja {
     public void setListaCierreCajaUsuario(List<CierreCaja> listaCierreCajaUsuario) {
         this.listaCierreCajaUsuario = listaCierreCajaUsuario;
     }
-
-
 
     public Date getFecha() {
         return fecha;
@@ -256,8 +276,8 @@ public class ListaCierreCaja {
             HSSFCell chF4 = r.createCell(j++);
             chF4.setCellValue(new HSSFRichTextString(""));
             chF4.setCellStyle(estiloCelda);
-            
-             HSSFCell chF41 = r.createCell(j++);
+
+            HSSFCell chF41 = r.createCell(j++);
             chF41.setCellValue(new HSSFRichTextString(""));
             chF41.setCellStyle(estiloCelda);
 

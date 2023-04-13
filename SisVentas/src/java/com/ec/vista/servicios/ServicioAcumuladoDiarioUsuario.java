@@ -39,7 +39,7 @@ public class ServicioAcumuladoDiarioUsuario {
         String pattern = "yyyy-MM-dd";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 
-        String date = simpleDateFormat.format(new Date());
+        String date = simpleDateFormat.format(fecha);
         Date fechaConsult = null;
         try {
             fechaConsult = simpleDateFormat.parse(date);
