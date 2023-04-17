@@ -9,6 +9,7 @@ import com.ec.entidad.Factura;
 import com.ec.seguridad.EnumSesion;
 import com.ec.seguridad.UserCredential;
 import com.ec.servicio.ServicioCierreCaja;
+import com.ec.servicio.ServicioGeneral;
 import com.ec.untilitario.ArchivoUtils;
 import com.ec.untilitario.DispararReporte;
 import com.ec.untilitario.ModeloAcumuladoDiaUsuario;
@@ -58,6 +59,7 @@ public class ListaCierreCaja {
 //    private List<ModeloAcumuladoDiaUsuario> listaCierreCaja = new ArrayList<ModeloAcumuladoDiaUsuario>();
     private List<CierreCaja> listaCierreCajaUsuario = new ArrayList<CierreCaja>();
     ServicioCierreCaja servicioCierreCaja = new ServicioCierreCaja();
+    ServicioGeneral servicioGeneral = new ServicioGeneral();
 
     public ListaCierreCaja() {
         Session sess = Sessions.getCurrent();
@@ -71,6 +73,8 @@ public class ListaCierreCaja {
     public void editarCierre(@BindingParam("valor") CierreCaja valor) {
 
         try {
+
+            servicioGeneral.cierreCajaDetallePago(fecha);
             final HashMap<String, CierreCaja> map = new HashMap<String, CierreCaja>();
 
             map.put("valor", valor);

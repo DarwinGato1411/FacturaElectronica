@@ -12,6 +12,7 @@ import com.ec.seguridad.UserCredential;
 import com.ec.servicio.ServicioCierreCaja;
 import com.ec.servicio.ServicioFactura;
 import com.ec.servicio.ServicioFacturaPorCobrar;
+import com.ec.servicio.ServicioGeneral;
 import com.ec.untilitario.ArchivoUtils;
 import com.ec.untilitario.DispararReporte;
 import com.ec.untilitario.ModeloAcumuladoDiaUsuario;
@@ -60,6 +61,8 @@ public class CierreCajaVm {
     ServicioFactura servicioFactura = new ServicioFactura();
     ServicioAcumuladoDiarioUsuario servicioAcumuladoDiarioUsuario = new ServicioAcumuladoDiarioUsuario();
     private Boolean cajaCerrada = Boolean.FALSE;
+    
+    ServicioGeneral servicioGeneral= new  ServicioGeneral();
 
     @AfterCompose
     public void afterCompose(@ExecutionArgParam("valor") Producto producto, @ContextParam(ContextType.VIEW) Component view) {
@@ -74,6 +77,9 @@ public class CierreCajaVm {
         credential = cre;
         cierreCaja = servicioCierreCaja.findALlCierreCajaForFechaIdUsuario(new Date(), credential.getUsuarioSistema()).get(0);
 
+        
+        servicioGeneral.cierreCajaDetallePago(fecha);
+        
         System.out.println("cierreCaja " + cierreCaja);
         System.out.println("cierreCaja sss " + cierreCaja != null ? cierreCaja.getCieValorInicio() : "NULO");
         if (servicioAcumuladoDiarioUsuario.findCierrePorUsuario(fecha, credential.getUsuarioSistema()).size() > 0) {
