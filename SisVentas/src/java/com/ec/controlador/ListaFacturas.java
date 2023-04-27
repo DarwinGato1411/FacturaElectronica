@@ -1053,7 +1053,11 @@ public class ListaFacturas {
 
             HSSFCell c = null;
             r = s.createRow(0);
-
+            
+            HSSFCell chf0 = r.createCell(j++);
+            chf0.setCellValue(new HSSFRichTextString("Facturado por"));
+            chf0.setCellStyle(estiloCelda);
+            
             HSSFCell chfe = r.createCell(j++);
             chfe.setCellValue(new HSSFRichTextString("Factura"));
             chfe.setCellStyle(estiloCelda);
@@ -1121,6 +1125,9 @@ public class ListaFacturas {
                 i = 0;
 
                 r = s.createRow(rownum);
+                
+                HSSFCell c14 = r.createCell(i++);
+                c14.setCellValue(new HSSFRichTextString(item.getIdUsuario().getUsuNombre()));
 
                 HSSFCell cf = r.createCell(i++);
                 cf.setCellValue(new HSSFRichTextString(item.getFacNumero().toString()));
