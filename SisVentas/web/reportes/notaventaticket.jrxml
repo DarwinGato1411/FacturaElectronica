@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="notaventaticket" language="groovy" pageWidth="212" pageHeight="842" columnWidth="190" leftMargin="9" rightMargin="13" topMargin="2" bottomMargin="20" isIgnorePagination="true">
 	<property name="ireport.zoom" value="2.3579476910000023"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="521"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -548,7 +548,7 @@ and tipoambiente.am_estado is true;]]>
 				<elementGroup/>
 			</elementGroup>
 		</band>
-		<band height="105" splitType="Prevent">
+		<band height="158" splitType="Prevent">
 			<textField pattern="###0.00;-###0.00" isBlankWhenNull="true">
 				<reportElement style="table_TD" positionType="Float" x="149" y="47" width="35" height="13"/>
 				<box leftPadding="2" rightPadding="2">
@@ -675,6 +675,13 @@ and tipoambiente.am_estado is true;]]>
 				</textElement>
 				<text><![CDATA[Revise su mercaderia antes de salir, evitemos inconvenientes  posteriores]]></text>
 			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1" y="115" width="187" height="43"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{fac_observacion}?"Observación: "+ $F{fac_observacion}:" "]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 </jasperReport>
