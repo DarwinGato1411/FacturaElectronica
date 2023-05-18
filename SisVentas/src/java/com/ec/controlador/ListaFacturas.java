@@ -79,6 +79,7 @@ import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.image.AImage;
 import org.zkoss.util.media.AMedia;
 import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Filedownload;
 import org.zkoss.zul.Messagebox;
 
@@ -786,12 +787,47 @@ public class ListaFacturas {
                 valor.setEstadosri(resSolicitud.getEstado());
                 valor.setMensajesri(resSolicitud.getComprobantes().getComprobante().get(0).getMensajes().getMensaje().get(0).getMensaje());
                 valor.setFacMsmInfoSri(smsInfo);
-                servicioFactura.modificar(valor);
+                if (smsInfo.equals("ERROR SECUENCIAL REGISTRADO")) {
+
+                    if (Messagebox.show("¿El numero de factura ya se encuentra en el SRI desea crear un nuevo secuencial?", "Atención", Messagebox.YES | Messagebox.NO, Messagebox.INFORMATION) == Messagebox.YES) {
+                        numeroFactura();
+                        valor.setFacNumero(numeroFactura);
+                        valor.setFacNumeroText(numeroFacturaText);
+                        Clients.showNotification("EL NUEVO SECUENCIAL ASIGNADO ES:  " + numeroFacturaText + " ESTE DOCUMENTO DEBE SER ENVIADO NUEVAMENTE",
+                                    Clients.NOTIFICATION_TYPE_ERROR, null, "middle_center", 5000, true);
+
+                    }
+
+                    servicioFactura.modificar(valor);
+                }
             }
         } else {
 
             valor.setMensajesri(resSolicitud.getEstado());
             servicioFactura.modificar(valor);
+        }
+    }
+    Integer numeroFactura = 0;
+    String numeroFacturaText = "";
+
+    private void numeroFacturaTexto() {
+
+        for (int i = numeroFactura.toString().length(); i < 9; i++) {
+            numeroFacturaText = numeroFacturaText + "0";
+        }
+        numeroFacturaText = numeroFacturaText + numeroFactura;
+        System.out.println("nuemro texto " + numeroFacturaText);
+    }
+
+    private void numeroFactura() {
+        Factura recuperada = servicioFactura.FindUltimaFactura();
+        if (recuperada != null) {
+            // System.out.println("numero de factura " + recuperada);
+            numeroFactura = recuperada.getFacNumero() + 1;
+            numeroFacturaTexto();
+        } else {
+            numeroFactura = 1;
+            numeroFacturaText = "000000001";
         }
     }
 
@@ -891,23 +927,25 @@ public class ListaFacturas {
         try {
 
             RespuestaComprobante resComprobante = autorizarDocumentos.autorizarComprobante(claveAccesoComprobante);
+            System.out.println("RespuestaComprobante " + resComprobante);
             for (Autorizacion autorizacion : resComprobante.getAutorizaciones().getAutorizacion()) {
                 FileOutputStream nuevo = null;
 
                 /*CREA EL ARCHIVO XML AUTORIZADO*/
-                System.out.println("pathArchivoNoAutorizado " + pathArchivoNoAutorizado);
-                nuevo = new FileOutputStream(pathArchivoNoAutorizado);
-                nuevo.write(autorizacion.getComprobante().getBytes());
                 if (!autorizacion.getEstado().equals("AUTORIZADO")) {
+//                    System.out.println("pathArchivoNoAutorizado " + pathArchivoNoAutorizado);
+//                    nuevo = new FileOutputStream(pathArchivoNoAutorizado);
+//                    nuevo.write(autorizacion.getComprobante().getBytes());
 
-                    String texto = autorizacion.getMensajes().getMensaje().get(0).getMensaje();
-                    nuevo.write(autorizacion.getMensajes().getMensaje().get(0).getMensaje().getBytes());
-                    if (autorizacion.getMensajes().getMensaje().get(0).getInformacionAdicional() != null) {
-                        nuevo.write(autorizacion.getMensajes().getMensaje().get(0).getInformacionAdicional().getBytes());
-                    }
+                    String texto = autorizacion.getMensajes() != null ? autorizacion.getMensajes().getMensaje().get(0).getMensaje() : "";
+//                    nuevo.write(autorizacion.getMensajes().getMensaje().get(0).getMensaje().getBytes());
+//                    if (autorizacion.getMensajes().getMensaje().get(0).getInformacionAdicional() != null) {
+//                        nuevo.write(autorizacion.getMensajes().getMensaje().get(0).getInformacionAdicional().getBytes());
+//                    }
 
                     valor.setMensajesri(texto);
-                    nuevo.flush();
+//                    nuevo.flush();
+                    System.out.println("ERROR AL ENVIAR AL SRI " + texto);
                 } else {
 
                     valor.setFacClaveAutorizacion(claveAccesoComprobante);
@@ -924,7 +962,7 @@ public class ListaFacturas {
                     fEnvio = new File(archivoEnvioCliente);
                 }
 
-                System.out.println("PATH DEL ARCHIVO PARA ENVIAR AL CLIENTE " + archivoEnvioCliente);
+//                System.out.println("PATH DEL ARCHIVO PARA ENVIAR AL CLIENTE " + archivoEnvioCliente);
                 ArchivoUtils.reporteGeneralPdfMail(archivoEnvioCliente.replace(".xml", ".pdf"), valor.getFacNumero(), "FACT");
 //                ArchivoUtils.zipFile(fEnvio, archivoEnvioCliente);
                 /*GUARDA EL PATH PDF CREADO*/
@@ -1104,7 +1142,7 @@ public class ListaFacturas {
             HSSFCell ch8 = r.createCell(j++);
             ch8.setCellValue(new HSSFRichTextString("FECHA AUTORIZA"));
             ch8.setCellStyle(estiloCelda);
-            
+
             HSSFCell ch9 = r.createCell(j++);
             ch9.setCellValue(new HSSFRichTextString("OBSERVACIÓN"));
             ch9.setCellStyle(estiloCelda);
@@ -1171,10 +1209,10 @@ public class ListaFacturas {
                 HSSFCell c15 = r.createCell(i++);
                 c15.setCellValue(new HSSFRichTextString(item.getFacFechaAutorizacion() != null ? sm.format(item.getFacFechaAutorizacion()) : ""));
                 /*autemta la siguiente fila*/
-                
+
                 HSSFCell c16 = r.createCell(i++);
-                c16.setCellValue(new HSSFRichTextString(item.getFacObservacion()) );
-                
+                c16.setCellValue(new HSSFRichTextString(item.getFacObservacion()));
+
                 rownum += 1;
 
             }
