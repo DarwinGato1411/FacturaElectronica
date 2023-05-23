@@ -300,7 +300,7 @@ public class ListaNotaVenta {
             Messagebox.show("Error " + e.toString(), "Atención", Messagebox.OK, Messagebox.INFORMATION);
         }
     }
-    
+
     /*EXPORTAR A EXCEL
     lstFacturas
      */
@@ -359,6 +359,10 @@ public class ListaNotaVenta {
             HSSFCell c = null;
             r = s.createRow(0);
 
+            HSSFCell chfeResponsable = r.createCell(j++);
+            chfeResponsable.setCellValue(new HSSFRichTextString("Responsable"));
+            chfeResponsable.setCellStyle(estiloCelda);
+
             HSSFCell chfe = r.createCell(j++);
             chfe.setCellValue(new HSSFRichTextString("NotaVenta"));
             chfe.setCellStyle(estiloCelda);
@@ -394,6 +398,10 @@ public class ListaNotaVenta {
             HSSFCell ch4 = r.createCell(j++);
             ch4.setCellValue(new HSSFRichTextString("Total"));
             ch4.setCellStyle(estiloCelda);
+            
+            HSSFCell chObservacion = r.createCell(j++);
+            chObservacion.setCellValue(new HSSFRichTextString("Observación"));
+            chObservacion.setCellStyle(estiloCelda);
 
             int rownum = 1;
             int i = 0;
@@ -402,6 +410,9 @@ public class ListaNotaVenta {
                 i = 0;
 
                 r = s.createRow(rownum);
+
+                HSSFCell cfResponable = r.createCell(i++);
+                cfResponable.setCellValue(new HSSFRichTextString(item.getIdUsuario().getUsuNombre()));
 
                 HSSFCell cf = r.createCell(i++);
                 cf.setCellValue(new HSSFRichTextString(item.getFacNumero().toString()));
@@ -430,6 +441,10 @@ public class ListaNotaVenta {
                 HSSFCell c3 = r.createCell(i++);
                 c3.setCellValue(new HSSFRichTextString((ArchivoUtils.redondearDecimales(item.getFacTotal(), 2)).toString()));
                 /*autemta la siguiente fila*/
+                
+                HSSFCell cfObservacion = r.createCell(i++);
+                cfObservacion.setCellValue(new HSSFRichTextString(item.getFacObservacion()) );
+                
                 rownum += 1;
 
             }
@@ -445,6 +460,7 @@ public class ListaNotaVenta {
         return pathSalida;
 
     }
+
     @Command
     public void verDetallePago(@BindingParam("valor") Factura valor) throws JRException, IOException, NamingException, SQLException {
         try {
@@ -460,6 +476,3 @@ public class ListaNotaVenta {
 
     }
 }
-
-
- 
