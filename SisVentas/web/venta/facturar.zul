@@ -8,9 +8,23 @@
 <?init class="com.ec.seguridad.Autentificador"?>
 <?init class="org.zkoss.zk.ui.util.Composition" arg0="/plantilla/plantilla.zul"?>
 <?link rel="icon" type="image/x-icon" href="/iconos/deckxel.ico"?>
+
+
+
+ 
+
 <zk  contentStyle="overflow:auto" with="100%" class="container" 
 >
-
+<!-- <style>
+      .z-radio-cnt, .z-checkbox-cnt {
+    font-family: arial, sans-serif;
+    font-size: 18px;
+    font-weight: normal;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+        
+    </style>-->
                <!--onCreate="@command('aperturaCaja')"-->
     <hbox self="@define(content)" apply="org.zkoss.bind.BindComposer" 
     onCreate="@command('aperturaCaja')"
@@ -302,8 +316,8 @@
 
                         <div class="factura_body_item facturacion" >
                              <div class="col-12 col-sm-12 col-md-12 col-lg-12 form-group  "  >
-                                    <radiogroup id="radiogroup" class="radio btn-group-horizontal" 
-                                                  style="font-weight:bold;font-size:4px;padding: 10px 50px 30px 0;"  
+                                    <radiogroup id="radiogroup" class="btn-group-horizontal" 
+                                                  
                                                 onCheck="@command('buscarItems')"
                                                 selectedItem="@bind(vm.subCategoriaSelected)" >
                                    

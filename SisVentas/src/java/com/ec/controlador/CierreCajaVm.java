@@ -61,8 +61,8 @@ public class CierreCajaVm {
     ServicioFactura servicioFactura = new ServicioFactura();
     ServicioAcumuladoDiarioUsuario servicioAcumuladoDiarioUsuario = new ServicioAcumuladoDiarioUsuario();
     private Boolean cajaCerrada = Boolean.FALSE;
-    
-    ServicioGeneral servicioGeneral= new  ServicioGeneral();
+
+    ServicioGeneral servicioGeneral = new ServicioGeneral();
 
     @AfterCompose
     public void afterCompose(@ExecutionArgParam("valor") Producto producto, @ContextParam(ContextType.VIEW) Component view) {
@@ -77,9 +77,8 @@ public class CierreCajaVm {
         credential = cre;
         cierreCaja = servicioCierreCaja.findALlCierreCajaForFechaIdUsuario(new Date(), credential.getUsuarioSistema()).get(0);
 
-        
         servicioGeneral.cierreCajaDetallePago(fecha);
-        
+
         System.out.println("cierreCaja " + cierreCaja);
         System.out.println("cierreCaja sss " + cierreCaja != null ? cierreCaja.getCieValorInicio() : "NULO");
         if (servicioAcumuladoDiarioUsuario.findCierrePorUsuario(fecha, credential.getUsuarioSistema()).size() > 0) {
@@ -132,7 +131,7 @@ public class CierreCajaVm {
         }
 
         if (totalRecaudado.doubleValue() > 0) {
-            cierreCaja.setCieDiferencia(cierreCaja.getCieValor().subtract(totalRecaudado));
+            cierreCaja.setCieDiferencia(ArchivoUtils.redondearDecimales(cierreCaja.getCieValor(), 2).subtract(ArchivoUtils.redondearDecimales(totalRecaudado, 2)));
         }
 
     }

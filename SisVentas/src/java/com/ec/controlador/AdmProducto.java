@@ -7,12 +7,14 @@ package com.ec.controlador;
 import com.ec.entidad.DetalleKardex;
 import com.ec.entidad.Kardex;
 import com.ec.entidad.Producto;
+import com.ec.entidad.Subcategoria;
 import com.ec.entidad.Tipoambiente;
 import com.ec.servicio.HelperPersistencia;
 import com.ec.servicio.ServicioDetalleKardex;
 import com.ec.servicio.ServicioGeneral;
 import com.ec.servicio.ServicioKardex;
 import com.ec.servicio.ServicioProducto;
+import com.ec.servicio.ServicioSubCategoria;
 import com.ec.servicio.ServicioTipoAmbiente;
 import com.ec.servicio.ServicioTipoKardex;
 import com.ec.untilitario.CodigoQR;
@@ -92,6 +94,8 @@ public class AdmProducto {
     private Integer cantidadCodBar = 1;
 
     ServicioGeneral servicioGeneral = new ServicioGeneral();
+
+    ServicioSubCategoria servicioSubCategoria = new ServicioSubCategoria();
 
     public AdmProducto() {
 
@@ -539,6 +543,10 @@ public class AdmProducto {
             ch5.setCellValue(new HSSFRichTextString("Grava Iva (SI=1; NO=0)"));
             ch5.setCellStyle(estiloCelda);
 
+            HSSFCell ch6 = r.createCell(j++);
+            ch5.setCellValue(new HSSFRichTextString("Categoria"));
+            ch5.setCellStyle(estiloCelda);
+
             int rownum = 1;
             int i = 0;
 
@@ -567,6 +575,9 @@ public class AdmProducto {
 
                 HSSFCell c4 = r.createCell(i++);
                 c4.setCellValue(new HSSFRichTextString(item.getProdGrabaIva() ? "1" : "0"));
+
+                HSSFCell c5 = r.createCell(i++);
+                c5.setCellValue(new HSSFRichTextString(item.getIdSubCategoria().getIdSubCategoria().toString()));
                 /*autemta la siguiente fila*/
                 rownum += 1;
 
@@ -666,6 +677,9 @@ public class AdmProducto {
             HSSFCell ch5 = r.createCell(j++);
             ch5.setCellValue(new HSSFRichTextString("Grava Iva (SI=1; NO=0)"));
             ch5.setCellStyle(estiloCelda);
+            HSSFCell ch6 = r.createCell(j++);
+            ch6.setCellValue(new HSSFRichTextString("Categoria"));
+            ch6.setCellStyle(estiloCelda);
 
             int rownum = 1;
             int i = 0;
@@ -695,6 +709,9 @@ public class AdmProducto {
 
                 HSSFCell c4 = r.createCell(i++);
                 c4.setCellValue(new HSSFRichTextString(item.getProdGrabaIva() ? "1" : "0"));
+                
+                HSSFCell c5 = r.createCell(i++);
+                c5.setCellValue(new HSSFRichTextString(item.getIdSubCategoria().getIdSubCategoria().toString()));
                 /*autemta la siguiente fila*/
                 rownum += 1;
 
@@ -760,6 +777,8 @@ public class AdmProducto {
                             prod.setProdCostoPreferencial(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(4)))));
                             prod.setProdCostoPreferencialDos(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(5)))));
                             prod.setProdCostoPreferencialTres(BigDecimal.ZERO);
+                            Subcategoria sub = servicioSubCategoria.findById(Integer.valueOf(String.valueOf(row.getCell(7))));
+                            prod.setIdSubCategoria(sub);
 //                            prod.setCodTipoambiente(amb);
                             prod.setProdCantMinima(BigDecimal.ONE);
                             prod.setProdFechaRegistro(new Date());
@@ -800,6 +819,8 @@ public class AdmProducto {
 //                            prod.setCodTipoambiente(amb);
                             selected.setProdCantMinima(BigDecimal.ONE);
                             selected.setProdFechaRegistro(new Date());
+                            Subcategoria sub = servicioSubCategoria.findById(Integer.valueOf(String.valueOf(row.getCell(7))));
+                            selected.setIdSubCategoria(sub);
 
                             if (row.getCell(6) != null) {
                                 String valor = String.valueOf(row.getCell(6));

@@ -330,7 +330,7 @@ public class Facturar extends SelectorComposer<Component> {
 //                    subCategoriaSelected = String.valueOf(subcategoria.getIdSubCategoria());
 //                }
             }
-            subCategoriaSelected=servicioSubCategoria.findPrincipal()!=null?String.valueOf(servicioSubCategoria.findPrincipal().getIdSubCategoria()):"1";
+            subCategoriaSelected = servicioSubCategoria.findPrincipal() != null ? String.valueOf(servicioSubCategoria.findPrincipal().getIdSubCategoria()) : "1";
 //            radiogroup.setSelectedIndex(0);
         } else if (valor.getBusqueda().equals("producto") || valor.getBusqueda().equals("cliente")) {
 
@@ -357,7 +357,7 @@ public class Facturar extends SelectorComposer<Component> {
 //                    subCategoriaSelected = String.valueOf(subcategoria.getIdSubCategoria());
 //                }
             }
-             subCategoriaSelected=servicioSubCategoria.findPrincipal()!=null?String.valueOf(servicioSubCategoria.findPrincipal().getIdSubCategoria()):"1";
+            subCategoriaSelected = servicioSubCategoria.findPrincipal() != null ? String.valueOf(servicioSubCategoria.findPrincipal().getIdSubCategoria()) : "1";
 //            radiogroup.setSelectedIndex(0);
 
         }
