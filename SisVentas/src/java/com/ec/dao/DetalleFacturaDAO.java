@@ -56,6 +56,16 @@ public class DetalleFacturaDAO {
     private String numerotel = "";
     private String codigoCantonMatriculacion = "21702";
 
+    /*Exportacion*/
+ /*EXPORTACION*/
+    private BigDecimal detSubtotalExp;
+
+    private BigDecimal detDescuentoExp;
+
+    private BigDecimal detImpuestoExp;
+
+    private BigDecimal detTotalExp;
+
     public DetalleFacturaDAO() {
     }
 
@@ -244,7 +254,7 @@ public class DetalleFacturaDAO {
     }
 
     public Boolean getEsProducto() {
-        return esProducto==null?Boolean.TRUE:esProducto;
+        return esProducto == null ? Boolean.TRUE : esProducto;
     }
 
     public void setEsProducto(Boolean esProducto) {
@@ -346,6 +356,37 @@ public class DetalleFacturaDAO {
     public void setCodigoCantonMatriculacion(String codigoCantonMatriculacion) {
         this.codigoCantonMatriculacion = codigoCantonMatriculacion;
     }
-    
+
+    public BigDecimal getDetSubtotalExp() {
+        return detSubtotalExp;
+    }
+
+    public void setDetSubtotalExp(BigDecimal detSubtotalExp) {
+        this.detSubtotalExp = detSubtotalExp;
+    }
+
+    public BigDecimal getDetDescuentoExp() {
+        return detDescuentoExp;
+    }
+
+    public void setDetDescuentoExp(BigDecimal detDescuentoExp) {
+        this.detDescuentoExp = detDescuentoExp;
+    }
+
+    public BigDecimal getDetImpuestoExp() {
+        return detImpuestoExp;
+    }
+
+    public void setDetImpuestoExp(BigDecimal detImpuestoExp) {
+        this.detImpuestoExp = detImpuestoExp;
+    }
+
+    public BigDecimal getDetTotalExp() {
+        return detTotalExp;
+    }
+
+    public void setDetTotalExp(BigDecimal detTotalExp) {
+        this.detTotalExp = detTotalExp;
+    }
 
 }

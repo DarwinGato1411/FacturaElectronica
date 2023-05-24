@@ -121,6 +121,16 @@ public class DetalleFactura implements Serializable {
     @ManyToOne
     private Factura idFactura;
 
+    /*EXPORTACION*/
+    @Column(name = "det_subtotal_exp")
+    private BigDecimal detSubtotalExp;
+    @Column(name = "det_descuento_exp")
+    private BigDecimal detDescuentoExp;
+    @Column(name = "det_impuesto_exp")
+    private BigDecimal detImpuestoExp;
+    @Column(name = "det_total_exp")
+    private BigDecimal detTotalExp;
+
     public DetalleFactura() {
     }
 
@@ -129,11 +139,11 @@ public class DetalleFactura implements Serializable {
     }
 
     public DetalleFactura(BigDecimal detCantidad,
-            String detDescripcion,
-            BigDecimal detSubtotal,
-            BigDecimal detTotal,
-            Producto idProducto,
-            Factura idFactura) {
+                String detDescripcion,
+                BigDecimal detSubtotal,
+                BigDecimal detTotal,
+                Producto idProducto,
+                Factura idFactura) {
         this.detCantidad = detCantidad;
         this.detDescripcion = detDescripcion;
         this.detSubtotal = detSubtotal;
@@ -143,11 +153,11 @@ public class DetalleFactura implements Serializable {
     }
 
     public DetalleFactura(BigDecimal detCantidad,
-            String detDescripcion,
-            BigDecimal detSubtotal,
-            BigDecimal detTotal,
-            Producto idProducto,
-            Factura idFactura, String detTipoVenta) {
+                String detDescripcion,
+                BigDecimal detSubtotal,
+                BigDecimal detTotal,
+                Producto idProducto,
+                Factura idFactura, String detTipoVenta) {
         this.detCantidad = detCantidad;
         this.detDescripcion = detDescripcion;
         this.detSubtotal = detSubtotal;
@@ -421,6 +431,40 @@ public class DetalleFactura implements Serializable {
         this.codigoCantonMatriculacion = codigoCantonMatriculacion;
     }
 
+    public BigDecimal getDetSubtotalExp() {
+        return detSubtotalExp;
+    }
+
+    public void setDetSubtotalExp(BigDecimal detSubtotalExp) {
+        this.detSubtotalExp = detSubtotalExp;
+    }
+
+    public BigDecimal getDetDescuentoExp() {
+        return detDescuentoExp;
+    }
+
+    public void setDetDescuentoExp(BigDecimal detDescuentoExp) {
+        this.detDescuentoExp = detDescuentoExp;
+    }
+
+    public BigDecimal getDetImpuestoExp() {
+        return detImpuestoExp;
+    }
+
+    public void setDetImpuestoExp(BigDecimal detImpuestoExp) {
+        this.detImpuestoExp = detImpuestoExp;
+    }
+
+    public BigDecimal getDetTotalExp() {
+        return detTotalExp;
+    }
+
+    public void setDetTotalExp(BigDecimal detTotalExp) {
+        this.detTotalExp = detTotalExp;
+    }
+
+    
+    
     @Override
     public int hashCode() {
         int hash = 0;

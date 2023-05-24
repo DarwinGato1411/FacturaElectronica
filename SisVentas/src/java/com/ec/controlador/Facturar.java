@@ -17,6 +17,7 @@ import com.ec.entidad.Factura;
 import com.ec.entidad.FormaPago;
 import com.ec.entidad.Guiaremision;
 import com.ec.entidad.Kardex;
+import com.ec.entidad.Pais;
 import com.ec.entidad.Parametrizar;
 import com.ec.entidad.Producto;
 import com.ec.entidad.Referencia;
@@ -43,6 +44,7 @@ import com.ec.servicio.ServicioFactura;
 import com.ec.servicio.ServicioFormaPago;
 import com.ec.servicio.ServicioGuia;
 import com.ec.servicio.ServicioKardex;
+import com.ec.servicio.ServicioPais;
 import com.ec.servicio.ServicioParametrizar;
 import com.ec.servicio.ServicioProducto;
 import com.ec.servicio.ServicioReferencia;
@@ -307,6 +309,21 @@ public class Facturar extends SelectorComposer<Component> {
     ServicioSubCategoria servicioSubCategoria = new ServicioSubCategoria();
     private String subCategoriaSelected = "0";
 
+    /*EXPORTACION*/
+    private BigDecimal subtotalExp = BigDecimal.ZERO;
+    private BigDecimal totalExp = BigDecimal.ZERO;
+
+    /*PAIS*/
+    private List<Pais> listaPaisOrigen = new ArrayList<Pais>();
+    private Pais paisOrigenSelected = new Pais();
+
+    private List<Pais> listaPaisDestino = new ArrayList<Pais>();
+    private Pais paisDestinoSelected = new Pais();
+    ServicioPais servicioPais = new ServicioPais();
+
+    private List<Pais> listaPaisadquisicion = new ArrayList<Pais>();
+    private Pais paisAdquisicionSelected = new Pais();
+
     @AfterCompose
     public void afterCompose(@ExecutionArgParam("valor") ParamFactura valor, @ContextParam(ContextType.VIEW) Component view) {
         Selectors.wireComponents(view, this, false);
@@ -341,6 +358,7 @@ public class Facturar extends SelectorComposer<Component> {
         } else {
 
             accion = "update";
+          
             idFactuta = Integer.valueOf(valor.getIdFactura());
             tipoVentaAnterior = valor.getTipoDoc();
             tipoVenta = valor.getTipoDoc();
@@ -375,6 +393,14 @@ public class Facturar extends SelectorComposer<Component> {
         llegada = clienteBuscado.getCliDireccion();
         listaTransportistas = servicioTransportista.findTransportista("");
         listaReferencia = servicioReferencia.findAll();
+        consultarPais();
+    }
+
+    private void consultarPais() {
+        listaPaisDestino = servicioPais.findAll();
+        paisOrigenSelected = servicioPais.findDefectoOrigen();
+        listaPaisOrigen = servicioPais.findAll();
+        listaPaisadquisicion = servicioPais.findAll();
     }
 
 //<editor-fold defaultstate="collapsed" desc="Facturar">
@@ -469,6 +495,13 @@ public class Facturar extends SelectorComposer<Component> {
         if (tipoVenta.equals("NTV")) {
             factura = servicioFactura.findFirIdFactNTV(idFactuta);
         }
+        
+        /*EXPORTACION*/
+        
+          paisAdquisicionSelected=servicioPais.findByNombre(factura!=null?factura.getFacPaisAdquisicion():"");
+          paisOrigenSelected=servicioPais.findByNombre(factura!=null?factura.getFacPaisOrigen():"");
+          paisDestinoSelected=servicioPais.findByNombre(factura!=null?factura.getFacPaisDestino():"");
+                      
         clienteBuscado = factura.getIdCliente();
         /*RECUPERA EL SALDO DE CREDITO*/
         List<Factura> listaFacturasPendientes = servicioFactura.findEstadoCliente("PE", clienteBuscado);
@@ -522,6 +555,8 @@ public class Facturar extends SelectorComposer<Component> {
             nuevoRegistro.setDetSubtotaldescuentoporcantidad(det.getDetSubtotaldescuentoporcantidad());
             nuevoRegistro.setTotalInicial(det.getDetTotal());
             nuevoRegistro.setEsProducto(det.getIdProducto().getProdEsproducto());
+            nuevoRegistro.setDetSubtotalExp(det.getDetSubtotalExp());
+            nuevoRegistro.setDetTotalExp(det.getDetTotalExp());
             clietipo = det.getDetCodTipoVenta();
 //            calcularValores(nuevoRegistro);
             listaDetalleFacturaDAODatos.add(nuevoRegistro);
@@ -640,7 +675,7 @@ public class Facturar extends SelectorComposer<Component> {
 
     /*AGREGAMOS DESDE LA LSITA */
     @Command
-    @NotifyChange({"listaDetalleFacturaDAOMOdel", "subTotalCotizacion", "ivaCotizacion", "valorTotalCotizacion", "totalDescuento", "buscarNombreProd", "valorTotalInicialVent", "descuentoValorFinal", "subTotalBaseCero", "listaProducto", "totalItems"})
+    @NotifyChange({"listaDetalleFacturaDAOMOdel", "subTotalCotizacion", "ivaCotizacion", "valorTotalCotizacion", "totalDescuento", "buscarNombreProd", "valorTotalInicialVent", "descuentoValorFinal", "subTotalBaseCero", "listaProducto", "totalItems", "subtotalExp", "totalExp"})
     public void agregarItemLista(@BindingParam("valor") Producto producto) {
 
         if (parametrizar.getParNumRegistrosFactura().intValue() <= listaDetalleFacturaDAOMOdel.size()) {
@@ -731,6 +766,11 @@ public class Facturar extends SelectorComposer<Component> {
                 valor.setDetSubtotaldescuentoporcantidad(subTotalDescuento.multiply(valor.getCantidad()));
                 valor.setTipoVenta("NORMAL");
                 valor.setCodTipoVenta(clietipo);
+
+                /*EXPORTACION*/
+                valor.setDetSubtotalExp(producto.getProdCostoPreferencialTres());
+                valor.setDetDescuentoExp(BigDecimal.ZERO);
+                valor.setDetTotalExp(producto.getProdCostoPreferencialTres());
             }
             //nuevoRegistro.setSubTotal(productoBuscado.getPordCostoVentaFinal());
             ((ListModelList<DetalleFacturaDAO>) listaDetalleFacturaDAOMOdel).add(valor);
@@ -1163,7 +1203,7 @@ public class Facturar extends SelectorComposer<Component> {
     }
 
     @Command
-    @NotifyChange({"listaDetalleFacturaDAOMOdel", "subTotalCotizacion", "ivaCotizacion", "valorTotalCotizacion", "totalDescuento", "valorTotalInicialVent", "descuentoValorFinal", "subTotalBaseCero"})
+    @NotifyChange({"listaDetalleFacturaDAOMOdel", "subTotalCotizacion", "ivaCotizacion", "valorTotalCotizacion", "totalDescuento", "valorTotalInicialVent", "descuentoValorFinal", "subTotalBaseCero", "subtotalExp", "totalExp"})
     public void calcularValoresDesCantidad(@BindingParam("valor") DetalleFacturaDAO valor) {
         try {
 
@@ -1236,6 +1276,10 @@ public class Facturar extends SelectorComposer<Component> {
 
                 valor.setDetCantpordescuento(valorDescuento.multiply(valor.getCantidad()));
 
+                /*EXPORTACION*/
+                valor.setDetSubtotalExp(valor.getDetSubtotalExp());
+                valor.setDetDescuentoExp(BigDecimal.ZERO);
+                valor.setDetTotalExp(valor.getDetSubtotalExp() != null ? valor.getDetSubtotalExp().multiply(valor.getCantidad()) : BigDecimal.ZERO);
             }
             calcularValoresTotales();
             //ingresa un registro vacio
@@ -1257,6 +1301,8 @@ public class Facturar extends SelectorComposer<Component> {
                 nuevoRegistroPost.setSubTotal(BigDecimal.ZERO);
                 nuevoRegistroPost.setDetIva(BigDecimal.ZERO);
                 nuevoRegistroPost.setDetTotalconiva(BigDecimal.ZERO);
+                nuevoRegistroPost.setDetSubtotalExp(BigDecimal.ZERO);
+                nuevoRegistroPost.setDetTotalExp(BigDecimal.ZERO);
                 nuevoRegistroPost.setDescripcion("");
                 ((ListModelList<DetalleFacturaDAO>) listaDetalleFacturaDAOMOdel).add(nuevoRegistroPost);
             }
@@ -1268,7 +1314,7 @@ public class Facturar extends SelectorComposer<Component> {
 
     /*CALCULAR EL DESCUENTO EN FUNCION DEL PORCENTAJE*/
     @Command
-    @NotifyChange({"listaDetalleFacturaDAOMOdel", "subTotalCotizacion", "ivaCotizacion", "valorTotalCotizacion", "totalDescuento", "valorTotalInicialVent", "descuentoValorFinal", "subTotalBaseCero"})
+    @NotifyChange({"listaDetalleFacturaDAOMOdel", "subTotalCotizacion", "ivaCotizacion", "valorTotalCotizacion", "totalDescuento", "valorTotalInicialVent", "descuentoValorFinal", "subTotalBaseCero", "totalExp", ""})
     public void calcularValoresDesCantidadPorPorcentaje(@BindingParam("valor") DetalleFacturaDAO valor) {
         try {
             if (valor.getProducto() == null) {
@@ -1780,6 +1826,8 @@ public class Facturar extends SelectorComposer<Component> {
         nuevoRegistro.setSubTotal(BigDecimal.ZERO);
         nuevoRegistro.setDetIva(BigDecimal.ZERO);
         nuevoRegistro.setDetTotalconiva(BigDecimal.ZERO);
+        nuevoRegistro.setDetSubtotalExp(BigDecimal.ZERO);
+        nuevoRegistro.setDetTotalExp(BigDecimal.ZERO);
         nuevoRegistro.setDescripcion("");
         nuevoRegistro.setProducto(null);
         ((ListModelList<DetalleFacturaDAO>) listaDetalleFacturaDAOMOdel).add(nuevoRegistro);
@@ -1800,6 +1848,10 @@ public class Facturar extends SelectorComposer<Component> {
         BigDecimal sumaDeItems = BigDecimal.ZERO;
         BigDecimal totalizado = BigDecimal.ZERO;
 
+        /*EXPORTACION*/
+        BigDecimal subTotExp = BigDecimal.ZERO;
+        BigDecimal totExp = BigDecimal.ZERO;
+
         List<DetalleFacturaDAO> listaPedido = listaDetalleFacturaDAOMOdel.getInnerList();
         if (listaPedido.size() > 0) {
             for (DetalleFacturaDAO item : listaPedido) {
@@ -1813,6 +1865,10 @@ public class Facturar extends SelectorComposer<Component> {
                     valorTotalInicial = valorTotalInicial.add(item.getTotalInicial().multiply(item.getCantidad()));
                     baseCero = baseCero.add(!item.getProducto().getProdGrabaIva() ? item.getSubTotalDescuento().multiply(item.getCantidad()) : BigDecimal.ZERO);
                     /*COSTO SIN SUBSIDIO*/
+
+ /*SUMA LOS VALORES DE EXPORTACION*/
+                    subTotExp = subTotExp.add(item.getDetSubtotalExp()!=null?item.getDetSubtotalExp():BigDecimal.ZERO);
+                    totExp = totExp.add(item.getDetTotalExp()!=null?item.getDetTotalExp():BigDecimal.ZERO);
 
                     if (item.getProducto().getProdTieneSubsidio().equals("S")) {
                         BigDecimal precioSinSubporcantidad = item.getProducto().getProdSubsidio().multiply(item.getCantidad());
@@ -1855,6 +1911,10 @@ public class Facturar extends SelectorComposer<Component> {
                 valorTotalInicialVent = ArchivoUtils.redondearDecimales(valorTotalInicialVent, 2);
                 ivaCotizacion = ArchivoUtils.redondearDecimales(ivaCotizacion, 2);
                 descuentoValorFinal = ArchivoUtils.redondearDecimales(descuentoValorFinal, 2);
+
+                /*EXPORTACION*/
+                subtotalExp = ArchivoUtils.redondearDecimales(subTotExp, 2);
+                totalExp = ArchivoUtils.redondearDecimales(totExp, 2);
 
             } catch (Exception e) {
                 System.out.println("error de calculo de valores " + e);
@@ -2081,8 +2141,15 @@ public class Facturar extends SelectorComposer<Component> {
             factura.setIdEstado(servicioEstadoFactura.findByEstCodigo(estdoFactura));
 
             factura.setFacTotalBaseGravaba(subTotalCotizacion);
-//            factura.setFacTotalBaseGravaba(subTotalBaseCero);
+            /*EXPORTACION*/
+            factura.setFacSubtotalExp(subtotalExp);
+            factura.setFacTotalExp(subtotalExp);
+            
+            factura.setFacPaisOrigen(paisOrigenSelected.getPaNombre());
+            factura.setFacPaisDestino(paisDestinoSelected.getPaNombre());
+            factura.setFacPaisAdquisicion(paisAdquisicionSelected.getPaNombre());
 
+//            factura.setFacTotalBaseGravaba(subTotalBaseCero);
             if (factura.getFacEstado().equals("PE")) {
                 factura.setFacAbono(cobro);
                 factura.setFacSaldo(cambio.negate());
@@ -3452,5 +3519,71 @@ public class Facturar extends SelectorComposer<Component> {
     public void setValidarPrimeracat(Boolean validarPrimeracat) {
         this.validarPrimeracat = validarPrimeracat;
     }
+
+    public BigDecimal getSubtotalExp() {
+        return subtotalExp;
+    }
+
+    public void setSubtotalExp(BigDecimal subtotalExp) {
+        this.subtotalExp = subtotalExp;
+    }
+
+    public BigDecimal getTotalExp() {
+        return totalExp;
+    }
+
+    public void setTotalExp(BigDecimal totalExp) {
+        this.totalExp = totalExp;
+    }
+
+    public List<Pais> getListaPaisOrigen() {
+        return listaPaisOrigen;
+    }
+
+    public void setListaPaisOrigen(List<Pais> listaPaisOrigen) {
+        this.listaPaisOrigen = listaPaisOrigen;
+    }
+
+    public Pais getPaisOrigenSelected() {
+        return paisOrigenSelected;
+    }
+
+    public void setPaisOrigenSelected(Pais paisOrigenSelected) {
+        this.paisOrigenSelected = paisOrigenSelected;
+    }
+
+    public List<Pais> getListaPaisDestino() {
+        return listaPaisDestino;
+    }
+
+    public void setListaPaisDestino(List<Pais> listaPaisDestino) {
+        this.listaPaisDestino = listaPaisDestino;
+    }
+
+    public Pais getPaisDestinoSelected() {
+        return paisDestinoSelected;
+    }
+
+    public void setPaisDestinoSelected(Pais paisDestinoSelected) {
+        this.paisDestinoSelected = paisDestinoSelected;
+    }
+
+    public List<Pais> getListaPaisadquisicion() {
+        return listaPaisadquisicion;
+    }
+
+    public void setListaPaisadquisicion(List<Pais> listaPaisadquisicion) {
+        this.listaPaisadquisicion = listaPaisadquisicion;
+    }
+
+    public Pais getPaisAdquisicionSelected() {
+        return paisAdquisicionSelected;
+    }
+
+    public void setPaisAdquisicionSelected(Pais paisAdquisicionSelected) {
+        this.paisAdquisicionSelected = paisAdquisicionSelected;
+    }
+    
+    
 
 }

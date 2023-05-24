@@ -24,7 +24,7 @@
 
                     <div class="factura_header">
                         <div class="fact_row">
-                            <div class="wrapper_data">
+                            <div class="wrapper_data wh8">
                                 <div class="wrapper_input">
                                     <span>Estado:</span>
                                     <combobox  
@@ -39,6 +39,13 @@
                                     </combobox>
                                     <!--<div class="fa-solid fa-chevron-down icon"></div>-->
                                 </div>
+                                   <button 
+                                    class="fa-solid fa-magnifying-glass btn_fact btn_primary"
+                                    onClick="@command('buscarEstado')"  
+                                    tooltiptext="Buscar facturas por estado"
+                                >
+                                    Buscar por estado
+                                </button>
                                 <div class="wrapper_input">
                                     <span>Inicio:</span>
                                     <datebox 
@@ -67,15 +74,9 @@
                                     />
                                     <div class="fa-solid fa-calendar icon" />
                                 </div>
-                            </div>
-                            <div class="wrapper_data">
-                                <button 
-                                    class="fa-solid fa-magnifying-glass btn_fact btn_primary"
-                                    onClick="@command('buscarEstado')"  
-                                    tooltiptext="Buscar facturas por estado"
-                                >
-                                    Buscar por estado
-                                </button>
+                                <!--                            </div>
+                                <div class="wrapper_data wh">-->
+                             
                                 <button 
                                     class="fa-solid fa-magnifying-glass btn_fact btn_primary"
                                     onClick="@command('buscarFechas')"  
@@ -83,10 +84,16 @@
                                 >
                                     Buscar por fecha
                                 </button>
+                                <div class="wrapper_input">                                    
+                                </div>
+                                <div class="wrapper_input">                                    
+                                </div>
+                                <div class="wrapper_input">                                    
+                                </div>
                             </div>
                         </div>
                         <div class="fact_row">
-                            <div class="wrapper_data">
+                        <div class="wrapper_data wh8">
                                 <button 
                                     class="fa-solid fa-magnifying-glass btn_fact btn_base"
                                     label="PEN-SRI"
@@ -113,8 +120,8 @@
                                 >
                                     Reenviar Facturas
                                 </button>
-                            </div>
-                            <div class="wrapper_data">
+<!--                            </div>
+                            <div class="wrapper_data">-->
                                 <button 
                                     image="/iconos/sri24x24.png"
                                     class="btn_fact btn_base"
@@ -177,7 +184,7 @@
                                 </listheader> 
                                 <listheader width="6%"  label="FECHA" sort="auto(facFecha)" /> 
                                 <listheader width="5%"  label="TOTAL INT" tooltiptext="Total factura interno"  /> 
-                                <!--<listheader width="5%"  label="TOTAL EXP" tooltiptext="Total factura exportacion" />--> 
+                                <listheader width="5%"  label="TOTAL EXP" tooltiptext="Total factura exportacion" /> 
                                 <listheader width="4%"  label="ESTADO " align="rigth" /> 
                                 <listheader width="8%"  label="ESTADO SRI" align="rigth" /> 
                                 <listheader width="8%"  label="FECHA AUTORIZACION" align="rigth" /> 
@@ -236,12 +243,12 @@
                                                     class="form-control form-control-sm"  
                                                     value="@bind(each.facTotal)" width="100%"/>
                                     </listcell>
-<!--                                    <listcell zclass = "mycss-listcell">
+                                    <listcell zclass = "mycss-listcell">
                                         <decimalbox format="###.##" readonly="true" 
                                                     style="font-size:12px;background:#EBF5FB"
                                                     class="form-control form-control-sm"  
-                                                    value="@bind(each.facTotal)" width="100%"/>
-                                    </listcell>-->
+                                                    value="@bind(each.facTotalExp)" width="100%"/>
+                                    </listcell>
                                     <zk if="${each.facEstado=='PE'}" > 
                                         <listcell zclass = "mycss-listcell" style="background:#FFB1A0;color: red" >
                                             <textbox readonly="true"  style="font-size:12px;background:transparent" 

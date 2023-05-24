@@ -177,8 +177,6 @@ public class Factura implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date facFechaCobro;
 
-    
-
 //    @Column(name = "fac_placa")
 //    private String facPlaca;
 //
@@ -235,6 +233,45 @@ public class Factura implements Serializable {
     @JoinColumn(name = "id_referencia", referencedColumnName = "id_referencia")
     @ManyToOne
     private Referencia idReferencia;
+
+    @Column(name = "fac_subtotal_exp")
+    private BigDecimal facSubtotalExp;
+    @Column(name = "fac_descuento_exp")
+    private BigDecimal facDescuentoExp;
+    @Column(name = "fac_impuesto_exp")
+    private BigDecimal facImpuestoExp;
+    @Column(name = "fac_total_exp")
+    private BigDecimal facTotalExp;
+    
+     @Column(name = "lugar_inco_term")
+    private String lugarIncoTerm;
+    @Column(name = "puerto_embarque")
+    private String puertoEmbarque;
+    @Column(name = "puerto_destino")
+    private String puertoDestino;
+    @Column(name = "pais_adquisicion")
+    private String paisAdquisicion;
+    @Column(name = "embalaje")
+    private String embalaje;
+    @Column(name = "peso_neto")
+    private String pesoNeto;
+    @Column(name = "numero_bulto")
+    private String numeroBulto;
+     @Column(name = "peso_bruto")
+    private String pesoBruto;
+     @Column(name = "via_embarque")
+    private String viaEmbarque;
+     @Column(name = "referencia_produccion")
+    private String referenciaProduccion;
+     
+       @Column(name = "fac_pais_origen")
+    private String facPaisOrigen;
+       
+         @Column(name = "fac_pais_destino")
+    private String facPaisDestino;
+         
+           @Column(name = "fac_pais_adquisicion")
+    private String facPaisAdquisicion;
 
     public Factura() {
     }
@@ -758,7 +795,37 @@ public class Factura implements Serializable {
         this.facObservacion = facObservacion;
     }
 
-    
+    public BigDecimal getFacSubtotalExp() {
+        return facSubtotalExp;
+    }
+
+    public void setFacSubtotalExp(BigDecimal facSubtotalExp) {
+        this.facSubtotalExp = facSubtotalExp;
+    }
+
+    public BigDecimal getFacDescuentoExp() {
+        return facDescuentoExp;
+    }
+
+    public void setFacDescuentoExp(BigDecimal facDescuentoExp) {
+        this.facDescuentoExp = facDescuentoExp;
+    }
+
+    public BigDecimal getFacImpuestoExp() {
+        return facImpuestoExp;
+    }
+
+    public void setFacImpuestoExp(BigDecimal facImpuestoExp) {
+        this.facImpuestoExp = facImpuestoExp;
+    }
+
+    public BigDecimal getFacTotalExp() {
+        return facTotalExp;
+    }
+
+    public void setFacTotalExp(BigDecimal facTotalExp) {
+        this.facTotalExp = facTotalExp;
+    }
 
     @XmlTransient
     public Collection<Guiaremision> getGuiaremisionCollection() {
@@ -776,6 +843,110 @@ public class Factura implements Serializable {
 
     public void setDetallePagoCollection(Collection<DetallePago> detallePagoCollection) {
         this.detallePagoCollection = detallePagoCollection;
+    }
+
+    public String getLugarIncoTerm() {
+        return lugarIncoTerm;
+    }
+
+    public void setLugarIncoTerm(String lugarIncoTerm) {
+        this.lugarIncoTerm = lugarIncoTerm;
+    }
+
+    public String getPuertoEmbarque() {
+        return puertoEmbarque;
+    }
+
+    public void setPuertoEmbarque(String puertoEmbarque) {
+        this.puertoEmbarque = puertoEmbarque;
+    }
+
+    public String getPuertoDestino() {
+        return puertoDestino;
+    }
+
+    public void setPuertoDestino(String puertoDestino) {
+        this.puertoDestino = puertoDestino;
+    }
+
+    public String getPaisAdquisicion() {
+        return paisAdquisicion;
+    }
+
+    public void setPaisAdquisicion(String paisAdquisicion) {
+        this.paisAdquisicion = paisAdquisicion;
+    }
+
+    public String getEmbalaje() {
+        return embalaje;
+    }
+
+    public void setEmbalaje(String embalaje) {
+        this.embalaje = embalaje;
+    }
+
+    public String getPesoNeto() {
+        return pesoNeto;
+    }
+
+    public void setPesoNeto(String pesoNeto) {
+        this.pesoNeto = pesoNeto;
+    }
+
+    public String getNumeroBulto() {
+        return numeroBulto;
+    }
+
+    public void setNumeroBulto(String numeroBulto) {
+        this.numeroBulto = numeroBulto;
+    }
+
+    public String getPesoBruto() {
+        return pesoBruto;
+    }
+
+    public void setPesoBruto(String pesoBruto) {
+        this.pesoBruto = pesoBruto;
+    }
+
+    public String getViaEmbarque() {
+        return viaEmbarque;
+    }
+
+    public void setViaEmbarque(String viaEmbarque) {
+        this.viaEmbarque = viaEmbarque;
+    }
+
+    public String getReferenciaProduccion() {
+        return referenciaProduccion;
+    }
+
+    public void setReferenciaProduccion(String referenciaProduccion) {
+        this.referenciaProduccion = referenciaProduccion;
+    }
+
+    public String getFacPaisOrigen() {
+        return facPaisOrigen;
+    }
+
+    public void setFacPaisOrigen(String facPaisOrigen) {
+        this.facPaisOrigen = facPaisOrigen;
+    }
+
+    public String getFacPaisDestino() {
+        return facPaisDestino;
+    }
+
+    public void setFacPaisDestino(String facPaisDestino) {
+        this.facPaisDestino = facPaisDestino;
+    }
+
+    public String getFacPaisAdquisicion() {
+        return facPaisAdquisicion;
+    }
+
+    public void setFacPaisAdquisicion(String facPaisAdquisicion) {
+        this.facPaisAdquisicion = facPaisAdquisicion;
     }
 
     @Override

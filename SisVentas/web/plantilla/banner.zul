@@ -42,8 +42,8 @@
                         <menu label="Ventas" >
                             <menupopup> 
                                 <menuitem label="Emitir Facturas" id="btnFacturar"  />
-                                <menuitem label="Orden de trabajo" id="btnOrdenTrab"  />
-                                <menuitem label="Lista ordenes de trabajo" id="btnListaOrden"  />
+<!--                                <menuitem label="Orden de trabajo" id="btnOrdenTrab"  />
+                                <menuitem label="Lista ordenes de trabajo" id="btnListaOrden"  />-->
                                  <menuitem label="Facturas por cobrar" id="btnfactCobra"  />
                                 <menuitem label="Cierre de caja" id="btnCierreCajaUsu"  />
                             </menupopup>

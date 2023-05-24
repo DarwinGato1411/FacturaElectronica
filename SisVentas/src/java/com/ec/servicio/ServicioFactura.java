@@ -95,6 +95,8 @@ public class ServicioFactura {
                 detalleFactura.setProvincia(item.getProvincia());
                 detalleFactura.setNumerotel(item.getNumerotel());
                 detalleFactura.setCodigoCantonMatriculacion(item.getCodigoCantonMatriculacion());
+                detalleFactura.setDetSubtotalExp(item.getDetSubtotalExp());
+                detalleFactura.setDetTotalExp(item.getDetTotalExp());
                 // servicioDetalleFactura.crear(detalleFactura);
                 em.persist(detalleFactura);
                 em.flush();
@@ -639,12 +641,12 @@ public class ServicioFactura {
             em = HelperPersistencia.getEMF();
             em.getTransaction().begin();
             if (!estado.equals("TODO")) {
-                query = em.createQuery("SELECT f FROM Factura f WHERE TO_CHAR(f.facFecha,'YYYY-MM-DD') BETWEEN :inicio and :fin AND f.facEstado=:facEstado AND f.facTipo='FACT' ORDER BY f.facFecha DESC");
+                query = em.createQuery("SELECT f FROM Factura f WHERE TO_CHAR(f.facFecha,'YYYY-MM-DD') BETWEEN :inicio and :fin AND f.facEstado=:facEstado AND f.facTipo='FACT' ORDER BY f.facNumero DESC");
                 query.setParameter("inicio", inicio);
                 query.setParameter("fin", fin);
                 query.setParameter("facEstado", estado);
             } else {
-                query = em.createQuery("SELECT f FROM Factura f WHERE f.facFecha BETWEEN :inicio and :fin  AND f.facTipo='FACT' ORDER BY f.facFecha DESC");
+                query = em.createQuery("SELECT f FROM Factura f WHERE f.facFecha BETWEEN :inicio and :fin  AND f.facTipo='FACT' ORDER BY f.facNumero DESC");
                 query.setParameter("inicio", inicio);
                 query.setParameter("fin", fin);
             }

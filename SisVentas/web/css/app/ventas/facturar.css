@@ -66,7 +66,7 @@ body {
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 0.5em;
+
 }
 
 .fact_row > .wrapper_data > .wrapper_input {
@@ -88,12 +88,24 @@ body {
     width: unset !important;
 }
 
+.fact_row > .wrapper_data > .wrapper_input > .textoFechaDateBox{
+    display: flex;
+}
+
+.fact_row > .wrapper_data > .wrapper_input > .textoFechaDateBox input{
+    width: 100% !important;
+}
+.fact_row > .wrapper_data > .wrapper_input > .textoFechaDateBox i{
+
+}
+
 .wrapper_input > span {
     display: block;
-    width: 150px !important;
+    width: 110px !important;
     font-size: 12px;
     font-weight: bold;
     color: #666;
+    margin-left: 4px;
 }
 
 .fact_row > .wrapper_data > .wrapper_input > .input_without_label {
@@ -104,7 +116,7 @@ body {
 .fact_row > .wrapper_data > .wrapper_input > .input_date > input,
 .fact_row > .wrapper_data > .wrapper_input > .input_select > input {
     width: 90%;
-    padding: 5px 10px;
+    padding: 5px 5px;
     border: solid 1px #ccc;
     border-radius: 6px;
     outline: none;
@@ -229,6 +241,8 @@ body {
     font-family: "Poppins", sans-serif !important;
     font-weight: bold;
     height: 38px;
+    margin-right: 5px;
+    margin-bottom: 5px;
 }
 
 .btn_fact::before {
@@ -609,15 +623,62 @@ div.z-listheader-cnt {
     color: var(--primary-color);
 }
 
+
+@media only screen and (min-width: 1070px) {
+    .factura_header_total {
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .factura_header_total > .fact_row {
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .wrapper_buttons {
+        width: 100%;
+    }
+
+    .factura_header_total > .fact_row:first-child:after {
+        display: none;
+    }
+
+    .factura_header_total > .fact_row > .wh{
+        display: grid;
+        grid-template-columns: 12% 12% 12% 12% 12%  20% 20% ;
+    }
+    .factura_header_total > .fact_row > .wht{
+        display: grid;
+        grid-template-columns:40% 30% 15% 15%;
+    }
+
+
+    .factura_header_total > .fact_row > .wi{
+        display: grid;
+        grid-template-columns: repeat(8,1fr);
+    }
+
+    .factura_header_total > .wd{
+
+    }
+
+}
+
+
+
+
+
+
+
 @media only screen and (min-width: 1070px) {
     .factura_header {
-        flex-direction: row;
+        flex-direction: column;
         justify-content: space-between;
     }
 
     .factura_header > .fact_row {
-        width: 50%;
-        flex-direction: row;
+        width: 100%;
+        flex-direction: column;
     }
 
     .wrapper_buttons {
@@ -627,6 +688,28 @@ div.z-listheader-cnt {
     .factura_header > .fact_row:first-child:after {
         display: none;
     }
+
+    .factura_header > .fact_row > .wh{
+        display: grid;
+        grid-template-columns: repeat(5,1fr);
+    }
+    .factura_header > .fact_row > .wh8{
+        display: grid;
+        grid-template-columns: repeat(6,1fr);
+    }
+
+
+    .factura_header > .fact_row > .wi{
+        display: grid;
+        grid-template-columns: repeat(3,1fr);
+    }
+
+    .factura_header > .wd{
+
+    }
+
+
+
 
     .radio_group > label {
         width: unset;
@@ -642,7 +725,7 @@ div.z-listheader-cnt {
     }
 
     .factura_body_content > .factura_body_item_lefth {
-        width: 50%;
+        width: 60%;
     }
 
     .factura_body_content > .factura_body_item > .z-listbox {
@@ -666,7 +749,7 @@ div.z-listheader-cnt {
 }
 
 .facturacion table,.facturacion tbody,.facturacion th,.facturacion td{
-    display: block; 
+    display: block;
 }
 
 .encabezado1 ,.tabla1{
@@ -676,7 +759,7 @@ div.z-listheader-cnt {
 
 .encabezado2 ,.tabla2{
     display: grid;
-    grid-template-columns:5% 10% 10% 10% 35% 10% 10% 10%;
+    grid-template-columns:5% 10% 35% 10% 10% 10% 10% 10%;
 }
 
 .cabezera{

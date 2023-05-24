@@ -802,7 +802,7 @@ input, button, select, textarea {
 }
 .textoTotal {
     padding: 0px 0px 0px 0px !important;
-    font-size: 2.2em !important;
+    font-size: 1.2em !important;
     font-weight: bold;
     color: #088dc4 !important;
     /* background: red; */
