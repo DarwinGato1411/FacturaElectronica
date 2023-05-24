@@ -79,37 +79,43 @@
                              class="form-control form-control-sm"
                              tooltiptext="Nombre Comercial" />
                 </div>     
-                <div class="col-12 col-sm-12 col-md-12 col-lg-12  form-group "  >
-                                      
-                    <checkbox 
-                        id="chkRM" 
-                        label="CONTRIBUYENTE REGIMEN GENERAL" 
-                        checked="@bind(vm.tipoambiente.amGeneral)" 
-                    />
-                    <checkbox 
-                        id="chkRG" 
-                        label="CONTRIBUYENTE REGIMEN RIMPE" 
-                        checked="@bind(vm.tipoambiente.amRimpe)" 
-                    />
+                     <div class="body">
+                    <div class="wrapper_checkbox">
+                        <checkbox 
+                            id="chkRM" 
+                            label="CONTRIBUYENTE REGIMEN GENERAL" 
+                            checked="@bind(vm.tipoambiente.amGeneral)" 
+                        />
+                        <checkbox 
+                            id="chkRG" 
+                            label="CONTRIBUYENTE REGIMEN RIMPE" 
+                            checked="@bind(vm.tipoambiente.amRimpe)" 
+                        />
+                        <checkbox 
+                            id="chkRGP" 
+                            label="CONTRIBUYENTE NEGOCIO POPULAR - RÉGIMEN RIMPE" 
+                            checked="@bind(vm.tipoambiente.amRimpePopular)" 
+                        />
+                        <checkbox 
+                            id="chkAR" 
+                            label="AGENTE DE RETENCION" 
+                            checked="@bind(vm.tipoambiente.amAgeRet)"
+                        />
 
-                    <checkbox 
-                        id="chkAR" 
-                        label="AGENTE DE RETENCION" 
-                        checked="@bind(vm.tipoambiente.amAgeRet)"
-                    />
+                        <checkbox 
+                            id="chkCE" 
+                            label="CONTRIBUYENTE ESPECIAL"  
+                            checked="@bind(vm.tipoambiente.amContrEsp)"
+                        />
 
-                    <checkbox 
-                        id="chkCE" 
-                        label="CONTRIBUYENTE ESPECIAL"  
-                        checked="@bind(vm.tipoambiente.amContrEsp)"
-                    />
+                        <checkbox 
+                            id="chkEX" 
+                            label="EXPORTADORES"  
+                            checked="@bind(vm.tipoambiente.amExp)"
+                        />
 
-                    <checkbox 
-                        id="chkEX" 
-                        label="EXPORTADORES"  
-                        checked="@bind(vm.tipoambiente.amExp)"
-                    />
-                </div>     
+                    </div>
+                </div>    
                    
                 <div class="col-12 col-sm-12 col-md-4 col-lg-4  form-group " >
                   

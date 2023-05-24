@@ -153,12 +153,12 @@ public class AutorizarDocumentos {
 
             //System.setProperty("https.protocols", "SSLv3");
             //System.setProperty(org.apache.axis2.transport.http.HTTPConstants.CHUNKED, Boolean.FALSE);
-            String URLRecepcion="https://" + servicioTipoAmbiente.FindALlTipoambiente().getAmUrlsri() + "/comprobantes-electronicos-ws/RecepcionComprobantesOffline?wsdl";
+            String URLRecepcion = "https://" + servicioTipoAmbiente.FindALlTipoambiente().getAmUrlsri() + "/comprobantes-electronicos-ws/RecepcionComprobantesOffline?wsdl";
             URL url = new URL(URLRecepcion);
             QName qname = new QName("http://ec.gob.sri.ws.recepcion", "RecepcionComprobantesOfflineService");
             RecepcionComprobantesOfflineService service = new RecepcionComprobantesOfflineService(url, qname);
             RecepcionComprobantesOffline portRec = service.getRecepcionComprobantesOfflinePort();
-            RespuestaSolicitud respuestaSolicitud=portRec.validarComprobante(datos);
+            RespuestaSolicitud respuestaSolicitud = portRec.validarComprobante(datos);
             return respuestaSolicitud;
 
         } catch (MalformedURLException ex) {
@@ -273,7 +273,7 @@ public class AutorizarDocumentos {
                         + "        <secuencial>" + valor.getFacNumeroText() + "</secuencial>\n"
                         + "        <dirMatriz>" + removeCaracteres(amb.getAmDireccionMatriz()) + "</dirMatriz>\n"
                         + (amb.getAmAgeRet() ? "<agenteRetencion>1</agenteRetencion>\n" : "")
-                        + (!amb.getAmGeneral() ? ((amb.getAmRimpe() ? "<contribuyenteRimpe>CONTRIBUYENTE R\u00c9GIMEN RIMPE</contribuyenteRimpe>\n" : "")) : "")
+                        + (amb.getAmRimpe() ? "<contribuyenteRimpe>CONTRIBUYENTE R\u00c9GIMEN RIMPE</contribuyenteRimpe>\n" : amb.getAmRimpePopular() ? " <contribuyenteRimpe>CONTRIBUYENTE NEGOCIO POPULAR - R\u00c9GIMEN RIMPE</contribuyenteRimpe>\n" : "")
                         //  + "        <agenteRetencion>12345678</agenteRetencion>\n"
                         + "</infoTributaria>\n"
                         + "<infoFactura>\n"
@@ -360,20 +360,18 @@ public class AutorizarDocumentos {
             build.append(linea);
             linea = ("    <infoAdicional>\n"
                         + (valor.getIdCliente().getCliDireccion().length() > 0 ? "<campoAdicional nombre=\"DIRECCION\">" + removeCaracteres(valor.getIdCliente().getCliDireccion()) + "</campoAdicional>\n" : " ")
-                        //                    + (valor.getIdCliente().getCliCorreo().length() > 0 ? "<campoAdicional nombre=\"E-MAIL\">" + removeCaracteres(valor.getIdCliente().getCliCorreo()) + "</campoAdicional>\n" : " ")
-                        //                    + (valor.getIdCliente().getCliApellidos().length() > 0 ? "<campoAdicional nombre=\"APELLIDO\">" + removeCaracteres(valor.getIdCliente().getCliApellidos()) + "</campoAdicional>\n" : " ")
-                        //                    + (valor.getIdCliente().getCliNombres().length() > 0 ? "<campoAdicional nombre=\"NOMBRE\">" + removeCaracteres(valor.getIdCliente().getCliNombres()) + "</campoAdicional>\n" : " ")
-                        //                    + (valor.getIdCliente().getCliNombre().length() > 0 ? "<campoAdicional nombre=\"NOMBRECOMERCIAL\">" + removeCaracteres(valor.getIdCliente().getCliNombre()) + "</campoAdicional>\n" : " ")
-                        //                    + (valor.getIdCliente().getCiudad().length() > 0 ? "<campoAdicional nombre=\"CIUDAD\">" + removeCaracteres(valor.getIdCliente().getCiudad()) + "</campoAdicional>\n" : " ")
-                        //                    + (valor.getIdCliente().getCliTelefono().length() > 0 ? "<campoAdicional nombre=\"TELEFONO\">" + valor.getIdCliente().getCliTelefono() + "</campoAdicional>\n" : " ")
-                        //                    + (valor.getIdCliente().getCliMovil().length() > 0 ? "<campoAdicional nombre=\"CELULAR\">" + valor.getIdCliente().getCliMovil() + " </campoAdicional>\n" : " ")
                         + "<campoAdicional nombre=\"PLAZO\"> DIAS</campoAdicional>\n"
                         + (valor.getFacPlazo().toString().length() > 0 ? "<campoAdicional nombre=\"DIAS\">" + valor.getFacPlazo().setScale(0) + "</campoAdicional>\n" : " ")
                         + (valor.getFacPorcentajeIva().length() > 0 ? "<campoAdicional nombre=\"TARIFAIMP\">" + valor.getFacPorcentajeIva() + "</campoAdicional>\n" : " ")
                         //                        + (!amb.getAmGeneral() ? ((amb.getAmRimpe() ? "<campoAdicional nombre=\"CONTRIBUYENTE REGIMEN RIMPE\">CONTRIBUYENTE REGIMEN RIMPE</campoAdicional>\n" : "<campoAdicional nombre=\"CONTRIBUYENTE REGIMEN RIMPE\">CONTRIBUYENTE NEGOCIO POPULAR REGIMEN RIMPE </campoAdicional>\n")) : "")
                         + (amb.getAmGeneral() ? "<campoAdicional nombre=\"CONTRIBUYENTE REGIMEN GENERAL\">CONTRIBUYENTE REGIMEN GENERAL</campoAdicional>\n" : "")
                         + (amb.getAmCodigoArtesano() != null ? (!amb.getAmCodigoArtesano().equals("") ? "<campoAdicional nombre=\"CODIGO ARTESANO\">" + amb.getAmCodigoArtesano() + "</campoAdicional>\n" : "") : "")
-                        // + (amb.getAmAgeRet() ? "<campoAdicional nombre=\"Agente de Retencion\">Agente de Retencion Resolucion Nro. NAC-DNCRASC20-00000001</campoAdicional>\n" : "")
+                        + (valor.getEmbalaje() != null ? (valor.getEmbalaje().length() > 0 ? "<campoAdicional nombre=\"EMABALAJE\">" + valor.getEmbalaje() + "</campoAdicional>\n" : " ") : "")
+                        + (valor.getPesoNeto() != null ? (valor.getPesoNeto().length() > 0 ? "<campoAdicional nombre=\"PESO NETO\">" + valor.getPesoNeto() + "</campoAdicional>\n" : " ") : "")
+                        + (valor.getNumeroBulto() != null ? (valor.getNumeroBulto().length() > 0 ? "<campoAdicional nombre=\"NUMERO BULTO\">" + valor.getNumeroBulto() + "</campoAdicional>\n" : " ") : "")
+                        + (valor.getPesoBruto() != null ? (valor.getPesoBruto().length() > 0 ? "<campoAdicional nombre=\"PESO BRUTO\">" + valor.getPesoBruto() + "</campoAdicional>\n" : " ") : "")
+                        + (valor.getViaEmbarque() != null ? (valor.getViaEmbarque().length() > 0 ? "<campoAdicional nombre=\"VIA EMBARQUE\">" + valor.getViaEmbarque() + "</campoAdicional>\n" : " ") : "")
+                        + (valor.getReferenciaProduccion() != null ? (valor.getReferenciaProduccion().length() > 0 ? "<campoAdicional nombre=\"REFERENCIA PRODUCCION\">" + valor.getReferenciaProduccion() + "</campoAdicional>\n" : " ") : "")
                         + "   </infoAdicional>\n"
                         + "</factura>\n");
             build.append(linea);

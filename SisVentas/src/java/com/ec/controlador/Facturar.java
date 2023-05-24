@@ -358,7 +358,7 @@ public class Facturar extends SelectorComposer<Component> {
         } else {
 
             accion = "update";
-          
+
             idFactuta = Integer.valueOf(valor.getIdFactura());
             tipoVentaAnterior = valor.getTipoDoc();
             tipoVenta = valor.getTipoDoc();
@@ -495,13 +495,12 @@ public class Facturar extends SelectorComposer<Component> {
         if (tipoVenta.equals("NTV")) {
             factura = servicioFactura.findFirIdFactNTV(idFactuta);
         }
-        
+
         /*EXPORTACION*/
-        
-          paisAdquisicionSelected=servicioPais.findByNombre(factura!=null?factura.getFacPaisAdquisicion():"");
-          paisOrigenSelected=servicioPais.findByNombre(factura!=null?factura.getFacPaisOrigen():"");
-          paisDestinoSelected=servicioPais.findByNombre(factura!=null?factura.getFacPaisDestino():"");
-                      
+        paisAdquisicionSelected = servicioPais.findByNombre(factura != null ? factura.getFacPaisAdquisicion() : "");
+        paisOrigenSelected = servicioPais.findByNombre(factura != null ? factura.getFacPaisOrigen() : "");
+        paisDestinoSelected = servicioPais.findByNombre(factura != null ? factura.getFacPaisDestino() : "");
+
         clienteBuscado = factura.getIdCliente();
         /*RECUPERA EL SALDO DE CREDITO*/
         List<Factura> listaFacturasPendientes = servicioFactura.findEstadoCliente("PE", clienteBuscado);
@@ -1867,8 +1866,8 @@ public class Facturar extends SelectorComposer<Component> {
                     /*COSTO SIN SUBSIDIO*/
 
  /*SUMA LOS VALORES DE EXPORTACION*/
-                    subTotExp = subTotExp.add(item.getDetSubtotalExp()!=null?item.getDetSubtotalExp():BigDecimal.ZERO);
-                    totExp = totExp.add(item.getDetTotalExp()!=null?item.getDetTotalExp():BigDecimal.ZERO);
+                    subTotExp = subTotExp.add(item.getDetSubtotalExp() != null ? item.getDetSubtotalExp() : BigDecimal.ZERO);
+                    totExp = totExp.add(item.getDetTotalExp() != null ? item.getDetTotalExp() : BigDecimal.ZERO);
 
                     if (item.getProducto().getProdTieneSubsidio().equals("S")) {
                         BigDecimal precioSinSubporcantidad = item.getProducto().getProdSubsidio().multiply(item.getCantidad());
@@ -2063,7 +2062,7 @@ public class Facturar extends SelectorComposer<Component> {
             System.out.println("asdasdasdasd" + hora);
             SimpleDateFormat formater = new SimpleDateFormat("yyyy:MM:dd hh:mm:ss a");
 
-            String today = formater.format(hora);
+            String today = formater.format(fechafacturacion);
             System.out.println("asdasdasdasd" + today);
             Date dateTime = new SimpleDateFormat("yyyy:MM:dd hh:mm:ss a").parse(today);
 
@@ -2144,15 +2143,16 @@ public class Facturar extends SelectorComposer<Component> {
             /*EXPORTACION*/
             factura.setFacSubtotalExp(subtotalExp);
             factura.setFacTotalExp(subtotalExp);
-            
-            factura.setFacPaisOrigen(paisOrigenSelected.getPaNombre());
-            factura.setFacPaisDestino(paisDestinoSelected.getPaNombre());
-            factura.setFacPaisAdquisicion(paisAdquisicionSelected.getPaNombre());
+
+            factura.setFacPaisOrigen(paisOrigenSelected != null ? paisOrigenSelected.getPaNombre() : "");
+            factura.setFacPaisDestino(paisDestinoSelected != null ? paisDestinoSelected.getPaNombre() : "");
+            factura.setFacPaisAdquisicion(paisAdquisicionSelected != null ? paisAdquisicionSelected.getPaNombre() : "");
 
 //            factura.setFacTotalBaseGravaba(subTotalBaseCero);
             if (factura.getFacEstado().equals("PE")) {
                 factura.setFacAbono(cobro);
                 factura.setFacSaldo(cambio.negate());
+
             } else {
                 factura.setFacAbono(BigDecimal.ZERO);
                 factura.setFacSaldo(BigDecimal.ZERO);
@@ -2304,109 +2304,6 @@ public class Facturar extends SelectorComposer<Component> {
                         }
                         servicioGuia.guardarGuiaremision(detalleGuia, guiaremision);
 
-                        /*PARA CREAR EL ARCHIVO XML FIRMADO*/
-//                        String nombreArchivoXML = File.separator + "GUIA-"
-//                                + guiaremision.getCodestablecimiento()
-//                                + guiaremision.getPuntoemision()
-//                                + guiaremision.getFacNumeroText() + ".xml";
-//
-//
-//                        /*RUTAS FINALES DE,LOS ARCHIVOS XML FIRMADOS Y AUTORIZADOS*/
-//                        String pathArchivoFirmado = folderFirmado + nombreArchivoXML;
-//                        String pathArchivoAutorizado = foldervoAutorizado + nombreArchivoXML;
-//                        String pathArchivoNoAutorizado = folderNoAutorizados + nombreArchivoXML;
-//                        String archivoEnvioCliente = "";
-//
-//                        //tipoambiente tiene los parameteos para los directorios y la firma digital
-//                        AutorizarDocumentos aut = new AutorizarDocumentos();
-//                        /*Generamos el archivo XML de la factura*/
-//                        String archivo = aut.generaXMLGuiaRemision(guiaremision, amb, folderGenerados, nombreArchivoXML);
-//
-//                        byte[] datos = null;
-//                        File f = null;
-//                        File fEnvio = null;
-//                        /*amb.getAmClaveAccesoSri() es el la clave proporcionada por el SRI
-//                        archivo es la ruta del archivo xml generado
-//                        nomre del archivo a firmar*/
-//                        XAdESBESSignature.firmar(archivo, nombreArchivoXML,
-//                                amb.getAmClaveAccesoSri(), amb, folderFirmado);
-//
-//                        f = new File(pathArchivoFirmado);
-//
-//                        datos = ArchivoUtils.ConvertirBytes(pathArchivoFirmado);
-//                        //obtener la clave de acceso desde el archivo xml
-//                        String claveAccesoComprobante = ArchivoUtils.obtenerValorXML(f, "/*/infoTributaria/claveAcceso");
-//                        /*GUARDAMOS LA CLAVE DE ACCESO ANTES DE ENVIAR A AUTORIZAR*/
-//                        guiaremision.setFacClaveAcceso(claveAccesoComprobante);
-//                        AutorizarDocumentos autorizarDocumentos = new AutorizarDocumentos();
-//                        RespuestaSolicitud resSolicitud = autorizarDocumentos.validar(datos);
-//
-//                        if (resSolicitud != null && resSolicitud.getComprobantes() != null) {
-//                            if (resSolicitud.getEstado().equals("RECIBIDA")) {
-//                                try {
-//                                    RespuestaComprobante resComprobante = autorizarDocumentos.autorizarComprobante(claveAccesoComprobante);
-//                                    for (Autorizacion autorizacion : resComprobante.getAutorizaciones().getAutorizacion()) {
-//                                        FileOutputStream nuevo = null;
-//
-//                                        /*CREA EL ARCHIVO XML AUTORIZADO*/
-//                                        System.out.println("pathArchivoNoAutorizado " + pathArchivoNoAutorizado);
-//                                        nuevo = new FileOutputStream(pathArchivoNoAutorizado);
-//                                        nuevo.write(autorizacion.getComprobante().getBytes());
-//                                        if (!autorizacion.getEstado().equals("AUTORIZADO")) {
-//
-//                                            String texto = autorizacion.getMensajes().getMensaje().get(0).getMensaje();
-//                                            String smsInfo = autorizacion.getMensajes().getMensaje().get(0).getInformacionAdicional();
-//                                            nuevo.write(autorizacion.getMensajes().getMensaje().get(0).getMensaje().getBytes());
-//                                            if (autorizacion.getMensajes().getMensaje().get(0).getInformacionAdicional() != null) {
-//                                                nuevo.write(autorizacion.getMensajes().getMensaje().get(0).getInformacionAdicional().getBytes());
-//                                            }
-//
-//                                            guiaremision.setMensajesri(texto);
-//                                            guiaremision.setEstadosri(autorizacion.getEstado());
-//
-//                                            nuevo.flush();
-//                                            servicioGuia.modificar(guiaremision);
-//                                        } else {
-//
-//                                            guiaremision.setFacClaveAutorizacion(claveAccesoComprobante);
-//                                            guiaremision.setEstadosri(autorizacion.getEstado());
-//                                            guiaremision.setFacFechaAutorizacion(autorizacion.getFechaAutorizacion().toGregorianCalendar().getTime());
-//
-//                                            /*se agrega la la autorizacion, fecha de autorizacion y se firma nuevamente*/
-//                                            archivoEnvioCliente = aut.generaXMLGuiaRemision(guiaremision, amb, foldervoAutorizado, nombreArchivoXML);
-////                            XAdESBESSignature.firmar(archivoEnvioCliente,
-////                                    nombreArchivoXML,
-////                                    amb.getAmClaveAccesoSri(),
-////                                    amb, foldervoAutorizado);
-//
-//                                            fEnvio = new File(archivoEnvioCliente);
-//
-//                                            System.out.println("PATH DEL ARCHIVO PARA ENVIAR AL CLIENTE " + archivoEnvioCliente);
-//                                            ArchivoUtils.reporteGeneralPdfMail(archivoEnvioCliente.replace(".xml", ".pdf"), guiaremision.getFacNumero(), "GUIA");
-//                                            ArchivoUtils.zipFile(fEnvio, archivoEnvioCliente);
-//                                            /*GUARDA EL PATH PDF CREADO*/
-////                                            guiaremision.setFacpath(archivoEnvioCliente.replace(".xml", ".pdf"));
-//                                            servicioGuia.modificar(guiaremision);
-//                                            /*envia el mail*/
-//
-//                                            String[] attachFiles = new String[2];
-//                                            attachFiles[0] = archivoEnvioCliente.replace(".xml", ".pdf");
-//                                            attachFiles[1] = archivoEnvioCliente.replace(".xml", ".zip");
-//                                            MailerClass mail = new MailerClass();
-//
-//                                            if (guiaremision.getIdCliente().getCliCorreo() != null) {
-//                                                mail.sendMailSimple(guiaremision.getIdCliente().getCliCorreo(),
-//                                                        "Gracias por preferirnos se ha emitido nuestra guia de remision electrónica",
-//                                                        attachFiles,
-//                                                        "GUIA DE REMISION ELECTRONICA", guiaremision.getFacClaveAcceso());
-//                                            }
-//                                        }
-//
-//                                    }
-//                                } catch (Exception e) {
-//                                }
-//                            }
-//                        }
                     }
                     /*VERIFICA SI EL CLINETE QUIERE AUTORIZAR LA FACTURA*/
                     if (!parametrizar.getParEstado() || tipoVenta.equals("PROF")) {
@@ -2416,6 +2313,24 @@ public class Facturar extends SelectorComposer<Component> {
                         autorizarSRI.autorizarSRI(factura);
                     }
 
+                }
+
+            }
+
+            /*VIRIFICA SI TIENE UN PAGO */
+            if (factura.getFacEstado().equals("PE")) {
+                factura.setFacAbono(cobro);
+                factura.setFacSaldo(cambio.negate());
+
+                if (servicioDetallePago.finForIdFactura(factura).isEmpty()) {
+                    DetallePago detallePago = new DetallePago();
+
+                    detallePago.setDetpFechaCobro(new Date());
+                    detallePago.setDetpTotal(BigDecimal.ZERO);
+                    detallePago.setDetpAbono(BigDecimal.ZERO);
+                    detallePago.setDetpSaldo(BigDecimal.ZERO);
+                    detallePago.setIdFactura(factura);
+                    servicioDetallePago.crear(detallePago);
                 }
 
             }
@@ -3583,7 +3498,5 @@ public class Facturar extends SelectorComposer<Component> {
     public void setPaisAdquisicionSelected(Pais paisAdquisicionSelected) {
         this.paisAdquisicionSelected = paisAdquisicionSelected;
     }
-    
-    
 
 }

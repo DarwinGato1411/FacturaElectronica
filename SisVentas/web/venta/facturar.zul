@@ -108,24 +108,7 @@
                                         />
                                     </div>
 
-<!--                                    <div class="wrapper_input">
-                                        <span>Cobrar:</span>
-                                        <textbox 
-                                            class="input" 
-                                            constraint="/^[0-9]{1,9}(?:[.][0-9]{1,2})?$/:Ingrese solo numeros" 
-                                            onOK="@command('calcularCambio')"
-                                            value="@bind(vm.cobro)"
-                                        />
-                                    </div>
-                                    <div class="wrapper_input">
-                                        <span>Cambio:</span>
-                                        <decimalbox  
-                                            format="###.##"   
-                                            readonly="true" 
-                                            class="input"
-                                            value="@bind(vm.cambio)" 
-                                        />
-                                    </div>-->
+
                              
                                  
                                 
@@ -432,9 +415,27 @@
                                         />
                                     
                                     </div>
-                                    <div class="wrapper_input " align="end"></div>
-                                    <div class="wrapper_input " align="end"></div>
-                                    <div class="wrapper_input " align="end"></div>
+                                      <div class="wrapper_input " align="end"></div>
+                                    <div class="wrapper_input " align="end">
+                                        <span>Guia madre:</span>
+                                        <textbox 
+                                            value="@bind(vm.factura.facMadre)" 
+                                            class="input" 
+                                            onChange="self.setValue(self.getValue().toUpperCase().trim());" 
+                                            readonly="false" 
+                                        />
+                                    </div>
+                                    <div class="wrapper_input " align="end">
+                                        <span>Guia hija:</span>
+                                        <textbox 
+                                            value="@bind(vm.factura.facHija)" 
+                                            class="input" 
+                                            onChange="self.setValue(self.getValue().toUpperCase().trim());" 
+                                            readonly="false" 
+                                        />
+                                        
+                                    </div>
+                                  
                                     <div class=" " align="end">
 <!--                                    <button src="/iconos/fact.png"   
                                             autodisable="self"

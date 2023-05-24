@@ -170,7 +170,8 @@ public class Tipoambiente implements Serializable {
     private Boolean amGeneral;
     @Column(name = "am_codigo_artesano")
     private String amCodigoArtesano;
-
+    @Column(name = "am_rimpe_popular")
+    private Boolean amRimpePopular;
     public Tipoambiente() {
     }
 
@@ -561,6 +562,14 @@ public class Tipoambiente implements Serializable {
 
     public void setAmCodigoArtesano(String amCodigoArtesano) {
         this.amCodigoArtesano = amCodigoArtesano;
+    }
+
+    public Boolean getAmRimpePopular() {
+        return amRimpePopular;
+    }
+
+    public void setAmRimpePopular(Boolean amRimpePopular) {
+        this.amRimpePopular = amRimpePopular;
     }
 
     @Override

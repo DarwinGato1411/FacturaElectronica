@@ -229,6 +229,7 @@ public class ListaFacturas {
     }
 
     @Command
+    @NotifyChange({"lstFacturas", "buscarCliente"})
     public void verDetallePago(@BindingParam("valor") Factura valor) throws JRException, IOException, NamingException, SQLException {
         try {
             final HashMap<String, Factura> map = new HashMap<String, Factura>();
@@ -237,6 +238,7 @@ public class ListaFacturas {
             org.zkoss.zul.Window window = (org.zkoss.zul.Window) Executions.createComponents(
                         "/venta/detallepago.zul", null, map);
             window.doModal();
+            consultarFacturasForCedula();
         } catch (Exception e) {
             Messagebox.show("Error " + e.toString(), "Atención", Messagebox.OK, Messagebox.INFORMATION);
         }
@@ -1091,11 +1093,11 @@ public class ListaFacturas {
 
             HSSFCell c = null;
             r = s.createRow(0);
-            
+
             HSSFCell chf0 = r.createCell(j++);
             chf0.setCellValue(new HSSFRichTextString("Facturado por"));
             chf0.setCellStyle(estiloCelda);
-            
+
             HSSFCell chfe = r.createCell(j++);
             chfe.setCellValue(new HSSFRichTextString("Factura"));
             chfe.setCellStyle(estiloCelda);
@@ -1163,7 +1165,7 @@ public class ListaFacturas {
                 i = 0;
 
                 r = s.createRow(rownum);
-                
+
                 HSSFCell c14 = r.createCell(i++);
                 c14.setCellValue(new HSSFRichTextString(item.getIdUsuario().getUsuNombre()));
 

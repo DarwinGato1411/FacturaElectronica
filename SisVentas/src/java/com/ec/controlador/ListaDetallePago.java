@@ -4,6 +4,7 @@
  */
 package com.ec.controlador;
 
+import com.ec.entidad.AmortizacionCompra;
 import com.ec.entidad.DetallePago;
 import com.ec.entidad.Factura;
 import com.ec.servicio.ServicioDetallePago;
@@ -48,6 +49,10 @@ public class ListaDetallePago {
     private Integer numeroMeses = 0;
     private BigDecimal saldo = BigDecimal.ZERO;
     private BigDecimal totalFactura = BigDecimal.ZERO;
+    
+     private Date fecha = new Date();
+    private BigDecimal valorPago = BigDecimal.ZERO;
+    
 
     @AfterCompose
     public void afterCompose(@ExecutionArgParam("valor") Factura valor, @ContextParam(ContextType.VIEW) Component view) {
@@ -81,6 +86,50 @@ public class ListaDetallePago {
         }
     }
 
+     @Command
+    @NotifyChange({"lstPagos", "valorPago", "saldo"})
+    public void agregarPago() {
+
+        if (Messagebox.show("¿Desea registrar un pago de " + valorPago + " Dolares ?", "Atención", Messagebox.YES | Messagebox.NO, Messagebox.INFORMATION) == Messagebox.YES) {
+//             Calendar calendar = Calendar.getInstance(); //obtiene la fecha de hoy 
+//                Date fechaCobro = null;
+            if (valorPago.doubleValue() <= saldo.doubleValue()) {
+               DetallePago detallePago  = new DetallePago();
+//                calendar.add(Calendar.MONTH, i); //el -3 indica que se le restaran 3 dias 
+//                fechaCobro = calendar.getTime();
+                detallePago = new DetallePago();
+//                detallePago.setDetpNumPago(i);
+                detallePago.setDetpFechaCobro(new Date());
+                detallePago.setDetpTotal(BigDecimal.ZERO);
+                detallePago.setDetpAbono(valorPago);
+                detallePago.setDetpSaldo(BigDecimal.ZERO);
+                detallePago.setIdFactura(factura);
+                servicioDetallePago.crear(detallePago);
+
+                for (DetallePago lstPago : lstPagos) {
+                    saldo = saldo.add(lstPago.getDetpSaldo());
+                }
+                saldo.setScale(2, RoundingMode.UP);
+                generar = Boolean.FALSE;
+                valorPago=BigDecimal.ZERO;
+                consultarDetallepago();
+                if (saldo.doubleValue()<=0) {
+                    factura.setFacEstado("PA");
+                    servicioFactura.modificar(factura);
+                }
+                Clients.showNotification("Pago registrado correctamente",
+                            Clients.NOTIFICATION_TYPE_INFO, null, "end_center", 2000, true);
+            } else {
+                Clients.showNotification("No puede ingresar un valor superior al saldo",
+                            Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 2000, true);
+            }
+
+        }
+          consultarDetallepago();
+    }
+    
+    
+    
     @Command
     @NotifyChange({"lstPagos", "numeroMeses", "saldo"})
     public void calculoCuota() {
@@ -166,7 +215,7 @@ public class ListaDetallePago {
             saldo = ArchivoUtils.redondearDecimales(saldo, 2);
 //            saldo.setScale(2, RoundingMode.UP);
 //            BigDecimal saldoAmortizacionCliente=factura.getIdCliente().getCliMontoAsignado().subtract(saldo);
-            if (saldo.intValue() <= 0) {
+            if (saldo.doubleValue()<= 0) {
                 factura.setFacEstado("PA");
                 factura.setFacSaldoAmortizado(BigDecimal.ZERO);
             } else {
@@ -228,5 +277,15 @@ public class ListaDetallePago {
     public void setTotalFactura(BigDecimal totalFactura) {
         this.totalFactura = totalFactura;
     }
+
+    public BigDecimal getValorPago() {
+        return valorPago;
+    }
+
+    public void setValorPago(BigDecimal valorPago) {
+        this.valorPago = valorPago;
+    }
+    
+    
 
 }
