@@ -1999,11 +1999,11 @@ public class Facturar extends SelectorComposer<Component> {
             factura.setFacTipo(tipoVenta);
             factura.setFacDescripcion(facturaDescripcion);
 
-            Date hora = new Date();
-            System.out.println("asdasdasdasd" + hora);
+//            Date hora = new Date();
+//            System.out.println("asdasdasdasd" + hora);
             SimpleDateFormat formater = new SimpleDateFormat("yyyy:MM:dd hh:mm:ss a");
 
-            String today = formater.format(hora);
+            String today = formater.format(fechafacturacion);
             System.out.println("asdasdasdasd" + today);
             Date dateTime = new SimpleDateFormat("yyyy:MM:dd hh:mm:ss a").parse(today);
 
