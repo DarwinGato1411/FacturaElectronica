@@ -39,277 +39,304 @@
             <tabpanels >
                 
                 <tabpanel  height="100%" width="98%" class="factura" >
-                    
+                     
+                  
                     <div class="container-fluid " >
+                         <div class="container-fluid row" >
+            
+                             <div class="col-12 col-sm-12 col-md-6 col-lg-6  " align="start">
+                                 <div class="row " >
+                                     <div >
+                                         <span>Documento:</span>
 
-
-                        
-                    <div class="factura_header">
-                        <div class="fact_row">
-                            <div class="wrapper_data">
-                                <div class="wrapper_input">
-                                    <span>Cédula:</span>
-                                    <textbox 
-                                        class="input"
-                                        ctrlKeys="^A" 
-                                        onCtrlKey="@command('buscarClienteEnLista')" 
-                                        placeholder="Cedula"
-                                        value="@bind(vm.clienteBuscado.cliCedula)" 
-                                        onDoubleClick="@command('buscarClienteEnLista')"
-                                        onOK="@command('buscarClienteDni',valor=self.getValue())"                                                  
-                                        maxlength="13" 
-                                    />
-
-                                    <div 
-                                        class="fa-solid fa-magnifying-glass icon"
-                                        onClick="@command('buscarClienteEnLista')"  
-                                        tooltiptext="Buscar"
-                                    />
-
-                                     
-                                </div>
-                                <div class="wrapper_input">
-                                    <span>Cliente:</span>
-                                    <textbox 
-                                        value="@bind(vm.clienteBuscado.cliNombre)" 
-                                        class="input" 
-                                        readonly="true" 
-                                    />
-                                </div>
-                                <div class="wrapper_input">
-                                    <span>Emisión:</span>
-                                    
-                                    <datebox 
-
-                                        compact="true"  
-                                        value="@bind(vm.fechafacturacion)" 
-                                        readonly="true" 
-                                        buttonVisible="true" 
-                                        lenient="true" 
-                                        format="dd/MM/yyyy" 
-                                        constraint="no empty: Ingrese la fecha "
-                                        class="input_date"
-                                    />
-                                    <div class="fa-solid fa-calendar icon" />
-
-                                   
-                                </div>
-                                <div class="wrapper_input">
-                                    <span>Cobro:</span>
-
-                                    <datebox 
-                                        compact="true" 
-                                        value="@bind(vm.facFechaCobro)" 
-                                        readonly="true" 
-                                        buttonVisible="true" 
-                                        lenient="true" 
-                                        format="dd/MM/yyyy" 
-                                        class="input_date"
-                                        constraint="no empty: Ingrese la fecha "
-                                    />
-                                    <div class="fa-solid fa-calendar icon" />
-                                </div>
-                            </div>
-                            <div class="wrapper_data">
-                                <div class="wrapper_input">
-                                    <span>Forma de Pago:</span>
-
-                                    <combobox  
-                                        model="@load(vm.listaFormaPago)"  
-                                        selectedItem="@bind(vm.formaPagoSelected)" 
-                                        readonly="true" 
-                                        width="300px"
-                                        class="textoFechaDateBox">
-                                        <template name="model">
-                                            <comboitem  label="@bind(each.forNombre)"/>
-                                        </template>                                      
-                                    </combobox>
-                                    <!--<div class="fa-solid fa-chevron-down icon" />-->
-                                </div>
-                                <div class="wrapper_input">
-                                    <span>Plazo:</span>
-                                    <combobox 
-                                        onSelect="@command('actualizarCostoVenta')"  
-                                        readonly="true"
-                                        width="300px"        
-                                       class="  textoFechaDateBox"                              
-                                        selectedItem="@bind(vm.facplazo)">
-                                         <comboitem label="CONTADO" value="0"/> 
-                                        <comboitem label="15 DIAS" value="15" />                    
-                                        <comboitem label="30 DIAS" value="30" />
-                                        <comboitem label="45 DIAS" value="45" />
-                                        <comboitem label="60 DIAS" value="60" />
-                                        <comboitem label="90 DIAS" value="90" />
-                                        <comboitem label="120 DIAS" value="120" />
-                                    </combobox>
-                                    
-                                    <!--<div class="fa-solid fa-chevron-down icon" />-->
-                                </div>
-                                
-                                
-                                <div class="wrapper_input">
-                                    <!--<span>Documento:</span>-->
-
-                                    <radiogroup 
-                                        class="radio_group"  
-                                        selectedItem="@bind(vm.tipoVenta)" 
-                                        onCheck="@command('verificarNumeracion')">
-                                        <radio label="Factura" value="FACT"/>
-                                        <radio label="Proforma" value="PROF"/>
-                                        <radio label="Nota Venta" value="NTV"/>
-                                         <radio label="Nota Entrega " value="NTE"/>
-                                    </radiogroup>
-                                </div>
-                                <div class="wrapper_input">
-                                    <!--<span>Estado:</span>-->
-                                    <radiogroup 
-                                        selectedItem="@bind(vm.estdoFactura)" 
-                                        class="radio_group">
-                                        <radio label="Pagado" value="PA" />
-                                        <radio label="Pendiente" value="PE"/>                                               
-                                    </radiogroup>
-                                </div>
-                                <div class="wrapper_input">
-                                    <span>Tipo venta:</span>
-                                     <combobox onSelect="@command('actualizarCostoVenta')"   
-					width="300px"
-					readonly="true"										
-                                        class=" textoFechaDateBox"
-                                        selectedItem="@bind(vm.clietipo)"                                >
-                                    <comboitem label="Precio venta publico" value="0" />                    
-                                    <comboitem label="Precio por mayor" value="1" />
-                                    <comboitem label="Precio por caja" value="2" />
-                                </combobox>
-                                </div>
-                            </div>
-                           
-                        </div>
-                        <div class="fact_row">
-                            <div class="wrapper_data">
-                                <div class="wrapper_input">
-                                    <span>Sindesc:</span>
-                                    <decimalbox  
-                                        format="###.##"   
-                                        value="@bind(vm.valorTotalInicialVent)"                                             
-                                        readonly="true" 
-                                        class="input"
-                                        onChange="self.setValue(self.getValue().toUpperCase().trim());"  
-                                    />
-                                </div>
-                                <div class="wrapper_input">
-                                    <span>Descuento:</span>
-                                    <decimalbox  
-                                        format="###.##"  
-                                        value="@bind(vm.descuentoValorFinal)"
-                                        readonly="true" 
-                                        onChange="self.setValue(self.getValue().toUpperCase().trim());" 
-                                        class="input" 
-                                    />
-                                </div>
-                                <div class="wrapper_input">
-                                    <span>Base 0%:</span>
-                                    <decimalbox  
-                                        format="###.##"   
-                                        value="@bind(vm.subTotalBaseCero)" 
-                                        readonly="true"
-                                        onChange="self.setValue(self.getValue().toUpperCase().trim());" 
-                                        class="input" 
-                                    />
-                                </div>
-                                <div class="wrapper_input">
-                                    <span>Base 12%:</span>
-                                    <decimalbox  
-                                        format="###.##"   
-                                        value="@bind(vm.subTotalCotizacion)" 
-                                        readonly="true"
-                                        onChange="self.setValue(self.getValue().toUpperCase().trim());" 
-                                        class="input" 
-                                    />
-                                </div>
-                                
-                            </div>
-                            <div class="wrapper_data">
-                                <div class="wrapper_input">
-                                    <span>IVA:</span>
-                                    <decimalbox  
-                                        format="###.##"  
-                                        value="@bind(vm.ivaCotizacion)"
-                                        readonly="true" 
-                                        class="input" 
-                                    />
-                                </div>
-<!--                                <div class="wrapper_input">
-                                    <span>ICE :</span>
-                                    <decimalbox  
-                                        format="###.##"   
-                                        value="@bind(vm.valorIce)" 
-                                        readonly="true"
-                                        onChange="self.setValue(self.getValue().toUpperCase().trim());" 
-                                        class="input" 
-                                    />
-                                </div>-->
-
-                                <div class="wrapper_input">
-                                    <span>Cobrar:</span>
-                                    <textbox 
-                                        class="input" 
-                                        constraint="/^[0-9]{1,9}(?:[.][0-9]{1,2})?$/:Ingrese solo numeros" 
-                                        onOK="@command('calcularCambio')"
-                                        value="@bind(vm.cobro)"
-                                    />
-                                </div>
-                                <div class="wrapper_input">
-                                    <span>Cambio:</span>
-                                     <decimalbox  
-                                        format="###.##"   
-                                        readonly="true" 
-                                        class="input"
-                                        value="@bind(vm.cambio)" 
-                                    />
-                                </div>
-                                
-                                
-                                
-
-                            </div>
-                            
-                            <div class="wrapper_input">
-                                    
-                                     
-                                </div>
-                            <div class="fact_row wrapper_buttons">
+                                         <radiogroup 
+                                             class="radio_group"  
+                                             selectedItem="@bind(vm.tipoVenta)" 
+                                             onCheck="@command('verificarNumeracion')">
+                                             <radio label="Factura" value="FACT"/>
+                                             <radio label="Proforma" value="PROF"/>
+                                             <radio label="N Venta" value="NTV"/>
+                                             <radio label="N Entrega " value="NTE"/>
+                                         </radiogroup>
+                                     </div>
+                                     <div >
+                                         <span>Estado factura</span>
+                                         <radiogroup 
+                                             selectedItem="@bind(vm.estdoFactura)" 
+                                             class="radio_group">
+                                             <radio label="Pagado" value="PA" />
+                                             <radio label="Pendiente" value="PE"/>                                               
+                                         </radiogroup>
+                                         <!--                        </div>
+                                         <div class="wrapper_input">-->
+                              
+                                     </div>
+                                 </div>
+                             </div>
+            
+                          <div class="col-12 col-sm-12 col-md-6 col-lg-6  " align="end"   >
+                             
                                 <button src="/iconos/fact.png"   
-                                                    autodisable="self"
-                                                    label="Nota entrega"
-                                                   width="100%"
-                                                    style="font-size:18px; height:46px"                                                   
-                                                    class="btn btn btn-secondary btn-sm "
-                                                    onClick="@command('verNotasEntrega')"
-                                                    tooltiptext="Cargar notas de entrega"/>
+                                        autodisable="self"
+                                        label="Nota entrega"                                           
+                                        style="font-size:18px; height:46px;margin-bottom:5px"                                                   
+                                        class="btn btn btn-secondary btn-sm "
+                                        onClick="@command('verNotasEntrega')"
+                                        tooltiptext="Cargar notas de entrega"/>
                                 <button 
                                     autodisable="self"   
                                     class="fa-solid fa-floppy-disk btn_fact btn_primary"                  
                                     onClick="@command('Guardar',valor='SG')"
                                     tooltiptext="Guardar"
                                     label="Facturar"
-                                    style="font-size:18px; height:46px"
+                                    style="font-size:18px; height:46px;margin-bottom:5px"    
                                 />
+                         
+                          </div>
+                      </div>
+                        
+                        <div class="factura_header">
+                            <div class="fact_row">
+                            
+                                <div class="wrapper_data">
+                                    <div class="wrapper_input">
+                                        <span>Cédula:</span>
+                                        <textbox 
+                                            class="input"
+                                            ctrlKeys="^A" 
+                                            onCtrlKey="@command('buscarClienteEnLista')" 
+                                            placeholder="Cedula"
+                                            value="@bind(vm.clienteBuscado.cliCedula)" 
+                                            onDoubleClick="@command('buscarClienteEnLista')"
+                                            onOK="@command('buscarClienteDni',valor=self.getValue())"                                                  
+                                            maxlength="13" 
+                                        />
 
-                                <div class="wrapper_input wrapper_total">
-                                    <span style="text_total">Total:</span>
+                                        <div 
+                                            class="fa-solid fa-magnifying-glass icon"
+                                            onClick="@command('buscarClienteEnLista')"  
+                                            tooltiptext="Buscar"
+                                        />
 
-                                    <decimalbox  
-                                        format="###.##"   
-                                        value="@bind(vm.valorTotalCotizacion)"                                                 
-                                        readonly="true"
-                                        
-                                    />
-                                </div> 
+                                     
+                                    </div>
+                                    <div class="wrapper_input">
+                                        <span>Cliente:</span>
+                                        <textbox 
+                                            value="@bind(vm.clienteBuscado.cliNombre)" 
+                                            class="input" 
+                                            readonly="true" 
+                                        />
+                                    </div>
+                                    <div class="wrapper_input">
+                                        <span>Emisión:</span>
+                                    
+                                        <datebox 
 
+                                            compact="true"  
+                                            value="@bind(vm.fechafacturacion)" 
+                                            readonly="true" 
+                                            buttonVisible="true" 
+                                            lenient="true" 
+                                            format="dd/MM/yyyy" 
+                                            constraint="no empty: Ingrese la fecha "
+                                            class="input_date"
+                                        />
+                                        <div class="fa-solid fa-calendar icon" />
+
+                                   
+                                    </div>
+                                    
                                 
+                                 
+                                </div>
+                                <div class="wrapper_data">
+                                    <div class="wrapper_input">
+                                        <span>Forma  pago:</span>
+
+                                        <combobox  
+                                            model="@load(vm.listaFormaPago)"  
+                                            selectedItem="@bind(vm.formaPagoSelected)" 
+                                            readonly="true" 
+                                         width="150px"
+                                            class="textoFechaDateBox">
+                                            <template name="model">
+                                                <comboitem  label="@bind(each.forNombre)"/>
+                                            </template>                                      
+                                        </combobox>
+                                        <!--<div class="fa-solid fa-chevron-down icon" />-->
+                                    </div>
+                                    <div class="wrapper_input">
+                                        <span>Plazo:</span>
+                                        <combobox 
+                                            onSelect="@command('actualizarCostoVenta')"  
+                                            readonly="true"
+                                                  width="150px"
+                                            class="  textoFechaDateBox"                              
+                                            selectedItem="@bind(vm.facplazo)">
+                                            <comboitem label="CONTADO" value="0"/> 
+                                            <comboitem label="15 DIAS" value="15" />                    
+                                            <comboitem label="30 DIAS" value="30" />
+                                            <comboitem label="45 DIAS" value="45" />
+                                            <comboitem label="60 DIAS" value="60" />
+                                            <comboitem label="90 DIAS" value="90" />
+                                            <comboitem label="120 DIAS" value="120" />
+                                        </combobox>
+                                    
+                                        <!--<div class="fa-solid fa-chevron-down icon" />-->
+                                    </div>
+                                
+                                
+                                
+                                    <div class="wrapper_input" style="heigth:30px">
+                                        <span>Tipo venta:</span>
+                                        <combobox onSelect="@command('actualizarCostoVenta')"   
+                                                 width="150px"
+                                                  readonly="true"										
+                                                  class=" textoFechaDateBox"
+                                                  selectedItem="@bind(vm.clietipo)"                                >
+                                            <comboitem label="Precio venta publico" value="0" />                    
+                                            <comboitem label="Precio por mayor" value="1" />
+                                            <comboitem label="Precio por caja" value="2" />
+                                        </combobox>
+                                    </div>
+                                    <div class="wrapper_input">
+                                        <span>Fecha cobro:</span>
+
+                                        <datebox 
+                                            compact="true" 
+                                            value="@bind(vm.facFechaCobro)" 
+                                            readonly="true" 
+                                            buttonVisible="true" 
+                                            lenient="true" 
+                                            format="dd/MM/yyyy" 
+                                            class="input_date"
+                                            constraint="no empty: Ingrese la fecha "
+                                        />
+                                        <div class="fa-solid fa-calendar icon" />
+                                    </div>
+                                </div>
+                           
+                            </div>
+                            <div class="fact_row">
+                                <div class="wrapper_data">
+                                    <div class="wrapper_input">
+                                       
+                                        <span > 
+                                                <label  class="textoEtiquetaTotal" value="Sindesc:"></label>
+                                           </span>
+                                        <decimalbox  
+                                            format="###.##"   
+                                            value="@bind(vm.valorTotalInicialVent)"                                             
+                                            readonly="true" 
+                                            class="textoCobroVal"
+                                            onChange="self.setValue(self.getValue().toUpperCase().trim());"  
+                                        />
+                                    </div>
+                                    <div class="wrapper_input">
+                                      
+                                        <span > 
+                                                <label  class="textoEtiquetaTotal" value="Descuento:"></label>
+                                           </span>
+                                        <decimalbox  
+                                            format="###.##"  
+                                            value="@bind(vm.descuentoValorFinal)"
+                                            readonly="true" 
+                                            onChange="self.setValue(self.getValue().toUpperCase().trim());" 
+                                              class="textoCobroVal"
+                                        />
+                                    </div>
+                                    <div class="wrapper_input">
+                                      
+                                        <span > 
+                                                <label  class="textoEtiquetaTotal" value="Base 0%:"></label>
+                                           </span>
+                                        <decimalbox  
+                                            format="###.##"   
+                                            value="@bind(vm.subTotalBaseCero)" 
+                                            readonly="true"
+                                            onChange="self.setValue(self.getValue().toUpperCase().trim());" 
+                                             class="textoCobroVal"
+                                        />
+                                    </div>
+                             
+                                   
+                                </div>
+                                <div class="wrapper_data">
+                                    <div class="wrapper_input">
+                                       
+                                        <span > 
+                                                <label  class="textoEtiquetaTotal" value="Base 12%:"></label>
+                                           </span>
+                                        <decimalbox  
+                                            format="###.##"   
+                                            value="@bind(vm.subTotalCotizacion)" 
+                                            readonly="true"
+                                            onChange="self.setValue(self.getValue().toUpperCase().trim());" 
+                                             class="textoCobroVal" 
+                                        />
+                                    </div>
+                                    <div class="wrapper_input">
+                                        
+                                        <span > 
+                                                <label  class="textoEtiquetaTotal" value="IVA ($):"></label>
+                                           </span>
+                                        <decimalbox  
+                                            format="###.##"  
+                                            value="@bind(vm.ivaCotizacion)"
+                                            readonly="true" 
+                                             class="textoCobroVal"
+                                        />
+                                    </div>                 
+                               
+
+                                </div>
+                            
+                            
+                                <!--<div class="fact_row wrapper_buttons">-->
+                               
+                            
+
+                              
+                                    <div class="wrapper_data">
+                                        <div class="wrapper_input  " style="background: #6722221a" align="center">
+                                            <span > 
+                                                <label  class="textoTotal" value="Total:"></label></span>
+
+                                            <label                                                 
+                                                
+                                                class="textoTotal"
+                                                value="@bind(vm.valorTotalCotizacion)"                                                 
+                                               
+                                        
+                                            />
+                                        </div> 
+                                        <div class="wrapper_input">
+                                           <span > 
+                                                <label  class="textoCobro" value="Cobrar:"></label>
+                                           </span>
+                                            <textbox 
+                                              class="textoCobro"
+                                                constraint="/^[0-9]{1,9}(?:[.][0-9]{1,2})?$/:Ingrese solo numeros" 
+                                                onOK="@command('calcularCambio')"
+                                                value="@bind(vm.cobro)"
+                                            />
+                                        </div>
+                                        <div class="wrapper_input">
+                                           <span > 
+                                                <label  class="textoCambio" value="Cambio:"></label></span>
+                                            <decimalbox  
+                                                format="###.##"   
+                                                readonly="true" 
+                                                  class="textoCambio"
+                                                value="@bind(vm.cambio)" 
+                                            />
+                                        </div>
+                                    </div>
+                                    
+                                <!--</div>-->
                             </div>
                         </div>
-                    </div>
 
                     <div class="factura_body factura_body_content">
                     
@@ -329,7 +356,7 @@
 
             
                                 <listhead class="encabezado1"> 
-                                    <listheader width="100%" align="left" class="tableHeader" >
+                                    <listheader  align="left" class="tableHeader" >
                                         <textbox value="@bind(vm.buscarCodigoProd)"  
                                     
                                                     class="form-control form-control-sm"
@@ -339,7 +366,7 @@
                                                     onChange="self.setValue(self.getValue().toUpperCase());" />
                                     
                                     </listheader>     
-                                    <listheader width="100%" align="left"   >
+                                    <listheader  align="left"   >
                                         <textbox value="@bind(vm.buscarNombreProd)"  
                                                     id="idBusquedaProd"
                                                     class="form-control form-control-sm"
@@ -348,10 +375,10 @@
                                                     onOK="@command('buscarLikeKardexNombreProd')"                                                     
                                                     onChange="self.setValue(self.getValue().toUpperCase());" />
                                     </listheader>                         
-                                    <listheader width="100%"   label="KARDEX" align="center" /> 
-                                    <listheader width="100%"  label="PV X MAYOR" align="center" />
-                                    <listheader width="100%"  label="PVP" align="center" /> 
-                                    <listheader width="100%"  label="" align="center"/>
+                                    <listheader   label="STOCK" align="center" /> 
+                                    <listheader   label="PV - EXP" align="center" />
+                                    <listheader  label="PVP" align="center" /> 
+                                    <listheader   label="" align="center"/>
                                 </listhead>  
             
                                 <template name="model">                                                            
@@ -397,7 +424,7 @@
                                                     onDoubleClick="@command('agregarItemLista',valor=each.idProducto)" >                                                    
                                             <label onOK="@command('agregarItemLista',valor=each.idProducto)" 
                                                     class="form-control form-control-sm"
-                                                    value="@bind(each.idProducto.prodCostoPreferencial)"
+                                                    value="@bind(each.idProducto.prodCostoPreferencialTres)"
                                                     style="font-size:11px; font-weight: bold" 
                                                     width="96%" />
                                         </listcell>
@@ -411,17 +438,12 @@
                                         </listcell>
         
                                         <listcell zclass = "mycss-listcell">  
-<!--                                            <div 
-                                                class="fa-solid fa-chevron-right"
-                                                style="font-size:16px; padding:0.5em; cursor:pointer;font-weight: bold"
-                                                onClick="@command('agregarItemLista',valor=each.idProducto)"
-                                                tooltiptext="Asignar producto"
-                                            />-->
-                                             <image  src="/iconos/agregar.jpg" 
-                                             width="35px"
-                                               class="btn btn btn-secondary btn-sm grow"
-                                                    onClick="@command('agregarItemLista',valor=each.idProducto)" 
-                                                    tooltiptext="Asigar producto"/> 
+                                            <button  src="/iconos/right-chevron.png" 
+                                                     width="90%"
+                                                     height="25px"
+                                                     class="btn btn btn-secondary btn-sm grow"
+                                                     onClick="@command('agregarItemLista',valor=each.idProducto)" 
+                                                     tooltiptext="Asigar producto"/> 
                                             
                                         </listcell>
                                     </listitem>
@@ -474,7 +496,7 @@
                                                         width="99%" />
                                         </listcell>
                                         <listcell zclass = "mycss-listcell">
-                                            <textbox    constraint="/^[0-9]{1,9}(?:[.][0-9]{1,3})?$/:Ingrese solo numeros"                                            
+                                            <textbox    constraint="/^[0-9]{1,9}(?:[.][0-9]{1,7})?$/:Ingrese solo numeros"                                            
                                                         onOK="@command('calcularValoresDesCantidad',valor=each)"
                                                         class="form-control form-control-sm"
                                                         onChange="@command('calcularValoresDesCantidad',valor=each)"
@@ -483,7 +505,7 @@
                                         </listcell>
                                         <listcell zclass = "mycss-listcell">
                                             <!--readonly="${!each.esProducto}"-->
-                                            <textbox  constraint="/^[0-9]{1,9}(?:[.][0-9]{1,3})?$/:Ingrese solo numeros"
+                                            <textbox  constraint="/^[0-9]{1,9}(?:[.][0-9]{1,7})?$/:Ingrese solo numeros"
                                                         onOK="@command('calcularValoresDesCantidadPorPorcentaje',valor=each)"                                                              
                                                         class="form-control form-control-sm"
                                                         style="font-size:12px"                                                              
@@ -504,7 +526,7 @@
                                                         value="@bind(each.totalInicial)"  width="99%" />
                                         </listcell>
                                         <listcell zclass = "mycss-listcell">
-                                            <textbox    constraint="/^[0-9]{1,9}(?:[.][0-9]{1,5})?$/:Ingrese solo numeros"                                            
+                                            <textbox    constraint="/^[0-9]{1,9}(?:[.][0-9]{1,7})?$/:Ingrese solo numeros"                                            
                                                         onOK="@command('calcularValoresDesCantidad',valor=each)"
                                                         class="form-control form-control-sm"                                                                                                                            
                                                         ctrlKeys="^A" onCtrlKey="@command('cambioPrecio',valor=each)"

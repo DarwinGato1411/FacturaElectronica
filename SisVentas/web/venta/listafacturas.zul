@@ -147,7 +147,7 @@
                         
                             <listhead> 
                                 <listheader width="40px"  label="" align="rigth" />  
-                                <listheader width="8%"  
+                                <listheader width="6%"  
                                             sort="auto(facNumeroText)">
                                     <textbox value="@bind(vm.buscarNumFactura)"  
                                              tooltiptext="# Factura"
@@ -157,7 +157,7 @@
                                              onChange="self.setValue(self.getValue().toUpperCase());" />
                                     
                                 </listheader> 
-                                <listheader width="10%"  >
+                                <listheader width="8%"  >
                                     <textbox value="@bind(vm.buscarCedula)"  
                                              tooltiptext="Cedula"
                                              class="form-control form-control-sm"                                         
@@ -175,14 +175,15 @@
                                              onChange="self.setValue(self.getValue().toUpperCase());" />
                                     
                                 </listheader> 
-                                <listheader width="8%"  label="Fecha" sort="auto(facFecha)" /> 
-                                <listheader width="5%"  label="Total "  /> 
-                                <listheader width="4%"  label="Estado " align="rigth" /> 
-                                <listheader width="8%"  label="Estado SRI" align="rigth" /> 
-                                <listheader width="8%"  label="Fecha Aut." align="rigth" /> 
+                                <listheader width="6%"  label="FECHA" sort="auto(facFecha)" /> 
+                                <listheader width="5%"  label="TOTAL INT" tooltiptext="Total factura interno"  /> 
+                                <!--<listheader width="5%"  label="TOTAL EXP" tooltiptext="Total factura exportacion" />--> 
+                                <listheader width="4%"  label="ESTADO " align="rigth" /> 
+                                <listheader width="8%"  label="ESTADO SRI" align="rigth" /> 
+                                <listheader width="8%"  label="FECHA AUTORIZACION" align="rigth" /> 
                                 <!--<listheader width="20%"  label="Clave Autorizacion"  />-->                                   
-                                <listheader width="10%"  label="Responsable / Cuenta"  />                                   
-                                <listheader width="3%"  label="" align="rigth" />        
+                                <listheader width="10%"  label="RESPONSABLE"  />                                   
+                                <listheader width="3%"  label="" align="center" />        
                                 <listheader width="3%"  label="" align="rigth" />        
                                 <listheader width="3%"  label="" align="rigth" />        
                                 <listheader width="3%"  label="" align="rigth" />        
@@ -227,7 +228,7 @@
                                         <datebox compact="true" value="@bind(each.facFecha)" 
                                                  height=" 30px" 
                                                  buttonVisible="false" lenient="true" readonly="true"
-                                                 format="medium" width="100%"  />
+                                                 format="yyyy-MM-dd" width="100%"  />
                                     </listcell>
                                     <listcell zclass = "mycss-listcell">
                                         <decimalbox format="###.##" readonly="true" 
@@ -235,6 +236,12 @@
                                                     class="form-control form-control-sm"  
                                                     value="@bind(each.facTotal)" width="100%"/>
                                     </listcell>
+<!--                                    <listcell zclass = "mycss-listcell">
+                                        <decimalbox format="###.##" readonly="true" 
+                                                    style="font-size:12px;background:#EBF5FB"
+                                                    class="form-control form-control-sm"  
+                                                    value="@bind(each.facTotal)" width="100%"/>
+                                    </listcell>-->
                                     <zk if="${each.facEstado=='PE'}" > 
                                         <listcell zclass = "mycss-listcell" style="background:#FFB1A0;color: red" >
                                             <textbox readonly="true"  style="font-size:12px;background:transparent" 

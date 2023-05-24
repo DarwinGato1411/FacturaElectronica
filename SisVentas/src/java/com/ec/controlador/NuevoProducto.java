@@ -64,6 +64,8 @@ public class NuevoProducto {
     private Subcategoria subcategoriaSelected = null;
     ServicioSubCategoria servicioSubCategoria = new ServicioSubCategoria();
 
+    private Boolean esUnProdcuto = Boolean.TRUE;
+
     @AfterCompose
     public void afterCompose(@ExecutionArgParam("valor") Producto producto, @ContextParam(ContextType.VIEW) Component view) {
         Selectors.wireComponents(view, this, false);
@@ -113,6 +115,9 @@ public class NuevoProducto {
             this.producto.setProdUnidadMedida("UNIDAD");
             this.producto.setProdUnidadConversion("UNIDAD");
             this.producto.setProdFactorConversion(BigDecimal.ONE);
+            this.producto.setPordCostoVentaRef(BigDecimal.valueOf(0.112));
+            this.producto.setPordCostoCompra(BigDecimal.valueOf(0.10));
+            this.producto.setIdSubCategoria(servicioSubCategoria.findPrincipal());
 
             accion = "create";
         }
@@ -122,6 +127,31 @@ public class NuevoProducto {
     private void consultarSubCategorias() {
 
         listaSubcategoria = servicioSubCategoria.findLikeDescipcion("");
+    }
+
+    /*valida producto servicio*/
+    @Command
+    @NotifyChange({"esUnProdcuto", "producto"})
+    public void verificarTipoProducto() {
+
+        if (esProducto.equals("P")) {
+            esUnProdcuto = Boolean.TRUE;
+        } else {
+            esUnProdcuto = Boolean.FALSE;
+            if (accion.equals("create")) {
+                this.producto.setPordCostoVentaFinal(BigDecimal.ZERO);
+                if (conIva.equals("S")) {
+                    this.producto.setPordCostoVentaRef(BigDecimal.valueOf(0.112));
+                    this.producto.setPordCostoCompra(BigDecimal.valueOf(0.10));
+                } else {
+                    this.producto.setPordCostoVentaRef(BigDecimal.valueOf(0.10));
+                    this.producto.setPordCostoCompra(BigDecimal.valueOf(0.10));
+                }
+
+            }
+
+        }
+//        calculopreciofinal();
     }
 
     @Command
@@ -387,4 +417,11 @@ public class NuevoProducto {
         this.subcategoriaSelected = subcategoriaSelected;
     }
 
+    public Boolean getEsUnProdcuto() {
+        return esUnProdcuto;
+    }
+
+    public void setEsUnProdcuto(Boolean esUnProdcuto) {
+        this.esUnProdcuto = esUnProdcuto;
+    }
 }

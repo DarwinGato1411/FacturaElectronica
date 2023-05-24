@@ -90,7 +90,7 @@ body {
 
 .wrapper_input > span {
     display: block;
-    width: 130px !important;
+    width: 150px !important;
     font-size: 12px;
     font-weight: bold;
     color: #666;
@@ -642,7 +642,7 @@ div.z-listheader-cnt {
     }
 
     .factura_body_content > .factura_body_item_lefth {
-        width: 60%;
+        width: 50%;
     }
 
     .factura_body_content > .factura_body_item > .z-listbox {

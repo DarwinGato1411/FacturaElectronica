@@ -94,7 +94,7 @@
                     <listheader width="10%"  label="Precio por unidad"  /> 
                     <listheader width="10%"  label="Precio por 3 unidades"  /> 
                     <listheader width="10%"  label="Precio por 6 unidades"  /> 
-                    <listheader width="10%"  label="Precio por caja"  /> 
+                    <listheader width="10%"  label="Precio Exportacion"  /> 
                     <listheader width="5%"  label="" align="center"/>
                     <listheader width="5%"  label="" align="center"/>
                     <!--<listheader width="5%"  label="" align="center"/>-->
