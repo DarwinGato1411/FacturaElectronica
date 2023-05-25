@@ -415,8 +415,8 @@
                                         />
                                     
                                     </div>
-                                      <div class="wrapper_input " align="end"></div>
-                                    <div class="wrapper_input " align="end">
+                                      <div class="wrapper_input " ></div>
+                                    <div class="wrapper_input " >
                                         <span>Guia madre:</span>
                                         <textbox 
                                             value="@bind(vm.factura.facMadre)" 
