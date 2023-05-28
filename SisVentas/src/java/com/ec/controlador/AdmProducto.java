@@ -765,10 +765,10 @@ public class AdmProducto {
                 for (int i = 1; i < sheet.getLastRowNum() + 1; i++) {
                     row = sheet.getRow(i);
 //                    for (int j = 0; j < row.getLastCellNum(); j++) {
-                    for (int j = 0; j < 6; j++) {
+//                    for (int j = 0; j < 6; j++) {
                         List<Producto> prodcutos = servicioProducto.findLikeProdNombre(String.valueOf(row.getCell(1)));
                         if (prodcutos.isEmpty()) {
-                            cell = row.getCell(j);
+//                            cell = row.getCell(j);
                             prod = new Producto();
                             prod.setProdCodigo(String.valueOf(row.getCell(0)));
                             prod.setProdNombre(String.valueOf(row.getCell(1)));
@@ -805,7 +805,7 @@ public class AdmProducto {
                             }
                             prod.setProdCantidadInicial(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(6)))));
                             servicioProducto.crear(prod);
-                            System.out.println("Valor: " + cell.toString());
+//                            System.out.println("Valor: " + cell.toString());
                         } else {
                             Producto selected = prodcutos.get(0);
                             System.out.println("El producto existe " + String.valueOf(row.getCell(1)));
@@ -845,7 +845,7 @@ public class AdmProducto {
                             servicioProducto.modificar(selected);
                         }
 
-                    }
+//                    }
                 }
                 System.out.println("Finalizado");
 
