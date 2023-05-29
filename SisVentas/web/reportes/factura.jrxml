@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="factura" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
-	<property name="ireport.zoom" value="1.771561000000002"/>
+	<property name="ireport.zoom" value="2.5937424601000036"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="489"/>
+	<property name="ireport.y" value="1030"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -839,7 +839,7 @@ where   factura.fac_numero=$P{numfactura};]]>
 		</band>
 		<band height="271" splitType="Immediate">
 			<rectangle>
-				<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="0" y="10" width="366" height="122" isPrintWhenDetailOverflows="true"/>
+				<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="0" y="10" width="366" height="153" isPrintWhenDetailOverflows="true"/>
 				<graphicElement>
 					<pen lineWidth="0.5"/>
 				</graphicElement>
@@ -1073,7 +1073,7 @@ where   factura.fac_numero=$P{numfactura};]]>
 				<text><![CDATA[0.00]]></text>
 			</staticText>
 			<staticText>
-				<reportElement positionType="Float" x="1" y="167" width="366" height="60">
+				<reportElement positionType="Float" x="1" y="198" width="366" height="60">
 					<printWhenExpression><![CDATA[false]]></printWhenExpression>
 				</reportElement>
 				<box leftPadding="5" rightPadding="5">
@@ -1121,7 +1121,7 @@ Se recuerda que el envio de los comprobantes de retenciones debe realizarse dent
 				<text><![CDATA[Via de embarque:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="table_TD" positionType="Float" x="266" y="138" width="101" height="12"/>
+				<reportElement style="table_TD" positionType="Float" x="266" y="169" width="101" height="12"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
@@ -1142,7 +1142,7 @@ Se recuerda que el envio de los comprobantes de retenciones debe realizarse dent
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{cli_correo}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement style="table_TD" positionType="Float" mode="Transparent" x="1" y="150" width="265" height="12" forecolor="#000000" backcolor="#FFFFFF"/>
+				<reportElement style="table_TD" positionType="Float" mode="Transparent" x="1" y="181" width="265" height="12" forecolor="#000000" backcolor="#FFFFFF"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" lineSpacing="Single" markup="none">
 					<font fontName="SansSerif" size="6" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 				</textElement>
@@ -1163,7 +1163,7 @@ Se recuerda que el envio de los comprobantes de retenciones debe realizarse dent
 				<text><![CDATA[Email:]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="148" y="106" width="204" height="12">
+				<reportElement x="148" y="106" width="214" height="12">
 					<printWhenExpression><![CDATA[$F{referencia_produccion}!=null]]></printWhenExpression>
 				</reportElement>
 				<textElement>
@@ -1204,7 +1204,7 @@ Se recuerda que el envio de los comprobantes de retenciones debe realizarse dent
 				<text><![CDATA[Información Adicional]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement positionType="Float" x="94" y="82" width="98" height="12">
+				<reportElement positionType="Float" x="106" y="82" width="86" height="12">
 					<printWhenExpression><![CDATA[$F{embalaje}!=null]]></printWhenExpression>
 				</reportElement>
 				<textElement>
@@ -1254,14 +1254,14 @@ Se recuerda que el envio de los comprobantes de retenciones debe realizarse dent
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{fac_pais_adquisicion}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement style="table_TD" positionType="Float" mode="Transparent" x="1" y="138" width="265" height="12" forecolor="#000000" backcolor="#FFFFFF"/>
+				<reportElement style="table_TD" positionType="Float" mode="Transparent" x="1" y="169" width="265" height="12" forecolor="#000000" backcolor="#FFFFFF"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" lineSpacing="Single" markup="none">
 					<font fontName="SansSerif" size="6" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 				</textElement>
 				<text><![CDATA[Forma de Pago]]></text>
 			</staticText>
 			<staticText>
-				<reportElement positionType="Float" x="22" y="82" width="72" height="12">
+				<reportElement positionType="Float" x="22" y="82" width="84" height="12">
 					<printWhenExpression><![CDATA[$F{embalaje}!=null]]></printWhenExpression>
 				</reportElement>
 				<textElement>
@@ -1304,7 +1304,7 @@ Se recuerda que el envio de los comprobantes de retenciones debe realizarse dent
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{via_embarque}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement positionType="Float" x="94" y="94" width="98" height="12">
+				<reportElement positionType="Float" x="106" y="94" width="86" height="12">
 					<printWhenExpression><![CDATA[$F{numero_bulto}!=null]]></printWhenExpression>
 				</reportElement>
 				<textElement>
@@ -1322,7 +1322,7 @@ Se recuerda que el envio de los comprobantes de retenciones debe realizarse dent
 				<text><![CDATA[Puerto origen:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement positionType="Float" x="22" y="94" width="72" height="12">
+				<reportElement positionType="Float" x="22" y="94" width="84" height="12">
 					<printWhenExpression><![CDATA[$F{numero_bulto}!=null]]></printWhenExpression>
 				</reportElement>
 				<textElement>
@@ -1331,7 +1331,7 @@ Se recuerda que el envio de los comprobantes de retenciones debe realizarse dent
 				<text><![CDATA[Numero de bultos:]]></text>
 			</staticText>
 			<textField pattern="###0.00;-###0.00" isBlankWhenNull="true">
-				<reportElement style="table_TD" positionType="Float" x="266" y="150" width="101" height="12"/>
+				<reportElement style="table_TD" positionType="Float" x="266" y="181" width="101" height="12"/>
 				<box leftPadding="2" rightPadding="2"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="6"/>
@@ -1382,6 +1382,42 @@ Se recuerda que el envio de los comprobantes de retenciones debe realizarse dent
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{fac_hija}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="22" y="142" width="72" height="12">
+					<printWhenExpression><![CDATA[$F{fac_observacion}!=null]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Adicional:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="94" y="130" width="268" height="12">
+					<printWhenExpression><![CDATA[$F{fac_numero_text}!=null]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{am_estab}+"-"+$F{am_ptoemi}+"-"+$F{fac_numero_text}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="22" y="130" width="72" height="12">
+					<printWhenExpression><![CDATA[$F{fac_numero_text}!=null]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Invoice:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="94" y="142" width="268" height="12">
+					<printWhenExpression><![CDATA[$F{fac_observacion}!=null]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{fac_observacion}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

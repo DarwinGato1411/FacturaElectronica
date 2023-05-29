@@ -367,11 +367,15 @@ public class AutorizarDocumentos {
                         + (amb.getAmGeneral() ? "<campoAdicional nombre=\"CONTRIBUYENTE REGIMEN GENERAL\">CONTRIBUYENTE REGIMEN GENERAL</campoAdicional>\n" : "")
                         + (amb.getAmCodigoArtesano() != null ? (!amb.getAmCodigoArtesano().equals("") ? "<campoAdicional nombre=\"CODIGO ARTESANO\">" + amb.getAmCodigoArtesano() + "</campoAdicional>\n" : "") : "")
                         + (valor.getEmbalaje() != null ? (valor.getEmbalaje().length() > 0 ? "<campoAdicional nombre=\"EMABALAJE\">" + valor.getEmbalaje() + "</campoAdicional>\n" : " ") : "")
+                        + (valor.getFacMadre() != null ? (valor.getFacMadre().length() > 0 ? "<campoAdicional nombre=\"GUIA MADRE\">" + valor.getFacMadre() + "</campoAdicional>\n" : " ") : "")
+                        + (valor.getFacHija() != null ? (valor.getFacHija().length() > 0 ? "<campoAdicional nombre=\"GUIA HIJA\">" + valor.getFacHija() + "</campoAdicional>\n" : " ") : "")
                         + (valor.getPesoNeto() != null ? (valor.getPesoNeto().length() > 0 ? "<campoAdicional nombre=\"PESO NETO\">" + valor.getPesoNeto() + "</campoAdicional>\n" : " ") : "")
                         + (valor.getNumeroBulto() != null ? (valor.getNumeroBulto().length() > 0 ? "<campoAdicional nombre=\"NUMERO BULTO\">" + valor.getNumeroBulto() + "</campoAdicional>\n" : " ") : "")
                         + (valor.getPesoBruto() != null ? (valor.getPesoBruto().length() > 0 ? "<campoAdicional nombre=\"PESO BRUTO\">" + valor.getPesoBruto() + "</campoAdicional>\n" : " ") : "")
                         + (valor.getViaEmbarque() != null ? (valor.getViaEmbarque().length() > 0 ? "<campoAdicional nombre=\"VIA EMBARQUE\">" + valor.getViaEmbarque() + "</campoAdicional>\n" : " ") : "")
                         + (valor.getReferenciaProduccion() != null ? (valor.getReferenciaProduccion().length() > 0 ? "<campoAdicional nombre=\"REFERENCIA PRODUCCION\">" + valor.getReferenciaProduccion() + "</campoAdicional>\n" : " ") : "")
+                        + (valor.getFacObservacion() != null ? (valor.getFacObservacion().length() > 0 ? "<campoAdicional nombre=\"ADICIONAL\">" + valor.getFacObservacion() + "</campoAdicional>\n" : " ") : "")
+                        + (valor.getFacNumeroText() != null ? (valor.getFacNumeroText().length() > 0 ? "<campoAdicional nombre=\"INVOICE\"> #" + amb.getAmEstab() + "-" + amb.getAmPtoemi() + "-" + valor.getFacNumeroText() + "</campoAdicional>\n" : " ") : "")
                         + "   </infoAdicional>\n"
                         + "</factura>\n");
             build.append(linea);

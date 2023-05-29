@@ -2078,8 +2078,8 @@ public class Facturar extends SelectorComposer<Component> {
             factura.setFacSubsidio(subsidioTotal);
             factura.setFacFechaCobroPlazo(fechaPagoPlazo);
             /*PARA LAS FLORICOLAS*/
-            factura.setFacMadre(facMadre);
-            factura.setFacHija(facHija);
+//            factura.setFacMadre(facMadre);
+//            factura.setFacHija(facHija);
             factura.setFacDestino(facDestino);
             factura.setIdReferencia(referenciaSelected);
             /*PARA MECANICAS*/
