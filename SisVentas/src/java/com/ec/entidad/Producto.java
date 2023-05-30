@@ -154,6 +154,7 @@ public class Producto implements Serializable {
     private Date prodFechaRegistro;
     @Column(name = "prod_esreceta")
     private Boolean prodEsreceta;
+   
 
     public Producto() {
     }
@@ -522,6 +523,8 @@ public class Producto implements Serializable {
     public void setProdEsreceta(Boolean prodEsreceta) {
         this.prodEsreceta = prodEsreceta;
     }
+
+ 
 
     @Override
     public boolean equals(Object object) {
