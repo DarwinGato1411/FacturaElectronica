@@ -48,7 +48,7 @@
                                         buttonVisible="true" 
                                         class="input_date"
                                         lenient="true" 
-                                        format="dd/MM/yyyy" 
+                                        format="dd/MM/yyyy " 
                                         constraint="no empty: Ingrese la fecha"
                                     /> 
                                         <div class="fa-solid fa-calendar icon" />                                 

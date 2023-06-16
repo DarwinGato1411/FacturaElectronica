@@ -1142,6 +1142,9 @@ public class Facturar extends SelectorComposer<Component> {
 
                 valor.setTotalInicial(valor.getTotal());
             }
+            
+            System.out.println("asdasdasdasdasd " + valor.getTotal());
+            System.out.println("");
             BigDecimal factorIva = (valor.getProducto().getProdIva().divide(BigDecimal.valueOf(100.0)));
             BigDecimal factorSacarSubtotal = (factorIva.add(BigDecimal.ONE));
 
@@ -1152,14 +1155,19 @@ public class Facturar extends SelectorComposer<Component> {
                 BigDecimal valorDescuentoIva = BigDecimal.ZERO;
                 if (valor.getEsProducto()) {
                     porcentajeDesc = valor.getTotal().multiply(BigDecimal.valueOf(100.0));
+                    System.out.println("asdasdasdasdasd " + porcentajeDesc);
                     valorPorcentaje = porcentajeDesc.divide(valor.getTotalInicial(), 6, RoundingMode.FLOOR);
+                    System.out.println("asdasdasdasdasd " + valorPorcentaje);
                     valorDescuentoIva = valor.getTotalInicial().subtract(valor.getTotal());
+                    System.out.println("asdasdasdasdasd " + valorDescuentoIva);
+                    
                 }
 
                 /*COLOCAMOS EN EL CAMPO DE DESCUENTO*/
                 BigDecimal porcentajeDiferencia = BigDecimal.valueOf(100.0).subtract(valorPorcentaje).setScale(6, RoundingMode.FLOOR);
                 valor.setDetPordescuento(porcentajeDiferencia);
                 //valor unitario con descuento ioncluido iva
+
                 BigDecimal valorTotalIvaDesc = valor.getTotalInicial().subtract(valorDescuentoIva);
 
                 //valor unitario sin iva con descuento
@@ -1174,7 +1182,7 @@ public class Facturar extends SelectorComposer<Component> {
                 if (valor.getEsProducto()) {
                     valorDescuento = ArchivoUtils.redondearDecimales(valor.getSubTotal(), 6).subtract(ArchivoUtils.redondearDecimales(valor.getSubTotalDescuento(), 6));
                 }
-                valor.setDetValdescuento(valorDescuento);
+
                 //valor del iva con descuento
                 BigDecimal valorIvaDesc = subTotalDescuento.multiply(factorIva).multiply(valor.getCantidad());
 
@@ -1182,13 +1190,16 @@ public class Facturar extends SelectorComposer<Component> {
 
                 //valor total con decuento y con iva
                 valor.setDetTotaldescuento(valorDescuento.multiply(valor.getCantidad()));
-                //cantidad por subtotal con descuento
+                System.out.println(valor.getDetTotaldescuento());
+//cantidad por subtotal con descuento
                 valor.setDetSubtotaldescuentoporcantidad(subTotalDescuento.multiply(valor.getCantidad()));
+                System.out.println(valor.getDetSubtotaldescuentoporcantidad());
                 valor.setDetTotalconivadescuento(valor.getCantidad().multiply(valorTotalIvaDesc));
+                System.out.println(valor.getDetTotalconivadescuento());
                 valor.setDetTotalconiva(valor.getCantidad().multiply(valor.getTotal()));
-
+                System.out.println(valor.getDetTotalconiva());
                 valor.setDetCantpordescuento(valorDescuento.multiply(valor.getCantidad()));
-
+                System.out.println(valor.getDetCantpordescuento());
             }
             calcularValoresTotales();
             //ingresa un registro vacio
@@ -1759,14 +1770,19 @@ public class Facturar extends SelectorComposer<Component> {
                 sumaDeItems = sumaDeItems.add(BigDecimal.ONE);
                 if (item.getProducto() != null) {
                     totalizado = totalizado.add(item.getDetTotalconivadescuento());
+                    System.out.println("totalizado"+totalizado);
                     valorTotal = valorTotal.add(item.getProducto().getProdGrabaIva() ? item.getSubTotalDescuento().multiply(item.getCantidad()) : BigDecimal.ZERO);
+                    System.out.println("valor total"+ valorTotal);
                     valorIva = valorIva.add(item.getDetIva());
+                    System.out.println("valorIva"+valorIva);
 //                    valorTotalConIva = valorTotalConIva.add(item.getDetTotalconivadescuento());
                     valorDescuento = valorDescuento.add(item.getDetCantpordescuento());
+                    System.out.println("valorDescuento"+valorDescuento);
                     valorTotalInicial = valorTotalInicial.add(item.getTotalInicial().multiply(item.getCantidad()));
+                    System.out.println("valorTotalInicial"+valorTotalInicial);
                     baseCero = baseCero.add(!item.getProducto().getProdGrabaIva() ? item.getSubTotalDescuento().multiply(item.getCantidad()) : BigDecimal.ZERO);
                     /*COSTO SIN SUBSIDIO*/
-
+                    System.out.println("baseCero"+baseCero);
                     if (item.getProducto().getProdTieneSubsidio().equals("S")) {
                         BigDecimal precioSinSubporcantidad = item.getProducto().getProdSubsidio().multiply(item.getCantidad());
                         sumaSubsidio = sumaSubsidio.add(precioSinSubporcantidad.setScale(5, RoundingMode.FLOOR));

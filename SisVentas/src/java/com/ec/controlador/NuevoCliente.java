@@ -115,24 +115,28 @@ public class NuevoCliente {
     public void guardar() {
         /*getCliNombre es el nombre comercial*/
         if (cliente.getCliCedula() != null
-                    && cliente.getCliNombre() != null
-                    && cliente.getCliDireccion() != null
-                    && cliente.getCliTelefono() != null
-                    && cliente.getCliMovil() != null
-                    && cliente.getCiudad() != null
-                    && cliente.getCliCorreo() != null
-                    && tipoadentificacion != null) {
-
+                && cliente.getCliNombre() != null
+                && cliente.getCliDireccion() != null
+                && cliente.getCliTelefono() != null
+                && cliente.getCliMovil() != null
+                && cliente.getCiudad() != null
+                && cliente.getCliCorreo() != null
+                && tipoadentificacion != null) {
+            if (cliente.getCliCedula().contains("999999999")) {
+                Clients.showNotification("No puede crear un cliente con la CEDULA o RUC " + cliente.getCliCedula(),
+                        Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 3000, true);
+                return;
+            }
             if (tipoadentificacion.getTidCodigo().equals("04")) {
                 if (cliente.getCliCedula().length() != 13) {
                     Clients.showNotification("Verifique el RUC ingresada debe tener 13 caracteres ",
-                                Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 3000, true);
+                            Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 3000, true);
                     return;
                 }
             } else if (tipoadentificacion.getTidCodigo().equals("05")) {
                 if (cliente.getCliCedula().length() != 10) {
                     Clients.showNotification("Verifique la CEDULA ingresada debe tener 10 caracteres ",
-                                Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 3000, true);
+                            Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 3000, true);
                     return;
                 }
             }
@@ -150,7 +154,7 @@ public class NuevoCliente {
                 } else {
 
                     Clients.showNotification("El número de documento (CI / RUC) ya se encuentra registrado ",
-                                Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 3000, true);
+                            Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 3000, true);
                 }
 
             } else {
@@ -168,7 +172,7 @@ public class NuevoCliente {
         } else {
 
             Clients.showNotification("Verifique la informacion requerida",
-                        Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 3000, true);
+                    Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 3000, true);
         }
     }
 

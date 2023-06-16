@@ -46,10 +46,10 @@ import org.zkoss.zul.Window;
  * @author gato
  */
 public class RetencionCompraVm {
-    
+
     @Wire
     Window windowRetencionCom;
-    
+
     ServicioUsuario servicioUsuario = new ServicioUsuario();
     ServicioRetencionCompra servicioRetencionCompra = new ServicioRetencionCompra();
     ServicioTipoRetencion servicioTipoRetencion = new ServicioTipoRetencion();
@@ -78,10 +78,10 @@ public class RetencionCompraVm {
     private ListModelList<DetalleRetencionCompraDao> listaDetalleRetencionCompraModel;
     private List<DetalleRetencionCompraDao> listaDetalleRetencionCompraDatos = new ArrayList<DetalleRetencionCompraDao>();
     private Set<DetalleRetencionCompraDao> registrosSeleccionados = new HashSet<DetalleRetencionCompraDao>();
-    
+
     private Tipoambiente amb = new Tipoambiente();
     ServicioTipoAmbiente servicioTipoAmbiente = new ServicioTipoAmbiente();
-    
+
     @AfterCompose
     public void afterCompose(@ExecutionArgParam("valor") CabeceraCompra valor, @ContextParam(ContextType.VIEW) Component view) {
         Selectors.wireComponents(view, this, false);
@@ -89,12 +89,16 @@ public class RetencionCompraVm {
         if (valor != null) {
             this.cabeceraCompra = valor;
             RetencionCompra compraret = servicioRetencionCompra.findByCabeceraCompra(valor);
+
             if (compraret != null) {
                 retencionCompra = compraret;
                 cargarRetencionExistente();
                 accion = "UPDATE";
                 numeroRetencion = compraret.getRcoSecuencial();
                 numeroRetencionText = retencionCompra.getRcoSecuencialText();
+                if (compraret.getDrcEstadosri().equals("ANULADA")) {
+                    compraret = null;
+                }
             } else {
                 retencionCompra = new RetencionCompra();
                 retencionCompra.setRcoFecha(new Date());
@@ -110,16 +114,16 @@ public class RetencionCompraVm {
             getDetallefactura();
         } else {
             this.cabeceraCompra = new CabeceraCompra();
-            
+
         }
         baseImponible = cabeceraCompra.getCabIva();
         listaTipoRetencion = servicioTipoRetencion.findAllTipo("IVA");
         tipoRetencionSelected = listaTipoRetencion.get(0);
         listaTipoivaretencion = servicioTipoIvaRetencion.findALlTipoivaretencion();
     }
-    
+
     private void cargarRetencionExistente() {
-        
+
         List<DetalleRetencionCompra> detalleRetencionCompra = servicioDetalleRetencionCompra.findByCanRetencion(retencionCompra);
         DetalleRetencionCompraDao nuevoRegistro = null;
         listaDetalleRetencionCompraDatos.clear();
@@ -139,9 +143,9 @@ public class RetencionCompraVm {
             nuevoRegistro.setTipoivaretencion(item.getIdTipoivaretencion());
             listaDetalleRetencionCompraDatos.add(nuevoRegistro);
         }
-        
+
     }
-    
+
     private void numeroRetencionTexto() {
         numeroRetencionText = "";
         for (int i = numeroRetencion.toString().length(); i < 9; i++) {
@@ -150,31 +154,31 @@ public class RetencionCompraVm {
         numeroRetencionText = numeroRetencionText + numeroRetencion;
         System.out.println("nuemro texto " + numeroRetencionText);
     }
-    
+
     private int numeroRetencion() {
         RetencionCompra recuperada = servicioRetencionCompra.findUtlimaRetencion();
         if (recuperada != null) {
             // System.out.println("numero de factura " + recuperada);
             numeroRetencion = recuperada.getRcoSecuencial() + 1;
-            
+
         } else {
             numeroRetencion = 1;
-            
+
         }
         numeroRetencionTexto();
         return numeroRetencion;
     }
-    
+
     private void getDetallefactura() {
         setListaDetalleRetencionCompraModel(new ListModelList<DetalleRetencionCompraDao>(getListaDetalleRetencionCompraDatos()));
         ((ListModelList<DetalleRetencionCompraDao>) listaDetalleRetencionCompraModel).setMultiple(true);
     }
-    
+
     @Command
     public void seleccionarRegistros() {
         registrosSeleccionados = ((ListModelList<DetalleRetencionCompraDao>) getListaDetalleRetencionCompraModel()).getSelection();
     }
-    
+
     @Command
     @NotifyChange({"listaDetalleRetencionCompraModel"})
     public void eliminarRegistros() {
@@ -188,9 +192,9 @@ public class RetencionCompraVm {
         } else {
             Messagebox.show("Seleccione al menos un registro para eliminar", "Atención", Messagebox.OK, Messagebox.ERROR);
         }
-        
+
     }
-    
+
     @Command
     @NotifyChange({"listaDetalleRetencionCompraModel", "baseImponible", "tipoRetencionSelected", ""})
     public void agregarRegistro() {
@@ -205,7 +209,7 @@ public class RetencionCompraVm {
             retencionCompra.setRcoDetalle("COMPRA DE MERCADERIA");
             DetalleRetencionCompraDao nuevoRegistro = new DetalleRetencionCompraDao();
             nuevoRegistro.setDrcBaseImponible(ArchivoUtils.redondearDecimales(baseImponible, 2));
-            
+
             nuevoRegistro.setDrcPorcentaje((codImpuestoAsignado.equals("1") ? (BigDecimal.valueOf(tipoRetencionSelected.getTirePorcentajeRetencion())) : (BigDecimal.valueOf(Long.valueOf(tipoivaretencion.getTipivaretDescripcion())))));
             BigDecimal valorValorRetenido = BigDecimal.ZERO;
             BigDecimal valorValorRetenidoDos = BigDecimal.ZERO;
@@ -214,7 +218,7 @@ public class RetencionCompraVm {
             } else {
                 valorValorRetenidoDos = (baseImponible.multiply((BigDecimal.valueOf(Long.valueOf(tipoivaretencion.getTipivaretDescripcion()))))).divide(BigDecimal.valueOf(100.0), 3, RoundingMode.FLOOR);
             }
-            
+
             nuevoRegistro.setDrcValorRetenido(codImpuestoAsignado.equals("1") ? ArchivoUtils.redondearDecimales(valorValorRetenido, 2) : ArchivoUtils.redondearDecimales(valorValorRetenidoDos, 2));
             nuevoRegistro.setTireCodigo(tipoRetencionSelected);
             nuevoRegistro.setRcoCodigo(retencionCompra);
@@ -229,9 +233,9 @@ public class RetencionCompraVm {
         } else {
             Clients.showNotification("Verifique la base imponible", "error", null, "end_before", 2000, true);
         }
-        
+
     }
-    
+
     @Command
     @NotifyChange({"activaIvaRenta", "baseImponible", "listaTipoRetencion", "tipoRetencionSelected"})
     public void visualizarIvaFuente() {
@@ -241,7 +245,7 @@ public class RetencionCompraVm {
             baseImponible = cabeceraCompra.getCabIva();
             listaTipoRetencion = servicioTipoRetencion.findAllTipo("IVA");
             tipoRetencionSelected = listaTipoRetencion.get(0);
-            
+
         } else {
             tipoivaretencion = null;
             activaIvaRenta = Boolean.FALSE;
@@ -249,39 +253,39 @@ public class RetencionCompraVm {
             listaTipoRetencion = servicioTipoRetencion.findAllTipo("RET");
         }
     }
-    
+
     private void calcularValoresTotales() {
         totalRetencion = BigDecimal.ZERO;
         for (DetalleRetencionCompraDao item : listaDetalleRetencionCompraModel) {
             totalRetencion = totalRetencion.add(item.getDrcValorRetenido());
         }
-        
+
     }
-    
+
     public Usuario getUsuarioSistema() {
         return usuarioSistema;
     }
-    
+
     public void setUsuarioSistema(Usuario usuarioSistema) {
         this.usuarioSistema = usuarioSistema;
     }
-    
+
     public String getTipoUSuario() {
         return tipoUSuario;
     }
-    
+
     public void setTipoUSuario(String tipoUSuario) {
         this.tipoUSuario = tipoUSuario;
     }
-    
+
     @Command
     @NotifyChange("usuarioSistema")
     public void guardar() {
-        
+
         try {
             if (numeroRetencion != 0) {
                 if (accion.equals("UPDATE")) {
-                    
+
                     servicioRetencionCompra.eliminar(retencionCompra);
                 }
                 if (!accion.equals("UPDATE")) {
@@ -294,11 +298,11 @@ public class RetencionCompraVm {
                 retencionCompra.setCabFechaEmision(cabeceraCompra.getCabFecha());
                 retencionCompra.setDrcEstadosri("PENDIENTE");
                 AutorizarDocumentos ad = new AutorizarDocumentos();
-                
+
                 String claveAcceso = ad.generaClave(retencionCompra.getRcoFecha(), "07", amb.getAmRuc(), amb.getAmCodigo(), amb.getAmEstab().trim() + amb.getAmPtoemi().trim(), retencionCompra.getRcoSecuencialText(), "12345678", "1");
                 retencionCompra.setRcoAutorizacion(claveAcceso);
                 servicioRetencionCompra.crearCabDetalle(retencionCompra, listaDetalleRetencionCompraModel.getInnerList());
-                
+
                 windowRetencionCom.detach();
             } else {
                 Clients.showNotification("Verifique el secuencial de la retencion", "error", null, "start_before", 2000, true);
@@ -306,151 +310,151 @@ public class RetencionCompraVm {
         } catch (Exception e) {
             System.out.println("ERROR AL GUARADAR " + e.getMessage());
         }
-        
+
     }
-    
+
     public CabeceraCompra getCabeceraCompra() {
         return cabeceraCompra;
     }
-    
+
     public void setCabeceraCompra(CabeceraCompra cabeceraCompra) {
         this.cabeceraCompra = cabeceraCompra;
     }
-    
+
     public RetencionCompra getRetencionCompra() {
         return retencionCompra;
     }
-    
+
     public void setRetencionCompra(RetencionCompra retencionCompra) {
         this.retencionCompra = retencionCompra;
     }
-    
+
     public List<TipoRetencion> getListaTipoRetencion() {
         return listaTipoRetencion;
     }
-    
+
     public void setListaTipoRetencion(List<TipoRetencion> listaTipoRetencion) {
         this.listaTipoRetencion = listaTipoRetencion;
     }
-    
+
     public DetalleRetencionCompraDao getDetalleRetencionCompra() {
         return detalleRetencionCompra;
     }
-    
+
     public void setDetalleRetencionCompra(DetalleRetencionCompraDao detalleRetencionCompra) {
         this.detalleRetencionCompra = detalleRetencionCompra;
     }
-    
+
     public ListModelList<DetalleRetencionCompraDao> getListaDetalleRetencionCompraModel() {
         return listaDetalleRetencionCompraModel;
     }
-    
+
     public void setListaDetalleRetencionCompraModel(ListModelList<DetalleRetencionCompraDao> listaDetalleRetencionCompraModel) {
         this.listaDetalleRetencionCompraModel = listaDetalleRetencionCompraModel;
     }
-    
+
     public List<DetalleRetencionCompraDao> getListaDetalleRetencionCompraDatos() {
         return listaDetalleRetencionCompraDatos;
     }
-    
+
     public void setListaDetalleRetencionCompraDatos(List<DetalleRetencionCompraDao> listaDetalleRetencionCompraDatos) {
         this.listaDetalleRetencionCompraDatos = listaDetalleRetencionCompraDatos;
     }
-    
+
     public Set<DetalleRetencionCompraDao> getRegistrosSeleccionados() {
         return registrosSeleccionados;
     }
-    
+
     public void setRegistrosSeleccionados(Set<DetalleRetencionCompraDao> registrosSeleccionados) {
         this.registrosSeleccionados = registrosSeleccionados;
     }
-    
+
     public TipoRetencion getTipoRetencionSelected() {
         return tipoRetencionSelected;
     }
-    
+
     public void setTipoRetencionSelected(TipoRetencion tipoRetencionSelected) {
         this.tipoRetencionSelected = tipoRetencionSelected;
     }
-    
+
     public BigDecimal getBaseImponible() {
         return baseImponible;
     }
-    
+
     public void setBaseImponible(BigDecimal baseImponible) {
         this.baseImponible = baseImponible;
     }
-    
+
     public Integer getNumeroRetencion() {
         return numeroRetencion;
     }
-    
+
     public void setNumeroRetencion(Integer numeroRetencion) {
         this.numeroRetencion = numeroRetencion;
     }
-    
+
     public String getNumeroRetencionText() {
         return numeroRetencionText;
     }
-    
+
     public void setNumeroRetencionText(String numeroRetencionText) {
         this.numeroRetencionText = numeroRetencionText;
     }
-    
+
     public String getAccion() {
         return accion;
     }
-    
+
     public void setAccion(String accion) {
         this.accion = accion;
     }
-    
+
     public String getCodImpuestoAsignado() {
         return codImpuestoAsignado;
     }
-    
+
     public void setCodImpuestoAsignado(String codImpuestoAsignado) {
         this.codImpuestoAsignado = codImpuestoAsignado;
     }
-    
+
     public Tipoivaretencion getTipoivaretencion() {
         return tipoivaretencion;
     }
-    
+
     public void setTipoivaretencion(Tipoivaretencion tipoivaretencion) {
         this.tipoivaretencion = tipoivaretencion;
     }
-    
+
     public List<Tipoivaretencion> getListaTipoivaretencion() {
         return listaTipoivaretencion;
     }
-    
+
     public void setListaTipoivaretencion(List<Tipoivaretencion> listaTipoivaretencion) {
         this.listaTipoivaretencion = listaTipoivaretencion;
     }
-    
+
     public Boolean getActivaIvaRenta() {
         return activaIvaRenta;
     }
-    
+
     public void setActivaIvaRenta(Boolean activaIvaRenta) {
         this.activaIvaRenta = activaIvaRenta;
     }
-    
+
     public BigDecimal getTotalRetencion() {
         return totalRetencion;
     }
-    
+
     public void setTotalRetencion(BigDecimal totalRetencion) {
         this.totalRetencion = totalRetencion;
     }
-    
+
     public Tipoambiente getAmb() {
         return amb;
     }
-    
+
     public void setAmb(Tipoambiente amb) {
         this.amb = amb;
     }
-    
+
 }

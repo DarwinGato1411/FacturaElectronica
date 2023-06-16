@@ -138,6 +138,30 @@ public class ServicioRetencionCompra {
 
     }
 
+//    public void cambiarEstado(RetencionCompra retencion) {
+//
+//        RetencionCompra retencionCompra1 = null;
+//        List<RetencionCompra> listaRetencionCompras = new ArrayList<RetencionCompra>();
+//        try {
+//            //Connection connection = em.unwrap(Connection.class);
+//            em = HelperPersistencia.getEMF();
+//            em.getTransaction().begin();
+//            Query query = em.createQuery("UPDATE RetencionCompra rc set rc.drcEstadosri=:estado  where rc.idCabecera=:idCabecera");
+//            query.setParameter("estado", estado);
+//            query.setParameter("idCabecera", id_cabecera);
+//            listaRetencionCompras = (List<RetencionCompra>) query.getResultList();
+//            if (listaRetencionCompras.size() > 0) {
+//                retencionCompra1 = listaRetencionCompras.get(0);
+//            }
+//            em.getTransaction().commit();
+//        } catch (Exception e) {
+//            System.out.println("Error en lsa consulta retencionCompra " + e.getMessage());
+//        } finally {
+//            em.close();
+//        }
+//
+//    }
+
     public List<RetencionCompra> findAll() {
 
         List<RetencionCompra> listaRetencionCompras = new ArrayList<RetencionCompra>();
