@@ -88,7 +88,7 @@ public class EditarCajaVm {
             totalDeuda = totalesFactura != null ? totalesFactura.getFacSaldoAmortizado() : BigDecimal.ZERO;
             totalDeuda = ArchivoUtils.redondearDecimales(totalDeuda, 2);
             totalEmitido = acumuladoDiaUsuario.getValorFacturas();
-            totalEmitido = ArchivoUtils.redondearDecimales(totalEmitido.add(totalDeuda), 2);
+            totalEmitido = ArchivoUtils.redondearDecimales(totalEmitido.add(totNotaVenta), 2);
 
             totFactura = totalEmitido.subtract(totalDeuda);
             totFactura = ArchivoUtils.redondearDecimales(totFactura, 2);

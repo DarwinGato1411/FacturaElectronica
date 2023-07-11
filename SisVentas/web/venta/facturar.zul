@@ -357,18 +357,32 @@
                                 <template name="model">                                                            
                                     <listitem  onOK="@command('agregarItemLista',valor=each.idProducto)" class="tabla1">
                                         <listcell  style="font-size:11px;background-color:#d6eefd" zclass = "mycss-listcell" 
-                                                    onDoubleClick="@command('agregarItemLista',valor=each.idProducto)">
-                                            <textbox value="@bind(each.idProducto.prodCodigo)"    
-                                                        class="form-control form-control-sm"
-                                                        style="font-size:11px;background-color:#d6eefd"
-                                                        readonly="true"
-                                                        onDoubleClick="@command('agregarItemLista',valor=each.idProducto)"/>
+                                                   onDoubleClick="@command('agregarItemLista',valor=each.idProducto)">
+                                            <textbox value="@bind(each.idProducto.prodCodigo)"  
+                                                     if="${each.idProducto.prodEsRepetido}"  
+                                                     style="font-size:12px;background:#F19C98"
+                                                     class="form-control form-control-sm"
+                                                     readonly="true"
+                                                     onDoubleClick="@command('agregarItemLista',valor=each.idProducto)"/>
+                                            <textbox value="@bind(each.idProducto.prodCodigo)"  
+                                                              if="${!each.idProducto.prodEsRepetido}"  
+                                                              class="form-control form-control-sm"
+                                                              style="font-size:11px;background-color:#d6eefd"
+                                                              readonly="true"
+                                                              onDoubleClick="@command('agregarItemLista',valor=each.idProducto)"/>
                                         
                                         </listcell>
                                         <listcell  style="font-size:10px;background-color:#d6eefd" zclass = "mycss-listcell" 
                                                     onDoubleClick="@command('agregarItemLista',valor=each.idProducto)" >
                                             <textbox  value="@bind(each.idProducto.prodNombre)" 
-                                                        style="font-size:11px;background-color:#d6eefd"
+                                                       if="${each.idProducto.prodEsRepetido}"  
+                                                     style="font-size:12px;background:#F19C98"
+                                                        readonly="true"
+                                                        class="form-control form-control-sm"
+                                                        onDoubleClick="@command('agregarItemLista',valor=each.idProducto)" />
+                                            <textbox  value="@bind(each.idProducto.prodNombre)" 
+                                                       if="${!each.idProducto.prodEsRepetido}"  
+                                                      style="font-size:11px;background-color:#d6eefd"
                                                         readonly="true"
                                                         class="form-control form-control-sm"
                                                         onDoubleClick="@command('agregarItemLista',valor=each.idProducto)" />

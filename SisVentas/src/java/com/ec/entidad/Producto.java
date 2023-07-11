@@ -154,6 +154,8 @@ public class Producto implements Serializable {
     private Date prodFechaRegistro;
     @Column(name = "prod_esreceta")
     private Boolean prodEsreceta;
+    @Column(name = "prod_es_repetido")
+    private Boolean prodEsRepetido;
 
     public Producto() {
     }
@@ -521,6 +523,14 @@ public class Producto implements Serializable {
 
     public void setProdEsreceta(Boolean prodEsreceta) {
         this.prodEsreceta = prodEsreceta;
+    }
+
+    public Boolean getProdEsRepetido() {
+        return prodEsRepetido;
+    }
+
+    public void setProdEsRepetido(Boolean prodEsRepetido) {
+        this.prodEsRepetido = prodEsRepetido;
     }
 
     @Override

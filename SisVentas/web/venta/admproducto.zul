@@ -103,11 +103,23 @@
                     <listitem>
                         <listcell   style="height: 10px;overflow: hidden;">  </listcell>
                         <listcell zclass = "mycss-listcell">
-                            <textbox readonly="true" style="font-size:12px;background:#EBF5FB"
+                             <textbox readonly="true" 
+                                     if="${each.prodEsRepetido}"
+                                     style="font-size:12px;background:#F19C98"
+                                     class="form-control form-control-sm"  value="@bind(each.prodCodigo)"  />
+                            <textbox readonly="true" 
+                                     if="${!each.prodEsRepetido}"
+                                     style="font-size:12px;background:#EBF5FB"
                                      class="form-control form-control-sm"  value="@bind(each.prodCodigo)"  />
                         </listcell>
                         <listcell zclass = "mycss-listcell">
-                            <textbox readonly="true" style="font-size:12px;background:#EBF5FB"
+                            <textbox readonly="true" 
+                                      if="${each.prodEsRepetido}"
+                                     style="font-size:12px;background:#F19C98"
+                                     class="form-control form-control-sm" value="@bind(each.prodNombre)" />
+                            <textbox readonly="true" 
+                                      if="${!each.prodEsRepetido}"
+                                     style="font-size:12px;background:#EBF5FB"
                                      class="form-control form-control-sm" value="@bind(each.prodNombre)" />
                         </listcell>
                         <listcell zclass = "mycss-listcell">
