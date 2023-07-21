@@ -20,7 +20,6 @@ import com.ec.vista.servicios.ServicioAcumuladoDiarioUsuario;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.SQLException;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -90,7 +89,7 @@ public class CierreCajaVm {
             totalDeuda = totalesFactura != null ? totalesFactura.getFacSaldoAmortizado() : BigDecimal.ZERO;
             totalDeuda = ArchivoUtils.redondearDecimales(totalDeuda, 2);
             totalEmitido = acumuladoDiaUsuario.getValorFacturas();
-            totalEmitido = ArchivoUtils.redondearDecimales(totalEmitido.add(totNotaVenta), 2);
+//            totalEmitido = ArchivoUtils.redondearDecimales(totalEmitido.add(totNotaVenta), 2);
 
             totFactura = totalEmitido.subtract(totalDeuda);
             totFactura = ArchivoUtils.redondearDecimales(totFactura, 2);
