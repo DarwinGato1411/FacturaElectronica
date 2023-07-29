@@ -193,7 +193,7 @@ public class Facturar extends SelectorComposer<Component> {
     private BigDecimal totalDescuento = BigDecimal.ZERO;
     //Cabecera de la factura
     private String estdoFactura = "PA";
-    private String tipoVentaAnterior = "FACT";
+    private String tipoVentaAnterior = "NTV ";
     private String tipoVenta = "FACT";
     private String facturaDescripcion = "";
     private Integer numeroFactura = 0;

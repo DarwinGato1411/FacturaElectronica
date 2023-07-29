@@ -69,6 +69,8 @@ body {
     gap: 0.5em;
 }
 
+
+
 .fact_row > .wrapper_data > .wrapper_input {
     display: flex;
     align-items: center;
@@ -641,6 +643,8 @@ div.z-listheader-cnt {
         width: 50%;
     }
 
+
+
     .factura_body_content > .factura_body_item_lefth {
         width: 60%;
     }
@@ -652,6 +656,14 @@ div.z-listheader-cnt {
     .factura_body_content > .factura_body_item > .z-listbox > .z-listbox-header,
     .factura_body_content > .factura_body_item > .z-listbox > .z-listbox-body {
         overflow: hidden !important;
+    }
+
+    .factura_header > .fact_row > .wrapper_data1 {
+        width: 40%;
+    }
+
+    .factura_header > .fact_row > .wrapper_data2 {
+        width: 60%;
     }
 }
 

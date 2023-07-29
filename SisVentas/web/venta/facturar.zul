@@ -32,7 +32,7 @@
                         
                     <div class="factura_header">
                         <div class="fact_row">
-                            <div class="wrapper_data">
+                            <div class="wrapper_data wrapper_data1">
                                 <div class="wrapper_input">
                                     <span>Cédula:</span>
                                     <textbox 
@@ -96,7 +96,7 @@
                                     <div class="fa-solid fa-calendar icon" />
                                 </div>
                             </div>
-                            <div class="wrapper_data">
+                            <div class="wrapper_data wrapper_data2">
                                 <div class="wrapper_input">
                                     <span>Forma de Pago:</span>
 
