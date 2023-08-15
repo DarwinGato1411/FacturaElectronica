@@ -193,7 +193,7 @@ public class Facturar extends SelectorComposer<Component> {
     //Cabecera de la factura
     private String estdoFactura = "PA";
     private String tipoVentaAnterior = "FACT";
-    private String tipoVenta = "FACT";
+    private String tipoVenta = "NTV";
     private String facturaDescripcion = "";
     private Integer numeroFactura = 0;
     private String numeroFacturaText = "";
