@@ -436,6 +436,10 @@ public class Facturar extends SelectorComposer<Component> {
         /*FIN DEL SALDO DE FACTURAS CON ELLO VEMOS CUANTO CREDITO TIENE EL CLIENTE*/
         if (tipoVenta.equals("FACT") && accion.equals("update")) {
             numeroFactura = factura.getFacNumero();
+            if(factura.getFacCobro()!=null && factura.getFacCambio()!=null){
+                cobro=factura.getFacCobro();
+                cambio=factura.getFacCambio();
+            }
         } else if (tipoVenta.equals("PROF") && accion.equals("update")) {
             numeroFactura = factura.getFacNumProforma();
         } else if (tipoVenta.equals("NTE") && accion.equals("update")) {
@@ -443,6 +447,7 @@ public class Facturar extends SelectorComposer<Component> {
         } else if (tipoVenta.equals("NTV") && accion.equals("update")) {
             numeroFactura = factura.getFacNumNotaVenta();
         }
+        
         fechafacturacion = factura.getFacFecha();
         /*RECUPERA LOS VALORES TOTALES DE LA FACTURA*/
         subTotalCotizacion = factura.getFacSubtotal();
@@ -2048,6 +2053,8 @@ public class Facturar extends SelectorComposer<Component> {
             factura.setFacPlazo(BigDecimal.valueOf(Double.valueOf(facplazo)));
             factura.setFacUnidadTiempo(formaPagoSelected.getUnidadTiempo());
             factura.setIdEstado(servicioEstadoFactura.findByEstCodigo(estdoFactura));
+            factura.setFacCobro(cobro);
+            factura.setFacCambio(cambio);
 
             factura.setFacTotalBaseGravaba(subTotalCotizacion);
 //            factura.setFacTotalBaseGravaba(subTotalBaseCero);
@@ -2754,6 +2761,7 @@ public class Facturar extends SelectorComposer<Component> {
     public void calcularCambio() {
         cambio = cobro.add(valorTotalCotizacion.negate());
         cambio.setScale(2, RoundingMode.FLOOR);
+        
     }
 
     public Integer getNumeroProforma() {

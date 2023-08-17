@@ -177,7 +177,11 @@ public class Factura implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date facFechaCobro;
 
-    
+    @Column(name = "fac_cobro")
+    private BigDecimal facCobro;
+
+    @Column(name = "fac_cambio")
+    private BigDecimal facCambio;
 
 //    @Column(name = "fac_placa")
 //    private String facPlaca;
@@ -758,8 +762,6 @@ public class Factura implements Serializable {
         this.facObservacion = facObservacion;
     }
 
-    
-
     @XmlTransient
     public Collection<Guiaremision> getGuiaremisionCollection() {
         return guiaremisionCollection;
@@ -803,4 +805,21 @@ public class Factura implements Serializable {
         return "com.ec.entidad.Factura[ idFactura=" + idFactura + " ]";
     }
 
+    public BigDecimal getFacCobro() {
+        return facCobro;
+    }
+
+    public void setFacCobro(BigDecimal facCobro) {
+        this.facCobro = facCobro;
+    }
+
+    public BigDecimal getFacCambio() {
+        return facCambio;
+    }
+
+    public void setFacCambio(BigDecimal facCambio) {
+        this.facCambio = facCambio;
+    }
+
+    
 }
