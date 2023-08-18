@@ -682,12 +682,12 @@ div.z-listheader-cnt {
 }
 
 .encabezado1 ,.tabla1{
-    display: grid;
+    display: grid !important;
     grid-template-columns:20% 38% 10% 12% 12% 8%;
 }
 
 .encabezado2 ,.tabla2{
-    display: grid;
+    display: grid !important;
     grid-template-columns:5% 10% 10% 10% 35% 10% 10% 10%;
 }
 
@@ -772,4 +772,15 @@ div.z-listheader-cnt {
     font-size: 12px;
     color: #333;
     height: 30px;
+}
+
+@media only screen and (min-width: 1070px) {
+    .containerFactura table,
+    .containerFactura tbody,
+    .containerFactura td,
+    .containerFactura tr,
+    .containerFactura th,
+    .containerFactura{
+        display: block ;
+    }
 }

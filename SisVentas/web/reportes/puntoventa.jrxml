@@ -140,7 +140,7 @@ INNER JOIN cliente ON factura.id_cliente = cliente.id_cliente
 INNER JOIN forma_pago ON factura.id_forma_pago = forma_pago.id_forma_pago
 INNER JOIN usuario ON factura.id_usuario = usuario.id_usuario
 where factura.fac_numero=$P{numfactura}
-and tipoambiente.am_estado is true limit 1;]]>
+and tipoambiente.am_estado is true  limit 1;]]>
 	</queryString>
 	<field name="cod_tipoambiente" class="java.lang.Integer"/>
 	<field name="am_codigo" class="java.lang.String"/>
@@ -264,8 +264,6 @@ and tipoambiente.am_estado is true limit 1;]]>
 	<field name="id_referencia" class="java.lang.Integer"/>
 	<field name="fac_valor_ice" class="java.math.BigDecimal"/>
 	<field name="fac_base_ice" class="java.math.BigDecimal"/>
-	<field name="fac_cobro" class="java.math.BigDecimal"/>
-	<field name="fac_cambio" class="java.math.BigDecimal"/>
 	<field name="cli_cedula" class="java.lang.String"/>
 	<field name="cli_nombre" class="java.lang.String"/>
 	<field name="cli_razon_social" class="java.lang.String"/>
@@ -750,38 +748,6 @@ and tipoambiente.am_estado is true limit 1;]]>
 					<font size="9"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{fac_observacion}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement positionType="Float" x="10" y="144" width="32" height="13">
-					<printWhenExpression><![CDATA[$F{fac_cobro}]]></printWhenExpression>
-				</reportElement>
-				<textElement>
-					<font size="9" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Cobro:]]></text>
-			</staticText>
-			<textField>
-				<reportElement positionType="Float" x="42" y="144" width="54" height="13"/>
-				<textElement>
-					<font size="9"/>
-				</textElement>
-				<textFieldExpression class="java.lang.Double"><![CDATA[$F{fac_cobro}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement positionType="Float" x="96" y="144" width="38" height="13">
-					<printWhenExpression><![CDATA[$F{fac_cambio}]]></printWhenExpression>
-				</reportElement>
-				<textElement>
-					<font size="9" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Cambio:]]></text>
-			</staticText>
-			<textField>
-				<reportElement positionType="Float" x="134" y="144" width="54" height="13"/>
-				<textElement>
-					<font size="9"/>
-				</textElement>
-				<textFieldExpression class="java.lang.Double"><![CDATA[$F{fac_cambio}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

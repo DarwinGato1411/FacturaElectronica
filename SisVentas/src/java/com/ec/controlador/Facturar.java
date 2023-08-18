@@ -436,10 +436,12 @@ public class Facturar extends SelectorComposer<Component> {
         /*FIN DEL SALDO DE FACTURAS CON ELLO VEMOS CUANTO CREDITO TIENE EL CLIENTE*/
         if (tipoVenta.equals("FACT") && accion.equals("update")) {
             numeroFactura = factura.getFacNumero();
-            if(factura.getFacCobro()!=null && factura.getFacCambio()!=null){
-                cobro=factura.getFacCobro();
-                cambio=factura.getFacCambio();
-            }
+            
+            //codigo para facturador personalizado
+//            if(factura.getFacCobro()!=null && factura.getFacCambio()!=null){
+//                cobro=factura.getFacCobro();
+//                cambio=factura.getFacCambio();
+//            }
         } else if (tipoVenta.equals("PROF") && accion.equals("update")) {
             numeroFactura = factura.getFacNumProforma();
         } else if (tipoVenta.equals("NTE") && accion.equals("update")) {
@@ -2053,8 +2055,9 @@ public class Facturar extends SelectorComposer<Component> {
             factura.setFacPlazo(BigDecimal.valueOf(Double.valueOf(facplazo)));
             factura.setFacUnidadTiempo(formaPagoSelected.getUnidadTiempo());
             factura.setIdEstado(servicioEstadoFactura.findByEstCodigo(estdoFactura));
-            factura.setFacCobro(cobro);
-            factura.setFacCambio(cambio);
+            //campos persoanalizados
+//            factura.setFacCobro(cobro);
+//            factura.setFacCambio(cambio);
 
             factura.setFacTotalBaseGravaba(subTotalCotizacion);
 //            factura.setFacTotalBaseGravaba(subTotalBaseCero);

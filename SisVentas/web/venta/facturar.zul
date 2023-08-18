@@ -8,13 +8,12 @@
 <?init class="com.ec.seguridad.Autentificador"?>
 <?init class="org.zkoss.zk.ui.util.Composition" arg0="/plantilla/plantilla.zul"?>
 <?link rel="icon" type="image/x-icon" href="/iconos/deckxel.ico"?>
-<zk  contentStyle="overflow:auto" with="100%" class="container" 
->
+<zk   with="100%" class="container" >
 
                <!--onCreate="@command('aperturaCaja')"-->
     <hbox self="@define(content)" apply="org.zkoss.bind.BindComposer" 
     onCreate="@command('aperturaCaja')"
-          viewModel="@id('vm') @init('com.ec.controlador.Facturar')" width="100%">
+          viewModel="@id('vm') @init('com.ec.controlador.Facturar')" width="100%" class="containerFactura">
     
         <timer id="timer" delay="300000" repeats="true" onTimer="@command('refrescarPagina')" />
         <tabbox  width="100%"  tabscroll="true" >
@@ -24,7 +23,7 @@
 
             <tabpanels >
                 
-                <tabpanel  height="100%" width="98%" class="factura" >
+                <tabpanel  height="100%" width="98%" class="factura asdasdsad" >
                     
                     <div class="container-fluid " >
 
