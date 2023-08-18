@@ -15,6 +15,7 @@ import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.ContextParam;
 import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.Selectors;
@@ -27,17 +28,17 @@ import org.zkoss.zul.Window;
  * @author gato
  */
 public class AperturaCajaVm {
-    
+
     @Wire
     Window windowAperCaja;
     private CierreCaja cierreCaja = new CierreCaja();
     ServicioCierreCaja servicioCierreCaja = new ServicioCierreCaja();
     UserCredential credential = new UserCredential();
-    
+
     @AfterCompose
     public void afterCompose(@ContextParam(ContextType.VIEW) Component view) {
         Selectors.wireComponents(view, this, false);
-        
+
         Session sess = Sessions.getCurrent();
         //sess.setMaxInactiveInterval(10000);
         UserCredential cre = (UserCredential) sess.getAttribute(EnumSesion.userCredential.getNombre());
@@ -53,7 +54,7 @@ public class AperturaCajaVm {
         cierreCaja.setIdUsuario(credential.getUsuarioSistema());
         cierreCaja.setCieCerrada(Boolean.FALSE);
     }
-    
+
     @Command
     public void guardar() {
         if (cierreCaja.getCieValorInicio() != null) {
@@ -61,19 +62,21 @@ public class AperturaCajaVm {
             Clients.showNotification("Apertura  de caja correcta",
                     Clients.NOTIFICATION_TYPE_INFO, null, "middle_center", 2000, true);
             windowAperCaja.detach();
+          
+
         } else {
             Clients.showNotification("Ingrese un valor de apertura",
                     Clients.NOTIFICATION_TYPE_ERROR, null, "middle_center", 2000, true);
         }
-        
+
     }
-    
+
     public CierreCaja getCierreCaja() {
         return cierreCaja;
     }
-    
+
     public void setCierreCaja(CierreCaja cierreCaja) {
         this.cierreCaja = cierreCaja;
     }
-    
+
 }

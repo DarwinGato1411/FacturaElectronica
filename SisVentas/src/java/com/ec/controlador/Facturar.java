@@ -381,33 +381,26 @@ public class Facturar extends SelectorComposer<Component> {
     @Command
     public void aperturaCaja() {
 
-//        if (!verificaciones.verificarNumeroDocumentos()) {
-//
-//            Messagebox.show("Usted cuenta con un plan basico y sobre paso el limite de  documentos ¡Contactese con el administrador!", "Atención", Messagebox.OK, Messagebox.EXCLAMATION);
-//            authService.logout();
-//            Executions.sendRedirect("/");
-//
-//        }
-//        if (servicioCierreCaja.findALlCierreCajaForFechaIdUsuario(new Date(), credential.getUsuarioSistema()).isEmpty()
-//                && credential.getUsuarioSistema().getUsuNivel() != 1) {
-        if (servicioCierreCaja.findALlCierreCajaForFechaIdUsuario(new Date(), credential.getUsuarioSistema()).isEmpty()) {
+        boolean cierreCajaCerrada = servicioCierreCaja.findALlCierreCajaForFechaIdUsuario(new Date(), credential.getUsuarioSistema()).isEmpty();
+        if (cierreCajaCerrada) {
             org.zkoss.zul.Window window = (org.zkoss.zul.Window) Executions.createComponents(
-                        "/nuevo/aperturacaja.zul", null, null);
+                    "/nuevo/aperturacaja.zul", null, null);
             window.doModal();
             if (servicioCierreCaja.findALlCierreCajaForFechaIdUsuario(new Date(), credential.getUsuarioSistema()).isEmpty()) {
                 authService.logout();
                 Executions.sendRedirect("/");
             }
         } else {
-            if (servicioCierreCaja.findALlCierreCajaForFechaIdUsuario(new Date(), credential.getUsuarioSistema()).isEmpty()) {
-                CierreCaja cierreCaja = new CierreCaja();
-                cierreCaja.setCieValorInicio(BigDecimal.ZERO);
-                cierreCaja.setCieCuadre(BigDecimal.ZERO);
-                cierreCaja.setCieDiferencia(BigDecimal.ZERO);
-                cierreCaja.setCieValor(BigDecimal.ZERO);
-                cierreCaja.setCieFecha(new Date());
-                cierreCaja.setIdUsuario(credential.getUsuarioSistema());
-                servicioCierreCaja.crear(cierreCaja);
+           
+                if (credential.getUsuarioSistema().getUsuNivel() != 1) {
+                    List<CierreCaja> cierre = servicioCierreCaja.findALlCierreCajaForFechaIdUsuario(new Date(), credential.getUsuarioSistema());
+                    boolean cerrarSecion = cierre.get(0).getCieCerrada();
+                    if (cerrarSecion) {
+                        authService.logout();
+                        Executions.sendRedirect("/");
+                    }
+
+                
             }
 
         }
@@ -443,7 +436,7 @@ public class Facturar extends SelectorComposer<Component> {
         }
         amb = servicioTipoAmbiente.FindALlTipoambiente();
         PATH_BASE = amb.getAmDirBaseArchivos() + File.separator
-                    + amb.getAmDirXml();
+                + amb.getAmDirXml();
         partida = amb.getAmDireccionMatriz();
 
     }
@@ -645,7 +638,7 @@ public class Facturar extends SelectorComposer<Component> {
 
         if (parametrizar.getParNumRegistrosFactura().intValue() <= listaDetalleFacturaDAOMOdel.size()) {
             Clients.showNotification("Numero de registros permitidos imprima y genere otra factura",
-                        Clients.NOTIFICATION_TYPE_INFO, null, "middle_center", 5000, true);
+                    Clients.NOTIFICATION_TYPE_INFO, null, "middle_center", 5000, true);
             return;
         }
         /*calcula con el iva para todo el 12%*/
@@ -667,7 +660,7 @@ public class Facturar extends SelectorComposer<Component> {
             Kardex kardex = servicioKardex.FindALlKardexs(productoBuscado);
             if (kardex.getKarTotal().intValue() < 1) {
                 Clients.showNotification("Verifique el stock del producto cuenta con " + kardex.getKarTotal().intValue() + " en estock",
-                            Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 3000, true);
+                        Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 3000, true);
                 agregarRegistroVacio();
                 return;
             }
@@ -783,7 +776,7 @@ public class Facturar extends SelectorComposer<Component> {
             final HashMap<String, ParamFactura> map = new HashMap<String, ParamFactura>();
             map.put("valor", paramFactura);
             org.zkoss.zul.Window window = (org.zkoss.zul.Window) Executions.createComponents(
-                        "/venta/buscarproducto.zul", null, map);
+                    "/venta/buscarproducto.zul", null, map);
             window.doModal();
             productoBuscado = servicioProducto.findByProdCodigo(codigoBusqueda);
             if (productoBuscado == null) {
@@ -794,7 +787,7 @@ public class Facturar extends SelectorComposer<Component> {
                 Kardex kardex = servicioKardex.FindALlKardexs(productoBuscado);
                 if (kardex.getKarTotal().intValue() < 1) {
                     Clients.showNotification("Verifique el stock del producto cuenta con " + kardex.getKarTotal().intValue() + " en estock",
-                                Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 3000, true);
+                            Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 3000, true);
                     agregarRegistroVacio();
                     return;
                 }
@@ -1004,7 +997,7 @@ public class Facturar extends SelectorComposer<Component> {
         if (buscadoPorCodigo == null) {
             valor.setCodigo("");
             Clients.showNotification("No existe el producto",
-                        Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 2000, true);
+                    Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 2000, true);
             return;
         }
 
@@ -1017,7 +1010,7 @@ public class Facturar extends SelectorComposer<Component> {
             Kardex kardex = servicioKardex.FindALlKardexs(productoBuscado);
             if (kardex.getKarTotal().intValue() < 1) {
                 Clients.showNotification("Verifique el stock del producto cuenta con " + kardex.getKarTotal().intValue() + " en estock",
-                            Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 3000, true);
+                        Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 3000, true);
                 agregarRegistroVacio();
                 return;
             }
@@ -1169,7 +1162,7 @@ public class Facturar extends SelectorComposer<Component> {
 
             if (valor.getEsProducto() && valor.getTotalInicial().doubleValue() < valor.getTotal().doubleValue()) {
                 Clients.showNotification("El precio ingresado no puede superar al precio inicial, si desea colocar un precio superior cree un servicio.",
-                            Clients.NOTIFICATION_TYPE_ERROR, null, "middle_center", 4000, true);
+                        Clients.NOTIFICATION_TYPE_ERROR, null, "middle_center", 4000, true);
                 return;
             }
 
@@ -1589,7 +1582,7 @@ public class Facturar extends SelectorComposer<Component> {
         final HashMap<String, ParamFactura> map = new HashMap<String, ParamFactura>();
         map.put("valor", paramFactura);
         org.zkoss.zul.Window window = (org.zkoss.zul.Window) Executions.createComponents(
-                    "/venta/buscarcliente.zul", null, map);
+                "/venta/buscarcliente.zul", null, map);
         window.doModal();
         System.out.println("clinete de la lsitas buscarCliente " + buscarCliente);
         clienteBuscado = servicioCliente.FindClienteForCedula(buscarCliente);
@@ -1633,7 +1626,7 @@ public class Facturar extends SelectorComposer<Component> {
         final HashMap<String, ParamFactura> map = new HashMap<String, ParamFactura>();
         map.put("valor", paramFactura);
         org.zkoss.zul.Window window = (org.zkoss.zul.Window) Executions.createComponents(
-                    "/venta/listanotaentrega.zul", null, map);
+                "/venta/listanotaentrega.zul", null, map);
         window.doModal();
         buscarCliente = paramFactura.getCedula();
         listaDetalleFacturaDAODatos.clear();
@@ -1687,7 +1680,7 @@ public class Facturar extends SelectorComposer<Component> {
     public void nuevoCliente() {
 
         org.zkoss.zul.Window window = (org.zkoss.zul.Window) Executions.createComponents(
-                    "/nuevo/cliente.zul", null, null);
+                "/nuevo/cliente.zul", null, null);
         window.doModal();
     }
 
@@ -1739,7 +1732,7 @@ public class Facturar extends SelectorComposer<Component> {
                 calcularValoresTotales();
             } else {
                 Clients.showNotification("No tiene permisos para eliminar, verifique el usuario y contraseña",
-                            Clients.NOTIFICATION_TYPE_INFO, null, "middle_center", 5000, true);
+                        Clients.NOTIFICATION_TYPE_INFO, null, "middle_center", 5000, true);
             }
 
         } else {
@@ -1868,22 +1861,22 @@ public class Facturar extends SelectorComposer<Component> {
         try {
 
             String folderGenerados = PATH_BASE + File.separator + amb.getAmGenerados()
-                        + File.separator + new Date().getYear()
-                        + File.separator + new Date().getMonth();
+                    + File.separator + new Date().getYear()
+                    + File.separator + new Date().getMonth();
             String folderEnviarCliente = PATH_BASE + File.separator + amb.getAmEnviocliente()
-                        + File.separator + new Date().getYear()
-                        + File.separator + new Date().getMonth();
+                    + File.separator + new Date().getYear()
+                    + File.separator + new Date().getMonth();
             String folderFirmado = PATH_BASE + File.separator + amb.getAmFirmados()
-                        + File.separator + new Date().getYear()
-                        + File.separator + new Date().getMonth();
+                    + File.separator + new Date().getYear()
+                    + File.separator + new Date().getMonth();
 
             String foldervoAutorizado = PATH_BASE + File.separator + amb.getAmAutorizados()
-                        + File.separator + new Date().getYear()
-                        + File.separator + new Date().getMonth();
+                    + File.separator + new Date().getYear()
+                    + File.separator + new Date().getMonth();
 
             String folderNoAutorizados = PATH_BASE + File.separator + amb.getAmNoAutorizados()
-                        + File.separator + new Date().getYear()
-                        + File.separator + new Date().getMonth();
+                    + File.separator + new Date().getYear()
+                    + File.separator + new Date().getMonth();
 
             /*EN EL CASO DE NO EXISTIR LOS DIRECTORIOS LOS CREA*/
             File folderGen = new File(folderGenerados);
@@ -1921,7 +1914,7 @@ public class Facturar extends SelectorComposer<Component> {
                 if (transportista == null || numeroPlaca.equals("")) {
 
                     Clients.showNotification("Para generar una guia debe seleccionar un conductor e ingresar la placa",
-                                Clients.NOTIFICATION_TYPE_INFO, null, "middle_center", 3000, true);
+                            Clients.NOTIFICATION_TYPE_INFO, null, "middle_center", 3000, true);
                     return;
 
                 }
@@ -2587,13 +2580,13 @@ public class Facturar extends SelectorComposer<Component> {
             emf.getTransaction().begin();
             /*CONEXION A LA BASE DE DATOS*/
             con
-                        = emf.unwrap(Connection.class
-                        );
+                    = emf.unwrap(Connection.class
+                    );
             if (!tipoVenta.equals("SINF")) {
 
                 //  con = emf.unwrap(Connection.class);
                 String reportFile = Executions.getCurrent().getDesktop().getWebApp()
-                            .getRealPath("/reportes");
+                        .getRealPath("/reportes");
                 String reportPath = "";
 //                con = ConexionReportes.Conexion.conexion();
 
@@ -2637,7 +2630,7 @@ public class Facturar extends SelectorComposer<Component> {
                     map.put("pdf", fileContent);
 
                     org.zkoss.zul.Window window = (org.zkoss.zul.Window) Executions.createComponents(
-                                "/venta/contenedorReporte.zul", null, map);
+                            "/venta/contenedorReporte.zul", null, map);
                     window.doModal();
 
                 }
@@ -2739,13 +2732,13 @@ public class Facturar extends SelectorComposer<Component> {
         try {
             emf.getTransaction().begin();
             con
-                        = emf.unwrap(Connection.class
-                        );
+                    = emf.unwrap(Connection.class
+                    );
             if (!tipoVenta.equals("SINF")) {
 
                 //  con = emf.unwrap(Connection.class);
                 String reportFile = Executions.getCurrent().getDesktop().getWebApp()
-                            .getRealPath("/reportes");
+                        .getRealPath("/reportes");
                 String reportPath = "";
 //                con = ConexionReportes.Conexion.conexion();
 
@@ -2887,7 +2880,7 @@ public class Facturar extends SelectorComposer<Component> {
 
             map.put("valor", factura);
             org.zkoss.zul.Window window = (org.zkoss.zul.Window) Executions.createComponents(
-                        "/venta/detallepago.zul", null, map);
+                    "/venta/detallepago.zul", null, map);
             window.doModal();
         } catch (Exception e) {
             Messagebox.show("Error " + e.toString(), "Atención", Messagebox.OK, Messagebox.INFORMATION);
@@ -3109,7 +3102,7 @@ public class Facturar extends SelectorComposer<Component> {
 
             map.put("valor", valor);
             org.zkoss.zul.Window window = (org.zkoss.zul.Window) Executions.createComponents(
-                        "/modificar/motocicleta.zul", null, map);
+                    "/modificar/motocicleta.zul", null, map);
             window.doModal();
         } catch (Exception e) {
             Messagebox.show("Error " + e.toString(), "Atención", Messagebox.OK, Messagebox.INFORMATION);
@@ -3164,7 +3157,7 @@ public class Facturar extends SelectorComposer<Component> {
             final HashMap<String, ParamFactura> map = new HashMap<String, ParamFactura>();
             map.put("valor", paramFactura);
             org.zkoss.zul.Window window = (org.zkoss.zul.Window) Executions.createComponents(
-                        "/venta/cambioprecio.zul", null, map);
+                    "/venta/cambioprecio.zul", null, map);
             window.doModal();
             productoBuscado = valor.getProducto();
             if (productoBuscado == null) {
@@ -3175,7 +3168,7 @@ public class Facturar extends SelectorComposer<Component> {
                 Kardex kardex = servicioKardex.FindALlKardexs(productoBuscado);
                 if (kardex.getKarTotal().intValue() < 1) {
                     Clients.showNotification("Verifique el stock del producto cuenta con " + kardex.getKarTotal().intValue() + " en estock",
-                                Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 3000, true);
+                            Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 3000, true);
                     agregarRegistroVacio();
                     return;
                 }
@@ -3222,11 +3215,11 @@ public class Facturar extends SelectorComposer<Component> {
                     BigDecimal valorTotalIvaDesc = costVentaTipoCliente.subtract(valorDescuentoIva);
                     //valor unit sin iva sin descuento
                     BigDecimal subTotal
-                                = costVentaTipoCliente.divide(factorSacarSubtotal, 5, RoundingMode.FLOOR);
+                            = costVentaTipoCliente.divide(factorSacarSubtotal, 5, RoundingMode.FLOOR);
                     valor.setSubTotal(subTotal);
                     //valor unitario sin iva con descuento
                     BigDecimal subTotalDescuento
-                                = valorTotalIvaDesc.divide(factorSacarSubtotal, 5, RoundingMode.FLOOR);
+                            = valorTotalIvaDesc.divide(factorSacarSubtotal, 5, RoundingMode.FLOOR);
                     valor.setSubTotalDescuento(subTotalDescuento);
                     //valor del descuento
                     BigDecimal valorDescuento = valor.getSubTotal().subtract(valor.getSubTotalDescuento());

@@ -1,15 +1,17 @@
- /*
+/*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
 package com.ec.controlador;
 
+import com.ec.entidad.CierreCaja;
 import com.ec.entidad.NumeroDocumentosEmitidos;
 import com.ec.entidad.Parametrizar;
 import com.ec.seguridad.AutentificadorLogeo;
 import com.ec.seguridad.EnumSesion;
 import com.ec.seguridad.GrupoUsuarioEnum;
 import com.ec.seguridad.UserCredential;
+import com.ec.servicio.ServicioCierreCaja;
 import com.ec.servicio.ServicioParametrizar;
 import com.ec.vista.servicios.ServicioNumeroDocumentosEmitidos;
 import java.util.Date;
@@ -41,6 +43,8 @@ public class LoginController extends SelectorComposer<Component> {
     Label message;
 
     Integer numeroDocumentos = 0;
+    ServicioCierreCaja servicioCierreCaja = new ServicioCierreCaja();
+    UserCredential credential = new UserCredential();
 
     public void LoginController() {
     }
@@ -78,7 +82,9 @@ public class LoginController extends SelectorComposer<Component> {
             if (servicioAuth.login(account.getValue(), password.getValue())) {
                 Session sess = Sessions.getCurrent();
                 UserCredential cre = (UserCredential) sess.getAttribute(EnumSesion.userCredential.getNombre());
+
                 if (cre.getNivelUsuario().intValue() == GrupoUsuarioEnum.USUARIO.getCodigo()) {
+                   
                     Executions.sendRedirect("/venta/facturar.zul");
                 } else if (cre.getNivelUsuario().intValue() == GrupoUsuarioEnum.ADMINISTRADOR.getCodigo()) {
                     Executions.sendRedirect("/venta/facturar.zul");

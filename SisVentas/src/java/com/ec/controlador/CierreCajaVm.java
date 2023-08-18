@@ -7,6 +7,8 @@ package com.ec.controlador;
 import com.ec.entidad.CierreCaja;
 import com.ec.entidad.Producto;
 import com.ec.entidad.VistaFacturasPorCobrar;
+import com.ec.seguridad.AutentificadorLogeo;
+import com.ec.seguridad.AutentificadorService;
 import com.ec.seguridad.EnumSesion;
 import com.ec.seguridad.UserCredential;
 import com.ec.servicio.ServicioCierreCaja;
@@ -32,6 +34,7 @@ import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.bind.annotation.ExecutionArgParam;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.Selectors;
@@ -62,6 +65,7 @@ public class CierreCajaVm {
     private Boolean cajaCerrada = Boolean.FALSE;
 
     ServicioGeneral servicioGeneral = new ServicioGeneral();
+    AutentificadorService authService = new AutentificadorLogeo();
 
     @AfterCompose
     public void afterCompose(@ExecutionArgParam("valor") Producto producto, @ContextParam(ContextType.VIEW) Component view) {
@@ -151,6 +155,11 @@ public class CierreCajaVm {
 
             System.out.println("cierreCaja " + cierreCaja.getIdCierre());
             DispararReporte.reporteCierrecaja(cierreCaja.getIdCierre());
+            if (credential.getNivelUsuario() != 1) {
+                System.out.println("Usuario ventas");
+                authService.logout();
+                Executions.sendRedirect("/");
+            }
         } catch (JRException ex) {
             Logger.getLogger(CierreCajaVm.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
