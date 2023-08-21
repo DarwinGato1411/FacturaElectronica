@@ -317,6 +317,7 @@ body {
 
 .wrapper_total {
     display: flex;
+    width: 100%;
     flex-direction: column !important;
     justify-content: center;
     align-items: center;
@@ -782,5 +783,58 @@ div.z-listheader-cnt {
     .containerFactura th,
     .containerFactura{
         display: block ;
+    }
+}
+
+.fact_row1{
+    display: grid !important;
+    grid-template-columns:100%;
+}
+
+.fact_row1 .inputs{
+    display: grid !important;
+    grid-template-columns:100%;
+}
+
+@media screen and (min-width: 1070px) {
+    .fact_row1 .inputs{
+        display: grid !important;
+        grid-template-columns:50% 50%;
+        gap:10px;
+    }
+    
+    .fact_row1 .wrapper_buttons{
+        width: 100%;
+         display: grid !important;
+         align-items: center;
+        grid-template-columns:repeat(3 , 1fr);
+    }
+    .fact_row1 .wrapper_input{
+         display: flex;
+    }
+    
+    .fact_row1 .wrapper_data{
+         display: flex;
+         flex-direction: column;
+         gap:10px;
+    }
+   
+    .fact_row1  .contenedorTotal .text_total {
+        display: block;
+        text-align: center;
+    }
+    .fact_row1  .contenedorTotal .text_total span{
+        font-size: 14px;
+        color: var(--secondary-color);
+        text-align: center;
+         display: block;
+        
+    }
+    .fact_row1  .contenedorTotal input{
+        font-size: 14px;
+        color: var(--secondary-color);
+        text-align: center;
+         display: block;
+        
     }
 }

@@ -11,9 +11,9 @@
         
     </style>
               
-    <hbox self="@define(content)" apply="org.zkoss.bind.BindComposer" 
+   <hbox self="@define(content)" apply="org.zkoss.bind.BindComposer" 
     onCreate="@command('aperturaCaja')"
-          viewModel="@id('vm') @init('com.ec.controlador.Facturar')" width="100%">
+          viewModel="@id('vm') @init('com.ec.controlador.Facturar')" width="100%" class="containerFactura">
     
         <timer id="timer" delay="300000" repeats="true" onTimer="@command('refrescarPagina')" />
         <tabbox  width="100%"  tabscroll="true" >
@@ -23,7 +23,7 @@
 
             <tabpanels >
                 
-                <tabpanel  height="100%" width="98%" class="factura" >
+                <tabpanel  height="100%" width="98%" class="factura asdasdsad" >
                     
                     <div class="container-fluid " >
 
@@ -31,7 +31,7 @@
                         
                     <div class="factura_header">
                         <div class="fact_row">
-                            <div class="wrapper_data">
+                            <div class="wrapper_data wrapper_data1">
                                 <div class="wrapper_input">
                                     <span>Cédula:</span>
                                     <textbox 
@@ -95,7 +95,7 @@
                                     <div class="fa-solid fa-calendar icon" />
                                 </div>
                             </div>
-                            <div class="wrapper_data">
+                            <div class="wrapper_data wrapper_data2">
                                 <div class="wrapper_input">
                                     <span>Forma de Pago:</span>
 
@@ -168,7 +168,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="fact_row">
+                        <div class="fact_row1 fact_row">
+                            <div class="inputs">
                             <div class="wrapper_data">
                                 <div class="wrapper_input">
                                     <span>Sindesc:</span>
@@ -256,17 +257,23 @@
                                 
 
                             </div>
-                            
-                            <div class="wrapper_input">
-                                    
-                                     
-                                </div>
+                        </div>
                             <div class="fact_row wrapper_buttons">
+                                <div class="contenedorTotal">
+                                    <span class="text_total">Total:</span>
+
+                                    <decimalbox  
+                                        format="###.##"   
+                                        value="@bind(vm.valorTotalCotizacion)"                                                 
+                                        readonly="true"
+                                        
+                                    />
+                                </div> 
                                 <button src="/iconos/fact.png"   
                                                     autodisable="self"
                                                     label="Nota entrega"
                                                    width="100%"
-                                                    style="font-size:18px; height:46px"                                                   
+                                                    style="font-size:14px; height:36px"                                                   
                                                     class="btn btn btn-secondary btn-sm "
                                                     onClick="@command('verNotasEntrega')"
                                                     tooltiptext="Cargar notas de entrega"/>
@@ -276,22 +283,14 @@
                                     onClick="@command('Guardar',valor='SG')"
                                     tooltiptext="Guardar"
                                     label="Facturar"
-                                    style="font-size:18px; height:46px"
+                                    style="font-size:14px; height:36px"
                                 />
 
-                                <div class="wrapper_input wrapper_total">
-                                    <span style="text_total">Total:</span>
-
-                                    <decimalbox  
-                                        format="###.##"   
-                                        value="@bind(vm.valorTotalCotizacion)"                                                 
-                                        readonly="true"
-                                        
-                                    />
-                                </div> 
+                                
 
                                 
                             </div>
+                            
                         </div>
                     </div>
 
@@ -406,21 +405,6 @@
                         </div>
 
                         <div class="factura_body_item factura">
-                            <div class="wrapper_input_mod" style="flex:auto;display: contents">
-                                <span style="margin:0 4em"> Observación:</span>
-                                <div class="wrapper_input_text" style="width:100%;margin-left:1px">
-                                    <!--<div class="fa-solid fa-dollar-sign icon"></div>-->
-                                    <textbox  
-                                        maxlength="450" 
-                                        multiline="true"
-                                        width="100%"
-                                        style="margin-bottom:15px; margin-left:1px"  
-                                        rows="3"
-                                        value="@bind(vm.factura.facObservacion)"
-                                        class="input_text" 
-                                    />
-                                </div>
-                            </div>
                             <listbox id="lstFacturar"
                                         model="@load(vm.listaDetalleFacturaDAOMOdel)"
                                         mold="paging" pageSize="14"
@@ -512,10 +496,23 @@
                                     </listitem>
                                 </template>
                             </listbox>
-                             
+                            <div class="wrapper_input_mod" style="flex:auto;display: contents">
+                                <span style="margin:0 4em"> Observación:</span>
+                                <div class="wrapper_input_text" style="width:100%;margin-left:1px">
+                                    <!--<div class="fa-solid fa-dollar-sign icon"></div>-->
+                                    <textbox  
+                                        maxlength="450" 
+                                        multiline="true"
+                                        width="100%"
+                                        style="margin-bottom:15px; margin-left:1px"  
+                                        rows="3"
+                                        value="@bind(vm.factura.facObservacion)"
+                                        class="input_text" 
+                                    />
+                                </div>
+                            </div>
                         </div>                         
                     </div>
-                   
                          
                          
                         <!--<div class="row  " style="margin-top:5px">
