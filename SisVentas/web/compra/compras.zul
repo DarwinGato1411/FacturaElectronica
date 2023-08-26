@@ -121,8 +121,10 @@
                                             <div class="">
                                                 <textbox maxlength="49"   
                                                          placeholder=" Clave autorizacion"
-                                                         class="form-control form-control-sm" 
-                                                         value="@bind(vm.cabeceraCompra.cabAutorizacion)"   />
+                                                         class="form-control form-control-sm"           
+                                                         value="@bind(vm.cabeceraCompra.cabAutorizacion)"
+                                                         onOK="@command('buscarAutorizacionRepetida')"
+                                                />
                                             </div>
                                         </div>
                                         

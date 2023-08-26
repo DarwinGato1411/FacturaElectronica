@@ -275,6 +275,10 @@ public class ListaCompras {
             HSSFCell ch6 = r.createCell(j++);
             ch6.setCellValue(new HSSFRichTextString("Total"));
             ch6.setCellStyle(estiloCelda);
+            
+            HSSFCell ch7 = r.createCell(j++);
+            ch7.setCellValue(new HSSFRichTextString("Estado"));
+            ch7.setCellStyle(estiloCelda);
 
             int rownum = 1;
             int i = 0;
@@ -304,6 +308,9 @@ public class ListaCompras {
 
                 HSSFCell c6 = r.createCell(i++);
                 c6.setCellValue(new HSSFRichTextString(item.getCabTotal().toString()));
+                
+                HSSFCell c7 = r.createCell(i++);
+                c7.setCellValue(new HSSFRichTextString((item.getCabEstado().equals("PE")?"Pendiente":"Pagado")).toString());
                 /*autemta la siguiente fila*/
                 rownum += 1;
 

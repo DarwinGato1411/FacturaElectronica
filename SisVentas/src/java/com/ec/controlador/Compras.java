@@ -339,7 +339,7 @@ public class Compras {
         final HashMap<String, String> map = new HashMap<String, String>();
         map.put("valor", "proveedor");
         org.zkoss.zul.Window window = (org.zkoss.zul.Window) Executions.createComponents(
-                    "/compra/buscarproveedor.zul", null, map);
+                "/compra/buscarproveedor.zul", null, map);
         window.doModal();
         proveedorSeleccionado = servicioProveedor.findProvCedula(buscarCedulaProveedor);
     }
@@ -364,13 +364,22 @@ public class Compras {
     }
 
     @Command
+    public void buscarAutorizacionRepetida() {
+
+        if (servicioCompra.findAutorizacionRepetida(cabeceraCompra.getCabAutorizacion())) {
+            Clients.showNotification("La clave de autorización ya existe",
+                    Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 2000, true);
+        }
+    }
+
+    @Command
     @NotifyChange({"listaCompraProductosMOdel"})
     public void cambiarRegistro(@BindingParam("valor") DetalleCompraUtil valor) {
 
         final HashMap<String, String> map = new HashMap<String, String>();
         map.put("valor", "producto");
         org.zkoss.zul.Window window = (org.zkoss.zul.Window) Executions.createComponents(
-                    "/compra/buscarproducto.zul", null, map);
+                "/compra/buscarproducto.zul", null, map);
         window.doModal();
         productoBuscado = servicioProducto.findByProdCodigo(codigoBusqueda);
         if (productoBuscado != null) {
@@ -535,19 +544,25 @@ public class Compras {
     public void Guardar() {
         if (proveedorSeleccionado.getProvCedula().equals("")) {
             Clients.showNotification("Verifique el proveedor",
-                        Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 2000, true);
+                    Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 2000, true);
             return;
         }
         if (cabeceraCompra.getCabEstablecimiento() == null || cabeceraCompra.getCabPuntoEmi() == null
-                    || numeroFactura.isEmpty()) {
+                || numeroFactura.isEmpty()) {
             Clients.showNotification("Verifique el establecimiento, punto de emisión y numero de factura",
-                        Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 2000, true);
+                    Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 2000, true);
             return;
         }
 
         if (numeroFactura.length() != 9) {
             Clients.showNotification("El número de factura debe tener 9 digitos",
-                        Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 2000, true);
+                    Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 2000, true);
+            return;
+        }
+
+        if (servicioCompra.findAutorizacionRepetida(cabeceraCompra.getCabAutorizacion())) {
+            Clients.showNotification("La clave de autorización ya existe",
+                    Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 2000, true);
             return;
         }
 

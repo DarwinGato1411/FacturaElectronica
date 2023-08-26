@@ -80,6 +80,14 @@
                                     </radiogroup>
                                 </div>
                             </div>
+                            <div  class="col-12 col-sm-12 col-md-3 col-lg-3 ">
+                                        <button   image="/imagenes/excel.png"  
+                                                  onClick="@command('exportExcel')"  
+                                                  class="btn btn-primary btn-sm "
+                                                  label="Exportar Excel"
+                                                  tooltiptext="Descargar"/>
+
+                                    </div>
                         </div>
                     </div>
 

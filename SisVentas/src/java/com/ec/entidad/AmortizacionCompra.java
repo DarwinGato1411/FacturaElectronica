@@ -46,6 +46,9 @@ public class AmortizacionCompra implements Serializable {
     private Date detFecha;
     @Column(name = "det_dias")
     private Integer detDias;
+    
+    @Column(name = "det_observacion")
+    private String detObservacion;
     @JoinColumn(name = "id_compra", referencedColumnName = "id_cabecera")
     @ManyToOne
     private CabeceraCompra idCompra;
@@ -97,6 +100,15 @@ public class AmortizacionCompra implements Serializable {
         this.idCompra = idCompra;
     }
 
+    public String getDetObservacion() {
+        return detObservacion;
+    }
+
+    public void setDetObservacion(String detObservacion) {
+        this.detObservacion = detObservacion;
+    }
+
+    
     @Override
     public int hashCode() {
         int hash = 0;

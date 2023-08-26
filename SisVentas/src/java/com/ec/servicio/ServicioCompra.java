@@ -109,11 +109,11 @@ public class ServicioCompra {
             DetalleCompra ingreso = null;
             for (DetalleCompraUtil item : detalleCompra) {
                 ingreso = new DetalleCompra(item.getCantidad(),
-                            item.getDescripcion(),
-                            item.getSubtotal(),
-                            item.getTotal(),
-                            compra,
-                            item.getProducto());
+                        item.getDescripcion(),
+                        item.getSubtotal(),
+                        item.getTotal(),
+                        compra,
+                        item.getProducto());
                 ingreso.setDetValorInicial(item.getCantidad());
                 ingreso.setDetFactor(item.getFactor());
                 ingreso.setIprodCantidad(item.getTotalTRanformado());
@@ -156,7 +156,7 @@ public class ServicioCompra {
             em = HelperPersistencia.getEMF();
             em.getTransaction().begin();
             Query query = em.createQuery("SELECT c FROM CabeceraCompra c WHERE c.cabFechaEmision BETWEEN :inicio AND :fin "
-                        + " ORDER BY c.cabFechaEmision DESC");
+                    + " ORDER BY c.cabFechaEmision DESC");
             query.setParameter("inicio", incio);
             query.setParameter("fin", fin);
             listaCabeceraCompras = (List<CabeceraCompra>) query.getResultList();
@@ -365,6 +365,31 @@ public class ServicioCompra {
         }
 
         return cabeceraCompra;
+    }
+
+    public boolean findAutorizacionRepetida(String autorizacion) {
+        CabeceraCompra cabeceraCompra = null;
+        List<CabeceraCompra> listaCabeceraCompras = new ArrayList<CabeceraCompra>();
+        boolean repetida = false;
+        try {
+            //Connection connection = em.unwrap(Connection.class);
+            em = HelperPersistencia.getEMF();
+            em.getTransaction().begin();
+            Query query = em.createQuery("SELECT c FROM CabeceraCompra c WHERE c.cabAutorizacion =:cabAutorizacion");
+            query.setParameter("cabAutorizacion", autorizacion);
+//            query.setParameter("codTipoambiente", amTipoambiente);
+            listaCabeceraCompras = (List<CabeceraCompra>) query.getResultList();
+            if (listaCabeceraCompras.size() > 0) {
+                repetida=true;
+            }
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            System.out.println("Error en la consulta compra " + e.getMessage());
+        } finally {
+            em.close();
+        }
+
+        return repetida;
     }
 
     public List<CabeceraCompra> findByNumeroFacturaAndProveedor(String cabNumFactura, String cabProveedor) {

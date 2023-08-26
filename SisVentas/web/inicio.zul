@@ -4,10 +4,11 @@
 
 <?link rel="icon" type="image/x-icon" href="/iconos/defact.ico"?>  
 <?page title="Facturacion electrónica" contentType="text/html;charset=UTF-8"?>
+<?script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.4/dist/sweetalert2.all.min.js"?>
+<?link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.4/dist/sweetalert2.min.css"?>
 
-<zk >
-
-   <div class="login_container"  id="loginWin" apply="com.ec.controlador.LoginController">
+<zk>   
+    <div class="login_container"  id="loginWin" apply="com.ec.controlador.LoginController">
         <div class="wrapper_login">
             <div class="container_img">
                 <image src="./imagenes/logodeckxel.png" class="logo"/>
@@ -18,14 +19,14 @@
                         Estimado usuario envenido a nuestro sistema.
                     </div>
                     <div class="desc">
-                       Obten tu firma electronica con nosotros.
+                        Obten tu firma electronica con nosotros.
                     </div>
                     <div class="desc">
-                       Asesoramiento directo.
+                        Asesoramiento directo.
                     </div>
                     <div class="desc">DECKXEL</div>
-                   <div class="desc">099 742 8125   </div>
-                   <div class="desc">www.deckxel.com   </div>
+                    <div class="desc">099 742 8125   </div>
+                    <div class="desc">www.deckxel.com   </div>
                     <!--<button class="btn btn_reg" id="btnRegistra" >Registro</button> -->
                 </div>
             </div>
@@ -49,7 +50,7 @@
                         <textbox 
                             type="password" 
                             placeholder="Contraseña" 
-                             id="password"
+                            id="password"
                             class="input input_password"
                         />
                         <span class="fa-solid fa-eye icon_eye icon"></span>
@@ -64,7 +65,7 @@
                         id="buttonEntrar"
                     >Iniciar Sesión
                     </button>
-<!--                    <button 
+                    <!--                    <button 
                         class="btn btn_sign_reg"
                         id="btnRegistra"
                     >Registro
@@ -75,9 +76,17 @@
             </div>
         </div>
     </div>
-
     <div class="wrapper_loading loading_inicio">
-        <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+        <div class="lds-ring">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
     </div>
+    
+
+   
+    
 
 </zk>

@@ -13,24 +13,24 @@
             <intbox   placeholder=""
                       value="@bind(vm.numeroMeses)" 
                       onOK="@command('calculoCuota')" 
-                       visible="@bind(vm.generar)"  
+                      visible="@bind(vm.generar)"  
                       style="font-weight:bold;font-size:1em;width:80px;"
                       maxlength="3"  />
             <div class="input-group-append">
-<!--                <button   image="/iconos/cal.png"  
-                          onClick="@command('calculoCuota')"  
-                          class="btn btn-primary btn-sm  "
-                          tooltiptext="Generar tabla"/> -->
-                 <button   image="/iconos/guardar.png"  
-                          onClick="@command('confirmarTabla')"
-                          visible="@bind(vm.generar)"   
-                          class="btn btn-primary btn-sm  "
-                          tooltiptext="Guardar tabla"/>  
+                <!--                <button   image="/iconos/cal.png"  
+                onClick="@command('calculoCuota')"  
+                class="btn btn-primary btn-sm  "
+                tooltiptext="Generar tabla"/> -->
+                <button  image="/iconos/guardar.png"  
+                         onClick="@command('confirmarTabla')"
+                         visible="@bind(vm.generar)"   
+                         class="btn btn-primary btn-sm  "
+                         tooltiptext="Guardar tabla"/>  
                                                          
             </div>
                   
-<!--        </div>
-        <div class=" input-group col-12 col-sm-12 col-md-12 col-lg-12 ">-->
+            <!--        </div>
+            <div class=" input-group col-12 col-sm-12 col-md-12 col-lg-12 ">-->
             <label value="Total: " style="font-weight: bold;padding: 5px;;font-size:1.5em"   />
             <decimalbox format="###.####"  value="@bind(vm.totalFactura)" 
                         style="font-weight: bold;padding: 5px; color:blue; width:120px;font-size:1.5em;margin-top: 4px;"   />
@@ -45,48 +45,64 @@
                         
         <listhead> 
             <listheader width="10%"  label="# Pago"  /> 
-            <listheader width="60%"  label="Fecha-Cobro" /> 
+            <listheader width="20%"  label="Fecha-Cobro" /> 
             <!--<listheader width="20%"  label="Fecha-Pago" />-->                                                           
             <!--<listheader width="20%"  label="Valor " align="right"  />--> 
-            <listheader width="20%"  label="Abono" align="right" /> 
+            <listheader width="20%"  label="Abono" align="right" />
+            <listheader width="30%"  label="Detalle Pago" align="right" />  
             <!--<listheader width="15%"  label="Saldo" align="right" />-->               
+            <listheader width="10%"  label="" align="right" />
             <listheader width="10%"  label="" align="right" />               
         </listhead>    
                     
         <template name="model">                                                            
             <listitem>
                 <listcell >
-                    <label value="@bind(each.detpNumPago)" width="96%" />
+                    <label value="@bind(each.detpNumPago)" style="color:black;"  />
                 </listcell>
                 <listcell >
                     <datebox compact="true" value="@bind(each.detpFechaCobro)" 
                              buttonVisible="true" lenient="true" readonly="true"
-                             format="medium" width="98%"  />
+                             format="medium" width="98%" style="color:black;"  />
                 </listcell>
-<!--                <listcell >
+                <!--                <listcell >
                     <datebox compact="true" value="@bind(each.detpFechaPago)" 
                              buttonVisible="false" lenient="true" readonly="true"
                              format="medium" width="98%"  />
                 </listcell>-->
-<!--                <listcell   >
+                <!--                <listcell   >
                     <decimalbox format="###.####" readonly="true" 
                                 value="@bind(each.detpTotal)" width="96%"/>
                 </listcell>-->
                 <listcell  >
                     <decimalbox format="###.####" 
-                    readonly="@bind(vm.generar)"
+                                readonly="@bind(vm.generar)"
                                 onOK="@command('modificar',valor=each)"  
                                 value="@bind(each.detpAbono)" width="96%"/>
                 </listcell>
-<!--                <listcell  >
-                    <decimalbox format="###.####" readonly="true" 
-                                value="@bind(each.detpSaldo)" width="96%"/>
-                </listcell>-->
+                <listcell zclass = "mycss-listcell">
+                    <textbox style=""  
+                             class="form-control form-control-sm" rows="2"                            
+                             width="100%"
+                             value="@bind(each.detpObservacion)"
+                             maxlength="100"
+                    />
+                </listcell>
                 <listcell>    
-                    <image  src="/iconos/guardar.png" 
-                            onClick="@command('modificar',valor=each)" 
-                            tooltiptext="Modificar pago"/>
+                    <button  src="/iconos/guardar.png" 
+                             onClick="@command('modificar',valor=each)" 
+                             label="" 
+                             tooltiptext="Modificar pago"/>
 
+                </listcell>
+                <listcell >    
+                                        
+                    <button src="/iconos/tecketera.jpg"                                            
+                            onClick="@command('reporteComprobante',valor=each)"
+                            if="${each.detpAbono>0}"
+                            label=""
+                            tooltiptext="Imprimir comprobante"/>
+                                
                 </listcell>
             </listitem>
         </template>

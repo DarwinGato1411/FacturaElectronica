@@ -38,14 +38,13 @@ import org.zkoss.zul.Filedownload;
 public class FacturasPorCobrarVm {
 
     ServicioFacturaPorCobrar servicioFacturaPorCobrar = new ServicioFacturaPorCobrar();
-    private String nombre="";
+    private String nombre = "";
     private Boolean groupby = Boolean.FALSE;
     private List<VistaFacturasPorCobrar> listaFacturas = new ArrayList<VistaFacturasPorCobrar>();
 
     /*DIARIA*/
     public FacturasPorCobrarVm() {
 
-        
         buscarfacturas();
     }
 
@@ -58,10 +57,9 @@ public class FacturasPorCobrarVm {
     }
 
     private void buscarfacturas() {
-        
+
         listaFacturas = servicioFacturaPorCobrar.findPorCobrar(nombre, groupby);
 
-      
     }
 
     public String getNombre() {
@@ -88,7 +86,6 @@ public class FacturasPorCobrarVm {
         this.listaFacturas = listaFacturas;
     }
 
-   
     //exportar informacion por dia
     @Command
     public void exportExcel() throws Exception {
@@ -153,11 +150,10 @@ public class FacturasPorCobrarVm {
             chfe1.setCellValue(new HSSFRichTextString("Cedula"));
             chfe1.setCellStyle(estiloCelda);
 
-            HSSFCell chfe111= r.createCell(j++);
+            HSSFCell chfe111 = r.createCell(j++);
             chfe111.setCellValue(new HSSFRichTextString("Nombre"));
             chfe111.setCellStyle(estiloCelda);
-            
-            
+
             HSSFCell chfe11 = r.createCell(j++);
             chfe11.setCellValue(new HSSFRichTextString("Deuda"));
             chfe11.setCellStyle(estiloCelda);
@@ -165,6 +161,10 @@ public class FacturasPorCobrarVm {
             HSSFCell ch1 = r.createCell(j++);
             ch1.setCellValue(new HSSFRichTextString("Dias"));
             ch1.setCellStyle(estiloCelda);
+            
+            HSSFCell ch2 = r.createCell(j++);
+            ch2.setCellValue(new HSSFRichTextString("Total Saldo"));
+            ch2.setCellStyle(estiloCelda);
             int rownum = 1;
             int i = 0;
             BigDecimal totalConFactura = BigDecimal.ZERO;
@@ -172,7 +172,7 @@ public class FacturasPorCobrarVm {
             BigDecimal total = BigDecimal.ZERO;
             BigDecimal Fecha = BigDecimal.ZERO;
 
-            for (VistaFacturasPorCobrar item :listaFacturas ) {
+            for (VistaFacturasPorCobrar item : listaFacturas) {
                 i = 0;
 
                 r = s.createRow(rownum);
@@ -189,9 +189,11 @@ public class FacturasPorCobrarVm {
                 HSSFCell c0 = r.createCell(i++);
                 c0.setCellValue(new HSSFRichTextString(ArchivoUtils.redondearDecimales(item.getFacSaldoAmortizado(), 2).toString()));
 
-                
-                  HSSFCell c2 = r.createCell(i++);
+                HSSFCell c2 = r.createCell(i++);
                 c2.setCellValue(new HSSFRichTextString(item.getDias().toString()));
+
+                HSSFCell c3 = r.createCell(i++);
+                c3.setCellValue(new HSSFRichTextString(ArchivoUtils.redondearDecimales(item.getFac_total(),2).toString()));
 
                 /*autemta la siguiente fila*/
                 rownum += 1;

@@ -6,14 +6,30 @@ package com.ec.controlador;
 
 import com.ec.entidad.AmortizacionCompra;
 import com.ec.entidad.CabeceraCompra;
+import com.ec.entidad.DetallePago;
+import com.ec.servicio.HelperPersistencia;
 import com.ec.servicio.ServicioCompra;
 import com.ec.servicio.ServicioDetallePagoCompra;
 import com.ec.untilitario.ArchivoUtils;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import javax.naming.NamingException;
+import javax.persistence.EntityManager;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperRunManager;
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
@@ -21,7 +37,9 @@ import org.zkoss.bind.annotation.ContextParam;
 import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.bind.annotation.ExecutionArgParam;
 import org.zkoss.bind.annotation.NotifyChange;
+import org.zkoss.util.media.AMedia;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.Clients;
@@ -50,6 +68,10 @@ public class DetallePagoCompra {
     /*Agregar pago*/
     private Date fecha = new Date();
     private BigDecimal valorPago = BigDecimal.ZERO;
+    private String detObservacion = "";
+
+    AMedia fileContent = null;
+    Connection con = null;
 
     @AfterCompose
     public void afterCompose(@ExecutionArgParam("valor") CabeceraCompra valor, @ContextParam(ContextType.VIEW) Component view) {
@@ -85,17 +107,18 @@ public class DetallePagoCompra {
     }
 
     @Command
-    @NotifyChange({"lstPagos", "valorPago", "saldo"})
+    @NotifyChange({"lstPagos", "valorPago", "saldo", "detObservacion"})
     public void agregarPago() {
 
         if (Messagebox.show("¿Desea registrar un pago de " + valorPago + " Dolares ?", "Atención", Messagebox.YES | Messagebox.NO, Messagebox.INFORMATION) == Messagebox.YES) {
-            
+
             if (valorPago.doubleValue() <= saldo.doubleValue()) {
                 AmortizacionCompra nuevopago = new AmortizacionCompra();
                 nuevopago.setDetDias(numeroMeses);
                 nuevopago.setDetFecha(fecha);
                 nuevopago.setDetValor(valorPago);
                 nuevopago.setIdCompra(factura);
+                nuevopago.setDetObservacion(detObservacion);
                 servicioDetallePago.crear(nuevopago);
 
                 for (AmortizacionCompra lstPago : lstPagos) {
@@ -103,21 +126,22 @@ public class DetallePagoCompra {
                 }
                 saldo.setScale(2, RoundingMode.UP);
                 generar = Boolean.FALSE;
-                valorPago=BigDecimal.ZERO;
+                valorPago = BigDecimal.ZERO;
                 consultarDetallepago();
-                if (saldo.doubleValue()==0) {
+                if (saldo.doubleValue() == 0) {
                     factura.setCabEstado("PA");
                     servicioCompra.modificar(factura);
                 }
+                detObservacion = "";
                 Clients.showNotification("Pago registrado correctamente",
-                            Clients.NOTIFICATION_TYPE_INFO, null, "end_center", 2000, true);
+                        Clients.NOTIFICATION_TYPE_INFO, null, "end_center", 2000, true);
             } else {
                 Clients.showNotification("No puede ingresar un valor superior al saldo",
-                            Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 2000, true);
+                        Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 2000, true);
             }
 
         }
-          consultarDetallepago();
+        consultarDetallepago();
     }
 
     @Command
@@ -141,7 +165,7 @@ public class DetallePagoCompra {
 //                valor.setDetpAbono(BigDecimal.ZERO);
                 saldo = saldoInicial;
                 Clients.showNotification("No se puede realizar un cobro superior al saldo pendiente",
-                            Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 2000, true);
+                        Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 2000, true);
                 return;
 
             }
@@ -159,11 +183,61 @@ public class DetallePagoCompra {
             factura.setCabSaldoFactura(saldo);
             servicioCompra.modificar(factura);
             Clients.showNotification("Registro correcto",
-                            Clients.NOTIFICATION_TYPE_INFO, null, "end_center", 2000, true);
+                    Clients.NOTIFICATION_TYPE_INFO, null, "end_center", 2000, true);
 //            windowDetallePago.detach();
         } catch (Exception e) {
             Messagebox.show("Error " + e.toString(), "Atención", Messagebox.OK, Messagebox.ERROR);
         }
+    }
+
+    @Command
+    public void reporteFacturaCompra(@BindingParam("valor") AmortizacionCompra valor) throws JRException, IOException, NamingException, SQLException {
+        reporteGeneral(factura.getIdCabecera(), valor);
+    }
+
+    public void reporteGeneral(Integer idCabera, AmortizacionCompra detallePago) throws JRException, IOException, NamingException, SQLException {
+        EntityManager emf = HelperPersistencia.getEMF();
+        try {
+
+            emf.getTransaction().begin();
+            con = emf.unwrap(Connection.class);
+            String reportFile = Executions.getCurrent().getDesktop().getWebApp()
+                    .getRealPath("/reportes");
+            String reportPath = reportFile + File.separator + "comprobanteCompraPago.jasper";
+
+            Map<String, Object> parametros = new HashMap<String, Object>();
+
+            //  parametros.put("codUsuario", String.valueOf(credentialLog.getAdUsuario().getCodigoUsuario()));
+            parametros.put("id_cabecera", idCabera);
+            parametros.put("detallePago", detallePago.getIdAmortizacionCompra());
+
+            if (con != null) {
+                System.out.println("Conexión Realizada Correctamente");
+            }
+            FileInputStream is = null;
+            is = new FileInputStream(reportPath);
+
+            byte[] buf = JasperRunManager.runReportToPdf(is, parametros, con);
+            InputStream mediais = new ByteArrayInputStream(buf);
+            AMedia amedia = new AMedia("Reporte", "pdf", "application/pdf", mediais);
+            fileContent = amedia;
+            final HashMap<String, AMedia> map = new HashMap<String, AMedia>();
+//para pasar al visor
+            map.put("pdf", fileContent);
+            org.zkoss.zul.Window window = (org.zkoss.zul.Window) Executions.createComponents(
+                    "/venta/contenedorReporte.zul", null, map);
+            window.doModal();
+        } catch (FileNotFoundException e) {
+            System.out.println("FileNotFoundException " + e.getMessage());
+        } catch (JRException e) {
+            System.out.println("JRException " + e.getMessage());
+        } finally {
+            if (emf != null) {
+                emf.getTransaction().commit();
+            }
+
+        }
+
     }
 
     public List<AmortizacionCompra> getLstPagos() {
@@ -228,6 +302,14 @@ public class DetallePagoCompra {
 
     public void setValorPago(BigDecimal valorPago) {
         this.valorPago = valorPago;
+    }
+
+    public String getDetObservacion() {
+        return detObservacion;
+    }
+
+    public void setDetObservacion(String detObservacion) {
+        this.detObservacion = detObservacion;
     }
 
 }
