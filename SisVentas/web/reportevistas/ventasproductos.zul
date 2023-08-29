@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?link rel="stylesheet" type="text/css" href="/css/boostrap/bootstrap.css"?>  
+<?link rel="stylesheet" type="text/css" href="/css/style.css"?>
+<?init class="com.ec.seguridad.Autentificador"?>
+<?init class="org.zkoss.zk.ui.util.Composition" arg0="/plantilla/plantilla.zul"?>
+<?link rel="icon" type="image/x-icon" href="/iconos/deckxel.ico"?>
+<?script src="https://kit.fontawesome.com/484b16c999.js"?>
+
+<zk   class="col-12 col-sm-12 col-md-12 col-lg-12" >
+    <hbox self="@define(content)" apply="org.zkoss.bind.BindComposer" 
+          viewModel="@id('vm') @init('com.ec.controlador.VistaVentaProducto')" >
+        <tabbox id="tbRotacion"  width="100%" >
+            <tabs >
+                <tab label="Ventas productos" sclass="menutabs" /> 
+                <!--<tab label="Ventas por mes" sclass="menutabs" />--> 
+            </tabs>
+            <tabpanels >
+                
+                <tabpanel  width="100%"  >     
+                    <div class="container_headers" style="margin-bottom:1em;display:flex;gap:10px;">
+                        <div class="wrapper_data" style="display:flex; gap:10px;">
+                           
+                            <div class="wrapper_input" >
+                                <span>Inicio:</span>
+                                <datebox 
+                                    value="@bind(vm.fechaInicio)"
+                                    compact="true" 
+                                    readonly="true" 
+                                    buttonVisible="true" 
+                                    class="input_date"
+                                    lenient="true" 
+                                    format="dd/MM/yyyy" 
+                                    constraint="no empty: Ingrese la fecha"
+                                /> 
+                                                              
+                            </div>
+                            <div class="wrapper_input">
+                                <span>Fin:</span>
+                                <datebox 
+                                    
+                                    value="@bind(vm.fechaFin)"
+                                    compact="true" 
+                                    readonly="true" 
+                                    buttonVisible="true" 
+                                    class="input_date"
+                                    lenient="true" 
+                                    format="dd/MM/yyyy" 
+                                    constraint="no empty: Ingrese la fecha"
+                                />
+                                
+                            </div>
+                        </div>
+                        <button 
+                            style="padding:10px;background:#808080;color:white;border:none;border-radius:10px;"
+                            class="btn_primary"
+                            onClick="@command('buscarProductos')" 
+                            tooltiptext="Buscar productos"
+                            label="Buscar"
+                        />
+                        
+                        <button 
+                            class="btn_fact btn_access"
+                            onClick="@command('exportListboxToExcel')" 
+                            style="padding:10px;background:#0B0D3E;color:white;border:none;border-radius:10px;" 
+                            tooltiptext="Descargar"
+                            label="Descargar productos vendidos"
+                        />
+       
+                    </div>               
+                    <div class="cont_body">
+                        <div class="cont_body_item">
+                            <listbox  width="100%" model="@load(vm.productosVendidos)" 
+                                      mold="paging" pageSize="15"
+                                      
+                                      multiple="true" 
+                                     
+                            >
+                                <custom-attributes org.zkoss.zul.listbox.rod="true"/>
+
+                                <listhead> 
+                                    
+                                    <listheader width="25%"  label="Código producto" />  
+                                    <listheader width="25%"  label="Nombre prodcuto" />  
+                                    <listheader width="25%"  label="Cantidad vendido"  /> 
+                                    <listheader width="25%"  label="Total vendido"  /> 
+                                    
+                                    <!--<listheader width="5%"  label="" align="center"/>-->
+                                </listhead>  
+                                <template name="model">                                                            
+                                    <listitem>
+                                        
+                                       
+                                        <listcell zclass = "mycss-listcell">
+                                            <textbox readonly="true" 
+                                                     
+                                                     style="font-size:12px;"
+                                                     class="form-control form-control-sm" value="@bind(each.prodCodigo)" />
+                                           
+                                        </listcell>
+                                        <listcell zclass = "mycss-listcell">
+                                            <textbox readonly="true" 
+                                                     
+                                                     style="font-size:12px;"
+                                                     class="form-control form-control-sm" value="@bind(each.prodNombre)" />
+                                           
+                                        </listcell>
+                                        <listcell zclass = "mycss-listcell">
+                                            <textbox readonly="true" 
+                                                     
+                                                     style="font-size:12px;"
+                                                     class="form-control form-control-sm" value="@bind(each.cantidadVendido)" />
+                                           
+                                        </listcell>
+                                        <listcell zclass = "mycss-listcell">
+                                            <textbox readonly="true" 
+                                                     
+                                                     style="font-size:12px;"
+                                                     class="form-control form-control-sm" value="@bind(each.totalVenta)" />
+                                           
+                                        </listcell>
+                                       
+                                      
+                                    </listitem>
+                                </template>
+                            </listbox>       
+                        </div>
+                    </div>
+                    
+         
+                </tabpanel>
+            </tabpanels>
+            
+        </tabbox>
+    </hbox>
+
+
+</zk>

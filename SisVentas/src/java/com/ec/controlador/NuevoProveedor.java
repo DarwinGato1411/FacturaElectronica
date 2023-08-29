@@ -10,6 +10,7 @@ import com.ec.servicio.ServicioProveedor;
 import com.ec.servicio.ServicioTipoIdentificacionCompra;
 import com.ec.untilitario.AduanaJson;
 import com.ec.untilitario.ArchivoUtils;
+import com.ec.untilitario.InfoPersona;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -67,10 +68,10 @@ public class NuevoProveedor {
     @Command
     public void guardar() {
         if (proveedor.getProvCedula() != null
-                    && proveedor.getProvNombre() != null
-                    && proveedor.getProvTelefono() != null
-                    && proveedor.getProvDireccion() != null
-                    && identificacionCompra != null) {
+                && proveedor.getProvNombre() != null
+                && proveedor.getProvTelefono() != null
+                && proveedor.getProvDireccion() != null
+                && identificacionCompra != null) {
             proveedor.setIdTipoIdentificacionCompra(identificacionCompra);
             if (accion.equals("create")) {
                 servicioProveedor.crear(proveedor);
@@ -92,18 +93,23 @@ public class NuevoProveedor {
     @Command
     @NotifyChange({"proveedor"})
     public void buscarAduana() throws URISyntaxException, IOException, XPathExpressionException, JSONException {
+        InfoPersona aduana = new InfoPersona();
+        String nombre = "";
         if (proveedor.getProvCedula() != null) {
             if (!proveedor.getProvCedula().equals("")) {
                 String cedulaBuscar = "";
-                if (proveedor.getProvCedula().length() > 10) {
-                    cedulaBuscar = proveedor.getProvCedula().substring(0, 10);
-                } else {
+                if (proveedor.getProvCedula().length() == 13) {
                     cedulaBuscar = proveedor.getProvCedula();
+                    nombre = ArchivoUtils.obtenerPorRuc(cedulaBuscar);
+                    proveedor.setProvNombre(nombre);
+                    proveedor.setProvNomComercial(nombre);
+                } else if (proveedor.getProvCedula().length() == 10) {
+                    cedulaBuscar = proveedor.getProvCedula();
+                    aduana = ArchivoUtils.obtenerPorCedula(cedulaBuscar);
+                    proveedor.setProvNombre(aduana.getNombre());
+                    proveedor.setProvNomComercial(aduana.getNombre());
+                    proveedor.setProvDireccion(aduana.getDireccion());
                 }
-                AduanaJson aduana = ArchivoUtils.obtenerdatoAduana(cedulaBuscar);
-                String nombreApellido = aduana.getNombre();
-
-                proveedor.setProvNombre(nombreApellido);
 
             }
         }

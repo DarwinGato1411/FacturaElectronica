@@ -4,7 +4,7 @@
  */
 package com.ec.servicio;
 
-import com.ec.entidad.Producto;
+
 import com.ec.entidad.Producto;
 import com.ec.untilitario.ProductoProveedorCosto;
 import java.util.ArrayList;

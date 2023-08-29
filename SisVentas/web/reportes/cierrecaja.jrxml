@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="cierrecaja" language="groovy" pageWidth="226" pageHeight="842" columnWidth="186" leftMargin="20" rightMargin="20" topMargin="2" bottomMargin="20" isIgnorePagination="true">
 	<property name="ireport.zoom" value="1.6105100000000014"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="117"/>
+	<property name="ireport.y" value="270"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -245,7 +245,7 @@ and cc.id_cierre=$P{idCierre};]]>
 			<staticText>
 				<reportElement x="0" y="257" width="112" height="20"/>
 				<textElement/>
-				<text><![CDATA[Saldo a favor]]></text>
+				<text><![CDATA[Saldo sobrante]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="0" y="34" width="112" height="20"/>

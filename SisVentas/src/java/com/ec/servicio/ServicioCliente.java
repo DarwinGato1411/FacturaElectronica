@@ -5,6 +5,7 @@
 package com.ec.servicio;
 
 import com.ec.entidad.Cliente;
+import com.ec.entidad.Tipoambiente;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -34,7 +35,7 @@ public class ServicioCliente {
             em.persist(cliente);
             em.getTransaction().commit();
         } catch (Exception e) {
-            System.out.println("Error en insertar cliente "+e.getMessage());
+            System.out.println("Error en insertar cliente " + e.getMessage());
         } finally {
             em.close();
         }
@@ -50,7 +51,7 @@ public class ServicioCliente {
             em.getTransaction().commit();
 
         } catch (Exception e) {
-            System.out.println("Error en eliminar  cliente "+e.getMessage());
+            System.out.println("Error en eliminar  cliente " + e.getMessage());
         } finally {
             em.close();
         }
@@ -65,7 +66,7 @@ public class ServicioCliente {
             em.merge(cliente);
             em.getTransaction().commit();
         } catch (Exception e) {
-            System.out.println("Error en insertar cliente "+e.getMessage());
+            System.out.println("Error en insertar cliente " + e.getMessage());
         } finally {
             em.close();
         }
@@ -117,6 +118,32 @@ public class ServicioCliente {
         return cliente;
     }
 
+    public Cliente FindClienteForID(Integer buscar) {
+
+        Cliente cliente = new Cliente();
+        try {
+            //Connection connection = em.unwrap(Connection.class);
+            em = HelperPersistencia.getEMF();
+            em.getTransaction().begin();
+            Query query = em.createQuery("SELECT c FROM Cliente c WHERE c.idCliente =:idCliente");
+            query.setParameter("idCliente", buscar);
+           
+            List<Cliente> listaCliente = (List<Cliente>) query.getResultList();
+            if (listaCliente.size() > 0) {
+                cliente = (Cliente) query.getSingleResult();
+            } else {
+                return null;
+            }
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            System.out.println("Error en la consulta cliente FindClienteForID");
+        } finally {
+            em.close();
+        }
+
+        return cliente;
+    }
+
     public List<Cliente> FindClienteLikeNombre(String buscar) {
 
         List<Cliente> listaClientes = new ArrayList<Cliente>();
@@ -126,7 +153,7 @@ public class ServicioCliente {
             em.getTransaction().begin();
             Query query = em.createQuery("SELECT c FROM Cliente c WHERE c.cliNombre like :cliNombre");
             query.setParameter("cliNombre", "%" + buscar + "%");
-             query.setMaxResults(200);
+            query.setMaxResults(200);
             listaClientes = (List<Cliente>) query.getResultList();
             em.getTransaction().commit();
         } catch (Exception e) {
@@ -145,10 +172,10 @@ public class ServicioCliente {
             //Connection connection = em.unwrap(Connection.class);
             em = HelperPersistencia.getEMF();
             em.getTransaction().begin();
-           Query query = em.createQuery("SELECT c FROM Cliente c WHERE c.cliNombres like :cliRazonSocial OR c.cliApellidos LIKE :cliApellidos ");
+            Query query = em.createQuery("SELECT c FROM Cliente c WHERE c.cliNombres like :cliRazonSocial OR c.cliApellidos LIKE :cliApellidos ");
             query.setParameter("cliRazonSocial", "%" + buscar + "%");
             query.setParameter("cliApellidos", "%" + buscar + "%");
-             query.setMaxResults(200);
+            query.setMaxResults(200);
             listaClientes = (List<Cliente>) query.getResultList();
             em.getTransaction().commit();
         } catch (Exception e) {
@@ -169,7 +196,7 @@ public class ServicioCliente {
             em.getTransaction().begin();
             Query query = em.createNamedQuery("Cliente.findLikeCliCedula", Cliente.class);
             query.setParameter("cliCedula", "%" + buscar + "%");
-             query.setMaxResults(200);
+            query.setMaxResults(200);
             listaClientes = (List<Cliente>) query.getResultList();
             em.getTransaction().commit();
         } catch (Exception e) {

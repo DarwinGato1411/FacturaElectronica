@@ -28,10 +28,15 @@ import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.bind.annotation.ExecutionArgParam;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
-import org.zkoss.zk.ui.util.Clients;
+
 import org.zkoss.zul.Window;
+import org.zkoss.zul.Messagebox;
+
+import org.zkoss.zk.ui.util.Clients;
 
 /**
  *
@@ -115,24 +120,24 @@ public class NuevoCliente {
     public void guardar() {
         /*getCliNombre es el nombre comercial*/
         if (cliente.getCliCedula() != null
-                    && cliente.getCliNombre() != null
-                    && cliente.getCliDireccion() != null
-                    && cliente.getCliTelefono() != null
-                    && cliente.getCliMovil() != null
-                    && cliente.getCiudad() != null
-                    && cliente.getCliCorreo() != null
-                    && tipoadentificacion != null) {
+                && cliente.getCliNombre() != null
+                && cliente.getCliDireccion() != null
+                && cliente.getCliTelefono() != null
+                && cliente.getCliMovil() != null
+                && cliente.getCiudad() != null
+                && cliente.getCliCorreo() != null
+                && tipoadentificacion != null) {
 
             if (tipoadentificacion.getTidCodigo().equals("04")) {
                 if (cliente.getCliCedula().length() != 13) {
                     Clients.showNotification("Verifique el RUC ingresada debe tener 13 caracteres ",
-                                Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 3000, true);
+                            Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 3000, true);
                     return;
                 }
             } else if (tipoadentificacion.getTidCodigo().equals("05")) {
                 if (cliente.getCliCedula().length() != 10) {
                     Clients.showNotification("Verifique la CEDULA ingresada debe tener 10 caracteres ",
-                                Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 3000, true);
+                            Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 3000, true);
                     return;
                 }
             }
@@ -148,9 +153,25 @@ public class NuevoCliente {
 
                     windowCliente.detach();
                 } else {
+                    String message = "Este usuario ya existe. ¿Está seguro de crear este usuario?";
+                    Messagebox.show(message, "Confirmación", Messagebox.YES | Messagebox.NO, Messagebox.QUESTION, new EventListener() {
+                        @Override
+                        public void onEvent(Event evt) {
+                            if ("onYes".equals(evt.getName())) {
+                                cliente.setClietipo(Integer.valueOf(clietipo));
+                                cliente.setClieFechaRegistro(fechaReg);
+                                cliente.setIdTipoIdentificacion(tipoadentificacion);
+                                cliente.setCliClave(ArchivoUtils.generaraClaveTemporal());
+                                servicioCliente.crear(cliente);
 
-                    Clients.showNotification("El número de documento (CI / RUC) ya se encuentra registrado ",
-                                Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 3000, true);
+                                windowCliente.detach();
+                                Clients.showNotification("Usuario ha sido creado", Clients.NOTIFICATION_TYPE_INFO, null, "middle_center", 3000, true);
+                            } else if ("onNo".equals(evt.getName())) {
+                                Clients.showNotification("El usuario no ha sido creado", Clients.NOTIFICATION_TYPE_WARNING, null, "middle_center", 3000, true);
+                            }
+                        }
+
+                    });
                 }
 
             } else {
@@ -168,7 +189,7 @@ public class NuevoCliente {
         } else {
 
             Clients.showNotification("Verifique la informacion requerida",
-                        Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 3000, true);
+                    Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 3000, true);
         }
     }
 

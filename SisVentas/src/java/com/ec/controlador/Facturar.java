@@ -163,6 +163,8 @@ public class Facturar extends SelectorComposer<Component> {
     ServicioDetalleGuia servicioDetalleGuia = new ServicioDetalleGuia();
     List<Transportista> listaTransportistas = new ArrayList<Transportista>();
     public Cliente clienteBuscado = new Cliente("");
+    public static int buscarClienteId = 0;
+
     private List<Cliente> listaClientesAll = new ArrayList<Cliente>();
     private String buscarNombre = "";
     private String buscarRazonSocial = "";
@@ -391,16 +393,15 @@ public class Facturar extends SelectorComposer<Component> {
                 Executions.sendRedirect("/");
             }
         } else {
-           
-                if (credential.getUsuarioSistema().getUsuNivel() != 1) {
-                    List<CierreCaja> cierre = servicioCierreCaja.findALlCierreCajaForFechaIdUsuario(new Date(), credential.getUsuarioSistema());
-                    boolean cerrarSecion = cierre.get(0).getCieCerrada();
-                    if (cerrarSecion) {
-                        authService.logout();
-                        Executions.sendRedirect("/");
-                    }
 
-                
+            if (credential.getUsuarioSistema().getUsuNivel() != 1) {
+                List<CierreCaja> cierre = servicioCierreCaja.findALlCierreCajaForFechaIdUsuario(new Date(), credential.getUsuarioSistema());
+                boolean cerrarSecion = cierre.get(0).getCieCerrada();
+                if (cerrarSecion) {
+                    authService.logout();
+                    Executions.sendRedirect("/");
+                }
+
             }
 
         }
@@ -1585,7 +1586,7 @@ public class Facturar extends SelectorComposer<Component> {
                 "/venta/buscarcliente.zul", null, map);
         window.doModal();
         System.out.println("clinete de la lsitas buscarCliente " + buscarCliente);
-        clienteBuscado = servicioCliente.FindClienteForCedula(buscarCliente);
+        clienteBuscado = servicioCliente.FindClienteForID(buscarClienteId);
         if (clienteBuscado == null) {
             clienteBuscado = servicioCliente.findClienteLikeCedula("999999999");
         }
@@ -1710,6 +1711,7 @@ public class Facturar extends SelectorComposer<Component> {
     public void seleccionarClienteLista(@BindingParam("cliente") Cliente valor) {
         System.out.println("cliente seleccionado " + valor.getCliCedula());
         buscarCliente = valor.getCliCedula();
+        buscarClienteId = valor.getIdCliente();
         windowClienteBuscar.detach();
 
     }

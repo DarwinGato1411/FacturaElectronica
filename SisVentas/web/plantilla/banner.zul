@@ -77,17 +77,14 @@
                             <menupopup>  
                                 <menuitem label="Ajuste de Entrada/Salida" id="btnAjuste"  />                                                                       
                                 <menuitem label="Kardex detallado" id="btnKardex"  /> 
-                                 <menuitem label="Kardex general" id="btnKardexPorProd"  />                                               
-                                                                         
-<!--                                <menuitem label="Contabilidad" id="btnContabilidad" image="/iconmenu/page_refresh.png" />-->
-                               
+                                <menuitem label="Kardex general" id="btnKardexPorProd"  />                                                                    
                             </menupopup>
                         </menu>
                          <menu label="Reportes" id="menuReportes">
-                            <menupopup>                                                                         
+                            <menupopup>       
+                                <menuitem label="Productos vendidos" id="btnProdcutosVendidos"  />                                                                   
                                 <menuitem label="Facturas autorizadas SRI" id="btnFactAutori"  />                              
                                 <menuitem label="Compras vs Ventas" id="btnBalanceUtilidad"  />
-                                <!--<menuitem label="Cantidad de venta (GLP)" id="btnRepVentCant" />-->
                                 <menuitem label="Acumulado de ventas" id="btnAcumuladoventas" />
                                 <menuitem label="Rotacion Productos" id="btnRotacionProducto" />
                                 <menuitem label="Lista de cierre de caja" id="btnListarCierre" /> 
