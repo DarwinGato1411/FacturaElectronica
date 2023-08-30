@@ -168,8 +168,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="fact_row1 fact_row">
-                            <div class="inputs">
+                        <div class="fact_row">
                             <div class="wrapper_data">
                                 <div class="wrapper_input">
                                     <span>Sindesc:</span>
@@ -257,23 +256,17 @@
                                 
 
                             </div>
-                        </div>
+                            
+                            <div class="wrapper_input">
+                                    
+                                     
+                                </div>
                             <div class="fact_row wrapper_buttons">
-                                <div class="contenedorTotal">
-                                    <span class="text_total">Total:</span>
-
-                                    <decimalbox  
-                                        format="###.##"   
-                                        value="@bind(vm.valorTotalCotizacion)"                                                 
-                                        readonly="true"
-                                        
-                                    />
-                                </div> 
                                 <button src="/iconos/fact.png"   
                                                     autodisable="self"
                                                     label="Nota entrega"
                                                    width="100%"
-                                                    style="font-size:14px; height:36px"                                                   
+                                                    style="font-size:18px; height:46px"                                                   
                                                     class="btn btn btn-secondary btn-sm "
                                                     onClick="@command('verNotasEntrega')"
                                                     tooltiptext="Cargar notas de entrega"/>
@@ -283,14 +276,22 @@
                                     onClick="@command('Guardar',valor='SG')"
                                     tooltiptext="Guardar"
                                     label="Facturar"
-                                    style="font-size:14px; height:36px"
+                                    style="font-size:18px; height:46px"
                                 />
 
-                                
+                                <div class="wrapper_input wrapper_total">
+                                    <span style="text_total">Total:</span>
+
+                                    <decimalbox  
+                                        format="###.##"   
+                                        value="@bind(vm.valorTotalCotizacion)"                                                 
+                                        readonly="true"
+                                        
+                                    />
+                                </div> 
 
                                 
                             </div>
-                            
                         </div>
                     </div>
 
@@ -476,12 +477,14 @@
                                         <listcell  zclass = "mycss-listcell">
                                             <decimalbox readonly="true" format="###.###" 
                                                         class="form-control form-control-sm"
+                                                         style="font-size:11px"
                                                         value="@bind(each.totalInicial)"  width="99%" />
                                         </listcell>
                                         <listcell zclass = "mycss-listcell">
                                             <textbox    constraint="/^[0-9]{1,9}(?:[.][0-9]{1,5})?$/:Ingrese solo numeros"                                            
                                                         onOK="@command('calcularValoresDesCantidad',valor=each)"
-                                                        class="form-control form-control-sm"                                                                                                                            
+                                                        class="form-control form-control-sm" 
+                                                         style="font-size:11px"                                                                                                                         
                                                         ctrlKeys="^A" onCtrlKey="@command('cambioPrecio',valor=each)"
                                                         value="@bind(each.total)"  width="99%" />
                                         </listcell>
@@ -490,6 +493,7 @@
                                         <listcell zclass = "mycss-listcell">
                                             <decimalbox readonly="true" format="###.###" 
                                                         class="form-control form-control-sm"
+                                                         style="font-size:11px"
                                                         value="@bind(each.detTotalconivadescuento)"  width="99%" />
                                         </listcell>
                                     

@@ -477,12 +477,14 @@
                                         <listcell  zclass = "mycss-listcell">
                                             <decimalbox readonly="true" format="###.###" 
                                                         class="form-control form-control-sm"
+                                                         style="font-size:11px"
                                                         value="@bind(each.totalInicial)"  width="99%" />
                                         </listcell>
                                         <listcell zclass = "mycss-listcell">
                                             <textbox    constraint="/^[0-9]{1,9}(?:[.][0-9]{1,5})?$/:Ingrese solo numeros"                                            
                                                         onOK="@command('calcularValoresDesCantidad',valor=each)"
-                                                        class="form-control form-control-sm"                                                                                                                            
+                                                        class="form-control form-control-sm" 
+                                                         style="font-size:11px"                                                                                                                         
                                                         ctrlKeys="^A" onCtrlKey="@command('cambioPrecio',valor=each)"
                                                         value="@bind(each.total)"  width="99%" />
                                         </listcell>
@@ -491,6 +493,7 @@
                                         <listcell zclass = "mycss-listcell">
                                             <decimalbox readonly="true" format="###.###" 
                                                         class="form-control form-control-sm"
+                                                         style="font-size:11px"
                                                         value="@bind(each.detTotalconivadescuento)"  width="99%" />
                                         </listcell>
                                     
