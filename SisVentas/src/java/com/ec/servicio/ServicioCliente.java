@@ -126,7 +126,7 @@ public class ServicioCliente {
             em.getTransaction().begin();
             Query query = em.createQuery("SELECT c FROM Cliente c WHERE c.cliNombre like :cliNombre");
             query.setParameter("cliNombre", "%" + buscar + "%");
-             query.setMaxResults(200);
+            query.setMaxResults(200);
             listaClientes = (List<Cliente>) query.getResultList();
             em.getTransaction().commit();
         } catch (Exception e) {
