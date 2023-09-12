@@ -9,6 +9,7 @@ import com.ec.entidad.Factura;
 import com.ec.seguridad.EnumSesion;
 import com.ec.seguridad.UserCredential;
 import com.ec.servicio.ServicioCierreCaja;
+import com.ec.servicio.ServicioGeneral;
 import com.ec.untilitario.ArchivoUtils;
 import com.ec.untilitario.DispararReporte;
 import com.ec.untilitario.ModeloAcumuladoDiaUsuario;
@@ -23,6 +24,7 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import javax.activation.MimetypesFileTypeMap;
 import javax.mail.internet.ParseException;
@@ -42,6 +44,7 @@ import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zul.Filedownload;
+import org.zkoss.zul.Messagebox;
 
 /**
  *
@@ -56,6 +59,7 @@ public class ListaCierreCaja {
 //    private List<ModeloAcumuladoDiaUsuario> listaCierreCaja = new ArrayList<ModeloAcumuladoDiaUsuario>();
     private List<CierreCaja> listaCierreCajaUsuario = new ArrayList<CierreCaja>();
     ServicioCierreCaja servicioCierreCaja = new ServicioCierreCaja();
+    ServicioGeneral servicioGeneral = new ServicioGeneral();
 
     public ListaCierreCaja() {
         Session sess = Sessions.getCurrent();
@@ -71,7 +75,8 @@ public class ListaCierreCaja {
         consultaCierreCajaUsurio();
 
     }
-  @Command   
+
+    @Command
     public void reporteCierre(@BindingParam("valor") CierreCaja valor)
             throws JRException, IOException, NamingException, SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
 
@@ -94,8 +99,6 @@ public class ListaCierreCaja {
         this.listaCierreCajaUsuario = listaCierreCajaUsuario;
     }
 
-
-
     public Date getFecha() {
         return fecha;
     }
@@ -116,6 +119,27 @@ public class ListaCierreCaja {
         } catch (FileNotFoundException e) {
             System.out.println("ERROR AL DESCARGAR EL ARCHIVO" + e.getMessage());
         }
+    }
+
+    @Command
+    @NotifyChange({"listaCierreCajaUsuario", "fecha"})
+    public void editarCierre(@BindingParam("valor") CierreCaja valor) {
+
+        try {
+
+            servicioGeneral.cierreCajaDetallePago(fecha);
+            final HashMap<String, CierreCaja> map = new HashMap<String, CierreCaja>();
+
+            map.put("valor", valor);
+            org.zkoss.zul.Window window = (org.zkoss.zul.Window) Executions.createComponents(
+                    "/nuevo/editarcierre.zul", null, map);
+            window.doModal();
+            consultaCierreCajaUsurio();
+
+        } catch (Exception e) {
+            Messagebox.show("Error " + e.toString(), "Atención", Messagebox.OK, Messagebox.INFORMATION);
+        }
+
     }
 
     private String exportarExcelDiario() throws FileNotFoundException, IOException, ParseException {
@@ -256,8 +280,8 @@ public class ListaCierreCaja {
             HSSFCell chF4 = r.createCell(j++);
             chF4.setCellValue(new HSSFRichTextString(""));
             chF4.setCellStyle(estiloCelda);
-            
-             HSSFCell chF41 = r.createCell(j++);
+
+            HSSFCell chF41 = r.createCell(j++);
             chF41.setCellValue(new HSSFRichTextString(""));
             chF41.setCellStyle(estiloCelda);
 
