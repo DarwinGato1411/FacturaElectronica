@@ -227,12 +227,12 @@ public class NotaCreditoDebitoVm {
             nuevoRegistro.setDetTotalconiva(det.getDetTotalconiva());
             nuevoRegistro.setTipoVenta(det.getDetTipoVenta());
             //valores con descuentos
-            nuevoRegistro.setSubTotalDescuento(det.getDetSubtotaldescuento());
-            nuevoRegistro.setDetTotaldescuento(det.getDetTotaldescuento());
-            nuevoRegistro.setDetPordescuento(det.getDetPordescuento());
-            nuevoRegistro.setDetValdescuento(det.getDetValdescuento());
-            nuevoRegistro.setDetTotalconivadescuento(det.getDetTotaldescuentoiva());
-            nuevoRegistro.setDetCantpordescuento(det.getDetCantpordescuento());
+            nuevoRegistro.setSubTotalDescuento(det.getDetSubtotal());
+            nuevoRegistro.setDetTotaldescuento(det.getDetTotal());
+            nuevoRegistro.setDetPordescuento(new BigDecimal(0));
+            nuevoRegistro.setDetValdescuento(new BigDecimal(0));
+            nuevoRegistro.setDetTotalconivadescuento(det.getDetTotalconiva());
+            nuevoRegistro.setDetCantpordescuento(new BigDecimal(0));
             nuevoRegistro.setDetIvaDesc(det.getDetIva());
             nuevoRegistro.setCodTipoVenta(det.getDetCodTipoVenta());
             nuevoRegistro.setDetSubtotaldescuentoporcantidad(det.getDetSubtotaldescuentoporcantidad());
@@ -657,7 +657,6 @@ public class NotaCreditoDebitoVm {
             if (item.getProducto() != null) {
                 valorTotal = valorTotal.add(item.getProducto().getProdGrabaIva() ? item.getSubTotalDescuento().multiply(item.getCantidad()) : BigDecimal.ZERO);
                 valorIva = valorIva.add(item.getDetIva());
-//                    valorTotalConIva = valorTotalConIva.add(item.getDetTotalconivadescuento());
                 valorDescuento = valorDescuento.add(item.getDetCantpordescuento());
                 valorTotalInicial = valorTotalInicial.add(item.getTotalInicial().multiply(item.getCantidad()));
                 baseCero = baseCero.add(!item.getProducto().getProdGrabaIva() ? item.getSubTotalDescuento().multiply(item.getCantidad()) : BigDecimal.ZERO);
