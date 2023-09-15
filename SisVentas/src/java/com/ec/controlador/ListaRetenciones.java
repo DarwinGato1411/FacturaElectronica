@@ -41,6 +41,7 @@ import javax.activation.MimetypesFileTypeMap;
 import javax.mail.internet.ParseException;
 import javax.naming.NamingException;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperRunManager;
 import org.apache.poi.hssf.usermodel.HSSFCell;
@@ -132,8 +133,6 @@ public class ListaRetenciones {
             Messagebox.show("Error " + e.toString(), "Atención", Messagebox.OK, Messagebox.INFORMATION);
         }
     }
-
-    
 
     public String getBuscar() {
         return buscar;
@@ -670,53 +669,51 @@ public class ListaRetenciones {
     public void reporteGeneral(@BindingParam("valor") RetencionCompra retencionCompra) throws JRException, IOException, NamingException, SQLException {
 
         EntityManager emf = HelperPersistencia.getEMF();
+        EntityTransaction transaction = null;
 
         try {
-            emf.getTransaction().begin();
+            transaction = emf.getTransaction();
+            transaction.begin();
             con = emf.unwrap(Connection.class);
 
             String reportFile = Executions.getCurrent().getDesktop().getWebApp()
                     .getRealPath("/reportes");
-            String reportPath = "";
+            String reportPath = reportFile + File.separator + "retencion.jasper";
 
-            reportPath = reportFile + File.separator + "retencion.jasper";
+            Map<String, Object> parametros = new HashMap<>();
 
-            Map<String, Object> parametros = new HashMap<String, Object>();
-
-            //  parametros.put("codUsuario", String.valueOf(credentialLog.getAdUsuario().getCodigoUsuario()));
             parametros.put("numfactura", retencionCompra.getRcoCodigo());
 
             if (con != null) {
-                System.out.println("Conexión Realizada Correctamenteeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
+                System.out.println("Conexión Realizada Correctamente");
             }
-            FileInputStream is = null;
-            is = new FileInputStream(reportPath);
 
+            FileInputStream is = new FileInputStream(reportPath);
             byte[] buf = JasperRunManager.runReportToPdf(is, parametros, con);
             InputStream mediais = new ByteArrayInputStream(buf);
             AMedia amedia = new AMedia("Reporte", "pdf", "application/pdf", mediais);
             fileContent = amedia;
-            final HashMap<String, AMedia> map = new HashMap<String, AMedia>();
-//para pasar al visor
+
+            final HashMap<String, AMedia> map = new HashMap<>();
             map.put("pdf", fileContent);
+
             org.zkoss.zul.Window window = (org.zkoss.zul.Window) Executions.createComponents(
                     "/venta/contenedorReporte.zul", null, map);
             window.doModal();
+
         } catch (Exception e) {
-            if (emf != null) {
-                emf.getTransaction().rollback();
+            if (transaction != null && transaction.isActive()) {
+                transaction.rollback();
             }
-            System.out.println("ERROR EL PRESENTAR EL REPORTE " + e.getMessage());
+            System.out.println("ERROR AL PRESENTAR EL REPORTE: " + e.getMessage());
         } finally {
-            if (emf != null) {
-                emf.getTransaction().commit();
+            if (transaction != null && transaction.isActive()) {
+                transaction.commit();
             }
             if (con != null) {
                 con.close();
             }
-
         }
-
     }
 
     @Command

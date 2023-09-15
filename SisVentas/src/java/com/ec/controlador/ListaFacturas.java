@@ -931,6 +931,11 @@ public class ListaFacturas {
 
             RespuestaComprobante resComprobante = autorizarDocumentos.autorizarComprobante(claveAccesoComprobante);
             System.out.println("RespuestaComprobante " + resComprobante);
+            if (resComprobante.getAutorizaciones().getAutorizacion()==null) {
+                 Clients.showNotification("No se encontro el documento, presione el boton enviar.",
+                                    Clients.NOTIFICATION_TYPE_ERROR, null, "middle_center", 5000, true);
+                return;
+            }
             for (Autorizacion autorizacion : resComprobante.getAutorizaciones().getAutorizacion()) {
                 FileOutputStream nuevo = null;
 
