@@ -41,6 +41,7 @@ public class FacturasPorCobrarVm {
     private String nombre = "";
     private Boolean groupby = Boolean.FALSE;
     private List<VistaFacturasPorCobrar> listaFacturas = new ArrayList<VistaFacturasPorCobrar>();
+     SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
 
     /*DIARIA*/
     public FacturasPorCobrarVm() {
@@ -165,10 +166,14 @@ public class FacturasPorCobrarVm {
             HSSFCell ch2 = r.createCell(j++);
             ch2.setCellValue(new HSSFRichTextString("Total Saldo"));
             ch2.setCellStyle(estiloCelda);
+            
+            HSSFCell ch3 = r.createCell(j++);
+            ch3.setCellValue(new HSSFRichTextString("Fecha"));
+            ch3.setCellStyle(estiloCelda);
             int rownum = 1;
             int i = 0;
-            BigDecimal totalConFactura = BigDecimal.ZERO;
-            BigDecimal totalNotaVenta = BigDecimal.ZERO;
+            BigDecimal totalSaldoAmortizado = BigDecimal.ZERO;
+            BigDecimal totalFac_total = BigDecimal.ZERO;
             BigDecimal total = BigDecimal.ZERO;
             BigDecimal Fecha = BigDecimal.ZERO;
 
@@ -195,16 +200,31 @@ public class FacturasPorCobrarVm {
                 HSSFCell c3 = r.createCell(i++);
                 c3.setCellValue(new HSSFRichTextString(ArchivoUtils.redondearDecimales(item.getFac_total(),2).toString()));
 
+                
+                
+
+       
+                HSSFCell c4 = r.createCell(i++);
+                c4.setCellValue(new HSSFRichTextString(formato.format(item.getFacFecha())));
                 /*autemta la siguiente fila*/
                 rownum += 1;
+                
+                totalSaldoAmortizado=totalSaldoAmortizado.add(item.getFacSaldoAmortizado());
+                totalFac_total=totalFac_total.add(item.getFac_total());
+                
 
             }
 
-//            j = 0;
-//            r = s.createRow(rownum);
-//            HSSFCell chfeF1 = r.createCell(j++);
-//            chfeF1.setCellValue(new HSSFRichTextString(totalConFactura.toString()));
-//            chfeF1.setCellStyle(estiloCelda);
+            j = 0;
+            r = s.createRow(rownum);
+            
+            HSSFCell chfeF1 = r.createCell(3);
+            chfeF1.setCellValue(new HSSFRichTextString(totalSaldoAmortizado.toString()));
+            chfeF1.setCellStyle(estiloCelda);
+            
+            HSSFCell chfeF2 = r.createCell(5);
+            chfeF2.setCellValue(new HSSFRichTextString(totalFac_total.toString()));
+            chfeF2.setCellStyle(estiloCelda);
 //
 //            HSSFCell chfeF2 = r.createCell(j++);
 //            chfeF2.setCellValue(new HSSFRichTextString(totalNotaVenta.toString()));

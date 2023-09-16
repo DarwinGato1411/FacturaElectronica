@@ -211,6 +211,9 @@ public class Factura implements Serializable {
 
     @Column(name = "fac_observacion")
     private String facObservacion;
+    
+    @Column(name = "fac_total_amortizado")
+    private BigDecimal facTotalAmortizado;
 
     @JoinColumn(name = "id_cliente", referencedColumnName = "id_cliente")
     @ManyToOne
@@ -782,6 +785,17 @@ public class Factura implements Serializable {
         this.detallePagoCollection = detallePagoCollection;
     }
 
+    public BigDecimal getFacTotalAmortizado() {
+        return facTotalAmortizado;
+    }
+
+    public void setFacTotalAmortizado(BigDecimal facTotalAmortizado) {
+        this.facTotalAmortizado = facTotalAmortizado;
+    }
+
+ 
+
+    
     @Override
     public int hashCode() {
         int hash = 0;

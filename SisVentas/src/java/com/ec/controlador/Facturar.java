@@ -2043,6 +2043,7 @@ public class Facturar extends SelectorComposer<Component> {
             factura.setFacTotal(valorTotalCotizacion);
             // si esta pagada coloca el saldo en cero
             factura.setFacSaldoAmortizado(estdoFactura.equals("PA") ? BigDecimal.ZERO : valorTotalCotizacion);
+            factura.setFacTotalAmortizado(estdoFactura.equals("PA") ? BigDecimal.ZERO : valorTotalCotizacion);
             factura.setFacDescuento(totalDescuento);
             factura.setFacCodIce("3");
             factura.setFacCodIva("2");
@@ -2175,6 +2176,8 @@ public class Facturar extends SelectorComposer<Component> {
                             detallePago.setDetpAbono(factura.getFacTotal());
                             detallePago.setDetpSaldo(BigDecimal.ZERO);
                             detallePago.setIdFactura(factura);
+                            
+                            
                             servicioDetallePago.crear(detallePago);
                         }
                     } else {

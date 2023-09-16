@@ -56,8 +56,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "CabeceraCompra.findByCabDescripcion", query = "SELECT c FROM CabeceraCompra c WHERE c.cabDescripcion = :cabDescripcion")})
 public class CabeceraCompra implements Serializable {
 
-
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -123,6 +121,10 @@ public class CabeceraCompra implements Serializable {
 
     @Column(name = "id_tipo_identificacion_compra")
     private Integer idTipoIdentificacionCompra;
+
+    @Column(name = "cab_amortizacion")
+    private boolean cabAmortizacion;
+
     @JoinColumn(name = "est_id_estado", referencedColumnName = "id_estado")
     @ManyToOne
     private EstadoFacturas estIdEstado;
@@ -135,10 +137,9 @@ public class CabeceraCompra implements Serializable {
     @JoinColumn(name = "id_proveedor", referencedColumnName = "id_proveedor")
     @ManyToOne
     private Proveedores idProveedor;
-    
+
     @OneToMany(mappedBy = "idCompra")
     private Collection<AmortizacionCompra> amortizacionCompraCollection;
-    
 
     public CabeceraCompra() {
     }
@@ -365,7 +366,6 @@ public class CabeceraCompra implements Serializable {
         return "com.ec.entidad.CabeceraCompra[ idCabecera=" + idCabecera + " ]";
     }
 
-
     public Integer getIdTipoIdentificacionCompra() {
         return idTipoIdentificacionCompra;
     }
@@ -406,6 +406,13 @@ public class CabeceraCompra implements Serializable {
         this.cabSaldoFactura = cabSaldoFactura;
     }
 
+    public boolean isCabAmortizacion() {
+        return cabAmortizacion;
+    }
 
+    public void setCabAmortizacion(boolean cabAmortizacion) {
+        this.cabAmortizacion = cabAmortizacion;
+    }
 
+    
 }

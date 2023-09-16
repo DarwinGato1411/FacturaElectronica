@@ -54,11 +54,11 @@ const showPassword = () => {
 const stopLoading = () => {
     const loading = document.querySelector(".loading_inicio");
     loading.style.display = "none";
-    Swal.fire(
-            'Good job!',
-            'You clicked the button!',
-            'success'
-            )
+//    Swal.fire(
+//            'Good job!',
+//            'You clicked the button!',
+//            'success'
+//            )
 };
 
 

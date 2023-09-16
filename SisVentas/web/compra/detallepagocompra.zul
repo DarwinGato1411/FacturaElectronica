@@ -48,6 +48,7 @@
                 <button   image="/iconos/guardar.png"  
                           onClick="@command('agregarPago')"
                           class="btn btn-primary btn-sm  "
+                          if="${vm.saldo > 0}"
                           label="Guardar pago"
                           tooltiptext="Guardar tabla"/>  
                                                          
@@ -95,7 +96,9 @@
                 <listcell>    
                     <image  src="/iconos/guardar.png" 
                             onClick="@command('modificar',valor=each)" 
-                            tooltiptext="Modificar pago"/>
+                            tooltiptext="Modificar pago"
+                            if="${vm.saldo > 0}"
+                    />
 
                 </listcell>
                 <listcell >    

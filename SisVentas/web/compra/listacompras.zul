@@ -196,13 +196,14 @@
                                            tooltiptext="No se puede autorizar por que se encuentra en estado autorizado"/> 
                                 </listcell>
                                 <listcell zclass = "mycss-listcell" style="font-size:12px;background:#F8F9F9">
-                                    <image if="${each.cabEstado=='PE'}" 
+                                    <image if="${each.cabAmortizacion}" 
                                            src="/iconos/page_add.png"
                                            height=" 30px" 
                                            class="btn btn btn-secondary btn-sm grow"
                                            onClick="@command('verDetallePago',valor=each)" 
+                                           
                                            tooltiptext="Ver detalle de pago"/>
-                                    <image if="${each.cabEstado=='PA'}" 
+                                    <image if="${!each.cabAmortizacion}"
                                            src="/iconos/listo_uno.png"  
                                            height=" 30px"  
                                            class=" grow"                                       

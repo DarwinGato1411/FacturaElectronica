@@ -91,7 +91,8 @@
                 <listcell>    
                     <button  src="/iconos/guardar.png" 
                              onClick="@command('modificar',valor=each)" 
-                             label="" 
+                             
+                             if="${vm.saldo > 0}"
                              tooltiptext="Modificar pago"/>
 
                 </listcell>
