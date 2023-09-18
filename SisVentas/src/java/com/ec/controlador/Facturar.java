@@ -2555,7 +2555,8 @@ public class Facturar extends SelectorComposer<Component> {
     @NotifyChange({"subTotalCotizacion", "ivaCotizacion", "valorTotalCotizacion"})
     public void refrescarPagina() {
         calcularValoresTotales();
-//        Clients.showNotification("Actaliza", Clients.NOTIFICATION_TYPE_INFO, null, "end_before", 100, true);
+        Clients.showNotification("Actualizar", Clients.NOTIFICATION_TYPE_INFO, null,
+                "end_before", 100, true);
     }
 
     @Command
