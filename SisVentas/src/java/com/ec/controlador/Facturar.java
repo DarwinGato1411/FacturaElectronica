@@ -882,8 +882,6 @@ public class Facturar extends SelectorComposer<Component> {
         "totalDescuento", "valorTotalInicialVent", "descuentoValorFinal", "subTotalBaseCero"})
     public void actualizarCostoVenta() {
 
-        BigDecimal factorIva = (parametrizar.getParIva().divide(BigDecimal.valueOf(100.0)));
-        BigDecimal factorSacarSubtotal = (factorIva.add(BigDecimal.ONE));
         List<DetalleFacturaDAO> listaPedido = listaDetalleFacturaDAOMOdel.getInnerList();
         for (DetalleFacturaDAO valor : listaPedido) {
 
@@ -899,6 +897,15 @@ public class Facturar extends SelectorComposer<Component> {
                 BigDecimal costVentaTipoCliente = BigDecimal.ZERO;
                 BigDecimal costVentaTipoClienteInicial = BigDecimal.ZERO;
                 String tipoVenta = "NORMAL";
+
+                BigDecimal factorIva = (parametrizar.getParIva().divide(BigDecimal.valueOf(100.0)));
+                BigDecimal factorSacarSubtotal = (factorIva.add(BigDecimal.ONE));
+
+                if (!buscadoPorCodigo.getProdGrabaIva()) {
+                    factorIva = new BigDecimal(0);
+                    factorSacarSubtotal = (factorIva.add(BigDecimal.ONE));
+                }
+
                 if (clienteBuscado.getClietipo() == 0) {
                     tipoVenta = "NORMAL";
                     if (clietipo.equals("0")) {
@@ -915,8 +922,10 @@ public class Facturar extends SelectorComposer<Component> {
                     }
 
                     valor.setTotalInicial(ArchivoUtils.redondearDecimales(costVentaTipoClienteInicial, 6));
+
                     BigDecimal porcentajeDesc = valor.getDetPordescuento().divide(BigDecimal.valueOf(100.0), 6,
                             RoundingMode.FLOOR);
+
                     BigDecimal valorDescuentoIva = costVentaTipoCliente.multiply(porcentajeDesc).setScale(6,
                             RoundingMode.FLOOR);
                     ;
@@ -2628,8 +2637,8 @@ public class Facturar extends SelectorComposer<Component> {
     @NotifyChange({"subTotalCotizacion", "ivaCotizacion", "valorTotalCotizacion"})
     public void refrescarPagina() {
         calcularValoresTotales();
-         Clients.showNotification("Actualizar", Clients.NOTIFICATION_TYPE_INFO, null,
-         "end_before", 100, true);
+        Clients.showNotification("Actualizar", Clients.NOTIFICATION_TYPE_INFO, null,
+                "end_before", 100, true);
     }
 
     @Command
