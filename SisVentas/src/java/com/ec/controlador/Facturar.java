@@ -1,8 +1,3 @@
-/*
- * 
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.ec.controlador;
 
 import com.ec.dao.DetalleFacturaDAO;
@@ -139,7 +134,7 @@ public class Facturar extends SelectorComposer<Component> {
     Window windowModCotizacionFact;
     @Wire
     Window windowCambioPrecio;
-
+    
     @Wire
     Window windowValidaBorra;
     @Wire
@@ -172,7 +167,7 @@ public class Facturar extends SelectorComposer<Component> {
     //busacar producto
     ServicioProducto servicioProducto = new ServicioProducto();
     private List<Producto> listaProducto = new ArrayList<Producto>();
-
+    
     private String buscarNombreProd = "";
     private String buscarCodigoProd = "";
     private Producto productoBuscado = new Producto();
@@ -209,7 +204,7 @@ public class Facturar extends SelectorComposer<Component> {
     private String motivoGuia = "";
     private String partida = "";
     private String llegada = "";
-
+    
     private Integer numeroProforma = 0;
     private Date fechafacturacion = new Date();
     private Date facFechaCobro = new Date();
@@ -238,10 +233,10 @@ public class Facturar extends SelectorComposer<Component> {
     private String accion = "create";
     private String tipoDoc = "";
     private String clietipo = "0";
-
+    
     private List<Producto> listaProductoCmb = new ArrayList<Producto>();
     private String codigo = "";
-
+    
     private Boolean descargarKardex = Boolean.TRUE;
     /*GESTIONA NOTAS DE ENTREGA*/
     //crear un factura nueva        
@@ -273,55 +268,55 @@ public class Facturar extends SelectorComposer<Component> {
     /*cambio de precio*/
     public static String TIPOPRECIO = "NORMAL";
     public Producto PRODUCTOCAMBIO = null;
-
+    
     private String facPlaca;
-
+    
     private String facMarca;
-
+    
     private Integer facAnio;
-
+    
     private String facCilindraje;
-
+    
     private String facKilometraje;
-
+    
     private String facChasis;
     /*Floricola*/
     private String facMadre;
     private String facHija;
     private String facDestino;
-
+    
     ServicioReferencia servicioReferencia = new ServicioReferencia();
     private List<Referencia> listaReferencia = new ArrayList();
     private Referencia referenciaSelected;
-
+    
     ServicioDetallePago servicioDetallePago = new ServicioDetallePago();
     Verificaciones verificaciones = new Verificaciones();
 
     /*PARA GESTION DE COMBO DE PRODCUTO*/
     ServicioComboProducto servicioComboProducto = new ServicioComboProducto();
-
+    
     @AfterCompose
     public void afterCompose(@ExecutionArgParam("valor") ParamFactura valor, @ContextParam(ContextType.VIEW) Component view) {
         Selectors.wireComponents(view, this, false);
-
+        
         if (valor == null) {
-
+            
             accion = "create";
             fechafacturacion = new Date();
             ((ListModelList<DetalleFacturaDAO>) listaDetalleFacturaDAOMOdel).clear();
             verificarSecNumeracion();
             clienteBuscado = servicioCliente.findClienteLikeCedula("9999999999999");
-
+            
             List<Factura> listaFacturasPendientes = servicioFactura.findEstadoCliente("PE", clienteBuscado);
             saldoFacturas = BigDecimal.ZERO;
         } else if (valor.getBusqueda().equals("producto") || valor.getBusqueda().equals("cliente")) {
-
+            
         } else if (valor.getBusqueda().equals("cambio")) {
             PRODUCTOCAMBIO = servicioProducto.findByProdCodigo(valor.getCodigo());
         } else if (valor.getBusqueda().equals("nte")) {
             cargaNotaEntrega();
         } else {
-
+            
             accion = "update";
             idFactuta = Integer.valueOf(valor.getIdFactura());
             tipoVentaAnterior = valor.getTipoDoc();
@@ -329,12 +324,12 @@ public class Facturar extends SelectorComposer<Component> {
             System.out.println("tipoVenta " + tipoVenta);
             System.out.println("idFactuta " + idFactuta);
             recuperFactura();
-
+            
         }
         parametrizar = servicioParametrizar.FindALlParametrizar();
         DESCUENTOGENERAL = parametrizar.getParDescuentoGeneral();
         validaBorrado = parametrizar.getParBorraItemsFac();
-
+        
         FindClienteLikeNombre();
         findKardexProductoLikeNombre();
         //para establecer el cliente final
@@ -378,38 +373,38 @@ public class Facturar extends SelectorComposer<Component> {
                 cierreCaja.setIdUsuario(credential.getUsuarioSistema());
                 servicioCierreCaja.crear(cierreCaja);
             }
-
+            
         }
-
+        
     }
-
+    
     public Facturar() {
-
+        
         Session sess = Sessions.getCurrent();
         //sess.setMaxInactiveInterval(10000);
         UserCredential cre = (UserCredential) sess.getAttribute(EnumSesion.userCredential.getNombre());
         credential = cre;
-
+        
         getDetallefactura();
         parametrizar = servicioParametrizar.FindALlParametrizar();
         listaFormaPago = servicioFormaPago.FindALlFormaPago();
         formaPagoSelected = servicioFormaPago.finPrincipal();
         if (accion.equals("create")) {
             numeroFactura();
-
+            
         } else {
-
+            
         }
         amb = servicioTipoAmbiente.FindALlTipoambiente();
         PATH_BASE = amb.getAmDirBaseArchivos() + File.separator
                 + amb.getAmDirXml();
         partida = amb.getAmDireccionMatriz();
-
+        
     }
 // </editor-fold>
 
     private void recuperFactura() {
-
+        
         if (tipoVenta.equals("FACT")) {
             factura = servicioFactura.findFirIdFact(idFactuta);
             facConSinGuia = factura.getFaConSinGuia();
@@ -418,7 +413,7 @@ public class Facturar extends SelectorComposer<Component> {
             factura = servicioFactura.findByIdCotizacion(idFactuta);
             facConSinGuia = "SG";
         }
-
+        
         if (tipoVenta.equals("NTV")) {
             factura = servicioFactura.findFirIdFactNTV(idFactuta);
         }
@@ -436,7 +431,7 @@ public class Facturar extends SelectorComposer<Component> {
         /*FIN DEL SALDO DE FACTURAS CON ELLO VEMOS CUANTO CREDITO TIENE EL CLIENTE*/
         if (tipoVenta.equals("FACT") && accion.equals("update")) {
             numeroFactura = factura.getFacNumero();
-            
+
             //codigo para facturador personalizado
 //            if(factura.getFacCobro()!=null && factura.getFacCambio()!=null){
 //                cobro=factura.getFacCobro();
@@ -486,24 +481,24 @@ public class Facturar extends SelectorComposer<Component> {
 //            calcularValores(nuevoRegistro);
             listaDetalleFacturaDAODatos.add(nuevoRegistro);
         }
-
+        
         getDetallefactura();
         calcularValoresTotales();
     }
-
+    
     public void ultimaPagina() {
         Integer numPage = lstFacturar.getPageCount();
         System.out.println("numeroPagina " + numPage);
-
+        
         lstFacturar.setActivePage(numPage - 1);
     }
-
+    
     @Command
     @NotifyChange({"numeroFactura"})
     public void calcularNumeroFactTexto() {
         numeroFacturaTexto();
     }
-
+    
     private void numeroFacturaTexto() {
         numeroFacturaText = "";
         for (int i = numeroFactura.toString().length(); i < 9; i++) {
@@ -512,7 +507,7 @@ public class Facturar extends SelectorComposer<Component> {
         numeroFacturaText = numeroFacturaText + numeroFactura;
         System.out.println("nuemro texto " + numeroFacturaText);
     }
-
+    
     private void numeroFactura() {
         Factura recuperada = servicioFactura.FindUltimaFactura();
         if (recuperada != null) {
@@ -537,7 +532,7 @@ public class Facturar extends SelectorComposer<Component> {
             numeroGuiaText = "000000001";
         }
     }
-
+    
     private void numeroTexto(Integer valor) {
         numeroGuiaText = "";
         for (int i = valor.toString().length(); i < 9; i++) {
@@ -547,7 +542,7 @@ public class Facturar extends SelectorComposer<Component> {
         System.out.println("numero texto guia  " + numeroGuiaText);
         //  return numeroGuiaText;
     }
-
+    
     private void numeroProforma() {
         Factura recuperada = servicioFactura.FindUltimaProforma();
         if (recuperada != null) {
@@ -558,7 +553,7 @@ public class Facturar extends SelectorComposer<Component> {
             numeroFactura = 1;
         }
     }
-
+    
     private void numeroNotaEntrega() {
         Factura recuperada = servicioFactura.findUltimaNotaEnt();
         if (recuperada != null) {
@@ -568,7 +563,7 @@ public class Facturar extends SelectorComposer<Component> {
             numeroFactura = 1;
         }
     }
-
+    
     private void numeroNotaVenta() {
         Factura recuperada = servicioFactura.findUltimaNotaVent();
         if (recuperada != null) {
@@ -578,9 +573,9 @@ public class Facturar extends SelectorComposer<Component> {
             numeroFactura = 1;
         }
     }
-
+    
     private void verificarSecNumeracion() {
-
+        
         if (tipoVenta.equals("FACT")) {
             numeroFactura();
         } else if (tipoVenta.equals("PROF")) {
@@ -590,19 +585,19 @@ public class Facturar extends SelectorComposer<Component> {
         } else if (tipoVenta.equals("NTV")) {
             numeroNotaVenta();
         } else {
-
+            
             System.out.println("cliente  " + clienteBuscado);
             numeroFactura = 0;
-
+            
         }
-
+        
     }
 
     /*AGREGAMOS DESDE LA LSITA */
     @Command
     @NotifyChange({"listaDetalleFacturaDAOMOdel", "subTotalCotizacion", "ivaCotizacion", "valorTotalCotizacion", "totalDescuento", "buscarNombreProd", "valorTotalInicialVent", "descuentoValorFinal", "subTotalBaseCero", "listaProducto", "totalItems"})
     public void agregarItemLista(@BindingParam("valor") Producto producto) {
-
+        
         if (parametrizar.getParNumRegistrosFactura().intValue() <= listaDetalleFacturaDAOMOdel.size()) {
             Clients.showNotification("Numero de registros permitidos imprima y genere otra factura",
                     Clients.NOTIFICATION_TYPE_INFO, null, "middle_center", 5000, true);
@@ -613,9 +608,9 @@ public class Facturar extends SelectorComposer<Component> {
 /*calcula con el iva para todo el 12%*/
         BigDecimal factorIva = (producto.getProdIva().divide(BigDecimal.valueOf(100.0)));
         BigDecimal factorSacarSubtotal = (factorIva.add(BigDecimal.ONE));
-
+        
         List<DetalleFacturaDAO> listaPedido = listaDetalleFacturaDAOMOdel.getInnerList();
-
+        
         for (DetalleFacturaDAO item : listaPedido) {
             if (item.getProducto() == null) {
                 ((ListModelList<DetalleFacturaDAO>) listaDetalleFacturaDAOMOdel).remove(item);
@@ -632,7 +627,7 @@ public class Facturar extends SelectorComposer<Component> {
                 return;
             }
         }
-
+        
         System.out.println("cliente panel  " + clienteBuscado);
         if (productoBuscado != null) {
             DetalleFacturaDAO valor = new DetalleFacturaDAO();
@@ -642,7 +637,7 @@ public class Facturar extends SelectorComposer<Component> {
             valor.setDetPordescuento(DESCUENTOGENERAL);
             valor.setCodigo(productoBuscado.getProdCodigo());
             valor.setEsProducto(producto.getProdEsproducto());
-
+            
             BigDecimal costVentaTipoCliente = BigDecimal.ZERO;
             BigDecimal costVentaTipoClienteInicial = BigDecimal.ZERO;
             String tipoVenta = "NORMAL";
@@ -660,7 +655,7 @@ public class Facturar extends SelectorComposer<Component> {
                     costVentaTipoClienteInicial = productoBuscado.getProdCostoPreferencialDos();
                     costVentaTipoCliente = productoBuscado.getProdCostoPreferencialDos();
                 }
-
+                
                 valor.setTotalInicial(ArchivoUtils.redondearDecimales(costVentaTipoClienteInicial, 6));
                 BigDecimal porcentajeDesc = valor.getDetPordescuento().divide(BigDecimal.valueOf(100.0), 6, RoundingMode.FLOOR);
                 BigDecimal valorDescuentoIva = costVentaTipoCliente.multiply(porcentajeDesc).setScale(6, RoundingMode.FLOOR);;
@@ -698,14 +693,14 @@ public class Facturar extends SelectorComposer<Component> {
             //ingresa un registro vacio
             boolean registroVacio = true;
             List<DetalleFacturaDAO> listaPedidoPost = listaDetalleFacturaDAOMOdel.getInnerList();
-
+            
             for (DetalleFacturaDAO item : listaPedidoPost) {
                 if (item.getProducto() == null) {
                     registroVacio = false;
                     break;
                 }
             }
-
+            
             System.out.println("existe un vacio " + registroVacio);
             if (registroVacio) {
                 DetalleFacturaDAO nuevoRegistroPost = new DetalleFacturaDAO();
@@ -721,14 +716,14 @@ public class Facturar extends SelectorComposer<Component> {
         }
         calcularValoresTotales();
         codigoBusqueda = "";
-
+        
         buscarNombreProd = "";
         idBusquedaProd.setFocus(Boolean.TRUE);
         /*COLOCA EL FOCO EN EL BUSCADOR*/
 //        idBusquedaProd.setFocus(Boolean.TRUE);
         ultimaPagina();
     }
-
+    
     @Command
     @NotifyChange({"listaDetalleFacturaDAOMOdel", "subTotalCotizacion", "ivaCotizacion", "valorTotalCotizacion", "totalDescuento", "valorTotalInicialVent", "descuentoValorFinal", "subTotalBaseCero"})
     public void cambiarRegistro(@BindingParam("valor") DetalleFacturaDAO valor) {
@@ -736,7 +731,7 @@ public class Facturar extends SelectorComposer<Component> {
             Clients.showNotification("Numero de registros permitidos, imprima y genere otra factura", Clients.NOTIFICATION_TYPE_INFO, null, "middle_center", 3000, true);
             return;
         }
-
+        
         if (!clienteBuscado.getCliCedula().equals("")) {
             ParamFactura paramFactura = new ParamFactura();
             paramFactura.setBusqueda("producto");
@@ -759,7 +754,7 @@ public class Facturar extends SelectorComposer<Component> {
                     return;
                 }
             }
-
+            
             if (productoBuscado != null) {
                 valor.setCantidad(BigDecimal.ONE);
                 valor.setProducto(productoBuscado);
@@ -767,7 +762,7 @@ public class Facturar extends SelectorComposer<Component> {
                 valor.setDetPordescuento(DESCUENTOGENERAL);
                 valor.setCodigo(productoBuscado.getProdCodigo());
                 valor.setEsProducto(productoBuscado.getProdEsproducto());
-
+                
                 BigDecimal costVentaTipoCliente = BigDecimal.ZERO;
                 BigDecimal costVentaTipoClienteInicial = BigDecimal.ZERO;
                 String tipoVenta = "NORMAL";
@@ -789,7 +784,7 @@ public class Facturar extends SelectorComposer<Component> {
                     //        BigDecimal factorIva = (parametrizar.getParIva().divide(BigDecimal.valueOf(100.0)));
                     BigDecimal factorIva = (valor.getProducto().getProdIva().divide(BigDecimal.valueOf(100.0)));
                     BigDecimal factorSacarSubtotal = (factorIva.add(BigDecimal.ONE));
-
+                    
                     valor.setTotalInicial(costVentaTipoClienteInicial);
                     BigDecimal porcentajeDesc = valor.getDetPordescuento().divide(BigDecimal.valueOf(100.0), 4, RoundingMode.FLOOR);
                     BigDecimal valorDescuentoIva = costVentaTipoCliente.multiply(porcentajeDesc);
@@ -825,14 +820,14 @@ public class Facturar extends SelectorComposer<Component> {
                 //ingresa un registro vacio
                 boolean registroVacio = true;
                 List<DetalleFacturaDAO> listaPedidoPost = listaDetalleFacturaDAOMOdel.getInnerList();
-
+                
                 for (DetalleFacturaDAO item : listaPedidoPost) {
                     if (item.getProducto() == null) {
                         registroVacio = false;
                         break;
                     }
                 }
-
+                
                 System.out.println("existe un vacio " + registroVacio);
                 if (registroVacio) {
                     DetalleFacturaDAO nuevoRegistroPost = new DetalleFacturaDAO();
@@ -846,25 +841,25 @@ public class Facturar extends SelectorComposer<Component> {
                     ((ListModelList<DetalleFacturaDAO>) listaDetalleFacturaDAOMOdel).add(nuevoRegistroPost);
                 }
             }
-
+            
             calcularValoresTotales();
             codigoBusqueda = "";
         } else {
             Messagebox.show("Verifique el cliente", "Atención", Messagebox.OK, Messagebox.INFORMATION);
         }
     }
-
+    
     @Command
     @NotifyChange({"listaDetalleFacturaDAOMOdel", "subTotalCotizacion", "ivaCotizacion", "valorTotalCotizacion", "totalDescuento", "valorTotalInicialVent", "descuentoValorFinal", "subTotalBaseCero"})
     public void actualizarCostoVenta() {
-
+        
         BigDecimal factorIva = (parametrizar.getParIva().divide(BigDecimal.valueOf(100.0)));
         BigDecimal factorSacarSubtotal = (factorIva.add(BigDecimal.ONE));
         List<DetalleFacturaDAO> listaPedido = listaDetalleFacturaDAOMOdel.getInnerList();
         for (DetalleFacturaDAO valor : listaPedido) {
-
+            
             Producto buscadoPorCodigo = valor.getProducto();
-
+            
             if (buscadoPorCodigo != null) {
 //                valor.setCantidad(BigDecimal.ONE);
                 valor.setProducto(buscadoPorCodigo);
@@ -889,7 +884,7 @@ public class Facturar extends SelectorComposer<Component> {
                         costVentaTipoClienteInicial = buscadoPorCodigo.getProdCostoPreferencialDos();
                         costVentaTipoCliente = buscadoPorCodigo.getProdCostoPreferencialDos();
                     }
-
+                    
                     valor.setTotalInicial(ArchivoUtils.redondearDecimales(costVentaTipoClienteInicial, 6));
                     BigDecimal porcentajeDesc = valor.getDetPordescuento().divide(BigDecimal.valueOf(100.0), 6, RoundingMode.FLOOR);
                     BigDecimal valorDescuentoIva = costVentaTipoCliente.multiply(porcentajeDesc).setScale(6, RoundingMode.FLOOR);;
@@ -921,20 +916,20 @@ public class Facturar extends SelectorComposer<Component> {
                     valor.setTipoVenta("NORMAL");
                     valor.setCodTipoVenta(clietipo);
                 }
-
+                
             }
         }
         //ingresa un registro vacio
         boolean registroVacio = true;
         List<DetalleFacturaDAO> listaPedidoPost = listaDetalleFacturaDAOMOdel.getInnerList();
-
+        
         for (DetalleFacturaDAO item : listaPedidoPost) {
             if (item.getProducto() == null) {
                 registroVacio = false;
                 break;
             }
         }
-
+        
         System.out.println("existe un vacio " + registroVacio);
         if (registroVacio) {
             DetalleFacturaDAO nuevoRegistroPost = new DetalleFacturaDAO();
@@ -949,7 +944,7 @@ public class Facturar extends SelectorComposer<Component> {
         }
         calcularValoresTotales();
     }
-
+    
     @Command
     @NotifyChange({"listaDetalleFacturaDAOMOdel", "subTotalCotizacion", "ivaCotizacion", "valorTotalCotizacion", "totalDescuento", "valorTotalInicialVent", "descuentoValorFinal", "subTotalBaseCero"})
     public void buscarPorCodigo(@BindingParam("valor") DetalleFacturaDAO valor) {
@@ -960,16 +955,16 @@ public class Facturar extends SelectorComposer<Component> {
 
 //        BigDecimal factorIva = (parametrizar.getParIva().divide(BigDecimal.valueOf(100.0)));
         Producto buscadoPorCodigo = servicioProducto.findByProdCodigo(valor.getCodigo());
-
+        
         if (buscadoPorCodigo == null) {
             valor.setCodigo("");
             Clients.showNotification("No existe el producto",
                     Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 2000, true);
             return;
         }
-
+        
         BigDecimal factorIva = (buscadoPorCodigo.getProdIva().divide(BigDecimal.valueOf(100.0)));
-
+        
         BigDecimal factorSacarSubtotal = (factorIva.add(BigDecimal.ONE));
 
 //verifica el kardex
@@ -982,18 +977,18 @@ public class Facturar extends SelectorComposer<Component> {
                 return;
             }
         }
-
+        
         if (buscadoPorCodigo != null) {
             valor.setCantidad(BigDecimal.ONE);
             valor.setProducto(buscadoPorCodigo);
             valor.setDescripcion(buscadoPorCodigo.getProdNombre());
             valor.setDetPordescuento(DESCUENTOGENERAL);
             valor.setCodigo(buscadoPorCodigo.getProdCodigo());
-
+            
             BigDecimal costVentaTipoCliente = BigDecimal.ZERO;
             BigDecimal costVentaTipoClienteInicial = BigDecimal.ZERO;
             String tipoVenta = "NORMAL";
-
+            
             if (clienteBuscado.getClietipo() == 0) {
                 tipoVenta = "NORMAL";
                 if (clietipo.equals("0")) {
@@ -1008,7 +1003,7 @@ public class Facturar extends SelectorComposer<Component> {
                     costVentaTipoClienteInicial = buscadoPorCodigo.getProdCostoPreferencialDos();
                     costVentaTipoCliente = buscadoPorCodigo.getProdCostoPreferencialDos();
                 }
-
+                
                 valor.setTotalInicial(costVentaTipoClienteInicial);
                 BigDecimal porcentajeDesc = valor.getDetPordescuento().divide(BigDecimal.valueOf(100.0), 4, RoundingMode.FLOOR);
                 BigDecimal valorDescuentoIva = costVentaTipoCliente.multiply(porcentajeDesc);
@@ -1046,14 +1041,14 @@ public class Facturar extends SelectorComposer<Component> {
             //ingresa un registro vacio
             boolean registroVacio = true;
             List<DetalleFacturaDAO> listaPedidoPost = listaDetalleFacturaDAOMOdel.getInnerList();
-
+            
             for (DetalleFacturaDAO item : listaPedidoPost) {
                 if (item.getProducto() == null) {
                     registroVacio = false;
                     break;
                 }
             }
-
+            
             if (parametrizar.getParPistolaNuevo()) {
                 System.out.println("existe un vacio " + registroVacio);
                 if (registroVacio) {
@@ -1067,12 +1062,12 @@ public class Facturar extends SelectorComposer<Component> {
                     ((ListModelList<DetalleFacturaDAO>) listaDetalleFacturaDAOMOdel).add(nuevoRegistroPost);
                 }
             }
-
+            
         }
         calcularValoresTotales();
         ultimaPagina();
     }
-
+    
     @Command
     @NotifyChange({"listaDetalleFacturaDAOMOdel", "subTotalCotizacion", "ivaCotizacion", "valorTotalCotizacion", "totalDescuento", "valorTotalInicialVent", "descuentoValorFinal", "subTotalBaseCero"})
     public void calcularValores(@BindingParam("valor") DetalleFacturaDAO valor) {
@@ -1090,7 +1085,7 @@ public class Facturar extends SelectorComposer<Component> {
             if (valor.getCantidad().intValue() > 0) {
                 BigDecimal porcentajeDesc = valor.getDetPordescuento().divide(BigDecimal.valueOf(100.0), 7, RoundingMode.FLOOR);
                 BigDecimal valorDescuentoIva = valor.getTotal().multiply(porcentajeDesc);
-
+                
                 BigDecimal valorIva = valor.getSubTotalDescuento().multiply(factorIva).multiply(valor.getCantidad());
 //                valor.setDetIva(valorIva);
                 //valor unitario con descuento ioncluido iva
@@ -1104,7 +1099,7 @@ public class Facturar extends SelectorComposer<Component> {
                 valor.setDetValdescuento(valorDescuento);
                 //valor del iva con descuento
                 BigDecimal valorIvaDesc = subTotalDescuento.multiply(factorIva).multiply(valor.getCantidad());
-
+                
                 valor.setDetIva(valorIvaDesc);
 
                 //valor total con decuento y con iva
@@ -1114,39 +1109,39 @@ public class Facturar extends SelectorComposer<Component> {
                 valor.setDetTotalconivadescuento(valor.getCantidad().multiply(valorTotalIvaDesc));
                 valor.setDetTotalconiva(valor.getCantidad().multiply(valor.getTotal()));
                 valor.setDetCantpordescuento(valorDescuento.multiply(valor.getCantidad()));
-
+                
             }
             calcularValoresTotales();
         } catch (Exception e) {
             Messagebox.show("Ocurrio un error al calcular los valores" + e, "Atención", Messagebox.OK, Messagebox.ERROR);
         }
     }
-
+    
     @Command
     @NotifyChange({"listaDetalleFacturaDAOMOdel", "subTotalCotizacion", "ivaCotizacion", "valorTotalCotizacion", "totalDescuento", "valorTotalInicialVent", "descuentoValorFinal", "subTotalBaseCero"})
     public void calcularValoresDesCantidad(@BindingParam("valor") DetalleFacturaDAO valor) {
         try {
-
+            
             if (valor.getEsProducto() && valor.getTotalInicial().doubleValue() < valor.getTotal().doubleValue()) {
                 Clients.showNotification("El precio ingresado no puede superar al precio inicial, si desea colocar un precio superior cree un servicio.",
                         Clients.NOTIFICATION_TYPE_ERROR, null, "middle_center", 4000, true);
                 return;
             }
-
+            
             if (valor.getCantidad() == null) {
                 return;
             }
-
+            
             if (valor.getCantidad().doubleValue() <= 0) {
                 return;
             }
-
+            
             if (valor.getProducto() == null) {
                 return;
             }
             /*SERVICOS */
             if (!valor.getEsProducto()) {
-
+                
                 valor.setTotalInicial(valor.getTotal());
             }
             
@@ -1154,7 +1149,7 @@ public class Facturar extends SelectorComposer<Component> {
             System.out.println("");
             BigDecimal factorIva = (valor.getProducto().getProdIva().divide(BigDecimal.valueOf(100.0)));
             BigDecimal factorSacarSubtotal = (factorIva.add(BigDecimal.ONE));
-
+            
             if (valor.getCantidad().doubleValue() > 0) {
                 /*CALCULO DEL PORCENTAJE DE DESCUENTO*/
                 BigDecimal porcentajeDesc = BigDecimal.ZERO;
@@ -1179,7 +1174,7 @@ public class Facturar extends SelectorComposer<Component> {
 
                 //valor unitario sin iva con descuento
                 BigDecimal subTotalDescuento = valorTotalIvaDesc.divide(factorSacarSubtotal, 6, RoundingMode.FLOOR);
-
+                
                 valor.setSubTotalDescuento(subTotalDescuento);
                 //valor del descuento
                 BigDecimal valorDescuento = BigDecimal.ZERO;
@@ -1192,7 +1187,7 @@ public class Facturar extends SelectorComposer<Component> {
 
                 //valor del iva con descuento
                 BigDecimal valorIvaDesc = subTotalDescuento.multiply(factorIva).multiply(valor.getCantidad());
-
+                
                 valor.setDetIva(valorIvaDesc);
 
                 //valor total con decuento y con iva
@@ -1212,14 +1207,14 @@ public class Facturar extends SelectorComposer<Component> {
             //ingresa un registro vacio
             boolean registroVacio = true;
             List<DetalleFacturaDAO> listaPedidoPost = listaDetalleFacturaDAOMOdel.getInnerList();
-
+            
             for (DetalleFacturaDAO item : listaPedidoPost) {
                 if (item.getProducto() == null) {
                     registroVacio = false;
                     break;
                 }
             }
-
+            
             System.out.println("existe un vacio " + registroVacio);
             if (registroVacio) {
                 DetalleFacturaDAO nuevoRegistroPost = new DetalleFacturaDAO();
@@ -1231,7 +1226,7 @@ public class Facturar extends SelectorComposer<Component> {
                 nuevoRegistroPost.setDescripcion("");
                 ((ListModelList<DetalleFacturaDAO>) listaDetalleFacturaDAOMOdel).add(nuevoRegistroPost);
             }
-
+            
         } catch (Exception e) {
             Messagebox.show("Ocurrio un error al calcular los valores" + e, "Atención", Messagebox.OK, Messagebox.ERROR);
         }
@@ -1245,7 +1240,7 @@ public class Facturar extends SelectorComposer<Component> {
             if (valor.getProducto() == null) {
                 return;
             }
-
+            
             BigDecimal factorIva = (valor.getProducto().getProdIva().divide(BigDecimal.valueOf(100.0)));
             BigDecimal factorSacarSubtotal = (factorIva.add(BigDecimal.ONE));
 
@@ -1273,7 +1268,7 @@ public class Facturar extends SelectorComposer<Component> {
 
                 //valor del iva con descuento
                 BigDecimal valorIvaDesc = subTotalDescuento.multiply(factorIva).multiply(valor.getCantidad());
-
+                
                 valor.setDetIva(valorIvaDesc);
 
                 //valor total con decuento y con iva
@@ -1282,276 +1277,276 @@ public class Facturar extends SelectorComposer<Component> {
                 valor.setDetSubtotaldescuentoporcantidad(subTotalDescuento.multiply(valor.getCantidad()));
                 valor.setDetTotalconivadescuento(valor.getCantidad().multiply(valorTotalIvaDesc));
                 valor.setDetTotalconiva(valor.getCantidad().multiply(valor.getTotal()));
-
+                
                 valor.setDetCantpordescuento(valorDescuento.multiply(valor.getCantidad()));
-
+                
             }
             calcularValoresTotales();
         } catch (Exception e) {
             Messagebox.show("Ocurrio un error al calcular los valores" + e, "Atención", Messagebox.OK, Messagebox.ERROR);
         }
     }
-
+    
     @Command
     @NotifyChange({"numeroFactura", "numeroProforma", "clienteBuscado"})
     public void verificarNumeracion() {
         verificarSecNumeracion();
     }
-
+    
     private void getDetallefactura() {
         setListaDetalleFacturaDAOMOdel(new ListModelList<DetalleFacturaDAO>(getListaDetalleFacturaDAODatos()));
         ((ListModelList<DetalleFacturaDAO>) listaDetalleFacturaDAOMOdel).setMultiple(true);
     }
-
+    
     @Command
     public void seleccionarRegistros() {
         registrosSeleccionados = ((ListModelList<DetalleFacturaDAO>) getListaDetalleFacturaDAOMOdel()).getSelection();
     }
-
+    
     public List<Producto> getListaProducto() {
         return listaProducto;
     }
-
+    
     public void setListaProducto(List<Producto> listaProducto) {
         this.listaProducto = listaProducto;
     }
-
+    
     public String getBuscarNombreProd() {
         return buscarNombreProd;
     }
-
+    
     public void setBuscarNombreProd(String buscarNombreProd) {
         this.buscarNombreProd = buscarNombreProd;
     }
-
+    
     private void FindClienteLikeNombre() {
         listaClientesAll = servicioCliente.FindClienteLikeNombre(buscarNombre);
     }
-
+    
     private void FindClienteLikeRazon() {
         listaClientesAll = servicioCliente.FindClienteLikeRazonSocial(buscarRazonSocial);
     }
-
+    
     private void FindClienteLikeCedula() {
         listaClientesAll = servicioCliente.FindClienteLikeCedula(buscarCedula);
     }
-
+    
     public Cliente getClienteBuscado() {
         return clienteBuscado;
     }
-
+    
     public void setClienteBuscado(Cliente clienteBuscado) {
         this.clienteBuscado = clienteBuscado;
     }
-
+    
     public String getBuscarNombre() {
         return buscarNombre;
     }
-
+    
     public void setBuscarNombre(String buscarNombre) {
         this.buscarNombre = buscarNombre;
     }
-
+    
     public String getBuscarRazonSocial() {
         return buscarRazonSocial;
     }
-
+    
     public void setBuscarRazonSocial(String buscarRazonSocial) {
         this.buscarRazonSocial = buscarRazonSocial;
     }
-
+    
     public String getBuscarCedula() {
         return buscarCedula;
     }
-
+    
     public void setBuscarCedula(String buscarCedula) {
         this.buscarCedula = buscarCedula;
     }
-
+    
     public static String getBuscarCliente() {
         return buscarCliente;
     }
-
+    
     public static void setBuscarCliente(String buscarCliente) {
         Facturar.buscarCliente = buscarCliente;
     }
-
+    
     public List<Cliente> getListaClientesAll() {
         return listaClientesAll;
     }
-
+    
     public void setListaClientesAll(List<Cliente> listaClientesAll) {
         this.listaClientesAll = listaClientesAll;
     }
-
+    
     public Factura getFactura() {
         return factura;
     }
-
+    
     public void setFactura(Factura factura) {
         this.factura = factura;
     }
-
+    
     public DetalleFacturaDAO getDetalleFacturaDAO() {
         return detalleFacturaDAO;
     }
-
+    
     public void setDetalleFacturaDAO(DetalleFacturaDAO detalleFacturaDAO) {
         this.detalleFacturaDAO = detalleFacturaDAO;
     }
-
+    
     public ListModelList<DetalleFacturaDAO> getListaDetalleFacturaDAOMOdel() {
         return listaDetalleFacturaDAOMOdel;
     }
-
+    
     public void setListaDetalleFacturaDAOMOdel(ListModelList<DetalleFacturaDAO> listaDetalleFacturaDAOMOdel) {
         this.listaDetalleFacturaDAOMOdel = listaDetalleFacturaDAOMOdel;
     }
-
+    
     public List<DetalleFacturaDAO> getListaDetalleFacturaDAODatos() {
         return listaDetalleFacturaDAODatos;
     }
-
+    
     public void setListaDetalleFacturaDAODatos(List<DetalleFacturaDAO> listaDetalleFacturaDAODatos) {
         this.listaDetalleFacturaDAODatos = listaDetalleFacturaDAODatos;
     }
-
+    
     public Set<DetalleFacturaDAO> getRegistrosSeleccionados() {
         return registrosSeleccionados;
     }
-
+    
     public void setRegistrosSeleccionados(Set<DetalleFacturaDAO> registrosSeleccionados) {
         this.registrosSeleccionados = registrosSeleccionados;
     }
-
+    
     public Producto getProductoBuscado() {
         return productoBuscado;
     }
-
+    
     public void setProductoBuscado(Producto productoBuscado) {
         this.productoBuscado = productoBuscado;
     }
-
+    
     public static String getCodigoBusqueda() {
         return codigoBusqueda;
     }
-
+    
     public static void setCodigoBusqueda(String codigoBusqueda) {
         Facturar.codigoBusqueda = codigoBusqueda;
     }
-
+    
     public String getBuscarCodigoProd() {
         return buscarCodigoProd;
     }
-
+    
     public void setBuscarCodigoProd(String buscarCodigoProd) {
         this.buscarCodigoProd = buscarCodigoProd;
     }
-
+    
     public BigDecimal getValorTotalCotizacion() {
         return valorTotalCotizacion;
     }
-
+    
     public void setValorTotalCotizacion(BigDecimal valorTotalCotizacion) {
         this.valorTotalCotizacion = valorTotalCotizacion;
     }
-
+    
     public BigDecimal getSubTotalCotizacion() {
         return subTotalCotizacion;
     }
-
+    
     public void setSubTotalCotizacion(BigDecimal subTotalCotizacion) {
         this.subTotalCotizacion = subTotalCotizacion;
     }
-
+    
     public BigDecimal getIvaCotizacion() {
         return ivaCotizacion;
     }
-
+    
     public void setIvaCotizacion(BigDecimal ivaCotizacion) {
         this.ivaCotizacion = ivaCotizacion;
     }
-
+    
     public String getEstdoFactura() {
         return estdoFactura;
     }
-
+    
     public void setEstdoFactura(String estdoFactura) {
         this.estdoFactura = estdoFactura;
     }
-
+    
     public UserCredential getCredential() {
         return credential;
     }
-
+    
     public void setCredential(UserCredential credential) {
         this.credential = credential;
     }
-
+    
     public Integer getNumeroFactura() {
         return numeroFactura;
     }
-
+    
     public void setNumeroFactura(Integer numeroFactura) {
         this.numeroFactura = numeroFactura;
     }
-
+    
     public Date getFechafacturacion() {
         return fechafacturacion;
     }
-
+    
     public void setFechafacturacion(Date fechafacturacion) {
         this.fechafacturacion = fechafacturacion;
     }
-
+    
     public AMedia getFileContent() {
         return fileContent;
     }
-
+    
     public void setFileContent(AMedia fileContent) {
         this.fileContent = fileContent;
     }
-
+    
     public Connection getCon() {
         return con;
     }
-
+    
     public void setCon(Connection con) {
         this.con = con;
     }
-
+    
     public BigDecimal getCobro() {
         return cobro;
     }
-
+    
     public void setCobro(BigDecimal cobro) {
         this.cobro = cobro;
     }
-
+    
     public BigDecimal getCambio() {
         return cambio;
     }
-
+    
     public void setCambio(BigDecimal cambio) {
         this.cambio = cambio;
     }
-
+    
     public String getFacturaDescripcion() {
         return facturaDescripcion;
     }
-
+    
     public void setFacturaDescripcion(String facturaDescripcion) {
         this.facturaDescripcion = facturaDescripcion;
     }
-
+    
     public String getTipoVenta() {
         return tipoVenta;
     }
-
+    
     public void setTipoVenta(String tipoVenta) {
         this.tipoVenta = tipoVenta;
     }
-
+    
     @Command
     @NotifyChange({"listaClientesAll", "clienteBuscado", "fechaEmision", "saldoFacturas", "llegada"})
     public void buscarClienteEnLista() {
@@ -1571,9 +1566,9 @@ public class Facturar extends SelectorComposer<Component> {
         if (clienteBuscado != null) {
             llegada = clienteBuscado.getCliDireccion();
         }
-
+        
     }
-
+    
     @Command
     @NotifyChange({"clienteBuscado", "fechaEmision", "saldoFacturas", "llegada"})
     public void buscarClienteDni(@BindingParam("valor") Cliente valor) {
@@ -1587,14 +1582,14 @@ public class Facturar extends SelectorComposer<Component> {
             clienteBuscado = servicioCliente.findClienteLikeCedula("999999999");
             return;
         }
-
+        
         clienteBuscado = servicioCliente.FindClienteForCedula(valor.getCliCedula());
         if (clienteBuscado == null) {
             clienteBuscado = servicioCliente.findClienteLikeCedula("999999999");
         }
-
+        
     }
-
+    
     @Command
     @NotifyChange({"listaDetalleFacturaDAOMOdel", "subTotalCotizacion", "ivaCotizacion", "valorTotalCotizacion", "totalDescuento", "buscarNombreProd", "valorTotalInicialVent", "descuentoValorFinal", "subTotalBaseCero"})
     public void verNotasEntrega() {
@@ -1611,10 +1606,10 @@ public class Facturar extends SelectorComposer<Component> {
         if (seleccionNotaEntrega != null) {
             for (Factura fac : seleccionNotaEntrega) {
                 System.out.println("FAct " + fac.getIdFactura());
-
+                
                 List<DetalleFactura> detalleFac = servicioDetalleFactura.findDetalleForIdFac(fac.getIdFactura());
                 DetalleFacturaDAO nuevoRegistro;
-
+                
                 for (DetalleFactura det : detalleFac) {
                     nuevoRegistro = new DetalleFacturaDAO();
                     nuevoRegistro.setCodigo(det.getIdProducto().getProdCodigo());
@@ -1641,7 +1636,7 @@ public class Facturar extends SelectorComposer<Component> {
 //            calcularValores(nuevoRegistro);
                     listaDetalleFacturaDAODatos.add(nuevoRegistro);
                 }
-
+                
             }
             getDetallefactura();
             calcularValoresTotales();
@@ -1651,45 +1646,45 @@ public class Facturar extends SelectorComposer<Component> {
             getDetallefactura();
             calcularValoresTotales();
         }
-
+        
     }
-
+    
     @Command
     public void nuevoCliente() {
-
+        
         org.zkoss.zul.Window window = (org.zkoss.zul.Window) Executions.createComponents(
                 "/nuevo/cliente.zul", null, null);
         window.doModal();
     }
-
+    
     @Command
     @NotifyChange({"listaClientesAll", "buscarRazonSocial"})
     public void buscarClienteRazon() {
-
+        
         FindClienteLikeRazon();
     }
-
+    
     @Command
     @NotifyChange({"listaClientesAll", "buscarNombre"})
     public void buscarClienteNombre() {
-
+        
         FindClienteLikeNombre();
     }
-
+    
     @Command
     @NotifyChange({"listaClientesAll", "buscarCedula"})
     public void buscarClienteCedula() {
-
+        
         FindClienteLikeCedula();
     }
-
+    
     @Command
     @NotifyChange("clienteBuscado")
     public void seleccionarClienteLista(@BindingParam("cliente") Cliente valor) {
         System.out.println("cliente seleccionado " + valor.getCliCedula());
         buscarCliente = valor.getCliCedula();
         windowClienteBuscar.detach();
-
+        
     }
 
     //busqueda del producto
@@ -1712,13 +1707,13 @@ public class Facturar extends SelectorComposer<Component> {
                 Clients.showNotification("No tiene permisos para eliminar, verifique el usuario y contraseña",
                         Clients.NOTIFICATION_TYPE_INFO, null, "middle_center", 5000, true);
             }
-
+            
         } else {
             Messagebox.show("Seleccione al menos un registro para eliminar", "Atención", Messagebox.OK, Messagebox.ERROR);
         }
-
+        
     }
-
+    
     @Command
     public void validarBorrado() {
         Usuario usuRec = servicioUsuario.FindUsuarioPorNombre(usuLoginVal);
@@ -1726,25 +1721,25 @@ public class Facturar extends SelectorComposer<Component> {
             if (usuRec.getUsuNivel() == 1) {
                 if (usuRec.getUsuLogin().equals(usuLoginVal) && usuRec.getUsuPassword().equals(usuPasswordVal)) {
                     validaBorrado = Boolean.TRUE;
-
+                    
                 } else {
                     validaBorrado = Boolean.FALSE;
                 }
             } else {
                 validaBorrado = Boolean.FALSE;
             }
-
+            
         } else {
             validaBorrado = Boolean.FALSE;
         }
-
+        
         windowValidaBorra.detach();
     }
-
+    
     @Command
     @NotifyChange({"listaDetalleFacturaDAOMOdel"})
     public void agregarRegistroVacio() {
-
+        
         DetalleFacturaDAO nuevoRegistro = new DetalleFacturaDAO();
         nuevoRegistro.setProducto(productoBuscado);
         nuevoRegistro.setCantidad(BigDecimal.ZERO);
@@ -1754,9 +1749,9 @@ public class Facturar extends SelectorComposer<Component> {
         nuevoRegistro.setDescripcion("");
         nuevoRegistro.setProducto(null);
         ((ListModelList<DetalleFacturaDAO>) listaDetalleFacturaDAOMOdel).add(nuevoRegistro);
-
+        
     }
-
+    
     private void calcularValoresTotales() {
         BigDecimal factorIva = (parametrizar.getParIva().divide(BigDecimal.valueOf(100.0)));
         BigDecimal facturIvaMasBase = (factorIva.add(BigDecimal.ONE));
@@ -1770,34 +1765,34 @@ public class Facturar extends SelectorComposer<Component> {
         BigDecimal sumaSubsidio = BigDecimal.ZERO;
         BigDecimal sumaDeItems = BigDecimal.ZERO;
         BigDecimal totalizado = BigDecimal.ZERO;
-
+        
         List<DetalleFacturaDAO> listaPedido = listaDetalleFacturaDAOMOdel.getInnerList();
         if (listaPedido.size() > 0) {
             for (DetalleFacturaDAO item : listaPedido) {
                 sumaDeItems = sumaDeItems.add(BigDecimal.ONE);
                 if (item.getProducto() != null) {
                     totalizado = totalizado.add(item.getDetTotalconivadescuento());
-                    System.out.println("totalizado"+totalizado);
+                    System.out.println("totalizado" + totalizado);
                     valorTotal = valorTotal.add(item.getProducto().getProdGrabaIva() ? item.getSubTotalDescuento().multiply(item.getCantidad()) : BigDecimal.ZERO);
-                    System.out.println("valor total"+ valorTotal);
+                    System.out.println("valor total" + valorTotal);
                     valorIva = valorIva.add(item.getDetIva());
-                    System.out.println("valorIva"+valorIva);
+                    System.out.println("valorIva" + valorIva);
 //                    valorTotalConIva = valorTotalConIva.add(item.getDetTotalconivadescuento());
                     valorDescuento = valorDescuento.add(item.getDetCantpordescuento());
-                    System.out.println("valorDescuento"+valorDescuento);
+                    System.out.println("valorDescuento" + valorDescuento);
                     valorTotalInicial = valorTotalInicial.add(item.getTotalInicial().multiply(item.getCantidad()));
-                    System.out.println("valorTotalInicial"+valorTotalInicial);
+                    System.out.println("valorTotalInicial" + valorTotalInicial);
                     baseCero = baseCero.add(!item.getProducto().getProdGrabaIva() ? item.getSubTotalDescuento().multiply(item.getCantidad()) : BigDecimal.ZERO);
                     /*COSTO SIN SUBSIDIO*/
-                    System.out.println("baseCero"+baseCero);
+                    System.out.println("baseCero" + baseCero);
                     if (item.getProducto().getProdTieneSubsidio().equals("S")) {
                         BigDecimal precioSinSubporcantidad = item.getProducto().getProdSubsidio().multiply(item.getCantidad());
                         sumaSubsidio = sumaSubsidio.add(precioSinSubporcantidad.setScale(5, RoundingMode.FLOOR));
                     }
-
+                    
                 }
             }
-
+            
             totalItems = "ITEMS: " + (sumaDeItems.intValue() - 1);
             System.out.println("**********************************************************");
             System.out.println("valor total:::: subTotalCotizacion " + valorTotal);
@@ -1831,18 +1826,18 @@ public class Facturar extends SelectorComposer<Component> {
                 valorTotalInicialVent = ArchivoUtils.redondearDecimales(valorTotalInicialVent, 2);
                 ivaCotizacion = ArchivoUtils.redondearDecimales(ivaCotizacion, 2);
                 descuentoValorFinal = ArchivoUtils.redondearDecimales(descuentoValorFinal, 2);
-
+                
             } catch (Exception e) {
                 System.out.println("error de calculo de valores " + e);
             }
-
+            
         }
     }
-
+    
     private void guardarFactura(String valor) throws ParseException {
-
+        
         try {
-
+            
             String folderGenerados = PATH_BASE + File.separator + amb.getAmGenerados()
                     + File.separator + new Date().getYear()
                     + File.separator + new Date().getMonth();
@@ -1852,11 +1847,11 @@ public class Facturar extends SelectorComposer<Component> {
             String folderFirmado = PATH_BASE + File.separator + amb.getAmFirmados()
                     + File.separator + new Date().getYear()
                     + File.separator + new Date().getMonth();
-
+            
             String foldervoAutorizado = PATH_BASE + File.separator + amb.getAmAutorizados()
                     + File.separator + new Date().getYear()
                     + File.separator + new Date().getMonth();
-
+            
             String folderNoAutorizados = PATH_BASE + File.separator + amb.getAmNoAutorizados()
                     + File.separator + new Date().getYear()
                     + File.separator + new Date().getMonth();
@@ -1870,12 +1865,12 @@ public class Facturar extends SelectorComposer<Component> {
             if (!folderFirm.exists()) {
                 folderFirm.mkdirs();
             }
-
+            
             File folderAu = new File(foldervoAutorizado);
             if (!folderAu.exists()) {
                 folderAu.mkdirs();
             }
-
+            
             File folderCliente = new File(folderEnviarCliente);
             if (!folderCliente.exists()) {
                 folderCliente.mkdirs();
@@ -1895,22 +1890,22 @@ public class Facturar extends SelectorComposer<Component> {
 //            }
             if (valor.equals("CG")) {
                 if (transportista == null || numeroPlaca.equals("")) {
-
+                    
                     Clients.showNotification("Para generar una guia debe seleccionar un conductor e ingresar la placa",
                             Clients.NOTIFICATION_TYPE_INFO, null, "middle_center", 3000, true);
                     return;
-
+                    
                 }
             }
             /*VERIFICA SI ES FACTURA O PROFORMA Y COLOCAL EL NUMERO*/
             if ((accion.equals("create")) || (tipoVentaAnterior.equals("PROF") && (tipoVenta.equals("FACT")))) {
                 verificarSecNumeracion();
                 descargarKardex = Boolean.TRUE;
-
+                
             } else {
-
+                
                 Boolean verificaEntraSecuen = Boolean.FALSE;
-
+                
                 if (tipoVenta.equals("FACT") && (tipoVentaAnterior.equals("NTV"))) {
                     verificarSecNumeracion();
                     // numeroFactura = factura.getFacNumProforma();
@@ -1928,7 +1923,7 @@ public class Facturar extends SelectorComposer<Component> {
                 } else if (tipoVenta.equals("PROF") && (!tipoVentaAnterior.equals("PROF"))) {
                     numeroFactura = factura.getFacNumProforma();
                 } else {
-
+                    
                     if (tipoVenta.equals("NTV")) {
                         numeroFactura = factura.getFacNumNotaVenta();
                     }
@@ -1948,9 +1943,9 @@ public class Facturar extends SelectorComposer<Component> {
                         numeroFactura = factura.getFacNumero();
                     }
                 }
-
+                
             }
-
+            
             if (tipoVentaAnterior.equals("NTE") && (tipoVenta.equals("FACT"))) {
                 descargarKardex = Boolean.FALSE;
                 for (Factura factura1 : seleccionNotaEntrega) {
@@ -1962,28 +1957,29 @@ public class Facturar extends SelectorComposer<Component> {
                 descargarKardex = Boolean.FALSE;
             }
             numeroFacturaTexto();
-
+            
             facConSinGuia = valor;
-
+            
             Tipoambiente amb = servicioTipoAmbiente.FindALlTipoambiente();
             //armar la cabecera de la factura
 //Coloca la fecha para el cobro de la totalidad de la factura
             Calendar calendar = Calendar.getInstance(); //obtiene la fecha de hoy 
             calendar.add(Calendar.DATE, Integer.valueOf(facplazo)); //el -3 indica que se le restaran 3 dias 
             Date fechaPagoPlazo = calendar.getTime();
-
+            
             factura.setFacTipo(tipoVenta);
             factura.setFacDescripcion(facturaDescripcion);
-
-            Date hora = new Date();
-            System.out.println("asdasdasdasd" + hora);
-            SimpleDateFormat formater = new SimpleDateFormat("yyyy:MM:dd hh:mm:ss a");
-
-            String today = formater.format(hora);
-            System.out.println("asdasdasdasd" + today);
-            Date dateTime = new SimpleDateFormat("yyyy:MM:dd hh:mm:ss a").parse(today);
-
-            factura.setFacFecha(dateTime);
+            factura.setFacFecha(fechafacturacion);
+            if (accion.equals("create")) {
+                Date hora = new Date();
+                System.out.println("asdasdasdasd" + hora);
+                SimpleDateFormat formater = new SimpleDateFormat("yyyy:MM:dd hh:mm:ss a");
+                String today = formater.format(hora);
+                System.out.println("asdasdasdasd" + today);
+                Date dateTime = new SimpleDateFormat("yyyy:MM:dd hh:mm:ss a").parse(today);
+                factura.setFacFecha(dateTime);
+            }
+            
             factura.setFacFechaCobro(facFechaCobro);
             factura.setFacEstado(estdoFactura);
             factura.setFacNumeroText(numeroFacturaText);
@@ -2027,13 +2023,13 @@ public class Facturar extends SelectorComposer<Component> {
                 factura.setFacNumProforma(0);
                 factura.setFacNumNotaEntrega(numeroFactura);
             } else if (tipoVenta.equals("NTV")) {
-
+                
                 factura.setFacNumero(0);
                 factura.setFacNumProforma(0);
                 factura.setFacNumNotaEntrega(0);
                 factura.setFacNumNotaVenta(numeroFactura);
             }
-
+            
             factura.setIdCliente(clienteBuscado);
             if (accion.equals("create")) {
                 factura.setIdUsuario(credential.getUsuarioSistema());
@@ -2078,14 +2074,14 @@ public class Facturar extends SelectorComposer<Component> {
                     if (item.getProducto() != null) {
                         detalleFactura.add(item);
                     }
-
+                    
                 }
-
+                
                 if (tipoVenta.equals("SINF")) {
-
+                    
                     Factura ultimaVenta = new Factura();
                     Factura verificarFact = servicioFactura.ultimaVentaDiaria(fechafacturacion);
-
+                    
                     if (verificarFact == null) {
                         Factura facturaNueva = new Factura();
                         facturaNueva.setFacTipo("SINF");
@@ -2099,7 +2095,7 @@ public class Facturar extends SelectorComposer<Component> {
                         facturaNueva.setFacSubtotal(subTotalCotizacion);
                         // facturaNueva.setFacSubtotal(valorTotalCotizacion);
                         facturaNueva.setFacIva(ivaCotizacion);
-
+                        
                         facturaNueva.setFacTotal(valorTotalCotizacion);
                         facturaNueva.setFacDescuento(totalDescuento);
                         facturaNueva.setFacCodIce("3");
@@ -2116,9 +2112,9 @@ public class Facturar extends SelectorComposer<Component> {
                         //servicioFactura.crear(facturaNueva);
 
                         servicioFactura.guardarFactura(detalleFactura, facturaNueva);
-
+                        
                     } else {
-
+                        
                         BigDecimal total = verificarFact.getFacTotal().add(valorTotalCotizacion);
                         BigDecimal subTotal = total.divide(BigDecimal.valueOf(1.14), 4, RoundingMode.UP);
                         BigDecimal iva = subTotal.multiply(BigDecimal.valueOf(0.14));
@@ -2133,13 +2129,13 @@ public class Facturar extends SelectorComposer<Component> {
                         if (accion.equals("create")) {
                             verificarFact.setIdUsuario(credential.getUsuarioSistema());
                         }
-
+                        
                         verificarFact.setFacSubtotal(subTotal);
                         verificarFact.setFacIva(iva);
                         verificarFact.setFacTotal(total);
                         verificarFact.setFacAbono(BigDecimal.ZERO);
                         verificarFact.setFacSaldo(BigDecimal.ZERO);
-
+                        
                         verificarFact.setFacDescuento(BigDecimal.ZERO);
                         verificarFact.setFacCodIce("3");
                         verificarFact.setFacCodIva("2");
@@ -2152,10 +2148,10 @@ public class Facturar extends SelectorComposer<Component> {
                         verificarFact.setFacUnidadTiempo(formaPagoSelected.getUnidadTiempo());
                         verificarFact.setIdEstado(servicioEstadoFactura.findByEstCodigo(estdoFactura));
                         verificarFact.setFacTotalBaseGravaba(verificarFact.getFacSubtotal());
-
+                        
                         servicioFactura.guardarFacturaVentaDiaria(detalleFactura, verificarFact);
                     }
-
+                    
                 } else {
                     System.out.println("  factura.setIdCliente(clienteBuscado); " + clienteBuscado.getCliCedula() + " " + clienteBuscado.getCliApellidos());
                     factura.setIdCliente(clienteBuscado);
@@ -2164,9 +2160,9 @@ public class Facturar extends SelectorComposer<Component> {
                     String claveAcceso = ArchivoUtils.generaClave(factura.getFacFecha(), "01", amb.getAmRuc(), amb.getAmCodigo(), amb.getAmEstab() + amb.getAmPtoemi(), factura.getFacNumeroText(), "12345678", "1");
                     factura.setFacClaveAcceso(claveAcceso);
                     factura.setFacClaveAutorizacion(claveAcceso);
-
+                    
                     if (accion.equals("create")) {
-
+                        
                         servicioFactura.guardarFactura(detalleFactura, factura);
                         if (estdoFactura.equals("PA")) {
                             DetallePago detallePago = new DetallePago();
@@ -2177,17 +2173,16 @@ public class Facturar extends SelectorComposer<Component> {
                             detallePago.setDetpSaldo(BigDecimal.ZERO);
                             detallePago.setIdFactura(factura);
                             
-                            
                             servicioDetallePago.crear(detallePago);
                         }
                     } else {
-
+                        
                         servicioFactura.eliminar(factura);
                         servicioDetalleKardex.eliminarKardexVenta(factura.getIdFactura());
                         servicioFactura.guardarFactura(detalleFactura, factura);
                     }
                     if (valor.equalsIgnoreCase("CG")) {
-
+                        
                         numeroGuia();
                         Guiaremision guiaremision = new Guiaremision();
                         guiaremision.setFacNumero(numeroGuia);
@@ -2330,9 +2325,9 @@ public class Facturar extends SelectorComposer<Component> {
                         UtilitarioAutorizarSRI autorizarSRI = new UtilitarioAutorizarSRI();
                         autorizarSRI.autorizarSRI(factura);
                     }
-
+                    
                 }
-
+                
             }
             //ejecutamos el mensaje 
 //            Clients.showNotification("Factura registrada con éxito", Clients.NOTIFICATION_TYPE_INFO, null, "middle_center", 5000, true);
@@ -2348,7 +2343,7 @@ public class Facturar extends SelectorComposer<Component> {
                 for (DetalleFacturaDAO item : listaPedido) {
                     if (item.getProducto() != null) {
                         if (!item.getProducto().getProdEsreceta()) {
-
+                            
                             if (servicioKardex.FindALlKardexs(item.getProducto()) == null) {
                                 kardex = new Kardex();
                                 kardex.setIdProducto(item.getProducto());
@@ -2374,7 +2369,7 @@ public class Facturar extends SelectorComposer<Component> {
                             BigDecimal total = totales.getTotalKardex();
                             kardex.setKarTotal(total);
                             servicioKardex.modificar(kardex);
-
+                            
                         } else {
                             List<ComboProducto> lislaRecup = servicioComboProducto.findForProducto(item.getProducto());
                             for (ComboProducto comboProducto : lislaRecup) {
@@ -2410,7 +2405,7 @@ public class Facturar extends SelectorComposer<Component> {
                         }
                     }
                 }
-
+                
             }
 
             /*Verificar numero de proforma */
@@ -2421,7 +2416,7 @@ public class Facturar extends SelectorComposer<Component> {
 //                Executions.sendRedirect("/venta/listafacturas.zul");
                 windowModCotizacionFact.detach();
             }
-
+            
         } catch (IOException e) {
             System.out.println("ERROR FACTURA " + e.getMessage());
             Messagebox.show("Ocurrio un error guardar la factura ", "Atención", Messagebox.OK, Messagebox.ERROR);
@@ -2447,9 +2442,9 @@ public class Facturar extends SelectorComposer<Component> {
             System.out.println("ERROR FACTURA " + e.getMessage());
             Messagebox.show("Ocurrio un error guardar la factura ", "Atención", Messagebox.OK, Messagebox.ERROR);
         }
-
+        
     }
-
+    
     @Command
     @NotifyChange({"listaDetalleFacturaDAOMOdel", "subTotalCotizacion", "ivaCotizacion", "valorTotalCotizacion"})
     public void Guardar(@BindingParam("valor") String valor) throws ParseException {
@@ -2463,57 +2458,57 @@ public class Facturar extends SelectorComposer<Component> {
             if (listaDetalleFacturaDAOMOdel.size() > 0) {
                 if (!listaDetalleFacturaDAOMOdel.get(0).getDescripcion().equals("")) {
                     guardarFactura(valor);
-
+                    
                 } else {
                     Messagebox.show("Registre un producto para proceder a la facturación", "Atención", Messagebox.OK, Messagebox.ERROR);
                 }
-
+                
             } else {
                 Messagebox.show("Registre un producto para proceder a la facturación", "Atención", Messagebox.OK, Messagebox.ERROR);
             }
-
+            
         } else {
             Messagebox.show("Verifique el cliente y la forma de pago", "Atención", Messagebox.OK, Messagebox.ERROR);
         }
-
+        
     }
-
+    
     @Command
     @NotifyChange({"listaProducto", "buscarNombreProd"})
     public void buscarLikeNombreProd() {
-
+        
         findProductoLikeNombre();
     }
-
+    
     @Command
     @NotifyChange({"listaProducto", "buscarCodigoProd"})
     public void buscarLikeCodigoProd() {
-
+        
         findProductoLikeCodigo();
     }
-
+    
     @Command
     @NotifyChange({"listaKardexProducto", "buscarNombreProd"})
     public void buscarLikeKardexNombreProd() {
-
+        
         findKardexProductoLikeNombre();
     }
-
+    
     @Command
     @NotifyChange({"listaKardexProducto", "buscarCodigoProd"})
     public void buscarLikeKardexCodigoProd() {
-
+        
         findKardexProductoLikeCodigo();
     }
-
+    
     private void findKardexProductoLikeNombre() {
         listaKardexProducto = servicioKardex.findByCodOrName(buscarCodigoProd, buscarNombreProd);
     }
-
+    
     private void findKardexProductoLikeCodigo() {
         listaKardexProducto = servicioKardex.findByCodOrName(buscarCodigoProd, buscarNombreProd);
     }
-
+    
     @Command
     @NotifyChange({"listaProductoCmb", "codigo"})
     public void buscarInternoCodigo(@BindingParam("valor") DetalleFacturaDAO valor) {
@@ -2525,41 +2520,41 @@ public class Facturar extends SelectorComposer<Component> {
 
 //        valor.setListaProductoCmb(listaProductoCmb);
     }
-
+    
     private void findProductoLikeNombre() {
         listaProducto = servicioProducto.findLikeProdNombre(buscarNombreProd);
     }
-
+    
     private void findProductoLikeCodigo() {
         listaProducto = servicioProducto.findLikeProdCodigo(buscarCodigoProd);
     }
-
+    
     @Command
     @NotifyChange({"subTotalCotizacion", "ivaCotizacion", "valorTotalCotizacion"})
     public void refrescarPagina() {
         calcularValoresTotales();
 //        Clients.showNotification("Actaliza", Clients.NOTIFICATION_TYPE_INFO, null, "end_before", 100, true);
     }
-
+    
     @Command
     @NotifyChange("clienteBuscado")
     public void seleccionarProductoLista(@BindingParam("valor") Producto valor) {
         System.out.println("producto seleccionado " + valor.getProdCodigo());
         codigoBusqueda = valor.getProdCodigo();
         windowProductoBuscar.detach();
-
+        
     }
-
+    
     @Command
     @NotifyChange("clienteBuscado")
     public void mensaje(@BindingParam("valor") DetalleFacturaDAO valor) {
         Messagebox.show("Fucniona " + valor.getDescripcion(), "Atención", Messagebox.OK, Messagebox.INFORMATION);
-
+        
     }
-
+    
     public void reporteGeneral() throws JRException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, NamingException {
         EntityManager emf = HelperPersistencia.getEMF();
-
+        
         try {
             String reporte = parametrizar.getParImprimeFactura().trim();
             emf.getTransaction().begin();
@@ -2579,7 +2574,7 @@ public class Facturar extends SelectorComposer<Component> {
 //                    reportPath = reportFile + File.separator + "puntoventa.jasper";
 //                    reportPath = reportFile + File.separator + "factura.jasper";
                     reportPath = reportFile + File.separator + reporte;
-
+                    
                 } else if (tipoVenta.equals("PROF")) {
                     /*ES EL PATH DONDE SE ENCUENTRA EL REPORTE EN MI CASO*/
                     reportPath = reportFile + File.separator + "proforma.jasper";
@@ -2595,11 +2590,11 @@ public class Facturar extends SelectorComposer<Component> {
 
                 //  parametros.put("codUsuario", String.valueOf(credentialLog.getAdUsuario().getCodigoUsuario()));
                 parametros.put("numfactura", numeroFactura);
-
+                
                 if (con != null) {
                     System.out.println("Conexión Realizada Correctamenteeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
                 }
-
+                
                 if (parametrizar.getParImpFactura()) {
                     FileInputStream is = null;
                     is = new FileInputStream(reportPath);
@@ -2607,19 +2602,19 @@ public class Facturar extends SelectorComposer<Component> {
                     byte[] buf = JasperRunManager.runReportToPdf(is, parametros, con);
                     /*EN MI CASO LO PRESENTO EN UNA VENTANA EMERGENTE  PERO LO ANTERIOR SERIA TODO*/
                     InputStream mediais = new ByteArrayInputStream(buf);
-
+                    
                     AMedia amedia = new AMedia("Reporte", "pdf", "application/pdf", mediais);
                     fileContent = amedia;
                     final HashMap<String, AMedia> map = new HashMap<String, AMedia>();
                     //para pasar al visor
                     map.put("pdf", fileContent);
-
+                    
                     org.zkoss.zul.Window window = (org.zkoss.zul.Window) Executions.createComponents(
                             "/venta/contenedorReporte.zul", null, map);
                     window.doModal();
-
+                    
                 }
-
+                
                 if (parametrizar.getParImpAutomatico() && (tipoDoc.equals("FACT") || (tipoDoc.equals("NTV")))) {
                     /*imprime la factura */
  /*para la factura*/
@@ -2633,14 +2628,14 @@ public class Facturar extends SelectorComposer<Component> {
                     for (PrintService printService : services) {
                         System.out.println("printService.getName() " + printService.getName());
                         if (printService.getName().equals(parametrizar.getParNombreImpresora())) {
-
+                            
                             System.out.println("printService.getName() " + printService.getName());
 //                    if (printService.getName().equals("Microsoft Print to PDF")) {
                             pj.setPrintService(printService);
                             //JasperPrintManager.printReport(print, false);
                         }
                     }
-
+                    
                     imprimirTecket(pj, jasperprint);
                 }
                 /*ESCOGE LA IMPRESORA */
@@ -2670,9 +2665,9 @@ public class Facturar extends SelectorComposer<Component> {
                 System.out.println("cerro entity");
             }
         }
-
+        
     }
-
+    
     private void imprimirTecket(PrinterJob pj, JasperPrint jasperprint) {
         try {
             /*REALIZA LA IMPRESION DE LA FACTURA*/
@@ -2689,7 +2684,7 @@ public class Facturar extends SelectorComposer<Component> {
             exporter.setParameter(JRPrintServiceExporterParameter.PRINT_REQUEST_ATTRIBUTE_SET, printRequestAttributeSet);
             exporter.setParameter(JRPrintServiceExporterParameter.DISPLAY_PAGE_DIALOG, Boolean.FALSE);
             exporter.setParameter(JRPrintServiceExporterParameter.DISPLAY_PRINT_DIALOG, Boolean.FALSE);
-
+            
             exporter.exportReport();
 
             /*REALIZAE EL CORTE DE PAPEL*/
@@ -2708,12 +2703,12 @@ public class Facturar extends SelectorComposer<Component> {
         } catch (JRException e) {
             System.out.println("ERRO AL IMPRIMIR LA FACTURA " + e.getMessage());
         }
-
+        
     }
-
+    
     public void reporteGeneralPdfMail(String pathPDF) throws JRException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, NamingException {
         EntityManager emf = HelperPersistencia.getEMF();
-
+        
         try {
             emf.getTransaction().begin();
             con
@@ -2732,12 +2727,12 @@ public class Facturar extends SelectorComposer<Component> {
                 } else if (tipoVenta.equals("PROF")) {
                     reportPath = reportFile + File.separator + "proforma.jasper";
                 }
-
+                
                 Map<String, Object> parametros = new HashMap<String, Object>();
 
                 //  parametros.put("codUsuario", String.valueOf(credentialLog.getAdUsuario().getCodigoUsuario()));
                 parametros.put("numfactura", numeroFactura);
-
+                
                 if (con != null) {
                     System.out.println("Conexión Realizada Correctamenteeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
                 }
@@ -2759,9 +2754,9 @@ public class Facturar extends SelectorComposer<Component> {
                 System.out.println("cerro entity");
             }
         }
-
+        
     }
-
+    
     @Command
     @NotifyChange({"cambio"})
     public void calcularCambio() {
@@ -2769,91 +2764,91 @@ public class Facturar extends SelectorComposer<Component> {
         cambio.setScale(2, RoundingMode.FLOOR);
         
     }
-
+    
     public Integer getNumeroProforma() {
         return numeroProforma;
     }
-
+    
     public void setNumeroProforma(Integer numeroProforma) {
         this.numeroProforma = numeroProforma;
     }
-
+    
     public List<FormaPago> getListaFormaPago() {
         return listaFormaPago;
     }
-
+    
     public void setListaFormaPago(List<FormaPago> listaFormaPago) {
         this.listaFormaPago = listaFormaPago;
     }
-
+    
     public FormaPago getFormaPagoSelected() {
         return formaPagoSelected;
     }
-
+    
     public void setFormaPagoSelected(FormaPago formaPagoSelected) {
         this.formaPagoSelected = formaPagoSelected;
     }
-
+    
     public Integer getIdFactuta() {
         return idFactuta;
     }
-
+    
     public void setIdFactuta(Integer idFactuta) {
         this.idFactuta = idFactuta;
     }
-
+    
     public String getTipoDoc() {
         return tipoDoc;
     }
-
+    
     public void setTipoDoc(String tipoDoc) {
         this.tipoDoc = tipoDoc;
     }
-
+    
     public BigDecimal getTotalDescuento() {
         return totalDescuento;
     }
-
+    
     public void setTotalDescuento(BigDecimal totalDescuento) {
         this.totalDescuento = totalDescuento;
     }
-
+    
     public String getClietipo() {
         return clietipo;
     }
-
+    
     public void setClietipo(String clietipo) {
         this.clietipo = clietipo;
     }
-
+    
     public List<Producto> getListaProductoCmb() {
         return listaProductoCmb;
     }
-
+    
     public void setListaProductoCmb(List<Producto> listaProductoCmb) {
         this.listaProductoCmb = listaProductoCmb;
     }
-
+    
     public String getCodigo() {
         return codigo;
     }
-
+    
     public void setCodigo(String codigo) {
         this.codigo = codigo;
     }
-
+    
     public BigDecimal getValorTotalInicialVent() {
         return valorTotalInicialVent;
     }
-
+    
     public void setValorTotalInicialVent(BigDecimal valorTotalInicialVent) {
         this.valorTotalInicialVent = valorTotalInicialVent;
     }
-
+    
     public BigDecimal getDescuentoValorFinal() {
         return descuentoValorFinal;
     }
-
+    
     public void setDescuentoValorFinal(BigDecimal descuentoValorFinal) {
         this.descuentoValorFinal = descuentoValorFinal;
     }
@@ -2863,7 +2858,7 @@ public class Facturar extends SelectorComposer<Component> {
     public void verDetallePago() throws JRException, IOException, NamingException, SQLException {
         try {
             final HashMap<String, Factura> map = new HashMap<String, Factura>();
-
+            
             map.put("valor", factura);
             org.zkoss.zul.Window window = (org.zkoss.zul.Window) Executions.createComponents(
                     "/venta/detallepago.zul", null, map);
@@ -2872,11 +2867,11 @@ public class Facturar extends SelectorComposer<Component> {
             Messagebox.show("Error " + e.toString(), "Atención", Messagebox.OK, Messagebox.INFORMATION);
         }
     }
-
+    
     public BigDecimal getSaldoFacturas() {
         return saldoFacturas;
     }
-
+    
     public void setSaldoFacturas(BigDecimal saldoFacturas) {
         this.saldoFacturas = saldoFacturas;
     }
@@ -2890,12 +2885,12 @@ public class Facturar extends SelectorComposer<Component> {
         ((ListModelList<Factura>) listaNotaEntregaModel).setMultiple(true);
         buscarCliente = clienteCedula;
     }
-
+    
     @Command
     public void seleccionarRegistrosNotaEntrega() {
         seleccionNotaEntrega = ((ListModelList<Factura>) getListaNotaEntregaModel()).getSelection();
     }
-
+    
     @Command
     @NotifyChange("clienteBuscado")
     public void seleccionarNotaEntrega() {
@@ -2903,189 +2898,189 @@ public class Facturar extends SelectorComposer<Component> {
         Window windows = (Window) Path.getComponent("/windowNotaEntrega");
         windows.detach();
     }
-
+    
     public ListModelList<Factura> getListaNotaEntregaModel() {
         return listaNotaEntregaModel;
     }
-
+    
     public void setListaNotaEntregaModel(ListModelList<Factura> listaNotaEntregaModel) {
         this.listaNotaEntregaModel = listaNotaEntregaModel;
     }
-
+    
     public List<Factura> getListalistaNotaEntregaDatos() {
         return listalistaNotaEntregaDatos;
     }
-
+    
     public void setListalistaNotaEntregaDatos(List<Factura> listalistaNotaEntregaDatos) {
         this.listalistaNotaEntregaDatos = listalistaNotaEntregaDatos;
     }
-
+    
     public static Set<Factura> getSeleccionNotaEntrega() {
         return seleccionNotaEntrega;
     }
-
+    
     public static void setSeleccionNotaEntrega(Set<Factura> seleccionNotaEntrega) {
         Facturar.seleccionNotaEntrega = seleccionNotaEntrega;
     }
-
+    
     public BigDecimal getSubTotalBaseCero() {
         return subTotalBaseCero;
     }
-
+    
     public void setSubTotalBaseCero(BigDecimal subTotalBaseCero) {
         this.subTotalBaseCero = subTotalBaseCero;
     }
-
+    
     public Textbox getTxtBuscarNombre() {
         return txtBuscarNombre;
     }
-
+    
     public void setTxtBuscarNombre(Textbox txtBuscarNombre) {
         this.txtBuscarNombre = txtBuscarNombre;
     }
-
+    
     public String getTipoVentaAnterior() {
         return tipoVentaAnterior;
     }
-
+    
     public void setTipoVentaAnterior(String tipoVentaAnterior) {
         this.tipoVentaAnterior = tipoVentaAnterior;
     }
-
+    
     public String getNumeroFacturaText() {
         return numeroFacturaText;
     }
-
+    
     public void setNumeroFacturaText(String numeroFacturaText) {
         this.numeroFacturaText = numeroFacturaText;
     }
-
+    
     public Integer getNumeroGuia() {
         return numeroGuia;
     }
-
+    
     public void setNumeroGuia(Integer numeroGuia) {
         this.numeroGuia = numeroGuia;
     }
-
+    
     public String getNumeroGuiaText() {
         return numeroGuiaText;
     }
-
+    
     public void setNumeroGuiaText(String numeroGuiaText) {
         this.numeroGuiaText = numeroGuiaText;
     }
-
+    
     public Transportista getTransportista() {
         return transportista;
     }
-
+    
     public void setTransportista(Transportista transportista) {
         this.transportista = transportista;
     }
-
+    
     public String getNumeroPlaca() {
         return numeroPlaca;
     }
-
+    
     public void setNumeroPlaca(String numeroPlaca) {
         this.numeroPlaca = numeroPlaca;
     }
-
+    
     public String getAccion() {
         return accion;
     }
-
+    
     public void setAccion(String accion) {
         this.accion = accion;
     }
-
+    
     public List<Transportista> getListaTransportistas() {
         return listaTransportistas;
     }
-
+    
     public void setListaTransportistas(List<Transportista> listaTransportistas) {
         this.listaTransportistas = listaTransportistas;
     }
-
+    
     public Date getIncioTraslado() {
         return incioTraslado;
     }
-
+    
     public void setIncioTraslado(Date incioTraslado) {
         this.incioTraslado = incioTraslado;
     }
-
+    
     public Date getFinTraslado() {
         return finTraslado;
     }
-
+    
     public void setFinTraslado(Date finTraslado) {
         this.finTraslado = finTraslado;
     }
-
+    
     public String getMotivoGuia() {
         return motivoGuia;
     }
-
+    
     public void setMotivoGuia(String motivoGuia) {
         this.motivoGuia = motivoGuia;
     }
-
+    
     public String getPartida() {
         return partida;
     }
-
+    
     public void setPartida(String partida) {
         this.partida = partida;
     }
-
+    
     public String getLlegada() {
         return llegada;
     }
-
+    
     public void setLlegada(String llegada) {
         this.llegada = llegada;
     }
-
+    
     public BigDecimal getSubsidioTotal() {
         return subsidioTotal;
     }
-
+    
     public void setSubsidioTotal(BigDecimal subsidioTotal) {
         this.subsidioTotal = subsidioTotal;
     }
-
+    
     public String getFacConSinGuia() {
         return facConSinGuia;
     }
-
+    
     public void setFacConSinGuia(String facConSinGuia) {
         this.facConSinGuia = facConSinGuia;
     }
-
+    
     public String getFacplazo() {
         return facplazo;
     }
-
+    
     public void setFacplazo(String facplazo) {
         this.facplazo = facplazo;
     }
-
+    
     public String getTotalItems() {
         return totalItems;
     }
-
+    
     public void setTotalItems(String totalItems) {
         this.totalItems = totalItems;
     }
-
+    
     @Command
     public void datosMoto(@BindingParam("valor") DetalleFacturaDAO valor) throws JRException, IOException, NamingException, SQLException {
         try {
-
+            
             final HashMap<String, DetalleFacturaDAO> map = new HashMap<String, DetalleFacturaDAO>();
-
+            
             map.put("valor", valor);
             org.zkoss.zul.Window window = (org.zkoss.zul.Window) Executions.createComponents(
                     "/modificar/motocicleta.zul", null, map);
@@ -3094,35 +3089,35 @@ public class Facturar extends SelectorComposer<Component> {
             Messagebox.show("Error " + e.toString(), "Atención", Messagebox.OK, Messagebox.INFORMATION);
         }
     }
-
+    
     public List<Kardex> getListaKardexProducto() {
         return listaKardexProducto;
     }
-
+    
     public void setListaKardexProducto(List<Kardex> listaKardexProducto) {
         this.listaKardexProducto = listaKardexProducto;
     }
-
+    
     public static Boolean getValidaBorrado() {
         return validaBorrado;
     }
-
+    
     public static void setValidaBorrado(Boolean validaBorrado) {
         Facturar.validaBorrado = validaBorrado;
     }
-
+    
     public String getUsuLoginVal() {
         return usuLoginVal;
     }
-
+    
     public void setUsuLoginVal(String usuLoginVal) {
         this.usuLoginVal = usuLoginVal;
     }
-
+    
     public String getUsuPasswordVal() {
         return usuPasswordVal;
     }
-
+    
     public void setUsuPasswordVal(String usuPasswordVal) {
         this.usuPasswordVal = usuPasswordVal;
     }
@@ -3135,7 +3130,7 @@ public class Facturar extends SelectorComposer<Component> {
             Clients.showNotification("Numero de registros permitidos, imprima y genere otra factura", Clients.NOTIFICATION_TYPE_INFO, null, "middle_center", 3000, true);
             return;
         }
-
+        
         if (!clienteBuscado.getCliCedula().equals("")) {
             ParamFactura paramFactura = new ParamFactura();
             paramFactura.setCodigo(valor.getCodigo());
@@ -3159,7 +3154,7 @@ public class Facturar extends SelectorComposer<Component> {
                     return;
                 }
             }
-
+            
             if (productoBuscado != null) {
                 valor.setCantidad(valor.getCantidad());
                 valor.setProducto(productoBuscado);
@@ -3167,7 +3162,7 @@ public class Facturar extends SelectorComposer<Component> {
                 valor.setDetPordescuento(DESCUENTOGENERAL);
                 valor.setCodigo(productoBuscado.getProdCodigo());
                 valor.setEsProducto(productoBuscado.getProdEsproducto());
-
+                
                 BigDecimal costVentaTipoCliente = BigDecimal.ZERO;
                 BigDecimal costVentaTipoClienteInicial = BigDecimal.ZERO;
                 String tipoVenta = TIPOPRECIO;
@@ -3193,7 +3188,7 @@ public class Facturar extends SelectorComposer<Component> {
                     //        BigDecimal factorIva = (parametrizar.getParIva().divide(BigDecimal.valueOf(100.0)));
                     BigDecimal factorIva = (valor.getProducto().getProdIva().divide(BigDecimal.valueOf(100.0)));
                     BigDecimal factorSacarSubtotal = (factorIva.add(BigDecimal.ONE));
-
+                    
                     valor.setTotalInicial(costVentaTipoClienteInicial);
                     BigDecimal porcentajeDesc = valor.getDetPordescuento().divide(BigDecimal.valueOf(100.0), 5, RoundingMode.FLOOR);
                     BigDecimal valorDescuentoIva = costVentaTipoCliente.multiply(porcentajeDesc);
@@ -3231,14 +3226,14 @@ public class Facturar extends SelectorComposer<Component> {
                 //ingresa un registro vacio
                 boolean registroVacio = true;
                 List<DetalleFacturaDAO> listaPedidoPost = listaDetalleFacturaDAOMOdel.getInnerList();
-
+                
                 for (DetalleFacturaDAO item : listaPedidoPost) {
                     if (item.getProducto() == null) {
                         registroVacio = false;
                         break;
                     }
                 }
-
+                
                 System.out.println("existe un vacio " + registroVacio);
                 if (registroVacio) {
                     DetalleFacturaDAO nuevoRegistroPost = new DetalleFacturaDAO();
@@ -3252,160 +3247,160 @@ public class Facturar extends SelectorComposer<Component> {
                     ((ListModelList<DetalleFacturaDAO>) listaDetalleFacturaDAOMOdel).add(nuevoRegistroPost);
                 }
             }
-
+            
             calcularValoresTotales();
             codigoBusqueda = "";
         } else {
             Messagebox.show("Verifique el cliente", "Atención", Messagebox.OK, Messagebox.INFORMATION);
         }
     }
-
+    
     public static String getTIPOPRECIO() {
         return TIPOPRECIO;
     }
-
+    
     public static void setTIPOPRECIO(String TIPOPRECIO) {
         Facturar.TIPOPRECIO = TIPOPRECIO;
     }
-
+    
     public Producto getPRODUCTOCAMBIO() {
         return PRODUCTOCAMBIO;
     }
-
+    
     public void setPRODUCTOCAMBIO(Producto PRODUCTOCAMBIO) {
         this.PRODUCTOCAMBIO = PRODUCTOCAMBIO;
     }
-
+    
     @Command
     @NotifyChange("clienteBuscado")
     public void seleccionPrecioNorm() {
         System.out.println("TIPOPRECIO NORMAL");
         TIPOPRECIO = "NORMAL";
         windowCambioPrecio.detach();
-
+        
     }
-
+    
     @Command
     @NotifyChange("clienteBuscado")
     public void seleccionPrecioPref1() {
         System.out.println("TIPOPRECIO PREFERENCIAL 1");
         TIPOPRECIO = "PREFERENCIAL 1";
         windowCambioPrecio.detach();
-
+        
     }
-
+    
     @Command
     @NotifyChange("clienteBuscado")
     public void seleccionPrecioPref2() {
         System.out.println("TIPOPRECIO PREFERENCIAL 2");
         TIPOPRECIO = "PREFERENCIAL 2";
         windowCambioPrecio.detach();
-
+        
     }
-
+    
     @Command
     @NotifyChange("clienteBuscado")
     public void seleccionPrecioPref3() {
         System.out.println("TIPOPRECIO PREFERENCIAL 3");
         TIPOPRECIO = "PREFERENCIAL 3";
         windowCambioPrecio.detach();
-
+        
     }
-
+    
     public Date getFacFechaCobro() {
         return facFechaCobro;
     }
-
+    
     public void setFacFechaCobro(Date facFechaCobro) {
         this.facFechaCobro = facFechaCobro;
     }
-
+    
     public String getFacPlaca() {
         return facPlaca;
     }
-
+    
     public void setFacPlaca(String facPlaca) {
         this.facPlaca = facPlaca;
     }
-
+    
     public String getFacMarca() {
         return facMarca;
     }
-
+    
     public void setFacMarca(String facMarca) {
         this.facMarca = facMarca;
     }
-
+    
     public Integer getFacAnio() {
         return facAnio;
     }
-
+    
     public void setFacAnio(Integer facAnio) {
         this.facAnio = facAnio;
     }
-
+    
     public String getFacCilindraje() {
         return facCilindraje;
     }
-
+    
     public void setFacCilindraje(String facCilindraje) {
         this.facCilindraje = facCilindraje;
     }
-
+    
     public String getFacKilometraje() {
         return facKilometraje;
     }
-
+    
     public void setFacKilometraje(String facKilometraje) {
         this.facKilometraje = facKilometraje;
     }
-
+    
     public String getFacChasis() {
         return facChasis;
     }
-
+    
     public void setFacChasis(String facChasis) {
         this.facChasis = facChasis;
     }
-
+    
     public String getFacMadre() {
         return facMadre;
     }
-
+    
     public void setFacMadre(String facMadre) {
         this.facMadre = facMadre;
     }
-
+    
     public String getFacHija() {
         return facHija;
     }
-
+    
     public void setFacHija(String facHija) {
         this.facHija = facHija;
     }
-
+    
     public String getFacDestino() {
         return facDestino;
     }
-
+    
     public void setFacDestino(String facDestino) {
         this.facDestino = facDestino;
     }
-
+    
     public List<Referencia> getListaReferencia() {
         return listaReferencia;
     }
-
+    
     public void setListaReferencia(List<Referencia> listaReferencia) {
         this.listaReferencia = listaReferencia;
     }
-
+    
     public Referencia getReferenciaSelected() {
         return referenciaSelected;
     }
-
+    
     public void setReferenciaSelected(Referencia referenciaSelected) {
         this.referenciaSelected = referenciaSelected;
     }
-
+    
 }
