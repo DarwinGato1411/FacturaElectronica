@@ -636,7 +636,7 @@ public class ServicioFactura {
                 query.setParameter("fin", fechaFin);
                 query.setParameter("facEstado", estado);
             } else {
-                query = em.createQuery("SELECT f FROM Factura f WHERE f.facFecha BETWEEN :inicio and :fin  AND f.facTipo='FACT' ORDER BY f.facFecha DESC");
+                query = em.createQuery("SELECT f FROM Factura f WHERE f.facFecha BETWEEN :inicio and :fin AND f.facTipo='FACT' ORDER BY f.facFecha DESC");
                 query.setParameter("inicio", fechaInicio);
                 query.setParameter("fin", fechaFin);
             }

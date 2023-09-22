@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="puntoventa" language="groovy" pageWidth="212" pageHeight="400" columnWidth="190" leftMargin="9" rightMargin="13" topMargin="2" bottomMargin="20" isIgnorePagination="true">
 	<property name="ireport.zoom" value="2.0490403660952117"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="462"/>
+	<property name="ireport.y" value="192"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -446,13 +446,6 @@ and tipoambiente.am_estado is true  limit 1;]]>
 				</textElement>
 				<text><![CDATA[PU]]></text>
 			</staticText>
-			<textField isBlankWhenNull="true">
-				<reportElement x="10" y="72" width="178" height="13"/>
-				<textElement>
-					<font size="8"/>
-				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA["CALIFICACIÓN ARTESANAL: "+$F{am_codigo_artesano}]]></textFieldExpression>
-			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="10" y="59" width="179" height="13"/>
 				<textElement textAlignment="Center">
