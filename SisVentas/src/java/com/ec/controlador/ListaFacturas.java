@@ -706,6 +706,12 @@ public class ListaFacturas {
                 try {
 
                     RespuestaComprobante resComprobante = autorizarDocumentos.autorizarComprobante(claveAccesoComprobante);
+                    if (resComprobante.getAutorizaciones().getAutorizacion().isEmpty()) {
+                        valor.setMensajesri("ERROR EN EL METODO DE AUTORIZAR NO DEVUELVE NADA ENVIO");
+                        servicioFactura.modificar(valor);
+                        return;
+                    }
+
                     for (Autorizacion autorizacion : resComprobante.getAutorizaciones().getAutorizacion()) {
                         FileOutputStream nuevo = null;
 
@@ -788,25 +794,25 @@ public class ListaFacturas {
                 valor.setMensajesri(resSolicitud.getComprobantes().getComprobante().get(0).getMensajes().getMensaje().get(0).getMensaje());
                 valor.setFacMsmInfoSri(smsInfo);
                 if (smsInfo != null) {
-                    if (smsInfo.equals("ERROR SECUENCIAL REGISTRADO")) {
-
-                        if (Messagebox.show("¿El numero de factura ya se encuentra en el SRI desea crear un nuevo secuencial?", "Atención", Messagebox.YES | Messagebox.NO, Messagebox.INFORMATION) == Messagebox.YES) {
-                            numeroFactura();
-                            valor.setFacNumero(numeroFactura);
-                            valor.setFacNumeroText(numeroFacturaText);
-                            Clients.showNotification("EL NUEVO SECUENCIAL ASIGNADO ES:  " + numeroFacturaText + " ESTE DOCUMENTO DEBE SER ENVIADO NUEVAMENTE",
-                                    Clients.NOTIFICATION_TYPE_ERROR, null, "middle_center", 5000, true);
-
-                        }
-
-                        servicioFactura.modificar(valor);
-                    }
+//                    if (smsInfo.equals("ERROR SECUENCIAL REGISTRADO")) {
+//
+//                        if (Messagebox.show("¿El numero de factura ya se encuentra en el SRI desea crear un nuevo secuencial?", "Atención", Messagebox.YES | Messagebox.NO, Messagebox.INFORMATION) == Messagebox.YES) {
+//                            numeroFactura();
+//                            valor.setFacNumero(numeroFactura);
+//                            valor.setFacNumeroText(numeroFacturaText);
+//                            Clients.showNotification("EL NUEVO SECUENCIAL ASIGNADO ES:  " + numeroFacturaText + " ESTE DOCUMENTO DEBE SER ENVIADO NUEVAMENTE",
+//                                    Clients.NOTIFICATION_TYPE_ERROR, null, "middle_center", 5000, true);
+//
+//                        }
+//
+//                        servicioFactura.modificar(valor);
+//                    }
                 }
 
             }
         } else {
 
-            valor.setMensajesri(resSolicitud.getEstado());
+            valor.setMensajesri(resSolicitud != null ? resSolicitud.getEstado() != null ? resSolicitud.getEstado() : "SIN MENSAJE DE ERROR AL VALIDAR" : "VALIDACION NULL");
             servicioFactura.modificar(valor);
         }
     }
@@ -931,10 +937,15 @@ public class ListaFacturas {
 
             RespuestaComprobante resComprobante = autorizarDocumentos.autorizarComprobante(claveAccesoComprobante);
             System.out.println("RespuestaComprobante " + resComprobante);
-            if (resComprobante.getAutorizaciones().getAutorizacion()==null) {
-                 Clients.showNotification("No se encontro el documento, presione el boton enviar.",
-                                    Clients.NOTIFICATION_TYPE_ERROR, null, "middle_center", 5000, true);
+            if (resComprobante.getAutorizaciones().getAutorizacion() == null) {
+                Clients.showNotification("No se encontro el documento, presione el boton enviar.",
+                        Clients.NOTIFICATION_TYPE_ERROR, null, "middle_center", 5000, true);
                 return;
+            }
+
+            if (resComprobante.getAutorizaciones().getAutorizacion().isEmpty()) {
+                valor.setMensajesri("ERROR EN EL METODO DE AUTORIZAR NO DEVUELVE NADA REENVIO");
+                servicioFactura.modificar(valor);
             }
             for (Autorizacion autorizacion : resComprobante.getAutorizaciones().getAutorizacion()) {
                 FileOutputStream nuevo = null;
