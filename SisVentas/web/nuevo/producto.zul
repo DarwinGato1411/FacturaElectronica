@@ -8,6 +8,16 @@
        
     <div class="container_modal">
         <div class="header">
+            <div class="inputGroupImg" >
+                    <image   content="@bind(vm.fotoGeneral)" width="200px" />
+                    <button 
+                        class="btnSubirImg"
+                        onClick="@command('subirImagen')" 
+                        
+                        tooltiptext="Buscar">
+                        Subir Imagen
+                    </button>                               
+                </div>
             <div class="wrapper_input_mod">
                 <span>Tipo: </span>
                 <radiogroup  

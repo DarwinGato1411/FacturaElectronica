@@ -155,6 +155,9 @@ public class Producto implements Serializable {
     @Column(name = "prod_esreceta")
     private Boolean prodEsreceta;
 
+    @Column(name = "prod_imagen")
+    private String prodImagen;
+
     public Producto() {
     }
 
@@ -521,6 +524,14 @@ public class Producto implements Serializable {
 
     public void setProdEsreceta(Boolean prodEsreceta) {
         this.prodEsreceta = prodEsreceta;
+    }
+
+    public String getProdImagen() {
+        return prodImagen;
+    }
+
+    public void setProdImagen(String prodImagen) {
+        this.prodImagen = prodImagen;
     }
 
     @Override
