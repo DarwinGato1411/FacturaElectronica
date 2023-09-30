@@ -57,6 +57,7 @@ import com.ec.untilitario.Verificaciones;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -76,6 +77,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.print.PrintService;
@@ -99,6 +102,7 @@ import org.zkoss.bind.annotation.ContextParam;
 import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.bind.annotation.ExecutionArgParam;
 import org.zkoss.bind.annotation.NotifyChange;
+import org.zkoss.image.AImage;
 import org.zkoss.util.media.AMedia;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
@@ -294,6 +298,11 @@ public class Facturar extends SelectorComposer<Component> {
 
     /* PARA GESTION DE COMBO DE PRODCUTO */
     ServicioComboProducto servicioComboProducto = new ServicioComboProducto();
+
+    //subir imagen
+    private String filePath;
+    byte[] buffer = new byte[1024 * 1024];
+    private AImage fotoGeneral = null;
 
     @AfterCompose
     public void afterCompose(@ExecutionArgParam("valor") ParamFactura valor,
@@ -606,7 +615,7 @@ public class Facturar extends SelectorComposer<Component> {
     @Command
     @NotifyChange({"listaDetalleFacturaDAOMOdel", "subTotalCotizacion", "ivaCotizacion", "valorTotalCotizacion",
         "totalDescuento", "buscarNombreProd", "valorTotalInicialVent", "descuentoValorFinal", "subTotalBaseCero",
-        "listaProducto", "totalItems"})
+        "listaProducto", "totalItems", "fotoGeneral"})
     public void agregarItemLista(@BindingParam("valor") Producto producto) {
 
         if (parametrizar.getParNumRegistrosFactura().intValue() <= listaDetalleFacturaDAOMOdel.size()) {
@@ -732,6 +741,21 @@ public class Facturar extends SelectorComposer<Component> {
                 ((ListModelList<DetalleFacturaDAO>) listaDetalleFacturaDAOMOdel).add(nuevoRegistroPost);
             }
         }
+
+        try {
+            if (producto.getProdImagen() != null) {
+                fotoGeneral = new AImage("fotoPedido", Imagen_A_Bytes(producto.getProdImagen()));
+            } else {
+                fotoGeneral = null;
+            }
+
+//                Imagen_A_Bytes(empresa.getIdUsuario().getUsuFoto());
+        } catch (FileNotFoundException e) {
+            System.out.println("error imagen " + e.getMessage());
+        } catch (IOException ex) {
+            Logger.getLogger(NuevoProducto.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         calcularValoresTotales();
         codigoBusqueda = "";
 
@@ -986,7 +1010,7 @@ public class Facturar extends SelectorComposer<Component> {
 
     @Command
     @NotifyChange({"listaDetalleFacturaDAOMOdel", "subTotalCotizacion", "ivaCotizacion", "valorTotalCotizacion",
-        "totalDescuento", "valorTotalInicialVent", "descuentoValorFinal", "subTotalBaseCero"})
+        "totalDescuento", "valorTotalInicialVent", "descuentoValorFinal", "subTotalBaseCero", "fotoGeneral"})
     public void buscarPorCodigo(@BindingParam("valor") DetalleFacturaDAO valor) {
         if (parametrizar.getParNumRegistrosFactura().intValue() <= listaDetalleFacturaDAOMOdel.size()) {
             Clients.showNotification("Numero de registros permitidos, imprima y genere otra factura",
@@ -1108,6 +1132,18 @@ public class Facturar extends SelectorComposer<Component> {
             }
 
         }
+        try {
+            if (buscadoPorCodigo.getProdImagen() != null) {
+                fotoGeneral = new AImage("fotoPedido", Imagen_A_Bytes(buscadoPorCodigo.getProdImagen()));
+            } else {
+                fotoGeneral = null;
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("error imagen " + e.getMessage());
+        } catch (IOException ex) {
+            Logger.getLogger(NuevoProducto.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         calcularValoresTotales();
         ultimaPagina();
     }
@@ -3516,4 +3552,43 @@ public class Facturar extends SelectorComposer<Component> {
         this.referenciaSelected = referenciaSelected;
     }
 
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
+    }
+
+    public AImage getFotoGeneral() {
+        return fotoGeneral;
+    }
+
+    public void setFotoGeneral(AImage fotoGeneral) {
+        this.fotoGeneral = fotoGeneral;
+    }
+
+    public byte[] Imagen_A_Bytes(String pathImagen) throws FileNotFoundException {
+        String reportPath = "";
+        reportPath = pathImagen;
+        File file = new File(reportPath);
+
+        FileInputStream fis = new FileInputStream(file);
+        //create FileInputStream which obtains input bytes from a file in a file system
+        //FileInputStream is meant for reading streams of raw bytes such as image data. For reading streams of characters, consider using FileReader.
+
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        byte[] buf = new byte[1024];
+        try {
+            for (int readNum; (readNum = fis.read(buf)) != -1;) {
+                //Writes to this byte array output stream
+                bos.write(buf, 0, readNum);
+//                System.out.println("read " + readNum + " bytes,");
+            }
+        } catch (IOException ex) {
+        }
+
+        byte[] bytes = bos.toByteArray();
+        return bytes;
+    }
 }

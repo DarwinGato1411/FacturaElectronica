@@ -252,7 +252,10 @@
                                     />
                                 </div>
                                 
-                                
+                                <div class="inputGroupImg" >
+                                    <image   content="@bind(vm.fotoGeneral)" width="200px" />
+                                              
+                                </div>
                                 
 
                             </div>
