@@ -9,6 +9,11 @@
         <disable-event-thread>false</disable-event-thread>
         <!--  <ui-factory-class>org.zkoss.zk.ui.http.SerializableUiFactory</ui-factory-class>-->
     </system-config>  
+    <session-config>
+    
+        <timer-keep-alive>true</timer-keep-alive>
+ 
+    </session-config>
     <library-property>
         <name>org.zkoss.zul.Paging.mold</name>
         <value>os</value>

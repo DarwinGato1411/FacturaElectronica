@@ -184,7 +184,7 @@ public class NotaCreditoDebitoVm {
         amb = servicioTipoAmbiente.FindALlTipoambiente();
         //OBTIENE LAS RUTAS DE ACCESO A LOS DIRECTORIOS DE LA TABLA TIPOAMBIENTE
         PATH_BASE = amb.getAmDirBaseArchivos() + File.separator
-                    + amb.getAmDirXml();
+                + amb.getAmDirXml();
 
         Session sess = Sessions.getCurrent();
         UserCredential cre = (UserCredential) sess.getAttribute(EnumSesion.userCredential.getNombre());
@@ -227,12 +227,12 @@ public class NotaCreditoDebitoVm {
             nuevoRegistro.setDetTotalconiva(det.getDetTotalconiva());
             nuevoRegistro.setTipoVenta(det.getDetTipoVenta());
             //valores con descuentos
-            nuevoRegistro.setSubTotalDescuento(det.getDetSubtotaldescuento());
-            nuevoRegistro.setDetTotaldescuento(det.getDetTotaldescuento());
-            nuevoRegistro.setDetPordescuento(det.getDetPordescuento());
-            nuevoRegistro.setDetValdescuento(det.getDetValdescuento());
-            nuevoRegistro.setDetTotalconivadescuento(det.getDetTotaldescuentoiva());
-            nuevoRegistro.setDetCantpordescuento(det.getDetCantpordescuento());
+            nuevoRegistro.setSubTotalDescuento(det.getDetSubtotal());
+            nuevoRegistro.setDetTotaldescuento(det.getDetTotal());
+            nuevoRegistro.setDetPordescuento(new BigDecimal(0));
+            nuevoRegistro.setDetValdescuento(new BigDecimal(0));
+            nuevoRegistro.setDetTotalconivadescuento(det.getDetTotalconiva());
+            nuevoRegistro.setDetCantpordescuento(new BigDecimal(0));
             nuevoRegistro.setDetIvaDesc(det.getDetIva());
             nuevoRegistro.setCodTipoVenta(det.getDetCodTipoVenta());
             nuevoRegistro.setDetSubtotaldescuentoporcantidad(det.getDetSubtotaldescuentoporcantidad());
@@ -249,16 +249,14 @@ public class NotaCreditoDebitoVm {
     @NotifyChange({"listaDetalleFacturaDAOMOdel", "subTotalCotizacion", "ivaCotizacion", "valorTotalCotizacion", "totalDescuento"})
     public void calcularValores(@BindingParam("valor") DetalleFacturaDAO valor) {
         try {
-            BigDecimal factorIva = (parametrizar.getParIva().divide(BigDecimal.valueOf(100.0)));
-            BigDecimal factorSacarSubtotal = (factorIva.add(BigDecimal.ONE));
-//            Kardex kardex = servicioKardex.FindALlKardexs(valor.getProducto());
-//            if (kardex.getKarTotal().intValue() < valor.getCantidad().intValue()) {
-//               // valor.setCantidad(kardex.getKarTotal());
-//                Clients.showNotification("Verifique el stock del producto cuenta con " + kardex.getKarTotal().intValue() + " en estock",
-//                        Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 3000, true);
-//
-//            }
+            BigDecimal factorIva = new BigDecimal(0);
+            BigDecimal factorSacarSubtotal = new BigDecimal(1);
+            if (valor.getProducto().getProdGrabaIva()) {
+                factorIva = (parametrizar.getParIva().divide(BigDecimal.valueOf(100.0)));
+                factorSacarSubtotal = (factorIva.add(BigDecimal.ONE));
+            }
 
+//         
             if (valor.getCantidad().intValue() > 0) {
                 BigDecimal porcentajeDesc = valor.getDetPordescuento().divide(BigDecimal.valueOf(100.0), 4, RoundingMode.FLOOR);
                 BigDecimal valorDescuentoIva = valor.getTotal().multiply(porcentajeDesc);
@@ -558,7 +556,7 @@ public class NotaCreditoDebitoVm {
         final HashMap<String, ParamFactura> map = new HashMap<String, ParamFactura>();
         map.put("valor", paramFactura);
         org.zkoss.zul.Window window = (org.zkoss.zul.Window) Executions.createComponents(
-                    "/venta/buscarcliente.zul", null, map);
+                "/venta/buscarcliente.zul", null, map);
         window.doModal();
         System.out.println("clinete de la lsitas buscarCliente " + buscarCliente);
         clienteBuscado = servicioCliente.FindClienteForCedula(buscarCliente);
@@ -659,7 +657,6 @@ public class NotaCreditoDebitoVm {
             if (item.getProducto() != null) {
                 valorTotal = valorTotal.add(item.getProducto().getProdGrabaIva() ? item.getSubTotalDescuento().multiply(item.getCantidad()) : BigDecimal.ZERO);
                 valorIva = valorIva.add(item.getDetIva());
-//                    valorTotalConIva = valorTotalConIva.add(item.getDetTotalconivadescuento());
                 valorDescuento = valorDescuento.add(item.getDetCantpordescuento());
                 valorTotalInicial = valorTotalInicial.add(item.getTotalInicial().multiply(item.getCantidad()));
                 baseCero = baseCero.add(!item.getProducto().getProdGrabaIva() ? item.getSubTotalDescuento().multiply(item.getCantidad()) : BigDecimal.ZERO);
@@ -914,7 +911,7 @@ public class NotaCreditoDebitoVm {
 
                 //  con = emf.unwrap(Connection.class);
                 String reportFile = Executions.getCurrent().getDesktop().getWebApp()
-                            .getRealPath("/reportes");
+                        .getRealPath("/reportes");
                 String reportPath = "";
 //                con = ConexionReportes.Conexion.conexion();
 
@@ -940,7 +937,7 @@ public class NotaCreditoDebitoVm {
 //para pasar al visor
                 map.put("pdf", fileContent);
                 org.zkoss.zul.Window window = (org.zkoss.zul.Window) Executions.createComponents(
-                            "/venta/contenedorReporte.zul", null, map);
+                        "/venta/contenedorReporte.zul", null, map);
                 window.doModal();
                 con.close();
             }

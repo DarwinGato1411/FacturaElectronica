@@ -689,7 +689,7 @@ div.z-listheader-cnt {
 
 .encabezado2 ,.tabla2{
     display: grid !important;
-    grid-template-columns:5% 10% 10% 10% 35% 10% 10% 10%;
+    grid-template-columns:5% 7% 10% 10% 35% 11% 11% 11%;
 }
 
 .cabezera{

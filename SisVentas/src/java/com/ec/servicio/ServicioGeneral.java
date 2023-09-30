@@ -8,9 +8,13 @@ import com.ec.entidad.Usuario;
 import com.ec.untilitario.ResultadoCompraVenta;
 import com.ec.untilitario.SumaTotales;
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.ParameterMode;
 import javax.persistence.Query;
@@ -111,6 +115,25 @@ public class ServicioGeneral {
         em = HelperPersistencia.getEMF();
         em.getTransaction().begin();
         StoredProcedureQuery queryStore = em.createStoredProcedureQuery("corregirproformasrepetidas");
+        queryStore.executeUpdate();
+        em.getTransaction().commit();
+    }
+    
+     public void cierreCajaDetallePago(Date fecha) {
+
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String stringDate = df.format(fecha);
+        System.out.println("Entra a cierre_caja_detalle_pago");
+        //Connection connection = em.unwrap(Connection.class);
+        em = HelperPersistencia.getEMF();
+        em.getTransaction().begin();
+        StoredProcedureQuery queryStore = em.createStoredProcedureQuery("cerrar_caja_detalle_pago");
+        queryStore.registerStoredProcedureParameter("fecha_par", Date.class, ParameterMode.IN);
+        try {
+            queryStore.setParameter("fecha_par", df.parse(stringDate));
+        } catch (ParseException ex) {
+            Logger.getLogger(ServicioGeneral.class.getName()).log(Level.SEVERE, null, ex);
+        }
         queryStore.executeUpdate();
         em.getTransaction().commit();
     }

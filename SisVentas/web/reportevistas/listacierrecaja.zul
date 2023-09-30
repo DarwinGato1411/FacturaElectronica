@@ -45,7 +45,7 @@
                         <custom-attributes org.zkoss.zul.listbox.rod="true"/>
                     
                         <listhead> 
-                            <listheader width="10%"  label="Fecha" />                            
+                           <listheader width="10%"  label="Fecha" />                            
                             <listheader width="10%"  label="Usuario" />                            
                             <listheader width="10%"  label="Apertura" />                            
                             <listheader width="10%"  label="Recudado FAC" />                            
@@ -55,6 +55,7 @@
                             <listheader width="10%"  label="Diferencia" align="rigth" /> 
                             <listheader width="45%"  label="Descripcion" align="rigth" /> 
                             <listheader width="5%"  label="" align="lefth" />                             
+                            <listheader width="5%"  label="" align="lefth" />                              
                         </listhead>  
                         
                     
@@ -123,7 +124,13 @@
                                            onClick="@command('reporteCierre',valor=each)"
                                            tooltiptext="Imprimir cierre"/>
                                 </listcell>                                    
-                                
+                                 <listcell  zclass = "mycss-listcell" >
+                              
+                                   <image src="/iconos/editar.png"     
+                                           class="btn-sm grow"                                         
+                                           onClick="@command('editarCierre',valor=each)"
+                                           tooltiptext="Editar cierre"/>
+                                </listcell>   
                             </listitem>
                         </template>
                     </listbox>
