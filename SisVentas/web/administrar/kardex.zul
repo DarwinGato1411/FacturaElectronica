@@ -101,18 +101,24 @@
                                          class="form-control form-control-sm"
                                          value="@bind(vm.kardex.idProducto.prodNombre)" 
                                          style="text-align:center;font-size:1em;color:blue"/>
-                            </div>                        
-                        </div>                        
-                            
-                        <div class="col-12 col-sm-12 col-md-6 col-lg-6 form-group" align="center">             
-            
+                            </div>
                             <div class="input-group-append">
                                 <label value="Stock" class="form-control form-control-sm" />
                                 <textbox readonly="true" 
                                          class="form-control form-control-sm"
                                          value="@bind(vm.kardex.karTotal)" 
                                          style="text-align:center;font-size:1em;color:blue"/>
-                            </div>                        
+                            </div>  
+                                                         
+                        </div>                        
+                            
+                        <div class="col-12 col-sm-12 col-md-6 col-lg-6 form-group" align="center">             
+            
+                            
+                                <div class="inputGroupImg" >
+                                    <image   content="@bind(vm.fotoGeneral)" width="100px" />
+                                              
+                                </div>                   
                         </div>
                     </div>
 <!--                    <div class="row ">

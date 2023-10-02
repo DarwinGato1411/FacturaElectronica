@@ -16,10 +16,17 @@ import com.ec.servicio.ServicioKardex;
 import com.ec.servicio.ServicioProducto;
 import com.ec.servicio.ServicioTipoKardex;
 import com.ec.untilitario.TotalKardex;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
@@ -27,6 +34,7 @@ import org.zkoss.bind.annotation.ContextParam;
 import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.bind.annotation.ExecutionArgParam;
 import org.zkoss.bind.annotation.NotifyChange;
+import org.zkoss.image.AImage;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.Sessions;
@@ -52,6 +60,11 @@ public class AdmKardex {
     private String buscarProducto = "";
     private String buscarProductoCodigo = "";
     private Date fechaIngreso = new Date();
+    
+        //subir imagen
+    private String filePath;
+    byte[] buffer = new byte[1024 * 1024];
+    private AImage fotoGeneral = null;
 
     @AfterCompose
     public void afterCompose(@ExecutionArgParam("valor") String valor, @ContextParam(ContextType.VIEW) Component view) {
@@ -72,13 +85,26 @@ public class AdmKardex {
     }
 
     @Command
-    @NotifyChange({"kardex", "listaDetalleKardex"})
+    @NotifyChange({"kardex", "listaDetalleKardex","fotoGeneral"})
     public void seleccionarProductoLista(@BindingParam("valor") Producto valor) {
 
         kardex = servicioKardex.FindALlKardexs(valor);
         listaDetalleKardex.clear();
         if (kardex != null) {
             listaDetalleKardex = servicioDetalleKardex.findByIdKardex(kardex);
+        }
+        try {
+            if (valor.getProdImagen() != null) {
+                fotoGeneral = new AImage("fotoPedido", Imagen_A_Bytes(valor.getProdImagen()));
+            } else {
+                fotoGeneral = null;
+            }
+
+//                Imagen_A_Bytes(empresa.getIdUsuario().getUsuFoto());
+        } catch (FileNotFoundException e) {
+            System.out.println("error imagen " + e.getMessage());
+        } catch (IOException ex) {
+            Logger.getLogger(NuevoProducto.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
@@ -203,6 +229,38 @@ public class AdmKardex {
 
     public void setBuscarProductoCodigo(String buscarProductoCodigo) {
         this.buscarProductoCodigo = buscarProductoCodigo;
+    }
+    
+     public AImage getFotoGeneral() {
+        return fotoGeneral;
+    }
+
+    public void setFotoGeneral(AImage fotoGeneral) {
+        this.fotoGeneral = fotoGeneral;
+    }
+
+    public byte[] Imagen_A_Bytes(String pathImagen) throws FileNotFoundException {
+        String reportPath = "";
+        reportPath = pathImagen;
+        File file = new File(reportPath);
+
+        FileInputStream fis = new FileInputStream(file);
+        //create FileInputStream which obtains input bytes from a file in a file system
+        //FileInputStream is meant for reading streams of raw bytes such as image data. For reading streams of characters, consider using FileReader.
+
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        byte[] buf = new byte[1024];
+        try {
+            for (int readNum; (readNum = fis.read(buf)) != -1;) {
+                //Writes to this byte array output stream
+                bos.write(buf, 0, readNum);
+//                System.out.println("read " + readNum + " bytes,");
+            }
+        } catch (IOException ex) {
+        }
+
+        byte[] bytes = bos.toByteArray();
+        return bytes;
     }
 
 }
