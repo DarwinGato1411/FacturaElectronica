@@ -285,7 +285,7 @@
                             
                             <div class="wrapper_input">
                                 <div class="inputGroupImg" >
-                                    <image content="@bind(vm.fotoGeneral)" width="200px" style="display:block;" />
+                                    <image content="@bind(vm.fotoGeneral)" width="150px" style="display:block;" />
                                               
                                 </div>
                                     
