@@ -168,7 +168,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="fact_row">
+                        <div class="fact_row_img">
+                            <div class="fact_row">
                             <div class="wrapper_data">
                                 <div class="wrapper_input">
                                     <span>Sindesc:</span>
@@ -210,7 +211,14 @@
                                         class="input" 
                                     />
                                 </div>
-                                
+                                 <button src="/iconos/fact.png"   
+                                                    autodisable="self"
+                                                    label="Nota entrega"
+                                                    width="100%"
+                                                    style="font-size:18px; height:46px"                                                   
+                                                    class="btn btn btn-secondary btn-sm "
+                                                    onClick="@command('verNotasEntrega')"
+                                                    tooltiptext="Cargar notas de entrega"/>
                             </div>
                             <div class="wrapper_data">
                                 <div class="wrapper_input">
@@ -251,34 +259,6 @@
                                         value="@bind(vm.cambio)" 
                                     />
                                 </div>
-                                
-                                
-                                
-
-                            </div>
-                            
-                            <div class="wrapper_input">
-                                    
-                                     
-                                </div>
-                            <div class="fact_row wrapper_buttons">
-                                <button src="/iconos/fact.png"   
-                                                    autodisable="self"
-                                                    label="Nota entrega"
-                                                   width="100%"
-                                                    style="font-size:18px; height:46px"                                                   
-                                                    class="btn btn btn-secondary btn-sm "
-                                                    onClick="@command('verNotasEntrega')"
-                                                    tooltiptext="Cargar notas de entrega"/>
-                                <button 
-                                    autodisable="self"   
-                                    class="fa-solid fa-floppy-disk btn_fact btn_primary"                  
-                                    onClick="@command('Guardar',valor='SG')"
-                                    tooltiptext="Guardar"
-                                    label="Facturar"
-                                    style="font-size:18px; height:46px"
-                                />
-
                                 <div class="wrapper_input wrapper_total">
                                     <span style="text_total">Total:</span>
 
@@ -289,10 +269,39 @@
                                         
                                     />
                                 </div> 
+                                
+                                 
+                                <button 
+                                    autodisable="self"   
+                                    class="fa-solid fa-floppy-disk btn_fact btn_primary"                  
+                                    onClick="@command('Guardar',valor='SG')"
+                                    tooltiptext="Guardar"
+                                    label="Facturar"
+                                    width="100%"
+                                    style="font-size:18px; height:46px"  
+                                    
+                                />
+                            </div>
+                            
+                            <div class="wrapper_input">
+                                <div class="inputGroupImg" >
+                                    <image content="@bind(vm.fotoGeneral)" width="200px" style="display:block;" />
+                                              
+                                </div>
+                                    
+                            </div>
+                            
+                        </div>
+                            <div class="fact_row wrapper_buttons">
+                              
+
+                                
 
                                 
                             </div>
                         </div>
+                        
+                         
                     </div>
 
                     <div class="factura_body factura_body_content">
@@ -658,7 +667,7 @@
                     
                 </tabpanel>
             </tabpanels>
-        </tabbox>   
+        </tabbox> 
     </hbox>
 
                   
