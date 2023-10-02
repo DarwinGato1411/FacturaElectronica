@@ -8,16 +8,6 @@
        
     <div class="container_modal">
         <div class="header">
-            <div class="inputGroupImg" >
-                    <image   content="@bind(vm.fotoGeneral)" width="200px" />
-                    <button 
-                        class="btnSubirImg"
-                        onClick="@command('subirImagen')" 
-                        
-                        tooltiptext="Buscar">
-                        Subir Imagen
-                    </button>                               
-                </div>
             <div class="wrapper_input_mod">
                 <span>Tipo: </span>
                 <radiogroup  
@@ -62,6 +52,7 @@
         </div>
 
         <div class="body">
+            
             <div class="container_row_input">
                 <div class="wrapper_input_mod">
                     <span>Código: </span>
@@ -285,6 +276,19 @@
                 
 
 
+            </div>
+            <div class="imgContenedor" >
+                <span>Img producto:</span>
+                <div class="inputGroupImg">
+                    <image class="imgprod" content="@bind(vm.fotoGeneral)"/>
+                    <button 
+                        class="btnSubirImg"
+                        onClick="@command('subirImagen')" 
+                        
+                        tooltiptext="Buscar">
+                        Subir Imagen
+                    </button> 
+                </div>                              
             </div>
         </div>
         <div class="body">
