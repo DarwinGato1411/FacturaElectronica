@@ -361,7 +361,7 @@
                                         <listcell zclass = "mycss-listcell" 
                                                     if="${each.verificaStock}" 
                                                     style="font-size:11px;background-color:#C7FEC1"
-                                                    onDoubleClick="@command('agregarItemLista',valor=each.idProducto)" >                                                    
+                                                    onDoubleClick="@command('verImagenLista',valor=each.idProducto)" >                                                    
                                             <label onOK="@command('agregarItemLista',valor=each.idProducto)" 
                                                     class="form-control form-control-sm"
                                                     style="font-size:10px;background-color:#C7FEC1"
@@ -371,10 +371,12 @@
                                         <listcell zclass = "mycss-listcell" 
                                                     if="${!each.verificaStock}" 
                                                     style="font-size:11px;background-color:#FBC3C3"
-                                                    onDoubleClick="@command('agregarItemLista',valor=each.idProducto)" >                                                    
+                                                     onDoubleClick="@command('verImagenLista',valor=each.idProducto)"
+                                                    >                                                    
                                             <label onOK="@command('agregarItemLista',valor=each.idProducto)" 
                                                     class="form-control form-control-sm"
                                                     style="font-size:10px;background-color:#FBC3C3"
+                                                    
                                                     value="@bind(each.karTotal)" 
                                                      />
                                         </listcell>
