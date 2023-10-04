@@ -15,6 +15,7 @@
                      viewModel="@id('vm') @init('com.ec.controlador.MenuToolbar')">
                     <toolbar id="tb" height="30px"  style="background-color:transparent" >
                         <!--<toolbarbutton image="/iconos/fact.png" label="Facturar" onClick="@command('facturar')" />-->
+                        <toolbarbutton  label="Facturar" onClick="@command('facturar')" />
                         <toolbarbutton image="/iconos/page.png" label="Producto" if="${sessionScope.usuario.usuarioSistema.usuNivel == 1}" onClick="@command('nuevoProducto')" />
                         <toolbarbutton image="/iconos/user.png" label="Cliente" onClick="@command('nuevoCliente')" />
          

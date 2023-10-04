@@ -98,7 +98,7 @@ public class AdmProducto {
         Tipoambiente amb = servicioTipoAmbiente.FindALlTipoambiente();
         //OBTIENE LAS RUTAS DE ACCESO A LOS DIRECTORIOS DE LA TABLA TIPOAMBIENTE
         PATH_BASE = amb.getAmDirBaseArchivos() + File.separator
-                    + amb.getAmDirXml();
+                + amb.getAmDirXml();
         FOLDER_CODIGO_BARRAS = PATH_BASE + File.separator + "CODIGOBARRAS";
 
         File folderGen = new File(FOLDER_CODIGO_BARRAS);
@@ -150,7 +150,7 @@ public class AdmProducto {
         final HashMap<String, Producto> map = new HashMap<String, Producto>();
         map.put("valor", valor);
         org.zkoss.zul.Window window = (org.zkoss.zul.Window) Executions.createComponents(
-                    "/administrar/admcombo.zul", null, map);
+                "/administrar/admcombo.zul", null, map);
         window.doModal();
     }
 
@@ -196,7 +196,7 @@ public class AdmProducto {
         for (Producto producto : listaProducto) {
 
             String reportFile = Executions.getCurrent().getDesktop().getWebApp()
-                        .getRealPath("/codigoqr");
+                    .getRealPath("/codigoqr");
             String reportPath = "";
             System.out.println("PATh codigos " + reportFile);
             pathQR = reportFile + reportPath + File.separator + producto.getProdNombre() + ".JPEG";
@@ -257,7 +257,7 @@ public class AdmProducto {
     public void nuevoCliente() {
         buscarNombre = "";
         org.zkoss.zul.Window window = (org.zkoss.zul.Window) Executions.createComponents(
-                    "/nuevo/producto.zul", null, null);
+                "/nuevo/producto.zul", null, null);
         window.doModal();
         findLikeNombre();
         getProductosModel();
@@ -270,7 +270,7 @@ public class AdmProducto {
         final HashMap<String, Producto> map = new HashMap<String, Producto>();
         map.put("valor", valor);
         org.zkoss.zul.Window window = (org.zkoss.zul.Window) Executions.createComponents(
-                    "/nuevo/producto.zul", null, map);
+                "/nuevo/producto.zul", null, map);
         window.doModal();
         // findLikeNombre();
         // getProductosModel();
@@ -325,7 +325,7 @@ public class AdmProducto {
 
     @Command
     public void reporteCodigosQR() throws JRException, IOException,
-                ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, NamingException {
+            ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, NamingException {
         EntityManager emf = HelperPersistencia.getEMF();
 
         try {
@@ -335,7 +335,7 @@ public class AdmProducto {
 
             con = ConexionReportes.Conexion.conexion();
             String reportFile = Executions.getCurrent().getDesktop().getWebApp()
-                        .getRealPath("/reportes");
+                    .getRealPath("/reportes");
             String reportPath = "";
             //con = conexionReportes.conexion();
 
@@ -359,7 +359,7 @@ public class AdmProducto {
 //para pasar al visor
             map.put("pdf", fileContent);
             org.zkoss.zul.Window window = (org.zkoss.zul.Window) Executions.createComponents(
-                        "/venta/contenedorReporte.zul", null, map);
+                    "/venta/contenedorReporte.zul", null, map);
             window.doModal();
 //        con.close();
             emf.getTransaction().commit();
@@ -401,7 +401,7 @@ public class AdmProducto {
     }
 
     public void reporteCodigosBarras() throws JRException, IOException,
-                ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, NamingException {
+            ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, NamingException {
         EntityManager emf = HelperPersistencia.getEMF();
 
         try {
@@ -410,7 +410,7 @@ public class AdmProducto {
             con = emf.unwrap(Connection.class);
 
             String reportFile = Executions.getCurrent().getDesktop().getWebApp()
-                        .getRealPath("/reportes");
+                    .getRealPath("/reportes");
             String reportPath = "";
             //con = conexionReportes.conexion();
 
@@ -432,7 +432,7 @@ public class AdmProducto {
 //para pasar al visor
             map.put("pdf", fileContent);
             org.zkoss.zul.Window window = (org.zkoss.zul.Window) Executions.createComponents(
-                        "/venta/contenedorReporte.zul", null, map);
+                    "/venta/contenedorReporte.zul", null, map);
             window.doModal();
 //        con.close();
             emf.getTransaction().commit();
@@ -723,14 +723,14 @@ public class AdmProducto {
 
                 if (!nombre.contains("xls")) {
                     Clients.showNotification("Su documento debe ser un archivo excel",
-                                Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 3000, true);
+                            Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 3000, true);
 
                     return;
                 }
 
                 System.out.println("media " + nombre);
                 Files.copy(new File(PATH_BASE + File.separator + "CARGAR" + File.separator + nombre),
-                            new ByteArrayInputStream(media.getByteData()));
+                        new ByteArrayInputStream(media.getByteData()));
 
                 String rutaArchivo = PATH_BASE + File.separator + "CARGAR" + File.separator + nombre;
 
@@ -748,13 +748,14 @@ public class AdmProducto {
                 for (int i = 1; i < sheet.getLastRowNum() + 1; i++) {
                     row = sheet.getRow(i);
 //                    for (int j = 0; j < row.getLastCellNum(); j++) {
-                    for (int j = 0; j < 6; j++) {
+                    for (int j = 0; j <= 7; j++) {
                         List<Producto> prodcutos = servicioProducto.findLikeProdNombre(String.valueOf(row.getCell(1)));
                         if (prodcutos.isEmpty()) {
                             cell = row.getCell(j);
                             prod = new Producto();
-                            prod.setProdCodigo(String.valueOf(row.getCell(0)));
-                            prod.setProdNombre(String.valueOf(row.getCell(1)));
+                            
+                            prod.setProdCodigo(String.valueOf(row.getCell(0)).toUpperCase());
+                            prod.setProdNombre(String.valueOf(row.getCell(1)).toUpperCase());
                             prod.setPordCostoVentaRef(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(2)))));
                             prod.setPordCostoVentaFinal(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(3)))));
                             prod.setProdCostoPreferencial(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(4)))));
@@ -784,7 +785,11 @@ public class AdmProducto {
                                 prod.setPordCostoCompra(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(2)))));
                                 prod.setProdIva(BigDecimal.valueOf(0));
                             }
-                            prod.setProdCantidadInicial(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(6)))));
+                            if (row.getCell(7) != null) {
+                                prod.setProdCantidadInicial(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(7)))));
+                            } else {
+                                prod.setProdCantidadInicial(BigDecimal.valueOf(0));
+                            }
                             servicioProducto.crear(prod);
                             System.out.println("Valor: " + cell.toString());
                         } else {
@@ -799,6 +804,14 @@ public class AdmProducto {
                             selected.setProdCostoPreferencialTres(BigDecimal.ZERO);
 //                            prod.setCodTipoambiente(amb);
                             selected.setProdCantMinima(BigDecimal.ONE);
+                            
+                            if (row.getCell(7) != null) {
+                               
+                                selected.setProdCantMinima(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(7)))));
+                            } else {
+                                prod.setProdCantidadInicial(BigDecimal.valueOf(0));
+                            }
+                            
                             selected.setProdFechaRegistro(new Date());
 
                             if (row.getCell(6) != null) {
@@ -832,11 +845,11 @@ public class AdmProducto {
                 inicializarKardex();
                 getProductosModel();
                 Clients.showNotification("Productos cargados correctamente",
-                            Clients.NOTIFICATION_TYPE_INFO, null, "end_center", 3000, true);
+                        Clients.NOTIFICATION_TYPE_INFO, null, "end_center", 3000, true);
             }
         } catch (IOException e) {
             Clients.showNotification("Verifique le archivo para cargar",
-                        Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 3000, true);
+                    Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 3000, true);
             e.printStackTrace();
 //            Messagebox.show("Upload failed");
         }

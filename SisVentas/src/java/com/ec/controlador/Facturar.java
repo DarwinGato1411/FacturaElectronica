@@ -610,8 +610,8 @@ public class Facturar extends SelectorComposer<Component> {
         }
 
     }
-    
-     /* VER iMAGEN */
+
+    /* VER iMAGEN */
     @Command
     @NotifyChange({"listaDetalleFacturaDAOMOdel"})
     public void verImagenLista(@BindingParam("valor") Producto producto) {
@@ -634,15 +634,19 @@ public class Facturar extends SelectorComposer<Component> {
 
     /* VER iMAGEN */
     @Command
-    @NotifyChange({"listaDetalleFacturaDAOMOdel"})
+    @NotifyChange({"listaDetalleFacturaDAOMOdel", "fotoGeneral"})
     public void verImagen(@BindingParam("valor") DetalleFacturaDAO producto) {
         if (producto.getProducto() != null) {
             if (producto.getProducto().getProdImagen() != null) {
-                final HashMap<String, Producto> map = new HashMap<String, Producto>();
-                map.put("valor", producto.getProducto());
-                org.zkoss.zul.Window window = (org.zkoss.zul.Window) Executions.createComponents(
-                        "/venta/visorimagen.zul", null, map);
-                window.doModal();
+
+                try {
+                    fotoGeneral = new AImage("fotoPedido", Imagen_A_Bytes(producto.getProducto().getProdImagen()));
+//                Imagen_A_Bytes(empresa.getIdUsuario().getUsuFoto());
+                } catch (FileNotFoundException e) {
+                    System.out.println("error imagen " + e.getMessage());
+                } catch (IOException ex) {
+                    Logger.getLogger(NuevoProducto.class.getName()).log(Level.SEVERE, null, ex);
+                }
             } else {
                 Clients.showNotification("No se puede mostrar la imagen",
                         Clients.NOTIFICATION_TYPE_ERROR, null, "middle_center", 2000, true);
