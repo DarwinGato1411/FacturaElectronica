@@ -611,6 +611,27 @@ public class Facturar extends SelectorComposer<Component> {
 
     }
 
+    /* VER iMAGEN */
+    @Command
+    @NotifyChange({"listaDetalleFacturaDAOMOdel"})
+    public void verImagen(@BindingParam("valor") DetalleFacturaDAO producto) {
+        if (producto.getProducto() != null) {
+            if (producto.getProducto().getProdImagen() != null) {
+                final HashMap<String, Producto> map = new HashMap<String, Producto>();
+                map.put("valor", producto.getProducto());
+                org.zkoss.zul.Window window = (org.zkoss.zul.Window) Executions.createComponents(
+                        "/venta/visorimagen.zul", null, map);
+                window.doModal();
+            } else {
+                Clients.showNotification("No se puede mostrar la imagen",
+                        Clients.NOTIFICATION_TYPE_ERROR, null, "middle_center", 2000, true);
+            }
+        } else {
+            Clients.showNotification("No se puede mostrar la imagen",
+                    Clients.NOTIFICATION_TYPE_ERROR, null, "middle_center", 2000, true);
+        }
+    }
+
     /* AGREGAMOS DESDE LA LSITA */
     @Command
     @NotifyChange({"listaDetalleFacturaDAOMOdel", "subTotalCotizacion", "ivaCotizacion", "valorTotalCotizacion",

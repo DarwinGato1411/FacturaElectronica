@@ -487,6 +487,7 @@
                                             <decimalbox readonly="true" format="###.###" 
                                                         class="form-control form-control-sm"
                                                          style="font-size:11px"
+                                                         onDoubleClick="@command('verImagen',valor=each)"
                                                         value="@bind(each.totalInicial)"  width="99%" />
                                         </listcell>
                                         <listcell zclass = "mycss-listcell">
