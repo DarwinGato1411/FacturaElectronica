@@ -308,6 +308,16 @@
                     
 
                         <div class="factura_body_item facturacion" >
+                          
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-12 form-group  "  >
+                                    <radiogroup id="radiogroup" class="btn-group-horizontal" 
+                                                onCheck="@command('buscarItems')"
+                                                selectedItem="@bind(vm.subCategoriaSelected)" >
+                                   
+                                    </radiogroup>
+                                </div>
+                                
+                         
                             <listbox model="@load(vm.listaKardexProducto)" 
                                         nonselectableTags=""    mold="paging" pageSize="10"  >
                                 <custom-attributes org.zkoss.zul.listbox.rod="true"/>

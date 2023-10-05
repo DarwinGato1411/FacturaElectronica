@@ -8,11 +8,13 @@ import com.ec.entidad.DetalleKardex;
 import com.ec.entidad.Kardex;
 import com.ec.entidad.Parametrizar;
 import com.ec.entidad.Producto;
+import com.ec.entidad.Subcategoria;
 import com.ec.entidad.Tipoambiente;
 import com.ec.servicio.ServicioDetalleKardex;
 import com.ec.servicio.ServicioKardex;
 import com.ec.servicio.ServicioParametrizar;
 import com.ec.servicio.ServicioProducto;
+import com.ec.servicio.ServicioSubCategoria;
 import com.ec.servicio.ServicioTipoAmbiente;
 import com.ec.servicio.ServicioTipoKardex;
 import com.ec.untilitario.ArchivoUtils;
@@ -23,7 +25,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.zkoss.bind.annotation.AfterCompose;
@@ -76,10 +80,15 @@ public class NuevoProducto {
     ServicioTipoAmbiente servicioTipoAmbiente = new ServicioTipoAmbiente();
     private Tipoambiente tipoambiente = new Tipoambiente();
 
+    private List<Subcategoria> listaSubcategoria = new ArrayList<Subcategoria>();
+    private Subcategoria subcategoriaSelected = null;
+    ServicioSubCategoria servicioSubCategoria = new ServicioSubCategoria();
+
     @AfterCompose
     public void afterCompose(@ExecutionArgParam("valor") Producto producto, @ContextParam(ContextType.VIEW) Component view) {
         Selectors.wireComponents(view, this, false);
         parametrizar = servicioParametrizar.FindALlParametrizar();
+        consultarSubCategorias();
         if (producto != null) {
             this.producto = producto;
             if (producto.getProdGrabaIva()) {
@@ -141,6 +150,10 @@ public class NuevoProducto {
             accion = "create";
         }
 
+    }
+
+    private void consultarSubCategorias() {
+        listaSubcategoria = servicioSubCategoria.findLikeDescipcion("");
     }
 
     public NuevoProducto() {
@@ -465,5 +478,21 @@ public class NuevoProducto {
 
     public void setFotoGeneral(AImage fotoGeneral) {
         this.fotoGeneral = fotoGeneral;
+    }
+
+    public List<Subcategoria> getListaSubcategoria() {
+        return listaSubcategoria;
+    }
+
+    public void setListaSubcategoria(List<Subcategoria> listaSubcategoria) {
+        this.listaSubcategoria = listaSubcategoria;
+    }
+
+    public Subcategoria getSubcategoriaSelected() {
+        return subcategoriaSelected;
+    }
+
+    public void setSubcategoriaSelected(Subcategoria subcategoriaSelected) {
+        this.subcategoriaSelected = subcategoriaSelected;
     }
 }
