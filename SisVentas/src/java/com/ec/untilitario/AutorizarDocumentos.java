@@ -453,8 +453,8 @@ public class AutorizarDocumentos {
                     + "                 <baseImponible>" + valor.getFacTotalBaseGravaba().setScale(2, RoundingMode.FLOOR) + "</baseImponible>\n"
                     + "                 <valor>" + valor.getFacIva().setScale(2, RoundingMode.FLOOR) + "</valor>\n"
                     + "              </totalImpuesto>\n"
-                    + "        </totalConImpuestos>\n"                    
-                    + "        <motivo>" + valor.getMotivo() + "</motivo>\n" //Motivo
+                    + "        </totalConImpuestos>\n"
+                    + "        <motivo>" + (valor.getMotivo() != null ? valor.getMotivo() : "DEVOLUCION") + "</motivo>\n" //Motivo
                     + "    </infoNota" + tipoDocumento + ">\n");
             build.append(linea);
             if (tipoDocumento.equals("Credito")) {
@@ -511,8 +511,8 @@ public class AutorizarDocumentos {
             linea = ("    <infoAdicional>\n"
                     //                    + (valor.getIdCliente().getCliDireccion().length() > 0 ? "<campoAdicional nombre=\"TELEFONO\">" + removeCaracteres(valor.getIdCliente().getCliMovil()) + "</campoAdicional>\n" : " ")
                     + (valor.getIdFactura().getIdCliente().getCliCorreo().length() > 0 ? "<campoAdicional nombre=\"E-MAIL\">" + removeCaracteres(valor.getIdFactura().getIdCliente().getCliCorreo()) + "</campoAdicional>\n" : " ")
-                    + (amb.getAmRimpe() ? "<campoAdicional nombre=\"CONTRIBUYENTE REGIMEN RIMPE\">CONTRIBUYENTE REGIMEN RIMPE</campoAdicional>\n" : "")
-                    + (amb.getAmGeneral() ? "<campoAdicional nombre=\"CONTRIBUYENTE REGIMEN GENERAL\">CONTRIBUYENTE REGIMEN GENERAL</campoAdicional>\n" : "")
+                    + (amb.getAmMicroEmp() ? "<campoAdicional nombre=\"Contribuyente Regimen Microempresas\">Contribuyente Regimen Microempresas</campoAdicional>\n" : "")
+                    + (amb.getAmAgeRet() ? "<campoAdicional nombre=\"Agente de Retencion\">Agente de Retencion Resolucion Nro. NAC-DNCRASC20-00000001</campoAdicional>\n" : "")
                     + "   </infoAdicional>\n"
                     + "</nota" + tipoDocumento + ">");
             build.append(linea);
