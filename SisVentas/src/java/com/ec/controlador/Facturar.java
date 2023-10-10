@@ -427,7 +427,7 @@ public class Facturar extends SelectorComposer<Component> {
                 break;
             }
         }
-        
+
         getDetallefactura();
         parametrizar = servicioParametrizar.FindALlParametrizar();
         listaFormaPago = servicioFormaPago.FindALlFormaPago();
@@ -446,7 +446,6 @@ public class Facturar extends SelectorComposer<Component> {
     }
     // </editor-fold>
 
-    
     private void recuperFactura() {
 
         if (tipoVenta.equals("FACT")) {
@@ -537,7 +536,7 @@ public class Facturar extends SelectorComposer<Component> {
     public void buscarItems() {
         findKardexProductoLikeCodigo();
     }
-    
+
     public void ultimaPagina() {
         Integer numPage = lstFacturar.getPageCount();
         System.out.println("numeroPagina " + numPage);
@@ -2532,16 +2531,15 @@ public class Facturar extends SelectorComposer<Component> {
                 }
 
             }
-            // ejecutamos el mensaje
-            // Clients.showNotification("Factura registrada con éxito",
-            // Clients.NOTIFICATION_TYPE_INFO, null, "middle_center", 5000, true);
-            /*
-             * VERIFICA QUE NO SEA UNA PROFORMA QUE SE CONVERTIRA EN FACTURA, VERIFICA SI ES
-             * NOT DE ENTREGA
-             * NINGUNA PROFORMA DESCARGA
-             */
+            if (accion.equals("create")) {
+                if (tipoVenta.equals("NTV") || tipoVenta.equals("NTE") || tipoVenta.equals("FACT")) {
+                    descargarKardex = true;
+                }
+            } else {
+                descargarKardex = true;
+                servicioDetalleKardex.eliminarKardexVenta(factura.getIdFactura());
+            }
 
- /* Registrar detalle de pago */
             if (descargarKardex) {
                 /* INGRESAMOS LO MOVIMIENTOS AL KARDEX */
                 Kardex kardex = null;
