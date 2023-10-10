@@ -617,11 +617,14 @@ public class Facturar extends SelectorComposer<Component> {
     public void verImagenLista(@BindingParam("valor") Producto producto) {
         if (producto != null) {
             if (producto.getProdImagen() != null) {
-                final HashMap<String, Producto> map = new HashMap<String, Producto>();
-                map.put("valor", producto);
-                org.zkoss.zul.Window window = (org.zkoss.zul.Window) Executions.createComponents(
-                        "/venta/visorimagen.zul", null, map);
-                window.doModal();
+                try {
+                    fotoGeneral = new AImage("fotoPedido", Imagen_A_Bytes(producto.getProdImagen()));
+//                Imagen_A_Bytes(empresa.getIdUsuario().getUsuFoto());
+                } catch (FileNotFoundException e) {
+                    System.out.println("error imagen " + e.getMessage());
+                } catch (IOException ex) {
+                    Logger.getLogger(NuevoProducto.class.getName()).log(Level.SEVERE, null, ex);
+                }
             } else {
                 Clients.showNotification("No se puede mostrar la imagen",
                         Clients.NOTIFICATION_TYPE_ERROR, null, "middle_center", 2000, true);
@@ -1254,6 +1257,14 @@ public class Facturar extends SelectorComposer<Component> {
         try {
 
             if (valor.getEsProducto() && valor.getTotalInicial().doubleValue() < valor.getTotal().doubleValue()) {
+                Clients.showNotification(
+                        "El precio ingresado no puede superar al precio inicial, si desea colocar un precio superior cree un servicio.",
+                        Clients.NOTIFICATION_TYPE_ERROR, null, "middle_center", 4000, true);
+                return;
+            }
+            
+            PRODUCTOCAMBIO = servicioProducto.findByProdCodigo(valor.getCodigo());
+            if (valor.getEsProducto() && PRODUCTOCAMBIO.getProdCostoPreferencialTres().doubleValue() > valor.getTotal().doubleValue()) {
                 Clients.showNotification(
                         "El precio ingresado no puede superar al precio inicial, si desea colocar un precio superior cree un servicio.",
                         Clients.NOTIFICATION_TYPE_ERROR, null, "middle_center", 4000, true);
