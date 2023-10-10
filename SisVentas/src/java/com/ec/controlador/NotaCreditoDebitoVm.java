@@ -71,7 +71,6 @@ import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
-import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Window;
@@ -733,11 +732,6 @@ public class NotaCreditoDebitoVm {
     private void guardarNotaCredito() {
 
         try {
-            if (motivo.equals("")) {
-                Clients.showNotification("Verifique el motivo parra la nota de credito",
-                        Clients.NOTIFICATION_TYPE_ERROR, null, "middle_center", 2000, true);
-                return;
-            }
 
             //armar el detalle de la factura
             List<DetalleFacturaDAO> detalleFactura = new ArrayList<DetalleFacturaDAO>();

@@ -80,8 +80,8 @@ public class ServicioSubCategoria {
             //Connection connection = em.unwrap(Connection.class);
             em = HelperPersistencia.getEMF();
             em.getTransaction().begin();
-            Query query = em.createQuery("SELECT a FROM Subcategoria a WHERE a.subCatDescripcion like :subCategoria ORDER BY a.subPrincipal, a.subCatDescripcion ASC");
-            query.setParameter("subCategoria", "%" + valor + "%");
+            Query query = em.createQuery("SELECT a FROM Subcategoria a WHERE a.subCatDescripcion like :subCategoria");
+           query.setParameter("subCategoria", "%"+valor+"%");
             listaSubcategorias = (List<Subcategoria>) query.getResultList();
             em.getTransaction().commit();
         } catch (Exception e) {
@@ -136,29 +136,6 @@ public class ServicioSubCategoria {
         return subcategoria;
     }
 
-    public Subcategoria findById(Integer id) {
-
-        Subcategoria subcategoria = null;
-        try {
-            //Connection connection = em.unwrap(Connection.class);
-            em = HelperPersistencia.getEMF();
-            em.getTransaction().begin();
-            Query query = em.createQuery("SELECT a FROM Subcategoria a where a.idSubCategoria=:idSubCategoria");
-            query.setParameter("idSubCategoria", id);
-            if (query.getResultList().size() > 0) {
-                subcategoria = (Subcategoria) query.getSingleResult();
-            }
-
-            em.getTransaction().commit();
-        } catch (Exception e) {
-            System.out.println("Error en lsa consulta subcategoria");
-        } finally {
-            em.close();
-        }
-
-        return subcategoria;
-    }
-
     public List<Subcategoria> findLikeProdCodigo(String buscar) {
 
         List<Subcategoria> listaSubcategoria = new ArrayList<Subcategoria>();
@@ -181,28 +158,5 @@ public class ServicioSubCategoria {
         return listaSubcategoria;
     }
 
-    /*categoria principal*/
-    public Subcategoria findPrincipal() {
-
-        Subcategoria subcategoria = null;
-        try {
-            //Connection connection = em.unwrap(Connection.class);
-            em = HelperPersistencia.getEMF();
-            em.getTransaction().begin();
-            Query query = em.createQuery("SELECT a FROM Subcategoria a where a.subPrincipal=:subPrincipal");
-            query.setParameter("subPrincipal", Boolean.TRUE);
-            if (query.getResultList().size() > 0) {
-                subcategoria = (Subcategoria) query.getSingleResult();
-            }
-
-            em.getTransaction().commit();
-        } catch (Exception e) {
-            System.out.println("Error en lsa consulta subcategoria");
-        } finally {
-            em.close();
-        }
-
-        return subcategoria;
-    }
-
+   
 }

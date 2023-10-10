@@ -20,7 +20,6 @@ import com.ec.entidad.Kardex;
 import com.ec.entidad.Parametrizar;
 import com.ec.entidad.Producto;
 import com.ec.entidad.Referencia;
-import com.ec.entidad.Subcategoria;
 import com.ec.entidad.Tipoambiente;
 import com.ec.entidad.Tipocomprobante;
 import com.ec.entidad.Tipokardex;
@@ -46,7 +45,6 @@ import com.ec.servicio.ServicioKardex;
 import com.ec.servicio.ServicioParametrizar;
 import com.ec.servicio.ServicioProducto;
 import com.ec.servicio.ServicioReferencia;
-import com.ec.servicio.ServicioSubCategoria;
 import com.ec.servicio.ServicioTipoAmbiente;
 import com.ec.servicio.ServicioTipoKardex;
 import com.ec.servicio.ServicioTransportista;
@@ -118,7 +116,6 @@ import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Messagebox;
-import org.zkoss.zul.Radiogroup;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
 
@@ -307,14 +304,6 @@ public class Facturar extends SelectorComposer<Component> {
     byte[] buffer = new byte[1024 * 1024];
     private AImage fotoGeneral = null;
 
-    /*SUBCATEGORIAS*/
-    @Wire
-    private Radiogroup radiogroup;
-    Boolean validarPrimeracat = Boolean.TRUE;
-    private List<Subcategoria> listaSubcategoria = new ArrayList<Subcategoria>();
-    ServicioSubCategoria servicioSubCategoria = new ServicioSubCategoria();
-    private String subCategoriaSelected = "0";
-
     @AfterCompose
     public void afterCompose(@ExecutionArgParam("valor") ParamFactura valor,
             @ContextParam(ContextType.VIEW) Component view) {
@@ -330,14 +319,6 @@ public class Facturar extends SelectorComposer<Component> {
 
             List<Factura> listaFacturasPendientes = servicioFactura.findEstadoCliente("PE", clienteBuscado);
             saldoFacturas = BigDecimal.ZERO;
-
-            /*CREA EL RADIO BUTTON DINAMICO*/
-            for (Subcategoria subcategoria : listaSubcategoria) {
-                radiogroup.appendItem(subcategoria.getSubCatDescripcion(), String.valueOf(subcategoria.getIdSubCategoria()));
-                System.out.println("asdasdasdasdas" + subcategoria.getSubCatDescripcion());
-            }
-            subCategoriaSelected = servicioSubCategoria.findPrincipal() != null ? String.valueOf(servicioSubCategoria.findPrincipal().getIdSubCategoria()) : "1";
-//            radiogroup.setSelectedIndex(0);
         } else if (valor.getBusqueda().equals("producto") || valor.getBusqueda().equals("cliente")) {
 
         } else if (valor.getBusqueda().equals("cambio")) {
@@ -353,16 +334,6 @@ public class Facturar extends SelectorComposer<Component> {
             System.out.println("tipoVenta " + tipoVenta);
             System.out.println("idFactuta " + idFactuta);
             recuperFactura();
-
-            for (Subcategoria subcategoria : listaSubcategoria) {
-                radiogroup.appendItem(subcategoria.getSubCatDescripcion(), String.valueOf(subcategoria.getIdSubCategoria()));
-//                if (validarPrimeracat) {
-//                    validarPrimeracat = Boolean.FALSE;
-//                    subCategoriaSelected = String.valueOf(subcategoria.getIdSubCategoria());
-//                }
-            }
-            subCategoriaSelected = servicioSubCategoria.findPrincipal() != null ? String.valueOf(servicioSubCategoria.findPrincipal().getIdSubCategoria()) : "1";
-//            radiogroup.setSelectedIndex(0);
 
         }
         parametrizar = servicioParametrizar.FindALlParametrizar();
@@ -384,6 +355,18 @@ public class Facturar extends SelectorComposer<Component> {
     @Command
     public void aperturaCaja() {
 
+        // if (!verificaciones.verificarNumeroDocumentos()) {
+        //
+        // Messagebox.show("Usted cuenta con un plan basico y sobre paso el limite de
+        // documentos ¡Contactese con el administrador!", "Atención", Messagebox.OK,
+        // Messagebox.EXCLAMATION);
+        // authService.logout();
+        // Executions.sendRedirect("/");
+        //
+        // }
+        // if (servicioCierreCaja.findALlCierreCajaForFechaIdUsuario(new Date(),
+        // credential.getUsuarioSistema()).isEmpty()
+        // && credential.getUsuarioSistema().getUsuNivel() != 1) {
         if (servicioCierreCaja.findALlCierreCajaForFechaIdUsuario(new Date(), credential.getUsuarioSistema())
                 .isEmpty()) {
             org.zkoss.zul.Window window = (org.zkoss.zul.Window) Executions.createComponents(
@@ -417,16 +400,6 @@ public class Facturar extends SelectorComposer<Component> {
         // sess.setMaxInactiveInterval(10000);
         UserCredential cre = (UserCredential) sess.getAttribute(EnumSesion.userCredential.getNombre());
         credential = cre;
-
-        listaSubcategoria = servicioSubCategoria.findLikeDescipcion("");
-        for (Subcategoria subcategoria : listaSubcategoria) {
-            //radiogroup.appendItem(subcategoria.getSubCatDescripcion(), String.valueOf(subcategoria.getIdSubCategoria()));
-            if (validarPrimeracat) {
-                validarPrimeracat = Boolean.FALSE;
-                subCategoriaSelected = String.valueOf(subcategoria.getIdSubCategoria());
-                break;
-            }
-        }
 
         getDetallefactura();
         parametrizar = servicioParametrizar.FindALlParametrizar();
@@ -529,12 +502,6 @@ public class Facturar extends SelectorComposer<Component> {
 
         getDetallefactura();
         calcularValoresTotales();
-    }
-
-    @Command
-    @NotifyChange({"listaKardexProducto", "buscarNombreProd"})
-    public void buscarItems() {
-        findKardexProductoLikeCodigo();
     }
 
     public void ultimaPagina() {
@@ -2531,15 +2498,16 @@ public class Facturar extends SelectorComposer<Component> {
                 }
 
             }
-            if (accion.equals("create")) {
-                if (tipoVenta.equals("NTV") || tipoVenta.equals("NTE") || tipoVenta.equals("FACT")) {
-                    descargarKardex = true;
-                }
-            } else {
-                descargarKardex = true;
-                servicioDetalleKardex.eliminarKardexVenta(factura.getIdFactura());
-            }
+            // ejecutamos el mensaje
+            // Clients.showNotification("Factura registrada con éxito",
+            // Clients.NOTIFICATION_TYPE_INFO, null, "middle_center", 5000, true);
+            /*
+             * VERIFICA QUE NO SEA UNA PROFORMA QUE SE CONVERTIRA EN FACTURA, VERIFICA SI ES
+             * NOT DE ENTREGA
+             * NINGUNA PROFORMA DESCARGA
+             */
 
+ /* Registrar detalle de pago */
             if (descargarKardex) {
                 /* INGRESAMOS LO MOVIMIENTOS AL KARDEX */
                 Kardex kardex = null;
@@ -2720,7 +2688,7 @@ public class Facturar extends SelectorComposer<Component> {
     }
 
     private void findKardexProductoLikeCodigo() {
-        listaKardexProducto = servicioKardex.findByCodOrNameCat(buscarCodigoProd, buscarNombreProd, Integer.valueOf(subCategoriaSelected));
+        listaKardexProducto = servicioKardex.findByCodOrName(buscarCodigoProd, buscarNombreProd);
     }
 
     @Command
@@ -3668,29 +3636,5 @@ public class Facturar extends SelectorComposer<Component> {
 
         byte[] bytes = bos.toByteArray();
         return bytes;
-    }
-
-    public List<Subcategoria> getListaSubcategoria() {
-        return listaSubcategoria;
-    }
-
-    public void setListaSubcategoria(List<Subcategoria> listaSubcategoria) {
-        this.listaSubcategoria = listaSubcategoria;
-    }
-
-    public String getSubCategoriaSelected() {
-        return subCategoriaSelected;
-    }
-
-    public void setSubCategoriaSelected(String subCategoriaSelected) {
-        this.subCategoriaSelected = subCategoriaSelected;
-    }
-
-    public Boolean getValidarPrimeracat() {
-        return validarPrimeracat;
-    }
-
-    public void setValidarPrimeracat(Boolean validarPrimeracat) {
-        this.validarPrimeracat = validarPrimeracat;
     }
 }

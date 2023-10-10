@@ -43,9 +43,6 @@ public class Subcategoria implements Serializable {
     @Size(max = 50)
     @Column(name = "sub_cat_descripcion")
     private String subCatDescripcion;
-    @Column(name = "sub_principal")
-    private Boolean subPrincipal;
-    
     @JoinColumn(name = "id_categoria", referencedColumnName = "id_categoria")
     @ManyToOne
     private Categoria idCategoria;
@@ -81,14 +78,6 @@ public class Subcategoria implements Serializable {
 
     public void setIdCategoria(Categoria idCategoria) {
         this.idCategoria = idCategoria;
-    }
-
-    public Boolean getSubPrincipal() {
-        return subPrincipal;
-    }
-
-    public void setSubPrincipal(Boolean subPrincipal) {
-        this.subPrincipal = subPrincipal;
     }
 
     @XmlTransient

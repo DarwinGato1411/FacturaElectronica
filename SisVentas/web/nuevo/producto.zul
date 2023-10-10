@@ -272,22 +272,7 @@
                         </radiogroup>
                     </div>
                 </div>
-                <div class="wrapper_input_mod"> 
-                    <span>Categoria: </span> 
-                    <div class="wrapper_input_text">              
-                        <combobox  model="@load(vm.listaSubcategoria)"  
-                          
-                                  selectedItem="@bind(vm.producto.idSubCategoria)" width="70%"
-                                  readonly="true" >
-                                          
-                            <template name="model">
-                                <comboitem  label="@bind(each.subCatDescripcion)"/>
-                            </template>                                      
-                        </combobox>
-              
-            
-                    </div>
-                </div>
+                <div class="wrapper_input_mod"> </div>
                 
 
 
