@@ -436,19 +436,13 @@ public class Facturar extends SelectorComposer<Component> {
         if (tipoVenta.equals("FACT") && accion.equals("update")) {
             numeroFactura = factura.getFacNumero();
 
-<<<<<<< HEAD
+
             //codigo para facturador personalizado
 //            if(factura.getFacCobro()!=null && factura.getFacCambio()!=null){
 //                cobro=factura.getFacCobro();
 //                cambio=factura.getFacCambio();
 //            }
-=======
-            // codigo para facturador personalizado
-            // if(factura.getFacCobro()!=null && factura.getFacCambio()!=null){
-            // cobro=factura.getFacCobro();
-            // cambio=factura.getFacCambio();
-            // }
->>>>>>> 2c96f4a6dfe7490cb8695cd94d713aa94cdce8b1
+
         } else if (tipoVenta.equals("PROF") && accion.equals("update")) {
             numeroFactura = factura.getFacNumProforma();
         } else if (tipoVenta.equals("NTE") && accion.equals("update")) {
@@ -899,8 +893,7 @@ public class Facturar extends SelectorComposer<Component> {
                 BigDecimal costVentaTipoClienteInicial = BigDecimal.ZERO;
                 String tipoVenta = "NORMAL";
 
-                BigDecimal factorIva = (parametrizar.getParIva().divide(BigDecimal.valueOf(100.0)));
-                BigDecimal factorSacarSubtotal = (factorIva.add(BigDecimal.ONE));
+                
 
                 if (!buscadoPorCodigo.getProdGrabaIva()) {
                     factorIva = new BigDecimal(0);
@@ -1843,13 +1836,7 @@ public class Facturar extends SelectorComposer<Component> {
                 if (item.getProducto() != null) {
                     totalizado = totalizado.add(item.getDetTotalconivadescuento());
                     System.out.println("totalizado" + totalizado);
-<<<<<<< HEAD
-                    valorTotal = valorTotal.add(item.getProducto().getProdGrabaIva() ? item.getSubTotalDescuento().multiply(item.getCantidad()) : BigDecimal.ZERO);
-                    System.out.println("valor total" + valorTotal);
-                    valorIva = valorIva.add(item.getDetIva());
-                    System.out.println("valorIva" + valorIva);
-//                    valorTotalConIva = valorTotalConIva.add(item.getDetTotalconivadescuento());
-=======
+
                     valorTotal = valorTotal.add(item.getProducto().getProdGrabaIva()
                             ? item.getSubTotalDescuento().multiply(item.getCantidad())
                             : BigDecimal.ZERO);
@@ -1857,20 +1844,16 @@ public class Facturar extends SelectorComposer<Component> {
                     valorIva = valorIva.add(item.getDetIva());
                     System.out.println("valorIva" + valorIva);
                     // valorTotalConIva = valorTotalConIva.add(item.getDetTotalconivadescuento());
->>>>>>> 2c96f4a6dfe7490cb8695cd94d713aa94cdce8b1
+
                     valorDescuento = valorDescuento.add(item.getDetCantpordescuento());
                     System.out.println("valorDescuento" + valorDescuento);
                     valorTotalInicial = valorTotalInicial.add(item.getTotalInicial().multiply(item.getCantidad()));
                     System.out.println("valorTotalInicial" + valorTotalInicial);
-<<<<<<< HEAD
-                    baseCero = baseCero.add(!item.getProducto().getProdGrabaIva() ? item.getSubTotalDescuento().multiply(item.getCantidad()) : BigDecimal.ZERO);
+
+                    baseCero = baseCero.add(!item.getProducto().getProdGrabaIva() ? 
+                    item.getSubTotalDescuento().multiply(item.getCantidad()) : BigDecimal.ZERO);
                     /*COSTO SIN SUBSIDIO*/
-=======
-                    baseCero = baseCero.add(!item.getProducto().getProdGrabaIva()
-                            ? item.getSubTotalDescuento().multiply(item.getCantidad())
-                            : BigDecimal.ZERO);
-                    /* COSTO SIN SUBSIDIO */
->>>>>>> 2c96f4a6dfe7490cb8695cd94d713aa94cdce8b1
+
                     System.out.println("baseCero" + baseCero);
                     if (item.getProducto().getProdTieneSubsidio().equals("S")) {
                         BigDecimal precioSinSubporcantidad = item.getProducto().getProdSubsidio()
@@ -2058,30 +2041,15 @@ public class Facturar extends SelectorComposer<Component> {
             
             factura.setFacTipo(tipoVenta);
             factura.setFacDescripcion(facturaDescripcion);
-<<<<<<< HEAD
+
             factura.setFacFecha(fechafacturacion);
             if (accion.equals("create")) {
                 Date hora = new Date();
                 System.out.println("asdasdasdasd" + hora);
                 SimpleDateFormat formater = new SimpleDateFormat("yyyy:MM:dd hh:mm:ss a");
-=======
-
-            Date hora = new Date();
-            System.out.println("asdasdasdasd" + hora);
-            SimpleDateFormat formater = new SimpleDateFormat("yyyy:MM:dd hh:mm:ss a");
-
-            if (accion.equals("create")) {
->>>>>>> 2c96f4a6dfe7490cb8695cd94d713aa94cdce8b1
-                String today = formater.format(hora);
-                System.out.println("asdasdasdasd" + today);
-                Date dateTime = new SimpleDateFormat("yyyy:MM:dd hh:mm:ss a").parse(today);
-                factura.setFacFecha(dateTime);
             }
-<<<<<<< HEAD
-            
-=======
-            factura.setFacFecha(fechafacturacion);
->>>>>>> 2c96f4a6dfe7490cb8695cd94d713aa94cdce8b1
+
+
             factura.setFacFechaCobro(facFechaCobro);
             factura.setFacEstado(estdoFactura);
             factura.setFacNumeroText(numeroFacturaText);
@@ -2684,14 +2652,10 @@ public class Facturar extends SelectorComposer<Component> {
         Messagebox.show("Fucniona " + valor.getDescripcion(), "Atención", Messagebox.OK, Messagebox.INFORMATION);
         
     }
-<<<<<<< HEAD
+
     
     public void reporteGeneral() throws JRException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, NamingException {
-=======
 
-    public void reporteGeneral() throws JRException, IOException, ClassNotFoundException, InstantiationException,
-            IllegalAccessException, SQLException, NamingException {
->>>>>>> 2c96f4a6dfe7490cb8695cd94d713aa94cdce8b1
         EntityManager emf = HelperPersistencia.getEMF();
         
         try {
@@ -2849,14 +2813,10 @@ public class Facturar extends SelectorComposer<Component> {
         }
         
     }
-<<<<<<< HEAD
+
     
     public void reporteGeneralPdfMail(String pathPDF) throws JRException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, NamingException {
-=======
 
-    public void reporteGeneralPdfMail(String pathPDF) throws JRException, IOException, ClassNotFoundException,
-            InstantiationException, IllegalAccessException, SQLException, NamingException {
->>>>>>> 2c96f4a6dfe7490cb8695cd94d713aa94cdce8b1
         EntityManager emf = HelperPersistencia.getEMF();
         
         try {
