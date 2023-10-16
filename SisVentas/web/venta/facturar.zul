@@ -360,7 +360,7 @@
                                                     if="${each.verificaStock}" 
                                                     style="font-size:11px;background-color:#C7FEC1"
                                                    onDoubleClick="@command('verImagenLista',valor=each.idProducto)" >                                                    
-                                            <label onOK="@command('agregarItemLista',valor=each.idProducto)" 
+                                            <label 
                                                     class="form-control form-control-sm"
                                                     style="font-size:10px;background-color:#C7FEC1"
                                                     value="@bind(each.karTotal)" 

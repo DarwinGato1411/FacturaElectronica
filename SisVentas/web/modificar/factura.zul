@@ -16,7 +16,7 @@
           viewModel="@id('vm') @init('com.ec.controlador.Facturar')" width="100%" class="containerFactura">
     
         <timer id="timer" delay="300000" repeats="true" onTimer="@command('refrescarPagina')" />
-        <tabbox  width="100%"  tabscroll="true" >
+       <tabbox  width="100%"  tabscroll="true" >
             <tabs >
                 <tab label="Emitir factura" sclass="menutabs"/>
             </tabs>
@@ -285,7 +285,7 @@
                             
                             <div class="wrapper_input">
                                 <div class="inputGroupImg" >
-                                    <image content="@bind(vm.fotoGeneral)" width="200px" style="display:block;" />
+                                    <image content="@bind(vm.fotoGeneral)" width="150px" style="display:block;" />
                                               
                                 </div>
                                     
@@ -341,28 +341,26 @@
             
                                 <template name="model">                                                            
                                     <listitem  onOK="@command('agregarItemLista',valor=each.idProducto)" class="tabla1">
-                                        <listcell  style="font-size:11px;background-color:#d6eefd" zclass = "mycss-listcell" 
-                                                    onDoubleClick="@command('agregarItemLista',valor=each.idProducto)">
+                                        <listcell  style="font-size:11px;background-color:#d6eefd" zclass = "mycss-listcell" >
                                             <textbox value="@bind(each.idProducto.prodCodigo)"    
                                                         class="form-control form-control-sm"
                                                         style="font-size:11px;background-color:#d6eefd"
                                                         readonly="true"
-                                                        onDoubleClick="@command('agregarItemLista',valor=each.idProducto)"/>
+                                                        />
                                         
                                         </listcell>
-                                        <listcell  style="font-size:10px;background-color:#d6eefd" zclass = "mycss-listcell" 
-                                                    onDoubleClick="@command('agregarItemLista',valor=each.idProducto)" >
+                                        <listcell  style="font-size:10px;background-color:#d6eefd" zclass = "mycss-listcell"  >
                                             <textbox  value="@bind(each.idProducto.prodNombre)" 
                                                         style="font-size:11px;background-color:#d6eefd"
                                                         readonly="true"
                                                         class="form-control form-control-sm"
-                                                        onDoubleClick="@command('agregarItemLista',valor=each.idProducto)" />
+                                                        />
                                         </listcell>
                                         <listcell zclass = "mycss-listcell" 
                                                     if="${each.verificaStock}" 
                                                     style="font-size:11px;background-color:#C7FEC1"
-                                                    onDoubleClick="@command('agregarItemLista',valor=each.idProducto)" >                                                    
-                                            <label onOK="@command('agregarItemLista',valor=each.idProducto)" 
+                                                   onDoubleClick="@command('verImagenLista',valor=each.idProducto)" >                                                    
+                                            <label 
                                                     class="form-control form-control-sm"
                                                     style="font-size:10px;background-color:#C7FEC1"
                                                     value="@bind(each.karTotal)" 
@@ -371,24 +369,26 @@
                                         <listcell zclass = "mycss-listcell" 
                                                     if="${!each.verificaStock}" 
                                                     style="font-size:11px;background-color:#FBC3C3"
-                                                    onDoubleClick="@command('agregarItemLista',valor=each.idProducto)" >                                                    
-                                            <label onOK="@command('agregarItemLista',valor=each.idProducto)" 
+                                                    onDoubleClick="@command('verImagenLista',valor=each.idProducto)"
+                                                    >                                                    
+                                            <label
                                                     class="form-control form-control-sm"
                                                     style="font-size:10px;background-color:#FBC3C3"
+                                                    
                                                     value="@bind(each.karTotal)" 
                                                      />
                                         </listcell>
                                        <listcell zclass = "mycss-listcell" 
-                                                    onDoubleClick="@command('agregarItemLista',valor=each.idProducto)" >                                                    
-                                            <label onOK="@command('agregarItemLista',valor=each.idProducto)" 
+                                                   >                                                    
+                                            <label
                                                     class="form-control form-control-sm"
                                                     value="@bind(each.idProducto.prodCostoPreferencial)"
                                                     style="font-size:11px; font-weight: bold" 
                                                     width="96%" />
                                         </listcell>
                                         <listcell zclass = "mycss-listcell" 
-                                                    onDoubleClick="@command('agregarItemLista',valor=each.idProducto)" >                                                    
-                                            <label onOK="@command('agregarItemLista',valor=each.idProducto)" 
+                                                   >                                                    
+                                            <label
                                                     class="form-control form-control-sm"
                                                     style="font-size:11px; font-weight: bold" 
                                                     value="@bind(each.idProducto.pordCostoVentaFinal)" 
@@ -487,6 +487,7 @@
                                             <decimalbox readonly="true" format="###.###" 
                                                         class="form-control form-control-sm"
                                                          style="font-size:11px"
+                                                        onDoubleClick="@command('verImagen',valor=each)"
                                                         value="@bind(each.totalInicial)"  width="99%" />
                                         </listcell>
                                         <listcell zclass = "mycss-listcell">

@@ -613,13 +613,16 @@ public class Facturar extends SelectorComposer<Component> {
 
     /* VER iMAGEN */
     @Command
-    @NotifyChange({"listaDetalleFacturaDAOMOdel"})
+    @NotifyChange({"listaDetalleFacturaDAOMOdel", "fotoGeneral"})
     public void verImagenLista(@BindingParam("valor") Producto producto) {
         if (producto != null) {
             if (producto.getProdImagen() != null) {
                 try {
-                    fotoGeneral = new AImage("fotoPedido", Imagen_A_Bytes(producto.getProdImagen()));
-//                Imagen_A_Bytes(empresa.getIdUsuario().getUsuFoto());
+                    if (producto.getProdImagen() != null) {
+                        fotoGeneral = new AImage("fotoPedido", Imagen_A_Bytes(producto.getProdImagen()));
+                    } else {
+                        fotoGeneral = null;
+                    }
                 } catch (FileNotFoundException e) {
                     System.out.println("error imagen " + e.getMessage());
                 } catch (IOException ex) {
@@ -1262,7 +1265,7 @@ public class Facturar extends SelectorComposer<Component> {
                         Clients.NOTIFICATION_TYPE_ERROR, null, "middle_center", 4000, true);
                 return;
             }
-            
+
             PRODUCTOCAMBIO = servicioProducto.findByProdCodigo(valor.getCodigo());
             if (valor.getEsProducto() && PRODUCTOCAMBIO.getProdCostoPreferencialTres().doubleValue() > valor.getTotal().doubleValue()) {
                 Clients.showNotification(
