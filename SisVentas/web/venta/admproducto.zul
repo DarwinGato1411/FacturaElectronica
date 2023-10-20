@@ -6,10 +6,7 @@
 <?script src="https://kit.fontawesome.com/484b16c999.js"?>
 
 <div apply="org.zkoss.bind.BindComposer" 
-     viewModel="@id('vm') @init('com.ec.controlador.AdmProducto')"  width="100%"  >
-
-    
-
+     viewModel="@id('vm') @init('com.ec.controlador.AdmProducto')"  width="100%">
     <div class="container_headers" style="margin-bottom:1em">
 
         <div 
