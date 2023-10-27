@@ -71,7 +71,7 @@ public class ServicioKardex {
             em.merge(kardex);
             em.getTransaction().commit();
         } catch (Exception e) {
-            System.out.println("Error en insertar kardex");
+            System.out.println("Error en modificar  kardex "+e.getMessage());
         } finally {
             em.close();
         }
