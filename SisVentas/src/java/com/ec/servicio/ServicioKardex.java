@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.ec.servicio;
 
 import com.ec.entidad.CabeceraCompra;
@@ -16,10 +12,6 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
-/**
- *
- * @author gato
- */
 public class ServicioKardex {
 
     private EntityManager em;
@@ -33,70 +25,73 @@ public class ServicioKardex {
     }
 
     public void crear(Kardex kardex) {
-
         try {
             em = HelperPersistencia.getEMF();
             em.getTransaction().begin();
             em.persist(kardex);
             em.getTransaction().commit();
         } catch (Exception e) {
-            System.out.println("Error en insertar kardex simple " + e.getMessage());
+            e.printStackTrace();
+            System.out.println("Error al insertar Kardex: " + e.getMessage());
         } finally {
-            em.close();
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
         }
-
     }
 
     public void eliminar(Kardex kardex) {
-
         try {
             em = HelperPersistencia.getEMF();
             em.getTransaction().begin();
             em.remove(em.merge(kardex));
             em.getTransaction().commit();
-
         } catch (Exception e) {
-            System.out.println("Error en eliminar  kardex" + e);
+            e.printStackTrace();
+            System.out.println("Error al eliminar Kardex: " + e.getMessage());
         } finally {
-            em.close();
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
         }
-
     }
 
     public void modificar(Kardex kardex) {
-
         try {
             em = HelperPersistencia.getEMF();
             em.getTransaction().begin();
             em.merge(kardex);
             em.getTransaction().commit();
         } catch (Exception e) {
-            System.out.println("Error en modificar  kardex "+e.getMessage());
+            e.printStackTrace();
+            System.out.println("Error al modificar Kardex: " + e.getMessage());
         } finally {
-            em.close();
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
         }
     }
 
     public List<Kardex> FindALlKardex() {
-
         List<Kardex> listaKardexs = new ArrayList<Kardex>();
         try {
             em = HelperPersistencia.getEMF();
             em.getTransaction().begin();
             Query query = em.createNamedQuery("Kardex.findAll", Kardex.class);
-            listaKardexs = (List<Kardex>) query.getResultList();
+            listaKardexs = query.getResultList();
             em.getTransaction().commit();
         } catch (Exception e) {
-            System.out.println("Error en lsa consulta kardex");
+            e.printStackTrace();
+            System.out.println("Error en la consulta Kardex FindALlKardex: " + e.getMessage());
         } finally {
-            em.close();
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
         }
-
         return listaKardexs;
     }
 
     public Kardex FindALlKardexs(Producto producto) {
-
         List<Kardex> listaKardexs = new ArrayList<Kardex>();
         Kardex kardex = null;
         try {
@@ -104,17 +99,19 @@ public class ServicioKardex {
             em.getTransaction().begin();
             Query query = em.createNamedQuery("Kardex.findByIdProducto", Kardex.class);
             query.setParameter("idProducto", producto);
-            listaKardexs = (List<Kardex>) query.getResultList();
+            listaKardexs = query.getResultList();
             if (listaKardexs.size() > 0) {
                 kardex = listaKardexs.get(0);
             }
             em.getTransaction().commit();
         } catch (Exception e) {
-            System.out.println("Error en lsa consulta kardex");
+            e.printStackTrace();
+            System.out.println("Error en la consulta Kardex FindALlKardexs: " + e.getMessage());
         } finally {
-            em.close();
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
         }
-
         return kardex;
     }
 
@@ -132,117 +129,133 @@ public class ServicioKardex {
             query.setParameter("idKardex", k.getIdKardex());
             Query query1 = em.createQuery("SELECT k FROM Egresoskardex k where k.idKardex=:idKardex");
             query1.setParameter("idKardex", k.getIdKardex());
-            //ingresos
-            listaIngKardexs = (List<Ingresoskardex>) query.getResultList();
-            //egresos
-            listaEgreKardexs = (List<Egresoskardex>) query1.getResultList();
-            if (listaIngKardexs.size() > 0) {
+            // Ingresos
+            listaIngKardexs = query.getResultList();
+            // Egresos
+            listaEgreKardexs = query1.getResultList();
+            if (!listaIngKardexs.isEmpty()) {
                 ingresosKardex = listaIngKardexs.get(0).getIngresos();
             }
-            if (listaEgreKardexs.size() > 0) {
+            if (!listaEgreKardexs.isEmpty()) {
                 egresosKardex = listaEgreKardexs.get(0).getEgresos();
             }
             totalKardex = ingresosKardex.subtract(egresosKardex);
             totales = new TotalKardex(ingresosKardex, egresosKardex, totalKardex);
             em.getTransaction().commit();
         } catch (Exception e) {
-            System.out.println("Error en lsa consulta kardex prodCodigo " + e.getMessage());
+            e.printStackTrace();
+            System.out.println("Error en la consulta Kardex totalesForKardex: " + e.getMessage());
         } finally {
-            em.close();
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
         }
-
         return totales;
     }
 
     public List<Kardex> findByCodOrName(String prodCodigo, String prodNombre) {
-
         List<Kardex> listaKardexs = new ArrayList<Kardex>();
         try {
             em = HelperPersistencia.getEMF();
             em.getTransaction().begin();
-            Query query = em.createQuery("SELECT a from Kardex a where a.idProducto.prodCodigo like :prodCodigo AND a.idProducto.prodNombre LIKE :prodNombre ORDER BY a.idProducto.prodNombre ASC");
+            String queryStr = "SELECT a FROM Kardex a WHERE a.idProducto.prodCodigo LIKE :prodCodigo AND a.idProducto.prodNombre LIKE :prodNombre ORDER BY a.idProducto.prodNombre ASC";
+            Query query = em.createQuery(queryStr);
             query.setParameter("prodCodigo", "%" + prodCodigo + "%");
             query.setParameter("prodNombre", "%" + prodNombre + "%");
             query.setMaxResults(200);
-            listaKardexs = (List<Kardex>) query.getResultList();
+            listaKardexs = query.getResultList();
             em.getTransaction().commit();
         } catch (Exception e) {
-            System.out.println("Error en la consulta kardex findByCodOrName" + e.getMessage());
+            e.printStackTrace();
+            System.out.println("Error en la consulta Kardex findByCodOrName: " + e.getMessage());
+            if (em != null && em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
         } finally {
-            em.close();
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
         }
-
         return listaKardexs;
     }
 
     public boolean deleteKardexFromCompra(CabeceraCompra cabeceraCompra) {
-
-        List<Kardex> listaKardexs = new ArrayList<Kardex>();
-        boolean actualiza = Boolean.TRUE;
+        boolean actualiza = true;
         try {
             em = HelperPersistencia.getEMF();
             em.getTransaction().begin();
-            Query query = em.createQuery("DELETE FROM DetalleKardex c WHERE c.idCompra :idCompra");
-            int deletedCount = query.setParameter("idCompra", cabeceraCompra).executeUpdate();
+            Query query = em.createQuery("DELETE FROM DetalleKardex c WHERE c.idCompra = :idCompra");
+            query.setParameter("idCompra", cabeceraCompra);
+            int deletedCount = query.executeUpdate();
             em.getTransaction().commit();
-
         } catch (Exception e) {
-            actualiza = Boolean.TRUE;
-            System.out.println("Error en la consulta kardex deleteKardexFromCompra" + e.getMessage());
+            e.printStackTrace();
+            System.out.println("Error en la consulta Kardex deleteKardexFromCompra: " + e.getMessage());
+            actualiza = false;
+            if (em != null && em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
         } finally {
-            em.close();
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
         }
-
         return actualiza;
     }
 
     public List<Kardex> FindALlKardexMaxMininimo(String estado) {
-
         List<Kardex> listaKardexs = new ArrayList<Kardex>();
         try {
             em = HelperPersistencia.getEMF();
             em.getTransaction().begin();
-            String SQL = "SELECT a from Kardex a ";
+            String SQL = "SELECT a FROM Kardex a ";
             String WHERE = "";
             String ORDERBY = " ORDER BY a.idProducto.prodNombre ASC";
 
             if (estado.equals("MEM")) {
-                WHERE = "WHERE a.idProducto.prodCantMinima >= a.karTotal";
+                WHERE = " WHERE a.idProducto.prodCantMinima >= a.karTotal";
             } else if (estado.equals("MAM")) {
-                WHERE = "WHERE a.idProducto.prodCantMinima < a.karTotal";
+                WHERE = " WHERE a.idProducto.prodCantMinima < a.karTotal";
             }
             SQL = SQL + WHERE + ORDERBY;
             Query query = em.createQuery(SQL);
-            listaKardexs = (List<Kardex>) query.getResultList();
+            listaKardexs = query.getResultList();
             em.getTransaction().commit();
         } catch (Exception e) {
-            System.out.println("Error en lsa consulta kardex");
+            e.printStackTrace();
+            System.out.println("Error en la consulta Kardex FindALlKardexMaxMininimo: " + e.getMessage());
         } finally {
-            em.close();
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
         }
-
         return listaKardexs;
     }
-    
-      public List<Kardex> findByCodOrNameCat(String prodCodigo, String prodNombre, Integer categoria) {
 
+    public List<Kardex> findByCodOrNameCat(String prodCodigo, String prodNombre, Integer categoria) {
         List<Kardex> listaKardexs = new ArrayList<Kardex>();
         try {
             em = HelperPersistencia.getEMF();
             em.getTransaction().begin();
-            Query query = em.createQuery("SELECT a from Kardex a where a.idProducto.prodCodigo like :prodCodigo AND a.idProducto.prodNombre LIKE :prodNombre AND a.idProducto.idSubCategoria.idSubCategoria =:idSubCategoria ORDER BY a.idProducto.prodNombre ASC");
+            String queryStr = "SELECT a FROM Kardex a WHERE a.idProducto.prodCodigo LIKE :prodCodigo AND a.idProducto.prodNombre LIKE :prodNombre AND a.idProducto.idSubCategoria.idSubCategoria = :idSubCategoria ORDER BY a.idProducto.prodNombre ASC";
+            Query query = em.createQuery(queryStr);
             query.setParameter("prodCodigo", "%" + prodCodigo + "%");
             query.setParameter("prodNombre", "%" + prodNombre + "%");
             query.setParameter("idSubCategoria", categoria);
             query.setMaxResults(200);
-            listaKardexs = (List<Kardex>) query.getResultList();
+            listaKardexs = query.getResultList();
             em.getTransaction().commit();
         } catch (Exception e) {
-            System.out.println("Error en la consulta kardex findByCodOrName" + e.getMessage());
+            e.printStackTrace();
+            System.out.println("Error en la consulta Kardex findByCodOrNameCat: " + e.getMessage());
+            if (em != null && em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
         } finally {
-            em.close();
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
         }
-
         return listaKardexs;
     }
 }

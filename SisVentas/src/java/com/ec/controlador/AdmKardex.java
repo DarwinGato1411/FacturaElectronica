@@ -74,13 +74,12 @@ public class AdmKardex {
     @Command
     @NotifyChange({"kardex", "listaDetalleKardex"})
     public void seleccionarProductoLista(@BindingParam("valor") Producto valor) {
-
+        System.out.println("ADM KARDEX");
         kardex = servicioKardex.FindALlKardexs(valor);
         listaDetalleKardex.clear();
         if (kardex != null) {
             listaDetalleKardex = servicioDetalleKardex.findByIdKardex(kardex);
         }
-
     }
 
     @Command

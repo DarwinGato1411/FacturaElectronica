@@ -122,7 +122,7 @@ public class AjusteEntradaSalida {
     @AfterCompose
     public void afterCompose(@ExecutionArgParam("valor") ParamFactura valor, @ContextParam(ContextType.VIEW) Component view) {
         Selectors.wireComponents(view, this, false);
-
+        System.out.println("AJUSTE ENTRADA SALIDA");
         findKardexProductoLikeNombre();
         //para establecer el cliente final
 
