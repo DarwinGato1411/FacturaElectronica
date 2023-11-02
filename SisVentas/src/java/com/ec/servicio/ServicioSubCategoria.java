@@ -80,7 +80,7 @@ public class ServicioSubCategoria {
             //Connection connection = em.unwrap(Connection.class);
             em = HelperPersistencia.getEMF();
             em.getTransaction().begin();
-            Query query = em.createQuery("SELECT a FROM Subcategoria a WHERE a.subCatDescripcion like :subCategoria ORDER BY a.subPrincipal, a.subCatDescripcion ASC");
+            Query query = em.createQuery("SELECT a FROM Subcategoria a WHERE a.subCatDescripcion like :subCategoria ORDER BY a.idSubCategoria ASC");
             query.setParameter("subCategoria", "%" + valor + "%");
             listaSubcategorias = (List<Subcategoria>) query.getResultList();
             em.getTransaction().commit();

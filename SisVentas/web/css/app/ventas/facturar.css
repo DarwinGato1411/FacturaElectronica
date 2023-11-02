@@ -761,3 +761,8 @@ div.z-listheader-cnt {
     color: #333;
     height: 30px;
 }
+
+.listadocategoria{
+    display: grid;
+    grid-template-columns:repeat(4,1fr);
+}

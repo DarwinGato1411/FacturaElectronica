@@ -316,7 +316,7 @@
 
                         <div class="factura_body_item facturacion" >
                              <div class="col-12 col-sm-12 col-md-12 col-lg-12 form-group  "  >
-                                    <radiogroup id="radiogroup" class="btn-group-horizontal" 
+                                    <radiogroup id="radiogroup" class="btn-group-horizontal listadocategoria" 
                                                   
                                                 onCheck="@command('buscarItems')"
                                                 selectedItem="@bind(vm.subCategoriaSelected)" >
@@ -444,7 +444,7 @@
                         </div>
 
                         <div class="factura_body_item factura">
-                            <listbox id="lstFacturar"
+                            <listbox  id="lstFacturar"
                                         model="@load(vm.listaDetalleFacturaDAOMOdel)"
                                         mold="paging" pageSize="14"
                                         nonselectableTags="*" checkmark="true"  
