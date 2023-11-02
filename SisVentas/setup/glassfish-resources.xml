@@ -10,5 +10,5 @@
         <property name="URL" value="jdbc:postgresql://localhost:5432/vazcobolivar"/>
         <property name="driverClass" value="org.postgresql.Driver"/>
     </jdbc-connection-pool>
-    <jdbc-resource enabled="true" jndi-name="jdbc/deckxelPV1" object-type="user" pool-name="post-gre-sql_vazcobolivar_postgresPool"/>
+    <jdbc-resource enabled="true" jndi-name="jdbc/deckxelPV" object-type="user" pool-name="post-gre-sql_vazcobolivar_postgresPool"/>
 </resources>
