@@ -322,11 +322,10 @@ public class AjusteEntradaSalida {
 
     //busqueda del producto
     @Command
-    @NotifyChange({"listaDetalleFacturaDAOMOdel", "subTotalCotizacion", "ivaCotizacion", "valorTotalCotizacion", "subTotalBaseCero", "totalItems", "valorTotalInicialVent"})
+    @NotifyChange({})
     public void eliminarRegistros() {
         if (registrosSeleccionados.size() > 0) {
             ((ListModelList<DetalleFacturaDAO>) listaDetalleFacturaDAOMOdel).removeAll(registrosSeleccionados);
-            //calcularValoresTotales();
 
         } else {
             Messagebox.show("Seleccione al menos un registro para eliminar", "Atención", Messagebox.OK, Messagebox.ERROR);
@@ -355,10 +354,10 @@ public class AjusteEntradaSalida {
         try {
             if (motivoAjuste == null) {
                 Clients.showNotification("Verifique el motivo del ajuste", Clients.NOTIFICATION_TYPE_ERROR, null, "middle_center", 2000, true);
-               return;
+                return;
             }
-            
-             if (motivoAjuste.equals("")) {
+
+            if (motivoAjuste.equals("")) {
                 Clients.showNotification("Verifique el motivo del ajuste", Clients.NOTIFICATION_TYPE_ERROR, null, "middle_center", 2000, true);
                 return;
             }
@@ -397,14 +396,19 @@ public class AjusteEntradaSalida {
 //                    detalleKardex.setIdFactura(factura);
                     detalleKardex.setDetkCantidad(item.getCantidad());
                     servicioDetalleKardex.crear(detalleKardex);
-                    /*ACTUALIZA EL TOTAL DEL KARDEX*/
-                    TotalKardex totales = servicioKardex.totalesForKardex(kardex);
-                    BigDecimal total = totales.getTotalKardex();
+                    BigDecimal total = kardex.getKarTotal();
+                    if (tipokardex.getTipkSigla().equals("ING")) {
+                        total = total.add(item.getCantidad());
+                    } else if (tipokardex.getTipkSigla().equals("SAL")) {
+                        total = total.subtract(item.getCantidad());
+                    }
                     kardex.setKarTotal(total);
+                    /*ACTUALIZA EL TOTAL DEL KARDEX*/
+//                    TotalKardex totales = servicioKardex.totalesForKardex(kardex);
+//                    BigDecimal total = totales.getTotalKardex();
+//                    kardex.setKarTotal(total);
                     servicioKardex.modificar(kardex);
-
                 }
-
             }
             Clients.showNotification("Guardado correctamente", Clients.NOTIFICATION_TYPE_INFO, null, "middle_center", 2000, true);
             Executions.sendRedirect("/administrar/ajuste.zul");
@@ -417,7 +421,7 @@ public class AjusteEntradaSalida {
     }
 
     @Command
-    @NotifyChange({"listaDetalleFacturaDAOMOdel", "subTotalCotizacion", "ivaCotizacion", "valorTotalCotizacion"})
+    @NotifyChange({"listaKardexProducto"})
     public void Guardar() {
 
         guardarFactura();

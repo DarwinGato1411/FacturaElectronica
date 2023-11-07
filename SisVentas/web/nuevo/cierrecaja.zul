@@ -4,7 +4,7 @@
          viewModel="@id('vm') @init('com.ec.controlador.CierreCajaVm')">
     
 
-    <caption label="Cierre de caja" style="font-weight:bold" /> 
+    <caption label="Cierres de caja" style="font-weight:bold" /> 
     
     
     
@@ -17,7 +17,7 @@
                             value="@bind(vm.cierreCaja.cieCuadre)"  
                             readonly="@bind(vm.cajaCerrada)" 
                             onOK="@command('calcularDiferencia')"
-                                onChange="@command('calcularDiferencia')"
+                            onChange="@command('calcularDiferencia')"
                             class="form-control" />              
             </div> 
             <div class="col-12 col-sm-12 col-md-6 col-lg-6  form-group "  >
@@ -27,7 +27,7 @@
                             value="@bind(vm.cierreCaja.cieCuadreTransferencia)"  
                             readonly="@bind(vm.cajaCerrada)" 
                             onOK="@command('calcularDiferencia')"
-                                onChange="@command('calcularDiferencia')"
+                            onChange="@command('calcularDiferencia')"
                             class="form-control" />              
             </div> 
             <div class="col-12 col-sm-12 col-md-6 col-lg-6  form-group "  >
@@ -37,7 +37,7 @@
                             value="@bind(vm.cierreCaja.cieCuadreTarjeta)"  
                             readonly="@bind(vm.cajaCerrada)" 
                             onOK="@command('calcularDiferencia')"
-                                onChange="@command('calcularDiferencia')"
+                            onChange="@command('calcularDiferencia')"
                             class="form-control" />              
             </div> 
             <div class="col-12 col-sm-12 col-md-6 col-lg-6  form-group "  >
@@ -47,7 +47,7 @@
                             value="@bind(vm.cierreCaja.cieGasto)"  
                             readonly="@bind(vm.cajaCerrada)" 
                             onOK="@command('calcularDiferencia')"
-                                onChange="@command('calcularDiferencia')"
+                            onChange="@command('calcularDiferencia')"
                             class="form-control" />              
             </div> 
             <div class="col-12 col-sm-12 col-md-6 col-lg-6  form-group "  >
@@ -58,17 +58,32 @@
                          style="font-weight:bold" buttonVisible="false" 
                          lenient="true" 
                          format="dd/MM/yyyy" />           
-            </div>  
+            </div>
+            
+             <!-- <div class="col-12 col-sm-12 col-md-6 col-lg-6  form-group "  >
+                <label value=" " style="color:red;font-weight:bold"/>Billetes:
+                
+                <textbox                                                                                     
+                    value="@bind(vm.cierreCaja.cieBilletes)"     
+                    readonly="true"                                                       
+                    class="form-control" />              
+            </div>        
+                   
+            <div class="col-12 col-sm-12 col-md-6 col-lg-6  form-group "  >
+                <label value="" style="color:red;font-weight:bold"/>Caja final:
+                <textbox    value="@bind(vm.cierreCaja.cieCajaFinal)"   
+                            class="form-control " />              
+            </div>    --> 
             <div class="col-12 col-sm-12 col-md-12 col-lg-12  form-group "  >
                 <label value="(*) " style="color:red;font-weight:bold"/>Observacion:
                 
                 <textbox   value="@bind(vm.cierreCaja.cieDescripcion)"   
                            onChange="self.setValue(self.getValue().toUpperCase())"
                            class="form-control" 
-                            readonly="@bind(vm.cajaCerrada)" 
                            rows="3"
                            maxlength="150" />              
-            </div>  
+            </div>
+            
         </div>
         <!---->
         <div  class="row" visible="@bind(vm.cajaCerrada)"  >
@@ -129,7 +144,8 @@
                 <textbox    value="@bind(vm.cierreCaja.cieDiferencia)"   
                             readonly="true"
                             class="form-control " />              
-            </div>        
+            </div>     
+            
                  
     
    
@@ -137,7 +153,7 @@
         <!---->
         <div class="row "  visible="@bind(!vm.cajaCerrada)">
             <div class="col-12 col-sm-6 col-md-12 col-lg-12  form-group" 
-                     align="center" >
+                 align="center" >
                     
                 <image src="/iconos/guardar.png"  
                        onClick="@command('guardar')"

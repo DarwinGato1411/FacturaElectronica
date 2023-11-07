@@ -84,6 +84,12 @@ public class CierreCaja implements Serializable {
     private BigDecimal cieCuadreTarjeta;
     @Column(name = "cie_gasto")
     private BigDecimal cieGasto;
+    
+    @Column(name = "cie_billetes")
+    private BigDecimal cieBilletes ;
+    
+    @Column(name = "cie_caja_final")
+    private BigDecimal cieCajaFinal ;
 
     @JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario")
     @ManyToOne
@@ -241,6 +247,24 @@ public class CierreCaja implements Serializable {
     public void setCieGasto(BigDecimal cieGasto) {
         this.cieGasto = cieGasto;
     }
+
+    public BigDecimal getCieBilletes() {
+        return cieBilletes;
+    }
+
+    public void setCieBilletes(BigDecimal cieBilletes) {
+        this.cieBilletes = cieBilletes;
+    }
+
+    public BigDecimal getCieCajaFinal() {
+        return cieCajaFinal;
+    }
+
+    public void setCieCajaFinal(BigDecimal cieCajaFinal) {
+        this.cieCajaFinal = cieCajaFinal;
+    }
+    
+    
 
     @Override
     public boolean equals(Object object) {

@@ -237,11 +237,25 @@ public class ServicioKardex {
         try {
             em = HelperPersistencia.getEMF();
             em.getTransaction().begin();
-            String queryStr = "SELECT a FROM Kardex a WHERE a.idProducto.prodCodigo LIKE :prodCodigo AND a.idProducto.prodNombre LIKE :prodNombre AND a.idProducto.idSubCategoria.idSubCategoria = :idSubCategoria ORDER BY a.idProducto.prodNombre ASC";
-            Query query = em.createQuery(queryStr);
+
+            String queryStr = "SELECT a FROM Kardex a WHERE a.idProducto.prodCodigo LIKE :prodCodigo AND a.idProducto.prodNombre LIKE :prodNombre  ORDER BY a.idProducto.prodNombre ASC";
+            Query query;
+
+            if (categoria != 8) {
+                queryStr = "SELECT a FROM Kardex a WHERE a.idProducto.prodCodigo LIKE :prodCodigo AND a.idProducto.prodNombre LIKE :prodNombre AND a.idProducto.idSubCategoria.idSubCategoria = :idSubCategoria ORDER BY a.idProducto.prodNombre ASC";
+                query = em.createQuery(queryStr);
+                query.setParameter("idSubCategoria", categoria);
+                query.setParameter("prodCodigo", "%" + prodCodigo + "%");
+                query.setParameter("prodNombre", "%" + prodNombre + "%");
+
+            } else {
+                query = em.createQuery(queryStr);
+                query.setParameter("prodCodigo", "%" + prodCodigo + "%");
+                query.setParameter("prodNombre", "%" + prodNombre + "%");
+            }
+
             query.setParameter("prodCodigo", "%" + prodCodigo + "%");
             query.setParameter("prodNombre", "%" + prodNombre + "%");
-            query.setParameter("idSubCategoria", categoria);
             query.setMaxResults(200);
             listaKardexs = query.getResultList();
             em.getTransaction().commit();

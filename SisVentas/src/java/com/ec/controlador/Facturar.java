@@ -195,7 +195,7 @@ public class Facturar extends SelectorComposer<Component> {
     //Cabecera de la factura
     private String estdoFactura = "PA";
     private String tipoVentaAnterior = "FACT";
-    private String tipoVenta = "FACT";
+    private String tipoVenta = "NTV";
     private String facturaDescripcion = "";
     private Integer numeroFactura = 0;
     private String numeroFacturaText = "";
@@ -414,7 +414,6 @@ public class Facturar extends SelectorComposer<Component> {
         //sess.setMaxInactiveInterval(10000);
         UserCredential cre = (UserCredential) sess.getAttribute(EnumSesion.userCredential.getNombre());
         credential = cre;
-
         listaSubcategoria = servicioSubCategoria.findLikeDescipcion("");
         for (Subcategoria subcategoria : listaSubcategoria) {
             //radiogroup.appendItem(subcategoria.getSubCatDescripcion(), String.valueOf(subcategoria.getIdSubCategoria()));

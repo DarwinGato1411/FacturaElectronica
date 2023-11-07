@@ -316,8 +316,7 @@
 
                         <div class="factura_body_item facturacion" >
                              <div class="col-12 col-sm-12 col-md-12 col-lg-12 form-group  "  >
-                                    <radiogroup id="radiogroup" class="btn-group-horizontal" 
-                                                  
+                                    <radiogroup id="radiogroup" class="btn-group-horizontal listadoCombos" 
                                                 onCheck="@command('buscarItems')"
                                                 selectedItem="@bind(vm.subCategoriaSelected)" >
                                    
