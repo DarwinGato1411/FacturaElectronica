@@ -706,7 +706,9 @@ public class AutorizarDocumentos {
 
                 linea = ("  <impuesto>\n"
                         + "         <codigo>" + detalle.getDrcCodImpuestoAsignado() + "</codigo>\n"
-                        + "         <codigoRetencion>" + (detalle.getDrcDescripcion().equals("RENTA") ? detalle.getTireCodigo().getTireCodigo() : detalle.getIdTipoivaretencion().getTipivaretValor()) + "</codigoRetencion>\n"
+                        + "         <codigoRetencion>" + (detalle.getDrcDescripcion().equals("RENTA")
+                        ? detalle.getTireCodigo().getTireCodigo()
+                        : detalle.getIdTipoivaretencion().getTipivaretValor()) + "</codigoRetencion>\n"
                         + "         <baseImponible>" + ArchivoUtils.redondearDecimales(detalle.getDrcBaseImponible(), 2) + "</baseImponible>\n"
                         + "         <porcentajeRetener>" + detalle.getDrcPorcentaje() + "</porcentajeRetener>\n"
                         + "         <valorRetenido>" + ArchivoUtils.redondearDecimales(detalle.getDrcValorRetenido(), 2) + "</valorRetenido>\n"
