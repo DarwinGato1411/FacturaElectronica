@@ -2381,7 +2381,7 @@ public class Facturar extends SelectorComposer<Component> {
                             detalleKardex.setDetkDetalles("Disminuye al kardex desde facturacion con: " + tipoVenta + "-" + factura.getFacNumeroText());
                             detalleKardex.setIdFactura(factura);
                             detalleKardex.setDetkCantidad(item.getCantidad());
-
+                            servicioDetalleKardex.crear(detalleKardex);
                             BigDecimal total = kardex.getKarTotal();
                             total = total.subtract(item.getCantidad());
 
