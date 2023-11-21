@@ -339,7 +339,7 @@ public class Compras {
         final HashMap<String, String> map = new HashMap<String, String>();
         map.put("valor", "proveedor");
         org.zkoss.zul.Window window = (org.zkoss.zul.Window) Executions.createComponents(
-                    "/compra/buscarproveedor.zul", null, map);
+                "/compra/buscarproveedor.zul", null, map);
         window.doModal();
         proveedorSeleccionado = servicioProveedor.findProvCedula(buscarCedulaProveedor);
     }
@@ -370,7 +370,7 @@ public class Compras {
         final HashMap<String, String> map = new HashMap<String, String>();
         map.put("valor", "producto");
         org.zkoss.zul.Window window = (org.zkoss.zul.Window) Executions.createComponents(
-                    "/compra/buscarproducto.zul", null, map);
+                "/compra/buscarproducto.zul", null, map);
         window.doModal();
         productoBuscado = servicioProducto.findByProdCodigo(codigoBusqueda);
         if (productoBuscado != null) {
@@ -535,19 +535,19 @@ public class Compras {
     public void Guardar() {
         if (proveedorSeleccionado.getProvCedula().equals("")) {
             Clients.showNotification("Verifique el proveedor",
-                        Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 2000, true);
+                    Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 2000, true);
             return;
         }
         if (cabeceraCompra.getCabEstablecimiento() == null || cabeceraCompra.getCabPuntoEmi() == null
-                    || numeroFactura.isEmpty()) {
+                || numeroFactura.isEmpty()) {
             Clients.showNotification("Verifique el establecimiento, punto de emisión y numero de factura",
-                        Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 2000, true);
+                    Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 2000, true);
             return;
         }
 
         if (numeroFactura.length() != 9) {
             Clients.showNotification("El número de factura debe tener 9 digitos",
-                        Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 2000, true);
+                    Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 2000, true);
             return;
         }
 
@@ -635,12 +635,12 @@ public class Compras {
                             detalleKardex.setDetkIngresoCantidadSinTransformar(item.getCantidad());
                             detalleKardex.setDetkUnidadOrigen(item.getProducto().getProdUnidadMedida() != null ? item.getProducto().getProdUnidadMedida() : "S/U");
                             detalleKardex.setDetkUnidadFin(item.getProducto().getProdUnidadConversion() != null ? item.getProducto().getProdUnidadConversion() : "S/U");
-                            //se cambia a la conversion 
-                            //detalleKardex.setDetkCantidad(item.getCantidad());
                             detalleKardex.setDetkCantidad(item.getTotalTRanformado());
                             servicioDetalleKardex.crear(detalleKardex);
-                            TotalKardex totales = servicioKardex.totalesForKardex(kardex);
-                            BigDecimal total = totales.getTotalKardex();
+
+                            BigDecimal total = kardex.getKarTotal();
+                            total = total.add(item.getCantidad());
+
                             kardex.setKarTotal(total);
                             servicioKardex.modificar(kardex);
                         }

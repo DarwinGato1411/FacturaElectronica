@@ -355,10 +355,10 @@ public class AjusteEntradaSalida {
         try {
             if (motivoAjuste == null) {
                 Clients.showNotification("Verifique el motivo del ajuste", Clients.NOTIFICATION_TYPE_ERROR, null, "middle_center", 2000, true);
-               return;
+                return;
             }
-            
-             if (motivoAjuste.equals("")) {
+
+            if (motivoAjuste.equals("")) {
                 Clients.showNotification("Verifique el motivo del ajuste", Clients.NOTIFICATION_TYPE_ERROR, null, "middle_center", 2000, true);
                 return;
             }
@@ -397,10 +397,17 @@ public class AjusteEntradaSalida {
 //                    detalleKardex.setIdFactura(factura);
                     detalleKardex.setDetkCantidad(item.getCantidad());
                     servicioDetalleKardex.crear(detalleKardex);
-                    /*ACTUALIZA EL TOTAL DEL KARDEX*/
-                    TotalKardex totales = servicioKardex.totalesForKardex(kardex);
-                    BigDecimal total = totales.getTotalKardex();
+                    BigDecimal total = kardex.getKarTotal();
+                    if (tipokardex.getTipkSigla().equals("ING")) {
+                        total = total.add(item.getCantidad());
+                    } else if (tipokardex.getTipkSigla().equals("SAL")) {
+                        total = total.subtract(item.getCantidad());
+                    }
                     kardex.setKarTotal(total);
+                    /*ACTUALIZA EL TOTAL DEL KARDEX*/
+//                    TotalKardex totales = servicioKardex.totalesForKardex(kardex);
+//                    BigDecimal total = totales.getTotalKardex();
+//                    kardex.setKarTotal(total);
                     servicioKardex.modificar(kardex);
 
                 }
