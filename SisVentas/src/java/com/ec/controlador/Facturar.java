@@ -2452,9 +2452,8 @@ public class Facturar extends SelectorComposer<Component> {
                             detalleKardex.setIdFactura(factura);
                             detalleKardex.setDetkCantidad(item.getCantidad());
                             servicioDetalleKardex.crear(detalleKardex);
-                            /* ACTUALIZA EL TOTAL DEL KARDEX */
-                            TotalKardex totales = servicioKardex.totalesForKardex(kardex);
-                            BigDecimal total = totales.getTotalKardex();
+                            BigDecimal total = kardex.getKarTotal();
+                            total = total.subtract(item.getCantidad());
                             kardex.setKarTotal(total);
                             servicioKardex.modificar(kardex);
 
