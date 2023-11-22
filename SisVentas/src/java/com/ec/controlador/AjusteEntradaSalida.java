@@ -403,10 +403,6 @@ public class AjusteEntradaSalida {
                         total = total.subtract(item.getCantidad());
                     }
                     kardex.setKarTotal(total);
-                    /*ACTUALIZA EL TOTAL DEL KARDEX*/
-//                    TotalKardex totales = servicioKardex.totalesForKardex(kardex);
-//                    BigDecimal total = totales.getTotalKardex();
-//                    kardex.setKarTotal(total);
                     servicioKardex.modificar(kardex);
                 }
             }
