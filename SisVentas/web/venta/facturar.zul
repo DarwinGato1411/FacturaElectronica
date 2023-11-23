@@ -129,7 +129,6 @@
                                 <div class="wrapper_input">
                                     <span>Plazo:</span>
                                     <combobox 
-                                        onSelect="@command('actualizarCostoVenta')"  
                                         readonly="true"
                                         width="300px"        
                                        class="  textoFechaDateBox"                              
