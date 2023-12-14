@@ -639,8 +639,8 @@ public class Compras {
                             //detalleKardex.setDetkCantidad(item.getCantidad());
                             detalleKardex.setDetkCantidad(item.getTotalTRanformado());
                             servicioDetalleKardex.crear(detalleKardex);
-                            TotalKardex totales = servicioKardex.totalesForKardex(kardex);
-                            BigDecimal total = totales.getTotalKardex();
+                            BigDecimal total = kardex.getKarTotal();
+                            total = total.add(item.getCantidad());
                             kardex.setKarTotal(total);
                             servicioKardex.modificar(kardex);
                         }

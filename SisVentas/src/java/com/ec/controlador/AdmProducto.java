@@ -669,6 +669,10 @@ public class AdmProducto {
             ch5.setCellValue(new HSSFRichTextString("Grava Iva (SI=1; NO=0)"));
             ch5.setCellStyle(estiloCelda);
 
+            HSSFCell ch6 = r.createCell(j++);
+            ch6.setCellValue(new HSSFRichTextString("Stock"));
+            ch6.setCellStyle(estiloCelda);
+
             int rownum = 1;
             int i = 0;
 
@@ -697,7 +701,11 @@ public class AdmProducto {
 
                 HSSFCell c4 = r.createCell(i++);
                 c4.setCellValue(new HSSFRichTextString(item.getProdGrabaIva() ? "1" : "0"));
-                /*autemta la siguiente fila*/
+
+                BigDecimal totalInventario = servicioKardex.FindALlKardexs(item).getKarTotal();
+                HSSFCell c5 = r.createCell(i++);
+                c5.setCellValue(new HSSFRichTextString(totalInventario.toString()));
+
                 rownum += 1;
 
             }
