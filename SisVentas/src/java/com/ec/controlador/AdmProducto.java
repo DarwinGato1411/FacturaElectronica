@@ -17,11 +17,13 @@ import com.ec.servicio.ServicioTipoAmbiente;
 import com.ec.servicio.ServicioTipoKardex;
 import com.ec.untilitario.CodigoQR;
 import com.ec.untilitario.ConexionReportes;
+import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
@@ -98,7 +100,7 @@ public class AdmProducto {
         Tipoambiente amb = servicioTipoAmbiente.FindALlTipoambiente();
         //OBTIENE LAS RUTAS DE ACCESO A LOS DIRECTORIOS DE LA TABLA TIPOAMBIENTE
         PATH_BASE = amb.getAmDirBaseArchivos() + File.separator
-                    + amb.getAmDirXml();
+                + amb.getAmDirXml();
         FOLDER_CODIGO_BARRAS = PATH_BASE + File.separator + "CODIGOBARRAS";
 
         File folderGen = new File(FOLDER_CODIGO_BARRAS);
@@ -150,7 +152,7 @@ public class AdmProducto {
         final HashMap<String, Producto> map = new HashMap<String, Producto>();
         map.put("valor", valor);
         org.zkoss.zul.Window window = (org.zkoss.zul.Window) Executions.createComponents(
-                    "/administrar/admcombo.zul", null, map);
+                "/administrar/admcombo.zul", null, map);
         window.doModal();
     }
 
@@ -196,7 +198,7 @@ public class AdmProducto {
         for (Producto producto : listaProducto) {
 
             String reportFile = Executions.getCurrent().getDesktop().getWebApp()
-                        .getRealPath("/codigoqr");
+                    .getRealPath("/codigoqr");
             String reportPath = "";
             System.out.println("PATh codigos " + reportFile);
             pathQR = reportFile + reportPath + File.separator + producto.getProdNombre() + ".JPEG";
@@ -257,7 +259,7 @@ public class AdmProducto {
     public void nuevoCliente() {
         buscarNombre = "";
         org.zkoss.zul.Window window = (org.zkoss.zul.Window) Executions.createComponents(
-                    "/nuevo/producto.zul", null, null);
+                "/nuevo/producto.zul", null, null);
         window.doModal();
         findLikeNombre();
         getProductosModel();
@@ -270,7 +272,7 @@ public class AdmProducto {
         final HashMap<String, Producto> map = new HashMap<String, Producto>();
         map.put("valor", valor);
         org.zkoss.zul.Window window = (org.zkoss.zul.Window) Executions.createComponents(
-                    "/nuevo/producto.zul", null, map);
+                "/nuevo/producto.zul", null, map);
         window.doModal();
         // findLikeNombre();
         // getProductosModel();
@@ -325,7 +327,7 @@ public class AdmProducto {
 
     @Command
     public void reporteCodigosQR() throws JRException, IOException,
-                ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, NamingException {
+            ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, NamingException {
         EntityManager emf = HelperPersistencia.getEMF();
 
         try {
@@ -335,7 +337,7 @@ public class AdmProducto {
 
             con = ConexionReportes.Conexion.conexion();
             String reportFile = Executions.getCurrent().getDesktop().getWebApp()
-                        .getRealPath("/reportes");
+                    .getRealPath("/reportes");
             String reportPath = "";
             //con = conexionReportes.conexion();
 
@@ -359,7 +361,7 @@ public class AdmProducto {
 //para pasar al visor
             map.put("pdf", fileContent);
             org.zkoss.zul.Window window = (org.zkoss.zul.Window) Executions.createComponents(
-                        "/venta/contenedorReporte.zul", null, map);
+                    "/venta/contenedorReporte.zul", null, map);
             window.doModal();
 //        con.close();
             emf.getTransaction().commit();
@@ -401,7 +403,7 @@ public class AdmProducto {
     }
 
     public void reporteCodigosBarras() throws JRException, IOException,
-                ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, NamingException {
+            ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, NamingException {
         EntityManager emf = HelperPersistencia.getEMF();
 
         try {
@@ -410,7 +412,7 @@ public class AdmProducto {
             con = emf.unwrap(Connection.class);
 
             String reportFile = Executions.getCurrent().getDesktop().getWebApp()
-                        .getRealPath("/reportes");
+                    .getRealPath("/reportes");
             String reportPath = "";
             //con = conexionReportes.conexion();
 
@@ -432,7 +434,7 @@ public class AdmProducto {
 //para pasar al visor
             map.put("pdf", fileContent);
             org.zkoss.zul.Window window = (org.zkoss.zul.Window) Executions.createComponents(
-                        "/venta/contenedorReporte.zul", null, map);
+                    "/venta/contenedorReporte.zul", null, map);
             window.doModal();
 //        con.close();
             emf.getTransaction().commit();
@@ -717,20 +719,26 @@ public class AdmProducto {
     public void cargarProducto() {
 
         try {
+
             org.zkoss.util.media.Media media = Fileupload.get();
             if (media instanceof org.zkoss.util.media.AMedia) {
+                Boolean existenRepetido = Boolean.FALSE;
+                BufferedWriter bfwriter = null;
+                File descargar = null;
+
+                String productosRepetidos = "";
                 String nombre = media.getName();
 
                 if (!nombre.contains("xls")) {
                     Clients.showNotification("Su documento debe ser un archivo excel",
-                                Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 3000, true);
+                            Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 3000, true);
 
                     return;
                 }
 
                 System.out.println("media " + nombre);
                 Files.copy(new File(PATH_BASE + File.separator + "CARGAR" + File.separator + nombre),
-                            new ByteArrayInputStream(media.getByteData()));
+                        new ByteArrayInputStream(media.getByteData()));
 
                 String rutaArchivo = PATH_BASE + File.separator + "CARGAR" + File.separator + nombre;
 
@@ -748,10 +756,10 @@ public class AdmProducto {
                 for (int i = 1; i < sheet.getLastRowNum() + 1; i++) {
                     row = sheet.getRow(i);
 //                    for (int j = 0; j < row.getLastCellNum(); j++) {
-                    for (int j = 0; j < 6; j++) {
-                        List<Producto> prodcutos = servicioProducto.findLikeProdNombre(String.valueOf(row.getCell(1)));
+//                    for (int j = 0; j < 6; j++) {
+                        List<Producto> prodcutos = servicioProducto.finProdCodigo(String.valueOf(row.getCell(0)));
                         if (prodcutos.isEmpty()) {
-                            cell = row.getCell(j);
+//                            cell = row.getCell(j);
                             prod = new Producto();
                             prod.setProdCodigo(String.valueOf(row.getCell(0)));
                             prod.setProdNombre(String.valueOf(row.getCell(1)));
@@ -786,9 +794,28 @@ public class AdmProducto {
                             }
                             prod.setProdCantidadInicial(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(6)))));
                             servicioProducto.crear(prod);
-                            System.out.println("Valor: " + cell.toString());
+//                            System.out.println("Valor: " + cell.toString());
                         } else {
+                            existenRepetido = Boolean.TRUE;
+                            String folderDescargados = PATH_BASE + File.separator + "PRODUCTOS_REP"
+                                    + File.separator + new Date().getYear()
+                                    + File.separator + new Date().getMonth();
+                         
+                            FileWriter flwriter = null;
+                            File folderGen = new File(folderDescargados);
+                            if (!folderGen.exists()) {
+                                folderGen.mkdirs();
+                            }
+                            String pathTXT = folderDescargados + File.separator + "repetidos.txt";
+                            descargar = new File(pathTXT);
+                            if (!descargar.exists()) {
+                                descargar.createNewFile();
+                            }
+                            flwriter = new FileWriter(pathTXT);
+                            bfwriter = new BufferedWriter(flwriter);
+
                             Producto selected = prodcutos.get(0);
+                            productosRepetidos = productosRepetidos + selected.getProdCodigo() + ";";
                             System.out.println("El producto existe " + String.valueOf(row.getCell(1)));
 //                            selected.setProdCodigo(String.valueOf(row.getCell(0)));
 //                            selected.setProdNombre(String.valueOf(row.getCell(1)));
@@ -824,19 +851,25 @@ public class AdmProducto {
                             servicioProducto.modificar(selected);
                         }
 
-                    }
+//                    }
                 }
                 System.out.println("Finalizado");
 
+                if (existenRepetido) {
+                    bfwriter.write(productosRepetidos);
+                    FileInputStream inputStream = new FileInputStream(descargar);
+                    Filedownload.save(inputStream, new MimetypesFileTypeMap().getContentType(descargar), descargar.getName());
+                }
+                 bfwriter.close();
                 servicioGeneral.corregirProductos();
                 inicializarKardex();
                 getProductosModel();
                 Clients.showNotification("Productos cargados correctamente",
-                            Clients.NOTIFICATION_TYPE_INFO, null, "end_center", 3000, true);
+                        Clients.NOTIFICATION_TYPE_INFO, null, "end_center", 3000, true);
             }
         } catch (IOException e) {
             Clients.showNotification("Verifique le archivo para cargar",
-                        Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 3000, true);
+                    Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 3000, true);
             e.printStackTrace();
 //            Messagebox.show("Upload failed");
         }

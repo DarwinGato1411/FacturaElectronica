@@ -121,6 +121,26 @@ public class ServicioProducto {
         return listaProductos;
     }
 
+    public List<Producto> finProdCodigo(String buscar) {
+
+        List<Producto> listaProductos = new ArrayList<Producto>();
+        try {
+            //Connection connection = em.unwrap(Connection.class);
+            em = HelperPersistencia.getEMF();
+            em.getTransaction().begin();
+            Query query = em.createQuery("SELECT p FROM Producto p WHERE p.prodCodigo =:prodCodigo ORDER BY p.prodNombre ASC");
+            query.setParameter("prodCodigo", buscar);
+            query.setMaxResults(500);
+            listaProductos = (List<Producto>) query.getResultList();
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            System.out.println("Error en lsa consulta producto");
+        } finally {
+            em.close();
+        }
+
+        return listaProductos;
+    }
     public Producto findByProdCodigo(String buscar) {
 
         Producto producto = null;
