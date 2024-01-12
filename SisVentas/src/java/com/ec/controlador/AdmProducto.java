@@ -770,7 +770,7 @@ public class AdmProducto {
 //                            cell = row.getCell(j);
                             prod = new Producto();
                             prod.setProdCodigo(String.valueOf(row.getCell(0)));
-                            prod.setProdNombre(String.valueOf(row.getCell(1)));
+                            prod.setProdNombre(String.valueOf(row.getCell(1)).toUpperCase());
                             prod.setPordCostoVentaRef(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(2)))));
                             prod.setPordCostoVentaFinal(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(3)))));
                             prod.setProdCostoPreferencial(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(4)))));
@@ -800,7 +800,7 @@ public class AdmProducto {
                                 prod.setPordCostoCompra(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(2)))));
                                 prod.setProdIva(BigDecimal.valueOf(0));
                             }
-                            prod.setProdCantidadInicial(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(6)))));
+                            prod.setProdCantidadInicial(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(7)))));
                             servicioProducto.crear(prod);
 //                            System.out.println("Valor: " + cell.toString());
                         } else {
@@ -855,7 +855,7 @@ public class AdmProducto {
                                 selected.setProdGrabaIva(Boolean.FALSE);
                                 selected.setPordCostoCompra(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(2)))));
                             }
-//                            selected.setProdCantidadInicial(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(6)))));
+                            selected.setProdCantidadInicial(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(7)))));
                             servicioProducto.modificar(selected);
                         }
 

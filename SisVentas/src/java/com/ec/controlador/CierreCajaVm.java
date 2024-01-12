@@ -7,11 +7,14 @@ package com.ec.controlador;
 import com.ec.entidad.CierreCaja;
 import com.ec.entidad.Producto;
 import com.ec.entidad.VistaFacturasPorCobrar;
+import com.ec.seguridad.AutentificadorLogeo;
+import com.ec.seguridad.AutentificadorService;
 import com.ec.seguridad.EnumSesion;
 import com.ec.seguridad.UserCredential;
 import com.ec.servicio.ServicioCierreCaja;
 import com.ec.servicio.ServicioFactura;
 import com.ec.servicio.ServicioFacturaPorCobrar;
+import com.ec.servicio.ServicioGeneral;
 import com.ec.untilitario.ArchivoUtils;
 import com.ec.untilitario.DispararReporte;
 import com.ec.untilitario.ModeloAcumuladoDiaUsuario;
@@ -31,6 +34,7 @@ import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.bind.annotation.ExecutionArgParam;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.Selectors;
@@ -60,14 +64,23 @@ public class CierreCajaVm {
     ServicioAcumuladoDiarioUsuario servicioAcumuladoDiarioUsuario = new ServicioAcumuladoDiarioUsuario();
     private Boolean cajaCerrada = Boolean.FALSE;
 
+    ServicioGeneral servicioGeneral = new ServicioGeneral();
+    AutentificadorService authService = new AutentificadorLogeo();
+
     @AfterCompose
     public void afterCompose(@ExecutionArgParam("valor") Producto producto, @ContextParam(ContextType.VIEW) Component view) {
         Selectors.wireComponents(view, this, false);
 
         Session sess = Sessions.getCurrent();
         UserCredential cre = (UserCredential) sess.getAttribute(EnumSesion.userCredential.getNombre());
+//        Calendar c = Calendar.getInstance();
+//        Date now = c.getTime();
+//        c.add(Calendar.DATE, -1);
+//        fecha = c.getTime();
         credential = cre;
         cierreCaja = servicioCierreCaja.findALlCierreCajaForFechaIdUsuario(new Date(), credential.getUsuarioSistema()).get(0);
+
+        servicioGeneral.cierreCajaDetallePago(fecha);
 
         System.out.println("cierreCaja " + cierreCaja);
         System.out.println("cierreCaja sss " + cierreCaja != null ? cierreCaja.getCieValorInicio() : "NULO");
@@ -76,12 +89,12 @@ public class CierreCajaVm {
             ModeloAcumuladoDiaUsuario acumuladoDiaUsuario = servicioAcumuladoDiarioUsuario.findCierrePorUsuario(fecha, credential.getUsuarioSistema()).get(0);
             totNotaVenta = ArchivoUtils.redondearDecimales(acumuladoDiaUsuario.getValorNotaVenta(), 2);
             /*total del credito en facturas*/
-            totalesFactura = servicioFacturaPorCobrar.findPorCobrarDia(credential.getUsuarioSistema().getIdUsuario()).size() > 0 ? servicioFacturaPorCobrar.findPorCobrarDia(credential.getUsuarioSistema().getIdUsuario()).get(0) : null;
-             totalDeuda = totalesFactura != null ? totalesFactura.getFacSaldoAmortizado() : BigDecimal.ZERO;
+            totalesFactura = servicioFacturaPorCobrar.findPorCobrarDia(credential.getUsuarioSistema().getIdUsuario(), fecha).size() > 0 ? servicioFacturaPorCobrar.findPorCobrarDia(credential.getUsuarioSistema().getIdUsuario(), fecha).get(0) : null;
+            totalDeuda = totalesFactura != null ? totalesFactura.getFacSaldoAmortizado() : BigDecimal.ZERO;
             totalDeuda = ArchivoUtils.redondearDecimales(totalDeuda, 2);
             totalEmitido = acumuladoDiaUsuario.getValorFacturas();
-            totalEmitido = ArchivoUtils.redondearDecimales(totalEmitido.add(totalDeuda), 2);
-           
+//            totalEmitido = ArchivoUtils.redondearDecimales(totalEmitido.add(totNotaVenta), 2);
+
             totFactura = totalEmitido.subtract(totalDeuda);
             totFactura = ArchivoUtils.redondearDecimales(totFactura, 2);
             cierreCaja.setCieValor(ArchivoUtils.redondearDecimales(totNotaVenta, 2).add(ArchivoUtils.redondearDecimales(totFactura, 2)).add(ArchivoUtils.redondearDecimales(cierreCaja.getCieValorInicio(), 2)));
@@ -115,13 +128,13 @@ public class CierreCajaVm {
             totalRecaudado = totalRecaudado.add(cierreCaja.getCieCuadreTarjeta());
 
         }
-        if (cierreCaja.getCieGasto()!= null) {
+        if (cierreCaja.getCieGasto() != null) {
             totalRecaudado = totalRecaudado.add(cierreCaja.getCieGasto());
 
         }
 
         if (totalRecaudado.doubleValue() > 0) {
-            cierreCaja.setCieDiferencia(cierreCaja.getCieValor().subtract(totalRecaudado));
+            cierreCaja.setCieDiferencia(ArchivoUtils.redondearDecimales(cierreCaja.getCieValor(), 2).subtract(ArchivoUtils.redondearDecimales(totalRecaudado, 2)));
         }
 
     }
@@ -142,6 +155,11 @@ public class CierreCajaVm {
 
             System.out.println("cierreCaja " + cierreCaja.getIdCierre());
             DispararReporte.reporteCierrecaja(cierreCaja.getIdCierre());
+            if (credential.getNivelUsuario() != 1) {
+                System.out.println("Usuario ventas");
+                authService.logout();
+                Executions.sendRedirect("/");
+            }
         } catch (JRException ex) {
             Logger.getLogger(CierreCajaVm.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
