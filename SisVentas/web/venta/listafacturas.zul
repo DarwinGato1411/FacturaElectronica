@@ -136,6 +136,12 @@
                                     tooltiptext="Descargar"
                                     label="Descargar Registros de Factura"
                                 />
+                                <button 
+                                    class="fa-solid fa-file-excel btn_fact btn_access"
+                                    onClick="@command('generarZip')"  
+                                    tooltiptext="ZIP"
+                                    label="Descargar ZIP facturas"
+                                />
                             </div>
                         </div>
                     </div>

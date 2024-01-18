@@ -1484,4 +1484,47 @@ public class ListaFacturas {
 
     }
 
+    @Command
+    public void generarZip() throws JRException, IOException, NamingException, SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+        try {
+            String folderZip = PATH_BASE + File.separator + amb.getAmAutorizados()
+                    + File.separator + "ZIPPDF";
+
+            File folderGen = new File(folderZip);
+            if (!folderGen.exists()) {
+                folderGen.mkdirs();
+            }
+
+//        AutorizarDocumentos aut = new AutorizarDocumentos();
+            List<String> listaPdf = new ArrayList<String>();
+            /*Ubicacion del archivo firmado para obtener la informacion*/
+            for (Factura valor : lstFacturas) {
+                /*PARA CREAR EL ARCHIVO XML FIRMADO*/
+                String nombreArchivoXML = folderZip + File.separator + "FACT-"
+                        + valor.getCodestablecimiento()
+                        + valor.getPuntoemision()
+                        + valor.getFacNumeroText() + ".pdf";
+
+
+                /*RUTAS FINALES DE,LOS ARCHIVOS XML FIRMADOS Y AUTORIZADOS*/
+//            String archivoEnvioCliente = "";
+//            archivoEnvioCliente = aut.generaXMLFactura(valor, amb, foldervoAutorizado, nombreArchivoXML, valor.getFacFechaAutorizacion() == null ? Boolean.FALSE : Boolean.TRUE, valor.getFacFechaAutorizacion() == null ? valor.getFacFecha() : valor.getFacFechaAutorizacion());
+                System.out.println("PATH PDF ZIP  " + nombreArchivoXML);
+                ArchivoUtils.reporteGeneralPdfMail(nombreArchivoXML.replace(".xml", ".pdf"), valor.getFacNumero(), "FACT");
+                listaPdf.add(nombreArchivoXML);
+
+                /*envia el mail*/
+            }
+            ArchivoUtils.zipFiles(listaPdf, folderZip + File.separator + "FACTURAS.zip");
+
+            File dosfile = new File(folderZip + File.separator + "FACTURAS.zip");
+            if (dosfile.exists()) {
+                FileInputStream inputStream = new FileInputStream(dosfile);
+                Filedownload.save(inputStream, new MimetypesFileTypeMap().getContentType(dosfile), dosfile.getName());
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("ERROR AL DESCARGAR EL ARCHIVO" + e.getMessage());
+        }
+    }
+
 }
