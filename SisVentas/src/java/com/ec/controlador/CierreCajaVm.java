@@ -7,6 +7,7 @@ package com.ec.controlador;
 import com.ec.entidad.CierreCaja;
 import com.ec.entidad.Producto;
 import com.ec.entidad.VistaFacturasPorCobrar;
+import com.ec.entidad.VistaNotaVentaPorCobrar;
 import com.ec.seguridad.AutentificadorLogeo;
 import com.ec.seguridad.AutentificadorService;
 import com.ec.seguridad.EnumSesion;
@@ -15,6 +16,7 @@ import com.ec.servicio.ServicioCierreCaja;
 import com.ec.servicio.ServicioFactura;
 import com.ec.servicio.ServicioFacturaPorCobrar;
 import com.ec.servicio.ServicioGeneral;
+import com.ec.servicio.ServicioNotaVentaPorCobrar;
 import com.ec.untilitario.ArchivoUtils;
 import com.ec.untilitario.DispararReporte;
 import com.ec.untilitario.ModeloAcumuladoDiaUsuario;
@@ -54,10 +56,14 @@ public class CierreCajaVm {
     UserCredential credential = new UserCredential();
     private Date fecha = new Date();
     private BigDecimal totFactura = BigDecimal.ZERO;
+    private BigDecimal totNTV = BigDecimal.ZERO;
     private BigDecimal totNotaVenta = BigDecimal.ZERO;
     private VistaFacturasPorCobrar totalesFactura = new VistaFacturasPorCobrar();
+
     private BigDecimal totalEmitido = BigDecimal.ZERO;
     private BigDecimal totalDeuda = BigDecimal.ZERO;
+    private BigDecimal totalDeudaNtv = BigDecimal.ZERO;
+    private BigDecimal totalCredito = BigDecimal.ZERO;
 
     ServicioFacturaPorCobrar servicioFacturaPorCobrar = new ServicioFacturaPorCobrar();
     ServicioFactura servicioFactura = new ServicioFactura();
@@ -66,6 +72,9 @@ public class CierreCajaVm {
 
     ServicioGeneral servicioGeneral = new ServicioGeneral();
     AutentificadorService authService = new AutentificadorLogeo();
+
+    private VistaNotaVentaPorCobrar notaVentaPorCobrar = new VistaNotaVentaPorCobrar();
+    ServicioNotaVentaPorCobrar servicioNotaVentaPorCobrar = new ServicioNotaVentaPorCobrar();
 
     @AfterCompose
     public void afterCompose(@ExecutionArgParam("valor") Producto producto, @ContextParam(ContextType.VIEW) Component view) {
@@ -85,6 +94,8 @@ public class CierreCajaVm {
         System.out.println("cierreCaja " + cierreCaja);
         System.out.println("cierreCaja sss " + cierreCaja != null ? cierreCaja.getCieValorInicio() : "NULO");
         if (servicioAcumuladoDiarioUsuario.findCierrePorUsuario(fecha, credential.getUsuarioSistema()).size() > 0) {
+            /*Notas de venta pendientes*/
+            notaVentaPorCobrar = servicioNotaVentaPorCobrar.findPorCobrarDia(credential.getUsuarioSistema().getIdUsuario(), fecha).size() > 0 ? servicioNotaVentaPorCobrar.findPorCobrarDia(credential.getUsuarioSistema().getIdUsuario(), fecha).get(0) : null;
 
             ModeloAcumuladoDiaUsuario acumuladoDiaUsuario = servicioAcumuladoDiarioUsuario.findCierrePorUsuario(fecha, credential.getUsuarioSistema()).get(0);
             totNotaVenta = ArchivoUtils.redondearDecimales(acumuladoDiaUsuario.getValorNotaVenta(), 2);
@@ -94,10 +105,15 @@ public class CierreCajaVm {
             totalDeuda = ArchivoUtils.redondearDecimales(totalDeuda, 2);
             totalEmitido = acumuladoDiaUsuario.getValorFacturas();
 //            totalEmitido = ArchivoUtils.redondearDecimales(totalEmitido.add(totNotaVenta), 2);
-
+            if (notaVentaPorCobrar != null) {
+                totalDeudaNtv = notaVentaPorCobrar.getFacSaldoAmortizado();
+            }
+            totalCredito = totalDeudaNtv.add(totalDeuda);
             totFactura = totalEmitido.subtract(totalDeuda);
             totFactura = ArchivoUtils.redondearDecimales(totFactura, 2);
-            cierreCaja.setCieValor(ArchivoUtils.redondearDecimales(totNotaVenta, 2).add(ArchivoUtils.redondearDecimales(totFactura, 2)).add(ArchivoUtils.redondearDecimales(cierreCaja.getCieValorInicio(), 2)));
+            totNTV = totNotaVenta.subtract(totalDeudaNtv);
+            totNTV = ArchivoUtils.redondearDecimales(totNTV, 2);
+            cierreCaja.setCieValor(ArchivoUtils.redondearDecimales(totNTV, 2).add(ArchivoUtils.redondearDecimales(totFactura, 2)).add(ArchivoUtils.redondearDecimales(cierreCaja.getCieValorInicio(), 2)));
             cajaCerrada = cierreCaja.getCieCerrada();
             cierreCaja.setCieCuadre(ArchivoUtils.redondearDecimales(cierreCaja.getCieCuadre(), 2));
         } else {
@@ -146,9 +162,9 @@ public class CierreCajaVm {
         try {
             /*RECALCULAR EL VALOR DEL CUADRE PARA GARANTIZAR EL CIERRE CORRECTO*/
 //            cierreCaja.setCieDiferencia(cierreCaja.getCieValor().subtract(cierreCaja.getCieCuadre()));
-            cierreCaja.setCieCredito(totalDeuda);
+            cierreCaja.setCieCredito(totalCredito);
             cierreCaja.setCirRecaudado(totFactura);
-            cierreCaja.setCieNotaVenta(totNotaVenta);
+            cierreCaja.setCieNotaVenta(totNTV);
             cierreCaja.setCieTotal(totalEmitido);
             cierreCaja.setCieCerrada(Boolean.TRUE);
             servicioCierreCaja.modificar(cierreCaja);
@@ -235,6 +251,22 @@ public class CierreCajaVm {
 
     public void setCajaCerrada(Boolean cajaCerrada) {
         this.cajaCerrada = cajaCerrada;
+    }
+
+    public BigDecimal getTotalDeudaNtv() {
+        return totalDeudaNtv;
+    }
+
+    public void setTotalDeudaNtv(BigDecimal totalDeudaNtv) {
+        this.totalDeudaNtv = totalDeudaNtv;
+    }
+
+    public BigDecimal getTotalCredito() {
+        return totalCredito;
+    }
+
+    public void setTotalCredito(BigDecimal totalCredito) {
+        this.totalCredito = totalCredito;
     }
 
 }
