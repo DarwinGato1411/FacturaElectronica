@@ -625,13 +625,13 @@ public class ServicioFactura {
         List<Factura> listaFacturas = new ArrayList<Factura>();
         try {
             inicio.setHours(01);
-           inicio.setMinutes(00);
-           inicio.setSeconds(00);
-            
-           fin.setHours(23);
-           fin.setMinutes(59);
-           fin.setSeconds(59);
-            
+            inicio.setMinutes(00);
+            inicio.setSeconds(00);
+
+            fin.setHours(23);
+            fin.setMinutes(59);
+            fin.setSeconds(59);
+
             Query query;
 
 //            String SQL = "SELECT f FROM Factura f WHERE f.facFecha BETWEEN :inicio and :fin ORDER BY f.facFecha DESC";
@@ -968,6 +968,13 @@ public class ServicioFactura {
         try {
             Query query;
 
+            inicio.setHours(01);
+            inicio.setMinutes(00);
+            inicio.setSeconds(00);
+
+            fin.setHours(23);
+            fin.setMinutes(59);
+            fin.setSeconds(59);
 //            String SQL = "SELECT f FROM Factura f WHERE f.facFecha BETWEEN :inicio and :fin ORDER BY f.facFecha DESC";
             //Connection connection = em.unwrap(Connection.class);
             em = HelperPersistencia.getEMF();

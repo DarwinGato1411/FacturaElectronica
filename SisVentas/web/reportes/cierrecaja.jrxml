@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="cierrecaja" language="groovy" pageWidth="226" pageHeight="842" columnWidth="186" leftMargin="20" rightMargin="20" topMargin="2" bottomMargin="20" isIgnorePagination="true">
 	<property name="ireport.zoom" value="1.6105100000000014"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="270"/>
+	<property name="ireport.y" value="122"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -200,7 +200,7 @@ and cc.id_cierre=$P{idCierre};]]>
 		<band splitType="Stretch"/>
 	</pageHeader>
 	<detail>
-		<band height="468">
+		<band height="502">
 			<elementGroup>
 				<elementGroup/>
 			</elementGroup>
@@ -215,35 +215,35 @@ and cc.id_cierre=$P{idCierre};]]>
 				<text><![CDATA[Total con Nota Venta:]]></text>
 			</staticText>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement x="0" y="297" width="167" height="43"/>
+				<reportElement x="0" y="281" width="167" height="43"/>
 				<textElement/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{cie_descripcion}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="20" y="406" width="134" height="20"/>
+				<reportElement x="20" y="368" width="134" height="20"/>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{usu_nombre}]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement x="20" y="377" width="134" height="1"/>
+				<reportElement x="20" y="339" width="134" height="1"/>
 			</line>
 			<staticText>
-				<reportElement x="20" y="386" width="134" height="20"/>
+				<reportElement x="20" y="348" width="134" height="20"/>
 				<textElement textAlignment="Center"/>
 				<text><![CDATA[Firma del responsable]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="0" y="94" width="112" height="20"/>
 				<textElement/>
-				<text><![CDATA[Crédito:]]></text>
+				<text><![CDATA[Credito:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="177" width="112" height="20"/>
+				<reportElement x="0" y="161" width="112" height="20"/>
 				<textElement/>
 				<text><![CDATA[Efectivo en caja:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="257" width="112" height="20"/>
+				<reportElement x="0" y="241" width="112" height="20"/>
 				<textElement/>
 				<text><![CDATA[Saldo sobrante]]></text>
 			</staticText>
@@ -264,7 +264,7 @@ and cc.id_cierre=$P{idCierre};]]>
 				<textElement textAlignment="Right">
 					<font size="9"/>
 				</textElement>
-				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{cie_total}]]></textFieldExpression>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{cir_recaudado}]]></textFieldExpression>
 			</textField>
 			<textField pattern="###0.00;-###0.00">
 				<reportElement x="112" y="94" width="55" height="20"/>
@@ -274,14 +274,14 @@ and cc.id_cierre=$P{idCierre};]]>
 				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{cie_credito}]]></textFieldExpression>
 			</textField>
 			<textField pattern="###0.00;-###0.00">
-				<reportElement x="112" y="177" width="55" height="20"/>
+				<reportElement x="112" y="161" width="55" height="20"/>
 				<textElement textAlignment="Right">
 					<font size="9"/>
 				</textElement>
 				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{cie_cuadre}]]></textFieldExpression>
 			</textField>
 			<textField pattern="###0.00;-###0.00" isBlankWhenNull="true">
-				<reportElement x="112" y="257" width="55" height="20">
+				<reportElement x="112" y="241" width="55" height="20">
 					<printWhenExpression><![CDATA[$F{cie_diferencia}<=0]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Right">
@@ -290,28 +290,14 @@ and cc.id_cierre=$P{idCierre};]]>
 				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{cie_diferencia}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="114" width="112" height="20"/>
-				<textElement>
-					<font size="8"/>
-				</textElement>
-				<text><![CDATA[Total Facturas menos crédito:]]></text>
-			</staticText>
-			<textField pattern="###0.00;-###0.00" isBlankWhenNull="false">
-				<reportElement mode="Transparent" x="112" y="114" width="55" height="20" forecolor="#000000" backcolor="#FFFFFF"/>
-				<textElement textAlignment="Right" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
-					<font fontName="SansSerif" size="9" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
-				</textElement>
-				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{cir_recaudado}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="0" y="134" width="112" height="20"/>
+				<reportElement x="0" y="116" width="112" height="20"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Valor total del cierre:]]></text>
 			</staticText>
 			<textField pattern="###0.00;-###0.00" isBlankWhenNull="false">
-				<reportElement mode="Transparent" x="112" y="134" width="55" height="20" forecolor="#000000" backcolor="#FFFFFF"/>
+				<reportElement mode="Transparent" x="112" y="116" width="55" height="20" forecolor="#000000" backcolor="#FFFFFF"/>
 				<textElement textAlignment="Right" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
 					<font fontName="SansSerif" size="9" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 				</textElement>
@@ -325,36 +311,36 @@ and cc.id_cierre=$P{idCierre};]]>
 				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{cie_nota_venta}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="197" width="112" height="20"/>
+				<reportElement x="0" y="181" width="112" height="20"/>
 				<textElement/>
 				<text><![CDATA[Transferencia:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="217" width="112" height="20"/>
+				<reportElement x="0" y="201" width="112" height="20"/>
 				<textElement/>
 				<text><![CDATA[Tarjetas:]]></text>
 			</staticText>
 			<textField pattern="###0.00;-###0.00">
-				<reportElement x="112" y="197" width="55" height="20"/>
+				<reportElement x="112" y="181" width="55" height="20"/>
 				<textElement textAlignment="Right">
 					<font size="9"/>
 				</textElement>
 				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{cie_cuadre_transferencia}]]></textFieldExpression>
 			</textField>
 			<textField pattern="###0.00;-###0.00">
-				<reportElement x="112" y="217" width="55" height="20"/>
+				<reportElement x="112" y="201" width="55" height="20"/>
 				<textElement textAlignment="Right">
 					<font size="9"/>
 				</textElement>
 				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{cie_cuadre_tarjeta}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="237" width="112" height="20"/>
+				<reportElement x="0" y="221" width="112" height="20"/>
 				<textElement/>
 				<text><![CDATA[Gastos:]]></text>
 			</staticText>
 			<textField pattern="###0.00;-###0.00">
-				<reportElement x="112" y="237" width="55" height="20"/>
+				<reportElement x="112" y="221" width="55" height="20"/>
 				<textElement textAlignment="Right">
 					<font size="9"/>
 				</textElement>
@@ -372,7 +358,7 @@ and cc.id_cierre=$P{idCierre};]]>
 				<text><![CDATA[Ingresos]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="157" width="167" height="20"/>
+				<reportElement x="0" y="141" width="167" height="20"/>
 				<box>
 					<topPen lineWidth="0.25"/>
 					<bottomPen lineWidth="0.25"/>
@@ -383,12 +369,12 @@ and cc.id_cierre=$P{idCierre};]]>
 				<text><![CDATA[Detalle de caja]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="277" width="112" height="20"/>
+				<reportElement x="0" y="261" width="112" height="20"/>
 				<textElement/>
 				<text><![CDATA[Saldo faltante]]></text>
 			</staticText>
 			<textField pattern="###0.00;-###0.00" isBlankWhenNull="true">
-				<reportElement x="112" y="277" width="55" height="20">
+				<reportElement x="112" y="261" width="55" height="20">
 					<printWhenExpression><![CDATA[$F{cie_diferencia}>=0]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Right">
@@ -397,7 +383,7 @@ and cc.id_cierre=$P{idCierre};]]>
 				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{cie_diferencia}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="42" y="426" width="144" height="20"/>
+				<reportElement x="42" y="388" width="144" height="20"/>
 				<textElement textAlignment="Right" verticalAlignment="Bottom"/>
 				<text><![CDATA[Sistema Deckxel]]></text>
 			</staticText>

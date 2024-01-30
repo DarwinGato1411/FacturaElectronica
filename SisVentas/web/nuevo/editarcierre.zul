@@ -82,13 +82,21 @@
                          class="form-control" />              
             </div>        
             <div class="col-12 col-sm-12 col-md-4 col-lg-4  form-group "  >
-                <label value="(*) " style="color:red;font-weight:bold"/>Total con factura:
+                <label value="(*) " style="color:red;font-weight:bold"/>Total emitido  (factura + NTV):
                 
                 <textbox value="@bind(vm.totalEmitido)"
                          readonly="true"    
                         
                          class="form-control" />              
             </div>  
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4  form-group "  >
+                <label value="(*) " style="color:red;font-weight:bold"/>Total Credito (factura+NTV):
+                
+                <textbox value="@bind(vm.totalCredito)"
+                         readonly="true"    
+                        
+                         class="form-control" />              
+            </div>
             <div class="col-12 col-sm-12 col-md-4 col-lg-4  form-group "  >
                 <label value="(*) " style="color:red;font-weight:bold"/>Total con Nota Venta:
                 
@@ -97,14 +105,7 @@
                          readonly="true"    
                          class="form-control" />     
             </div>          
-            <div class="col-12 col-sm-12 col-md-4 col-lg-4  form-group "  >
-                <label value="(*) " style="color:red;font-weight:bold"/>Credito factura:
-                
-                <textbox value="@bind(vm.totalDeuda)"
-                         readonly="true"    
-                        
-                         class="form-control" />              
-            </div>        
+                 
             <div class="col-12 col-sm-12 col-md-4 col-lg-4  form-group "  >
                 <label value="(*) " style="color:red;font-weight:bold"/>Credito NTV:
                 
@@ -112,15 +113,32 @@
                          readonly="true"    
                         
                          class="form-control" />              
-            </div>        
+            </div>    
             <div class="col-12 col-sm-12 col-md-4 col-lg-4  form-group "  >
-                <label value="(*) " style="color:red;font-weight:bold"/>Total Credito:
+                <label value=" " style="color:red;font-weight:bold;"/>Total NTV menos credito:
                 
-                <textbox value="@bind(vm.totalCredito)"
+                <textbox value="@bind(vm.totNTV)"
+                      
+                         readonly="true"    
+                         class="form-control" />               
+            </div>    
+                   <div class="col-12 col-sm-12 col-md-4 col-lg-4  form-group "  >
+                <label value=" " style="color:red;font-weight:bold;"/>Total factura:
+                
+                <textbox value="@bind(vm.totEmitidoFactura)"
+                      
+                         readonly="true"    
+                         class="form-control" />               
+            </div> 
+            
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4  form-group "  >
+                <label value="(*) " style="color:red;font-weight:bold"/>Credito factura:
+                
+                <textbox value="@bind(vm.totalDeuda)"
                          readonly="true"    
                         
                          class="form-control" />              
-            </div>        
+            </div>          
             <div class="col-12 col-sm-12 col-md-4 col-lg-4  form-group "  >
                 <label value=" " style="color:red;font-weight:bold;"/>Total con factura menos credito:
                 
@@ -129,14 +147,7 @@
                          readonly="true"    
                          class="form-control" />               
             </div>        
-            <div class="col-12 col-sm-12 col-md-4 col-lg-4  form-group "  >
-                <label value=" " style="color:red;font-weight:bold;"/>Total NTV menos credito:
-                
-                <textbox value="@bind(vm.totFactura)"
-                      
-                         readonly="true"    
-                         class="form-control" />               
-            </div>        
+             
                 
             <div class="col-12 col-sm-12 col-md-4 col-lg-4  form-group "  >
                 <label value=" " style="color:red;font-weight:bold"/>Valor  total de cierre en caja:

@@ -52,6 +52,7 @@ public class EditarCajaVm {
     ServicioCierreCaja servicioCierreCaja = new ServicioCierreCaja();
     UserCredential credential = new UserCredential();
     private Date fecha = new Date();
+    private BigDecimal totEmitidoFactura = BigDecimal.ZERO;
     private BigDecimal totFactura = BigDecimal.ZERO;
     private BigDecimal totNTV = BigDecimal.ZERO;
     private BigDecimal totNotaVenta = BigDecimal.ZERO;
@@ -98,14 +99,13 @@ public class EditarCajaVm {
             totalesFactura = servicioFacturaPorCobrar.findPorCobrarDia(usuarioCierre.getIdUsuario(), fecha).size() > 0 ? servicioFacturaPorCobrar.findPorCobrarDia(usuarioCierre.getIdUsuario(), fecha).get(0) : null;
             totalDeuda = totalesFactura != null ? totalesFactura.getFacSaldoAmortizado() : BigDecimal.ZERO;
             totalDeuda = ArchivoUtils.redondearDecimales(totalDeuda, 2);
-            totalEmitido = acumuladoDiaUsuario.getValorFacturas();
-//            totalEmitido = ArchivoUtils.redondearDecimales(totalEmitido.add(totNotaVenta), 2);
-            totalEmitido = ArchivoUtils.redondearDecimales(totalEmitido.add(totNotaVenta), 2);
+            totEmitidoFactura=acumuladoDiaUsuario.getValorFacturas();
+            totalEmitido = acumuladoDiaUsuario.getValorTotal();
             if (notaVentaPorCobrar != null) {
                 totalDeudaNtv = notaVentaPorCobrar.getFacSaldoAmortizado();
             }
             totalCredito = totalDeudaNtv.add(totalDeuda);
-            totFactura = totalEmitido.subtract(totalDeuda);
+            totFactura = totEmitidoFactura.subtract(totalDeuda);
             totNTV = totNotaVenta.subtract(totalDeudaNtv);
             totNTV = ArchivoUtils.redondearDecimales(totNTV, 2);
             totFactura = ArchivoUtils.redondearDecimales(totFactura, 2);
@@ -159,7 +159,7 @@ public class EditarCajaVm {
             /*RECALCULAR EL VALOR DEL CUADRE PARA GARANTIZAR EL CIERRE CORRECTO*/
 //            cierreCaja.setCieDiferencia(cierreCaja.getCieValor().subtract(cierreCaja.getCieCuadre()));
             cierreCaja.setCieCredito(totalCredito);
-            cierreCaja.setCirRecaudado(totFactura);
+            cierreCaja.setCirRecaudado(totEmitidoFactura);
             cierreCaja.setCieNotaVenta(totNTV);
             cierreCaja.setCieTotal(totalEmitido);
             cierreCaja.setCieCerrada(Boolean.TRUE);
@@ -274,6 +274,14 @@ public class EditarCajaVm {
 
     public void setNotaVentaPorCobrar(VistaNotaVentaPorCobrar notaVentaPorCobrar) {
         this.notaVentaPorCobrar = notaVentaPorCobrar;
+    }
+
+    public BigDecimal getTotEmitidoFactura() {
+        return totEmitidoFactura;
+    }
+
+    public void setTotEmitidoFactura(BigDecimal totEmitidoFactura) {
+        this.totEmitidoFactura = totEmitidoFactura;
     }
 
 }

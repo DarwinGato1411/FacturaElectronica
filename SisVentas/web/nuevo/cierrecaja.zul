@@ -17,7 +17,7 @@
                             value="@bind(vm.cierreCaja.cieCuadre)"  
                             readonly="@bind(vm.cajaCerrada)" 
                             onOK="@command('calcularDiferencia')"
-                                onChange="@command('calcularDiferencia')"
+                            onChange="@command('calcularDiferencia')"
                             class="form-control" />              
             </div> 
             <div class="col-12 col-sm-12 col-md-6 col-lg-6  form-group "  >
@@ -27,7 +27,7 @@
                             value="@bind(vm.cierreCaja.cieCuadreTransferencia)"  
                             readonly="@bind(vm.cajaCerrada)" 
                             onOK="@command('calcularDiferencia')"
-                                onChange="@command('calcularDiferencia')"
+                            onChange="@command('calcularDiferencia')"
                             class="form-control" />              
             </div> 
             <div class="col-12 col-sm-12 col-md-6 col-lg-6  form-group "  >
@@ -37,7 +37,7 @@
                             value="@bind(vm.cierreCaja.cieCuadreTarjeta)"  
                             readonly="@bind(vm.cajaCerrada)" 
                             onOK="@command('calcularDiferencia')"
-                                onChange="@command('calcularDiferencia')"
+                            onChange="@command('calcularDiferencia')"
                             class="form-control" />              
             </div> 
             <div class="col-12 col-sm-12 col-md-6 col-lg-6  form-group "  >
@@ -47,7 +47,7 @@
                             value="@bind(vm.cierreCaja.cieGasto)"  
                             readonly="@bind(vm.cajaCerrada)" 
                             onOK="@command('calcularDiferencia')"
-                                onChange="@command('calcularDiferencia')"
+                            onChange="@command('calcularDiferencia')"
                             class="form-control" />              
             </div> 
             <div class="col-12 col-sm-12 col-md-6 col-lg-6  form-group "  >
@@ -65,7 +65,7 @@
                 <textbox   value="@bind(vm.cierreCaja.cieDescripcion)"   
                            onChange="self.setValue(self.getValue().toUpperCase())"
                            class="form-control" 
-                            readonly="@bind(vm.cajaCerrada)" 
+                           readonly="@bind(vm.cajaCerrada)" 
                            rows="3"
                            maxlength="150" />              
             </div>  
@@ -82,13 +82,21 @@
                          class="form-control" />              
             </div>        
             <div class="col-12 col-sm-12 col-md-4 col-lg-4  form-group "  >
-                <label value="(*) " style="color:red;font-weight:bold"/>Total con factura:
+                <label value="(*) " style="color:red;font-weight:bold"/>Total emitido  (factura + NTV):
                 
                 <textbox value="@bind(vm.totalEmitido)"
                          readonly="true"    
                         
                          class="form-control" />              
             </div>  
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4  form-group "  >
+                <label value="(*) " style="color:red;font-weight:bold"/>Total Credito (factura+NTV):
+                
+                <textbox value="@bind(vm.totalCredito)"
+                         readonly="true"    
+                        
+                         class="form-control" />              
+            </div>
             <div class="col-12 col-sm-12 col-md-4 col-lg-4  form-group "  >
                 <label value="(*) " style="color:red;font-weight:bold"/>Total con Nota Venta:
                 
@@ -97,14 +105,7 @@
                          readonly="true"    
                          class="form-control" />     
             </div>          
-            <div class="col-12 col-sm-12 col-md-4 col-lg-4  form-group "  >
-                <label value="(*) " style="color:red;font-weight:bold"/>Credito factura:
-                
-                <textbox value="@bind(vm.totalDeuda)"
-                         readonly="true"    
-                        
-                         class="form-control" />              
-            </div>        
+                 
             <div class="col-12 col-sm-12 col-md-4 col-lg-4  form-group "  >
                 <label value="(*) " style="color:red;font-weight:bold"/>Credito NTV:
                 
@@ -112,15 +113,32 @@
                          readonly="true"    
                         
                          class="form-control" />              
-            </div>        
+            </div>    
             <div class="col-12 col-sm-12 col-md-4 col-lg-4  form-group "  >
-                <label value="(*) " style="color:red;font-weight:bold"/>Total Credito:
+                <label value=" " style="color:red;font-weight:bold;"/>Total NTV menos credito:
                 
-                <textbox value="@bind(vm.totalCredito)"
+                <textbox value="@bind(vm.totNTV)"
+                      
+                         readonly="true"    
+                         class="form-control" />               
+            </div>    
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4  form-group "  >
+                <label value=" " style="color:red;font-weight:bold;"/>Total factura:
+                
+                <textbox value="@bind(vm.totEmitidoFactura)"
+                      
+                         readonly="true"    
+                         class="form-control" />               
+            </div> 
+            
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4  form-group "  >
+                <label value="(*) " style="color:red;font-weight:bold"/>Credito factura:
+                
+                <textbox value="@bind(vm.totalDeuda)"
                          readonly="true"    
                         
                          class="form-control" />              
-            </div>        
+            </div>          
             <div class="col-12 col-sm-12 col-md-4 col-lg-4  form-group "  >
                 <label value=" " style="color:red;font-weight:bold;"/>Total con factura menos credito:
                 
@@ -129,14 +147,7 @@
                          readonly="true"    
                          class="form-control" />               
             </div>        
-            <div class="col-12 col-sm-12 col-md-4 col-lg-4  form-group "  >
-                <label value=" " style="color:red;font-weight:bold;"/>Total NTV menos credito:
-                
-                <textbox value="@bind(vm.totFactura)"
-                      
-                         readonly="true"    
-                         class="form-control" />               
-            </div>        
+             
                 
             <div class="col-12 col-sm-12 col-md-4 col-lg-4  form-group "  >
                 <label value=" " style="color:red;font-weight:bold"/>Valor  total de cierre en caja:
@@ -153,15 +164,14 @@
                 <textbox    value="@bind(vm.cierreCaja.cieDiferencia)"   
                             readonly="true"
                             class="form-control " />              
-            </div>        
-                 
+            </div>      
     
    
         </div>
         <!---->
         <div class="row "  visible="@bind(!vm.cajaCerrada)">
             <div class="col-12 col-sm-6 col-md-12 col-lg-12  form-group" 
-                     align="center" >
+                 align="center" >
                     
                 <image src="/iconos/guardar.png"  
                        onClick="@command('guardar')"
