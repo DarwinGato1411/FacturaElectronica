@@ -2589,10 +2589,11 @@ public class Facturar extends SelectorComposer<Component> {
     }
 
     @Command
-    @NotifyChange({"listaKardexProducto", "buscarCodigoProd"})
+    @NotifyChange({"listaKardexProducto", "buscarCodigoProd","buscarCodigoProd"})
     public void buscarLikeKardexCodigoProd() {
 
         findKardexProductoLikeCodigo();
+        buscarCodigoProd="";
     }
 
     private void findKardexProductoLikeNombre() {
