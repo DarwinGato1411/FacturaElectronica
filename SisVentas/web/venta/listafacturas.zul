@@ -343,7 +343,7 @@
                                                tooltiptext="Registrar retencion de venta"/>
                                 
                                     </listcell>
-                                    <zk if="${each.estadosri!='AUTORIZADO'}"  >
+                                    <zk if="${each.estadosri!='AUTORIZADO' and vm.credential.nivelUsuario==1 }"  >
                                         <listcell  zclass = "mycss-listcell" >    
                                         
                                             <image src="/iconos/editar.png"   
@@ -355,7 +355,7 @@
                                         </listcell>
                                     </zk>
                                 
-                                    <zk if="${each.estadosri=='AUTORIZADO'}"  >
+                                    <zk if="${each.estadosri=='AUTORIZADO' or vm.credential.nivelUsuario!=1 }"   >
                                         <listcell  zclass = "mycss-listcell" >                                         
                                             <image src="/iconos/listo_uno.png"   
                                                    height=" 30px"  

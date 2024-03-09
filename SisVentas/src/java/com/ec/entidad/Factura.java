@@ -22,6 +22,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -235,6 +236,9 @@ public class Factura implements Serializable {
     @JoinColumn(name = "id_referencia", referencedColumnName = "id_referencia")
     @ManyToOne
     private Referencia idReferencia;
+    
+//    @Transient
+//    private boolean editar;
 
     public Factura() {
     }
@@ -802,5 +806,14 @@ public class Factura implements Serializable {
     public String toString() {
         return "com.ec.entidad.Factura[ idFactura=" + idFactura + " ]";
     }
+
+//    public boolean isEditar() {
+//        if (estadosri="AUTORIZADO" ) {
+//            
+//        }
+//        return editar;
+//    }
+
+  
 
 }

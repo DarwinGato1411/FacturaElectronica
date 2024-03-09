@@ -8,6 +8,8 @@ import com.ec.entidad.Cliente;
 import com.ec.entidad.DetalleFactura;
 import com.ec.entidad.Factura;
 import com.ec.entidad.Tipoambiente;
+import com.ec.seguridad.EnumSesion;
+import com.ec.seguridad.UserCredential;
 import com.ec.servicio.HelperPersistencia;
 import com.ec.servicio.ServicioCliente;
 import com.ec.servicio.ServicioDetalleFactura;
@@ -79,6 +81,8 @@ import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.image.AImage;
 import org.zkoss.util.media.AMedia;
 import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.Session;
+import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zul.Filedownload;
 import org.zkoss.zul.Messagebox;
 
@@ -108,7 +112,12 @@ public class ListaFacturas {
     private Date fechainicio = new Date();
     private Date fechafin = new Date();
 
+    
+     UserCredential credential = new UserCredential();
     public ListaFacturas() {
+          Session sess = Sessions.getCurrent();
+        credential = (UserCredential) sess.getAttribute(EnumSesion.userCredential.getNombre());
+         
         consultarFactura();
         amb = servicioTipoAmbiente.FindALlTipoambiente();
         //OBTIENE LAS RUTAS DE ACCESO A LOS DIRECTORIOS DE LA TABLA TIPOAMBIENTE
@@ -1476,6 +1485,14 @@ public class ListaFacturas {
         } catch (FileNotFoundException e) {
             System.out.println("ERROR AL DESCARGAR EL ARCHIVO" + e.getMessage());
         }
+    }
+
+    public UserCredential getCredential() {
+        return credential;
+    }
+
+    public void setCredential(UserCredential credential) {
+        this.credential = credential;
     }
     
 }
