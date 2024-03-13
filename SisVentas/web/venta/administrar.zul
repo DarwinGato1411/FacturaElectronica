@@ -24,7 +24,7 @@
 
                 <tab label="Configuracion SRI" sclass="menutabs" /> 
                 <tab label="Parametrizar Empresa" sclass="menutabs" /> 
-                    <tab label="Categorias productos" sclass="menutabs" /> 
+                    <tab label="Codigos de retencion" sclass="menutabs" /> 
 
 
             </tabs>
@@ -222,7 +222,7 @@
                     <include src="/administrar/parametrizar.zul"/>  
                 </tabpanel>
                 <tabpanel height="100%" hflex="min">
-                    <include src="/venta/admcategoriaprod.zul"/>  
+                    <include src="/administrar/codigoretenciones.zul"/>  
                 </tabpanel> 
 
             </tabpanels>

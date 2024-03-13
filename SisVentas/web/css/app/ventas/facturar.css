@@ -684,7 +684,7 @@ div.z-listheader-cnt {
 
 .encabezado1 ,.tabla1{
     display: grid !important;
-    grid-template-columns:20% 38% 10% 12% 12% 8%;
+    grid-template-columns: 20% 40% 10% 5% 10% 10% 5%;
 }
 
 .encabezado2 ,.tabla2{

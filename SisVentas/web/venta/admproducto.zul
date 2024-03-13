@@ -86,6 +86,7 @@
 
                         
                     </listheader> 
+                    <listheader width="5%"  label="% IVA" />  
                     <listheader width="10%"  label="Cantidad Inicial" />  
                     <listheader width="10%"  label="Precio Compra" />  
                     <listheader width="10%"  label="Precio por unidad"  /> 
@@ -106,6 +107,12 @@
                         <listcell zclass = "mycss-listcell">
                             <textbox readonly="true" style="font-size:12px;background:#EBF5FB"
                                      class="form-control form-control-sm" value="@bind(each.prodNombre)" />
+                        </listcell>
+                        <listcell zclass = "mycss-listcell">
+                            <decimalbox format="###.#####" readonly="true"
+                                        style="font-size:12px;background:#EBF5FB"
+                                        class="form-control form-control-sm"
+                                        value="@bind(each.prodIva)"  />
                         </listcell>
                         <listcell zclass = "mycss-listcell">
                             <decimalbox format="###.#####" readonly="true"

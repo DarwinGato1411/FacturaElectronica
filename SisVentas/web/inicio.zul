@@ -13,7 +13,7 @@
                 <image src="./imagenes/logodeckxel.png" class="logo"/>
                 <div class="wrapper_title">
                     <span class="title">Sistema de Facturación Electrónica</span>
-                   
+                   <span class="title">Ajustes IVA-2024</span>
                     <div class="desc">
                         Estimado usuario envenido a nuestro sistema.
                     </div>

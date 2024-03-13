@@ -31,24 +31,26 @@
                     <radio label="Sin IVA" value="N"/>                          
                 </radiogroup>
             </div>
+           
+            <div class="wrapper_input_mod">  </div>
+            <div class="wrapper_input_mod">  </div>
             
-            <div class="wrapper_input_mod" style="position: relative">
-                <span>F. Registro: </span>
-                <datebox 
-                    compact="true" 
-                    value="@bind(vm.producto.prodFechaRegistro)" 
-                    readonly="true"
-                    buttonVisible="true" 
-                    lenient="true" 
-                    format="dd/MM/yyyy" 
-                    class="input_date"
-                />
-                <div 
-                    class="fa-solid fa-calendar"
-                    style="position: absolute; left: 35%; top: 10px;color:  #1247b9;font-size: 12px"
-                />
-            </div>
+         
 
+        </div>
+        <div class="header">
+             <div class="wrapper_input_mod" visible="@bind(vm.grabaIva)">
+                <span>Porcentaje IVA </span>
+                <radiogroup  selectedItem="@bind(vm.producto.prodIva)" 
+                             model="@load(vm.listaIva)"  
+                             onCheck="@command('colocarIvaCampo')" >
+                    <template name="model">
+                        <radio label="@load(each ne null ? ''.concat(each).concat('%') : '')" style="padding-right: 9px;" value="@load(each)">                        
+                        </radio>
+                    </template>
+                </radiogroup>
+
+            </div>
         </div>
 
         <div class="body">
@@ -271,7 +273,22 @@
                         </radiogroup>
                     </div>
                 </div>
-                <div class="wrapper_input_mod"> </div>
+                <div class="wrapper_input_mod" style="position: relative">
+                    <span>F. Registro: </span>
+                    <datebox 
+                        compact="true" 
+                        value="@bind(vm.producto.prodFechaRegistro)" 
+                        readonly="true"
+                        buttonVisible="true" 
+                        lenient="true" 
+                        format="dd/MM/yyyy" 
+                        class=""
+                    />
+                    <!--                <div 
+                        class="fa-solid fa-calendar"
+                        style="position: absolute; left: 35%; top: 10px;color:  #1247b9;font-size: 12px"
+                    />-->
+                </div>
                 
 
 

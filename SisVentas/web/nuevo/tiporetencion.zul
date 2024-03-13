@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window  id="windowTipOCodigo"  position="center" class="col-12 col-sm-12 col-md-3 col-lg-3"  closable="true"  
+         apply="org.zkoss.bind.BindComposer"
+         viewModel="@id('vm') @init('com.ec.controlador.NuevoTipoRetencion')">
+    
+    <caption label="Cliente" style="font-weight:bold"/> 
+    
+    <div  class="container-fluid" >
+        <div  class="row" >
+         
+            <div class="col-12 col-sm-12 col-md-6 col-lg-6  form-group "  >
+                <label   style="color:red;font-weight:bold" value="(*) "  />Codigo:
+                <textbox    value="@bind(vm.entidad.tireCodigo)" 
+                            class="form-control" />
+            </div>          
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12  form-group "  >
+                <label value="(*) " style="color:red;font-weight:bold"/>Descripcion:
+                
+                <textbox  maxlength="250" 
+                          multiline="true" rows="2"                        
+                          value="@bind(vm.entidad.tireNombre)" 
+                          class="form-control" />
+            </div>
+           <div class="col-12 col-sm-12 col-md-6 col-lg-6  form-group "  >
+                <label value="(*) " style="color:red;font-weight:bold"/>Porcentaje:                
+                <decimalbox  maxlength="100"                          
+                             value="@bind(vm.entidad.tirePorcentajeRetencion)" 
+                             class="form-control" />
+            </div>
+            
+                     
+            <div class="col-12 col-sm-6 col-md-12 col-lg-12  form-group" align="center" >
+                    
+                <image src="/iconos/guardar.png"  
+                       onClick="@command('guardar')"
+                       tooltiptext="Guardar Registro"/>
+ 
+
+            </div> 
+        </div>
+   
+    </div>
+   
+                  
+
+                    
+                  
+</window>	

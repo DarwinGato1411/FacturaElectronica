@@ -183,8 +183,7 @@ public class Factura implements Serializable {
 
     @Column(name = "fac_cambio")
     private BigDecimal facCambio;
-    */
-
+     */
 //    @Column(name = "fac_placa")
 //    private String facPlaca;
 //
@@ -241,6 +240,23 @@ public class Factura implements Serializable {
     @JoinColumn(name = "id_referencia", referencedColumnName = "id_referencia")
     @ManyToOne
     private Referencia idReferencia;
+
+    @Column(name = "fac_subt_5")
+    private BigDecimal facSubt5;
+    @Column(name = "fac_iva_5")
+    private BigDecimal facIva5;
+    @Column(name = "fac_subt_13")
+    private BigDecimal facSubt13;
+    @Column(name = "fac_iva_13")
+    private BigDecimal facIva13;
+    @Column(name = "fac_subt_14")
+    private BigDecimal facSubt14;
+    @Column(name = "fac_iva_14")
+    private BigDecimal facIva14;
+    @Column(name = "fac_subt_15")
+    private BigDecimal facSubt15;
+    @Column(name = "fac_iva_15")
+    private BigDecimal facIva15;
 
     public Factura() {
     }
@@ -807,21 +823,69 @@ public class Factura implements Serializable {
         return "com.ec.entidad.Factura[ idFactura=" + idFactura + " ]";
     }
 
-//    public BigDecimal getFacCobro() {
-//        return facCobro;
-//    }
-//
-//    public void setFacCobro(BigDecimal facCobro) {
-//        this.facCobro = facCobro;
-//    }
-//
-//    public BigDecimal getFacCambio() {
-//        return facCambio;
-//    }
-//
-//    public void setFacCambio(BigDecimal facCambio) {
-//        this.facCambio = facCambio;
-//    }
+    public BigDecimal getFacSubt5() {
+        return facSubt5==null?BigDecimal.ZERO:facSubt5;
+    }
 
-    
+    public void setFacSubt5(BigDecimal facSubt5) {
+        this.facSubt5 = facSubt5;
+    }
+
+    public BigDecimal getFacIva5() {
+        return facIva5==null?BigDecimal.ZERO:facIva5;
+    }
+
+    public void setFacIva5(BigDecimal facIva5) {
+        this.facIva5 = facIva5;
+    }
+
+    public BigDecimal getFacSubt13() {
+        return facSubt13==null?BigDecimal.ZERO:facSubt13;
+    }
+
+    public void setFacSubt13(BigDecimal facSubt13) {
+        this.facSubt13 = facSubt13;
+    }
+
+    public BigDecimal getFacIva13() {
+        return facIva13==null?BigDecimal.ZERO:facIva13;
+    }
+
+    public void setFacIva13(BigDecimal facIva13) {
+        this.facIva13 = facIva13;
+    }
+
+    public BigDecimal getFacSubt14() {
+        return facSubt14==null?BigDecimal.ZERO:facSubt14;
+    }
+
+    public void setFacSubt14(BigDecimal facSubt14) {
+        this.facSubt14 = facSubt14;
+    }
+
+    public BigDecimal getFacIva14() {
+        return facIva14==null?BigDecimal.ZERO:facIva14;
+    }
+
+    public void setFacIva14(BigDecimal facIva14) {
+        this.facIva14 = facIva14;
+    }
+
+    public BigDecimal getFacSubt15() {
+        return facSubt15==null?BigDecimal.ZERO:facSubt15;
+    }
+
+    public void setFacSubt15(BigDecimal facSubt15) {
+        this.facSubt15 = facSubt15;
+    }
+
+    public BigDecimal getFacIva15() {
+        return facIva15==null?BigDecimal.ZERO:facIva15;
+    }
+
+    public void setFacIva15(BigDecimal facIva15) {
+        this.facIva15 = facIva15;
+    }
+
+
 }
