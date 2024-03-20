@@ -91,35 +91,28 @@
                                 <template name="model">                                                            
                                     <listitem>
                                         <listcell zclass = "mycss-listcell">
-                                            <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"
+                                            <textbox readonly="true"  style="font-size:12px;background:#EBF5FB;font-weight: bold"
                                                      class="form-control form-control-sm"  value="@bind(each.cliCedula)"  />
                                         </listcell>
-                                        <!--                                    <listcell zclass = "mycss-listcell">
-                                            <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"
-                                                    class="form-control form-control-sm"  value="@bind(each.cliNombres)"  />
-                                        </listcell>
+                          
                                         <listcell zclass = "mycss-listcell">
-                                            <textbox readonly="true" style="font-size:12px;background:#EBF5FB"
-                                                class="form-control form-control-sm"  value="@bind(each.cliApellidos)"  />
-                                        </listcell>-->
-                                        <listcell zclass = "mycss-listcell">
-                                            <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"
+                                            <textbox readonly="true"  style="font-size:12px;background:#EBF5FB;font-weight: bold"
                                                      class="form-control form-control-sm"  value="@bind(each.cliNombre)"  />
                                         </listcell>
                                         <listcell zclass = "mycss-listcell">
-                                            <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"
+                                            <textbox readonly="true"  style="font-size:12px;background:#EBF5FB;font-weight: bold"
                                                      class="form-control form-control-sm" value="@bind(each.cliDireccion)" />
                                         </listcell>
                                         <listcell zclass = "mycss-listcell">
-                                            <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"
+                                            <textbox readonly="true"  style="font-size:12px;background:#EBF5FB;font-weight: bold"
                                                      class="form-control form-control-sm" value="@bind(each.cliTelefono)" />
                                         </listcell>
                                         <listcell zclass = "mycss-listcell">
-                                            <textbox readonly="true"  style="font-size:12px;background:#EBF5FB"
+                                            <textbox readonly="true"  style="font-size:12px;background:#EBF5FB;font-weight: bold"
                                                      class="form-control form-control-sm" value="@bind(each.cliMovil)" />
                                         </listcell>
                                         <listcell zclass = "mycss-listcell">
-                                            <textbox readonly="true" style="font-size:12px;background:#EBF5FB"
+                                            <textbox readonly="true" style="font-size:12px;background:#EBF5FB;font-weight: bold"
                                                      class="form-control form-control-sm"  value="@bind(each.cliCorreo)" />
                                         </listcell>
                                         <listcell zclass = "mycss-listcell" style="font-size:12px;background:#F8F9F9">    
@@ -180,21 +173,21 @@
                                 <template name="model">
                                     <listitem width="100%" > 
                                         <listcell  zclass = "mycss-listcell">
-                                            <textbox readonly="true" value="@bind(each.usuNombre)"  style="font-size:12px;background:#EBF5FB"
+                                            <textbox readonly="true" value="@bind(each.usuNombre)"  style="font-size:12px;background:#EBF5FB;font-weight: bold"
                                                      class="form-control form-control-sm" />
                                         </listcell>  
                                         <listcell  zclass = "mycss-listcell">
-                                            <textbox readonly="true" value="@bind(each.usuLogin)"  style="font-size:12px;background:#EBF5FB"
+                                            <textbox readonly="true" value="@bind(each.usuLogin)"  style="font-size:12px;background:#EBF5FB;font-weight: bold"
                                                      class="form-control form-control-sm" />
                                         </listcell>   
                                         <listcell  zclass = "mycss-listcell">      
                                             <textbox readonly="true" value="@bind(each.usuPassword)" 
                                                      class="form-control form-control-sm"
-                                                     style="font-size:12px;background:#EBF5FB"
+                                                     style="font-size:12px;background:#EBF5FB;font-weight: bold"
                                                      type="password" />
                                         </listcell>  
                                         <listcell  zclass = "mycss-listcell">                          
-                                            <textbox readonly="true" value="@bind(each.usuTipoUsuario)"  style="font-size:12px;background:#EBF5FB"
+                                            <textbox readonly="true" value="@bind(each.usuTipoUsuario)"  style="font-size:12px;background:#EBF5FB;font-weight: bold"
                                                      class="form-control form-control-sm"  />
                                         </listcell>                  
                                         <listcell  zclass = "mycss-listcell">

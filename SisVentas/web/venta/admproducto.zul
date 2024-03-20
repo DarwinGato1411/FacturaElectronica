@@ -101,53 +101,53 @@
                     <listitem>
                         <listcell   style="height: 10px;overflow: hidden;">  </listcell>
                         <listcell zclass = "mycss-listcell">
-                            <textbox readonly="true" style="font-size:12px;background:#EBF5FB"
+                            <textbox readonly="true" style="font-size:14px;background:#EBF5FB; font-weight:bold;"
                                      class="form-control form-control-sm"  value="@bind(each.prodCodigo)"  />
                         </listcell>
                         <listcell zclass = "mycss-listcell">
-                            <textbox readonly="true" style="font-size:12px;background:#EBF5FB"
+                            <textbox readonly="true" style="font-size:14px;background:#EBF5FB; font-weight:bold;"
                                      class="form-control form-control-sm" value="@bind(each.prodNombre)" />
                         </listcell>
                         <listcell zclass = "mycss-listcell">
                             <decimalbox format="###.#####" readonly="true"
-                                        style="font-size:12px;background:#EBF5FB"
+                                        style="font-size:14px;background:#EBF5FB; font-weight:bold;"
                                         class="form-control form-control-sm"
                                         value="@bind(each.prodIva)"  />
                         </listcell>
                         <listcell zclass = "mycss-listcell">
                             <decimalbox format="###.#####" readonly="true"
-                                        style="font-size:12px;background:#EBF5FB"
+                                        style="font-size:14px;background:#EBF5FB; font-weight:bold;"
                                         class="form-control form-control-sm"
                                         value="@bind(each.prodCantidadInicial)"  />
                         </listcell>
                         <listcell zclass = "mycss-listcell">
                             <decimalbox format="###.#####" readonly="true"
-                                        style="font-size:12px;background:#EBF5FB"
+                                        style="font-size:14px;background:#EBF5FB; font-weight:bold;"
                                         class="form-control form-control-sm"
                                         value="@bind(each.pordCostoVentaRef)"  />
                         </listcell>
                         <listcell zclass = "mycss-listcell">
                             <decimalbox format="###.#####" readonly="true"  
-                                        style="font-size:12px;background:#EBF5FB"
+                                        style="font-size:14px;background:#EBF5FB; font-weight:bold;"
                                         class="form-control form-control-sm"
                                         value="@bind(each.pordCostoVentaFinal)" />
                         </listcell>
                         <listcell zclass = "mycss-listcell">
                             <decimalbox format="###.#####" readonly="true" 
                                         class="form-control form-control-sm"
-                                        style="font-size:12px;background:#EBF5FB"
+                                        style="font-size:14px;background:#EBF5FB; font-weight:bold;"
                                         value="@bind(each.prodCostoPreferencial)"  />
                         </listcell>
                         <listcell zclass = "mycss-listcell">
                             <decimalbox format="###.#####" readonly="true" 
                                         class="form-control form-control-sm"
-                                        style="font-size:12px;background:#EBF5FB"
+                                        style="font-size:14px;background:#EBF5FB; font-weight:bold;"
                                         value="@bind(each.prodCostoPreferencialDos)"  />
                         </listcell>
                         <listcell zclass = "mycss-listcell">
                             <decimalbox format="###.#####" readonly="true" 
                                         class="form-control form-control-sm"
-                                        style="font-size:12px;background:#EBF5FB"
+                                        style="font-size:14px;background:#EBF5FB; font-weight:bold;"
                                         value="@bind(each.prodCostoPreferencialTres)"  />
                         </listcell>
                     
