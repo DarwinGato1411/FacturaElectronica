@@ -5,7 +5,6 @@ import com.ec.entidad.CierreCaja;
 import com.ec.entidad.Cliente;
 import com.ec.entidad.ComboProducto;
 import com.ec.entidad.DetalleFactura;
-import com.ec.entidad.DetalleGuiaremision;
 import com.ec.entidad.DetalleKardex;
 import com.ec.entidad.DetallePago;
 import com.ec.entidad.Factura;
@@ -52,6 +51,7 @@ import com.ec.untilitario.Verificaciones;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -94,6 +94,7 @@ import org.zkoss.bind.annotation.ContextParam;
 import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.bind.annotation.ExecutionArgParam;
 import org.zkoss.bind.annotation.NotifyChange;
+import org.zkoss.image.AImage;
 import org.zkoss.util.media.AMedia;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
@@ -299,6 +300,14 @@ public class Facturar extends SelectorComposer<Component> {
 
     /* PARA GESTION DE COMBO DE PRODCUTO */
     ServicioComboProducto servicioComboProducto = new ServicioComboProducto();
+    
+    
+       //subir imagen
+    private String filePath;
+    byte[] buffer = new byte[1024 * 1024];
+    private AImage fotoGeneral = null;
+    
+    
 
     @AfterCompose
     public void afterCompose(@ExecutionArgParam("valor") ParamFactura valor,
@@ -2384,155 +2393,7 @@ public class Facturar extends SelectorComposer<Component> {
                         servicioDetalleKardex.eliminarKardexVenta(factura.getIdFactura());
                         servicioFactura.guardarFactura(detalleFactura, factura);
                     }
-                    if (valor.equalsIgnoreCase("CG")) {
-
-                        numeroGuia();
-                        Guiaremision guiaremision = new Guiaremision();
-                        guiaremision.setFacNumero(numeroGuia);
-                        guiaremision.setFacNumeroText(numeroGuiaText);
-                        guiaremision.setIdFactura(factura);
-                        guiaremision.setIdUsuario(credential.getUsuarioSistema());
-                        guiaremision.setFacFecha(new Date());
-                        guiaremision.setFacEstado("PENDIENTE");
-                        guiaremision.setTipodocumento("06");
-                        guiaremision.setPuntoemision(factura.getPuntoemision());
-                        guiaremision.setCodestablecimiento(factura.getCodestablecimiento());
-                        guiaremision.setEstadosri("PENDIENTE");
-                        String claveAccesoGuia = ArchivoUtils.generaClave(guiaremision.getFacFecha(), "06",
-                                amb.getAmRuc(), amb.getAmCodigo(), amb.getAmEstab() + amb.getAmPtoemi(),
-                                guiaremision.getFacNumeroText(), "12345678", "1");
-                        guiaremision.setFacClaveAcceso(claveAccesoGuia);
-                        guiaremision.setFacClaveAutorizacion(claveAccesoGuia);
-                        guiaremision.setCodTipoambiente(factura.getCod_tipoambiente().getCodTipoambiente());
-                        guiaremision.setFacFechaSustento(factura.getFacFecha());
-                        guiaremision.setIdTransportista(transportista);
-                        guiaremision.setNumplacaguia(numeroPlaca);
-                        guiaremision.setIdCliente(factura.getIdCliente());
-                        guiaremision.setFechainitranspguia(incioTraslado);
-                        guiaremision.setFechafintranspguia(finTraslado);
-                        guiaremision.setMotivoGuia(motivoGuia);
-                        guiaremision.setPartida(partida);
-                        guiaremision.setLlegada(llegada);
-                        List<DetalleGuiaremision> detalleGuia = new ArrayList<DetalleGuiaremision>();
-                        for (DetalleFacturaDAO itemDet : detalleFactura) {
-                            detalleGuia.add(new DetalleGuiaremision(itemDet.getCantidad(), itemDet.getDescripcion(),
-                                    itemDet.getProducto(), guiaremision));
-                        }
-                        servicioGuia.guardarGuiaremision(detalleGuia, guiaremision);
-
-                        /* PARA CREAR EL ARCHIVO XML FIRMADO */
-                        // String nombreArchivoXML = File.separator + "GUIA-"
-                        // + guiaremision.getCodestablecimiento()
-                        // + guiaremision.getPuntoemision()
-                        // + guiaremision.getFacNumeroText() + ".xml";
-                        //
-                        //
-                        // /*RUTAS FINALES DE,LOS ARCHIVOS XML FIRMADOS Y AUTORIZADOS*/
-                        // String pathArchivoFirmado = folderFirmado + nombreArchivoXML;
-                        // String pathArchivoAutorizado = foldervoAutorizado + nombreArchivoXML;
-                        // String pathArchivoNoAutorizado = folderNoAutorizados + nombreArchivoXML;
-                        // String archivoEnvioCliente = "";
-                        //
-                        // //tipoambiente tiene los parameteos para los directorios y la firma digital
-                        // AutorizarDocumentos aut = new AutorizarDocumentos();
-                        // /*Generamos el archivo XML de la factura*/
-                        // String archivo = aut.generaXMLGuiaRemision(guiaremision, amb,
-                        // folderGenerados, nombreArchivoXML);
-                        //
-                        // byte[] datos = null;
-                        // File f = null;
-                        // File fEnvio = null;
-                        // /*amb.getAmClaveAccesoSri() es el la clave proporcionada por el SRI
-                        // archivo es la ruta del archivo xml generado
-                        // nomre del archivo a firmar*/
-                        // XAdESBESSignature.firmar(archivo, nombreArchivoXML,
-                        // amb.getAmClaveAccesoSri(), amb, folderFirmado);
-                        //
-                        // f = new File(pathArchivoFirmado);
-                        //
-                        // datos = ArchivoUtils.ConvertirBytes(pathArchivoFirmado);
-                        // //obtener la clave de acceso desde el archivo xml
-                        // String claveAccesoComprobante = ArchivoUtils.obtenerValorXML(f,
-                        // "/*/infoTributaria/claveAcceso");
-                        // /*GUARDAMOS LA CLAVE DE ACCESO ANTES DE ENVIAR A AUTORIZAR*/
-                        // guiaremision.setFacClaveAcceso(claveAccesoComprobante);
-                        // AutorizarDocumentos autorizarDocumentos = new AutorizarDocumentos();
-                        // RespuestaSolicitud resSolicitud = autorizarDocumentos.validar(datos);
-                        //
-                        // if (resSolicitud != null && resSolicitud.getComprobantes() != null) {
-                        // if (resSolicitud.getEstado().equals("RECIBIDA")) {
-                        // try {
-                        // RespuestaComprobante resComprobante =
-                        // autorizarDocumentos.autorizarComprobante(claveAccesoComprobante);
-                        // for (Autorizacion autorizacion :
-                        // resComprobante.getAutorizaciones().getAutorizacion()) {
-                        // FileOutputStream nuevo = null;
-                        //
-                        // /*CREA EL ARCHIVO XML AUTORIZADO*/
-                        // System.out.println("pathArchivoNoAutorizado " + pathArchivoNoAutorizado);
-                        // nuevo = new FileOutputStream(pathArchivoNoAutorizado);
-                        // nuevo.write(autorizacion.getComprobante().getBytes());
-                        // if (!autorizacion.getEstado().equals("AUTORIZADO")) {
-                        //
-                        // String texto = autorizacion.getMensajes().getMensaje().get(0).getMensaje();
-                        // String smsInfo =
-                        // autorizacion.getMensajes().getMensaje().get(0).getInformacionAdicional();
-                        // nuevo.write(autorizacion.getMensajes().getMensaje().get(0).getMensaje().getBytes());
-                        // if (autorizacion.getMensajes().getMensaje().get(0).getInformacionAdicional()
-                        // != null) {
-                        // nuevo.write(autorizacion.getMensajes().getMensaje().get(0).getInformacionAdicional().getBytes());
-                        // }
-                        //
-                        // guiaremision.setMensajesri(texto);
-                        // guiaremision.setEstadosri(autorizacion.getEstado());
-                        //
-                        // nuevo.flush();
-                        // servicioGuia.modificar(guiaremision);
-                        // } else {
-                        //
-                        // guiaremision.setFacClaveAutorizacion(claveAccesoComprobante);
-                        // guiaremision.setEstadosri(autorizacion.getEstado());
-                        // guiaremision.setFacFechaAutorizacion(autorizacion.getFechaAutorizacion().toGregorianCalendar().getTime());
-                        //
-                        // /*se agrega la la autorizacion, fecha de autorizacion y se firma nuevamente*/
-                        // archivoEnvioCliente = aut.generaXMLGuiaRemision(guiaremision, amb,
-                        // foldervoAutorizado, nombreArchivoXML);
-                        //// XAdESBESSignature.firmar(archivoEnvioCliente,
-                        //// nombreArchivoXML,
-                        //// amb.getAmClaveAccesoSri(),
-                        //// amb, foldervoAutorizado);
-                        //
-                        // fEnvio = new File(archivoEnvioCliente);
-                        //
-                        // System.out.println("PATH DEL ARCHIVO PARA ENVIAR AL CLIENTE " +
-                        // archivoEnvioCliente);
-                        // ArchivoUtils.reporteGeneralPdfMail(archivoEnvioCliente.replace(".xml",
-                        // ".pdf"), guiaremision.getFacNumero(), "GUIA");
-                        // ArchivoUtils.zipFile(fEnvio, archivoEnvioCliente);
-                        // /*GUARDA EL PATH PDF CREADO*/
-                        //// guiaremision.setFacpath(archivoEnvioCliente.replace(".xml", ".pdf"));
-                        // servicioGuia.modificar(guiaremision);
-                        // /*envia el mail*/
-                        //
-                        // String[] attachFiles = new String[2];
-                        // attachFiles[0] = archivoEnvioCliente.replace(".xml", ".pdf");
-                        // attachFiles[1] = archivoEnvioCliente.replace(".xml", ".zip");
-                        // MailerClass mail = new MailerClass();
-                        //
-                        // if (guiaremision.getIdCliente().getCliCorreo() != null) {
-                        // mail.sendMailSimple(guiaremision.getIdCliente().getCliCorreo(),
-                        // "Gracias por preferirnos se ha emitido nuestra guia de remision electrónica",
-                        // attachFiles,
-                        // "GUIA DE REMISION ELECTRONICA", guiaremision.getFacClaveAcceso());
-                        // }
-                        // }
-                        //
-                        // }
-                        // } catch (Exception e) {
-                        // }
-                        // }
-                        // }
-                    }
+                
                     /* VERIFICA SI EL CLINETE QUIERE AUTORIZAR LA FACTURA */
                     if (!parametrizar.getParEstado() || tipoVenta.equals("PROF")) {
                         /* en el caso que no se desee autorizar la factura */
@@ -3716,6 +3577,99 @@ public class Facturar extends SelectorComposer<Component> {
 
     public void setIvaCotizacion15(BigDecimal ivaCotizacion15) {
         this.ivaCotizacion15 = ivaCotizacion15;
+    }
+    
+      public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
+    }
+
+    public AImage getFotoGeneral() {
+        return fotoGeneral;
+    }
+
+    public void setFotoGeneral(AImage fotoGeneral) {
+        this.fotoGeneral = fotoGeneral;
+    }
+
+    public byte[] Imagen_A_Bytes(String pathImagen) throws FileNotFoundException {
+        String reportPath = "";
+        reportPath = pathImagen;
+        File file = new File(reportPath);
+
+        FileInputStream fis = new FileInputStream(file);
+        //create FileInputStream which obtains input bytes from a file in a file system
+        //FileInputStream is meant for reading streams of raw bytes such as image data. For reading streams of characters, consider using FileReader.
+
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        byte[] buf = new byte[1024];
+        try {
+            for (int readNum; (readNum = fis.read(buf)) != -1;) {
+                //Writes to this byte array output stream
+                bos.write(buf, 0, readNum);
+//                System.out.println("read " + readNum + " bytes,");
+            }
+        } catch (IOException ex) {
+        }
+
+        byte[] bytes = bos.toByteArray();
+        return bytes;
+    }
+    
+    /* VER iMAGEN */
+    @Command
+    @NotifyChange({"listaDetalleFacturaDAOMOdel", "fotoGeneral"})
+    public void verImagenLista(@BindingParam("valor") Producto producto) {
+        if (producto != null) {
+            if (producto.getProdImagen() != null) {
+                try {
+                    if (producto.getProdImagen() != null) {
+                        fotoGeneral = new AImage("fotoPedido", Imagen_A_Bytes(producto.getProdImagen()));
+                    } else {
+                        fotoGeneral = null;
+                    }
+                } catch (FileNotFoundException e) {
+                    System.out.println("error imagen " + e.getMessage());
+                } catch (IOException ex) {
+                    System.out.println("ERROR IOException"+ex.getMessage());
+//                    Logger.getLogger(NuevoProducto.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                Clients.showNotification("No se puede mostrar la imagen",
+                        Clients.NOTIFICATION_TYPE_ERROR, null, "middle_center", 2000, true);
+            }
+        } else {
+            Clients.showNotification("No se puede mostrar la imagen",
+                    Clients.NOTIFICATION_TYPE_ERROR, null, "middle_center", 2000, true);
+        }
+    }
+
+    /* VER iMAGEN */
+    @Command
+    @NotifyChange({"listaDetalleFacturaDAOMOdel", "fotoGeneral"})
+    public void verImagen(@BindingParam("valor") DetalleFacturaDAO producto) {
+        if (producto.getProducto() != null) {
+            if (producto.getProducto().getProdImagen() != null) {
+
+                try {
+                    fotoGeneral = new AImage("fotoPedido", Imagen_A_Bytes(producto.getProducto().getProdImagen()));
+//                Imagen_A_Bytes(empresa.getIdUsuario().getUsuFoto());
+                } catch (FileNotFoundException e) {
+                    System.out.println("error imagen " + e.getMessage());
+                } catch (IOException ex) {
+                      System.out.println("ERROR IOException"+ex.getMessage());
+                }
+            } else {
+                Clients.showNotification("No se puede mostrar la imagen",
+                        Clients.NOTIFICATION_TYPE_ERROR, null, "middle_center", 2000, true);
+            }
+        } else {
+            Clients.showNotification("No se puede mostrar la imagen",
+                    Clients.NOTIFICATION_TYPE_ERROR, null, "middle_center", 2000, true);
+        }
     }
 
 }

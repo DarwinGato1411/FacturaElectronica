@@ -51,6 +51,23 @@
                 </radiogroup>
 
             </div>
+             <div class="imgContenedor" >
+                
+                <div class="inputGroupImg">
+                    <span>Imagen del producto:</span>
+                    <image class="imgprod" content="@bind(vm.fotoGeneral)"/>
+                    <button 
+                        class="btnSubirImg"
+                        onClick="@command('subirImagen')" 
+                        
+                        tooltiptext="Buscar">
+                        Subir Imagen
+                    </button> 
+                </div>                              
+            </div>
+             <div class="wrapper_input_mod" >
+                 
+        </div>
         </div>
 
         <div class="body">

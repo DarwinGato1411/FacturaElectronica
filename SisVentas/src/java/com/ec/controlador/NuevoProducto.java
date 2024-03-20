@@ -8,27 +8,41 @@ import com.ec.entidad.DetalleKardex;
 import com.ec.entidad.Kardex;
 import com.ec.entidad.Parametrizar;
 import com.ec.entidad.Producto;
+import com.ec.entidad.Tipoambiente;
 import com.ec.servicio.ServicioDetalleKardex;
 import com.ec.servicio.ServicioKardex;
 import com.ec.servicio.ServicioParametrizar;
 import com.ec.servicio.ServicioProducto;
+import com.ec.servicio.ServicioTipoAmbiente;
 import com.ec.servicio.ServicioTipoKardex;
 import com.ec.untilitario.ArchivoUtils;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.ContextParam;
 import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.bind.annotation.ExecutionArgParam;
 import org.zkoss.bind.annotation.NotifyChange;
+import org.zkoss.image.AImage;
+import org.zkoss.image.Image;
+import org.zkoss.io.Files;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.Clients;
+import org.zkoss.zul.Fileupload;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
@@ -61,6 +75,15 @@ public class NuevoProducto {
     private List<BigDecimal> listaIva = new ArrayList<>();
 
     private Boolean grabaIva = Boolean.TRUE;
+    
+    //subir imagen
+    private String filePath;
+    byte[] buffer = new byte[1024 * 1024];
+    private AImage fotoGeneral = null;
+    ServicioTipoAmbiente servicioTipoAmbiente = new ServicioTipoAmbiente();
+    private Tipoambiente tipoambiente = new Tipoambiente();
+
+    
 
     @AfterCompose
     public void afterCompose(@ExecutionArgParam("valor") Producto producto, @ContextParam(ContextType.VIEW) Component view) {
@@ -89,6 +112,21 @@ public class NuevoProducto {
             producto.setProdUnidadMedida(producto.getProdUnidadMedida() == null ? "UNIDAD" : producto.getProdUnidadMedida());
             producto.setProdUnidadConversion(producto.getProdUnidadConversion() == null ? "UNIDAD" : producto.getProdUnidadConversion());
             producto.setProdFactorConversion(producto.getProdFactorConversion() == null ? BigDecimal.ONE : producto.getProdFactorConversion());
+            
+            
+            
+            try {
+                if (producto.getProdImagen() != null) {
+                    fotoGeneral = new AImage("fotoPedido", Imagen_A_Bytes(producto.getProdImagen()));
+                } else {
+                    fotoGeneral = null;
+                }
+            } catch (FileNotFoundException e) {
+                System.out.println("error imagen " + e.getMessage());
+            } catch (IOException ex) {
+                Logger.getLogger(NuevoProducto.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
             accion = "update";
         } else {
             this.producto = new Producto(0, Boolean.FALSE);
@@ -118,8 +156,8 @@ public class NuevoProducto {
         listaIva.add(BigDecimal.valueOf(0));
         listaIva.add(BigDecimal.valueOf(5));
         listaIva.add(BigDecimal.valueOf(12));
-//        listaIva.add(BigDecimal.valueOf(13));
-//        listaIva.add(BigDecimal.valueOf(14));
+        listaIva.add(BigDecimal.valueOf(13));
+        listaIva.add(BigDecimal.valueOf(14));
         listaIva.add(BigDecimal.valueOf(15));
         colocarIva();
 
@@ -134,7 +172,7 @@ public class NuevoProducto {
             this.producto.setProdIva(producto.getProdIva() != null ? producto.getProdIva() : BigDecimal.valueOf(15));
 //            producto.setProdIva(parametrizar.getParIva());
             grabaIva = Boolean.TRUE;
-            colocarIvaCampo();
+          
 
             Integer valorIva = producto.getProdIva().intValue();
             switch (valorIva) {
@@ -185,10 +223,11 @@ public class NuevoProducto {
     }
 
     @Command
-    @NotifyChange({"txtIvaRec", "conIva", "grabaIva","producto"})
+    @NotifyChange({"txtIvaRec", "conIva", "grabaIva", "producto"})
     public void colocarIvaCampo() {
 
         txtIvaRec.setText(producto.getProdIva() != null ? producto.getProdIva().toString() : "15");
+       colocarIva();
         calcularValores();
     }
 
@@ -453,6 +492,79 @@ public class NuevoProducto {
 
     public void setGrabaIva(Boolean grabaIva) {
         this.grabaIva = grabaIva;
+    }
+    
+     @Command
+    @NotifyChange({"fileContent", "empresa", "fotoGeneral"})
+    public void subirImagen() throws InterruptedException, IOException {
+
+        org.zkoss.util.media.Media media = Fileupload.get();
+        if (media instanceof org.zkoss.image.Image) {
+            String nombre = media.getName();
+            Integer largo = ((Image) media).getWidth();
+            Integer alto = ((Image) media).getHeight();
+
+            if ((largo < 100 || largo > 800) || (alto < 100 || alto > 800)) {
+                Clients.showNotification("El alto y ancho de la imagen debe ser entre 100px y 800px (pixeles) ",
+                        Clients.NOTIFICATION_TYPE_ERROR, null, "middle_center", 3000, true);
+                return;
+            }
+
+            if (media.getByteData().length > 10 * 1024 * 1024) {
+                Messagebox.show("El arhivo seleccionado sobrepasa el tamaño de 10Mb.\n Por favor seleccione un archivo más pequeño.", "Atención", Messagebox.OK, Messagebox.ERROR);
+
+                return;
+            }
+
+            String reportFile = Executions.getCurrent().getDesktop().getWebApp()
+                    .getRealPath("/reportes");
+            filePath = tipoambiente.getAmDirBaseArchivos() + File.separator + "CATALOGO_PRODUCTOS" + File.separator;;
+
+            File baseDir = new File(filePath);
+            if (!baseDir.exists()) {
+                baseDir.mkdirs();
+            }
+            Files.copy(new File(filePath + File.separator + media.getName().toLowerCase()),
+                    media.getStreamData());
+
+            producto.setProdImagen(filePath + media.getName().toLowerCase());
+//            producto.setProdServletUrl(parametrizar.getParServlet() + "/img/" + media.getName().toLowerCase());
+            System.out.println("PATH SUBIR " + filePath + File.separator + media.getName());
+            fotoGeneral = new AImage("fotoPedido", Imagen_A_Bytes(filePath + File.separator + media.getName()));
+
+        }
+    }
+
+    public byte[] Imagen_A_Bytes(String pathImagen) throws FileNotFoundException {
+        String reportPath = "";
+        reportPath = pathImagen;
+        File file = new File(reportPath);
+
+        FileInputStream fis = new FileInputStream(file);
+        //create FileInputStream which obtains input bytes from a file in a file system
+        //FileInputStream is meant for reading streams of raw bytes such as image data. For reading streams of characters, consider using FileReader.
+
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        byte[] buf = new byte[1024];
+        try {
+            for (int readNum; (readNum = fis.read(buf)) != -1;) {
+                //Writes to this byte array output stream
+                bos.write(buf, 0, readNum);
+//                System.out.println("read " + readNum + " bytes,");
+            }
+        } catch (IOException ex) {
+        }
+
+        byte[] bytes = bos.toByteArray();
+        return bytes;
+    }
+
+    public AImage getFotoGeneral() {
+        return fotoGeneral;
+    }
+
+    public void setFotoGeneral(AImage fotoGeneral) {
+        this.fotoGeneral = fotoGeneral;
     }
 
 }

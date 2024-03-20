@@ -838,3 +838,18 @@ div.z-listheader-cnt {
         
     }
 }
+
+.imgContenedor{
+    display: flex;
+    align-content: center;
+    gap:5px;
+}
+
+.imgContenedor .inputGroupImg {
+    display: grid;
+}
+
+.imgContenedor .inputGroupImg .imgprod{
+    display: block;
+    height: 100px;
+}

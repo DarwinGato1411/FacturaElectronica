@@ -159,6 +159,9 @@ public class Producto implements Serializable {
     @Column(name = "prod_porcentaje_iva")
     private Integer prodPorcentajeIva;
 
+    @Column(name = "prod_imagen")
+    private String prodImagen;
+
     public Producto() {
     }
 
@@ -543,8 +546,14 @@ public class Producto implements Serializable {
         this.prodPorcentajeIva = prodPorcentajeIva;
     }
 
-    
-     
+    public String getProdImagen() {
+        return prodImagen;
+    }
+
+    public void setProdImagen(String prodImagen) {
+        this.prodImagen = prodImagen;
+    }
+
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
