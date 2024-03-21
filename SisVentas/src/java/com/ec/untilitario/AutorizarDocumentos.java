@@ -273,7 +273,7 @@ public class AutorizarDocumentos {
                     + "        <secuencial>" + valor.getFacNumeroText() + "</secuencial>\n"
                     + "        <dirMatriz>" + removeCaracteres(amb.getAmDireccionMatriz()) + "</dirMatriz>\n"
                     + (amb.getAmAgeRet() ? "<agenteRetencion>1</agenteRetencion>\n" : "")
-                    + (!amb.getAmGeneral() ? ((amb.getAmRimpe() ? "<contribuyenteRimpe>CONTRIBUYENTE R\u00c9GIMEN RIMPE</contribuyenteRimpe>\n" : "")) : "")
+                    + (amb.getAmRimpe() ? "<contribuyenteRimpe>CONTRIBUYENTE R\u00c9GIMEN RIMPE</contribuyenteRimpe>\n" : amb.getAmRimpePopular() ? " <contribuyenteRimpe>CONTRIBUYENTE NEGOCIO POPULAR - R\u00c9GIMEN RIMPE</contribuyenteRimpe>\n" : "")
                     //  + "        <agenteRetencion>12345678</agenteRetencion>\n"
                     + "</infoTributaria>\n"
                     + "<infoFactura>\n"
@@ -291,7 +291,7 @@ public class AutorizarDocumentos {
                     + "            <totalImpuesto>\n"
                     + "                <codigo>" + valor.getFacCodIva() + "</codigo>\n"
                     + "                <codigoPorcentaje>0</codigoPorcentaje>\n"
-                    + "                <baseImponible>" + ArchivoUtils.redondearDecimales(valor.getFacTotalBaseCero(),2) + "</baseImponible>\n"
+                    + "                <baseImponible>" + ArchivoUtils.redondearDecimales(valor.getFacTotalBaseCero(), 2) + "</baseImponible>\n"
                     + "                <tarifa>0</tarifa>\n"
                     + "                <valor>0.00</valor>\n"
                     + "             </totalImpuesto>\n"
@@ -307,7 +307,7 @@ public class AutorizarDocumentos {
                     + "                 <codigoPorcentaje>2</codigoPorcentaje>\n"
                     + "                 <baseImponible>" + valor.getFacTotalBaseGravaba() + "</baseImponible>\n"
                     + "                 <tarifa>" + valor.getFacPorcentajeIva() + "</tarifa>\n"
-                    + "                 <valor>" + ArchivoUtils.redondearDecimales(valor.getFacIva(),2) + "</valor>\n"
+                    + "                 <valor>" + ArchivoUtils.redondearDecimales(valor.getFacIva(), 2) + "</valor>\n"
                     + "              </totalImpuesto>\n"
                     + "         </totalConImpuestos>\n"
                     + "                 <propina>0</propina>\n"

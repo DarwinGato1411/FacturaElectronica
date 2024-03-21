@@ -6,258 +6,390 @@
 
     <div  apply="org.zkoss.bind.BindComposer" 
           viewModel="@id('vm') @init('com.ec.controlador.Configuracion')" >
-        <div  class="container" >
-            <div  class="row border border-primary" >
-                <div class="col-12 col-sm-12 col-md-6 col-lg-6  form-group "  align="center" >
-              
-                    <radiogroup class="form-control form-control-sm " 
-                                onCheck="@command('ambienteCodigo')"
-                                selectedItem="@bind(vm.amCodifo)" >
-                        Modo de configuracion:
-                        <space bar="true"  />                        
-                        <radio label="PRUEBAS" value="1"/>
-                        <space bar="true"  /> 
-                        <radio label="PRODUCCION" value="2"/>
-                        <space bar="true"  />  
+       
+        <div style="width: 100%; display:grid;place-content: center; ">
+            <div class="container_modal">
+
+                <div class="body">
+                    <div class="container_row_input">
+                        <div class="wrapper_input_mod">
+                            <span>Ruta Base: </span>
+                            <div class="wrapper_input_text">
+                                <combobox  
+                                    model="@load(vm.listaDicos)" 
+                                    readonly="false"
+                                    class="badge badge-default btn-secondary  textoFechaDateBox"  
+                                    selectedItem="@bind(vm.tipoambiente.amUnidadDisco)"
+                                    style="width:100% !important;"
+                                    tooltiptext="Ruta base dependiendo del sistema operativo (D: ó /Documentos)" 
+                                >       
+                                    <template name="model">
+                                        <comboitem  label="@bind(each)"/>
+                                    </template>                                      
+                                </combobox> 
+                            </div>
+                        </div>
+                        <div class="wrapper_input_mod">
+                            <span>RUC: </span>
+                            <div class="wrapper_input_text">
+                                <div class="fa-solid fa-address-card icon"></div>
+                                <textbox 
+                                    value="@bind(vm.tipoambiente.amRuc)" 
+                                    placeholder="RUC..."
+                                    onOK="@command('buscarCatastro')"
+                                    class="input_text"
+                                    tooltiptext="RUC"
+                                />
+                            </div>
+                        </div>
+                    
+
+                        <div class="wrapper_input_mod">
+                            <span>Modo: </span>
+                            <div class="wrapper_input_text">
+                                <radiogroup 
+                                    class="input_group" 
+                                    onCheck="@command('ambienteCodigo')"
+                                    selectedItem="@bind(vm.amCodifo)" 
+                                >
+                                    <space bar="false"  />                        
+                                    <radio label="PRUEBAS" value="1"/>
+                                    <space bar="false"  /> 
+                                    <radio label="PRODUCCION" value="2"/>
+                                    <space bar="false"  />  
+                                </radiogroup>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="container_row_input">
+                    
+                        <div class="wrapper_input_mod">
+                            <span>Nombre Comercial: </span>
+                            <div class="wrapper_input_text">
+                                <div class="fa-solid fa-user icon"></div>
+                                <textbox 
+                                    value="@bind(vm.tipoambiente.amNombreComercial)" 
+                                    placeholder="Nombre Comercial"
+                                    class="input_text"
+                                    tooltiptext="Nombre Comercial" 
+                                />
+                            </div>
+                        </div>
+                        <div class="wrapper_input_mod">
+                            <span>Razón Social: </span>
+                            <div class="wrapper_input_text">
+                                <div class="fa-solid fa-user icon"></div>
+                                <textbox 
+                                    value="@bind(vm.tipoambiente.amRazonSocial)" 
+                                    placeholder="Razon Social"
+                                    class="input_text"
+                                    tooltiptext="Razon Social" 
+                                />
+                            </div>
+                        </div>
+                    
+                        <div class="wrapper_input_mod">
+                            <span>LLeva Contabilidad: </span>
+                            <div class="wrapper_input_text">
+                                <radiogroup 
+                                    class="radio_group" 
+                                    selectedItem="@bind(vm.llevaContabilidad)" 
+                                >
+                                    <space bar="false"  />   
+                                    <radio label="NO" value="NO"  />
+                                    <space bar="false"  />
+                                    <radio label="SI" value="SI"  />                        
+                                    <space bar="false"  /> 
+                                </radiogroup> 
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="body">
+                    <div class="wrapper_checkbox">
+                        <checkbox 
+                            id="chkRM" 
+                            label="CONTRIBUYENTE REGIMEN GENERAL" 
+                            checked="@bind(vm.tipoambiente.amGeneral)" 
+                        />
+                        <checkbox 
+                            id="chkRG" 
+                            label="CONTRIBUYENTE REGIMEN RIMPE" 
+                            checked="@bind(vm.tipoambiente.amRimpe)" 
+                        />
+                        <checkbox 
+                            id="chkRGP" 
+                            label="CONTRIBUYENTE NEGOCIO POPULAR - RÉGIMEN RIMPE" 
+                            checked="@bind(vm.tipoambiente.amRimpePopular)" 
+                        />
+                        <checkbox 
+                            id="chkAR" 
+                            label="AGENTE DE RETENCION" 
+                            checked="@bind(vm.tipoambiente.amAgeRet)"
+                        />
+
+                        <checkbox 
+                            id="chkCE" 
+                            label="CONTRIBUYENTE ESPECIAL"  
+                            checked="@bind(vm.tipoambiente.amContrEsp)"
+                        />
+
+                        <checkbox 
+                            id="chkEX" 
+                            label="EXPORTADORES"  
+                            checked="@bind(vm.tipoambiente.amExp)"
+                        />
+
+                    </div>
+                </div>
+
+                <div class="body">
+                    <div class="container_row_input">
+                        <div class="wrapper_input_mod">
+                            <span># Contribuyente Esp: </span>
+                            <div class="wrapper_input_text">
+                                <div class="fa-solid fa-user-pen icon"></div>
+                                <textbox 
+                                    value="@bind(vm.tipoambiente.amNroContribuyente)" 
+                                    placeholder="Numero contribuyente"
+                                    class="input_text"
+                                    tooltiptext="Número de contribuyente" 
+                                />
+                            </div>
+                        </div>
+                        <div class="wrapper_input_mod">
+                            <span>Est. SRI: </span>
+                            <div class="wrapper_input_text">
+                                <div class="fa-solid fa-location-dot icon"></div>
+                                <textbox 
+                                    value="@bind(vm.tipoambiente.amEstab)" 
+                                    placeholder="Establecimiento 001"
+                                    onOK="@command('buscarCatastro')"
+                                    class="input_text"
+                                    tooltiptext="Establecimiento asignado por el SRI"
+                                />
+                            </div>
+                        </div>
+                    
+                        <div class="wrapper_input_mod">
+                            <span>Punto Emisión: </span>
+                            <div class="wrapper_input_text">
+                                <div class="fa-solid fa-location-dot icon"></div>
+                                <textbox 
+                                    value="@bind(vm.tipoambiente.amPtoemi)" 
+                                    placeholder="Punto 001"
+                                    onOK="@command('buscarCatastro')"
+                                    class="input_text"
+                                    tooltiptext="Punto de emisión"
+                                />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="container_row_input">
+                    
+                        <div class="wrapper_input_mod">
+                            <span>Clave firma: </span>
+                            <div class="wrapper_input_text">
+                                <div class="fa-solid fa-key icon"></div>
+                                <textbox 
+                                    type="password"
+                                    value="@bind(vm.tipoambiente.amClaveAccesoSri)" 
+                                    placeholder="Clave firma electrónica"
+                                    class="input_text"
+                                    tooltiptext="Clave firma electrónica" 
+                                />
+                            </div>
+                        </div>
+                        <div class="wrapper_input_mod" style="flex:auto;">
+                            <span style="margin:0 0.5em;">Firma Electrónica </span>
+                            <div class="wrapper_input_text" style="width:86%;position:relative">
+                                <div class="fa-solid fa-unlock-keyhole icon"></div>
+                                <textbox value="@bind(vm.tipoambiente.amDirFirma)"
+                                         tooltiptext="Nombre de la firma electrónica (fernando_perez.p12)"
+                                         placeholder="Firma Electrónica"
+                                         class="input_text"
+                                         style="width:100%;"
+                                />
+                                <div 
+                                    class="fa-solid fa-folder icon_signature" 
+                                    onClick="@command('subirFirma')"  
+                                    tooltiptext="Subir archivos"
+                                />
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="container_row_input">
+                        <div class="wrapper_input_mod">
+                            <span>Contacto Empresa: </span>
+                            <div class="wrapper_input_text">
+                                <div class="fa-solid fa-user icon"></div>
+                                <textbox 
+                                    value="@bind(vm.tipoambiente.amTelefono)" 
+                                    placeholder="062918661"
+                                    class="input_text"
+                                    tooltiptext="Contacto" 
+                                />
+                            </div>
+                        </div>
+                    
+                        <div class="wrapper_input_mod" style="flex:auto;">
+                            <span style="margin:0 0.5em;">Dir. Matriz </span>
+                            <div class="wrapper_input_text" style="width:86%;">
+                                <div class="fa-solid fa-location-dot icon"></div>
+                                <textbox 
+                                    value="@bind(vm.tipoambiente.amDireccionMatriz)" 
+                                    placeholder="Direccion Matriz"
+                                    class="input_text"
+                                    style="width:100%;"
+                                />
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="container_row_input">
+                        <div class="wrapper_input_mod">
                         
-                    </radiogroup>          
-                       
+                            <span style="margin:0 0.5em;">Cargar Logotipo: </span>
+                            <div class="wrapper_input_text" style="width:86%;position:relative">
+                                <div class="fa-solid fa-unlock-keyhole icon"></div>
+                                <textbox value="@bind(vm.tipoambiente.am_DirImgPuntoVenta)"
+                                         tooltiptext="Imagen de logotipo (logo.jpg)"
+                                         placeholder="Logotipo de la empresa"
+                                         class="input_text"
+                                         style="width:100%;"
+                                />
+                                <div 
+                                    class="fa-solid fa-folder icon_signature" 
+                                    onClick="@command('subirPathImagen')"  
+                                    tooltiptext="Subir archivos"
+                                />
+                            </div>
+                        </div>
+                        <div class="wrapper_input_mod" style="flex:auto;">
+                            <span style="margin:0 0.5em;">Dir. Establecimiento </span>
+                            <div class="wrapper_input_text" style="width:86%;">
+                                <div class="fa-solid fa-location-dot icon"></div>
+                                <textbox 
+                                    value="@bind(vm.tipoambiente.amDireccionSucursal)" 
+                                    placeholder="Direccion establecimiento sucursal"
+                                    class="input_text"
+                                    style="width:100%;"
+                                />
+                            </div>
+                        </div>
+                    </div>
                     
+                     
                 </div>
-                
-                
-                <div class="col-12 col-sm-12 col-md-6 col-lg-6  form-group " align="center"  >
-                   
-                    <radiogroup class=" form-control form-control-sm" 
-                                selectedItem="@bind(vm.llevaContabilidad)" >
-                        Lleva contabilidad:
-                        <space bar="true"  />   
-                        <radio label="NO" value="NO"  />
-                        <space bar="true"  />
-                        <radio label="SI" value="SI"  />                        
-                        <space bar="true"  /> 
-                    </radiogroup>          
-                       
-                    
-                </div>
-               
-                
-                <div class="col-12 col-sm-12 col-md-3 col-lg-3  form-group"  >
-                    <label value="RUTA BASE:"/>
-                    <combobox  model="@load(vm.listaDicos)" readonly="false"
-                               class="badge badge-default btn-secondary  textoFechaDateBox"  
-                               selectedItem="@bind(vm.tipoambiente.amUnidadDisco)"
-                               tooltiptext="Ruta base dependiendo del sistema operativo (D: ó /Documentos)" >
-                                          
-                        <template name="model">
-                            <comboitem  label="@bind(each)"/>
-                        </template>                                      
-                    </combobox> 
-                    
-                    
-                               
-                </div>  
-                <div class="col-12 col-sm-12 col-md-3 col-lg-3  form-group "  >
-                    
-                    <textbox value="@bind(vm.tipoambiente.amRuc)" 
-                             placeholder="RUC..."
-                             onOK="@command('buscarCatastro')"
-                             class="form-control form-control-sm"
-                             tooltiptext="RUC" />
-                </div>
-                <div class="col-12 col-sm-12 col-md-3 col-lg-3  form-group "  >
-                   
-                    <textbox value="@bind(vm.tipoambiente.amRazonSocial)" 
-                             placeholder="Razon Social"
-                             class="form-control form-control-sm"
-                             tooltiptext="Razon Social" />
-                </div>
-                <div class="col-12 col-sm-12 col-md-3 col-lg-3  form-group "  >
-                    
-                    <textbox value="@bind(vm.tipoambiente.amNombreComercial)" 
-                             placeholder="Nombre Comercial"
-                             class="form-control form-control-sm"
-                             tooltiptext="Nombre Comercial" />
-                </div>     
-                <div class="col-12 col-sm-12 col-md-12 col-lg-12  form-group "  >
-                                      
-                    <checkbox 
-                        id="chkRM" 
-                        label="CONTRIBUYENTE REGIMEN GENERAL" 
-                        checked="@bind(vm.tipoambiente.amGeneral)" 
-                    />
-                    <checkbox 
-                        id="chkRG" 
-                        label="CONTRIBUYENTE REGIMEN RIMPE" 
-                        checked="@bind(vm.tipoambiente.amRimpe)" 
-                    />
 
-                    <checkbox 
-                        id="chkAR" 
-                        label="AGENTE DE RETENCION" 
-                        checked="@bind(vm.tipoambiente.amAgeRet)"
-                    />
+                <div class="body">
+                    <div class="container_row_input">
+                        <div class="wrapper_input_mod">
+                            <span>SMTP: </span>
+                            <div class="wrapper_input_text">
+                                <div class="fa-solid fa-anchor icon"></div>
+                                <textbox 
+                                    value="@bind(vm.tipoambiente.amProtocol)" 
+                                    placeholder="protocolo: smtp"
+                                    class="input_text"
+                                    tooltiptext="Puerto SMTP" 
+                                />
+                            </div>
+                        </div>
+                        <div class="wrapper_input_mod">
+                            <span>Puerto: </span>
+                            <div class="wrapper_input_text">
+                                <div class="fa-solid fa-location-dot icon"></div>
+                                <textbox 
+                                    value="@bind(vm.tipoambiente.amPort)" 
+                                    placeholder="puerto: 587"
+                                    onOK="@command('buscarCatastro')"
+                                    class="input_text"
+                                    tooltiptext="Puerto"
+                                />
+                            </div>
+                        </div>
+                    
+                        <div class="wrapper_input_mod">
+                            <span>Host: </span>
+                            <div class="wrapper_input_text">
+                                <div class="fa-solid fa-location-dot icon"></div>
+                                <textbox 
+                                    value="@bind(vm.tipoambiente.amHost)" 
+                                    placeholder="smtp.gmail.com"
+                                    onOK="@command('buscarCatastro')"
+                                    class="input_text"
+                                    tooltiptext="Host"
+                                />
+                            </div>
+                        </div>
+                    </div>
 
-                    <checkbox 
-                        id="chkCE" 
-                        label="CONTRIBUYENTE ESPECIAL"  
-                        checked="@bind(vm.tipoambiente.amContrEsp)"
-                    />
+                    <div class="container_row_input">
+                    
+                        <div class="wrapper_input_mod">
+                            <span>Correo: </span>
+                            <div class="wrapper_input_text">
+                                <div class="fa-solid fa-envelope icon"></div>
+                                <textbox 
+                                    value="@bind(vm.tipoambiente.amUsuarioSmpt)" 
+                                    placeholder="deckxelec@gmail.com"
+                                    class="input_text"
+                                    tooltiptext="Correo" 
+                                />
+                            </div>
+                        </div>
+                        <div class="wrapper_input_mod">
+                            <span>Contraseña: </span>
+                            <div class="wrapper_input_text">
+                                <div class="fa-solid fa-key icon"></div>
+                                <textbox 
+                                    type="password"
+                                    value="@bind(vm.tipoambiente.amPassword)"                            
+                                    placeholder="Password123"
+                                    class="input_text"
+                                />
+                            </div>
+                        </div>
+                        
+                        
+<!--                        <div class="wrapper_input_mod">
+                            <span> </span>
+                            <div class="wrapper_input_text">
+                                <div ></div>
+                                    
+                            </div>
+                        </div>-->
+                        
+                    </div>
 
-                    <checkbox 
-                        id="chkEX" 
-                        label="EXPORTADORES"  
-                        checked="@bind(vm.tipoambiente.amExp)"
-                    />
-                </div>     
-                   
-                <div class="col-12 col-sm-12 col-md-4 col-lg-4  form-group " >
-                  
-                    <div class="input-group "  >
-                        <textbox value="@bind(vm.tipoambiente.amDirFirma)" 
-                                 placeholder="INGRESE SU FIRMA DIGITAL"
-                                 class="form-control form-control-sm"
-                                 tooltiptext="Nombre de la firma electrónica (fernando_perez.p12)" />
-                        <image src="/iconos/carpeta.png"   
-                               onClick="@command('subirFirma')"  
-                               tooltiptext="Subir archivos"
-                               style="font-size:20px;font-weight:bold"/>
-                    </div>      
                     
-                                   
-                </div>
-                <div class="col-12 col-sm-12 col-md-4 col-lg-4  form-group "  >
-                   
-                    <textbox  type="password"
-                              value="@bind(vm.tipoambiente.amClaveAccesoSri)" 
-                              placeholder="Clave de la firma electronica"
-                              class="form-control form-control-sm"
-                              tooltiptext="Clave emitida por el SRI" />
-                </div>
-                
-               
-                <div class="col-12 col-sm-12 col-md-4 col-lg-4  form-group "  >
-                    
-                    <div class="input-group "  >
-                        <textbox value="@bind(vm.tipoambiente.am_DirImgPuntoVenta)" 
-                                 placeholder="Logotipo de la empresa"
-                                 class="form-control form-control-sm"
-                                 tooltiptext="Nombre de la firma electrónica (fernando_perez.p12)" />
-                        <image src="/iconos/carpeta.png"   
-                               onClick="@command('subirPathImagen')"  
-                               tooltiptext="Subir logotipo de la empresa"
-                               style="font-size:20px;font-weight:bold"/>
-                    </div>      
-                    
-                                   
-                </div>
-                <div class="col-12 col-sm-12 col-md-4 col-lg-2  form-group " align="center" >                    
-                    <textbox value="@bind(vm.tipoambiente.amTelefono)" 
-                             placeholder="062918661"
-                             maxlength="10"
-                             class="form-control form-control-sm"
-                             tooltiptext="Contacto de la empresa" />
-                </div>
-                
-                 
-               
-                <div class="col-12 col-sm-12 col-md-4 col-lg-2  form-group " align="center" >
-                  
-                    <textbox value="@bind(vm.tipoambiente.amNroContribuyente)" 
-                             placeholder="Numero contribuyente"
-                             class="form-control form-control-sm"
-                             tooltiptext="Número de contribuyente" />
-                </div>
-                <div class="col-12 col-sm-12 col-md-4 col-lg-2  form-group " align="center" >
-                  
-                    <textbox value="@bind(vm.tipoambiente.amEstab)" 
-                             placeholder="Establecimiento: 001"
-                             maxlength="3"
-                             class="form-control form-control-sm"
-                             tooltiptext="Establecimiento asigando por el SRI (001)" />
-                </div>
-                <div class="col-12 col-sm-12 col-md-4 col-lg-2  form-group " align="center" >
-                  
-                    <textbox value="@bind(vm.tipoambiente.amPtoemi)" 
-                             placeholder="Punto emision: 001"
-                             maxlength="3"
-                             class="form-control form-control-sm"
-                             tooltiptext="Punto de emision" />
-                </div>
-                <div class="col-12 col-sm-12 col-md-4 col-lg-2  form-group " align="center" >
-                  
-                    <textbox value="@bind(vm.tipoambiente.amCodigoArtesano)" 
-                             placeholder="Codigo artesano"
-                             maxlength="20"
-                             class="form-control form-control-sm"
-                             tooltiptext="Codigo artesano" />
-                </div>
-                
-                <div class="col-12 col-sm-12 col-md-6 col-lg-6  form-group "  >
-                   
-                    <textbox value="@bind(vm.tipoambiente.amDireccionMatriz)" 
-                             placeholder="Direccion Matriz"
-                             class="form-control form-control-sm"
-                             tooltiptext="Direccion matriz" >
-                    </textbox>
-                </div>
-                
-                <div class="col-12 col-sm-12 col-md-6 col-lg-6  form-group "  >
-                    
-                    <textbox value="@bind(vm.tipoambiente.amDireccionSucursal)" 
-                             placeholder="Direccion establecimiento sucursal"
-                             class="form-control form-control-sm"
-                             tooltiptext="Direccion establecimiento" />
-                </div>
-                
-                <div class="col-12 col-sm-12 col-md-2 col-lg-2  form-group "  >
-                 
-                    <textbox value="@bind(vm.tipoambiente.amProtocol)" 
-                             placeholder="protocolo: smtp"
-                             class="form-control form-control-sm"
-                             tooltiptext="Protocolo: smtp" />
-                </div> 
-                <div class="col-12 col-sm-12 col-md-2 col-lg-2  form-group "  >
-                  
-                    <textbox value="@bind(vm.tipoambiente.amPort)" 
-                             placeholder="puerto: 587"
-                             class="form-control form-control-sm"
-                             tooltiptext="Pueto: 587" />
-                </div> 
-                <div class="col-12 col-sm-12 col-md-2 col-lg-2  form-group "  >
-                    
-                    <textbox value="@bind(vm.tipoambiente.amHost)" 
-                             placeholder="smtp.gmail.com"
-                             class="form-control form-control-sm"
-                             tooltiptext="Host: smtp.gmail.com" />
-                </div> 
-                <div class="col-12 col-sm-12 col-md-4 col-lg-4  form-group "  >
-                    
-                    <textbox value="@bind(vm.tipoambiente.amUsuarioSmpt)" 
-                             placeholder="deckxelec@gmail.com"
-                             class="form-control form-control-sm"
-                             tooltiptext="Host: deckxelec@gmail.com" />
-                </div> 
-                <div class="col-12 col-sm-12 col-md-2 col-lg-2  form-group "  >
-                   
-                    <textbox value="@bind(vm.tipoambiente.amPassword)"                            
-                             placeholder="Password123"
-                             class="form-control form-control-sm"
-                             tooltiptext="Host: Password123" />
-                </div> 
-                <div class="col-12 col-sm-12 col-md-12 col-lg-12  form-group" align="center" >
-                    
-                    <button src="/iconos/guardar.png"  
-                            class="btn btn btn-secondary btn-sm "
-                            onClick="@command('guardar')"
-                            tooltiptext="Guardar informacion"/>
- 
 
-                </div> 
+                
+                </div>
+            
+                
+
+                <div style="display:flex;justify-content:flex-end;">
+                    <button class="btn_modal" style="width:300px" onClick="@command('guardar')" tooltiptext="Guardar informacion">
+                        Guardar
+                    </button>
+                </div>
+        
             </div>
+
         </div>
+
+
         
     </div>
-    <!--</window>-->
 </zk>
 
