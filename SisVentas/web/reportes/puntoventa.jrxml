@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="puntoventa" language="groovy" pageWidth="212" pageHeight="400" columnWidth="190" leftMargin="9" rightMargin="13" topMargin="2" bottomMargin="20" isIgnorePagination="true">
 	<property name="ireport.zoom" value="2.253944402704734"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="182"/>
+	<property name="ireport.y" value="278"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -384,7 +384,7 @@ and tipoambiente.am_estado is true  limit 1;]]>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{cli_direccion}]]></textFieldExpression>
 			</textField>
-			<textField pattern="d/M/yyyy">
+			<textField pattern="dd/MM/yyyy HH.mm.ss">
 				<reportElement x="49" y="204" width="141" height="13"/>
 				<textElement>
 					<font size="9" isBold="false"/>
@@ -458,12 +458,7 @@ and tipoambiente.am_estado is true  limit 1;]]>
 			<textField>
 				<reportElement x="10" y="97" width="180" height="15"/>
 				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{am_ripme}?"CONTRIBUYENTE RÉGIMEN RIMPE":""]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="10" y="97" width="180" height="15"/>
-				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{am_general}?"RÉGIMEN GENERAL":""]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{am_general}?"CONTRIBUYENTE REGIMEN GENERAL":$F{am_ripme}?"CONTRIBUYENTE REGIMEN RIMPE EMPRENDEDOR": $F{am_rimpe_popular}?"CONTRIBUYENTE NEGOCIO POPULAR - REGIMEN RIMPE":""]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
@@ -561,7 +556,7 @@ and tipoambiente.am_estado is true  limit 1;]]>
 								<textElement textAlignment="Right" verticalAlignment="Middle">
 									<font size="8"/>
 								</textElement>
-								<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{det_subtotaldescuento}]]></textFieldExpression>
+								<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{det_total}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -584,7 +579,7 @@ and tipoambiente.am_estado is true  limit 1;]]>
 								<textElement textAlignment="Right" verticalAlignment="Middle">
 									<font size="8"/>
 								</textElement>
-								<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{det_subtotaldescuentoporcantidad}]]></textFieldExpression>
+								<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{det_totaldescuentoiva}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
