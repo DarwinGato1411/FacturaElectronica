@@ -5,6 +5,7 @@
 package com.ec.servicio;
 
 import com.ec.entidad.DetalleKardex;
+import com.ec.entidad.Factura;
 import com.ec.entidad.Kardex;
 import java.util.ArrayList;
 import java.util.Date;
@@ -151,4 +152,23 @@ public class ServicioDetalleKardex {
         return listadetalleKardexs;
     }
 
+        public List<DetalleKardex> findByFactura(Factura idFactura) {
+
+        List<DetalleKardex> listadetalleKardexs = new ArrayList<DetalleKardex>();
+        try {
+            em = HelperPersistencia.getEMF();
+            em.getTransaction().begin();
+            Query query = em.createQuery("SELECT d FROM DetalleKardex d WHERE d.idFactura = :idFactura ORDER BY d.detkFechakardex ASC");
+            query.setParameter("idFactura", idFactura);
+            listadetalleKardexs = (List<DetalleKardex>) query.getResultList();
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            System.out.println("Error en lsa consulta detalleKardex " + e.getMessage());
+        } finally {
+            em.close();
+        }
+
+        return listadetalleKardexs;
+    }
+    
 }
