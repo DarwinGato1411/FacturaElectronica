@@ -79,7 +79,7 @@ public class ServicioFactura {
                 detalleFactura.setDetSubtotaldescuentoporcantidad(item.getDetSubtotaldescuentoporcantidad());
                 detalleFactura.setDetCodTipoVenta(item.getCodTipoVenta());
                 detalleFactura.setDetCodIva("2");
-                detalleFactura.setDetCodPorcentaje(item.getProducto().getProdGrabaIva() ? "2" : "0");
+                detalleFactura.setDetCodPorcentaje(item.getProducto().getProdCodigoIva().toString());
                 detalleFactura.setDetTarifa(item.getProducto().getProdIva());
 
                 /*para las motocicletas o vehiculos*/

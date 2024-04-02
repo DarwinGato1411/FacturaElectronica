@@ -102,7 +102,7 @@ public class AdmProducto {
         Tipoambiente amb = servicioTipoAmbiente.FindALlTipoambiente();
         //OBTIENE LAS RUTAS DE ACCESO A LOS DIRECTORIOS DE LA TABLA TIPOAMBIENTE
         PATH_BASE = amb.getAmDirBaseArchivos() + File.separator
-                    + amb.getAmDirXml();
+                + amb.getAmDirXml();
         FOLDER_CODIGO_BARRAS = PATH_BASE + File.separator + "CODIGOBARRAS";
 
         File folderGen = new File(FOLDER_CODIGO_BARRAS);
@@ -154,7 +154,7 @@ public class AdmProducto {
         final HashMap<String, Producto> map = new HashMap<String, Producto>();
         map.put("valor", valor);
         org.zkoss.zul.Window window = (org.zkoss.zul.Window) Executions.createComponents(
-                    "/administrar/admcombo.zul", null, map);
+                "/administrar/admcombo.zul", null, map);
         window.doModal();
     }
 
@@ -200,7 +200,7 @@ public class AdmProducto {
         for (Producto producto : listaProducto) {
 
             String reportFile = Executions.getCurrent().getDesktop().getWebApp()
-                        .getRealPath("/codigoqr");
+                    .getRealPath("/codigoqr");
             String reportPath = "";
             System.out.println("PATh codigos " + reportFile);
             pathQR = reportFile + reportPath + File.separator + producto.getProdNombre() + ".JPEG";
@@ -261,7 +261,7 @@ public class AdmProducto {
     public void nuevoCliente() {
         buscarNombre = "";
         org.zkoss.zul.Window window = (org.zkoss.zul.Window) Executions.createComponents(
-                    "/nuevo/producto.zul", null, null);
+                "/nuevo/producto.zul", null, null);
         window.doModal();
         findLikeNombre();
         getProductosModel();
@@ -274,7 +274,7 @@ public class AdmProducto {
         final HashMap<String, Producto> map = new HashMap<String, Producto>();
         map.put("valor", valor);
         org.zkoss.zul.Window window = (org.zkoss.zul.Window) Executions.createComponents(
-                    "/nuevo/producto.zul", null, map);
+                "/nuevo/producto.zul", null, map);
         window.doModal();
         // findLikeNombre();
         // getProductosModel();
@@ -292,6 +292,17 @@ public class AdmProducto {
         } else {
         }
 
+    }
+
+    @Command
+    @NotifyChange({"listaProductosModel", "buscarNombre"})
+    public void modificar(@BindingParam("valor") Producto valor) {
+//        if (Messagebox.show("¿Seguro que desea eliminar el registro?", "Atención", Messagebox.YES | Messagebox.NO, Messagebox.INFORMATION) == Messagebox.YES) {
+        servicioProducto.modificar(valor);
+        Clients.showNotification("Modificado correctamente", Clients.NOTIFICATION_TYPE_INFO, null, "end_center", 2000, true);
+
+//        } else {
+//        }
     }
 
     @Command
@@ -329,7 +340,7 @@ public class AdmProducto {
 
     @Command
     public void reporteCodigosQR() throws JRException, IOException,
-                ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, NamingException {
+            ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, NamingException {
         EntityManager emf = HelperPersistencia.getEMF();
 
         try {
@@ -339,7 +350,7 @@ public class AdmProducto {
 
             con = ConexionReportes.Conexion.conexion();
             String reportFile = Executions.getCurrent().getDesktop().getWebApp()
-                        .getRealPath("/reportes");
+                    .getRealPath("/reportes");
             String reportPath = "";
             //con = conexionReportes.conexion();
 
@@ -363,7 +374,7 @@ public class AdmProducto {
 //para pasar al visor
             map.put("pdf", fileContent);
             org.zkoss.zul.Window window = (org.zkoss.zul.Window) Executions.createComponents(
-                        "/venta/contenedorReporte.zul", null, map);
+                    "/venta/contenedorReporte.zul", null, map);
             window.doModal();
 //        con.close();
             emf.getTransaction().commit();
@@ -405,7 +416,7 @@ public class AdmProducto {
     }
 
     public void reporteCodigosBarras() throws JRException, IOException,
-                ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, NamingException {
+            ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, NamingException {
         EntityManager emf = HelperPersistencia.getEMF();
 
         try {
@@ -414,7 +425,7 @@ public class AdmProducto {
             con = emf.unwrap(Connection.class);
 
             String reportFile = Executions.getCurrent().getDesktop().getWebApp()
-                        .getRealPath("/reportes");
+                    .getRealPath("/reportes");
             String reportPath = "";
             //con = conexionReportes.conexion();
 
@@ -436,7 +447,7 @@ public class AdmProducto {
 //para pasar al visor
             map.put("pdf", fileContent);
             org.zkoss.zul.Window window = (org.zkoss.zul.Window) Executions.createComponents(
-                        "/venta/contenedorReporte.zul", null, map);
+                    "/venta/contenedorReporte.zul", null, map);
             window.doModal();
 //        con.close();
             emf.getTransaction().commit();
@@ -709,7 +720,7 @@ public class AdmProducto {
 
                 HSSFCell c4 = r.createCell(i++);
                 c4.setCellValue(new HSSFRichTextString(item.getProdGrabaIva() ? "1" : "0"));
-                
+
                 HSSFCell c5 = r.createCell(i++);
                 c5.setCellValue(new HSSFRichTextString(item.getIdSubCategoria().getIdSubCategoria().toString()));
                 /*autemta la siguiente fila*/
@@ -740,14 +751,14 @@ public class AdmProducto {
 
                 if (!nombre.contains("xls")) {
                     Clients.showNotification("Su documento debe ser un archivo excel",
-                                Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 3000, true);
+                            Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 3000, true);
 
                     return;
                 }
 
                 System.out.println("media " + nombre);
                 Files.copy(new File(PATH_BASE + File.separator + "CARGAR" + File.separator + nombre),
-                            new ByteArrayInputStream(media.getByteData()));
+                        new ByteArrayInputStream(media.getByteData()));
 
                 String rutaArchivo = PATH_BASE + File.separator + "CARGAR" + File.separator + nombre;
 
@@ -766,84 +777,84 @@ public class AdmProducto {
                     row = sheet.getRow(i);
 //                    for (int j = 0; j < row.getLastCellNum(); j++) {
 //                    for (int j = 0; j < 6; j++) {
-                        List<Producto> prodcutos = servicioProducto.findLikeProdNombre(String.valueOf(row.getCell(1)));
-                        if (prodcutos.isEmpty()) {
+                    List<Producto> prodcutos = servicioProducto.findLikeProdNombre(String.valueOf(row.getCell(1)));
+                    if (prodcutos.isEmpty()) {
 //                            cell = row.getCell(j);
-                            prod = new Producto();
-                            prod.setProdCodigo(String.valueOf(row.getCell(0)));
-                            prod.setProdNombre(String.valueOf(row.getCell(1)));
-                            prod.setPordCostoVentaRef(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(2)))));
-                            prod.setPordCostoVentaFinal(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(3)))));
-                            prod.setProdCostoPreferencial(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(4)))));
-                            prod.setProdCostoPreferencialDos(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(5)))));
-                            prod.setProdCostoPreferencialTres(BigDecimal.ZERO);
-                            Subcategoria sub = servicioSubCategoria.findById(Integer.valueOf(String.valueOf(row.getCell(7))));
-                            prod.setIdSubCategoria(sub);
+                        prod = new Producto();
+                        prod.setProdCodigo(String.valueOf(row.getCell(0)));
+                        prod.setProdNombre(String.valueOf(row.getCell(1)));
+                        prod.setPordCostoVentaRef(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(2)))));
+                        prod.setPordCostoVentaFinal(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(3)))));
+                        prod.setProdCostoPreferencial(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(4)))));
+                        prod.setProdCostoPreferencialDos(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(5)))));
+                        prod.setProdCostoPreferencialTres(BigDecimal.ZERO);
+                        Subcategoria sub = servicioSubCategoria.findById(Integer.valueOf(String.valueOf(row.getCell(7))));
+                        prod.setIdSubCategoria(sub);
 //                            prod.setCodTipoambiente(amb);
-                            prod.setProdCantMinima(BigDecimal.ONE);
-                            prod.setProdFechaRegistro(new Date());
+                        prod.setProdCantMinima(BigDecimal.ONE);
+                        prod.setProdFechaRegistro(new Date());
 
-                            if (row.getCell(6) != null) {
-                                String valor = String.valueOf(row.getCell(6));
-                                prod.setProdGrabaIva(String.valueOf(row.getCell(6)).contains("1") ? Boolean.TRUE : Boolean.FALSE);
+                        if (row.getCell(6) != null) {
+                            String valor = String.valueOf(row.getCell(6));
+                            prod.setProdGrabaIva(String.valueOf(row.getCell(6)).contains("1") ? Boolean.TRUE : Boolean.FALSE);
 
-                                if (prod.getProdGrabaIva()) {
-                                    BigDecimal precioIva = BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(2))));
-                                    BigDecimal precioCompra = precioIva.divide(BigDecimal.valueOf(1.12), 4, RoundingMode.FLOOR);
-                                    prod.setPordCostoCompra(precioCompra);
-                                    prod.setProdIva(BigDecimal.valueOf(12));
+                            if (prod.getProdGrabaIva()) {
+                                BigDecimal precioIva = BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(2))));
+                                BigDecimal precioCompra = precioIva.divide(BigDecimal.valueOf(1.12), 4, RoundingMode.FLOOR);
+                                prod.setPordCostoCompra(precioCompra);
+                                prod.setProdIva(BigDecimal.valueOf(12));
 //                                    prod.setpro
-                                } else {
-                                    prod.setPordCostoCompra(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(2)))));
-                                    prod.setProdIva(BigDecimal.valueOf(0));
-                                }
-
                             } else {
-                                prod.setProdGrabaIva(Boolean.FALSE);
                                 prod.setPordCostoCompra(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(2)))));
                                 prod.setProdIva(BigDecimal.valueOf(0));
                             }
-                            prod.setProdCantidadInicial(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(6)))));
-                            servicioProducto.crear(prod);
-//                            System.out.println("Valor: " + cell.toString());
+
                         } else {
-                            Producto selected = prodcutos.get(0);
-                            System.out.println("El producto existe " + String.valueOf(row.getCell(1)));
+                            prod.setProdGrabaIva(Boolean.FALSE);
+                            prod.setPordCostoCompra(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(2)))));
+                            prod.setProdIva(BigDecimal.valueOf(0));
+                        }
+                        prod.setProdCantidadInicial(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(6)))));
+                        servicioProducto.crear(prod);
+//                            System.out.println("Valor: " + cell.toString());
+                    } else {
+                        Producto selected = prodcutos.get(0);
+                        System.out.println("El producto existe " + String.valueOf(row.getCell(1)));
 //                            selected.setProdCodigo(String.valueOf(row.getCell(0)));
 //                            selected.setProdNombre(String.valueOf(row.getCell(1)));
 //                            selected.setPordCostoVentaRef(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(2)))));
-                            selected.setPordCostoVentaFinal(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(3)))));
-                            selected.setProdCostoPreferencial(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(4)))));
-                            selected.setProdCostoPreferencialDos(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(5)))));
-                            selected.setProdCostoPreferencialTres(BigDecimal.ZERO);
+                        selected.setPordCostoVentaFinal(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(3)))));
+                        selected.setProdCostoPreferencial(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(4)))));
+                        selected.setProdCostoPreferencialDos(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(5)))));
+                        selected.setProdCostoPreferencialTres(BigDecimal.ZERO);
 //                            prod.setCodTipoambiente(amb);
-                            selected.setProdCantMinima(BigDecimal.ONE);
-                            selected.setProdFechaRegistro(new Date());
-                            Subcategoria sub = servicioSubCategoria.findById(Integer.valueOf(String.valueOf(row.getCell(7))));
-                            selected.setIdSubCategoria(sub);
+                        selected.setProdCantMinima(BigDecimal.ONE);
+                        selected.setProdFechaRegistro(new Date());
+                        Subcategoria sub = servicioSubCategoria.findById(Integer.valueOf(String.valueOf(row.getCell(7))));
+                        selected.setIdSubCategoria(sub);
 
-                            if (row.getCell(6) != null) {
-                                String valor = String.valueOf(row.getCell(6));
-                                selected.setProdGrabaIva(String.valueOf(row.getCell(6)).contains("1") ? Boolean.TRUE : Boolean.FALSE);
+                        if (row.getCell(6) != null) {
+                            String valor = String.valueOf(row.getCell(6));
+                            selected.setProdGrabaIva(String.valueOf(row.getCell(6)).contains("1") ? Boolean.TRUE : Boolean.FALSE);
 
-                                if (selected.getProdGrabaIva()) {
-                                    BigDecimal precioIva = BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(2))));
-                                    BigDecimal precioCompra = precioIva.divide(BigDecimal.valueOf(1.12), 4, RoundingMode.FLOOR);
-                                    selected.setPordCostoCompra(precioCompra);
-                                    prod.setProdIva(BigDecimal.valueOf(12));
+                            if (selected.getProdGrabaIva()) {
+                                BigDecimal precioIva = BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(2))));
+                                BigDecimal precioCompra = precioIva.divide(BigDecimal.valueOf(1.12), 4, RoundingMode.FLOOR);
+                                selected.setPordCostoCompra(precioCompra);
+                                prod.setProdIva(BigDecimal.valueOf(12));
 //                                    prod.setpro
-                                } else {
-                                    selected.setPordCostoCompra(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(2)))));
-                                    prod.setProdIva(BigDecimal.valueOf(0));
-                                }
-
                             } else {
-                                selected.setProdGrabaIva(Boolean.FALSE);
                                 selected.setPordCostoCompra(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(2)))));
+                                prod.setProdIva(BigDecimal.valueOf(0));
                             }
-//                            selected.setProdCantidadInicial(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(6)))));
-                            servicioProducto.modificar(selected);
+
+                        } else {
+                            selected.setProdGrabaIva(Boolean.FALSE);
+                            selected.setPordCostoCompra(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(2)))));
                         }
+//                            selected.setProdCantidadInicial(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(6)))));
+                        servicioProducto.modificar(selected);
+                    }
 
 //                    }
                 }
@@ -853,11 +864,11 @@ public class AdmProducto {
                 inicializarKardex();
                 getProductosModel();
                 Clients.showNotification("Productos cargados correctamente",
-                            Clients.NOTIFICATION_TYPE_INFO, null, "end_center", 3000, true);
+                        Clients.NOTIFICATION_TYPE_INFO, null, "end_center", 3000, true);
             }
         } catch (IOException e) {
             Clients.showNotification("Verifique le archivo para cargar",
-                        Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 3000, true);
+                    Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 3000, true);
             e.printStackTrace();
 //            Messagebox.show("Upload failed");
         }

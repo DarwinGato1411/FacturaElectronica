@@ -157,6 +157,11 @@ public class Producto implements Serializable {
     @Column(name = "prod_es_repetido")
     private Boolean prodEsRepetido;
 
+    @Column(name = "prod_codigo_iva")
+    private Integer prodCodigoIva;
+    @Column(name = "prod_porcentaje_iva")
+    private Integer prodPorcentajeIva;
+
     public Producto() {
     }
 
@@ -550,4 +555,21 @@ public class Producto implements Serializable {
     public String toString() {
         return "com.ec.entidad.Producto[ idProducto=" + idProducto + " ]";
     }
+
+    public Integer getProdCodigoIva() {
+        return prodCodigoIva;
+    }
+
+    public void setProdCodigoIva(Integer prodCodigoIva) {
+        this.prodCodigoIva = prodCodigoIva;
+    }
+
+    public Integer getProdPorcentajeIva() {
+        return prodPorcentajeIva;
+    }
+
+    public void setProdPorcentajeIva(Integer prodPorcentajeIva) {
+        this.prodPorcentajeIva = prodPorcentajeIva;
+    }
+
 }

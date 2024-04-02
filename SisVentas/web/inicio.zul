@@ -13,13 +13,13 @@
                 <image src="./imagenes/logodeckxel.png" class="logo"/>
                 <div class="wrapper_title">
                     <span class="title">Sistema de Facturación Electrónica</span>
-                   
+                   <span class="title">Ajustes IVA-2024</span>
                     <div class="desc">
-                        Estimado usuario envenido a nuestro sistema.
+                        Estimado usuario bienvenido a nuestro sistema.
                     </div>
-                    <div class="desc">
+<!--                    <div class="desc">
                        Obten tu firma electronica con nosotros.
-                    </div>
+                    </div>-->
                     <div class="desc">
                        Asesoramiento directo.
                     </div>
@@ -81,3 +81,4 @@
     </div>
 
 </zk>
+
