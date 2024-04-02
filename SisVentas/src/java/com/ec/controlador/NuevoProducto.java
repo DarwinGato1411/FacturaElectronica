@@ -75,15 +75,13 @@ public class NuevoProducto {
     private List<BigDecimal> listaIva = new ArrayList<>();
 
     private Boolean grabaIva = Boolean.TRUE;
-    
+
     //subir imagen
     private String filePath;
     byte[] buffer = new byte[1024 * 1024];
     private AImage fotoGeneral = null;
     ServicioTipoAmbiente servicioTipoAmbiente = new ServicioTipoAmbiente();
     private Tipoambiente tipoambiente = new Tipoambiente();
-
-    
 
     @AfterCompose
     public void afterCompose(@ExecutionArgParam("valor") Producto producto, @ContextParam(ContextType.VIEW) Component view) {
@@ -112,9 +110,7 @@ public class NuevoProducto {
             producto.setProdUnidadMedida(producto.getProdUnidadMedida() == null ? "UNIDAD" : producto.getProdUnidadMedida());
             producto.setProdUnidadConversion(producto.getProdUnidadConversion() == null ? "UNIDAD" : producto.getProdUnidadConversion());
             producto.setProdFactorConversion(producto.getProdFactorConversion() == null ? BigDecimal.ONE : producto.getProdFactorConversion());
-            
-            
-            
+
             try {
                 if (producto.getProdImagen() != null) {
                     fotoGeneral = new AImage("fotoPedido", Imagen_A_Bytes(producto.getProdImagen()));
@@ -126,7 +122,7 @@ public class NuevoProducto {
             } catch (IOException ex) {
                 Logger.getLogger(NuevoProducto.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+
             accion = "update";
         } else {
             this.producto = new Producto(0, Boolean.FALSE);
@@ -153,7 +149,7 @@ public class NuevoProducto {
             accion = "create";
         }
 
-        listaIva.add(BigDecimal.valueOf(0));
+//        listaIva.add(BigDecimal.valueOf(0));
         listaIva.add(BigDecimal.valueOf(5));
         listaIva.add(BigDecimal.valueOf(12));
         listaIva.add(BigDecimal.valueOf(13));
@@ -166,59 +162,60 @@ public class NuevoProducto {
     @Command
     @NotifyChange({"producto", "conIva", "grabaIva", "txtIvaRec"})
     public void colocarIva() {
-        if (conIva.equals("S")) {
+        try {
+            if (conIva.equals("S")) {
 
-            txtIvaRec.setText(producto.getProdIva() != null ? producto.getProdIva().toString() : "15");
-            this.producto.setProdIva(producto.getProdIva() != null ? producto.getProdIva() : BigDecimal.valueOf(15));
+                txtIvaRec.setText(producto.getProdIva() != null ? producto.getProdIva().toString() : "15");
+                this.producto.setProdIva(producto.getProdIva() != null ? producto.getProdIva() : BigDecimal.valueOf(15));
 //            producto.setProdIva(parametrizar.getParIva());
-            grabaIva = Boolean.TRUE;
-          
+                grabaIva = Boolean.TRUE;
 
-            Integer valorIva = producto.getProdIva().intValue();
-            switch (valorIva) {
-                case 0:
-                    // secuencia de sentencias.
-                    this.producto.setProdPorcentajeIva(0);
-                    this.producto.setProdCodigoIva(0);
-                    break;
-                case 5:
-                    // secuencia de sentencias.
-                    this.producto.setProdPorcentajeIva(5);
-                    this.producto.setProdCodigoIva(5);
-                    break;
+                Integer valorIva = producto.getProdIva().intValue();
+                switch (valorIva) {
+                    case 0:
+                        // secuencia de sentencias.
+                        this.producto.setProdPorcentajeIva(0);
+                        this.producto.setProdCodigoIva(0);
+                        break;
+                    case 5:
+                        // secuencia de sentencias.
+                        this.producto.setProdPorcentajeIva(5);
+                        this.producto.setProdCodigoIva(5);
+                        break;
 
-                case 12:
-                    // secuencia de sentencias.
-                    this.producto.setProdPorcentajeIva(12);
-                    this.producto.setProdCodigoIva(2);
-                    break;
-                case 13:
-                    // secuencia de sentencias.
-                    this.producto.setProdPorcentajeIva(13);
-                    this.producto.setProdCodigoIva(10);
-                    break;
-                case 14:
-                    // secuencia de sentencias.
-                    this.producto.setProdPorcentajeIva(14);
-                    this.producto.setProdCodigoIva(3);
-                    break;
-                case 15:
-                    // secuencia de sentencias.
-                    this.producto.setProdPorcentajeIva(15);
-                    this.producto.setProdCodigoIva(4);
-                    break;
-                default:
-                // Default secuencia de sentencias.
-            }
+                    case 12:
+                        // secuencia de sentencias.
+                        this.producto.setProdPorcentajeIva(12);
+                        this.producto.setProdCodigoIva(2);
+                        break;
+                    case 13:
+                        // secuencia de sentencias.
+                        this.producto.setProdPorcentajeIva(13);
+                        this.producto.setProdCodigoIva(10);
+                        break;
+                    case 14:
+                        // secuencia de sentencias.
+                        this.producto.setProdPorcentajeIva(14);
+                        this.producto.setProdCodigoIva(3);
+                        break;
+                    case 15:
+                        // secuencia de sentencias.
+                        this.producto.setProdPorcentajeIva(15);
+                        this.producto.setProdCodigoIva(4);
+                        break;
+                    default:
+                    // Default secuencia de sentencias.
+                }
 
-        } else {
-            producto.setProdCodigoIva(0);
-            this.producto.setProdPorcentajeIva(0);
-            this.producto.setProdCodigoIva(7);
-            txtIvaRec.setText("0");
+            } else {
+                this.producto.setProdCodigoIva(0);
+                this.producto.setProdPorcentajeIva(0);
+                txtIvaRec.setText("0");
 //            producto.setProdIva(BigDecimal.ZERO);
-            this.producto.setProdIva(BigDecimal.ZERO);
-            grabaIva = Boolean.FALSE;
+                this.producto.setProdIva(BigDecimal.ZERO);
+                grabaIva = Boolean.FALSE;
+            }
+        } catch (Exception e) {
         }
     }
 
@@ -227,7 +224,7 @@ public class NuevoProducto {
     public void colocarIvaCampo() {
 
         txtIvaRec.setText(producto.getProdIva() != null ? producto.getProdIva().toString() : "15");
-       colocarIva();
+        colocarIva();
         calcularValores();
     }
 
@@ -493,8 +490,8 @@ public class NuevoProducto {
     public void setGrabaIva(Boolean grabaIva) {
         this.grabaIva = grabaIva;
     }
-    
-     @Command
+
+    @Command
     @NotifyChange({"fileContent", "empresa", "fotoGeneral"})
     public void subirImagen() throws InterruptedException, IOException {
 

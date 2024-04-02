@@ -300,14 +300,11 @@ public class Facturar extends SelectorComposer<Component> {
 
     /* PARA GESTION DE COMBO DE PRODCUTO */
     ServicioComboProducto servicioComboProducto = new ServicioComboProducto();
-    
-    
-       //subir imagen
+
+    //subir imagen
     private String filePath;
     byte[] buffer = new byte[1024 * 1024];
     private AImage fotoGeneral = null;
-    
-    
 
     @AfterCompose
     public void afterCompose(@ExecutionArgParam("valor") ParamFactura valor,
@@ -2393,7 +2390,7 @@ public class Facturar extends SelectorComposer<Component> {
                         servicioDetalleKardex.eliminarKardexVenta(factura.getIdFactura());
                         servicioFactura.guardarFactura(detalleFactura, factura);
                     }
-                
+
                     /* VERIFICA SI EL CLINETE QUIERE AUTORIZAR LA FACTURA */
                     if (!parametrizar.getParEstado() || tipoVenta.equals("PROF")) {
                         /* en el caso que no se desee autorizar la factura */
@@ -2446,8 +2443,13 @@ public class Facturar extends SelectorComposer<Component> {
                             detalleKardex.setIdFactura(factura);
                             detalleKardex.setDetkCantidad(item.getCantidad());
                             servicioDetalleKardex.crear(detalleKardex);
-                            BigDecimal total = kardex.getKarTotal();
-                            total = total.subtract(item.getCantidad());
+//                            BigDecimal total = kardex.getKarTotal();
+//                            total = total.subtract(item.getCantidad());
+//                            kardex.setKarTotal(total);
+//                            servicioKardex.modificar(kardex);
+
+                            TotalKardex totales = servicioKardex.totalesForKardex(kardex);
+                            BigDecimal total = totales.getTotalKardex();
                             kardex.setKarTotal(total);
                             servicioKardex.modificar(kardex);
 
@@ -2492,8 +2494,9 @@ public class Facturar extends SelectorComposer<Component> {
 
             }
 
-            /* Verificar numero de proforma */
-            reporteGeneral();
+//            servicioKardex.
+                    /* Verificar numero de proforma */
+                    reporteGeneral();
             if (accion.equals("create")) {
                 Executions.sendRedirect("/venta/facturar.zul");
             } else {
@@ -3578,8 +3581,8 @@ public class Facturar extends SelectorComposer<Component> {
     public void setIvaCotizacion15(BigDecimal ivaCotizacion15) {
         this.ivaCotizacion15 = ivaCotizacion15;
     }
-    
-      public String getFilePath() {
+
+    public String getFilePath() {
         return filePath;
     }
 
@@ -3618,7 +3621,7 @@ public class Facturar extends SelectorComposer<Component> {
         byte[] bytes = bos.toByteArray();
         return bytes;
     }
-    
+
     /* VER iMAGEN */
     @Command
     @NotifyChange({"listaDetalleFacturaDAOMOdel", "fotoGeneral"})
@@ -3634,7 +3637,7 @@ public class Facturar extends SelectorComposer<Component> {
                 } catch (FileNotFoundException e) {
                     System.out.println("error imagen " + e.getMessage());
                 } catch (IOException ex) {
-                    System.out.println("ERROR IOException"+ex.getMessage());
+                    System.out.println("ERROR IOException" + ex.getMessage());
 //                    Logger.getLogger(NuevoProducto.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else {
@@ -3660,7 +3663,7 @@ public class Facturar extends SelectorComposer<Component> {
                 } catch (FileNotFoundException e) {
                     System.out.println("error imagen " + e.getMessage());
                 } catch (IOException ex) {
-                      System.out.println("ERROR IOException"+ex.getMessage());
+                    System.out.println("ERROR IOException" + ex.getMessage());
                 }
             } else {
                 Clients.showNotification("No se puede mostrar la imagen",

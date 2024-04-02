@@ -114,6 +114,40 @@ body {
     color: #333;
 }
 
+.input_total {
+    color:#0275d8 !important;
+    font-size:22px !important; 
+    font-weight: bold !important;
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    background-color: #e1e1e1;
+    width: 90%;
+}
+.input_cobro {
+    color:#02d895 !important;
+    font-size:22px !important; 
+    font-weight: bold !important;
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    
+    width: 90%;
+}
+.input_cambio {
+    color:#d9534f !important;
+    font-size:22px !important; 
+    font-weight: bold !important;
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    background-color: #e1e1e1;
+    width: 90%;
+}
+
 .fact_row > .wrapper_data > .wrapper_input > .input_date,
 .fact_row > .wrapper_data > .wrapper_input > .input_select {
     width: 90% !important;
@@ -802,23 +836,23 @@ div.z-listheader-cnt {
         grid-template-columns:50% 50%;
         gap:10px;
     }
-    
+
     .fact_row1 .wrapper_buttons{
         width: 100%;
-         display: grid !important;
-         align-items: center;
+        display: grid !important;
+        align-items: center;
         grid-template-columns:repeat(3 , 1fr);
     }
     .fact_row1 .wrapper_input{
-         display: flex;
+        display: flex;
     }
-    
+
     .fact_row1 .wrapper_data{
-         display: flex;
-         flex-direction: column;
-         gap:10px;
+        display: flex;
+        flex-direction: column;
+        gap:10px;
     }
-   
+
     .fact_row1  .contenedorTotal .text_total {
         display: block;
         text-align: center;
@@ -827,15 +861,15 @@ div.z-listheader-cnt {
         font-size: 14px;
         color: var(--secondary-color);
         text-align: center;
-         display: block;
-        
+        display: block;
+
     }
     .fact_row1  .contenedorTotal input{
         font-size: 14px;
         color: var(--secondary-color);
         text-align: center;
-         display: block;
-        
+        display: block;
+
     }
 }
 

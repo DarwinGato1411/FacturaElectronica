@@ -53,6 +53,8 @@ public class AdmKardex {
     private String buscarProductoCodigo = "";
     private Date fechaIngreso = new Date();
 
+    private Producto prodSelected = null;
+
     @AfterCompose
     public void afterCompose(@ExecutionArgParam("valor") String valor, @ContextParam(ContextType.VIEW) Component view) {
         Selectors.wireComponents(view, this, false);
@@ -79,6 +81,39 @@ public class AdmKardex {
         listaDetalleKardex.clear();
         if (kardex != null) {
             listaDetalleKardex = servicioDetalleKardex.findByIdKardex(kardex);
+        }
+        prodSelected = valor;
+    }
+
+    @Command
+    @NotifyChange({"kardex", "listaDetalleKardex"})
+    public void verificarKardex() {
+        servicioKardex.verificarKardexGeneral();
+        kardex = servicioKardex.FindALlKardexs(prodSelected);
+        listaDetalleKardex.clear();
+        if (kardex != null) {
+            listaDetalleKardex = servicioDetalleKardex.findByIdKardex(kardex);
+        }
+
+    }
+
+    @Command
+    @NotifyChange({"kardex", "listaDetalleKardex"})
+    public void eliminar(@BindingParam("valor") DetalleKardex valor) {
+
+        try {
+            servicioDetalleKardex.eliminar(detalleKardex);
+            servicioKardex.verificarKardexGeneral();
+            kardex = servicioKardex.FindALlKardexs(prodSelected);
+            listaDetalleKardex.clear();
+            if (kardex != null) {
+                listaDetalleKardex = servicioDetalleKardex.findByIdKardex(kardex);
+            }
+            Clients.showNotification("Eliminado correctamente ",
+                    Clients.NOTIFICATION_TYPE_INFO, null, "end_center", 3000, true);
+        } catch (Exception e) {
+            Clients.showNotification("Error al eliminar " + e.getMessage(),
+                    Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 3000, true);
         }
 
     }

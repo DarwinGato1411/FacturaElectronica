@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?link rel="stylesheet" type="text/css" href="/css/boostrap/bootstrap.css"?>  
 <?link rel="stylesheet" type="text/css" href="/css/style.css"?>
+<?link rel="stylesheet" type="text/css" href="/css/app/ventas/facturar.css"?>
+<?link rel="stylesheet" type="text/css" href="/css/app/ventas/modales.css"?>
+<?link rel="stylesheet" type="text/css" href="/css/style.css"?>
 <?init class="com.ec.seguridad.Autentificador"?>
 <?init class="org.zkoss.zk.ui.util.Composition" arg0="/plantilla/plantilla.zul"?>
 <?link rel="icon" type="image/x-icon" href="/iconos/deckxel.ico"?>
@@ -104,6 +107,7 @@
                             </div>                        
                         </div>                        
                             
+                        
                         <div class="col-12 col-sm-12 col-md-6 col-lg-6 form-group" align="center">             
             
                             <div class="input-group-append">
@@ -112,6 +116,21 @@
                                          class="form-control form-control-sm"
                                          value="@bind(vm.kardex.karTotal)" 
                                          style="text-align:center;font-size:1em;color:blue"/>
+                            </div>                        
+                        </div>
+                        
+                        <div class="col-12 col-sm-12 col-md-6 col-lg-6 form-group" align="center">             
+            
+                            <div class="input-group-append">
+                                <!--<label value="Verificar Kardex" class="form-control form-control-sm" />-->
+                                 <button 
+                                            autodisable="self"   
+                                            class="fa-solid fa-floppy-disk btn_fact btn_primary"                  
+                                            onClick="@command('verificarKardex')"
+                                            tooltiptext="Verificar kardex"
+                                            label="Verificar kardex"
+                                            width="100%"
+                                        />
                             </div>                        
                         </div>
                     </div>
@@ -182,6 +201,7 @@
                                     <listheader width="10%" label="Tipo" sort="auto(idTipokardex.tipkDescripcion)" />
                                     <listheader width="10%" label="Kardex Manual" sort="auto(detkKardexmanual)" />
                                     <listheader width="15%" label="Nº Documento"  />
+                                    <listheader width="5%" label="Eliminar" align="center" />
                                     
                                 
                             
@@ -207,7 +227,7 @@
                                                    width="100%"/>
                                         </listcell>
                                         <listcell zclass = "mycss-listcell" >
-                                            <label value="@bind(each.detkDetalles)" width="100%"
+                                            <textbox readonly="true" value="@bind(each.detkDetalles)" width="100%"
                                                    class="form-control form-control-sm"
                                                    style="font-size:10px;background-color:#d6eefd"/>
                                         </listcell>
@@ -235,7 +255,7 @@
                                                        style="font-size:10px;background-color:#d6eefd"/>
                                             </listcell>
                                         </zk>
-                                        <zk if="${each.idCompra != NULL}" > 
+                                        <zk if="${each.idCompra != NULL}"  style="font-size:10px;background-color:#d6eefd" > 
                                             <listcell  zclass = "mycss-listcell">
                                                 <label value="@bind(each.idCompra.cabNumFactura ne null ? 'COM-'.concat(each.idCompra.cabNumFactura) : '')" width="96%"
                                                        class="form-control form-control-sm"
@@ -243,17 +263,28 @@
                                             </listcell>
                                         </zk>
                                         <zk if="${each.idFactura != NULL}" > 
-                                            <listcell  zclass = "mycss-listcell">
+                                            <listcell  zclass = "mycss-listcell"  style="font-size:10px;background-color:#d6eefd">
                                                 <label value="@bind(each.idFactura.facNumeroText ne null ? 'FACT-'.concat(each.idFactura.facNumeroText) : '')" width="96%"
                                                        class="form-control form-control-sm"
                                                        style="font-size:10px;background-color:#d6eefd"/>
                                             </listcell>
                                         </zk>
                                         <zk if="${each.idFactura eq NULL and each.idCompra == NULL }" > 
-                                            <listcell zclass = "mycss-listcell" style="font-size:10px;background-color:#d6eefd" >
-                                                AJUSTE
+                                            <listcell zclass = "mycss-listcell" >
+                                              <label value="AJUSTE" width="96%"
+                                                       class="form-control form-control-sm"
+                                                       style="font-size:10px;background-color:#d6eefd"/>
                                             </listcell>
+                                         
                                         </zk>
+                                           <listcell zclass = "mycss-listcell" >
+                                               <image  src="/iconos/delete.png"
+                                             width="40px"
+                                             height="25px"
+                                                    class="btn btn btn-secondary btn-sm grow"
+                                                    onClick="@command('reenviarSRI',valor=each)" 
+                                                    tooltiptext="Reenviar su factura a autorizar"/>
+                                            </listcell>
                                     </listitem>
                                 </template>
                             </listbox> 
