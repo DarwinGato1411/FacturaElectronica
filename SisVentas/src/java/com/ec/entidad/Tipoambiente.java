@@ -171,6 +171,9 @@ public class Tipoambiente implements Serializable {
     @Column(name = "am_codigo_artesano")
     private String amCodigoArtesano;
 
+    @Column(name = "am_rimpe_popular")
+    private Boolean amRimpePopular;
+
     public Tipoambiente() {
     }
 
@@ -586,6 +589,14 @@ public class Tipoambiente implements Serializable {
     @Override
     public String toString() {
         return "com.ec.entidad.Tipoambiente[ codTipoambiente=" + codTipoambiente + " ]";
+    }
+
+    public Boolean getAmRimpePopular() {
+        return amRimpePopular == null ? Boolean.FALSE : amRimpePopular;
+    }
+
+    public void setAmRimpePopular(Boolean amRimpePopular) {
+        this.amRimpePopular = amRimpePopular;
     }
 
 }

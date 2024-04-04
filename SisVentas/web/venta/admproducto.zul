@@ -101,53 +101,54 @@
                     <listitem>
                         <listcell   style="height: 10px;overflow: hidden;">  </listcell>
                         <listcell zclass = "mycss-listcell">
-                            <textbox readonly="true" style="font-size:14px;background:#EBF5FB; font-weight:bold;"
+                            <textbox readonly="true" style="font-size:12px;background:#EBF5FB"
                                      class="form-control form-control-sm"  value="@bind(each.prodCodigo)"  />
                         </listcell>
                         <listcell zclass = "mycss-listcell">
-                            <textbox readonly="true" style="font-size:14px;background:#EBF5FB; font-weight:bold;"
+                            <textbox readonly="true" style="font-size:12px;background:#EBF5FB"
                                      class="form-control form-control-sm" value="@bind(each.prodNombre)" />
                         </listcell>
                         <listcell zclass = "mycss-listcell">
                             <decimalbox format="###.#####" readonly="true"
-                                        style="font-size:14px;background:#EBF5FB; font-weight:bold;"
+                                        style="font-size:12px;background:#EBF5FB"
                                         class="form-control form-control-sm"
                                         value="@bind(each.prodIva)"  />
                         </listcell>
                         <listcell zclass = "mycss-listcell">
                             <decimalbox format="###.#####" readonly="true"
-                                        style="font-size:14px;background:#EBF5FB; font-weight:bold;"
+                                        style="font-size:12px;background:#EBF5FB"
                                         class="form-control form-control-sm"
                                         value="@bind(each.prodCantidadInicial)"  />
                         </listcell>
                         <listcell zclass = "mycss-listcell">
-                            <decimalbox format="###.#####" readonly="true"
-                                        style="font-size:14px;background:#EBF5FB; font-weight:bold;"
+                             <textbox    constraint="/^[0-9]{1,9}(?:[.][0-9]{1,5})?$/:Ingrese solo numeros"    
+                                          onOK="@command('modificar',valor=each)"
+                                          
                                         class="form-control form-control-sm"
                                         value="@bind(each.pordCostoVentaRef)"  />
                         </listcell>
                         <listcell zclass = "mycss-listcell">
-                            <decimalbox format="###.#####" readonly="true"  
-                                        style="font-size:14px;background:#EBF5FB; font-weight:bold;"
+                           <textbox    constraint="/^[0-9]{1,9}(?:[.][0-9]{1,5})?$/:Ingrese solo numeros"    
+                                         onOK="@command('modificar',valor=each)"
                                         class="form-control form-control-sm"
                                         value="@bind(each.pordCostoVentaFinal)" />
                         </listcell>
                         <listcell zclass = "mycss-listcell">
-                            <decimalbox format="###.#####" readonly="true" 
+                             <textbox    constraint="/^[0-9]{1,9}(?:[.][0-9]{1,5})?$/:Ingrese solo numeros"    
                                         class="form-control form-control-sm"
-                                        style="font-size:14px;background:#EBF5FB; font-weight:bold;"
+                                          onOK="@command('modificar',valor=each)"
                                         value="@bind(each.prodCostoPreferencial)"  />
                         </listcell>
                         <listcell zclass = "mycss-listcell">
-                            <decimalbox format="###.#####" readonly="true" 
+                           <textbox    constraint="/^[0-9]{1,9}(?:[.][0-9]{1,5})?$/:Ingrese solo numeros"    
                                         class="form-control form-control-sm"
-                                        style="font-size:14px;background:#EBF5FB; font-weight:bold;"
+                                          onOK="@command('modificar',valor=each)"
                                         value="@bind(each.prodCostoPreferencialDos)"  />
                         </listcell>
                         <listcell zclass = "mycss-listcell">
-                            <decimalbox format="###.#####" readonly="true" 
+                            <textbox    constraint="/^[0-9]{1,9}(?:[.][0-9]{1,5})?$/:Ingrese solo numeros"    
                                         class="form-control form-control-sm"
-                                        style="font-size:14px;background:#EBF5FB; font-weight:bold;"
+                                          onOK="@command('modificar',valor=each)"
                                         value="@bind(each.prodCostoPreferencialTres)"  />
                         </listcell>
                     

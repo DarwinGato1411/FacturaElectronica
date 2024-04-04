@@ -765,99 +765,99 @@ public class AdmProducto {
                     row = sheet.getRow(i);
 //                    for (int j = 0; j < row.getLastCellNum(); j++) {
 //                    for (int j = 0; j < 6; j++) {
-                        List<Producto> prodcutos = servicioProducto.finProdCodigo(String.valueOf(row.getCell(0)));
-                        if (prodcutos.isEmpty()) {
+                    List<Producto> prodcutos = servicioProducto.finProdCodigo(String.valueOf(row.getCell(0)));
+                    if (prodcutos.isEmpty()) {
 //                            cell = row.getCell(j);
-                            prod = new Producto();
-                            prod.setProdCodigo(String.valueOf(row.getCell(0)));
-                            prod.setProdNombre(String.valueOf(row.getCell(1)).toUpperCase());
-                            prod.setPordCostoVentaRef(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(2)))));
-                            prod.setPordCostoVentaFinal(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(3)))));
-                            prod.setProdCostoPreferencial(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(4)))));
-                            prod.setProdCostoPreferencialDos(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(5)))));
-                            prod.setProdCostoPreferencialTres(BigDecimal.ZERO);
+                        prod = new Producto();
+                        prod.setProdCodigo(String.valueOf(row.getCell(0)));
+                        prod.setProdNombre(String.valueOf(row.getCell(1)).toUpperCase());
+                        prod.setPordCostoVentaRef(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(2)))));
+                        prod.setPordCostoVentaFinal(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(3)))));
+                        prod.setProdCostoPreferencial(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(4)))));
+                        prod.setProdCostoPreferencialDos(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(5)))));
+                        prod.setProdCostoPreferencialTres(BigDecimal.ZERO);
 //                            prod.setCodTipoambiente(amb);
-                            prod.setProdCantMinima(BigDecimal.ONE);
-                            prod.setProdFechaRegistro(new Date());
+                        prod.setProdCantMinima(BigDecimal.ONE);
+                        prod.setProdFechaRegistro(new Date());
 
-                            if (row.getCell(6) != null) {
-                                String valor = String.valueOf(row.getCell(6));
-                                prod.setProdGrabaIva(String.valueOf(row.getCell(6)).contains("1") ? Boolean.TRUE : Boolean.FALSE);
+                        if (row.getCell(6) != null) {
+                            String valor = String.valueOf(row.getCell(6));
+                            prod.setProdGrabaIva(String.valueOf(row.getCell(6)).contains("1") ? Boolean.TRUE : Boolean.FALSE);
 
-                                if (prod.getProdGrabaIva()) {
-                                    BigDecimal precioIva = BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(2))));
-                                    BigDecimal precioCompra = precioIva.divide(BigDecimal.valueOf(1.12), 4, RoundingMode.FLOOR);
-                                    prod.setPordCostoCompra(precioCompra);
-                                    prod.setProdIva(BigDecimal.valueOf(12));
+                            if (prod.getProdGrabaIva()) {
+                                BigDecimal precioIva = BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(2))));
+                                BigDecimal precioCompra = precioIva.divide(BigDecimal.valueOf(1.12), 4, RoundingMode.FLOOR);
+                                prod.setPordCostoCompra(precioCompra);
+                                prod.setProdIva(BigDecimal.valueOf(12));
 //                                    prod.setpro
-                                } else {
-                                    prod.setPordCostoCompra(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(2)))));
-                                    prod.setProdIva(BigDecimal.valueOf(0));
-                                }
-
                             } else {
-                                prod.setProdGrabaIva(Boolean.FALSE);
                                 prod.setPordCostoCompra(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(2)))));
                                 prod.setProdIva(BigDecimal.valueOf(0));
                             }
-                            prod.setProdCantidadInicial(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(7)))));
-                            servicioProducto.crear(prod);
-//                            System.out.println("Valor: " + cell.toString());
-                        } else {
-                            existenRepetido = Boolean.TRUE;
-                            String folderDescargados = PATH_BASE + File.separator + "PRODUCTOS_REP"
-                                    + File.separator + new Date().getYear()
-                                    + File.separator + new Date().getMonth();
-                         
-                            FileWriter flwriter = null;
-                            File folderGen = new File(folderDescargados);
-                            if (!folderGen.exists()) {
-                                folderGen.mkdirs();
-                            }
-                            String pathTXT = folderDescargados + File.separator + "repetidos.txt";
-                            descargar = new File(pathTXT);
-                            if (!descargar.exists()) {
-                                descargar.createNewFile();
-                            }
-                            flwriter = new FileWriter(pathTXT);
-                            bfwriter = new BufferedWriter(flwriter);
 
-                            Producto selected = prodcutos.get(0);
-                            productosRepetidos = productosRepetidos + selected.getProdCodigo() + ";";
-                            System.out.println("El producto existe " + String.valueOf(row.getCell(1)));
+                        } else {
+                            prod.setProdGrabaIva(Boolean.FALSE);
+                            prod.setPordCostoCompra(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(2)))));
+                            prod.setProdIva(BigDecimal.valueOf(0));
+                        }
+                        prod.setProdCantidadInicial(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(7)))));
+                        servicioProducto.crear(prod);
+//                            System.out.println("Valor: " + cell.toString());
+                    } else {
+                        existenRepetido = Boolean.TRUE;
+                        String folderDescargados = PATH_BASE + File.separator + "PRODUCTOS_REP"
+                                + File.separator + new Date().getYear()
+                                + File.separator + new Date().getMonth();
+
+                        FileWriter flwriter = null;
+                        File folderGen = new File(folderDescargados);
+                        if (!folderGen.exists()) {
+                            folderGen.mkdirs();
+                        }
+                        String pathTXT = folderDescargados + File.separator + "repetidos.txt";
+                        descargar = new File(pathTXT);
+                        if (!descargar.exists()) {
+                            descargar.createNewFile();
+                        }
+                        flwriter = new FileWriter(pathTXT);
+                        bfwriter = new BufferedWriter(flwriter);
+
+                        Producto selected = prodcutos.get(0);
+                        productosRepetidos = productosRepetidos + selected.getProdCodigo() + ";";
+                        System.out.println("El producto existe " + String.valueOf(row.getCell(1)));
 //                            selected.setProdCodigo(String.valueOf(row.getCell(0)));
 //                            selected.setProdNombre(String.valueOf(row.getCell(1)));
 //                            selected.setPordCostoVentaRef(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(2)))));
-                            selected.setPordCostoVentaFinal(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(3)))));
-                            selected.setProdCostoPreferencial(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(4)))));
-                            selected.setProdCostoPreferencialDos(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(5)))));
-                            selected.setProdCostoPreferencialTres(BigDecimal.ZERO);
+                        selected.setPordCostoVentaFinal(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(3)))));
+                        selected.setProdCostoPreferencial(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(4)))));
+                        selected.setProdCostoPreferencialDos(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(5)))));
+                        selected.setProdCostoPreferencialTres(BigDecimal.ZERO);
 //                            prod.setCodTipoambiente(amb);
-                            selected.setProdCantMinima(BigDecimal.ONE);
-                            selected.setProdFechaRegistro(new Date());
+                        selected.setProdCantMinima(BigDecimal.ONE);
+                        selected.setProdFechaRegistro(new Date());
 
-                            if (row.getCell(6) != null) {
-                                String valor = String.valueOf(row.getCell(6));
-                                selected.setProdGrabaIva(String.valueOf(row.getCell(6)).contains("1") ? Boolean.TRUE : Boolean.FALSE);
+                        if (row.getCell(6) != null) {
+                            String valor = String.valueOf(row.getCell(6));
+                            selected.setProdGrabaIva(String.valueOf(row.getCell(6)).contains("1") ? Boolean.TRUE : Boolean.FALSE);
 
-                                if (selected.getProdGrabaIva()) {
-                                    BigDecimal precioIva = BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(2))));
-                                    BigDecimal precioCompra = precioIva.divide(BigDecimal.valueOf(1.12), 4, RoundingMode.FLOOR);
-                                    selected.setPordCostoCompra(precioCompra);
-                                    prod.setProdIva(BigDecimal.valueOf(12));
+                            if (selected.getProdGrabaIva()) {
+                                BigDecimal precioIva = BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(2))));
+                                BigDecimal precioCompra = precioIva.divide(BigDecimal.valueOf(1.12), 4, RoundingMode.FLOOR);
+                                selected.setPordCostoCompra(precioCompra);
+                                prod.setProdIva(BigDecimal.valueOf(12));
 //                                    prod.setpro
-                                } else {
-                                    selected.setPordCostoCompra(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(2)))));
-                                    prod.setProdIva(BigDecimal.valueOf(0));
-                                }
-
                             } else {
-                                selected.setProdGrabaIva(Boolean.FALSE);
                                 selected.setPordCostoCompra(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(2)))));
+                                prod.setProdIva(BigDecimal.valueOf(0));
                             }
-                            selected.setProdCantidadInicial(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(7)))));
-                            servicioProducto.modificar(selected);
+
+                        } else {
+                            selected.setProdGrabaIva(Boolean.FALSE);
+                            selected.setPordCostoCompra(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(2)))));
                         }
+                        selected.setProdCantidadInicial(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(7)))));
+                        servicioProducto.modificar(selected);
+                    }
 
 //                    }
                 }
@@ -868,7 +868,7 @@ public class AdmProducto {
                     FileInputStream inputStream = new FileInputStream(descargar);
                     Filedownload.save(inputStream, new MimetypesFileTypeMap().getContentType(descargar), descargar.getName());
                 }
-                 bfwriter.close();
+                bfwriter.close();
                 servicioGeneral.corregirProductos();
                 inicializarKardex();
                 getProductosModel();
@@ -884,4 +884,14 @@ public class AdmProducto {
 
     }
 
+    @Command
+    @NotifyChange({"listaProductosModel", "buscarNombre"})
+    public void modificar(@BindingParam("valor") Producto valor) {
+//        if (Messagebox.show("¿Seguro que desea eliminar el registro?", "Atención", Messagebox.YES | Messagebox.NO, Messagebox.INFORMATION) == Messagebox.YES) {
+        servicioProducto.modificar(valor);
+        Clients.showNotification("Modificado correctamente", Clients.NOTIFICATION_TYPE_INFO, null, "end_center", 2000, true);
+
+//        } else {
+//        }
+    }
 }
