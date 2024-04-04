@@ -224,7 +224,7 @@
                                             class="input" 
                                         />
                                     </div>
-                                    <div class="wrapper_input">
+<!--                                    <div class="wrapper_input">
                                         <span>Base 14%:</span>
                                         <decimalbox  
                                             format="###.##"   
@@ -233,7 +233,7 @@
                                             onChange="self.setValue(self.getValue().toUpperCase().trim());" 
                                             class="input" 
                                         />
-                                    </div>
+                                    </div>-->
                                     <div class="wrapper_input">
                                         <span>Base 15%:</span>
                                         <decimalbox  
@@ -285,7 +285,7 @@
                                             class="input" 
                                         />
                                     </div>
-                                    <div class="wrapper_input">
+<!--                                    <div class="wrapper_input">
                                         <span>IVA 14%:</span>
                                         <decimalbox  
                                             format="###.##"  
@@ -293,7 +293,7 @@
                                             readonly="true" 
                                             class="input" 
                                         />
-                                    </div>
+                                    </div>-->
                                     <div class="wrapper_input">
                                         <span>IVA 15%:</span>
                                         <decimalbox  
@@ -437,6 +437,15 @@
                                                           class="form-control form-control-sm"
                                                           onDoubleClick="@command('agregarItemLista',valor=each.idProducto)" />
                                             </listcell>
+                                             <listcell zclass = "mycss-listcell" 
+                                                      onDoubleClick="@command('agregarItemLista',valor=each.idProducto)" >                                                    
+                                                <decimalbox format="###" onOK="@command('agregarItemLista',valor=each.idProducto)" 
+                                                            class="form-control form-control-sm"
+                                                            readonly="true"
+                                                            value="@bind(each.idProducto.prodIva)"
+                                                            style="font-size:11px; font-weight: bold;color:red" 
+                                                            width="96%" />
+                                            </listcell>
                                             <listcell zclass = "mycss-listcell" 
                                                       if="${each.verificaStock}" 
                                                       style="font-size:11px;background-color:#C7FEC1"
@@ -457,15 +466,7 @@
                                                        value="@bind(each.karTotal)" 
                                                 />
                                             </listcell>
-                                            <listcell zclass = "mycss-listcell" 
-                                                      onDoubleClick="@command('agregarItemLista',valor=each.idProducto)" >                                                    
-                                                <decimalbox format="###" onOK="@command('agregarItemLista',valor=each.idProducto)" 
-                                                            class="form-control form-control-sm"
-                                                            readonly="true"
-                                                            value="@bind(each.idProducto.prodIva)"
-                                                            style="font-size:11px; font-weight: bold;color:red" 
-                                                            width="96%" />
-                                            </listcell>
+                                           
                                             <listcell zclass = "mycss-listcell" 
                                                       onDoubleClick="@command('agregarItemLista',valor=each.idProducto)" >                                                    
                                                 <label onOK="@command('agregarItemLista',valor=each.idProducto)" 

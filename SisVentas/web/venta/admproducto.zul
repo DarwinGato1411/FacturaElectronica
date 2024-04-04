@@ -121,33 +121,34 @@
                                         value="@bind(each.prodCantidadInicial)"  />
                         </listcell>
                         <listcell zclass = "mycss-listcell">
-                            <decimalbox format="###.#####" readonly="true"
-                                        style="font-size:12px;background:#EBF5FB"
+                            <decimalbox format="###.#####" readonly="false"
+                                          onOK="@command('modificar',valor=each)"
+                                          
                                         class="form-control form-control-sm"
                                         value="@bind(each.pordCostoVentaRef)"  />
                         </listcell>
                         <listcell zclass = "mycss-listcell">
-                            <decimalbox format="###.#####" readonly="true"  
-                                        style="font-size:12px;background:#EBF5FB"
+                            <decimalbox format="###.#####" readonly="false"  
+                                         onOK="@command('modificar',valor=each)"
                                         class="form-control form-control-sm"
                                         value="@bind(each.pordCostoVentaFinal)" />
                         </listcell>
                         <listcell zclass = "mycss-listcell">
-                            <decimalbox format="###.#####" readonly="true" 
+                            <decimalbox format="###.#####" readonly="false" 
                                         class="form-control form-control-sm"
-                                        style="font-size:12px;background:#EBF5FB"
+                                          onOK="@command('modificar',valor=each)"
                                         value="@bind(each.prodCostoPreferencial)"  />
                         </listcell>
                         <listcell zclass = "mycss-listcell">
-                            <decimalbox format="###.#####" readonly="true" 
+                            <decimalbox format="###.#####" readonly="false" 
                                         class="form-control form-control-sm"
-                                        style="font-size:12px;background:#EBF5FB"
+                                          onOK="@command('modificar',valor=each)"
                                         value="@bind(each.prodCostoPreferencialDos)"  />
                         </listcell>
                         <listcell zclass = "mycss-listcell">
-                            <decimalbox format="###.#####" readonly="true" 
+                            <decimalbox format="###.#####" readonly="false" 
                                         class="form-control form-control-sm"
-                                        style="font-size:12px;background:#EBF5FB"
+                                          onOK="@command('modificar',valor=each)"
                                         value="@bind(each.prodCostoPreferencialTres)"  />
                         </listcell>
                     

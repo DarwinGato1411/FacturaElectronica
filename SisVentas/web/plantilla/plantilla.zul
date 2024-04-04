@@ -1,4 +1,7 @@
-<?link rel="stylesheet" type="text/css" href="/css/boostrap/bootstrap.css"?>  
+<?link rel="stylesheet" type="text/css" href="/css/boostrap/bootstrap.css"?> 
+<?link rel="stylesheet" type="text/css" href="/css/style.css"?>
+<?link rel="stylesheet" type="text/css" href="/css/app/ventas/facturar.css"?>
+<?link rel="stylesheet" type="text/css" href="/css/app/ventas/modales.css"?>
 <?link rel="stylesheet" type="text/css" href="/css/style.css"?>
 <zk>
     <borderlayout  >

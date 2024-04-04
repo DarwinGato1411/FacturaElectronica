@@ -25,6 +25,7 @@ import com.ec.servicio.ServicioKardex;
 import com.ec.servicio.ServicioProducto;
 import com.ec.servicio.ServicioProveedor;
 import com.ec.servicio.ServicioTipoKardex;
+import com.ec.untilitario.ArchivoUtils;
 import com.ec.untilitario.DetalleCompraUtil;
 import com.ec.untilitario.TotalKardex;
 import java.math.BigDecimal;
@@ -81,7 +82,11 @@ public class ModificarCompra {
     //valorTotalCotizacion
     private BigDecimal valorTotalFactura = BigDecimal.ZERO;
     private BigDecimal subTotalFactura = BigDecimal.ZERO;
+    private BigDecimal subTotalFactura5 = BigDecimal.ZERO;
+    private BigDecimal subTotalFactura15 = BigDecimal.ZERO;
     private BigDecimal ivaFactura = BigDecimal.ZERO;
+    private BigDecimal ivaFactura5 = BigDecimal.ZERO;
+    private BigDecimal ivaFactura15 = BigDecimal.ZERO;
     private BigDecimal subTotalFacturaCero = BigDecimal.ZERO;
     //buscar proveedor
     public Proveedores proveedorSeleccionado = new Proveedores("");
@@ -451,22 +456,52 @@ public class ModificarCompra {
         BigDecimal valorTotal = BigDecimal.ZERO;
         BigDecimal valorTotalCero = BigDecimal.ZERO;
 
+        BigDecimal valorTotal5 = BigDecimal.ZERO;
+//        BigDecimal valorTotal13 = BigDecimal.ZERO;
+//        BigDecimal valorTotal14 = BigDecimal.ZERO;
+        BigDecimal valorTotal15 = BigDecimal.ZERO;
+//        BigDecimal valorTotal = BigDecimal.ZERO;
+//        BigDecimal valorTotalConIva = BigDecimal.ZERO;
+        BigDecimal valorIva = BigDecimal.ZERO;
+        BigDecimal valorIva5 = BigDecimal.ZERO;
+//        BigDecimal valorIva13 = BigDecimal.ZERO;
+//        BigDecimal valorIva14 = BigDecimal.ZERO;
+        BigDecimal valorIva15 = BigDecimal.ZERO;
         List<DetalleCompraUtil> listaPedido = listaCompraProductosMOdel.getInnerList();
         if (listaPedido.size() > 0) {
             for (DetalleCompraUtil item : listaPedido) {
 
                 if (item.getProducto() != null) {
-                    valorTotal = valorTotal.add(item.getProducto().getProdGrabaIva() ? item.getTotal() : BigDecimal.ZERO);
-                    valorTotalCero = valorTotalCero.add(!item.getProducto().getProdGrabaIva() ? item.getTotal() : BigDecimal.ZERO);
+
+                    if (item.getProducto().getProdPorcentajeIva() == 12) {
+                        valorTotal = valorTotal.add(item.getTotal());
+                        valorIva = valorIva.multiply(BigDecimal.valueOf(0.12));
+                    } else if (item.getProducto().getProdPorcentajeIva() == 5) {
+                        valorTotal5 = valorTotal5.add(item.getTotal());
+//                        valorIva5 = valorIva5.add(item.getTotal().multiply(BigDecimal.valueOf(0.05)));
+                    } else if (item.getProducto().getProdPorcentajeIva() == 15) {
+                        valorTotal15 = valorTotal15.add(item.getTotal());
+                        valorIva15 = valorIva15.multiply(BigDecimal.valueOf(0.15));
+                    } else {
+                        valorTotalCero = valorTotalCero.add(item.getTotal());
+                    }
+
                 }
             }
+
             System.out.println("**********************************************************");
             System.out.println("valor total:::: " + valorTotal);
             subTotalFacturaCero = valorTotalCero;
             subTotalFactura = valorTotal;
-            BigDecimal valorIva = subTotalFactura.multiply(BigDecimal.valueOf(0.12));
+            subTotalFactura5 = valorTotal5;
+            subTotalFactura15 = valorTotal15;
+            valorIva = subTotalFactura.multiply(BigDecimal.valueOf(0.12));
+            valorIva5 = subTotalFactura5.multiply(BigDecimal.valueOf(0.05));
+            valorIva15 = subTotalFactura15.multiply(BigDecimal.valueOf(0.15));
             ivaFactura = valorIva;
-            valorTotalFactura = valorTotal.add(valorIva).add(subTotalFacturaCero);
+            ivaFactura5 = valorIva5;
+            ivaFactura15 = valorIva15;
+            valorTotalFactura = subTotalFactura.add(ivaFactura).add(subTotalFacturaCero).add(subTotalFactura5).add(subTotalFactura15).add(ivaFactura5).add(ivaFactura15);
             subTotalFactura.setScale(4, RoundingMode.FLOOR);
             ivaFactura.setScale(4, RoundingMode.FLOOR);
             valorTotalFactura.setScale(4, RoundingMode.FLOOR);
@@ -565,7 +600,10 @@ public class ModificarCompra {
 
         try {
 
-            if (true) {
+//            BigDecimal factorIva = (parametrizar.getParIva().divide(BigDecimal.valueOf(100.0)));
+//            BigDecimal facturIvaMasBase = (factorIva.add(BigDecimal.ONE));
+            CabeceraCompra compra = servicioCompra.findCabNumeroForEmpresa(numeroFactura);
+            if (compra == null) {
                 //armar la cabecera de la factura
 
                 cabeceraCompra.setCabRetencionAutori("N");
@@ -576,8 +614,8 @@ public class ModificarCompra {
                 cabeceraCompra.setIdProveedor(proveedorSeleccionado);
                 cabeceraCompra.setCabProveedor(proveedorSeleccionado.getProvNombre());
                 cabeceraCompra.setIdUsuario(credential.getUsuarioSistema());
-                cabeceraCompra.setCabSubTotal(subTotalFactura);
-                cabeceraCompra.setCabIva(ivaFactura);
+                cabeceraCompra.setCabSubTotal(subTotalFactura.add(subTotalFactura5).add(subTotalFactura15));
+                cabeceraCompra.setCabIva(ivaFactura.add(ivaFactura5).add(ivaFactura15));
                 cabeceraCompra.setCabTotal(valorTotalFactura);
                 cabeceraCompra.setDrcCodigoSustento("01");
                 cabeceraCompra.setCabSubTotalCero(subTotalFacturaCero);
@@ -593,8 +631,13 @@ public class ModificarCompra {
                     for (DetalleCompraUtil item : listaPedido) {
                         if (item.getProducto() != null) {
                             Producto actualizaPrecio = item.getProducto();
-                            actualizaPrecio.setPordCostoCompra(item.getSubtotal().divide(BigDecimal.valueOf(1.12), 3, RoundingMode.CEILING));
-                            actualizaPrecio.setPordCostoVentaRef(item.getSubtotal());
+                            if (actualizaPrecio.getProdGrabaIva()) {
+                                actualizaPrecio.setPordCostoCompra(item.getSubtotal());
+//                                actualizaPrecio.setPordCostoVentaRef(ArchivoUtils.redondearDecimales(item.getSubtotal().multiply(facturIvaMasBase), 4));
+                            } else {
+                                actualizaPrecio.setPordCostoCompra(item.getSubtotal());
+                                actualizaPrecio.setPordCostoVentaRef(item.getSubtotal());
+                            }
                             servicioProducto.modificar(actualizaPrecio);
                             detalleCompra.add(item);
                         }
@@ -602,7 +645,6 @@ public class ModificarCompra {
                     }
 
                     //implementar el guaradado en cascada para las compras
-                    servicioDetalleKardex.eliminarKardexVenta(cabeceraCompra.getIdCabecera());
                     servicioCompra.eliminar(cabeceraCompra);
                     servicioCompra.guardarCompra(detalleCompra, cabeceraCompra);
 
@@ -632,12 +674,15 @@ public class ModificarCompra {
                             detalleKardex.setDetkKardexmanual(Boolean.FALSE);
                             detalleKardex.setDetkDetalles("Aumenta al kardex facturacion con: FACTC-" + cabeceraCompra.getCabNumFactura());
                             detalleKardex.setIdCompra(cabeceraCompra);
-
+                            detalleKardex.setDetkIngresoCantidadSinTransformar(item.getCantidad());
+                            detalleKardex.setDetkUnidadOrigen(item.getProducto().getProdUnidadMedida() != null ? item.getProducto().getProdUnidadMedida() : "S/U");
+                            detalleKardex.setDetkUnidadFin(item.getProducto().getProdUnidadConversion() != null ? item.getProducto().getProdUnidadConversion() : "S/U");
+                            //se cambia a la conversion 
+                            //detalleKardex.setDetkCantidad(item.getCantidad());
                             detalleKardex.setDetkCantidad(item.getTotalTRanformado());
-//                            detalleKardex.setDetkCantidad(item.getCantidad());
                             servicioDetalleKardex.crear(detalleKardex);
-                            TotalKardex totales = servicioKardex.totalesForKardex(kardex);
-                            BigDecimal total = totales.getTotalKardex();
+                            BigDecimal total = kardex.getKarTotal();
+                            total = total.add(item.getCantidad());
                             kardex.setKarTotal(total);
                             servicioKardex.modificar(kardex);
                         }
@@ -658,7 +703,8 @@ public class ModificarCompra {
 
     //busqueda del producto
     @Command
-    @NotifyChange({"listaCompraProductosMOdel", "subTotalFactura", "ivaFactura", "valorTotalFactura", "subTotalFacturaCero"})
+    @NotifyChange({"listaCompraProductosMOdel", "subTotalFactura", "ivaFactura", "valorTotalFactura", "subTotalFacturaCero",
+        "ivaFactura5", "ivaFactura15", "subTotalFactura5", "subTotalFactura15"})
     public void eliminarRegistros() {
         if (registrosSeleccionados.size() > 0) {
             ((ListModelList<DetalleCompraUtil>) listaCompraProductosMOdel).removeAll(registrosSeleccionados);
@@ -745,6 +791,38 @@ public class ModificarCompra {
 
     public void setSubTotalFacturaCero(BigDecimal subTotalFacturaCero) {
         this.subTotalFacturaCero = subTotalFacturaCero;
+    }
+
+    public BigDecimal getSubTotalFactura5() {
+        return subTotalFactura5;
+    }
+
+    public void setSubTotalFactura5(BigDecimal subTotalFactura5) {
+        this.subTotalFactura5 = subTotalFactura5;
+    }
+
+    public BigDecimal getSubTotalFactura15() {
+        return subTotalFactura15;
+    }
+
+    public void setSubTotalFactura15(BigDecimal subTotalFactura15) {
+        this.subTotalFactura15 = subTotalFactura15;
+    }
+
+    public BigDecimal getIvaFactura5() {
+        return ivaFactura5;
+    }
+
+    public void setIvaFactura5(BigDecimal ivaFactura5) {
+        this.ivaFactura5 = ivaFactura5;
+    }
+
+    public BigDecimal getIvaFactura15() {
+        return ivaFactura15;
+    }
+
+    public void setIvaFactura15(BigDecimal ivaFactura15) {
+        this.ivaFactura15 = ivaFactura15;
     }
 
 }

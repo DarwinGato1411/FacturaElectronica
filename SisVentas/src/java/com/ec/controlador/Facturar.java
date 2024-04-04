@@ -1177,9 +1177,11 @@ public class Facturar extends SelectorComposer<Component> {
         }
     }
 
-    @Command
+     @Command
     @NotifyChange({"listaDetalleFacturaDAOMOdel", "subTotalCotizacion", "ivaCotizacion", "valorTotalCotizacion",
-        "totalDescuento", "valorTotalInicialVent", "descuentoValorFinal", "subTotalBaseCero"})
+        "totalDescuento", "buscarNombreProd", "valorTotalInicialVent", "descuentoValorFinal", "subTotalBaseCero",
+        "listaProducto", "totalItems", "subTotalCotizacion", "subTotalCotizacion13", "subTotalCotizacion14", "subTotalCotizacion15", "subTotalCotizacion5",
+        "ivaCotizacion5", "ivaCotizacion13", "ivaCotizacion14", "ivaCotizacion15"})
     public void calcularValoresDesCantidad(@BindingParam("valor") DetalleFacturaDAO valor) {
         try {
 
@@ -1298,9 +1300,11 @@ public class Facturar extends SelectorComposer<Component> {
     }
 
     /* CALCULAR EL DESCUENTO EN FUNCION DEL PORCENTAJE */
-    @Command
+      @Command
     @NotifyChange({"listaDetalleFacturaDAOMOdel", "subTotalCotizacion", "ivaCotizacion", "valorTotalCotizacion",
-        "totalDescuento", "valorTotalInicialVent", "descuentoValorFinal", "subTotalBaseCero"})
+        "totalDescuento", "buscarNombreProd", "valorTotalInicialVent", "descuentoValorFinal", "subTotalBaseCero",
+        "listaProducto", "totalItems", "subTotalCotizacion", "subTotalCotizacion13", "subTotalCotizacion14", "subTotalCotizacion15", "subTotalCotizacion5",
+        "ivaCotizacion5", "ivaCotizacion13", "ivaCotizacion14", "ivaCotizacion15"})
     public void calcularValoresDesCantidadPorPorcentaje(@BindingParam("valor") DetalleFacturaDAO valor) {
         try {
             if (valor.getProducto() == null) {
@@ -3224,9 +3228,11 @@ public class Facturar extends SelectorComposer<Component> {
     }
 
     /* CAMBIAR DE PRECIO */
-    @Command
+       @Command
     @NotifyChange({"listaDetalleFacturaDAOMOdel", "subTotalCotizacion", "ivaCotizacion", "valorTotalCotizacion",
-        "totalDescuento", "valorTotalInicialVent", "descuentoValorFinal", "subTotalBaseCero"})
+        "totalDescuento", "buscarNombreProd", "valorTotalInicialVent", "descuentoValorFinal", "subTotalBaseCero",
+        "listaProducto", "totalItems", "subTotalCotizacion", "subTotalCotizacion13", "subTotalCotizacion14", "subTotalCotizacion15", "subTotalCotizacion5",
+        "ivaCotizacion5", "ivaCotizacion13", "ivaCotizacion14", "ivaCotizacion15"})
     public void cambioPrecio(@BindingParam("valor") DetalleFacturaDAO valor) {
         if (parametrizar.getParNumRegistrosFactura().intValue() <= listaDetalleFacturaDAOMOdel.size()) {
             Clients.showNotification("Numero de registros permitidos, imprima y genere otra factura",

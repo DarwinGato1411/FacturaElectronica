@@ -324,7 +324,7 @@ public class AutorizarDocumentos {
                     + "        <secuencial>" + valor.getFacNumeroText() + "</secuencial>\n"
                     + "        <dirMatriz>" + removeCaracteres(amb.getAmDireccionMatriz()) + "</dirMatriz>\n"
                     + (amb.getAmAgeRet() ? "<agenteRetencion>1</agenteRetencion>\n" : "")
-                    + (!amb.getAmGeneral() ? ((amb.getAmRimpe() ? "<contribuyenteRimpe>CONTRIBUYENTE R\u00c9GIMEN RIMPE</contribuyenteRimpe>\n" : "")) : "")
+                    + (amb.getAmRimpe() ? "<contribuyenteRimpe>CONTRIBUYENTE R\u00c9GIMEN RIMPE</contribuyenteRimpe>\n" : amb.getAmRimpePopular() ? " <contribuyenteRimpe>CONTRIBUYENTE NEGOCIO POPULAR - R\u00c9GIMEN RIMPE</contribuyenteRimpe>\n" : "")
                     //  + "        <agenteRetencion>12345678</agenteRetencion>\n"
                     + "</infoTributaria>\n"
                     + "<infoFactura>\n"
@@ -437,6 +437,8 @@ public class AutorizarDocumentos {
         return null;
     }
 //</editor-fold > 
+    
+    
     //<editor-fold defaultstate="collapsed" desc=" ARMAR NOTA DE CREDITO"> 
 
     public String generaXMLNotaCreditoDebito(NotaCreditoDebito valor, Tipoambiente amb, String folderDestino, String nombreArchivoXML, String NCoND) {

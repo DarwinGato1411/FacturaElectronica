@@ -168,11 +168,12 @@ public class Tipoambiente implements Serializable {
 
     @Column(name = "am_general")
     private Boolean amGeneral;
-    @Column(name = "am_codigo_artesano")
-    private String amCodigoArtesano;
-
+   
     @Column(name = "am_rimpe_popular")
     private Boolean amRimpePopular;
+    
+ @Column(name = "am_codigo_artesano")
+    private String amCodigoArtesano;
 
     public Tipoambiente() {
     }
