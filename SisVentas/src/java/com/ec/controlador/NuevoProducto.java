@@ -151,9 +151,9 @@ public class NuevoProducto {
 
 //        listaIva.add(BigDecimal.valueOf(0));
         listaIva.add(BigDecimal.valueOf(5));
-        listaIva.add(BigDecimal.valueOf(12));
-        listaIva.add(BigDecimal.valueOf(13));
-        listaIva.add(BigDecimal.valueOf(14));
+//        listaIva.add(BigDecimal.valueOf(12));
+//        listaIva.add(BigDecimal.valueOf(13));
+//        listaIva.add(BigDecimal.valueOf(14));
         listaIva.add(BigDecimal.valueOf(15));
         colocarIva();
 

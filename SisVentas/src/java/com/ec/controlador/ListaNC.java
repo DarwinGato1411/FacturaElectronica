@@ -373,7 +373,7 @@ public class ListaNC {
         RespuestaSolicitud resSolicitud = autorizarDocumentos.validar(datos);
         if (resSolicitud != null && resSolicitud.getComprobantes() != null) {
             // Autorizacion autorizacion = null;
-
+//Se encontró el siguiente error en la estructura del comprobante: cvc-complex-type.2.4.a: Invalid content was found starting with element 'tarifa'. One of '{valor}' is expected..
             if (resSolicitud.getEstado().equals("RECIBIDA")) {
 //                try {
 //                    Thread.sleep(1000);

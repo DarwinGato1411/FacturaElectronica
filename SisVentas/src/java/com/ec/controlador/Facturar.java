@@ -684,9 +684,10 @@ public class Facturar extends SelectorComposer<Component> {
                 valor.setTotalInicial(ArchivoUtils.redondearDecimales(costVentaTipoClienteInicial, 6));
                 BigDecimal porcentajeDesc = valor.getDetPordescuento().divide(BigDecimal.valueOf(100.0), 6,
                         RoundingMode.FLOOR);
+                porcentajeDesc = porcentajeDesc.doubleValue() < 0 ? BigDecimal.ZERO : porcentajeDesc;
                 BigDecimal valorDescuentoIva = costVentaTipoCliente.multiply(porcentajeDesc).setScale(6,
                         RoundingMode.FLOOR);
-                ;
+
                 // valor unitario con descuento ioncluido iva
                 BigDecimal valorTotalIvaDesc = costVentaTipoCliente.subtract(valorDescuentoIva).setScale(6,
                         RoundingMode.FLOOR);
@@ -699,6 +700,7 @@ public class Facturar extends SelectorComposer<Component> {
                 // valor del descuento
                 BigDecimal valorDescuento = valor.getSubTotal().subtract(valor.getSubTotalDescuento()).setScale(6,
                         RoundingMode.FLOOR);
+                valorDescuento = valorDescuento.doubleValue() < 0 ? BigDecimal.ZERO : valorDescuento;
                 valor.setDetValdescuento(valorDescuento);
                 BigDecimal valorIva = subTotal.multiply(factorIva).multiply(valor.getCantidad());
                 // valor.setDetIva(valorIva);
@@ -887,7 +889,9 @@ public class Facturar extends SelectorComposer<Component> {
 
     @Command
     @NotifyChange({"listaDetalleFacturaDAOMOdel", "subTotalCotizacion", "ivaCotizacion", "valorTotalCotizacion",
-        "totalDescuento", "valorTotalInicialVent", "descuentoValorFinal", "subTotalBaseCero"})
+        "totalDescuento", "buscarNombreProd", "valorTotalInicialVent", "descuentoValorFinal", "subTotalBaseCero",
+        "listaProducto", "totalItems", "subTotalCotizacion", "subTotalCotizacion13", "subTotalCotizacion14", "subTotalCotizacion15", "subTotalCotizacion5",
+        "ivaCotizacion5", "ivaCotizacion13", "ivaCotizacion14", "ivaCotizacion15"})
     public void actualizarCostoVenta() {
 
         List<DetalleFacturaDAO> listaPedido = listaDetalleFacturaDAOMOdel.getInnerList();
@@ -906,7 +910,7 @@ public class Facturar extends SelectorComposer<Component> {
                 BigDecimal costVentaTipoClienteInicial = BigDecimal.ZERO;
                 String tipoVenta = "NORMAL";
 
-                BigDecimal factorIva = (parametrizar.getParIva().divide(BigDecimal.valueOf(100.0)));
+                BigDecimal factorIva = (valor.getProducto().getProdIva().divide(BigDecimal.valueOf(100.0)));
                 BigDecimal factorSacarSubtotal = (factorIva.add(BigDecimal.ONE));
 
                 if (!buscadoPorCodigo.getProdGrabaIva()) {
@@ -930,13 +934,12 @@ public class Facturar extends SelectorComposer<Component> {
                     }
 
                     valor.setTotalInicial(ArchivoUtils.redondearDecimales(costVentaTipoClienteInicial, 6));
-
                     BigDecimal porcentajeDesc = valor.getDetPordescuento().divide(BigDecimal.valueOf(100.0), 6,
                             RoundingMode.FLOOR);
-
+                    porcentajeDesc = porcentajeDesc.doubleValue() < 0 ? BigDecimal.ZERO : porcentajeDesc;
                     BigDecimal valorDescuentoIva = costVentaTipoCliente.multiply(porcentajeDesc).setScale(6,
                             RoundingMode.FLOOR);
-                    ;
+
                     // valor unitario con descuento ioncluido iva
                     BigDecimal valorTotalIvaDesc = costVentaTipoCliente.subtract(valorDescuentoIva).setScale(6,
                             RoundingMode.FLOOR);
@@ -949,9 +952,10 @@ public class Facturar extends SelectorComposer<Component> {
                     // valor del descuento
                     BigDecimal valorDescuento = valor.getSubTotal().subtract(valor.getSubTotalDescuento()).setScale(6,
                             RoundingMode.FLOOR);
+                    valorDescuento = valorDescuento.doubleValue() < 0 ? BigDecimal.ZERO : valorDescuento;
                     valor.setDetValdescuento(valorDescuento);
                     BigDecimal valorIva = subTotal.multiply(factorIva).multiply(valor.getCantidad());
-                    // valor.setDetIva(valorIva);
+                    valor.setDetIva(valorIva);
                     // valor del iva con descuento
                     BigDecimal valorIvaDesc = subTotalDescuento.multiply(factorIva).multiply(valor.getCantidad());
                     valor.setDetIva(valorIvaDesc);
@@ -966,6 +970,7 @@ public class Facturar extends SelectorComposer<Component> {
                     valor.setDetSubtotaldescuentoporcantidad(subTotalDescuento.multiply(valor.getCantidad()));
                     valor.setTipoVenta("NORMAL");
                     valor.setCodTipoVenta(clietipo);
+
                 }
 
             }
@@ -1129,7 +1134,7 @@ public class Facturar extends SelectorComposer<Component> {
         "totalDescuento", "valorTotalInicialVent", "descuentoValorFinal", "subTotalBaseCero"})
     public void calcularValores(@BindingParam("valor") DetalleFacturaDAO valor) {
         try {
-            BigDecimal factorIva = (parametrizar.getParIva().divide(BigDecimal.valueOf(100.0)));
+            BigDecimal factorIva = (valor.getProducto().getProdIva().divide(BigDecimal.valueOf(100.0)));
             BigDecimal factorSacarSubtotal = (factorIva.add(BigDecimal.ONE));
             // Kardex kardex = servicioKardex.FindALlKardexs(valor.getProducto());
             // if (kardex.getKarTotal().intValue() < valor.getCantidad().intValue()) {
@@ -1177,7 +1182,7 @@ public class Facturar extends SelectorComposer<Component> {
         }
     }
 
-     @Command
+    @Command
     @NotifyChange({"listaDetalleFacturaDAOMOdel", "subTotalCotizacion", "ivaCotizacion", "valorTotalCotizacion",
         "totalDescuento", "buscarNombreProd", "valorTotalInicialVent", "descuentoValorFinal", "subTotalBaseCero",
         "listaProducto", "totalItems", "subTotalCotizacion", "subTotalCotizacion13", "subTotalCotizacion14", "subTotalCotizacion15", "subTotalCotizacion5",
@@ -1232,6 +1237,9 @@ public class Facturar extends SelectorComposer<Component> {
                 /* COLOCAMOS EN EL CAMPO DE DESCUENTO */
                 BigDecimal porcentajeDiferencia = BigDecimal.valueOf(100.0).subtract(valorPorcentaje).setScale(6,
                         RoundingMode.FLOOR);
+
+                porcentajeDiferencia = porcentajeDiferencia.doubleValue() < 0 ? BigDecimal.ZERO : porcentajeDiferencia;
+
                 valor.setDetPordescuento(porcentajeDiferencia);
                 // valor unitario con descuento ioncluido iva
 
@@ -1250,7 +1258,7 @@ public class Facturar extends SelectorComposer<Component> {
                     valorDescuento = ArchivoUtils.redondearDecimales(valor.getSubTotal(), 6)
                             .subtract(ArchivoUtils.redondearDecimales(valor.getSubTotalDescuento(), 6));
                 }
-
+                valorDescuento = valorDescuento.doubleValue() < 0 ? BigDecimal.ZERO : valorDescuento;
                 // valor del iva con descuento
                 BigDecimal valorIvaDesc = subTotalDescuento.multiply(factorIva).multiply(valor.getCantidad());
 
@@ -1300,7 +1308,7 @@ public class Facturar extends SelectorComposer<Component> {
     }
 
     /* CALCULAR EL DESCUENTO EN FUNCION DEL PORCENTAJE */
-      @Command
+    @Command
     @NotifyChange({"listaDetalleFacturaDAOMOdel", "subTotalCotizacion", "ivaCotizacion", "valorTotalCotizacion",
         "totalDescuento", "buscarNombreProd", "valorTotalInicialVent", "descuentoValorFinal", "subTotalBaseCero",
         "listaProducto", "totalItems", "subTotalCotizacion", "subTotalCotizacion13", "subTotalCotizacion14", "subTotalCotizacion15", "subTotalCotizacion5",
@@ -2499,8 +2507,8 @@ public class Facturar extends SelectorComposer<Component> {
             }
 
 //            servicioKardex.
-                    /* Verificar numero de proforma */
-                    reporteGeneral();
+            /* Verificar numero de proforma */
+            reporteGeneral();
             if (accion.equals("create")) {
                 Executions.sendRedirect("/venta/facturar.zul");
             } else {
@@ -3228,7 +3236,7 @@ public class Facturar extends SelectorComposer<Component> {
     }
 
     /* CAMBIAR DE PRECIO */
-       @Command
+    @Command
     @NotifyChange({"listaDetalleFacturaDAOMOdel", "subTotalCotizacion", "ivaCotizacion", "valorTotalCotizacion",
         "totalDescuento", "buscarNombreProd", "valorTotalInicialVent", "descuentoValorFinal", "subTotalBaseCero",
         "listaProducto", "totalItems", "subTotalCotizacion", "subTotalCotizacion13", "subTotalCotizacion14", "subTotalCotizacion15", "subTotalCotizacion5",
@@ -3304,6 +3312,7 @@ public class Facturar extends SelectorComposer<Component> {
                     valor.setTotalInicial(costVentaTipoClienteInicial);
                     BigDecimal porcentajeDesc = valor.getDetPordescuento().divide(BigDecimal.valueOf(100.0), 5,
                             RoundingMode.FLOOR);
+                    porcentajeDesc = porcentajeDesc.doubleValue() < 0 ? BigDecimal.ZERO : porcentajeDesc;
                     BigDecimal valorDescuentoIva = costVentaTipoCliente.multiply(porcentajeDesc);
                     // valor unitario con descuento ioncluido iva
                     BigDecimal valorTotalIvaDesc = costVentaTipoCliente.subtract(valorDescuentoIva);
@@ -3315,6 +3324,8 @@ public class Facturar extends SelectorComposer<Component> {
                     valor.setSubTotalDescuento(subTotalDescuento);
                     // valor del descuento
                     BigDecimal valorDescuento = valor.getSubTotal().subtract(valor.getSubTotalDescuento());
+                    valorDescuento = valorDescuento.doubleValue() < 0 ? BigDecimal.ZERO : valorDescuento;
+
                     valor.setDetValdescuento(valorDescuento);
                     BigDecimal valorIva = subTotal.multiply(factorIva).multiply(valor.getCantidad());
                     // valor.setDetIva(valorIva);

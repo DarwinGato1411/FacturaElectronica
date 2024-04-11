@@ -278,7 +278,7 @@ public class ServicioNotaCredito {
             //Connection connection = em.unwrap(Connection.class);
             em = HelperPersistencia.getEMF();
             em.getTransaction().begin();
-            Query query = em.createQuery("SELECT a FROM NotaCreditoDebito a WHERE a.idFactura.idCliente.cliCedula LIKE :cliCedula ORDER BY a.facFecha DESC");
+            Query query = em.createQuery("SELECT a FROM NotaCreditoDebito a WHERE a.idFactura.idCliente.cliCedula LIKE :cliCedula ORDER BY a.facNumero DESC");
 //            query.setMaxResults(2);
             query.setParameter("cliCedula", "%" + cliente + "%");
             listaNotaCreditoDebitos = (List<NotaCreditoDebito>) query.getResultList();
@@ -299,7 +299,7 @@ public class ServicioNotaCredito {
             //Connection connection = em.unwrap(Connection.class);
             em = HelperPersistencia.getEMF();
             em.getTransaction().begin();
-            Query query = em.createQuery("SELECT a FROM NotaCreditoDebito a WHERE a.idFactura.idCliente.cliNombre LIKE :cliNombre ORDER BY a.facFecha DESC");
+            Query query = em.createQuery("SELECT a FROM NotaCreditoDebito a WHERE a.idFactura.idCliente.cliNombre LIKE :cliNombre ORDER BY a.facNumero DESC");
 //            query.setMaxResults(2);º
             query.setParameter("cliNombre", "%" + cliente + "%");
             listaNotaCreditoDebitos = (List<NotaCreditoDebito>) query.getResultList();
@@ -481,7 +481,7 @@ public class ServicioNotaCredito {
             //Connection connection = em.unwrap(Connection.class);
             em = HelperPersistencia.getEMF();
             em.getTransaction().begin();
-            Query query = em.createQuery("SELECT a FROM NotaCreditoDebito a WHERE a.facFecha BETWEEN :inicio AND :fin ORDER BY a.facFecha DESC");
+            Query query = em.createQuery("SELECT a FROM NotaCreditoDebito a WHERE a.facFecha BETWEEN :inicio AND :fin ORDER BY a.facNumero DESC");
             query.setParameter("inicio", inicio);
             query.setParameter("fin", fin);
             query.setMaxResults(400);

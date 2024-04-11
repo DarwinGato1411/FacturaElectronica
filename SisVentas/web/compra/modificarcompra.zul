@@ -135,7 +135,7 @@
                                                                  onChange="self.setValue(self.getValue().toUpperCase().trim());" 
                                                                  class="" />
                                                 </div>
-                                                <div class="input-contenedor" >
+<!--                                                <div class="input-contenedor" >
                                                     <span> Subtotal 12%:</span>
 
                                                     <decimalbox  format="###.##"  
@@ -144,7 +144,7 @@
                                                          
                                                                  onChange="self.setValue(self.getValue().toUpperCase().trim());" 
                                                                  class="" />
-                                                </div>
+                                                </div>-->
                                                 <div class="input-contenedor" >
                                                     <span> Subtotal 15%:</span>
 
@@ -178,7 +178,7 @@
                                                                      onChange="self.setValue(self.getValue().toUpperCase().trim());" 
                                                                      class="" />
                                                 </div>
-                                                <div class="input-contenedor" >
+<!--                                                <div class="input-contenedor" >
                                                     <span>IVA 12 %</span>
                                            
                                                     <decimalbox  format="###.##"  
@@ -187,7 +187,7 @@
                                                              
                                                                      onChange="self.setValue(self.getValue().toUpperCase().trim());" 
                                                                      class="" />
-                                                </div>
+                                                </div>-->
                                                 <div class="input-contenedor" >
                                                     <span>IVA 15 %</span>
                                            

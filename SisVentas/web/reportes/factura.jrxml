@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="factura" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isSummaryNewPage="true">
-	<property name="ireport.zoom" value="3.138428376721006"/>
+	<property name="ireport.zoom" value="2.3579476910000046"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="477"/>
+	<property name="ireport.y" value="682"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -638,7 +638,7 @@ where   factura.fac_numero=$P{numfactura};]]>
 		<band splitType="Stretch"/>
 	</pageHeader>
 	<detail>
-		<band height="320" splitType="Stretch">
+		<band height="269" splitType="Stretch">
 			<componentElement>
 				<reportElement key="table" style="table" positionType="Float" isPrintRepeatedValues="false" x="0" y="6" width="555" height="45"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
@@ -837,12 +837,12 @@ where   factura.fac_numero=$P{numfactura};]]>
 				<elementGroup/>
 			</elementGroup>
 			<textField pattern="###0.00;-###0.00" isBlankWhenNull="true">
-				<reportElement style="table_TD" positionType="Float" x="504" y="131" width="47" height="12"/>
+				<reportElement style="table_TD" positionType="Float" x="504" y="119" width="47" height="12"/>
 				<box leftPadding="2" rightPadding="2"/>
 				<textElement textAlignment="Right">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{fac_total_base_gravaba}.add( $F{fac_total_base_cero} )]]></textFieldExpression>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{fac_total_base_gravaba}.add( $F{fac_subt_5}).add($F{fac_subt_15}).add($F{fac_total_base_cero})]]></textFieldExpression>
 			</textField>
 			<textField pattern="###0.00;-###0.00" isBlankWhenNull="true">
 				<reportElement style="table_TD" positionType="Float" mode="Opaque" x="222" y="144" width="73" height="12" forecolor="#000000" backcolor="#FFFFFF"/>
@@ -851,56 +851,6 @@ where   factura.fac_numero=$P{numfactura};]]>
 					<font fontName="SansSerif" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 				</textElement>
 				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{fac_total}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement positionType="Float" mode="Opaque" x="504" y="119" width="47" height="12" forecolor="#000000" backcolor="#FFFFFF"/>
-				<box>
-					<pen lineWidth="0.5"/>
-					<topPen lineWidth="0.5"/>
-					<leftPen lineWidth="0.5"/>
-					<bottomPen lineWidth="0.5"/>
-					<rightPen lineWidth="0.5"/>
-				</box>
-				<textElement textAlignment="Right" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
-					<font fontName="SansSerif" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
-				</textElement>
-				<text><![CDATA[0.00]]></text>
-			</staticText>
-			<textField pattern="###0.00;-###0.00" isBlankWhenNull="true">
-				<reportElement positionType="Float" mode="Opaque" x="504" y="155" width="47" height="12" forecolor="#000000" backcolor="#FFFFFF"/>
-				<box leftPadding="2" rightPadding="2">
-					<pen lineWidth="0.5"/>
-					<topPen lineWidth="0.5"/>
-					<leftPen lineWidth="0.5"/>
-					<bottomPen lineWidth="0.5"/>
-					<rightPen lineWidth="0.5"/>
-				</box>
-				<textElement textAlignment="Right" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
-					<font fontName="SansSerif" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
-				</textElement>
-				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{fac_valor_ice}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement positionType="Float" mode="Opaque" x="504" y="203" width="47" height="12" forecolor="#000000" backcolor="#FFFFFF"/>
-				<box>
-					<pen lineWidth="0.5"/>
-					<topPen lineWidth="0.5"/>
-					<leftPen lineWidth="0.5"/>
-					<bottomPen lineWidth="0.5"/>
-					<rightPen lineWidth="0.5"/>
-				</box>
-				<textElement textAlignment="Right" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
-					<font fontName="SansSerif" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
-				</textElement>
-				<text><![CDATA[0.00]]></text>
-			</staticText>
-			<textField isStretchWithOverflow="true" pattern="###0.00;-###0.00" isBlankWhenNull="true">
-				<reportElement style="table_TD" positionType="Float" x="504" y="83" width="47" height="12"/>
-				<box leftPadding="2" rightPadding="2"/>
-				<textElement textAlignment="Right">
-					<font size="8" isStrikeThrough="false"/>
-				</textElement>
-				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{fac_subt_15}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement positionType="Float" mode="Opaque" x="504" y="107" width="47" height="12" forecolor="#000000" backcolor="#FFFFFF"/>
@@ -917,7 +867,57 @@ where   factura.fac_numero=$P{numfactura};]]>
 				<text><![CDATA[0.00]]></text>
 			</staticText>
 			<textField pattern="###0.00;-###0.00" isBlankWhenNull="true">
-				<reportElement style="table_TD" positionType="Float" x="504" y="227" width="47" height="12"/>
+				<reportElement positionType="Float" mode="Opaque" x="504" y="143" width="47" height="12" forecolor="#000000" backcolor="#FFFFFF"/>
+				<box leftPadding="2" rightPadding="2">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
+					<font fontName="SansSerif" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{fac_valor_ice}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="504" y="179" width="47" height="12" forecolor="#000000" backcolor="#FFFFFF"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
+					<font fontName="SansSerif" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+				</textElement>
+				<text><![CDATA[0.00]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" pattern="###0.00;-###0.00" isBlankWhenNull="true">
+				<reportElement style="table_TD" positionType="Float" x="504" y="71" width="47" height="12"/>
+				<box leftPadding="2" rightPadding="2"/>
+				<textElement textAlignment="Right">
+					<font size="8" isStrikeThrough="false"/>
+				</textElement>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{fac_subt_15}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="504" y="95" width="47" height="12" forecolor="#000000" backcolor="#FFFFFF"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
+					<font fontName="SansSerif" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+				</textElement>
+				<text><![CDATA[0.00]]></text>
+			</staticText>
+			<textField pattern="###0.00;-###0.00" isBlankWhenNull="true">
+				<reportElement style="table_TD" positionType="Float" x="504" y="203" width="47" height="12"/>
 				<box leftPadding="2" rightPadding="2"/>
 				<textElement textAlignment="Right">
 					<font size="8"/>
@@ -925,7 +925,7 @@ where   factura.fac_numero=$P{numfactura};]]>
 				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{fac_total}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement style="table_TD" positionType="Float" x="391" y="215" width="113" height="12"/>
+				<reportElement style="table_TD" positionType="Float" x="391" y="191" width="113" height="12"/>
 				<box leftPadding="2" bottomPadding="0" rightPadding="2"/>
 				<textElement>
 					<font size="7"/>
@@ -933,13 +933,13 @@ where   factura.fac_numero=$P{numfactura};]]>
 				<text><![CDATA[PROPINA]]></text>
 			</staticText>
 			<rectangle>
-				<reportElement style="table_TD" positionType="Float" x="391" y="250" width="160" height="41"/>
+				<reportElement style="table_TD" positionType="Float" x="390" y="222" width="160" height="41"/>
 				<graphicElement>
 					<pen lineWidth="0.5"/>
 				</graphicElement>
 			</rectangle>
 			<staticText>
-				<reportElement style="table_TD" positionType="Float" x="391" y="119" width="113" height="12"/>
+				<reportElement style="table_TD" positionType="Float" x="391" y="107" width="113" height="12"/>
 				<box leftPadding="2" bottomPadding="0" rightPadding="2"/>
 				<textElement>
 					<font size="7"/>
@@ -947,7 +947,7 @@ where   factura.fac_numero=$P{numfactura};]]>
 				<text><![CDATA[SUBTOTAL EXENTO IVA]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="table_TD" positionType="Float" x="391" y="191" width="113" height="12"/>
+				<reportElement style="table_TD" positionType="Float" x="391" y="167" width="113" height="12"/>
 				<box leftPadding="2" bottomPadding="0" rightPadding="2"/>
 				<textElement>
 					<font size="7"/>
@@ -963,15 +963,7 @@ where   factura.fac_numero=$P{numfactura};]]>
 				<text><![CDATA[SUBTOTAL 5%]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="table_TD" positionType="Float" x="391" y="179" width="113" height="12"/>
-				<box leftPadding="2" bottomPadding="0" rightPadding="2"/>
-				<textElement>
-					<font size="7"/>
-				</textElement>
-				<text><![CDATA[IVA 12%]]></text>
-			</staticText>
-			<staticText>
-				<reportElement style="table_TD" positionType="Float" x="391" y="83" width="113" height="12"/>
+				<reportElement style="table_TD" positionType="Float" x="391" y="71" width="113" height="12"/>
 				<box leftPadding="2" bottomPadding="0" rightPadding="2"/>
 				<textElement>
 					<font size="7"/>
@@ -979,7 +971,7 @@ where   factura.fac_numero=$P{numfactura};]]>
 				<text><![CDATA[SUBTOTAL 15%]]></text>
 			</staticText>
 			<textField pattern="###0.00;-###0.00" isBlankWhenNull="true">
-				<reportElement style="table_TD" positionType="Float" x="504" y="143" width="47" height="12"/>
+				<reportElement style="table_TD" positionType="Float" x="504" y="131" width="47" height="12"/>
 				<box leftPadding="2" rightPadding="2"/>
 				<textElement textAlignment="Right">
 					<font size="8"/>
@@ -987,7 +979,7 @@ where   factura.fac_numero=$P{numfactura};]]>
 				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{fac_descuento}]]></textFieldExpression>
 			</textField>
 			<textField pattern="###0.00;-###0.00" isBlankWhenNull="true">
-				<reportElement style="table_TD" positionType="Float" x="504" y="167" width="47" height="12"/>
+				<reportElement style="table_TD" positionType="Float" x="504" y="155" width="47" height="12"/>
 				<box leftPadding="2" rightPadding="2"/>
 				<textElement textAlignment="Right">
 					<font size="8"/>
@@ -995,7 +987,7 @@ where   factura.fac_numero=$P{numfactura};]]>
 				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{fac_iva_5}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement style="table_TD" positionType="Float" x="391" y="131" width="113" height="12"/>
+				<reportElement style="table_TD" positionType="Float" x="391" y="119" width="113" height="12"/>
 				<box leftPadding="2" bottomPadding="0" rightPadding="2"/>
 				<textElement>
 					<font size="7"/>
@@ -1003,14 +995,14 @@ where   factura.fac_numero=$P{numfactura};]]>
 				<text><![CDATA[SUBTOTAL SIN IMPUESTO]]></text>
 			</staticText>
 			<staticText>
-				<reportElement positionType="Float" mode="Opaque" x="400" y="255" width="105" height="13" forecolor="#000000" backcolor="#FFFFFF"/>
+				<reportElement positionType="Float" mode="Opaque" x="399" y="227" width="105" height="13" forecolor="#000000" backcolor="#FFFFFF"/>
 				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
 					<font fontName="SansSerif" size="6" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 				</textElement>
 				<text><![CDATA[VALOR TOTAL SIN SUBSIDIO]]></text>
 			</staticText>
 			<textField pattern="###0.00;-###0.00" isBlankWhenNull="true">
-				<reportElement style="table_TD" positionType="Float" x="504" y="191" width="47" height="12"/>
+				<reportElement style="table_TD" positionType="Float" x="504" y="167" width="47" height="12"/>
 				<box leftPadding="2" rightPadding="2"/>
 				<textElement textAlignment="Right">
 					<font size="8"/>
@@ -1032,16 +1024,8 @@ where   factura.fac_numero=$P{numfactura};]]>
 				</textElement>
 				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{fac_subt_5}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" pattern="###0.00;-###0.00" isBlankWhenNull="true">
-				<reportElement style="table_TD" positionType="Float" x="504" y="71" width="47" height="12"/>
-				<box leftPadding="2" rightPadding="2"/>
-				<textElement textAlignment="Right">
-					<font size="8" isStrikeThrough="false"/>
-				</textElement>
-				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{fac_total_base_gravaba}]]></textFieldExpression>
-			</textField>
 			<staticText>
-				<reportElement style="table_TD" positionType="Float" x="391" y="95" width="113" height="12"/>
+				<reportElement style="table_TD" positionType="Float" x="391" y="83" width="113" height="12"/>
 				<box leftPadding="2" bottomPadding="0" rightPadding="2"/>
 				<textElement>
 					<font size="7"/>
@@ -1049,7 +1033,7 @@ where   factura.fac_numero=$P{numfactura};]]>
 				<text><![CDATA[SUBTOTAL IVA 0%]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="table_TD" positionType="Float" x="391" y="203" width="113" height="12"/>
+				<reportElement style="table_TD" positionType="Float" x="391" y="179" width="113" height="12"/>
 				<box leftPadding="2" bottomPadding="0" rightPadding="2"/>
 				<textElement>
 					<font size="7"/>
@@ -1057,15 +1041,7 @@ where   factura.fac_numero=$P{numfactura};]]>
 				<text><![CDATA[IRBPNR]]></text>
 			</staticText>
 			<textField pattern="###0.00;-###0.00" isBlankWhenNull="true">
-				<reportElement style="table_TD" positionType="Float" x="504" y="179" width="47" height="12"/>
-				<box leftPadding="2" rightPadding="2"/>
-				<textElement textAlignment="Right">
-					<font size="8"/>
-				</textElement>
-				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{fac_iva}]]></textFieldExpression>
-			</textField>
-			<textField pattern="###0.00;-###0.00" isBlankWhenNull="true">
-				<reportElement style="table_TD" positionType="Float" x="504" y="95" width="47" height="12"/>
+				<reportElement style="table_TD" positionType="Float" x="504" y="83" width="47" height="12"/>
 				<box leftPadding="2" rightPadding="2"/>
 				<textElement textAlignment="Right">
 					<font size="8"/>
@@ -1073,7 +1049,7 @@ where   factura.fac_numero=$P{numfactura};]]>
 				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{fac_total_base_cero}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement style="table_TD" positionType="Float" x="391" y="167" width="113" height="12"/>
+				<reportElement style="table_TD" positionType="Float" x="391" y="155" width="113" height="12"/>
 				<box leftPadding="2" bottomPadding="0" rightPadding="2"/>
 				<textElement>
 					<font size="7"/>
@@ -1081,7 +1057,7 @@ where   factura.fac_numero=$P{numfactura};]]>
 				<text><![CDATA[IVA 5%]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="table_TD" positionType="Float" x="391" y="227" width="113" height="12"/>
+				<reportElement style="table_TD" positionType="Float" x="391" y="203" width="113" height="12"/>
 				<box leftPadding="2" bottomPadding="0" rightPadding="2"/>
 				<textElement>
 					<font size="7"/>
@@ -1089,7 +1065,7 @@ where   factura.fac_numero=$P{numfactura};]]>
 				<text><![CDATA[VALOR TOTAL]]></text>
 			</staticText>
 			<staticText>
-				<reportElement positionType="Float" mode="Opaque" x="504" y="215" width="47" height="12" forecolor="#000000" backcolor="#FFFFFF"/>
+				<reportElement positionType="Float" mode="Opaque" x="504" y="191" width="47" height="12" forecolor="#000000" backcolor="#FFFFFF"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -1103,23 +1079,15 @@ where   factura.fac_numero=$P{numfactura};]]>
 				<text><![CDATA[0.00]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="table_TD" positionType="Float" x="391" y="155" width="113" height="12"/>
+				<reportElement style="table_TD" positionType="Float" x="391" y="143" width="113" height="12"/>
 				<box leftPadding="2" bottomPadding="0" rightPadding="2"/>
 				<textElement>
 					<font size="7"/>
 				</textElement>
 				<text><![CDATA[ICE]]></text>
 			</staticText>
-			<staticText>
-				<reportElement style="table_TD" positionType="Float" x="391" y="71" width="113" height="12"/>
-				<box leftPadding="2" bottomPadding="0" rightPadding="2"/>
-				<textElement>
-					<font size="7"/>
-				</textElement>
-				<text><![CDATA[SUBTOTAL 12%]]></text>
-			</staticText>
 			<textField pattern="###0.00;-###0.00">
-				<reportElement positionType="Float" x="511" y="270" width="38" height="15"/>
+				<reportElement positionType="Float" x="510" y="242" width="38" height="15"/>
 				<box leftPadding="2" rightPadding="2"/>
 				<textElement textAlignment="Right">
 					<font size="6"/>
@@ -1127,7 +1095,7 @@ where   factura.fac_numero=$P{numfactura};]]>
 				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{fac_subsidio}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement style="table_TD" positionType="Float" x="391" y="107" width="113" height="12"/>
+				<reportElement style="table_TD" positionType="Float" x="391" y="95" width="113" height="12"/>
 				<box leftPadding="2" bottomPadding="0" rightPadding="2"/>
 				<textElement>
 					<font size="7"/>
@@ -1135,7 +1103,7 @@ where   factura.fac_numero=$P{numfactura};]]>
 				<text><![CDATA[SUBTOTAL NO OBJETO IVA]]></text>
 			</staticText>
 			<staticText>
-				<reportElement positionType="Float" mode="Opaque" x="401" y="270" width="104" height="20" forecolor="#000000" backcolor="#FFFFFF"/>
+				<reportElement positionType="Float" mode="Opaque" x="400" y="242" width="104" height="20" forecolor="#000000" backcolor="#FFFFFF"/>
 				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
 					<font fontName="SansSerif" size="6" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 				</textElement>
@@ -1143,7 +1111,7 @@ where   factura.fac_numero=$P{numfactura};]]>
 (Incluye IVA cuando corresponde)]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="table_TD" positionType="Float" x="391" y="143" width="113" height="12"/>
+				<reportElement style="table_TD" positionType="Float" x="391" y="131" width="113" height="12"/>
 				<box leftPadding="2" bottomPadding="0" rightPadding="2"/>
 				<textElement>
 					<font size="7"/>
@@ -1151,7 +1119,7 @@ where   factura.fac_numero=$P{numfactura};]]>
 				<text><![CDATA[DESCUENTO]]></text>
 			</staticText>
 			<textField pattern="###0.00;-###0.00" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="511" y="255" width="38" height="15"/>
+				<reportElement positionType="Float" x="510" y="227" width="38" height="15"/>
 				<box leftPadding="2" rightPadding="2"/>
 				<textElement textAlignment="Right">
 					<font size="6"/>

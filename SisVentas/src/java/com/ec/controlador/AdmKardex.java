@@ -83,6 +83,8 @@ public class AdmKardex {
             listaDetalleKardex = servicioDetalleKardex.findByIdKardex(kardex);
         }
         prodSelected = valor;
+        servicioKardex.verificarKardexGeneralPorProducto(valor.getIdProducto());
+
     }
 
     @Command

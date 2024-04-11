@@ -162,7 +162,7 @@
                                     </listcell>
                                     
                                     
-                                    <zk if="${each.estadosri=='PENDIENTE'}"  > 
+                                    <zk if="${each.estadosri!='AUTORIZADO'}"  > 
                                         <listcell zclass = "mycss-listcell">    
                                             <image  src="/iconos/sri24x24.png" 
                                                     class="grow"
@@ -171,7 +171,7 @@
                                         </listcell>
                                     </zk>
                             
-                                    <zk if="${each.estadosri!='PENDIENTE'}"  >
+                                    <zk if="${each.estadosri=='AUTORIZADO'}"  >
                                         <listcell zclass = "mycss-listcell">                                         
                                             <image src="/iconos/listo_uno.png"   
                                                    class="grow "       

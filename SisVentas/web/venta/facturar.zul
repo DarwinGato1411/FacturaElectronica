@@ -109,25 +109,7 @@
                                         </combobox>
                                         <!--<div class="fa-solid fa-chevron-down icon" />-->
                                     </div>
-                                    <div class="wrapper_input">
-                                        <span>Plazo:</span>
-                                        <combobox 
-                                            onSelect="@command('actualizarCostoVenta')"  
-                                            readonly="true"
-                                            width="300px"        
-                                            class="  textoFechaDateBox"                              
-                                            selectedItem="@bind(vm.facplazo)">
-                                            <comboitem label="CONTADO" value="0"/> 
-                                            <comboitem label="15 DIAS" value="15" />                    
-                                            <comboitem label="30 DIAS" value="30" />
-                                            <comboitem label="45 DIAS" value="45" />
-                                            <comboitem label="60 DIAS" value="60" />
-                                            <comboitem label="90 DIAS" value="90" />
-                                            <comboitem label="120 DIAS" value="120" />
-                                        </combobox>
                                     
-                                        <!--<div class="fa-solid fa-chevron-down icon" />-->
-                                    </div>
                               
                                 </div>
                                 <div class="wrapper_data wrapper_data2">
@@ -168,13 +150,24 @@
                                             <comboitem label="Precio por caja" value="2" />
                                         </combobox>
                                     </div>
-                                    <div class="wrapper_input" >
-                                        <span>Fotografia</span>
-                                        <div class="inputGroupImg"  align="end" >
-                                            <image content="@bind(vm.fotoGeneral)" width="150px" height="100px" style="display:block;" />
-                                              
-                                        </div>
+                                    <div class="wrapper_input">
+                                        <span>Plazo:</span>
+                                        <combobox 
+                                            onSelect="@command('actualizarCostoVenta')"  
+                                            readonly="true"
+                                            width="300px"        
+                                            class="  textoFechaDateBox"                              
+                                            selectedItem="@bind(vm.facplazo)">
+                                            <comboitem label="CONTADO" value="0"/> 
+                                            <comboitem label="15 DIAS" value="15" />                    
+                                            <comboitem label="30 DIAS" value="30" />
+                                            <comboitem label="45 DIAS" value="45" />
+                                            <comboitem label="60 DIAS" value="60" />
+                                            <comboitem label="90 DIAS" value="90" />
+                                            <comboitem label="120 DIAS" value="120" />
+                                        </combobox>
                                     
+                                        <!--<div class="fa-solid fa-chevron-down icon" />-->
                                     </div>
                                 
                                 </div>
@@ -203,7 +196,7 @@
                                             class="input" 
                                         />
                                     </div>
-                                    <div class="wrapper_input">
+                                    <!--                                    <div class="wrapper_input">
                                         <span>Base 12%:</span>
                                         <decimalbox  
                                             format="###.##"   
@@ -212,9 +205,9 @@
                                             onChange="self.setValue(self.getValue().toUpperCase().trim());" 
                                             class="input" 
                                         />
-                                    </div>
+                                    </div>-->
                                
-                                    <div class="wrapper_input">
+                                    <!--                                    <div class="wrapper_input">
                                         <span>Base 13%:</span>
                                         <decimalbox  
                                             format="###.##"   
@@ -223,8 +216,8 @@
                                             onChange="self.setValue(self.getValue().toUpperCase().trim());" 
                                             class="input" 
                                         />
-                                    </div>
-<!--                                    <div class="wrapper_input">
+                                    </div>-->
+                                    <!--                                    <div class="wrapper_input">
                                         <span>Base 14%:</span>
                                         <decimalbox  
                                             format="###.##"   
@@ -244,7 +237,15 @@
                                             class="input" 
                                         />
                                     </div>
-                                
+                                    <div class="wrapper_input" >
+                                        <!--<span>Fotografia</span>-->
+                                        <div class="inputGroupImg"  align="end" >
+                                            <image content="@bind(vm.fotoGeneral)" 
+                                                   width="100%" height="100px" style="display:block;" />
+                                              
+                                        </div>
+                                    
+                                    </div>
                                 </div>
                                 <div class="wrapper_data">
                                     <div class="wrapper_input">
@@ -267,7 +268,7 @@
                                             class="input" 
                                         />
                                     </div>
-                                    <div class="wrapper_input">
+                                    <!--                                    <div class="wrapper_input">
                                         <span>IVA 12%:</span>
                                         <decimalbox  
                                             format="###.##"  
@@ -275,8 +276,8 @@
                                             readonly="true" 
                                             class="input" 
                                         />
-                                    </div>
-                                    <div class="wrapper_input">
+                                    </div>-->
+                                    <!--                                    <div class="wrapper_input">
                                         <span>IVA 13%:</span>
                                         <decimalbox  
                                             format="###.##"  
@@ -284,8 +285,8 @@
                                             readonly="true" 
                                             class="input" 
                                         />
-                                    </div>
-<!--                                    <div class="wrapper_input">
+                                    </div>-->
+                                    <!--                                    <div class="wrapper_input">
                                         <span>IVA 14%:</span>
                                         <decimalbox  
                                             format="###.##"  
@@ -304,9 +305,6 @@
                                         />
                                     </div>
                                 
-
-                                </div>
-                                <div class="wrapper_data">
                                     <div class="wrapper_input">
                                         <span>Base 0%:</span>
                                         <decimalbox  
@@ -317,7 +315,10 @@
                                             class="input" 
                                         />
                                     </div>
-                                    <div class="wrapper_input" style="flex:auto">
+                                </div>
+                                <div class="wrapper_data">
+                                   
+                                    <div class="wrapper_input" >
                                         <!--<span   >-->
                                         <label  class="input_total"   style="background-color:transparent" value="Total :"> </label> 
                                         <!--</span>-->
@@ -409,9 +410,11 @@
                                                      placeholder="Descripcion"
                                                      onOK="@command('buscarLikeKardexNombreProd')"                                                     
                                                      onChange="self.setValue(self.getValue().toUpperCase());" />
-                                        </listheader>                         
-                                        <listheader width="100%"   label="KARDEX" align="center" /> 
+                                        </listheader>        
                                         <listheader width="100%"  label="IVA(%)" align="center" />
+                      
+                                        <listheader width="100%"   label="KARDEX" align="center" /> 
+                                   
                                         <listheader width="100%"  label="PV X MAYOR" align="center" />
                                     
                                         <listheader width="100%"  label="PVP" align="center" /> 
@@ -437,7 +440,7 @@
                                                           class="form-control form-control-sm"
                                                           onDoubleClick="@command('agregarItemLista',valor=each.idProducto)" />
                                             </listcell>
-                                             <listcell zclass = "mycss-listcell" 
+                                            <listcell zclass = "mycss-listcell" 
                                                       onDoubleClick="@command('agregarItemLista',valor=each.idProducto)" >                                                    
                                                 <decimalbox format="###" onOK="@command('agregarItemLista',valor=each.idProducto)" 
                                                             class="form-control form-control-sm"
@@ -521,7 +524,9 @@
                                                     class="btn btn btn-secondary btn-sm "
                                                     tooltiptext="Eliminar registros seleccionados"/>
                                         </listheader>
+                                        <listheader label="IVA%" align="left" />
                                         <listheader label="COD" align="left" />
+                                      
                                         <listheader label="CANT" align="left"  />
                                         <listheader label="% DESC" align="left"  />                                            
                                         <listheader label="DESCRIPCIÓN" align="left" />
@@ -533,10 +538,21 @@
             
                                     <template name="model" >                                                            
                                         <listitem class="tabla2">
-                                            <listcell  >                                                                                                  
+                                            <listcell  > 
+                                                                                                                                                
                                             </listcell>
                                     
 
+                                            <listcell zclass = "mycss-listcell" >
+                                            
+                                                <decimalbox readonly="true" format="###"                                                                                                                
+                                                            value="@bind(each.producto.prodIva)" 
+                                                            style="font-size:10px"
+                                                            onOK="@command('buscarPorCodigo',valor=each)"
+                                                        
+                                                            width="99%" />  
+                                               
+                                            </listcell>
                                             <listcell zclass = "mycss-listcell" >
                                             
                                                 <!--onDoubleClick="@command('cambiarRegistro',valor=each)"-->
@@ -583,7 +599,8 @@
                                                 <textbox    constraint="/^[0-9]{1,9}(?:[.][0-9]{1,5})?$/:Ingrese solo numeros"                                            
                                                             onOK="@command('calcularValoresDesCantidad',valor=each)"
                                                             class="form-control form-control-sm" 
-                                                            style="font-size:11px"                                                                                                                         
+                                                            style="font-size:11px"        
+                                                            onChange="@command('calcularValoresDesCantidad',valor=each)"                                                                                                                 
                                                             ctrlKeys="^A" onCtrlKey="@command('cambioPrecio',valor=each)"
                                                             value="@bind(each.total)"  width="99%" />
                                             </listcell>
