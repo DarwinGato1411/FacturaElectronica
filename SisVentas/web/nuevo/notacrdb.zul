@@ -234,7 +234,7 @@
                                                         format="###.##" value="@bind(each.detPordescuento)" width="95%"  />
                                         </listcell>
                                         <listcell>
-                                            <label  value="@bind(each.producto.prodNombre)" style="font-color:black" width="99%" />
+                                            <label  value="@bind(each.producto.prodNombre)" style="color:black" width="99%" />
                                         </listcell>
                                         <!--                                            <listcell>
                                             <decimalbox readonly="true" format="###.##"
