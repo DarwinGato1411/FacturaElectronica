@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?link rel="stylesheet" type="text/css" href="/css/boostrap/bootstrap.css"?>  
 <?link rel="stylesheet" type="text/css" href="/css/style.css"?>
+<?link rel="stylesheet" type="text/css" href="/css/app/ventas/facturar.css"?>
+<!--<?link rel="stylesheet" type="text/css" href="/css/app/ventas/modales.css"?>-->
 <?init class="com.ec.seguridad.Autentificador"?>
 <?init class="org.zkoss.zk.ui.util.Composition" arg0="/plantilla/plantilla.zul"?>
 <?link rel="icon" type="image/x-icon" href="/iconos/deckxel.ico"?>
@@ -31,7 +33,8 @@
                                                    lenient="true"  format="dd/MM/yyyy" 
                                                    constraint="no empty: Ingrese de inicio de la busqueda"/> 
                                     </div>
-                                    <div  class="col-12 col-sm-12 col-md-3 col-lg-3 ">
+                                    <div  class="col-12 col-sm-12 col-md-5 col-lg-5 ">
+                                        <div>
                                         <label value="Fin: "  />
                                         <datebox   value="@bind(vm.fin)" 
                                                    readonly="true" style="font-weight:bold;" 
@@ -40,10 +43,11 @@
                                                    lenient="true"  format="dd/MM/yyyy" 
                                                    constraint="no empty: IBuscar por fecha fin de la busqueda"/> 
                                         <button   image="/imagenes/buscar1.png"  
+                                        label="Buscar"
                                                   onClick="@command('buscarForFechas')"  
                                                   class="btn btn-primary btn-sm "
                                                   tooltiptext="Buscar"/>
-                       
+                       </div>
                                     </div>
                                     <div  class="col-12 col-sm-12 col-md-3 col-lg-3 ">
                                         <button   image="/imagenes/excel.png"  

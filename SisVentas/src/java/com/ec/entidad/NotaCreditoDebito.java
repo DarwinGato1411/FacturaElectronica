@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.ec.entidad;
 
 import java.io.Serializable;
@@ -36,45 +35,83 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "nota_credito_debito")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "NotaCreditoDebito.findAll", query = "SELECT n FROM NotaCreditoDebito n"),
-    @NamedQuery(name = "NotaCreditoDebito.findUltimaNC", query = "SELECT n FROM NotaCreditoDebito n WHERE n.facNumero IS NOT NULL ORDER BY  n.facNumero DESC"),
-    @NamedQuery(name = "NotaCreditoDebito.findByIdNota", query = "SELECT n FROM NotaCreditoDebito n WHERE n.idNota = :idNota"),
-    @NamedQuery(name = "NotaCreditoDebito.findByFacFecha", query = "SELECT n FROM NotaCreditoDebito n WHERE n.facFecha = :facFecha"),
-    @NamedQuery(name = "NotaCreditoDebito.findByFacSubtotal", query = "SELECT n FROM NotaCreditoDebito n WHERE n.facSubtotal = :facSubtotal"),
-    @NamedQuery(name = "NotaCreditoDebito.findByFacIva", query = "SELECT n FROM NotaCreditoDebito n WHERE n.facIva = :facIva"),
-    @NamedQuery(name = "NotaCreditoDebito.findByFacTotal", query = "SELECT n FROM NotaCreditoDebito n WHERE n.facTotal = :facTotal"),
-    @NamedQuery(name = "NotaCreditoDebito.findByFacEstado", query = "SELECT n FROM NotaCreditoDebito n WHERE n.facEstado = :facEstado"),
-    @NamedQuery(name = "NotaCreditoDebito.findByFacTipo", query = "SELECT n FROM NotaCreditoDebito n WHERE n.facTipo = :facTipo"),
-    @NamedQuery(name = "NotaCreditoDebito.findByFacAbono", query = "SELECT n FROM NotaCreditoDebito n WHERE n.facAbono = :facAbono"),
-    @NamedQuery(name = "NotaCreditoDebito.findByFacSaldo", query = "SELECT n FROM NotaCreditoDebito n WHERE n.facSaldo = :facSaldo"),
-    @NamedQuery(name = "NotaCreditoDebito.findByFacDescripcion", query = "SELECT n FROM NotaCreditoDebito n WHERE n.facDescripcion = :facDescripcion"),
-    @NamedQuery(name = "NotaCreditoDebito.findByFacNumProforma", query = "SELECT n FROM NotaCreditoDebito n WHERE n.facNumProforma = :facNumProforma"),
-    @NamedQuery(name = "NotaCreditoDebito.findByTipodocumento", query = "SELECT n FROM NotaCreditoDebito n WHERE n.tipodocumento = :tipodocumento"),
-    @NamedQuery(name = "NotaCreditoDebito.findByPuntoemision", query = "SELECT n FROM NotaCreditoDebito n WHERE n.puntoemision = :puntoemision"),
-    @NamedQuery(name = "NotaCreditoDebito.findByCodestablecimiento", query = "SELECT n FROM NotaCreditoDebito n WHERE n.codestablecimiento = :codestablecimiento"),
-    @NamedQuery(name = "NotaCreditoDebito.findByFacNumeroText", query = "SELECT n FROM NotaCreditoDebito n WHERE n.facNumeroText = :facNumeroText"),
-    @NamedQuery(name = "NotaCreditoDebito.findByFacTipoIdentificadorComprobador", query = "SELECT n FROM NotaCreditoDebito n WHERE n.facTipoIdentificadorComprobador = :facTipoIdentificadorComprobador"),
-    @NamedQuery(name = "NotaCreditoDebito.findByFacDescuento", query = "SELECT n FROM NotaCreditoDebito n WHERE n.facDescuento = :facDescuento"),
-    @NamedQuery(name = "NotaCreditoDebito.findByFacCodIce", query = "SELECT n FROM NotaCreditoDebito n WHERE n.facCodIce = :facCodIce"),
-    @NamedQuery(name = "NotaCreditoDebito.findByFacCodIva", query = "SELECT n FROM NotaCreditoDebito n WHERE n.facCodIva = :facCodIva"),
-    @NamedQuery(name = "NotaCreditoDebito.findByFacTotalBaseCero", query = "SELECT n FROM NotaCreditoDebito n WHERE n.facTotalBaseCero = :facTotalBaseCero"),
-    @NamedQuery(name = "NotaCreditoDebito.findByFacTotalBaseGravaba", query = "SELECT n FROM NotaCreditoDebito n WHERE n.facTotalBaseGravaba = :facTotalBaseGravaba"),
-    @NamedQuery(name = "NotaCreditoDebito.findByCodigoPorcentaje", query = "SELECT n FROM NotaCreditoDebito n WHERE n.codigoPorcentaje = :codigoPorcentaje"),
-    @NamedQuery(name = "NotaCreditoDebito.findByFacPorcentajeIva", query = "SELECT n FROM NotaCreditoDebito n WHERE n.facPorcentajeIva = :facPorcentajeIva"),
-    @NamedQuery(name = "NotaCreditoDebito.findByFacMoneda", query = "SELECT n FROM NotaCreditoDebito n WHERE n.facMoneda = :facMoneda"),
-    @NamedQuery(name = "NotaCreditoDebito.findByIdFormaPago", query = "SELECT n FROM NotaCreditoDebito n WHERE n.idFormaPago = :idFormaPago"),
-    @NamedQuery(name = "NotaCreditoDebito.findByFacPlazo", query = "SELECT n FROM NotaCreditoDebito n WHERE n.facPlazo = :facPlazo"),
-    @NamedQuery(name = "NotaCreditoDebito.findByFacUnidadTiempo", query = "SELECT n FROM NotaCreditoDebito n WHERE n.facUnidadTiempo = :facUnidadTiempo"),
-    @NamedQuery(name = "NotaCreditoDebito.findByEstadosri", query = "SELECT n FROM NotaCreditoDebito n WHERE n.estadosri = :estadosri"),
-    @NamedQuery(name = "NotaCreditoDebito.findByMensajesri", query = "SELECT n FROM NotaCreditoDebito n WHERE n.mensajesri = :mensajesri"),
-    @NamedQuery(name = "NotaCreditoDebito.findByFacFechaAutorizacion", query = "SELECT n FROM NotaCreditoDebito n WHERE n.facFechaAutorizacion = :facFechaAutorizacion"),
-    @NamedQuery(name = "NotaCreditoDebito.findByFacClaveAcceso", query = "SELECT n FROM NotaCreditoDebito n WHERE n.facClaveAcceso = :facClaveAcceso"),
-    @NamedQuery(name = "NotaCreditoDebito.findByCodTipoambiente", query = "SELECT n FROM NotaCreditoDebito n WHERE n.codTipoambiente = :codTipoambiente"),
-    @NamedQuery(name = "NotaCreditoDebito.findByFacClaveAutorizacion", query = "SELECT n FROM NotaCreditoDebito n WHERE n.facClaveAutorizacion = :facClaveAutorizacion"),
-    @NamedQuery(name = "NotaCreditoDebito.findByFacPath", query = "SELECT n FROM NotaCreditoDebito n WHERE n.facPath = :facPath"),
-    @NamedQuery(name = "NotaCreditoDebito.findByTipodocumentomod", query = "SELECT n FROM NotaCreditoDebito n WHERE n.tipodocumentomod = :tipodocumentomod"),
+    @NamedQuery(name = "NotaCreditoDebito.findAll", query = "SELECT n FROM NotaCreditoDebito n")
+    ,
+    @NamedQuery(name = "NotaCreditoDebito.findUltimaNC", query = "SELECT n FROM NotaCreditoDebito n WHERE n.facNumero IS NOT NULL ORDER BY  n.facNumero DESC")
+    ,
+    @NamedQuery(name = "NotaCreditoDebito.findByIdNota", query = "SELECT n FROM NotaCreditoDebito n WHERE n.idNota = :idNota")
+    ,
+    @NamedQuery(name = "NotaCreditoDebito.findByFacFecha", query = "SELECT n FROM NotaCreditoDebito n WHERE n.facFecha = :facFecha")
+    ,
+    @NamedQuery(name = "NotaCreditoDebito.findByFacSubtotal", query = "SELECT n FROM NotaCreditoDebito n WHERE n.facSubtotal = :facSubtotal")
+    ,
+    @NamedQuery(name = "NotaCreditoDebito.findByFacIva", query = "SELECT n FROM NotaCreditoDebito n WHERE n.facIva = :facIva")
+    ,
+    @NamedQuery(name = "NotaCreditoDebito.findByFacTotal", query = "SELECT n FROM NotaCreditoDebito n WHERE n.facTotal = :facTotal")
+    ,
+    @NamedQuery(name = "NotaCreditoDebito.findByFacEstado", query = "SELECT n FROM NotaCreditoDebito n WHERE n.facEstado = :facEstado")
+    ,
+    @NamedQuery(name = "NotaCreditoDebito.findByFacTipo", query = "SELECT n FROM NotaCreditoDebito n WHERE n.facTipo = :facTipo")
+    ,
+    @NamedQuery(name = "NotaCreditoDebito.findByFacAbono", query = "SELECT n FROM NotaCreditoDebito n WHERE n.facAbono = :facAbono")
+    ,
+    @NamedQuery(name = "NotaCreditoDebito.findByFacSaldo", query = "SELECT n FROM NotaCreditoDebito n WHERE n.facSaldo = :facSaldo")
+    ,
+    @NamedQuery(name = "NotaCreditoDebito.findByFacDescripcion", query = "SELECT n FROM NotaCreditoDebito n WHERE n.facDescripcion = :facDescripcion")
+    ,
+    @NamedQuery(name = "NotaCreditoDebito.findByFacNumProforma", query = "SELECT n FROM NotaCreditoDebito n WHERE n.facNumProforma = :facNumProforma")
+    ,
+    @NamedQuery(name = "NotaCreditoDebito.findByTipodocumento", query = "SELECT n FROM NotaCreditoDebito n WHERE n.tipodocumento = :tipodocumento")
+    ,
+    @NamedQuery(name = "NotaCreditoDebito.findByPuntoemision", query = "SELECT n FROM NotaCreditoDebito n WHERE n.puntoemision = :puntoemision")
+    ,
+    @NamedQuery(name = "NotaCreditoDebito.findByCodestablecimiento", query = "SELECT n FROM NotaCreditoDebito n WHERE n.codestablecimiento = :codestablecimiento")
+    ,
+    @NamedQuery(name = "NotaCreditoDebito.findByFacNumeroText", query = "SELECT n FROM NotaCreditoDebito n WHERE n.facNumeroText = :facNumeroText")
+    ,
+    @NamedQuery(name = "NotaCreditoDebito.findByFacTipoIdentificadorComprobador", query = "SELECT n FROM NotaCreditoDebito n WHERE n.facTipoIdentificadorComprobador = :facTipoIdentificadorComprobador")
+    ,
+    @NamedQuery(name = "NotaCreditoDebito.findByFacDescuento", query = "SELECT n FROM NotaCreditoDebito n WHERE n.facDescuento = :facDescuento")
+    ,
+    @NamedQuery(name = "NotaCreditoDebito.findByFacCodIce", query = "SELECT n FROM NotaCreditoDebito n WHERE n.facCodIce = :facCodIce")
+    ,
+    @NamedQuery(name = "NotaCreditoDebito.findByFacCodIva", query = "SELECT n FROM NotaCreditoDebito n WHERE n.facCodIva = :facCodIva")
+    ,
+    @NamedQuery(name = "NotaCreditoDebito.findByFacTotalBaseCero", query = "SELECT n FROM NotaCreditoDebito n WHERE n.facTotalBaseCero = :facTotalBaseCero")
+    ,
+    @NamedQuery(name = "NotaCreditoDebito.findByFacTotalBaseGravaba", query = "SELECT n FROM NotaCreditoDebito n WHERE n.facTotalBaseGravaba = :facTotalBaseGravaba")
+    ,
+    @NamedQuery(name = "NotaCreditoDebito.findByCodigoPorcentaje", query = "SELECT n FROM NotaCreditoDebito n WHERE n.codigoPorcentaje = :codigoPorcentaje")
+    ,
+    @NamedQuery(name = "NotaCreditoDebito.findByFacPorcentajeIva", query = "SELECT n FROM NotaCreditoDebito n WHERE n.facPorcentajeIva = :facPorcentajeIva")
+    ,
+    @NamedQuery(name = "NotaCreditoDebito.findByFacMoneda", query = "SELECT n FROM NotaCreditoDebito n WHERE n.facMoneda = :facMoneda")
+    ,
+    @NamedQuery(name = "NotaCreditoDebito.findByIdFormaPago", query = "SELECT n FROM NotaCreditoDebito n WHERE n.idFormaPago = :idFormaPago")
+    ,
+    @NamedQuery(name = "NotaCreditoDebito.findByFacPlazo", query = "SELECT n FROM NotaCreditoDebito n WHERE n.facPlazo = :facPlazo")
+    ,
+    @NamedQuery(name = "NotaCreditoDebito.findByFacUnidadTiempo", query = "SELECT n FROM NotaCreditoDebito n WHERE n.facUnidadTiempo = :facUnidadTiempo")
+    ,
+    @NamedQuery(name = "NotaCreditoDebito.findByEstadosri", query = "SELECT n FROM NotaCreditoDebito n WHERE n.estadosri = :estadosri")
+    ,
+    @NamedQuery(name = "NotaCreditoDebito.findByMensajesri", query = "SELECT n FROM NotaCreditoDebito n WHERE n.mensajesri = :mensajesri")
+    ,
+    @NamedQuery(name = "NotaCreditoDebito.findByFacFechaAutorizacion", query = "SELECT n FROM NotaCreditoDebito n WHERE n.facFechaAutorizacion = :facFechaAutorizacion")
+    ,
+    @NamedQuery(name = "NotaCreditoDebito.findByFacClaveAcceso", query = "SELECT n FROM NotaCreditoDebito n WHERE n.facClaveAcceso = :facClaveAcceso")
+    ,
+    @NamedQuery(name = "NotaCreditoDebito.findByCodTipoambiente", query = "SELECT n FROM NotaCreditoDebito n WHERE n.codTipoambiente = :codTipoambiente")
+    ,
+    @NamedQuery(name = "NotaCreditoDebito.findByFacClaveAutorizacion", query = "SELECT n FROM NotaCreditoDebito n WHERE n.facClaveAutorizacion = :facClaveAutorizacion")
+    ,
+    @NamedQuery(name = "NotaCreditoDebito.findByFacPath", query = "SELECT n FROM NotaCreditoDebito n WHERE n.facPath = :facPath")
+    ,
+    @NamedQuery(name = "NotaCreditoDebito.findByTipodocumentomod", query = "SELECT n FROM NotaCreditoDebito n WHERE n.tipodocumentomod = :tipodocumentomod")
+    ,
     @NamedQuery(name = "NotaCreditoDebito.findByFacFechaSustento", query = "SELECT n FROM NotaCreditoDebito n WHERE n.facFechaSustento = :facFechaSustento")})
 public class NotaCreditoDebito implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -189,6 +226,22 @@ public class NotaCreditoDebito implements Serializable {
     @JoinColumn(name = "id_factura", referencedColumnName = "id_factura")
     @ManyToOne
     private Factura idFactura;
+    @Column(name = "fac_subt_5")
+    private BigDecimal facSubt5;
+    @Column(name = "fac_iva_5")
+    private BigDecimal facIva5;
+    @Column(name = "fac_subt_13")
+    private BigDecimal facSubt13;
+    @Column(name = "fac_iva_13")
+    private BigDecimal facIva13;
+    @Column(name = "fac_subt_14")
+    private BigDecimal facSubt14;
+    @Column(name = "fac_iva_14")
+    private BigDecimal facIva14;
+    @Column(name = "fac_subt_15")
+    private BigDecimal facSubt15;
+    @Column(name = "fac_iva_15")
+    private BigDecimal facIva15;
 
     public NotaCreditoDebito() {
     }
@@ -533,7 +586,6 @@ public class NotaCreditoDebito implements Serializable {
     public void setMotivo(String motivo) {
         this.motivo = motivo;
     }
-    
 
     @Override
     public int hashCode() {
@@ -559,5 +611,68 @@ public class NotaCreditoDebito implements Serializable {
     public String toString() {
         return "com.ec.entidad.NotaCreditoDebito[ idNota=" + idNota + " ]";
     }
-    
+
+    public BigDecimal getFacSubt5() {
+        return facSubt5 == null ? BigDecimal.ZERO : facSubt5;
+    }
+
+    public void setFacSubt5(BigDecimal facSubt5) {
+        this.facSubt5 = facSubt5;
+    }
+
+    public BigDecimal getFacIva5() {
+        return facIva5 == null ? BigDecimal.ZERO : facIva5;
+    }
+
+    public void setFacIva5(BigDecimal facIva5) {
+        this.facIva5 = facIva5;
+    }
+
+    public BigDecimal getFacSubt13() {
+        return facSubt13 == null ? BigDecimal.ZERO : facSubt13;
+    }
+
+    public void setFacSubt13(BigDecimal facSubt13) {
+        this.facSubt13 = facSubt13;
+    }
+
+    public BigDecimal getFacIva13() {
+        return facIva13 == null ? BigDecimal.ZERO : facIva13;
+    }
+
+    public void setFacIva13(BigDecimal facIva13) {
+        this.facIva13 = facIva13;
+    }
+
+    public BigDecimal getFacSubt14() {
+        return facSubt14 == null ? BigDecimal.ZERO : facSubt14;
+    }
+
+    public void setFacSubt14(BigDecimal facSubt14) {
+        this.facSubt14 = facSubt14;
+    }
+
+    public BigDecimal getFacIva14() {
+        return facIva14 == null ? BigDecimal.ZERO : facIva14;
+    }
+
+    public void setFacIva14(BigDecimal facIva14) {
+        this.facIva14 = facIva14;
+    }
+
+    public BigDecimal getFacSubt15() {
+        return facSubt15 == null ? BigDecimal.ZERO : facSubt15;
+    }
+
+    public void setFacSubt15(BigDecimal facSubt15) {
+        this.facSubt15 = facSubt15;
+    }
+
+    public BigDecimal getFacIva15() {
+        return facIva15 == null ? BigDecimal.ZERO : facIva15;
+    }
+
+    public void setFacIva15(BigDecimal facIva15) {
+        this.facIva15 = facIva15;
+    }
 }

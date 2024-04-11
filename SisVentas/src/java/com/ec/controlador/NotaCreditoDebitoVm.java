@@ -71,6 +71,7 @@ import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
+import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Window;
@@ -167,6 +168,20 @@ public class NotaCreditoDebitoVm {
 
     private String motivo = "";
 
+    private BigDecimal descuentoValorFinal = BigDecimal.ZERO;
+    private BigDecimal subTotalCotizacion5 = BigDecimal.ZERO;
+    private BigDecimal subTotalCotizacion12 = BigDecimal.ZERO;
+    private BigDecimal subTotalCotizacion13 = BigDecimal.ZERO;
+    private BigDecimal subTotalCotizacion14 = BigDecimal.ZERO;
+    private BigDecimal subTotalCotizacion15 = BigDecimal.ZERO;
+//    private BigDecimal subTotalBaseCero = BigDecimal.ZERO;
+//    private BigDecimal ivaCotizacion = BigDecimal.ZERO;
+    private BigDecimal ivaCotizacion5 = BigDecimal.ZERO;
+    private BigDecimal ivaCotizacion13 = BigDecimal.ZERO;
+    private BigDecimal ivaCotizacion14 = BigDecimal.ZERO;
+    private BigDecimal ivaCotizacion15 = BigDecimal.ZERO;
+//    private BigDecimal totalDescuento = BigDecimal.ZERO;
+
     @AfterCompose
     public void afterCompose(@ExecutionArgParam("valor") ParamFactura valor, @ContextParam(ContextType.VIEW) Component view) {
         Selectors.wireComponents(view, this, false);
@@ -184,7 +199,7 @@ public class NotaCreditoDebitoVm {
         amb = servicioTipoAmbiente.FindALlTipoambiente();
         //OBTIENE LAS RUTAS DE ACCESO A LOS DIRECTORIOS DE LA TABLA TIPOAMBIENTE
         PATH_BASE = amb.getAmDirBaseArchivos() + File.separator
-                    + amb.getAmDirXml();
+                + amb.getAmDirXml();
 
         Session sess = Sessions.getCurrent();
         UserCredential cre = (UserCredential) sess.getAttribute(EnumSesion.userCredential.getNombre());
@@ -227,12 +242,12 @@ public class NotaCreditoDebitoVm {
             nuevoRegistro.setDetTotalconiva(det.getDetTotalconiva());
             nuevoRegistro.setTipoVenta(det.getDetTipoVenta());
             //valores con descuentos
-            nuevoRegistro.setSubTotalDescuento(det.getDetSubtotaldescuento());
-            nuevoRegistro.setDetTotaldescuento(det.getDetTotaldescuento());
-            nuevoRegistro.setDetPordescuento(det.getDetPordescuento());
-            nuevoRegistro.setDetValdescuento(det.getDetValdescuento());
-            nuevoRegistro.setDetTotalconivadescuento(det.getDetTotaldescuentoiva());
-            nuevoRegistro.setDetCantpordescuento(det.getDetCantpordescuento());
+            nuevoRegistro.setSubTotalDescuento(det.getDetSubtotal());
+            nuevoRegistro.setDetTotaldescuento(det.getDetTotal());
+            nuevoRegistro.setDetPordescuento(new BigDecimal(0));
+            nuevoRegistro.setDetValdescuento(new BigDecimal(0));
+            nuevoRegistro.setDetTotalconivadescuento(det.getDetTotalconiva());
+            nuevoRegistro.setDetCantpordescuento(new BigDecimal(0));
             nuevoRegistro.setDetIvaDesc(det.getDetIva());
             nuevoRegistro.setCodTipoVenta(det.getDetCodTipoVenta());
             nuevoRegistro.setDetSubtotaldescuentoporcantidad(det.getDetSubtotaldescuentoporcantidad());
@@ -249,16 +264,14 @@ public class NotaCreditoDebitoVm {
     @NotifyChange({"listaDetalleFacturaDAOMOdel", "subTotalCotizacion", "ivaCotizacion", "valorTotalCotizacion", "totalDescuento"})
     public void calcularValores(@BindingParam("valor") DetalleFacturaDAO valor) {
         try {
-            BigDecimal factorIva = (parametrizar.getParIva().divide(BigDecimal.valueOf(100.0)));
-            BigDecimal factorSacarSubtotal = (factorIva.add(BigDecimal.ONE));
-//            Kardex kardex = servicioKardex.FindALlKardexs(valor.getProducto());
-//            if (kardex.getKarTotal().intValue() < valor.getCantidad().intValue()) {
-//               // valor.setCantidad(kardex.getKarTotal());
-//                Clients.showNotification("Verifique el stock del producto cuenta con " + kardex.getKarTotal().intValue() + " en estock",
-//                        Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 3000, true);
-//
-//            }
+            BigDecimal factorIva = new BigDecimal(0);
+            BigDecimal factorSacarSubtotal = new BigDecimal(1);
+            if (valor.getProducto().getProdGrabaIva()) {
+                factorIva = (parametrizar.getParIva().divide(BigDecimal.valueOf(100.0)));
+                factorSacarSubtotal = (factorIva.add(BigDecimal.ONE));
+            }
 
+//         
             if (valor.getCantidad().intValue() > 0) {
                 BigDecimal porcentajeDesc = valor.getDetPordescuento().divide(BigDecimal.valueOf(100.0), 4, RoundingMode.FLOOR);
                 BigDecimal valorDescuentoIva = valor.getTotal().multiply(porcentajeDesc);
@@ -558,7 +571,7 @@ public class NotaCreditoDebitoVm {
         final HashMap<String, ParamFactura> map = new HashMap<String, ParamFactura>();
         map.put("valor", paramFactura);
         org.zkoss.zul.Window window = (org.zkoss.zul.Window) Executions.createComponents(
-                    "/venta/buscarcliente.zul", null, map);
+                "/venta/buscarcliente.zul", null, map);
         window.doModal();
         System.out.println("clinete de la lsitas buscarCliente " + buscarCliente);
         clienteBuscado = servicioCliente.FindClienteForCedula(buscarCliente);
@@ -596,7 +609,8 @@ public class NotaCreditoDebitoVm {
 
     //busqueda del producto
     @Command
-    @NotifyChange({"listaDetalleFacturaDAOMOdel", "subTotalCotizacion", "ivaCotizacion", "valorTotalCotizacion"})
+    @NotifyChange({"listaDetalleFacturaDAOMOdel", "subTotalCotizacion", "ivaCotizacion", "valorTotalCotizacion", "subTotalCotizacion13", "subTotalCotizacion14", "subTotalCotizacion15", "subTotalCotizacion5",
+        "ivaCotizacion5", "ivaCotizacion13", "ivaCotizacion14", "ivaCotizacion15"})
     public void eliminarRegistros() {
         if (registrosSeleccionados.size() > 0) {
             ((ListModelList<DetalleFacturaDAO>) listaDetalleFacturaDAOMOdel).removeAll(registrosSeleccionados);
@@ -624,92 +638,287 @@ public class NotaCreditoDebitoVm {
 
     }
 
-    private void calcularValoresTotales() {
-        BigDecimal valorTotal = BigDecimal.ZERO;
-        BigDecimal valorTotalConIva = BigDecimal.ZERO;
-        BigDecimal valorIva = BigDecimal.ZERO;
-        BigDecimal valorDescuento = BigDecimal.ZERO;
-        BigDecimal Subtotal = BigDecimal.ZERO;
-        BigDecimal basecero = BigDecimal.ZERO;
-        BigDecimal basedoce = BigDecimal.ZERO;
-
-        BigDecimal factorIva = (parametrizar.getParIva().divide(BigDecimal.valueOf(100.0)));
-        BigDecimal facturIvaMasBase = (factorIva.add(BigDecimal.ONE));
-//        BigDecimal descuentoValorFinal = BigDecimal.ZERO;
-        BigDecimal valorTotalInicial = BigDecimal.ZERO;
+//    private void calcularValoresTotales() {
 //        BigDecimal valorTotal = BigDecimal.ZERO;
 //        BigDecimal valorTotalConIva = BigDecimal.ZERO;
 //        BigDecimal valorIva = BigDecimal.ZERO;
 //        BigDecimal valorDescuento = BigDecimal.ZERO;
+//        BigDecimal Subtotal = BigDecimal.ZERO;
+//        BigDecimal basecero = BigDecimal.ZERO;
+//        BigDecimal basedoce = BigDecimal.ZERO;
+//
+//        BigDecimal factorIva = (parametrizar.getParIva().divide(BigDecimal.valueOf(100.0)));
+//        BigDecimal facturIvaMasBase = (factorIva.add(BigDecimal.ONE));
+////        BigDecimal descuentoValorFinal = BigDecimal.ZERO;
+//        BigDecimal valorTotalInicial = BigDecimal.ZERO;
+////        BigDecimal valorTotal = BigDecimal.ZERO;
+////        BigDecimal valorTotalConIva = BigDecimal.ZERO;
+////        BigDecimal valorIva = BigDecimal.ZERO;
+////        BigDecimal valorDescuento = BigDecimal.ZERO;
+//        BigDecimal baseCero = BigDecimal.ZERO;
+//        BigDecimal sumaSubsidio = BigDecimal.ZERO;
+//        BigDecimal sumaDeItems = BigDecimal.ZERO;
+//
+//        List<DetalleFacturaDAO> listaPedido = new ArrayList<DetalleFacturaDAO>();
+//        if (registrosSeleccionados.size() > 0) {
+//            for (DetalleFacturaDAO registrosSeleccionado : registrosSeleccionados) {
+//                listaPedido.add(registrosSeleccionado);
+//            }
+//        } else {
+//            listaPedido = listaDetalleFacturaDAOMOdel.getInnerList();
+//        }
+//
+//        for (DetalleFacturaDAO item : listaPedido) {
+//            sumaDeItems = sumaDeItems.add(BigDecimal.ONE);
+//            if (item.getProducto() != null) {
+//                valorTotal = valorTotal.add(item.getProducto().getProdGrabaIva() ? item.getSubTotalDescuento().multiply(item.getCantidad()) : BigDecimal.ZERO);
+//                valorIva = valorIva.add(item.getDetIva());
+//                valorDescuento = valorDescuento.add(item.getDetCantpordescuento());
+//                valorTotalInicial = valorTotalInicial.add(item.getTotalInicial().multiply(item.getCantidad()));
+//                baseCero = baseCero.add(!item.getProducto().getProdGrabaIva() ? item.getSubTotalDescuento().multiply(item.getCantidad()) : BigDecimal.ZERO);
+//                /*COSTO SIN SUBSIDIO*/
+//
+//                if (item.getProducto().getProdTieneSubsidio().equals("S")) {
+//                    BigDecimal precioSinSubporcantidad = item.getProducto().getProdSubsidio().multiply(item.getCantidad());
+//                    sumaSubsidio = sumaSubsidio.add(precioSinSubporcantidad.setScale(5, RoundingMode.FLOOR));
+//                }
+//
+//            }
+//        }
+//
+////            totalItems = "ITEMS: " + (sumaDeItems.intValue() - 1);
+//        System.out.println("**********************************************************");
+//        System.out.println("valor total:::: subTotalCotizacion " + valorTotal);
+//        //valorTotal.setScale(5, RoundingMode.UP);
+//        try {
+//            subsidioTotal = sumaSubsidio;
+//            subTotalCotizacion = valorTotal;
+//            // subTotalCotizacion.setScale(5, RoundingMode.UP);
+//            subTotalBaseCero = baseCero;
+//            /*Obtiene el porcentaje del IVA*/
+////                BigDecimal valorIva = subTotalCotizacion.multiply(parametrizar.getParIva());
+//
+//            ivaCotizacion = valorIva;
+//            // ivaCotizacion.setScale(5, RoundingMode.UP);
+//
+//            valorTotalCotizacion = valorTotal.add(baseCero.add(valorIva));
+//            // valorTotalCotizacion.setScale(5, RoundingMode.UP);
+//
+//            valorTotalInicialVent = valorTotalInicial;
+//            //  valorTotalInicialVent.setScale(5, RoundingMode.UP);
+//
+//            //  descuentoValorFinal.setScale(5, RoundingMode.UP);
+//            totalDescuento = valorDescuento;
+//            //descuentoValorFinal.setScale(5, RoundingMode.UP);
+//
+//            subTotalCotizacion = ArchivoUtils.redondearDecimales(subTotalCotizacion, 2);
+//            subTotalBaseCero = ArchivoUtils.redondearDecimales(subTotalBaseCero, 2);
+//            valorTotalCotizacion = ArchivoUtils.redondearDecimales(valorTotalCotizacion, 2);
+//            valorTotalInicialVent = ArchivoUtils.redondearDecimales(valorTotalInicialVent, 2);
+//            ivaCotizacion = ArchivoUtils.redondearDecimales(ivaCotizacion, 2);
+//
+//        } catch (Exception e) {
+//            System.out.println("error de calculo de valores " + e);
+//        }
+//
+//    }
+//    }
+    private void calcularValoresTotales() {
+//        BigDecimal factorIva = (parametrizar.getParIva().divide(BigDecimal.valueOf(100.0)));
+//        BigDecimal facturIvaMasBase = (factorIva.add(BigDecimal.ONE));
+        // BigDecimal descuentoValorFinal = BigDecimal.ZERO;
+        BigDecimal valorTotalInicial = BigDecimal.ZERO;
+        BigDecimal valorTotal = BigDecimal.ZERO;
+//        BigDecimal valorTotal0 = BigDecimal.ZERO;
+        BigDecimal valorTotal5 = BigDecimal.ZERO;
+        BigDecimal valorTotal13 = BigDecimal.ZERO;
+        BigDecimal valorTotal14 = BigDecimal.ZERO;
+        BigDecimal valorTotal15 = BigDecimal.ZERO;
+//        BigDecimal valorTotal = BigDecimal.ZERO;
+        BigDecimal valorTotalConIva = BigDecimal.ZERO;
+        BigDecimal valorIva = BigDecimal.ZERO;
+        BigDecimal valorIva5 = BigDecimal.ZERO;
+        BigDecimal valorIva13 = BigDecimal.ZERO;
+        BigDecimal valorIva14 = BigDecimal.ZERO;
+        BigDecimal valorIva15 = BigDecimal.ZERO;
+        BigDecimal valorDescuento = BigDecimal.ZERO;
+        BigDecimal valorDescuentoIvaTotal = BigDecimal.ZERO;
         BigDecimal baseCero = BigDecimal.ZERO;
         BigDecimal sumaSubsidio = BigDecimal.ZERO;
         BigDecimal sumaDeItems = BigDecimal.ZERO;
+        BigDecimal totalizado = BigDecimal.ZERO;
 
-        List<DetalleFacturaDAO> listaPedido = new ArrayList<DetalleFacturaDAO>();
-        if (registrosSeleccionados.size() > 0) {
-            for (DetalleFacturaDAO registrosSeleccionado : registrosSeleccionados) {
-                listaPedido.add(registrosSeleccionado);
-            }
-        } else {
-            listaPedido = listaDetalleFacturaDAOMOdel.getInnerList();
-        }
+        BigDecimal descuentoMasIva = BigDecimal.ZERO;
 
-        for (DetalleFacturaDAO item : listaPedido) {
-            sumaDeItems = sumaDeItems.add(BigDecimal.ONE);
-            if (item.getProducto() != null) {
-                valorTotal = valorTotal.add(item.getProducto().getProdGrabaIva() ? item.getSubTotalDescuento().multiply(item.getCantidad()) : BigDecimal.ZERO);
-                valorIva = valorIva.add(item.getDetIva());
-//                    valorTotalConIva = valorTotalConIva.add(item.getDetTotalconivadescuento());
-                valorDescuento = valorDescuento.add(item.getDetCantpordescuento());
-                valorTotalInicial = valorTotalInicial.add(item.getTotalInicial().multiply(item.getCantidad()));
-                baseCero = baseCero.add(!item.getProducto().getProdGrabaIva() ? item.getSubTotalDescuento().multiply(item.getCantidad()) : BigDecimal.ZERO);
-                /*COSTO SIN SUBSIDIO*/
+        List<DetalleFacturaDAO> listaPedido = listaDetalleFacturaDAOMOdel.getInnerList();
+        if (listaPedido.size() > 0) {
+            for (DetalleFacturaDAO item : listaPedido) {
+                sumaDeItems = sumaDeItems.add(BigDecimal.ONE);
+                if (item.getProducto() != null) {
+                    totalizado = totalizado.add(item.getDetTotalconivadescuento());
+                    System.out.println("totalizado" + totalizado);
 
-                if (item.getProducto().getProdTieneSubsidio().equals("S")) {
-                    BigDecimal precioSinSubporcantidad = item.getProducto().getProdSubsidio().multiply(item.getCantidad());
-                    sumaSubsidio = sumaSubsidio.add(precioSinSubporcantidad.setScale(5, RoundingMode.FLOOR));
+                    BigDecimal factIVA = BigDecimal.ZERO;
+                    BigDecimal factMASIVA = BigDecimal.ZERO;
+                    /*SUMAR TOTALES POR IVA*/
+                    Integer comparaIva = item.getProducto().getProdIva().intValue();
+                    switch (comparaIva) {
+                        case 0:
+                            // secuencia de sentencias.
+                            baseCero = baseCero.add(!item.getProducto().getProdGrabaIva()
+                                    ? item.getSubTotalDescuento().multiply(item.getCantidad())
+                                    : BigDecimal.ZERO);
+
+                            valorDescuentoIvaTotal = valorDescuentoIvaTotal.add(item.getDetCantpordescuento());
+                            break;
+                        case 5:
+
+                            // secuencia de sentencias.
+                            valorTotal5 = valorTotal5.add(item.getProducto().getProdGrabaIva()
+                                    ? item.getSubTotalDescuento().multiply(item.getCantidad())
+                                    : BigDecimal.ZERO);
+                            valorIva5 = valorIva5.add(item.getDetIva());
+                            System.out.println("valorIva" + valorIva);
+                            /*CALCULA EL DECUENTO ICLUIDO IVA*/
+                            factIVA = (item.getProducto().getProdIva().divide(BigDecimal.valueOf(100.0)));
+                            factMASIVA = (factIVA.add(BigDecimal.ONE));
+                            descuentoMasIva = item.getDetCantpordescuento().multiply(factMASIVA);
+                            valorDescuentoIvaTotal = valorDescuentoIvaTotal.add(descuentoMasIva);
+                            break;
+
+                        case 12:
+                            // secuencia de sentencias.
+                            valorTotal = valorTotal.add(item.getProducto().getProdGrabaIva()
+                                    ? item.getSubTotalDescuento().multiply(item.getCantidad())
+                                    : BigDecimal.ZERO);
+
+                            valorIva = valorIva.add(item.getDetIva());
+                            System.out.println("valorIva" + valorIva);
+                            /*CALCULA EL DECUENTO ICLUIDO IVA*/
+ /*CALCULA EL DECUENTO ICLUIDO IVA*/
+                            factIVA = (item.getProducto().getProdIva().divide(BigDecimal.valueOf(100.0)));
+                            factMASIVA = (factIVA.add(BigDecimal.ONE));
+                            descuentoMasIva = item.getDetCantpordescuento().multiply(factMASIVA);
+                            valorDescuentoIvaTotal = valorDescuentoIvaTotal.add(descuentoMasIva);
+                            break;
+                        case 13:
+                            // secuencia de sentencias.
+                            valorTotal13 = valorTotal13.add(item.getProducto().getProdGrabaIva()
+                                    ? item.getSubTotalDescuento().multiply(item.getCantidad())
+                                    : BigDecimal.ZERO);
+
+                            valorIva13 = valorIva13.add(item.getDetIva());
+                            System.out.println("valorIva" + valorIva);
+
+                            /*CALCULA EL DECUENTO ICLUIDO IVA*/
+                            factIVA = (item.getProducto().getProdIva().divide(BigDecimal.valueOf(100.0)));
+                            factMASIVA = (factIVA.add(BigDecimal.ONE));
+                            descuentoMasIva = item.getDetCantpordescuento().multiply(factMASIVA);
+                            valorDescuentoIvaTotal = valorDescuentoIvaTotal.add(descuentoMasIva);
+                            break;
+                        case 14:
+                            // secuencia de sentencias.
+                            valorTotal14 = valorTotal14.add(item.getProducto().getProdGrabaIva()
+                                    ? item.getSubTotalDescuento().multiply(item.getCantidad())
+                                    : BigDecimal.ZERO);
+
+                            valorIva14 = valorIva14.add(item.getDetIva());
+                            System.out.println("valorIva" + valorIva);
+
+                            /*CALCULA EL DECUENTO ICLUIDO IVA*/
+                            factIVA = (item.getProducto().getProdIva().divide(BigDecimal.valueOf(100.0)));
+                            factMASIVA = (factIVA.add(BigDecimal.ONE));
+                            descuentoMasIva = item.getDetCantpordescuento().multiply(factMASIVA);
+                            valorDescuentoIvaTotal = valorDescuentoIvaTotal.add(descuentoMasIva);
+                            break;
+                        case 15:
+                            // secuencia de sentencias.
+                            valorTotal15 = valorTotal15.add(item.getProducto().getProdGrabaIva()
+                                    ? item.getSubTotalDescuento().multiply(item.getCantidad())
+                                    : BigDecimal.ZERO);
+
+                            valorIva15 = valorIva15.add(item.getDetIva());
+                            System.out.println("valorIva" + valorIva);
+
+                            /*CALCULA EL DECUENTO ICLUIDO IVA*/
+                            factIVA = (item.getProducto().getProdIva().divide(BigDecimal.valueOf(100.0)));
+                            factMASIVA = (factIVA.add(BigDecimal.ONE));
+                            descuentoMasIva = item.getDetCantpordescuento().multiply(factMASIVA);
+                            valorDescuentoIvaTotal = valorDescuentoIvaTotal.add(descuentoMasIva);
+                            break;
+                        default:
+                        // Default secuencia de sentencias.
+                    }
+
+                    System.out.println("valor total" + valorTotal);
+
+                    // valorTotalConIva = valorTotalConIva.add(item.getDetTotalconivadescuento());
+                    valorDescuento = valorDescuento.add(item.getDetCantpordescuento());
+                    System.out.println("valorDescuento" + valorDescuento);
+                    valorTotalInicial = valorTotalInicial.add(item.getTotalInicial().multiply(item.getCantidad()));
+                    System.out.println("valorTotalInicial" + valorTotalInicial);
+
+                    /* COSTO SIN SUBSIDIO */
+                    System.out.println("baseCero" + baseCero);
+                    if (item.getProducto().getProdTieneSubsidio().equals("S")) {
+                        BigDecimal precioSinSubporcantidad = item.getProducto().getProdSubsidio()
+                                .multiply(item.getCantidad());
+                        sumaSubsidio = sumaSubsidio.add(precioSinSubporcantidad.setScale(5, RoundingMode.FLOOR));
+                    }
+
                 }
-
             }
-        }
 
 //            totalItems = "ITEMS: " + (sumaDeItems.intValue() - 1);
-        System.out.println("**********************************************************");
-        System.out.println("valor total:::: subTotalCotizacion " + valorTotal);
-        //valorTotal.setScale(5, RoundingMode.UP);
-        try {
-            subsidioTotal = sumaSubsidio;
-            subTotalCotizacion = valorTotal;
-            // subTotalCotizacion.setScale(5, RoundingMode.UP);
-            subTotalBaseCero = baseCero;
-            /*Obtiene el porcentaje del IVA*/
-//                BigDecimal valorIva = subTotalCotizacion.multiply(parametrizar.getParIva());
+            System.out.println("**********************************************************");
+            System.out.println("valor total:::: subTotalCotizacion " + valorTotal);
+            // valorTotal.setScale(5, RoundingMode.UP);
+            try {
+                subsidioTotal = sumaSubsidio;
+                subTotalCotizacion = ArchivoUtils.redondearDecimales(valorTotal, 2);
+                subTotalCotizacion5 = ArchivoUtils.redondearDecimales(valorTotal5, 2);
+                subTotalCotizacion13 = ArchivoUtils.redondearDecimales(valorTotal13, 2);
+                subTotalCotizacion14 = ArchivoUtils.redondearDecimales(valorTotal14, 2);
+                subTotalCotizacion15 = ArchivoUtils.redondearDecimales(valorTotal15, 2);
+                // subTotalCotizacion.setScale(5, RoundingMode.UP);
+                subTotalBaseCero = ArchivoUtils.redondearDecimales(baseCero, 2);
+                /* Obtiene el porcentaje del IVA */
+                // BigDecimal valorIva = subTotalCotizacion.multiply(parametrizar.getParIva());
 
-            ivaCotizacion = valorIva;
-            // ivaCotizacion.setScale(5, RoundingMode.UP);
+                ivaCotizacion = ArchivoUtils.redondearDecimales(valorIva, 2);
 
-            valorTotalCotizacion = valorTotal.add(baseCero.add(valorIva));
-            // valorTotalCotizacion.setScale(5, RoundingMode.UP);
+                ivaCotizacion5 = ArchivoUtils.redondearDecimales(valorIva5, 2);
+                ivaCotizacion13 = ArchivoUtils.redondearDecimales(valorIva13, 2);
+                ivaCotizacion14 = ArchivoUtils.redondearDecimales(valorIva14, 2);
+                ivaCotizacion15 = ArchivoUtils.redondearDecimales(valorIva15, 2);
 
-            valorTotalInicialVent = valorTotalInicial;
-            //  valorTotalInicialVent.setScale(5, RoundingMode.UP);
+                // ivaCotizacion.setScale(5, RoundingMode.UP);
+                valorTotalCotizacion = totalizado;
+                // valorTotalCotizacion =
+                // subTotalCotizacion.add(subTotalBaseCero.add(ivaCotizacion));
+                // valorTotalCotizacion.setScale(5, RoundingMode.UP);
 
-            //  descuentoValorFinal.setScale(5, RoundingMode.UP);
-            totalDescuento = valorDescuento;
-            //descuentoValorFinal.setScale(5, RoundingMode.UP);
+                valorTotalInicialVent = valorTotalInicial;
+                // valorTotalInicialVent.setScale(5, RoundingMode.UP);
 
-            subTotalCotizacion = ArchivoUtils.redondearDecimales(subTotalCotizacion, 2);
-            subTotalBaseCero = ArchivoUtils.redondearDecimales(subTotalBaseCero, 2);
-            valorTotalCotizacion = ArchivoUtils.redondearDecimales(valorTotalCotizacion, 2);
-            valorTotalInicialVent = ArchivoUtils.redondearDecimales(valorTotalInicialVent, 2);
-            ivaCotizacion = ArchivoUtils.redondearDecimales(ivaCotizacion, 2);
+                descuentoValorFinal = valorDescuentoIvaTotal;
+                // descuentoValorFinal.setScale(5, RoundingMode.UP);
+                totalDescuento = valorDescuento;
+                // descuentoValorFinal.setScale(5, RoundingMode.UP);
 
-        } catch (Exception e) {
-            System.out.println("error de calculo de valores " + e);
+                subTotalCotizacion = ArchivoUtils.redondearDecimales(subTotalCotizacion, 2);
+                subTotalBaseCero = ArchivoUtils.redondearDecimales(subTotalBaseCero, 2);
+                valorTotalCotizacion = ArchivoUtils.redondearDecimales(valorTotalCotizacion, 2);
+                valorTotalInicialVent = ArchivoUtils.redondearDecimales(valorTotalInicialVent, 2);
+                ivaCotizacion = ArchivoUtils.redondearDecimales(ivaCotizacion, 2);
+                descuentoValorFinal = ArchivoUtils.redondearDecimales(descuentoValorFinal, 2);
+
+            } catch (Exception e) {
+                System.out.println("error de calculo de valores " + e);
+            }
+
         }
-
     }
-//    }
 
     private void numeroFactura() {
         NotaCreditoDebito recuperada = servicioNotaCredito.FindUltimaNotaCreditoDebito();
@@ -735,6 +944,11 @@ public class NotaCreditoDebitoVm {
     private void guardarNotaCredito() {
 
         try {
+            if (motivo.equals("")) {
+                Clients.showNotification("Verifique el motivo parra la nota de credito",
+                        Clients.NOTIFICATION_TYPE_ERROR, null, "middle_center", 2000, true);
+                return;
+            }
 
             //armar el detalle de la factura
             List<DetalleFacturaDAO> detalleFactura = new ArrayList<DetalleFacturaDAO>();
@@ -778,11 +992,17 @@ public class NotaCreditoDebitoVm {
             creditoDebito.setFacPlazo(BigDecimal.ZERO);
             creditoDebito.setFacPorcentajeIva(factura.getFacPorcentajeIva());
             creditoDebito.setFacSaldo(BigDecimal.ZERO);
-            creditoDebito.setFacSubtotal(subTotalCotizacion.add(subTotalBaseCero));
+            creditoDebito.setFacSubtotal(subTotalCotizacion.add(subTotalBaseCero).add(subTotalCotizacion15).add(subTotalCotizacion5));
             creditoDebito.setFacTipo("NCRE");
             creditoDebito.setEstadosri("PENDIENTE");
             creditoDebito.setFacTotal(valorTotalCotizacion);
             creditoDebito.setFacTotalBaseCero(subTotalBaseCero);
+            creditoDebito.setFacTotalBaseGravaba(subTotalCotizacion);
+            creditoDebito.setFacSubt15(subTotalCotizacion15);
+            creditoDebito.setFacSubt5(subTotalCotizacion5);
+            creditoDebito.setFacIva15(ivaCotizacion15);
+            creditoDebito.setFacIva5(ivaCotizacion5);
+            creditoDebito.setFacTotalBaseGravaba(subTotalCotizacion);
             creditoDebito.setFacTotalBaseGravaba(subTotalCotizacion);
             creditoDebito.setFacUnidadTiempo(formaPagoSelected.getUnidadTiempo());
             creditoDebito.setIdFactura(factura);
@@ -914,7 +1134,7 @@ public class NotaCreditoDebitoVm {
 
                 //  con = emf.unwrap(Connection.class);
                 String reportFile = Executions.getCurrent().getDesktop().getWebApp()
-                            .getRealPath("/reportes");
+                        .getRealPath("/reportes");
                 String reportPath = "";
 //                con = ConexionReportes.Conexion.conexion();
 
@@ -940,7 +1160,7 @@ public class NotaCreditoDebitoVm {
 //para pasar al visor
                 map.put("pdf", fileContent);
                 org.zkoss.zul.Window window = (org.zkoss.zul.Window) Executions.createComponents(
-                            "/venta/contenedorReporte.zul", null, map);
+                        "/venta/contenedorReporte.zul", null, map);
                 window.doModal();
                 con.close();
             }
@@ -1057,6 +1277,78 @@ public class NotaCreditoDebitoVm {
 
     public void setMotivo(String motivo) {
         this.motivo = motivo;
+    }
+
+    public BigDecimal getSubTotalCotizacion5() {
+        return subTotalCotizacion5;
+    }
+
+    public void setSubTotalCotizacion5(BigDecimal subTotalCotizacion5) {
+        this.subTotalCotizacion5 = subTotalCotizacion5;
+    }
+
+    public BigDecimal getSubTotalCotizacion12() {
+        return subTotalCotizacion12;
+    }
+
+    public void setSubTotalCotizacion12(BigDecimal subTotalCotizacion12) {
+        this.subTotalCotizacion12 = subTotalCotizacion12;
+    }
+
+    public BigDecimal getSubTotalCotizacion13() {
+        return subTotalCotizacion13;
+    }
+
+    public void setSubTotalCotizacion13(BigDecimal subTotalCotizacion13) {
+        this.subTotalCotizacion13 = subTotalCotizacion13;
+    }
+
+    public BigDecimal getSubTotalCotizacion14() {
+        return subTotalCotizacion14;
+    }
+
+    public void setSubTotalCotizacion14(BigDecimal subTotalCotizacion14) {
+        this.subTotalCotizacion14 = subTotalCotizacion14;
+    }
+
+    public BigDecimal getSubTotalCotizacion15() {
+        return subTotalCotizacion15;
+    }
+
+    public void setSubTotalCotizacion15(BigDecimal subTotalCotizacion15) {
+        this.subTotalCotizacion15 = subTotalCotizacion15;
+    }
+
+    public BigDecimal getIvaCotizacion5() {
+        return ivaCotizacion5;
+    }
+
+    public void setIvaCotizacion5(BigDecimal ivaCotizacion5) {
+        this.ivaCotizacion5 = ivaCotizacion5;
+    }
+
+    public BigDecimal getIvaCotizacion13() {
+        return ivaCotizacion13;
+    }
+
+    public void setIvaCotizacion13(BigDecimal ivaCotizacion13) {
+        this.ivaCotizacion13 = ivaCotizacion13;
+    }
+
+    public BigDecimal getIvaCotizacion14() {
+        return ivaCotizacion14;
+    }
+
+    public void setIvaCotizacion14(BigDecimal ivaCotizacion14) {
+        this.ivaCotizacion14 = ivaCotizacion14;
+    }
+
+    public BigDecimal getIvaCotizacion15() {
+        return ivaCotizacion15;
+    }
+
+    public void setIvaCotizacion15(BigDecimal ivaCotizacion15) {
+        this.ivaCotizacion15 = ivaCotizacion15;
     }
 
 }

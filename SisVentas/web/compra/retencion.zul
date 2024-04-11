@@ -179,16 +179,16 @@
                                             <listcell >
                                                 <decimalbox readonly="true" format="###.#####"
                                                             class="form-control form-control-sm"
-                                                            value="@bind(each.drcBaseImponible)"  width="99%" />
+                                                            value="@bind(each.drcBaseImponible)" style="color:black"  width="99%" />
                                             </listcell>                                     
                                             <listcell>
-                                                <label  value="@bind(each.tireCodigo.tireNombre)" width="99%"
+                                                <label  value="@bind(each.tireCodigo.tireNombre)"  style="color:black" width="99%"
                                                         if="${each.codImpuestoAsignado == '1'}"/>
-                                                <label  value="Retencion IVA" width="99%" 
+                                                <label  value="Retencion IVA" width="99%" style="color:black"
                                                         if="${each.codImpuestoAsignado == '2'}"/>
                                             </listcell>
                                             <listcell>
-                                                <label  value="@bind(each.drcDescripcion)" width="99%" />
+                                                <label  value="@bind(each.drcDescripcion)" style="color:black" width="99%" />
                                               
                                             </listcell>
                                             <listcell>
