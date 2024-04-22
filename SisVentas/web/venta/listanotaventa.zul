@@ -133,7 +133,7 @@
                                              style="font-size:11px;background:#EBF5FB"   
                                              class="form-control form-control-sm" 
                                              buttonVisible="false" lenient="true" readonly="true"
-                                             format="medium"   />
+                                             format="yyyy/MM/dd HH:mm:ss"   />
                                 </listcell>
                                 <listcell zclass = "mycss-listcell">
                                     <decimalbox format="###.##" readonly="true" 
