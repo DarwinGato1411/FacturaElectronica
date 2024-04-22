@@ -446,7 +446,7 @@ and cb.id_cabecera=$P{id_cabecera} limit 1]]>
 				<textElement textAlignment="Right" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
 					<font fontName="SansSerif" size="9" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 				</textElement>
-				<text><![CDATA[Subtotal 12%]]></text>
+				<text><![CDATA[Base Grabada]]></text>
 			</staticText>
 			<textField pattern="###0.00;-###0.00">
 				<reportElement x="497" y="24" width="54" height="13"/>
