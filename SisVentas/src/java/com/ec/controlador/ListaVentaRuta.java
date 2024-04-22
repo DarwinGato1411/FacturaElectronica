@@ -177,18 +177,18 @@ public class ListaVentaRuta {
                 BigDecimal ivaUnidad = BigDecimal.ZERO;
                 BigDecimal totalUnidad = BigDecimal.ZERO;
                 BigDecimal totalBaseCero = BigDecimal.ZERO;
-                BigDecimal precioGLP = BigDecimal.valueOf(1.4294);
+                BigDecimal precioGLP = BigDecimal.valueOf(1.43);
                 if (ventaRuta.getTransporte().equals("S")) {
 
-                    subTotalUnidad = BigDecimal.valueOf(2.68);
-                    ivaUnidad = BigDecimal.valueOf(0.32);
-                    totalUnidad = BigDecimal.valueOf(3);
+                    subTotalUnidad = BigDecimal.valueOf(2.83);
+                    ivaUnidad = BigDecimal.valueOf(0.42);
+                    totalUnidad = BigDecimal.valueOf(3.25);
                     totalBaseCero = BigDecimal.ZERO;
 
                 } else {
-                    subTotalUnidad = BigDecimal.valueOf(1.4294);
-                    ivaUnidad = BigDecimal.valueOf(0.17);
-                    totalUnidad = BigDecimal.valueOf(1.6);
+                    subTotalUnidad = BigDecimal.valueOf(1.43);
+                    ivaUnidad = BigDecimal.valueOf(0.22);
+                    totalUnidad = BigDecimal.valueOf(1.65);
                     totalBaseCero = BigDecimal.ZERO;
                 }
                 factura.setIdCliente(servicioCliente.FindClienteForCedula(ventaRuta.getCedula()));
@@ -199,6 +199,9 @@ public class ListaVentaRuta {
                 factura.setFacDescuento(BigDecimal.ZERO);
                 factura.setFacCodIce("3");
                 factura.setFacCodIva("2");
+                factura.setFacIva5(BigDecimal.ZERO);
+                factura.setFacSubt5(BigDecimal.ZERO);
+                factura.setFacSubt5(BigDecimal.ZERO);
 //                1.4010
                 factura.setFacTotalBaseCero(totalBaseCero.multiply(BigDecimal.valueOf(Double.valueOf(ventaRuta.getCantidad()))));
                 /*0 SI NO LLEVA IVA Y 2 SI LLEVA IVA*/
@@ -209,12 +212,14 @@ public class ListaVentaRuta {
                 factura.setFacPlazo(BigDecimal.valueOf(Double.valueOf(formaPagoSelected.getPlazo())));
                 factura.setFacUnidadTiempo(formaPagoSelected.getUnidadTiempo());
                 factura.setIdEstado(servicioEstadoFactura.findByEstCodigo("PA"));
-                factura.setFacTotalBaseGravaba(subTotalUnidad.multiply(BigDecimal.valueOf(Double.valueOf(ventaRuta.getCantidad()))));
+                factura.setFacTotalBaseGravaba(BigDecimal.ZERO);
+                factura.setFacSubt15(subTotalUnidad.multiply(BigDecimal.valueOf(Double.valueOf(ventaRuta.getCantidad()))));
 //                factura.setFacTotalBaseGravaba(precioGLP.multiply(BigDecimal.valueOf(Double.valueOf(ventaRuta.getCantidad()))));
                 factura.setFacAbono(BigDecimal.ZERO);
                 factura.setFacSaldo(BigDecimal.ZERO);
-                factura.setFacIva(ivaUnidad.multiply(BigDecimal.valueOf(Double.valueOf(ventaRuta.getCantidad()))));
-                factura.setFacTotal(factura.getFacTotalBaseCero().add(factura.getFacTotalBaseGravaba()).add(factura.getFacIva()));
+                factura.setFacIva(BigDecimal.ZERO);
+                factura.setFacIva15(ivaUnidad.multiply(BigDecimal.valueOf(Double.valueOf(ventaRuta.getCantidad()))));
+                factura.setFacTotal(factura.getFacTotalBaseCero().add(factura.getFacTotalBaseGravaba()).add(factura.getFacIva15()).add(factura.getFacSubt5()).add(factura.getFacSubt15()));
 
                 String claveAcceso = ArchivoUtils.generaClave(factura.getFacFecha(), "01", amb.getAmRuc(), amb.getAmCodigo(),  amb.getAmEstab()+amb.getAmPtoemi(), factura.getFacNumeroText(), "12345678", "1");
                 factura.setFacClaveAcceso(claveAcceso);
@@ -224,24 +229,27 @@ public class ListaVentaRuta {
                 /*Detalle de factura GLP*/
                 DetalleFactura detalleFactura = new DetalleFactura(BigDecimal.valueOf(Double.valueOf(ventaRuta.getCantidad())),
                         prodGLP.getProdNombre(),
-                        BigDecimal.valueOf(1.4285),
-                        BigDecimal.valueOf(1.60),
+                       BigDecimal.valueOf(1.43),
+                        BigDecimal.valueOf(1.65),
                         prodGLP,
                         factura,
                         "NORMAL");
-                detalleFactura.setDetIva(BigDecimal.valueOf(0.1714));
-                detalleFactura.setDetTotalconiva(BigDecimal.valueOf(1.6));
+//                 BigDecimal.valueOf(1.4285),
+//                        BigDecimal.valueOf(1.60),
+                 
+                detalleFactura.setDetIva(BigDecimal.valueOf(0.22));
+                detalleFactura.setDetTotalconiva(BigDecimal.valueOf(1.65));
 
-                detalleFactura.setDetSubtotaldescuento(BigDecimal.valueOf(1.4285));
-                detalleFactura.setDetTotaldescuento(BigDecimal.valueOf(1.6));
+                detalleFactura.setDetSubtotaldescuento(BigDecimal.valueOf(1.43));
+                detalleFactura.setDetTotaldescuento(BigDecimal.valueOf(1.65));
                 detalleFactura.setDetPordescuento(BigDecimal.ZERO);
                 detalleFactura.setDetValdescuento(BigDecimal.ZERO);
-                detalleFactura.setDetTotaldescuentoiva(BigDecimal.valueOf(1.6));
+                detalleFactura.setDetTotaldescuentoiva(BigDecimal.valueOf(1.65));
                 detalleFactura.setDetCantpordescuento(BigDecimal.ZERO);
-                detalleFactura.setDetSubtotaldescuentoporcantidad(BigDecimal.valueOf(1.4285));
+                detalleFactura.setDetSubtotaldescuentoporcantidad(BigDecimal.valueOf(1.43));
                 detalleFactura.setDetCodTipoVenta("0");
                 detalleFactura.setDetCodIva("2");
-                detalleFactura.setDetCodPorcentaje("2");
+                detalleFactura.setDetCodPorcentaje("4");
                 detalleFactura.setDetTarifa(prodGLP.getProdIva());
                 servicioDetalleFactura.crear(detalleFactura);
 
@@ -249,24 +257,24 @@ public class ListaVentaRuta {
                     /*Detalle de factura TRANSPORTE*/
                     DetalleFactura detalleFacturaTr = new DetalleFactura(BigDecimal.valueOf(Double.valueOf(ventaRuta.getCantidad())),
                             prodTransporte.getProdNombre(),
-                            BigDecimal.valueOf(1.40),
-                            BigDecimal.valueOf(1.40),
+                            BigDecimal.valueOf(1.39),
+                            BigDecimal.valueOf(1.60),
                             prodTransporte,
                             factura,
                             "NORMAL");
-                    detalleFacturaTr.setDetIva(BigDecimal.ZERO);
-                    detalleFacturaTr.setDetTotalconiva(BigDecimal.valueOf(1.4));
+                    detalleFacturaTr.setDetIva(BigDecimal.valueOf(0.21));
+                    detalleFacturaTr.setDetTotalconiva(BigDecimal.valueOf(1.60));
 
-                    detalleFacturaTr.setDetSubtotaldescuento(BigDecimal.valueOf(1.25));
-                    detalleFacturaTr.setDetTotaldescuento(BigDecimal.valueOf(1.4));
+                    detalleFacturaTr.setDetSubtotaldescuento(BigDecimal.valueOf(1.39));
+                    detalleFacturaTr.setDetTotaldescuento(BigDecimal.valueOf(1.60));
                     detalleFacturaTr.setDetPordescuento(BigDecimal.ZERO);
                     detalleFacturaTr.setDetValdescuento(BigDecimal.ZERO);
-                    detalleFacturaTr.setDetTotaldescuentoiva(BigDecimal.valueOf(1.4));
+                    detalleFacturaTr.setDetTotaldescuentoiva(BigDecimal.valueOf(1.60));
                     detalleFacturaTr.setDetCantpordescuento(BigDecimal.ZERO);
-                    detalleFacturaTr.setDetSubtotaldescuentoporcantidad(BigDecimal.valueOf(1.25));
+                    detalleFacturaTr.setDetSubtotaldescuentoporcantidad(BigDecimal.valueOf(1.39));
                     detalleFacturaTr.setDetCodTipoVenta("0");
                     detalleFacturaTr.setDetCodIva("2");
-                    detalleFacturaTr.setDetCodPorcentaje("2");
+                    detalleFacturaTr.setDetCodPorcentaje("4");
                     detalleFacturaTr.setDetTarifa(prodTransporte.getProdIva());
                     servicioDetalleFactura.crear(detalleFacturaTr);
                 }

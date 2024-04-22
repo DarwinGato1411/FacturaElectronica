@@ -11,9 +11,9 @@
         
     </style>
               
-    <hbox self="@define(content)" apply="org.zkoss.bind.BindComposer" 
-             onCreate="@command('aperturaCaja')"
-             viewModel="@id('vm') @init('com.ec.controlador.Facturar')" width="100%" class="containerFactura">
+       <hbox self="@define(content)" apply="org.zkoss.bind.BindComposer" 
+          onCreate="@command('aperturaCaja')"
+          viewModel="@id('vm') @init('com.ec.controlador.Facturar')" width="100%" class="containerFactura">
     
         <timer delay="30000" repeats="true" onTimer="@command('refrescarPagina')" />
         <tabbox  width="100%"  tabscroll="true" >
@@ -238,9 +238,10 @@
                                         />
                                     </div>
                                     <div class="wrapper_input" >
-                                        <span>Fotografia</span>
+                                        <!--<span>Fotografia</span>-->
                                         <div class="inputGroupImg"  align="end" >
-                                            <image content="@bind(vm.fotoGeneral)" width="150px" height="100px" style="display:block;" />
+                                            <image content="@bind(vm.fotoGeneral)" 
+                                                   width="100%" height="100px" style="display:block;" />
                                               
                                         </div>
                                     
@@ -523,7 +524,9 @@
                                                     class="btn btn btn-secondary btn-sm "
                                                     tooltiptext="Eliminar registros seleccionados"/>
                                         </listheader>
+                                        <listheader label="IVA%" align="left" />
                                         <listheader label="COD" align="left" />
+                                      
                                         <listheader label="CANT" align="left"  />
                                         <listheader label="% DESC" align="left"  />                                            
                                         <listheader label="DESCRIPCIÓN" align="left" />
@@ -535,10 +538,21 @@
             
                                     <template name="model" >                                                            
                                         <listitem class="tabla2">
-                                            <listcell  >                                                                                                  
+                                            <listcell  > 
+                                                                                                                                                
                                             </listcell>
                                     
 
+                                            <listcell zclass = "mycss-listcell" >
+                                            
+                                                <decimalbox readonly="true" format="###"                                                                                                                
+                                                            value="@bind(each.producto.prodIva)" 
+                                                            style="font-size:10px"
+                                                            onOK="@command('buscarPorCodigo',valor=each)"
+                                                        
+                                                            width="99%" />  
+                                               
+                                            </listcell>
                                             <listcell zclass = "mycss-listcell" >
                                             
                                                 <!--onDoubleClick="@command('cambiarRegistro',valor=each)"-->
@@ -585,7 +599,8 @@
                                                 <textbox    constraint="/^[0-9]{1,9}(?:[.][0-9]{1,5})?$/:Ingrese solo numeros"                                            
                                                             onOK="@command('calcularValoresDesCantidad',valor=each)"
                                                             class="form-control form-control-sm" 
-                                                            style="font-size:11px"                                                                                                                         
+                                                            style="font-size:11px"        
+                                                            onChange="@command('calcularValoresDesCantidad',valor=each)"                                                                                                                 
                                                             ctrlKeys="^A" onCtrlKey="@command('cambioPrecio',valor=each)"
                                                             value="@bind(each.total)"  width="99%" />
                                             </listcell>
@@ -626,5 +641,4 @@
             </tabpanels>
         </tabbox>   
     </hbox>
-    
 </window>

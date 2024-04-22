@@ -96,6 +96,7 @@
                                 <menuitem label="ATS Compras y Ventas" id="btnContabilidadATS"  /> 
                                 <menuitem label="Retenciones por casillero" id="btnRetencionesCasillero"  />
                                 <menuitem label="Precio promedio compra" id="btnPreciPromCompra"  />
+                                <menuitem label="Compra venta facturado" id="btnCompVentaFact"  />
                                 <!--<menuitem label="Precio promedio venta" id="btnPreciPromVenta"  />-->
                             </menupopup>
                         </menu>

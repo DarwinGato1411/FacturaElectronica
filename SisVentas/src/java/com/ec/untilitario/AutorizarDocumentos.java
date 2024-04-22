@@ -315,6 +315,7 @@ public class AutorizarDocumentos {
                     + "        <tipoIdentificacionComprador>" + valor.getIdCliente().getIdTipoIdentificacion().getTidCodigo() + "</tipoIdentificacionComprador>\n"
                     + "        <razonSocialComprador>" + removeCaracteres(valor.getIdCliente().getCliNombre()) + "</razonSocialComprador>\n"
                     + "        <identificacionComprador>" + valor.getIdCliente().getCliCedula() + "</identificacionComprador>\n"
+                     + "        <direccionComprador>" + (valor.getIdCliente().getCliDireccion().length() > 0?valor.getIdCliente().getCliDireccion():" ") + "</direccionComprador>\n"
                     + "        <totalSinImpuestos>" + ArchivoUtils.redondearDecimales(valor.getFacSubtotal(), 2) + "</totalSinImpuestos>\n"
                     + "         <totalSubsidio>" + ArchivoUtils.redondearDecimales(valor.getFacSubsidio(), 2) + "</totalSubsidio>\n"
                     + "        <totalDescuento>" + ArchivoUtils.redondearDecimales(valor.getFacDescuento(), 2) + "</totalDescuento>\n"
