@@ -132,6 +132,8 @@ public class Parametrizar implements Serializable {
 
     @Column(name = "par_ilimitado_permanente")
     private Boolean parIlimitadoPermanente;
+    @Column(name = "bloqueo_productos")
+    private Boolean bloqueoProducto;
 
     public Parametrizar() {
     }
@@ -428,6 +430,14 @@ public class Parametrizar implements Serializable {
     @Override
     public String toString() {
         return "com.ec.entidad.Parametrizar[ codParametrizar=" + codParametrizar + " ]";
+    }
+
+    public Boolean getBloqueoProducto() {
+        return bloqueoProducto;
+    }
+
+    public void setBloqueoProducto(Boolean bloqueoProducto) {
+        this.bloqueoProducto = bloqueoProducto;
     }
 
 }

@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="notacr" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 	<property name="ireport.zoom" value="1.948717100000002"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="298"/>
+	<property name="ireport.y" value="336"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -132,8 +132,7 @@ INNER JOIN factura ON factura.cod_tipoambiente = tipoambiente.cod_tipoambiente
 INNER JOIN cliente ON factura.id_cliente = cliente.id_cliente
 INNER JOIN forma_pago ON factura.id_forma_pago = forma_pago.id_forma_pago
 INNER JOIN nota_credito_debito ON nota_credito_debito.id_factura = factura.id_factura
-where nota_credito_debito.fac_numero=$P{numfactura};
-]]>
+where nota_credito_debito.fac_numero=$P{numfactura};]]>
 	</queryString>
 	<field name="cod_tipoambiente" class="java.lang.Integer"/>
 	<field name="am_codigo" class="java.lang.String"/>
@@ -375,13 +374,6 @@ where nota_credito_debito.fac_numero=$P{numfactura};
 				<text><![CDATA[Direcciòn Sucursal:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="11" y="272" width="178" height="20"/>
-				<textElement>
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[Razón Social / Nombres Apellidos: ]]></text>
-			</staticText>
-			<staticText>
 				<reportElement x="11" y="223" width="195" height="20"/>
 				<textElement>
 					<font isBold="true"/>
@@ -427,19 +419,19 @@ where nota_credito_debito.fac_numero=$P{numfactura};
 				<text><![CDATA[Contribuyente Especial Nro]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="189" y="272" width="189" height="20"/>
+				<reportElement x="10" y="266" width="539" height="26"/>
 				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{cli_nombres}+" "+$F{cli_apellidos}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA["Razón Social / Nombres Apellidos: "+$F{cli_nombre}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="378" y="272" width="75" height="20"/>
+				<reportElement x="377" y="292" width="75" height="20"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Identificación:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="453" y="272" width="102" height="20"/>
+				<reportElement x="452" y="292" width="102" height="20"/>
 				<textElement/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{cli_cedula}]]></textFieldExpression>
 			</textField>

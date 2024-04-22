@@ -144,6 +144,8 @@
                         <space bar="true"  />   
                         <radio label="Punto Venta" value="puntoventa.jasper"/>
                         <space bar="true"  /> 
+                        <radio label="Nota Venta" value="notaventaticket.jasper"/>
+                        <space bar="true"  /> 
                         <radio label="Personalizado" value="facturaa5.jasper"/>
                         <space bar="true"  /> 
                     </radiogroup>          
@@ -175,6 +177,20 @@
                            class="form-control bg-info" />
                     <radiogroup class="form-control form-control-sm " 
                                 selectedItem="@bind(vm.imprimeComprobante)" >
+                        <space bar="true"  />
+                        <radio label="SI" value="SI"/>
+                        <space bar="true"  />   
+                        <radio label="NO" value="NO"/>
+                        <space bar="true"  /> 
+                    </radiogroup>           
+                </div>
+                
+                <div class="col-12 col-sm-12 col-md-4 col-lg-3  form-group "  >
+                    <label value="Bloquear productos" 
+                           style="font-size:14px;padding:  0rem 0rem;"                              
+                           class="form-control bg-info" />
+                    <radiogroup class="form-control form-control-sm " 
+                                selectedItem="@bind(vm.bloqueoProducto)" >
                         <space bar="true"  />
                         <radio label="SI" value="SI"/>
                         <space bar="true"  />   

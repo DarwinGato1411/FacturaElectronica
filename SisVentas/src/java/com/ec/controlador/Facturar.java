@@ -405,6 +405,9 @@ public class Facturar extends SelectorComposer<Component> {
 
         getDetallefactura();
         parametrizar = servicioParametrizar.FindALlParametrizar();
+        if (parametrizar.getParImprimeFactura().equals("notaventaticket.jasper")) {
+            tipoVenta = "NTV";
+        }
         listaFormaPago = servicioFormaPago.FindALlFormaPago();
         formaPagoSelected = servicioFormaPago.finPrincipal();
         if (accion.equals("create")) {

@@ -26,6 +26,7 @@ public class AdmParametrizar {
     private String imprimeAutomatico = "SI";
 
     private String imprimeComprobante = "SI";
+    private String bloqueoProducto = "SI";
     private String parPistolaNuevo = "SI";
 
     public AdmParametrizar() {
@@ -55,10 +56,10 @@ public class AdmParametrizar {
         } else {
             imprimeComprobante = "NO";
         }
-        if (parametrizar.getParImpFactura()) {
-            imprimeComprobante = "SI";
+        if (parametrizar.getBloqueoProducto()) {
+            bloqueoProducto = "SI";
         } else {
-            imprimeComprobante = "NO";
+            bloqueoProducto = "NO";
         }
         if (parametrizar.getParPistolaNuevo()) {
             parPistolaNuevo = "SI";
@@ -92,6 +93,16 @@ public class AdmParametrizar {
             parametrizar.setParImpAutomatico(Boolean.TRUE);
         } else {
             parametrizar.setParImpAutomatico(Boolean.FALSE);
+        }
+        if (imprimeAutomatico.equals("SI")) {
+            parametrizar.setParImpAutomatico(Boolean.TRUE);
+        } else {
+            parametrizar.setParImpAutomatico(Boolean.FALSE);
+        }
+        if (bloqueoProducto.equals("SI")) {
+            parametrizar.setBloqueoProducto(Boolean.TRUE);
+        } else {
+            parametrizar.setBloqueoProducto(Boolean.FALSE);
         }
 
         if (imprimeComprobante.equals("SI")) {
@@ -158,6 +169,14 @@ public class AdmParametrizar {
 
     public void setParPistolaNuevo(String parPistolaNuevo) {
         this.parPistolaNuevo = parPistolaNuevo;
+    }
+
+    public String getBloqueoProducto() {
+        return bloqueoProducto;
+    }
+
+    public void setBloqueoProducto(String bloqueoProducto) {
+        this.bloqueoProducto = bloqueoProducto;
     }
 
 }
