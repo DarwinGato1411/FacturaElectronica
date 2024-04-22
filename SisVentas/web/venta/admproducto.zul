@@ -6,10 +6,7 @@
 <?script src="https://kit.fontawesome.com/484b16c999.js"?>
 
 <div apply="org.zkoss.bind.BindComposer" 
-     viewModel="@id('vm') @init('com.ec.controlador.AdmProducto')"  width="100%"  >
-
-    
-
+     viewModel="@id('vm') @init('com.ec.controlador.AdmProducto')"  width="100%">
     <div class="container_headers" style="margin-bottom:1em">
 
         <div 
@@ -89,6 +86,7 @@
 
                         
                     </listheader> 
+                    <listheader width="5%"  label="% IVA" />  
                     <listheader width="10%"  label="Cantidad Inicial" />  
                     <listheader width="10%"  label="Precio Compra" />  
                     <listheader width="10%"  label="Precio por unidad"  /> 
@@ -103,24 +101,18 @@
                     <listitem>
                         <listcell   style="height: 10px;overflow: hidden;">  </listcell>
                         <listcell zclass = "mycss-listcell">
-                             <textbox readonly="true" 
-                                     if="${each.prodEsRepetido}"
-                                     style="font-size:12px;background:#F19C98"
-                                     class="form-control form-control-sm"  value="@bind(each.prodCodigo)"  />
-                            <textbox readonly="true" 
-                                     if="${!each.prodEsRepetido}"
-                                     style="font-size:12px;background:#EBF5FB"
+                            <textbox readonly="true" style="font-size:12px;background:#EBF5FB"
                                      class="form-control form-control-sm"  value="@bind(each.prodCodigo)"  />
                         </listcell>
                         <listcell zclass = "mycss-listcell">
-                            <textbox readonly="true" 
-                                      if="${each.prodEsRepetido}"
-                                     style="font-size:12px;background:#F19C98"
+                            <textbox readonly="true" style="font-size:12px;background:#EBF5FB"
                                      class="form-control form-control-sm" value="@bind(each.prodNombre)" />
-                            <textbox readonly="true" 
-                                      if="${!each.prodEsRepetido}"
-                                     style="font-size:12px;background:#EBF5FB"
-                                     class="form-control form-control-sm" value="@bind(each.prodNombre)" />
+                        </listcell>
+                        <listcell zclass = "mycss-listcell">
+                            <decimalbox format="###.#####" readonly="true"
+                                        style="font-size:12px;background:#EBF5FB"
+                                        class="form-control form-control-sm"
+                                        value="@bind(each.prodIva)"  />
                         </listcell>
                         <listcell zclass = "mycss-listcell">
                             <decimalbox format="###.#####" readonly="true"
@@ -129,33 +121,34 @@
                                         value="@bind(each.prodCantidadInicial)"  />
                         </listcell>
                         <listcell zclass = "mycss-listcell">
-                            <decimalbox format="###.#####" readonly="true"
-                                        style="font-size:12px;background:#EBF5FB"
+                            <decimalbox format="###.#####" readonly="false"
+                                        onOK="@command('modificar',valor=each)"
                                         class="form-control form-control-sm"
                                         value="@bind(each.pordCostoVentaRef)"  />
                         </listcell>
                         <listcell zclass = "mycss-listcell">
-                            <decimalbox format="###.#####" readonly="true"  
-                                        style="font-size:12px;background:#EBF5FB"
+                            <decimalbox format="###.#####" readonly="false"  
+                                        onOK="@command('modificar',valor=each)"
                                         class="form-control form-control-sm"
                                         value="@bind(each.pordCostoVentaFinal)" />
                         </listcell>
                         <listcell zclass = "mycss-listcell">
-                            <decimalbox format="###.#####" readonly="true" 
+                            <decimalbox format="###.#####" readonly="false" 
+                                        onOK="@command('modificar',valor=each)"
                                         class="form-control form-control-sm"
-                                        style="font-size:12px;background:#EBF5FB"
                                         value="@bind(each.prodCostoPreferencial)"  />
                         </listcell>
                         <listcell zclass = "mycss-listcell">
-                            <decimalbox format="###.#####" readonly="true" 
+                            <decimalbox format="###.#####" readonly="false" 
+                                        onOK="@command('modificar',valor=each)"
                                         class="form-control form-control-sm"
-                                        style="font-size:12px;background:#EBF5FB"
                                         value="@bind(each.prodCostoPreferencialDos)"  />
                         </listcell>
                         <listcell zclass = "mycss-listcell">
-                            <decimalbox format="###.#####" readonly="true" 
+                            <decimalbox format="###.#####" readonly="false" 
+                                        onOK="@command('modificar',valor=each)"
                                         class="form-control form-control-sm"
-                                        style="font-size:12px;background:#EBF5FB"
+                                        
                                         value="@bind(each.prodCostoPreferencialTres)"  />
                         </listcell>
                     
@@ -167,14 +160,14 @@
                         </listcell>
                         <listcell zclass = "mycss-listcell" style="font-size:12px;background:#F8F9F9">    
                             <image if="${each.prodEsreceta}" 
-                                       src="/iconos/armareval.png"
-                                       class="grow"
-                                       onClick="@command('armarCombo',valor=each)" 
-                                       tooltiptext="Armar combo"/> 
+                                   src="/iconos/armareval.png"
+                                   class="grow"
+                                   onClick="@command('armarCombo',valor=each)" 
+                                   tooltiptext="Armar combo"/> 
                             <image if="${!each.prodEsreceta}" 
-                                        src="/iconos/listo_uno.png"   
-                                        class=" btn-secondary btn-sm"                                               
-                                        tooltiptext="No se puede modificar por ser producto individual"/>
+                                   src="/iconos/listo_uno.png"   
+                                   class=" btn-secondary btn-sm"                                               
+                                   tooltiptext="No se puede modificar por ser producto individual"/>
 
                         </listcell>
                     </listitem>

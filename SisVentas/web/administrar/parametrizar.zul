@@ -133,7 +133,7 @@
                        
                     
                 </div>
-                <div class="col-12 col-sm-12 col-md-4 col-lg-4  form-group "  >
+                <div class="col-12 col-sm-12 col-md-6 col-lg-6  form-group "  >
                     <label value="Tipo de impresion: " 
                            style="font-size:14px;padding:  0rem 0rem;"                            
                            class="form-control bg-info" />
@@ -144,8 +144,11 @@
                         <space bar="true"  />   
                         <radio label="Punto Venta" value="puntoventa.jasper"/>
                         <space bar="true"  /> 
-                        <radio label="Personalizado" value="facturaa5.jasper"/>
+                        <radio label="Nota venta" value="notaventaticket.jasper"/>
                         <space bar="true"  /> 
+                        <radio label="Personalizado" value="facturaa5.jasper"/>
+                  
+                      
                     </radiogroup>          
                        
                     

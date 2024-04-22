@@ -378,6 +378,10 @@ public class Facturar extends SelectorComposer<Component> {
         }
 
         parametrizar = servicioParametrizar.FindALlParametrizar();
+        
+        if (parametrizar.getParImprimeFactura().equals("notaventaticket.jasper")) {
+            tipoVenta = "NTV";
+        }
         DESCUENTOGENERAL = parametrizar.getParDescuentoGeneral();
         validaBorrado = parametrizar.getParBorraItemsFac();
 

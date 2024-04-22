@@ -64,6 +64,11 @@ public class NuevoProducto {
     private Subcategoria subcategoriaSelected = null;
     ServicioSubCategoria servicioSubCategoria = new ServicioSubCategoria();
 
+    private List<BigDecimal> listaIva = new ArrayList<BigDecimal>();
+
+    private Boolean grabaIva = Boolean.TRUE;
+    private Integer porcentajeIva;
+
     @AfterCompose
     public void afterCompose(@ExecutionArgParam("valor") Producto producto, @ContextParam(ContextType.VIEW) Component view) {
         Selectors.wireComponents(view, this, false);
@@ -116,7 +121,12 @@ public class NuevoProducto {
 
             accion = "create";
         }
-
+        listaIva.add(BigDecimal.valueOf(5));
+        listaIva.add(BigDecimal.valueOf(12));
+//        listaIva.add(BigDecimal.valueOf(13));
+//        listaIva.add(BigDecimal.valueOf(14));
+        listaIva.add(BigDecimal.valueOf(15));
+        colocarIva();
     }
 
     private void consultarSubCategorias() {
@@ -125,18 +135,73 @@ public class NuevoProducto {
     }
 
     @Command
-    @NotifyChange({"producto"})
+    @NotifyChange({"producto", "conIva", "grabaIva", "txtIvaRec"})
     public void colocarIva() {
-        if (conIva.equals("S")) {
-            txtIvaRec.setText("12");
-            producto.setProdIva(parametrizar.getParIva());
-        } else {
-            txtIvaRec.setText("0");
-            producto.setProdIva(BigDecimal.ZERO);
+        try {
+            if (conIva.equals("S")) {
+
+                txtIvaRec.setText(producto.getProdIva() != null ? producto.getProdIva().toString() : "15");
+                this.producto.setProdIva(producto.getProdIva() != null ? producto.getProdIva() : BigDecimal.valueOf(15));
+//            producto.setProdIva(parametrizar.getParIva());
+                grabaIva = Boolean.TRUE;
+
+                Integer valorIva = producto.getProdIva().intValue();
+                switch (valorIva) {
+                    case 0:
+                        // secuencia de sentencias.
+                        this.producto.setProdPorcentajeIva(0);
+                        this.producto.setProdCodigoIva(0);
+                        break;
+                    case 5:
+                        // secuencia de sentencias.
+                        this.producto.setProdPorcentajeIva(5);
+                        this.producto.setProdCodigoIva(5);
+                        break;
+
+                    case 12:
+                        // secuencia de sentencias.
+                        this.producto.setProdPorcentajeIva(12);
+                        this.producto.setProdCodigoIva(2);
+                        break;
+                    case 13:
+                        // secuencia de sentencias.
+                        this.producto.setProdPorcentajeIva(13);
+                        this.producto.setProdCodigoIva(10);
+                        break;
+                    case 14:
+                        // secuencia de sentencias.
+                        this.producto.setProdPorcentajeIva(14);
+                        this.producto.setProdCodigoIva(3);
+                        break;
+                    case 15:
+                        // secuencia de sentencias.
+                        this.producto.setProdPorcentajeIva(15);
+                        this.producto.setProdCodigoIva(4);
+                        break;
+                    default:
+                    // Default secuencia de sentencias.
+                }
+
+            } else {
+                this.producto.setProdCodigoIva(0);
+                this.producto.setProdPorcentajeIva(0);
+                txtIvaRec.setText("0");
+//            producto.setProdIva(BigDecimal.ZERO);
+                this.producto.setProdIva(BigDecimal.ZERO);
+                grabaIva = Boolean.FALSE;
+            }
+        } catch (Exception e) {
         }
     }
+ @Command
+    @NotifyChange({"txtIvaRec", "conIva", "grabaIva", "producto"})
+    public void colocarIvaCampo() {
 
-    @Command
+        txtIvaRec.setText(producto.getProdIva() != null ? producto.getProdIva().toString() : "15");
+        colocarIva();
+        calcularValores();
+    }
+     @Command
     @NotifyChange({"producto"})
     public void calculopreciofinal() {
         BigDecimal porcenIva = (producto.getProdIva().divide(BigDecimal.valueOf(100), 4, RoundingMode.FLOOR)).add(BigDecimal.ONE);
@@ -220,22 +285,26 @@ public class NuevoProducto {
     @NotifyChange({"producto", "conIva"})
     public void calcularValores() {
 
-        BigDecimal porcenIva = (producto.getProdIva().divide(BigDecimal.valueOf(100), 4, RoundingMode.FLOOR)).add(BigDecimal.ONE);
+        BigDecimal porcenIva = (producto.getProdIva().divide(BigDecimal.valueOf(100), 5, RoundingMode.FLOOR)).add(BigDecimal.ONE);
         // BigDecimal porcenUtilidad = ((producto.getProdIva().add(producto.getProdUtilidadNormal()).add(producto.getProdManoObra()).add(producto.getProdTrasnporte())).divide(BigDecimal.valueOf(100))).add(BigDecimal.ONE);
         //BigDecimal porcenUtilidadPref = ((producto.getProdIva().add(producto.getProdUtilidadPreferencial()).add(producto.getProdManoObra()).add(producto.getProdTrasnporte())).divide(BigDecimal.valueOf(100))).add(BigDecimal.ONE);
 //para el precio normal
-        if (producto.getProdIva().intValue() == 0) {
-            conIva = "N";
-        } else {
-            conIva = "S";
-            producto.setProdIva(parametrizar.getParIva());
-        }
+//        if (producto.getProdIva().intValue() == 0) {
+//            conIva = "N";
+//        } else {
+//            conIva = "S";
+////            producto.setProdIva(Bigde);
+//        }
         if (producto.getPordCostoCompra() != null) {
             //VALOR DE LA COMPRA MAS EL IVA
-            BigDecimal compraMasIva = ArchivoUtils.redondearDecimales(producto.getPordCostoCompra().multiply(porcenIva), 3);
+            BigDecimal compraMasIva = ArchivoUtils.redondearDecimales(producto.getPordCostoCompra().multiply(porcenIva), 4);
             producto.setPordCostoVentaRef(compraMasIva);
             /*PRECIO FINAL*/
 
+        } else {
+            producto.setPordCostoCompra(BigDecimal.ONE);
+            BigDecimal compraMasIva = ArchivoUtils.redondearDecimales(producto.getPordCostoCompra().multiply(porcenIva), 4);
+            producto.setPordCostoVentaRef(compraMasIva);
         }
 
 
@@ -252,10 +321,10 @@ public class NuevoProducto {
     @Command
     public void guardar() {
         if (producto.getProdNombre() != null
-                    && producto.getProdCodigo() != null
-                    && producto.getPordCostoVentaRef() != null
-                    && producto.getPordCostoVentaFinal() != null
-                    && producto.getProdCantidadInicial() != null) {
+                && producto.getProdCodigo() != null
+                && producto.getPordCostoVentaRef() != null
+                && producto.getPordCostoVentaFinal() != null
+                && producto.getProdCantidadInicial() != null) {
 
             if (esReceta.equals("R")) {
                 producto.setProdEsreceta(Boolean.TRUE);
@@ -277,7 +346,7 @@ public class NuevoProducto {
             if (accion.equals("create")) {
                 if (servicioProducto.findByProdCodigo(producto.getProdCodigo()) != null) {
                     Clients.showNotification("El codigo del prodcuto ya se encuentra registrado",
-                                Clients.NOTIFICATION_TYPE_ERROR, null, "middle_center", 3000, true);
+                            Clients.NOTIFICATION_TYPE_ERROR, null, "middle_center", 3000, true);
                     return;
                 }
 
@@ -387,4 +456,27 @@ public class NuevoProducto {
         this.subcategoriaSelected = subcategoriaSelected;
     }
 
+    public Integer getPorcentajeIva() {
+        return porcentajeIva;
+    }
+
+    public void setPorcentajeIva(Integer porcentajeIva) {
+        this.porcentajeIva = porcentajeIva;
+    }
+
+    public List<BigDecimal> getListaIva() {
+        return listaIva;
+    }
+
+    public void setListaIva(List<BigDecimal> listaIva) {
+        this.listaIva = listaIva;
+    }
+
+    public Boolean getGrabaIva() {
+        return grabaIva;
+    }
+
+    public void setGrabaIva(Boolean grabaIva) {
+        this.grabaIva = grabaIva;
+    }
 }
