@@ -1192,6 +1192,32 @@ public class Facturar extends SelectorComposer<Component> {
         "ivaCotizacion5", "ivaCotizacion13", "ivaCotizacion14", "ivaCotizacion15"})
     public void calcularValoresDesCantidad(@BindingParam("valor") DetalleFacturaDAO valor) {
         try {
+            if (parametrizar.getBloqueoProducto()) {
+                
+               Producto prodValida= valor.getProducto();
+               
+//               if (clietipo.equals("0")) {
+//                    costVentaTipoClienteInicial = productoBuscado.getPordCostoVentaFinal();
+//                    costVentaTipoCliente = productoBuscado.getPordCostoVentaFinal();
+//                } else if (clietipo.equals("1")) {
+//                    tipoVenta = "PREFERENCIAL 1";
+//                    costVentaTipoClienteInicial = productoBuscado.getProdCostoPreferencial();
+//                    costVentaTipoCliente = productoBuscado.getProdCostoPreferencial();
+//                } else if (clietipo.equals("2")) {
+//                    tipoVenta = "PREFERENCIAL 2";
+//                    costVentaTipoClienteInicial = productoBuscado.getProdCostoPreferencialDos();
+//                    costVentaTipoCliente = productoBuscado.getProdCostoPreferencialDos();
+//                }
+               BigDecimal precioPublico=prodValida.getPordCostoVentaFinal();
+               BigDecimal precioDistribuidor=prodValida.getProdCostoPreferencialDos();
+                if ((precioPublico.doubleValue() < valor.getTotal().doubleValue()) ||(precioDistribuidor.doubleValue() > valor.getTotal().doubleValue())) {
+                    Clients.showNotification(
+                        "El precio no puede exceder al precio para Público y no puede ser menor que el precio para Distribuidor, desactive esta opción en configuraciones",
+                        Clients.NOTIFICATION_TYPE_ERROR, null, "middle_center", 4000, true);
+                return;
+                }
+                
+            }
 
             if (valor.getEsProducto() && valor.getTotalInicial().doubleValue() < valor.getTotal().doubleValue()) {
                 Clients.showNotification(

@@ -49,5 +49,26 @@ public class ServicioCompraVentaFacturado {
 
         return listaDatos;
     }
+    
+    public List<ReporteCompraVentaFacturado> findByFechaDetallado(Date inicio, Date fin) {
+
+        List<ReporteCompraVentaFacturado> listaDatos = new ArrayList<ReporteCompraVentaFacturado>();
+        try {
+            em = HelperPersistencia.getEMF();
+            em.getTransaction().begin();
+            Query query = em.createQuery("SELECT a FROM ReporteCompraVentaFacturado a WHERE a.facFecha BETWEEN :inicio and :fin" );
+            query.setParameter("inicio", inicio);
+            query.setParameter("fin", fin);
+            listaDatos = (List<ReporteCompraVentaFacturado>) query.getResultList();
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            System.out.println("Error en lsa consulta CantVentProductos " + e.getMessage());
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+
+        return listaDatos;
+    }
 
 }

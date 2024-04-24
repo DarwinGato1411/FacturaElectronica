@@ -50,6 +50,7 @@ public class CompraVentaFacturadoCtrl {
     ServicioCompraVentaFacturado servicioCompraVentaFacturado = new ServicioCompraVentaFacturado();
 
     private List<ReporteCompraVentaFacturado> listaDatos = new ArrayList<ReporteCompraVentaFacturado>();
+    private List<ReporteCompraVentaFacturado> listaDatosDet = new ArrayList<ReporteCompraVentaFacturado>();
     private String buscar = "";
     private String buscarNumFac = "";
     private Date inicio = new Date();
@@ -66,11 +67,19 @@ public class CompraVentaFacturadoCtrl {
     private void findByBetweenFecha() {
         listaDatos = servicioCompraVentaFacturado.findByFecha(inicio, fin);
     }
+    private void findByBetweenFechaDet() {
+        listaDatosDet = servicioCompraVentaFacturado.findByFechaDetallado(inicio, fin);
+    }
 
     @Command
     @NotifyChange({"listaDatos", "inicio", "fin"})
     public void buscarForFechas() {
         findByBetweenFecha();
+    }
+    @Command
+    @NotifyChange({"listaDatosDet", "inicio", "fin"})
+    public void buscarForFechasDet() {
+        findByBetweenFechaDet();
     }
 
     public String getBuscar() {
@@ -113,6 +122,16 @@ public class CompraVentaFacturadoCtrl {
     public void setBuscarNumFac(String buscarNumFac) {
         this.buscarNumFac = buscarNumFac;
     }
+
+    public List<ReporteCompraVentaFacturado> getListaDatosDet() {
+        return listaDatosDet;
+    }
+
+    public void setListaDatosDet(List<ReporteCompraVentaFacturado> listaDatosDet) {
+        this.listaDatosDet = listaDatosDet;
+    }
+    
+    
 
     @Command
     public void exportListboxToExcel() throws Exception {
@@ -232,6 +251,141 @@ public class CompraVentaFacturadoCtrl {
 
             }
             for (int k = 0; k <= listaDatos.size(); k++) {
+                s.autoSizeColumn(k);
+            }
+            wb.write(archivo);
+            archivo.close();
+
+        } catch (IOException e) {
+            System.out.println("error " + e.getMessage());
+        }
+        return pathSalida;
+
+    }
+    @Command
+    public void exportListboxToExcelDet() throws Exception {
+        try {
+            File dosfile = new File(exportarExcelDet());
+            if (dosfile.exists()) {
+                FileInputStream inputStream = new FileInputStream(dosfile);
+                Filedownload.save(inputStream, new MimetypesFileTypeMap().getContentType(dosfile), dosfile.getName());
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("ERROR AL DESCARGAR EL ARCHIVO" + e.getMessage());
+        }
+    }
+
+    private String exportarExcelDet() throws FileNotFoundException, IOException, ParseException {
+        String directorioReportes = Executions.getCurrent().getDesktop().getWebApp().getRealPath("/reportes");
+
+        Date date = new Date();
+        SimpleDateFormat fhora = new SimpleDateFormat("HH:mm");
+        SimpleDateFormat sm = new SimpleDateFormat("yyy-MM-dd");
+        String strDate = sm.format(date);
+
+        String pathSalida = directorioReportes + File.separator + "compra_venta_facturado.xls";
+        System.out.println("Direccion del reporte  " + pathSalida);
+        try {
+            int j = 0;
+            File archivoXLS = new File(pathSalida);
+            if (archivoXLS.exists()) {
+                archivoXLS.delete();
+            }
+            archivoXLS.createNewFile();
+            FileOutputStream archivo = new FileOutputStream(archivoXLS);
+            HSSFWorkbook wb = new HSSFWorkbook();
+            HSSFSheet s = wb.createSheet("Compras_Ventas-"+strDate);
+
+            HSSFFont fuente = wb.createFont();
+            fuente.setBoldweight((short) 700);
+            HSSFCellStyle estiloCelda = wb.createCellStyle();
+            estiloCelda.setWrapText(true);
+            estiloCelda.setAlignment((short) 2);
+            estiloCelda.setFont(fuente);
+
+            HSSFCellStyle estiloCeldaInterna = wb.createCellStyle();
+            estiloCeldaInterna.setWrapText(true);
+            estiloCeldaInterna.setAlignment((short) 5);
+            estiloCeldaInterna.setFont(fuente);
+
+            HSSFCellStyle estiloCelda1 = wb.createCellStyle();
+            estiloCelda1.setWrapText(true);
+            estiloCelda1.setFont(fuente);
+
+            HSSFRow r = null;
+
+            HSSFCell c = null;
+            r = s.createRow(0);
+
+            HSSFCell ch00 = r.createCell(j++);
+            ch00.setCellValue(new HSSFRichTextString("# factura"));
+            ch00.setCellStyle(estiloCelda);
+            HSSFCell ch0 = r.createCell(j++);
+            ch0.setCellValue(new HSSFRichTextString("Detalle"));
+            ch0.setCellStyle(estiloCelda);
+
+//            HSSFCell ch1 = r.createCell(j++);
+//            ch1.setCellValue(new HSSFRichTextString("Fecha"));
+//            ch1.setCellStyle(estiloCelda);
+
+            HSSFCell ch2 = r.createCell(j++);
+            ch2.setCellValue(new HSSFRichTextString("Cantidad"));
+            ch2.setCellStyle(estiloCelda);
+
+            HSSFCell ch3 = r.createCell(j++);
+            ch3.setCellValue(new HSSFRichTextString("Precio compra"));
+            ch3.setCellStyle(estiloCelda);
+
+            HSSFCell ch4 = r.createCell(j++);
+            ch4.setCellValue(new HSSFRichTextString("Precio venta"));
+            ch4.setCellStyle(estiloCelda);
+            
+            HSSFCell ch5 = r.createCell(j++);
+            ch5.setCellValue(new HSSFRichTextString("Total compra"));
+            ch5.setCellStyle(estiloCelda);
+            
+            HSSFCell ch6 = r.createCell(j++);            
+            ch6.setCellValue(new HSSFRichTextString("Total venta"));
+            ch6.setCellStyle(estiloCelda);
+
+            int rownum = 1;
+            int i = 0;
+
+            for (ReporteCompraVentaFacturado item : listaDatosDet ){
+                i = 0;
+
+                r = s.createRow(rownum);
+
+                HSSFCell c00 = r.createCell(i++);
+                c00.setCellValue(new HSSFRichTextString(item.getFacNumeroTRext()));
+                
+                HSSFCell c0 = r.createCell(i++);
+                c0.setCellValue(new HSSFRichTextString(item.getProdNombre()));
+                
+//                HSSFCell c11 = r.createCell(i++);
+//                c11.setCellValue(new HSSFRichTextString(sm.format(item.getFacFecha())));
+
+                HSSFCell c1 = r.createCell(i++);
+                c1.setCellValue(new HSSFRichTextString(ArchivoUtils.redondearDecimales(item.getDetCantidad(), 2).toString()));
+
+                HSSFCell c2 = r.createCell(i++);
+                c2.setCellValue(new HSSFRichTextString(ArchivoUtils.redondearDecimales(item.getPrecioCompra(), 2).toString()));
+
+                HSSFCell c3 = r.createCell(i++);
+                c3.setCellValue(new HSSFRichTextString(ArchivoUtils.redondearDecimales(item.getPrecioVenta(), 2).toPlainString()));
+
+                HSSFCell c4 = r.createCell(i++);
+                c4.setCellValue(new HSSFRichTextString(ArchivoUtils.redondearDecimales(item.getTotalCompra(), 2).toPlainString()));
+
+                
+                   HSSFCell c5 = r.createCell(i++);
+                c5.setCellValue(new HSSFRichTextString(ArchivoUtils.redondearDecimales(item.getTotalVenta(), 2).toPlainString()));
+
+                /*autemta la siguiente fila*/
+                rownum += 1;
+
+            }
+            for (int k = 0; k <= listaDatosDet.size(); k++) {
                 s.autoSizeColumn(k);
             }
             wb.write(archivo);

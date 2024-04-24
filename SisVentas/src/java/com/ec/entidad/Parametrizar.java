@@ -433,7 +433,7 @@ public class Parametrizar implements Serializable {
     }
 
     public Boolean getBloqueoProducto() {
-        return bloqueoProducto;
+        return bloqueoProducto==null?Boolean.FALSE:bloqueoProducto;
     }
 
     public void setBloqueoProducto(Boolean bloqueoProducto) {

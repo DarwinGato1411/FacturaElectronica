@@ -97,6 +97,7 @@
                                 <menuitem label="Retenciones por casillero" id="btnRetencionesCasillero"  />
                                 <menuitem label="Precio promedio compra" id="btnPreciPromCompra"  />
                                 <menuitem label="Compra venta facturado" id="btnCompVentaFact"  />
+                                <menuitem label="Compra venta facturado detallado" id="btnCompVentaFactDet"  />
                                 <!--<menuitem label="Precio promedio venta" id="btnPreciPromVenta"  />-->
                             </menupopup>
                         </menu>

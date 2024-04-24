@@ -45,6 +45,8 @@ public class ReporteCompraVentaFacturado implements Serializable {
     private BigDecimal totalCompra;
     @Column(name = "total_venta")
     private BigDecimal totalVenta;
+    @Column(name = "fac_numero_text")
+    private String facNumeroTRext;
 
     public ReporteCompraVentaFacturado(BigDecimal detCantidad, String prodNombre, BigDecimal precioCompra, BigDecimal precioVenta, Date facFecha, BigDecimal totalCompra, BigDecimal totalVenta) {
         this.detCantidad = detCantidad;
@@ -125,6 +127,14 @@ public class ReporteCompraVentaFacturado implements Serializable {
 
     public void setTotalVenta(BigDecimal totalVenta) {
         this.totalVenta = totalVenta;
+    }
+
+    public String getFacNumeroTRext() {
+        return facNumeroTRext;
+    }
+
+    public void setFacNumeroTRext(String facNumeroTRext) {
+        this.facNumeroTRext = facNumeroTRext;
     }
 
 }
