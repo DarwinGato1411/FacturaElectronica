@@ -166,7 +166,7 @@ public class ServicioKardex {
             Query query = em.createQuery("SELECT a from Kardex a where a.idProducto.prodCodigo like :prodCodigo AND a.idProducto.prodNombre LIKE :prodNombre ORDER BY a.idProducto.prodNombre ASC");
             query.setParameter("prodCodigo", "%" + prodCodigo + "%");
             query.setParameter("prodNombre", "%" + prodNombre + "%");
-            query.setMaxResults(200);
+            query.setMaxResults(100);
             listaKardexs = (List<Kardex>) query.getResultList();
             em.getTransaction().commit();
         } catch (Exception e) {

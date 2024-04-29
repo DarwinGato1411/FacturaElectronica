@@ -195,8 +195,8 @@ public class Facturar extends SelectorComposer<Component> {
     private BigDecimal totalDescuento = BigDecimal.ZERO;
     // Cabecera de la factura
     private String estdoFactura = "PA";
-    private String tipoVentaAnterior = "NTV ";
-    private String tipoVenta = "FACT";
+    private String tipoVentaAnterior = "FACT";
+    private String tipoVenta = "NTV";
     private String facturaDescripcion = "";
     private Integer numeroFactura = 0;
     private String numeroFacturaText = "";
@@ -319,10 +319,10 @@ public class Facturar extends SelectorComposer<Component> {
             verificarSecNumeracion();
             clienteBuscado = servicioCliente.findClienteLikeCedula("9999999999999");
 
-            List<Factura> listaFacturasPendientes = servicioFactura.findEstadoCliente("PE", clienteBuscado);
+//            List<Factura> listaFacturasPendientes = servicioFactura.findEstadoCliente("PE", clienteBuscado);
             saldoFacturas = BigDecimal.ZERO;
         } else if (valor.getBusqueda().equals("producto") || valor.getBusqueda().equals("cliente")) {
-
+            FindClienteLikeNombre();
         } else if (valor.getBusqueda().equals("cambio")) {
             PRODUCTOCAMBIO = servicioProducto.findByProdCodigo(valor.getCodigo());
         } else if (valor.getBusqueda().equals("nte")) {
@@ -342,7 +342,6 @@ public class Facturar extends SelectorComposer<Component> {
         DESCUENTOGENERAL = parametrizar.getParDescuentoGeneral();
         validaBorrado = parametrizar.getParBorraItemsFac();
 
-        FindClienteLikeNombre();
         findKardexProductoLikeNombre();
         // para establecer el cliente final
 
@@ -350,7 +349,7 @@ public class Facturar extends SelectorComposer<Component> {
         buscarCliente = clienteBuscado.getCliCedula();
         llegada = clienteBuscado.getCliDireccion();
         listaTransportistas = servicioTransportista.findTransportista("");
-        listaReferencia = servicioReferencia.findAll();
+//        listaReferencia = servicioReferencia.findAll();
     }
     // <editor-fold defaultstate="collapsed" desc="Facturar">
 
@@ -1193,9 +1192,9 @@ public class Facturar extends SelectorComposer<Component> {
     public void calcularValoresDesCantidad(@BindingParam("valor") DetalleFacturaDAO valor) {
         try {
             if (parametrizar.getBloqueoProducto()) {
-                
-               Producto prodValida= valor.getProducto();
-               
+
+                Producto prodValida = valor.getProducto();
+
 //               if (clietipo.equals("0")) {
 //                    costVentaTipoClienteInicial = productoBuscado.getPordCostoVentaFinal();
 //                    costVentaTipoCliente = productoBuscado.getPordCostoVentaFinal();
@@ -1208,15 +1207,15 @@ public class Facturar extends SelectorComposer<Component> {
 //                    costVentaTipoClienteInicial = productoBuscado.getProdCostoPreferencialDos();
 //                    costVentaTipoCliente = productoBuscado.getProdCostoPreferencialDos();
 //                }
-               BigDecimal precioPublico=prodValida.getPordCostoVentaFinal();
-               BigDecimal precioDistribuidor=prodValida.getProdCostoPreferencialDos();
-                if ((precioPublico.doubleValue() < valor.getTotal().doubleValue()) ||(precioDistribuidor.doubleValue() > valor.getTotal().doubleValue())) {
+                BigDecimal precioPublico = prodValida.getPordCostoVentaFinal();
+                BigDecimal precioDistribuidor = prodValida.getProdCostoPreferencialDos();
+                if ((precioPublico.doubleValue() < valor.getTotal().doubleValue()) || (precioDistribuidor.doubleValue() > valor.getTotal().doubleValue())) {
                     Clients.showNotification(
-                        "El precio no puede exceder al precio para Público y no puede ser menor que el precio para Distribuidor, desactive esta opción en configuraciones",
-                        Clients.NOTIFICATION_TYPE_ERROR, null, "middle_center", 4000, true);
-                return;
+                            "El precio no puede exceder al precio para Público y no puede ser menor que el precio para Distribuidor, desactive esta opción en configuraciones",
+                            Clients.NOTIFICATION_TYPE_ERROR, null, "middle_center", 4000, true);
+                    return;
                 }
-                
+
             }
 
             if (valor.getEsProducto() && valor.getTotalInicial().doubleValue() < valor.getTotal().doubleValue()) {
@@ -1661,6 +1660,7 @@ public class Facturar extends SelectorComposer<Component> {
     @Command
     @NotifyChange({"listaClientesAll", "clienteBuscado", "fechaEmision", "saldoFacturas", "llegada"})
     public void buscarClienteEnLista() {
+
         ParamFactura paramFactura = new ParamFactura();
         paramFactura.setBusqueda("cliente");
         final HashMap<String, ParamFactura> map = new HashMap<String, ParamFactura>();
@@ -1673,7 +1673,7 @@ public class Facturar extends SelectorComposer<Component> {
         if (clienteBuscado == null) {
             clienteBuscado = servicioCliente.findClienteLikeCedula("999999999");
         }
-        List<Factura> listaFacturasPendientes = servicioFactura.findEstadoCliente("PE", clienteBuscado);
+//        List<Factura> listaFacturasPendientes = servicioFactura.findEstadoCliente("PE", clienteBuscado);
         if (clienteBuscado != null) {
             llegada = clienteBuscado.getCliDireccion();
         }
@@ -2207,15 +2207,16 @@ public class Facturar extends SelectorComposer<Component> {
 
             Date hora = new Date();
             System.out.println("asdasdasdasd" + hora);
-            SimpleDateFormat formater = new SimpleDateFormat("yyyy:MM:dd hh:mm:ss a");
+            SimpleDateFormat formater = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
 
             if (accion.equals("create")) {
                 String today = formater.format(hora);
                 System.out.println("asdasdasdasd" + today);
-                Date dateTime = new SimpleDateFormat("yyyy:MM:dd hh:mm:ss a").parse(today);
+                Date dateTime = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss").parse(today);
                 factura.setFacFecha(dateTime);
             }
-            factura.setFacFecha(fechafacturacion);
+
+             factura.setFacFecha(fechafacturacion);
             factura.setFacFechaCobro(facFechaCobro);
             factura.setFacEstado(estdoFactura);
             factura.setFacNumeroText(numeroFacturaText);

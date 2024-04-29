@@ -68,6 +68,7 @@
                             <listheader width="15%"  label="Precio compra" />        
                             <listheader width="15%"  label="Precio venta" />        
                             <listheader width="15%"  label="Total Compra" />        
+                            <listheader width="15%"  label="Descuento Venta" />        
                             <listheader width="15%"  label="Total Venta" />        
                                                                 
                         </listhead>  
@@ -123,6 +124,13 @@
                                                 value="@bind(each.totalCompra)"  />
                                 </listcell>                                                                
                                 
+<!--                                <listcell zclass = "mycss-listcell">
+                                    <decimalbox style="font-size:12px ;background:#EBF5FB"
+                                                class="form-control form-control-sm" 
+                                                format="###.##" 
+                                                readonly="true"  
+                                                value="@bind(each.descuentoVenta)"  />
+                                </listcell>                                                                -->
                                 <listcell zclass = "mycss-listcell">
                                     <decimalbox style="font-size:12px ;background:#EBF5FB"
                                                 class="form-control form-control-sm" 

@@ -343,10 +343,14 @@ public class CompraVentaFacturadoCtrl {
             HSSFCell ch5 = r.createCell(j++);
             ch5.setCellValue(new HSSFRichTextString("Total compra"));
             ch5.setCellStyle(estiloCelda);
+//            
+//            HSSFCell ch6 = r.createCell(j++);            
+//            ch6.setCellValue(new HSSFRichTextString("Descuento venta"));
+//            ch6.setCellStyle(estiloCelda);
             
-            HSSFCell ch6 = r.createCell(j++);            
-            ch6.setCellValue(new HSSFRichTextString("Total venta"));
-            ch6.setCellStyle(estiloCelda);
+            HSSFCell ch7 = r.createCell(j++);            
+            ch7.setCellValue(new HSSFRichTextString("Total venta"));
+            ch7.setCellStyle(estiloCelda);
 
             int rownum = 1;
             int i = 0;
@@ -372,14 +376,18 @@ public class CompraVentaFacturadoCtrl {
                 c2.setCellValue(new HSSFRichTextString(ArchivoUtils.redondearDecimales(item.getPrecioCompra(), 2).toString()));
 
                 HSSFCell c3 = r.createCell(i++);
-                c3.setCellValue(new HSSFRichTextString(ArchivoUtils.redondearDecimales(item.getPrecioVenta(), 2).toPlainString()));
+                c3.setCellValue(new HSSFRichTextString(ArchivoUtils.redondearDecimales(item.getPrecioVenta(), 2).toString()));
 
                 HSSFCell c4 = r.createCell(i++);
-                c4.setCellValue(new HSSFRichTextString(ArchivoUtils.redondearDecimales(item.getTotalCompra(), 2).toPlainString()));
+                c4.setCellValue(new HSSFRichTextString(ArchivoUtils.redondearDecimales(item.getTotalCompra(), 2).toString()));
 
                 
-                   HSSFCell c5 = r.createCell(i++);
-                c5.setCellValue(new HSSFRichTextString(ArchivoUtils.redondearDecimales(item.getTotalVenta(), 2).toPlainString()));
+//                   HSSFCell c5 = r.createCell(i++);
+//                c5.setCellValue(new HSSFRichTextString(ArchivoUtils.redondearDecimales(item.getDescuentoVenta(), 2).toString()));
+
+                
+                   HSSFCell c6 = r.createCell(i++);
+                c6.setCellValue(new HSSFRichTextString(ArchivoUtils.redondearDecimales(item.getTotalVenta(), 2).toString()));
 
                 /*autemta la siguiente fila*/
                 rownum += 1;

@@ -36,6 +36,8 @@ public class ReporteCompraVentaFacturado implements Serializable {
     private String prodNombre;
     @Column(name = "precio_compra")
     private BigDecimal precioCompra;
+      @Column(name = "descuento_venta")
+    private BigDecimal descuentoVenta;
     @Column(name = "precio_venta")
     private BigDecimal precioVenta;
     @Column(name = "fac_fecha")
@@ -135,6 +137,14 @@ public class ReporteCompraVentaFacturado implements Serializable {
 
     public void setFacNumeroTRext(String facNumeroTRext) {
         this.facNumeroTRext = facNumeroTRext;
+    }
+
+    public BigDecimal getDescuentoVenta() {
+        return descuentoVenta;
+    }
+
+    public void setDescuentoVenta(BigDecimal descuentoVenta) {
+        this.descuentoVenta = descuentoVenta;
     }
 
 }
