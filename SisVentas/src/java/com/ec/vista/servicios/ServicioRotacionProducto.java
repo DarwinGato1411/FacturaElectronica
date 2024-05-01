@@ -6,7 +6,6 @@ package com.ec.vista.servicios;
 
 import com.ec.servicio.HelperPersistencia;
 import com.ec.vistas.RotacionProducto;
-import com.ec.vistas.RotacionProducto;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

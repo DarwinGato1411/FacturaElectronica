@@ -208,7 +208,7 @@ public class Facturar extends SelectorComposer<Component> {
     //Cabecera de la factura
     private String estdoFactura = "PA";
     private String tipoVentaAnterior = "FACT";
-    private String tipoVenta = "FACT";
+    private String tipoVenta = "NTV";
     private String facturaDescripcion = "";
     private Integer numeroFactura = 0;
     private String numeroFacturaText = "";
@@ -2142,11 +2142,11 @@ public class Facturar extends SelectorComposer<Component> {
 
 //            Date hora = new Date();
 //            System.out.println("asdasdasdasd" + hora);
-            SimpleDateFormat formater = new SimpleDateFormat("yyyy:MM:dd hh:mm:ss a");
+            SimpleDateFormat formater = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss a");
 
             String today = formater.format(fechafacturacion);
             System.out.println("asdasdasdasd" + today);
-            Date dateTime = new SimpleDateFormat("yyyy:MM:dd hh:mm:ss a").parse(today);
+            Date dateTime = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss a").parse(today);
 
             factura.setFacFecha(dateTime);
             factura.setFacFechaCobro(facFechaCobro);
