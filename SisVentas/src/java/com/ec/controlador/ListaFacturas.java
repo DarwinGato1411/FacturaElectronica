@@ -1179,6 +1179,8 @@ public class ListaFacturas {
             BigDecimal subTotal15 = BigDecimal.ZERO;
             BigDecimal subTotal0 = BigDecimal.ZERO;
             BigDecimal IVATotal = BigDecimal.ZERO;
+            BigDecimal IVATotal5 = BigDecimal.ZERO;
+            BigDecimal IVATotal15 = BigDecimal.ZERO;
             BigDecimal total = BigDecimal.ZERO;
 
             for (Factura item : lstFacturas) {
@@ -1219,9 +1221,11 @@ public class ListaFacturas {
 
                 HSSFCell c2 = r.createCell(i++);
                 c2.setCellValue(new HSSFRichTextString((ArchivoUtils.redondearDecimales(item.getFacIva5(), 2)).toString()));
+                IVATotal5 = IVATotal5.add(ArchivoUtils.redondearDecimales(item.getFacIva5(), 2));
 
-                IVATotal = IVATotal.add(ArchivoUtils.redondearDecimales(item.getFacIva(), 2));
-
+                HSSFCell c22 = r.createCell(i++);
+                c22.setCellValue(new HSSFRichTextString((ArchivoUtils.redondearDecimales(item.getFacIva15(), 2)).toString()));
+                 IVATotal15 = IVATotal15.add(ArchivoUtils.redondearDecimales(item.getFacIva15(), 2));
                 HSSFCell c3 = r.createCell(i++);
                 c3.setCellValue(new HSSFRichTextString((ArchivoUtils.redondearDecimales(item.getFacTotal(), 2)).toString()));
 
@@ -1270,16 +1274,24 @@ public class ListaFacturas {
             chF5.setCellStyle(estiloCelda);
 
             HSSFCell chF6 = r.createCell(j++);
-            chF6.setCellValue(new HSSFRichTextString((ArchivoUtils.redondearDecimales(subTotal12, 2)).toString()));
+            chF6.setCellValue(new HSSFRichTextString((ArchivoUtils.redondearDecimales(subTotal0, 2)).toString()));
             chF6.setCellStyle(estiloCelda);
 
             HSSFCell chF7 = r.createCell(j++);
-            chF7.setCellValue(new HSSFRichTextString((ArchivoUtils.redondearDecimales(subTotal0, 2)).toString()));
+            chF7.setCellValue(new HSSFRichTextString((ArchivoUtils.redondearDecimales(subTotal5, 2)).toString()));
             chF7.setCellStyle(estiloCelda);
+            
+            HSSFCell chF77 = r.createCell(j++);
+            chF77.setCellValue(new HSSFRichTextString((ArchivoUtils.redondearDecimales(subTotal15, 2)).toString()));
+            chF77.setCellStyle(estiloCelda);
 
             HSSFCell chF8 = r.createCell(j++);
-            chF8.setCellValue(new HSSFRichTextString((ArchivoUtils.redondearDecimales(IVATotal, 2)).toString()));
+            chF8.setCellValue(new HSSFRichTextString((ArchivoUtils.redondearDecimales(IVATotal5, 2)).toString()));
             chF8.setCellStyle(estiloCelda);
+            
+            HSSFCell chF88 = r.createCell(j++);
+            chF88.setCellValue(new HSSFRichTextString((ArchivoUtils.redondearDecimales(IVATotal15, 2)).toString()));
+            chF88.setCellStyle(estiloCelda);
 
             HSSFCell chF9 = r.createCell(j++);
             chF9.setCellValue(new HSSFRichTextString((ArchivoUtils.redondearDecimales(total, 2)).toString()));
