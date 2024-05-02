@@ -833,7 +833,7 @@ public class Factura implements Serializable {
 //    }
 
     public BigDecimal getFacSubt5() {
-        return facSubt5;
+        return facSubt5==null?BigDecimal.ZERO:facSubt5;
     }
 
     public void setFacSubt5(BigDecimal facSubt5) {
@@ -841,7 +841,7 @@ public class Factura implements Serializable {
     }
 
     public BigDecimal getFacIva5() {
-        return facIva5;
+        return facIva5==null?BigDecimal.ZERO:facIva5;
     }
 
     public void setFacIva5(BigDecimal facIva5) {
@@ -881,7 +881,7 @@ public class Factura implements Serializable {
     }
 
     public BigDecimal getFacSubt15() {
-        return facSubt15;
+        return facSubt15==null?BigDecimal.ZERO:facSubt15;
     }
 
     public void setFacSubt15(BigDecimal facSubt15) {
@@ -889,7 +889,7 @@ public class Factura implements Serializable {
     }
 
     public BigDecimal getFacIva15() {
-        return facIva15;
+        return facIva15==null?BigDecimal.ZERO:facIva15;
     }
 
     public void setFacIva15(BigDecimal facIva15) {

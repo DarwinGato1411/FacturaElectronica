@@ -1021,7 +1021,7 @@ public class ListaFacturas {
         }
     }
 
-    private String exportarExcel() throws FileNotFoundException, IOException, ParseException {
+     private String exportarExcel() throws FileNotFoundException, IOException, ParseException {
         String directorioReportes = Executions.getCurrent().getDesktop().getWebApp().getRealPath("/reportes");
 
         Date date = new Date();
@@ -1062,11 +1062,7 @@ public class ListaFacturas {
 
             HSSFCell c = null;
             r = s.createRow(0);
-            
-            HSSFCell chf0 = r.createCell(j++);
-            chf0.setCellValue(new HSSFRichTextString("Facturado por"));
-            chf0.setCellStyle(estiloCelda);
-            
+
             HSSFCell chfe = r.createCell(j++);
             chfe.setCellValue(new HSSFRichTextString("Factura"));
             chfe.setCellStyle(estiloCelda);
@@ -1087,17 +1083,22 @@ public class ListaFacturas {
             ch2.setCellValue(new HSSFRichTextString("Subtotal"));
             ch2.setCellStyle(estiloCelda);
 
-            HSSFCell ch22 = r.createCell(j++);
-            ch22.setCellValue(new HSSFRichTextString("Subtotal 12%"));
-            ch22.setCellStyle(estiloCelda);
-
             HSSFCell ch23 = r.createCell(j++);
             ch23.setCellValue(new HSSFRichTextString("Subtotal 0%"));
             ch23.setCellStyle(estiloCelda);
+            HSSFCell ch22 = r.createCell(j++);
+            ch22.setCellValue(new HSSFRichTextString("Subtotal 5%"));
+            ch22.setCellStyle(estiloCelda);
+            HSSFCell ch222 = r.createCell(j++);
+            ch222.setCellValue(new HSSFRichTextString("Subtotal 15%"));
+            ch222.setCellStyle(estiloCelda);
 
             HSSFCell ch3 = r.createCell(j++);
-            ch3.setCellValue(new HSSFRichTextString("Iva"));
+            ch3.setCellValue(new HSSFRichTextString("Iva 5%"));
             ch3.setCellStyle(estiloCelda);
+            HSSFCell ch33 = r.createCell(j++);
+            ch33.setCellValue(new HSSFRichTextString("Iva 15%"));
+            ch33.setCellStyle(estiloCelda);
 
             HSSFCell ch4 = r.createCell(j++);
             ch4.setCellValue(new HSSFRichTextString("Total"));
@@ -1117,26 +1118,31 @@ public class ListaFacturas {
             HSSFCell ch8 = r.createCell(j++);
             ch8.setCellValue(new HSSFRichTextString("FECHA AUTORIZA"));
             ch8.setCellStyle(estiloCelda);
-            
+
             HSSFCell ch9 = r.createCell(j++);
             ch9.setCellValue(new HSSFRichTextString("OBSERVACIÓN"));
             ch9.setCellStyle(estiloCelda);
+            
+            HSSFCell ch10 = r.createCell(j++);
+            ch10.setCellValue(new HSSFRichTextString("Responsable"));
+            ch10.setCellStyle(estiloCelda);
 
             int rownum = 1;
             int i = 0;
             BigDecimal subTotal = BigDecimal.ZERO;
             BigDecimal subTotal12 = BigDecimal.ZERO;
+            BigDecimal subTotal5 = BigDecimal.ZERO;
+            BigDecimal subTotal15 = BigDecimal.ZERO;
             BigDecimal subTotal0 = BigDecimal.ZERO;
             BigDecimal IVATotal = BigDecimal.ZERO;
+            BigDecimal IVATotal5 = BigDecimal.ZERO;
+            BigDecimal IVATotal15 = BigDecimal.ZERO;
             BigDecimal total = BigDecimal.ZERO;
 
             for (Factura item : lstFacturas) {
                 i = 0;
 
                 r = s.createRow(rownum);
-                
-                HSSFCell c14 = r.createCell(i++);
-                c14.setCellValue(new HSSFRichTextString(item.getIdUsuario().getUsuNombre()));
 
                 HSSFCell cf = r.createCell(i++);
                 cf.setCellValue(new HSSFRichTextString(item.getFacNumero().toString()));
@@ -1155,21 +1161,27 @@ public class ListaFacturas {
 
                 subTotal = subTotal.add(ArchivoUtils.redondearDecimales(item.getFacSubtotal(), 2));
 
-                HSSFCell c11 = r.createCell(i++);
-                c11.setCellValue(new HSSFRichTextString((ArchivoUtils.redondearDecimales(item.getFacTotalBaseGravaba(), 2)).toString()));
-
-                subTotal12 = subTotal12.add(ArchivoUtils.redondearDecimales(item.getFacTotalBaseGravaba(), 2));
-
                 HSSFCell c12 = r.createCell(i++);
                 c12.setCellValue(new HSSFRichTextString((ArchivoUtils.redondearDecimales(item.getFacTotalBaseCero(), 2)).toString()));
+               subTotal0 = subTotal0.add(ArchivoUtils.redondearDecimales(item.getFacTotalBaseCero(), 2));
+               
+                HSSFCell c11 = r.createCell(i++);
+                c11.setCellValue(new HSSFRichTextString((ArchivoUtils.redondearDecimales(item.getFacSubt5(), 2)).toString()));
+                subTotal5 = subTotal5.add(ArchivoUtils.redondearDecimales(item.getFacSubt5(), 2));
 
-                subTotal0 = subTotal0.add(ArchivoUtils.redondearDecimales(item.getFacTotalBaseCero(), 2));
+                HSSFCell c111 = r.createCell(i++);
+                c111.setCellValue(new HSSFRichTextString((ArchivoUtils.redondearDecimales(item.getFacSubt15(), 2)).toString()));
+                subTotal15 = subTotal15.add(ArchivoUtils.redondearDecimales(item.getFacSubt15(), 2));
+
+               
 
                 HSSFCell c2 = r.createCell(i++);
-                c2.setCellValue(new HSSFRichTextString((ArchivoUtils.redondearDecimales(item.getFacIva(), 2)).toString()));
+                c2.setCellValue(new HSSFRichTextString((ArchivoUtils.redondearDecimales(item.getFacIva5(), 2)).toString()));
+                IVATotal5 = IVATotal5.add(ArchivoUtils.redondearDecimales(item.getFacIva5(), 2));
 
-                IVATotal = IVATotal.add(ArchivoUtils.redondearDecimales(item.getFacIva(), 2));
-
+                HSSFCell c22 = r.createCell(i++);
+                c22.setCellValue(new HSSFRichTextString((ArchivoUtils.redondearDecimales(item.getFacIva15(), 2)).toString()));
+                 IVATotal15 = IVATotal15.add(ArchivoUtils.redondearDecimales(item.getFacIva15(), 2));
                 HSSFCell c3 = r.createCell(i++);
                 c3.setCellValue(new HSSFRichTextString((ArchivoUtils.redondearDecimales(item.getFacTotal(), 2)).toString()));
 
@@ -1187,9 +1199,12 @@ public class ListaFacturas {
                 HSSFCell c15 = r.createCell(i++);
                 c15.setCellValue(new HSSFRichTextString(item.getFacFechaAutorizacion() != null ? sm.format(item.getFacFechaAutorizacion()) : ""));
                 /*autemta la siguiente fila*/
-                
+
                 HSSFCell c16 = r.createCell(i++);
-                c16.setCellValue(new HSSFRichTextString(item.getFacObservacion()) );
+                c16.setCellValue(new HSSFRichTextString(item.getFacObservacion()));
+
+                 HSSFCell c17 = r.createCell(i++);
+                c17.setCellValue(new HSSFRichTextString(item.getIdUsuario().getUsuNombre()));
                 
                 rownum += 1;
 
@@ -1218,16 +1233,24 @@ public class ListaFacturas {
             chF5.setCellStyle(estiloCelda);
 
             HSSFCell chF6 = r.createCell(j++);
-            chF6.setCellValue(new HSSFRichTextString((ArchivoUtils.redondearDecimales(subTotal12, 2)).toString()));
+            chF6.setCellValue(new HSSFRichTextString((ArchivoUtils.redondearDecimales(subTotal0, 2)).toString()));
             chF6.setCellStyle(estiloCelda);
 
             HSSFCell chF7 = r.createCell(j++);
-            chF7.setCellValue(new HSSFRichTextString((ArchivoUtils.redondearDecimales(subTotal0, 2)).toString()));
+            chF7.setCellValue(new HSSFRichTextString((ArchivoUtils.redondearDecimales(subTotal5, 2)).toString()));
             chF7.setCellStyle(estiloCelda);
+            
+            HSSFCell chF77 = r.createCell(j++);
+            chF77.setCellValue(new HSSFRichTextString((ArchivoUtils.redondearDecimales(subTotal15, 2)).toString()));
+            chF77.setCellStyle(estiloCelda);
 
             HSSFCell chF8 = r.createCell(j++);
-            chF8.setCellValue(new HSSFRichTextString((ArchivoUtils.redondearDecimales(IVATotal, 2)).toString()));
+            chF8.setCellValue(new HSSFRichTextString((ArchivoUtils.redondearDecimales(IVATotal5, 2)).toString()));
             chF8.setCellStyle(estiloCelda);
+            
+            HSSFCell chF88 = r.createCell(j++);
+            chF88.setCellValue(new HSSFRichTextString((ArchivoUtils.redondearDecimales(IVATotal15, 2)).toString()));
+            chF88.setCellStyle(estiloCelda);
 
             HSSFCell chF9 = r.createCell(j++);
             chF9.setCellValue(new HSSFRichTextString((ArchivoUtils.redondearDecimales(total, 2)).toString()));
@@ -1253,7 +1276,7 @@ public class ListaFacturas {
         return pathSalida;
 
     }
-
+ 
     @Command
     public void exportarRegXML(@BindingParam("valor") Factura valor) throws JRException, IOException, NamingException, SQLException {
         try {
