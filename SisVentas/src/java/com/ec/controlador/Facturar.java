@@ -196,7 +196,7 @@ public class Facturar extends SelectorComposer<Component> {
     // Cabecera de la factura
     private String estdoFactura = "PA";
     private String tipoVentaAnterior = "FACT";
-    private String tipoVenta = "NTV";
+    private String tipoVenta = "FACT";
     private String facturaDescripcion = "";
     private Integer numeroFactura = 0;
     private String numeroFacturaText = "";
@@ -2304,6 +2304,7 @@ public class Facturar extends SelectorComposer<Component> {
             // factura.setFacCobro(cobro);
             // factura.setFacCambio(cambio);
             factura.setFacTotalBaseGravaba(subTotalCotizacion);
+            factura.setFacCambio(cambio);
             // factura.setFacTotalBaseGravaba(subTotalBaseCero);
 
             if (factura.getFacEstado().equals("PE")) {
@@ -2580,7 +2581,7 @@ public class Facturar extends SelectorComposer<Component> {
         System.out.println("formaPagoSelected " + formaPagoSelected);
         facConSinGuia = valor;
         if (!clienteBuscado.getCliCedula().equals("") && formaPagoSelected != null) {
-            if (valorTotalCotizacion.intValue() >= 50 && clienteBuscado.getCliCedula().contains("999999999")) {
+            if (valorTotalCotizacion.intValue() > 50 && clienteBuscado.getCliCedula().contains("999999999")) {
                 Clients.showNotification(
                         "El valor de la factura no puede pasar de $50 para enviarla como Consumidor Final ", "error",
                         null, "end_before", 3000, true);

@@ -641,7 +641,7 @@ public class ListaRetenciones {
                 c2.setCellValue(new HSSFRichTextString(item.getDrcEstadosri()));
 
                 HSSFCell c3 = r.createCell(i++);
-                c3.setCellValue(new HSSFRichTextString(sm.format(item.getRcoFechaAutorizacion())));
+                c3.setCellValue(new HSSFRichTextString(item.getRcoFechaAutorizacion()!=null?sm.format(item.getRcoFechaAutorizacion()):""));
 
                 HSSFCell c4 = r.createCell(i++);
                 c4.setCellValue(new HSSFRichTextString(item.getRcoAutorizacion()));
