@@ -273,6 +273,7 @@ public class MenuOpciones extends SelectorComposer<Component> {
     public void btnfactCobra() {
         Executions.sendRedirect("/venta/facturasporcobrar.zul");
     }
+   
 
     @Command
     public void facturar(@BindingParam("valor") DetalleFacturaDAO valor) {

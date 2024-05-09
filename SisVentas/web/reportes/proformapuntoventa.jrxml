@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="proformapuntoventa" language="groovy" pageWidth="212" pageHeight="400" columnWidth="190" leftMargin="9" rightMargin="13" topMargin="2" bottomMargin="20" isIgnorePagination="true">
-	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.zoom" value="2.1435888100000016"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="52"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -485,8 +485,8 @@ and tipoambiente.am_estado is true limit 1;]]>
 					</jr:column>
 					<jr:column width="97">
 						<jr:detailCell height="13" rowSpan="1">
-							<textField isBlankWhenNull="true">
-								<reportElement x="0" y="0" width="97" height="13" isPrintWhenDetailOverflows="true">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="97" height="13">
 									<printWhenExpression><![CDATA[$F{prod_graba_iva}]]></printWhenExpression>
 								</reportElement>
 								<box leftPadding="2"/>
@@ -495,8 +495,8 @@ and tipoambiente.am_estado is true limit 1;]]>
 								</textElement>
 								<textFieldExpression class="java.lang.String"><![CDATA[$F{det_descripcion}]]></textFieldExpression>
 							</textField>
-							<textField isBlankWhenNull="true">
-								<reportElement x="0" y="0" width="97" height="13" isPrintWhenDetailOverflows="true">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="97" height="13" isPrintWhenDetailOverflows="true">
 									<printWhenExpression><![CDATA[!$F{prod_graba_iva}]]></printWhenExpression>
 								</reportElement>
 								<box leftPadding="2"/>
@@ -527,7 +527,7 @@ and tipoambiente.am_estado is true limit 1;]]>
 								<textElement textAlignment="Right">
 									<font size="8" isBold="true"/>
 								</textElement>
-								<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{det_subtotal}]]></textFieldExpression>
+								<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{det_total}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -551,7 +551,7 @@ and tipoambiente.am_estado is true limit 1;]]>
 								<textElement textAlignment="Right">
 									<font size="8" isBold="true"/>
 								</textElement>
-								<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{det_subtotaldescuentoporcantidad}]]></textFieldExpression>
+								<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{det_totaldescuentoiva}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
