@@ -20,6 +20,7 @@ import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.Sessions;
+import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Label;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Textbox;
@@ -57,8 +58,16 @@ public class LoginController extends SelectorComposer<Component> {
         Parametrizar param = servicioParametrizar.FindALlParametrizar();
         NumeroDocumentosEmitidos emitidos = servicioNumeroDocumentosEmitidos.findByMes(caduca.getMonth() + 1);
 //        NumeroDocumentosEmitidos emitidos = listaDocum != null ? listaDocum : null;
-        //caduca = param.getParCaduca();
+        caduca = param.getParCaduca();
         System.out.println("vigente  " + actual + " vegente hasta " + caduca);
+
+        if (actual.after(caduca) && param.getParIlimitadoArriendo()) {
+            System.out.println("caduco  " + actual + " vigente hasta " + caduca);
+            Clients.showNotification("Usted cuenta con una licencia permanente, pero su sistema se encuentra suspendido por falta de pago!",
+                    Clients.NOTIFICATION_TYPE_ERROR, null, "middle_center", 50000, true);
+            return;
+//            Messagebox.show("Usted cuenta con una licencia permanente, pero su sistema se encuentra suspendido por falta de pago!", "Atención", Messagebox.OK, Messagebox.EXCLAMATION);
+        }
         AutentificadorLogeo servicioAuth = new AutentificadorLogeo();
         if (servicioAuth.login(account.getValue(), password.getValue())) {
             Session sess = Sessions.getCurrent();

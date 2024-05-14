@@ -258,7 +258,7 @@
                                          checkmark="true"  
                                          multiple="true" 
                                          onSelect="@command('seleccionarRegistros')" >
-                                    <custom-attributes org.zkoss.zul.listbox.rod="true"/>
+                                   <custom-attributes org.zkoss.zul.listbox.rod="true"/>
                                               
                                         
                                     <listhead>
@@ -274,7 +274,7 @@
                     
                                     <template name="model">                                                            
                                         <listitem>
-                                            <listcell zclass = "mycss-listcell">
+                                            <listcell >
                                                     
                                             </listcell>                                                      
                                             <listcell zclass = "mycss-listcell">

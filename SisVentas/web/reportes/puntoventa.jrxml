@@ -386,7 +386,7 @@ and tipoambiente.am_estado is true  limit 1;]]>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{cli_direccion}]]></textFieldExpression>
 			</textField>
-			<textField pattern="d/M/yyyy">
+			<textField isStretchWithOverflow="true" pattern="d/M/yyyy HH:mm:ss">
 				<reportElement x="49" y="204" width="141" height="13"/>
 				<textElement>
 					<font size="9" isBold="false"/>

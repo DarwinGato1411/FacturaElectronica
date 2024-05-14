@@ -90,6 +90,7 @@ public class MenuOpciones extends SelectorComposer<Component> {
     public void buttonConsultar() {
         Executions.sendRedirect("/consultas.zul");
     }
+
     @Listen("onClick = #btnFacturar")
     public void doFacturar() {
         Executions.sendRedirect("/venta/facturar.zul");
@@ -184,6 +185,7 @@ public class MenuOpciones extends SelectorComposer<Component> {
     public void btnContabilidad() {
         Executions.sendRedirect("/contabilidad/ventasats.zul");
     }
+
     @Listen("onClick = #btnContabilidadATS")
     public void btnContabilidadATS() {
         Executions.sendRedirect("/contabilidad/ats.zul");
@@ -253,30 +255,37 @@ public class MenuOpciones extends SelectorComposer<Component> {
     public void btnListarCierre() {
         Executions.sendRedirect("/reportevistas/listacierrecaja.zul");
     }
+
     @Listen("onClick = #btnPreciPromCompra")
     public void btnPreciPromCompra() {
         Executions.sendRedirect("/reportevistas/listacomprapromedio2.zul");
     }
+
     @Listen("onClick = #btnPreciPromVenta")
     public void btnPreciPromVenta() {
         Executions.sendRedirect("/reportevistas/listaventapromedio.zul");
     }
+
     @Listen("onClick = #btnOrdenTrab")
     public void btnOrdenTrab() {
         Executions.sendRedirect("/venta/ordentrabajo.zul");
     }
+
     @Listen("onClick = #btnListaOrden")
     public void btnListaOrden() {
         Executions.sendRedirect("/venta/listaorden.zul");
     }
+
     @Listen("onClick = #btnfactCobra")
     public void btnfactCobra() {
         Executions.sendRedirect("/venta/facturasporcobrar.zul");
     }
+
     @Listen("onClick = #btnCompVentaFact")
     public void btnCompVentaFact() {
         Executions.sendRedirect("/reportevistas/compraventafacturado.zul");
     }
+
     @Listen("onClick = #btnCompVentaFactDet")
     public void btnCompVentaFactDet() {
         Executions.sendRedirect("/reportevistas/compraventafacturado_detallado.zul");
@@ -287,12 +296,17 @@ public class MenuOpciones extends SelectorComposer<Component> {
         Executions.sendRedirect("/venta/facturar.zul");
     }
 
+    @Listen("onClick = #btnReporteRetenciones")
+    public void btnReporteRetenciones() {
+        Executions.sendRedirect("/compra/reporte_retenciones.zul");
+    }
+
     @Listen("onClick = #btnCierreCajaUsu")
     public void btnCierreCaja() {
 //        if (credential.getUsuarioSistema().getUsuNivel() != 1) {
-            org.zkoss.zul.Window window = (org.zkoss.zul.Window) Executions.createComponents(
-                    "/nuevo/cierrecaja.zul", null, null);
-            window.doModal();
+        org.zkoss.zul.Window window = (org.zkoss.zul.Window) Executions.createComponents(
+                "/nuevo/cierrecaja.zul", null, null);
+        window.doModal();
 //        } else {
 //            Clients.showNotification("El usuario administrador no puede cerrar una caja",
 //                    Clients.NOTIFICATION_TYPE_INFO, null, "middle_center", 5000, true);

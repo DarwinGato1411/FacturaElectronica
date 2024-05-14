@@ -392,7 +392,7 @@ and tipoambiente.am_estado is true limit 1;]]>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{cli_direccion}]]></textFieldExpression>
 			</textField>
-			<textField pattern="dd/MM/yyyy">
+			<textField pattern="dd/MM/yyyy HH:mm:ss">
 				<reportElement x="110" y="127" width="80" height="13"/>
 				<textElement textAlignment="Right">
 					<font size="9" isBold="false"/>
