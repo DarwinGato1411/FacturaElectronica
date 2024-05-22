@@ -629,7 +629,7 @@ public class ServicioFactura {
             em.getTransaction().begin();
             Date fechaInicio = recuperarFecha(inicio, "inicio");
             Date fechaFin = recuperarFecha(fin, "fin");
-            
+
             if (!estado.equals("TODO")) {
                 query = em.createQuery("SELECT f FROM Factura f WHERE f.facFecha BETWEEN :inicio and :fin AND f.facEstado=:facEstado AND f.facTipo='FACT' ORDER BY f.facFecha DESC");
                 query.setParameter("inicio", fechaInicio);
@@ -962,17 +962,19 @@ public class ServicioFactura {
 
 //            String SQL = "SELECT f FROM Factura f WHERE f.facFecha BETWEEN :inicio and :fin ORDER BY f.facFecha DESC";
             //Connection connection = em.unwrap(Connection.class);
+            Date fechaInicio = recuperarFecha(inicio, "inicio");
+            Date fechaFin = recuperarFecha(fin, "fin");
             em = HelperPersistencia.getEMF();
             em.getTransaction().begin();
             if (!estado.equals("TODO")) {
                 query = em.createQuery("SELECT f FROM Factura f WHERE f.facFecha BETWEEN :inicio and :fin AND f.facEstado=:facEstado AND f.facTipo='NTV' ORDER BY f.facFecha DESC");
-                query.setParameter("inicio", inicio);
-                query.setParameter("fin", fin);
+                query.setParameter("inicio", fechaInicio);
+                query.setParameter("fin", fechaFin);
                 query.setParameter("facEstado", estado);
             } else {
                 query = em.createQuery("SELECT f FROM Factura f WHERE f.facFecha BETWEEN :inicio and :fin  AND f.facTipo='NTV' ORDER BY f.facFecha DESC");
-                query.setParameter("inicio", inicio);
-                query.setParameter("fin", fin);
+                query.setParameter("inicio", fechaInicio);
+                query.setParameter("fin", fechaFin);
             }
 
 //            query.setMaxResults(400);
@@ -1139,9 +1141,9 @@ public class ServicioFactura {
     }
 
     public Date recuperarFecha(Date fecha, String tipo) {
-        
+
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String fechaSinHoraStr =sdf.format(fecha);
+        String fechaSinHoraStr = sdf.format(fecha);
         String horaStr = "00:00:00";
         // Hora a agregar
         if (tipo.equals("fin")) {
@@ -1158,11 +1160,11 @@ public class ServicioFactura {
             // Concatenar la hora a la fecha sin hora
             String fechaConHoraStr = fechaSinHoraStr + " " + horaStr;
             System.out.println(fechaConHoraStr);
-            
+
             // Convertir la cadena con fecha y hora a objeto Date
             Date fechaConHora = formatoFechaHora.parse(fechaConHoraStr);
             System.out.println(fechaConHora);
-            
+
             // Imprimir los objetos Date resultantes
             return fechaConHora;
         } catch (ParseException e) {

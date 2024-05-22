@@ -614,7 +614,7 @@ public class AutorizarDocumentos {
             String tipoemision = "1"; //en offline solo existe emision normal
             String motivo = "TRASPORTE DE MERCADERIA";
 //            String claveAcceso = generaClave(valor.getFacFecha(), valor.getTipodocumento(), amb.getAmRuc(), amb.getAmCodigo(), "002001", valor.getFacNumeroText(), "12345678", "1");
-            String claveAcceso = generaClave(valor.getFacFecha(), "06", amb.getAmRuc(), amb.getAmCodigo(), amb.getAmEstab() + amb.getAmPtoemi(), valor.getFacNumeroText(), "12345678", "1");
+            String claveAcceso = generaClave(valor.getFechainitranspguia(), "06", amb.getAmRuc(), amb.getAmCodigo(), amb.getAmEstab() + amb.getAmPtoemi(), valor.getFacNumeroText(), "12345678", "1");
             StringBuilder build = new StringBuilder();
             String linea;
             linea = ("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n"
