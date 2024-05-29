@@ -68,6 +68,8 @@ public class DetallePago implements Serializable {
     private BigDecimal detpAbono;
     @Column(name = "detp_saldo")
     private BigDecimal detpSaldo;
+    @Column(name = "detp_observacion")
+    private String detpObservacion;
     @JoinColumn(name = "id_factura", referencedColumnName = "id_factura")
     @ManyToOne
     private Factura idFactura;
@@ -157,6 +159,14 @@ public class DetallePago implements Serializable {
 
     public void setIdFactura(Factura idFactura) {
         this.idFactura = idFactura;
+    }
+
+    public String getDetpObservacion() {
+        return detpObservacion;
+    }
+
+    public void setDetpObservacion(String detpObservacion) {
+        this.detpObservacion = detpObservacion;
     }
 
     @Override
