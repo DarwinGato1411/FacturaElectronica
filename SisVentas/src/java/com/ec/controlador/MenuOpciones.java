@@ -7,7 +7,6 @@ package com.ec.controlador;
 import com.ec.dao.DetalleFacturaDAO;
 import com.ec.seguridad.EnumSesion;
 import com.ec.seguridad.UserCredential;
-import java.util.HashMap;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.zk.ui.Component;
@@ -17,8 +16,6 @@ import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
-import org.zkoss.zk.ui.util.Clients;
-import org.zkoss.zul.Button;
 import org.zkoss.zul.Menu;
 import org.zkoss.zul.Menuitem;
 
@@ -299,6 +296,11 @@ public class MenuOpciones extends SelectorComposer<Component> {
     @Listen("onClick = #btnReporteRetenciones")
     public void btnReporteRetenciones() {
         Executions.sendRedirect("/compra/reporte_retenciones.zul");
+    }
+    
+    @Listen("onClick = #btnInversionEmp")
+    public void btnInversionEmp() {
+        Executions.sendRedirect("/reportevistas/inversionempresa.zul");
     }
 
     @Listen("onClick = #btnCierreCajaUsu")

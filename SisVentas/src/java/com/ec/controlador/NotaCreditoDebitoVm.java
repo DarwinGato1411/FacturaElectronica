@@ -243,14 +243,15 @@ public class NotaCreditoDebitoVm {
             nuevoRegistro.setTipoVenta(det.getDetTipoVenta());
             //valores con descuentos
             nuevoRegistro.setSubTotalDescuento(det.getDetSubtotal());
-            nuevoRegistro.setDetTotaldescuento(det.getDetTotal());
+            nuevoRegistro.setDetTotaldescuento(det.getDetTotaldescuento());
             nuevoRegistro.setDetPordescuento(new BigDecimal(0));
-            nuevoRegistro.setDetValdescuento(new BigDecimal(0));
+            nuevoRegistro.setDetValdescuento(det.getDetCantpordescuento());
             nuevoRegistro.setDetTotalconivadescuento(det.getDetTotalconiva());
             nuevoRegistro.setDetCantpordescuento(new BigDecimal(0));
             nuevoRegistro.setDetIvaDesc(det.getDetIva());
             nuevoRegistro.setCodTipoVenta(det.getDetCodTipoVenta());
             nuevoRegistro.setDetSubtotaldescuentoporcantidad(det.getDetSubtotaldescuentoporcantidad());
+            
             clietipo = det.getDetCodTipoVenta();
 //            calcularValores(nuevoRegistro);
             listaDetalleFacturaDAODatos.add(nuevoRegistro);
@@ -260,14 +261,14 @@ public class NotaCreditoDebitoVm {
         calcularValoresTotales();
     }
 
-    @Command
-    @NotifyChange({"listaDetalleFacturaDAOMOdel", "subTotalCotizacion", "ivaCotizacion", "valorTotalCotizacion", "totalDescuento"})
+     @Command
+    @NotifyChange({"listaDetalleFacturaDAOMOdel", "subTotalCotizacion", "ivaCotizacion", "valorTotalCotizacion", "subTotalCotizacion13", "subTotalCotizacion14", "subTotalCotizacion15", "subTotalCotizacion5", "ivaCotizacion5", "ivaCotizacion13", "ivaCotizacion14", "ivaCotizacion15","totalDescuento"})
     public void calcularValores(@BindingParam("valor") DetalleFacturaDAO valor) {
         try {
             BigDecimal factorIva = new BigDecimal(0);
             BigDecimal factorSacarSubtotal = new BigDecimal(1);
             if (valor.getProducto().getProdGrabaIva()) {
-                factorIva = (parametrizar.getParIva().divide(BigDecimal.valueOf(100.0)));
+                factorIva = (valor.getProducto().getProdIva().divide(BigDecimal.valueOf(100.0)));
                 factorSacarSubtotal = (factorIva.add(BigDecimal.ONE));
             }
 
@@ -285,7 +286,9 @@ public class NotaCreditoDebitoVm {
                 BigDecimal subTotalDescuento = valorTotalIvaDesc.divide(factorSacarSubtotal, 4, RoundingMode.FLOOR);
                 valor.setSubTotalDescuento(subTotalDescuento);
                 //valor del descuento
+                
                 BigDecimal valorDescuento = valor.getSubTotal().subtract(valor.getSubTotalDescuento());
+                
                 valor.setDetValdescuento(valorDescuento);
                 //valor del iva con descuento
                 BigDecimal valorIvaDesc = subTotalDescuento.multiply(factorIva).multiply(valor.getCantidad());
@@ -610,7 +613,7 @@ public class NotaCreditoDebitoVm {
     //busqueda del producto
     @Command
     @NotifyChange({"listaDetalleFacturaDAOMOdel", "subTotalCotizacion", "ivaCotizacion", "valorTotalCotizacion", "subTotalCotizacion13", "subTotalCotizacion14", "subTotalCotizacion15", "subTotalCotizacion5",
-        "ivaCotizacion5", "ivaCotizacion13", "ivaCotizacion14", "ivaCotizacion15"})
+        "ivaCotizacion5", "ivaCotizacion13", "ivaCotizacion14", "ivaCotizacion15","totalDescuento"})
     public void eliminarRegistros() {
         if (registrosSeleccionados.size() > 0) {
             ((ListModelList<DetalleFacturaDAO>) listaDetalleFacturaDAOMOdel).removeAll(registrosSeleccionados);
@@ -853,7 +856,7 @@ public class NotaCreditoDebitoVm {
                     System.out.println("valor total" + valorTotal);
 
                     // valorTotalConIva = valorTotalConIva.add(item.getDetTotalconivadescuento());
-                    valorDescuento = valorDescuento.add(item.getDetCantpordescuento());
+                    valorDescuento = valorDescuento.add(item.getDetValdescuento().multiply(item.getCantidad()));
                     System.out.println("valorDescuento" + valorDescuento);
                     valorTotalInicial = valorTotalInicial.add(item.getTotalInicial().multiply(item.getCantidad()));
                     System.out.println("valorTotalInicial" + valorTotalInicial);
