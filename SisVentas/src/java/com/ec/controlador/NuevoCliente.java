@@ -81,7 +81,7 @@ public class NuevoCliente {
         
         
         
-       String token=ArchivoUtils.token("");
+//       String token=ArchivoUtils.token("");
         InfoPersona aduana = new InfoPersona();
         String nombre = "";
         if (cliente.getCliCedula() != null) {

@@ -8,6 +8,8 @@ import com.ec.entidad.Cliente;
 import com.ec.entidad.Guiaremision;
 import com.ec.entidad.NotaCreditoDebito;
 import com.ec.entidad.Tipoambiente;
+import com.ec.seguridad.EnumSesion;
+import com.ec.seguridad.UserCredential;
 import com.ec.servicio.HelperPersistencia;
 import com.ec.servicio.ServicioCliente;
 import com.ec.servicio.ServicioGuia;
@@ -48,6 +50,9 @@ import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.image.AImage;
 import org.zkoss.util.media.AMedia;
 import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.Session;
+import org.zkoss.zk.ui.Sessions;
+import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Messagebox;
 
 /**
@@ -73,13 +78,21 @@ public class ListaNC {
     private Tipoambiente amb = new Tipoambiente();
     private Date fechainicio = new Date();
     private Date fechafin = new Date();
+    private String amRuc = "";
+    UserCredential credential = new UserCredential();
 
     public ListaNC() {
-        consultarFactura();
+
+        Session sess = Sessions.getCurrent();
+        credential = (UserCredential) sess.getAttribute(EnumSesion.userCredential.getNombre());
+//        amRuc = credential.getUsuarioSistema().getUsuRuc();
         amb = servicioTipoAmbiente.FindALlTipoambiente();
+
         //OBTIENE LAS RUTAS DE ACCESO A LOS DIRECTORIOS DE LA TABLA TIPOAMBIENTE
         PATH_BASE = amb.getAmDirBaseArchivos() + File.separator
                 + amb.getAmDirXml();
+
+        consultarFactura();
     }
 
     private void consultarFactura() {
@@ -146,6 +159,7 @@ public class ListaNC {
 
             //  parametros.put("codUsuario", String.valueOf(credentialLog.getAdUsuario().getCodigoUsuario()));
             parametros.put("numfactura", numeroFactura);
+            parametros.put("codTipoAmbiente", amb.getCodTipoambiente());
 
             if (con != null) {
                 System.out.println("Conexión Realizada Correctamenteeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
@@ -173,16 +187,6 @@ public class ListaNC {
                 emf.getTransaction().commit();
             }
 
-        }
-
-    }
-    
-    @Command
-    @NotifyChange({"lstCreditoDebitos", "buscarCliente"})
-    public void eliminarNC(@BindingParam("valor") NotaCreditoDebito valor) {
-        if (Messagebox.show("Esta seguro de eliminar la noto de credito?", "Question", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION) == Messagebox.OK) {
-            servicioNotaCredito.eliminar(valor);
-            consultarFacturaFecha();
         }
 
     }
@@ -373,7 +377,7 @@ public class ListaNC {
         RespuestaSolicitud resSolicitud = autorizarDocumentos.validar(datos);
         if (resSolicitud != null && resSolicitud.getComprobantes() != null) {
             // Autorizacion autorizacion = null;
-//Se encontró el siguiente error en la estructura del comprobante: cvc-complex-type.2.4.a: Invalid content was found starting with element 'tarifa'. One of '{valor}' is expected..
+
             if (resSolicitud.getEstado().equals("RECIBIDA")) {
 //                try {
 //                    Thread.sleep(1000);
@@ -393,12 +397,12 @@ public class ListaNC {
                         if (!autorizacion.getEstado().equals("AUTORIZADO")) {
 
                             String texto = autorizacion.getMensajes().getMensaje().get(0).getMensaje();
-                            String smsInfo = autorizacion.getMensajes().getMensaje().get(0).getInformacionAdicional();
+                            String smsInfo = autorizacion.getMensajes().getMensaje().size() > 0 ? autorizacion.getMensajes().getMensaje().get(0).getInformacionAdicional() : "";
                             nuevo.write(autorizacion.getMensajes().getMensaje().get(0).getMensaje().getBytes());
                             if (autorizacion.getMensajes().getMensaje().get(0).getInformacionAdicional() != null) {
                                 nuevo.write(autorizacion.getMensajes().getMensaje().get(0).getInformacionAdicional().getBytes());
                             }
-
+                            valor.setMensajeInf(smsInfo != null ? smsInfo : "");
                             valor.setMensajesri(texto);
                             valor.setEstadosri(autorizacion.getEstado());
 
@@ -420,7 +424,9 @@ public class ListaNC {
                             fEnvio = new File(archivoEnvioCliente);
 
                             System.out.println("PATH DEL ARCHIVO PARA ENVIAR AL CLIENTE " + archivoEnvioCliente);
-                            ArchivoUtils.reporteGeneralPdfMail(archivoEnvioCliente.replace(".xml", ".pdf"), valor.getFacNumero(), "FACT");
+                            ArchivoUtils.reporteGeneralPdfMail(archivoEnvioCliente.replace(".xml", ".pdf"), valor.getFacNumero(), "NCRE");
+//                            parametros.put("numfactura", valor.getFacNumero());
+//                            parametros.put("tipoambiente", amb.getCodTipoambiente());
 //                            ArchivoUtils.zipFile(fEnvio, archivoEnvioCliente);
                             /*GUARDA EL PATH PDF CREADO*/
 
@@ -461,7 +467,8 @@ public class ListaNC {
                 servicioNotaCredito.modificar(valor);
             }
         } else {
-
+            String smsInfo = resSolicitud.getComprobantes().getComprobante().get(0).getMensajes().getMensaje().get(0).getInformacionAdicional();
+            valor.setMensajeInf(smsInfo);
             valor.setMensajesri(resSolicitud.getEstado());
             servicioNotaCredito.modificar(valor);
         }
@@ -577,12 +584,12 @@ public class ListaNC {
                 if (!autorizacion.getEstado().equals("AUTORIZADO")) {
 
                     String texto = autorizacion.getMensajes().getMensaje().get(0).getMensaje();
-                    String smsInfo = autorizacion.getMensajes().getMensaje().get(0).getInformacionAdicional();
+                    String smsInfo = autorizacion.getMensajes().getMensaje().size() > 0 ? autorizacion.getMensajes().getMensaje().get(0).getInformacionAdicional() : "";
                     nuevo.write(autorizacion.getMensajes().getMensaje().get(0).getMensaje().getBytes());
                     if (autorizacion.getMensajes().getMensaje().get(0).getInformacionAdicional() != null) {
                         nuevo.write(autorizacion.getMensajes().getMensaje().get(0).getInformacionAdicional().getBytes());
                     }
-
+                    valor.setMensajeInf(smsInfo);
                     valor.setMensajesri(texto);
                     valor.setMensajeInf(smsInfo);
                     nuevo.flush();
@@ -603,7 +610,7 @@ public class ListaNC {
                 }
 
                 System.out.println("PATH DEL ARCHIVO PARA ENVIAR AL CLIENTE " + archivoEnvioCliente);
-                ArchivoUtils.reporteGeneralPdfMail(archivoEnvioCliente.replace(".xml", ".pdf"), valor.getFacNumero(), "FACT");
+                ArchivoUtils.reporteGeneralPdfMail(archivoEnvioCliente.replace(".xml", ".pdf"), valor.getFacNumero(), "NCRE");
 //                ArchivoUtils.zipFile(fEnvio, archivoEnvioCliente);
                 /*GUARDA EL PATH PDF CREADO*/
 
@@ -683,6 +690,7 @@ public class ListaNC {
 
             //  parametros.put("codUsuario", String.valueOf(credentialLog.getAdUsuario().getCodigoUsuario()));
             parametros.put("numfactura", valor.getFacNumero());
+            parametros.put("tipoambiente", amb.getCodTipoambiente());
 
             if (con != null) {
                 System.out.println("Conexión Realizada Correctamenteeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
@@ -712,4 +720,35 @@ public class ListaNC {
         }
 
     }
+
+    @Command
+    public void cambiarEstadoFact(@BindingParam("valor") NotaCreditoDebito valor) throws JRException, IOException, NamingException, SQLException {
+        try {
+            final HashMap<String, NotaCreditoDebito> map = new HashMap<String, NotaCreditoDebito>();
+
+            map.put("valor", valor);
+            org.zkoss.zul.Window window = (org.zkoss.zul.Window) Executions.createComponents(
+                    "/modificar/estadonc.zul", null, map);
+            window.doModal();
+        } catch (Exception e) {
+            Messagebox.show("Error " + e.toString(), "Atención", Messagebox.OK, Messagebox.INFORMATION);
+        }
+    }
+
+    @Command
+    @NotifyChange({"lstCreditoDebitos", "fechafin", "fechainicio"})
+    public void eliminarNC(@BindingParam("valor") NotaCreditoDebito valor) throws JRException, IOException, NamingException, SQLException {
+        try {
+            if (Messagebox.show("Desea eliminar la nota de credito" + "\n Desea continuar?", "Question", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION) == Messagebox.OK) {
+                servicioNotaCredito.eliminar(valor);
+                consultarFacturaFecha();
+            } else {
+                Clients.showNotification("Solicitud cancelada",
+                        Clients.NOTIFICATION_TYPE_INFO, null, "middle_center", 1000, true);
+            }
+        } catch (Exception e) {
+            Messagebox.show("Error " + e.toString(), "Atención", Messagebox.OK, Messagebox.INFORMATION);
+        }
+    }
+
 }

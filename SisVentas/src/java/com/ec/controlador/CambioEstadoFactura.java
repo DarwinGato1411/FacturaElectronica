@@ -80,7 +80,7 @@ public class CambioEstadoFactura {
             /* INGRESAMOS LO MOVIMIENTOS AL KARDEX */
             Kardex kardex = null;
             DetalleKardex detalleKardex = null;
-            Tipokardex tipokardex = servicioTipoKardex.findByTipkSigla("SAL");
+            Tipokardex tipokardex = servicioTipoKardex.findByTipkSigla("ING");
             for (DetalleFactura item : listaDet) {
                 if (item.getIdProducto() != null) {
                     if (!item.getIdProducto().getProdEsreceta()) {

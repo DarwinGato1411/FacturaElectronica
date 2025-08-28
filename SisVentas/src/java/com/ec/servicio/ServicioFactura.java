@@ -101,6 +101,7 @@ public class ServicioFactura {
             em.getTransaction().commit();
         } catch (Exception e) {
             System.out.println("Error en insertar factura GUARDAR CON DETALLE " + e.getMessage());
+            e.printStackTrace();
         } finally {
             em.close();
         }

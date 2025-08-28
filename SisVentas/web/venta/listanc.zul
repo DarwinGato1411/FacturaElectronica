@@ -140,7 +140,7 @@
                                     <listcell zclass = "mycss-listcell">
                                         <datebox compact="true" value="@bind(each.facFechaAutorizacion)" 
                                                  buttonVisible="false" lenient="true" 
-                                                 tooltiptext="@bind(each.mensajesri)"
+                                                 tooltiptext="@bind(each.mensajeInf)"
                                                  readonly="true"
                                                  width="100%"
                                                  format="medium"   />

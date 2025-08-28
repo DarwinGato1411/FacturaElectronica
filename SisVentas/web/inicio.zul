@@ -7,74 +7,50 @@
 
 <zk >
 
-   <div class="login_container"  id="loginWin" apply="com.ec.controlador.LoginController">
-        <div class="wrapper_login">
-            <div class="container_img">
-                <image src="./imagenes/logodeckxel.png" class="logo"/>
-                <div class="wrapper_title">
-                    <span class="title">Sistema de Facturación Electrónica</span>
-                   <span class="title">Ajustes IVA-2024</span>
-                    <div class="desc">
-                        Estimado usuario envenido a nuestro sistema.
-                    </div>
-                    <div class="desc">
-                       Obten tu firma electronica con nosotros.
-                    </div>
-                    <div class="desc">
-                       Asesoramiento directo.
-                    </div>
-                    <div class="desc">DECKXEL</div>
-                   <div class="desc">099 742 8125   </div>
-                   <div class="desc">www.deckxel.com   </div>
-                    <!--<button class="btn btn_reg" id="btnRegistra" >Registro</button> -->
+   <div class="login_container" id="loginWin" apply="com.ec.controlador.LoginController">
+    <div class="wrapper_login">
+        <!-- Parte izquierda -->
+        <div class="container_img">
+            <image src="./imagenes/logodeckxel.png" class="logo"/>
+            <div class="wrapper_title">
+                <span class="title">Sistema de Facturación Electrónica</span>
+                <span class="title">Actualizaciones:</span>
+                <!--<span class="title"></span>-->
+                <div class="desc">* IVA-2024</div>
+                <div class="desc">* Envío automático 2025</div>
+                <div class="desc">Estimado usuario, bienvenido a nuestro sistema.</div>
+                <div class="desc">Obten tu firma electrónica con nosotros.</div>
+                <div class="desc">Asesoramiento directo.</div>
+                <div class="desc">DECKXEL</div>
+                <div class="desc">099 353 0018</div>
+                <div class="desc">www.deckxel.com</div>
+            </div>
+        </div>
+
+        <!-- Parte derecha - Formulario -->
+        <div class="container_signin">
+            <image src="./imagenes/logodeckxel.png" class="logo"/>
+            <span class="title">Iniciar Sesión</span>
+            <span class="subtitle">Bienvenido, tu mejor opción en facturación electrónica</span>
+
+            <div class="wrapper_all_inputs">
+                <div class="wrapper_input">
+                    <span class="fas fa-user icon"></span>
+                    <textbox type="text" placeholder="Usuario" class="input" id="account" onCreate="self.focus()"/>
+                </div>
+                <div class="wrapper_input">
+                    <span class="fas fa-lock icon"></span>
+                    <textbox type="password" placeholder="Contraseña" class="input input_password" id="password"/>
+                    <span class="fa-solid fa-eye icon_eye icon"></span>
                 </div>
             </div>
-            <div class="container_signin">
-                <image src="./imagenes/pichincha/logo2.png" class="logo"/>
-                <span class="title" >Iniciar Sesión</span>
-                <span class="subtitle">Bienvenido su mejor opción en facturación electrónica</span> 
-                <div class="wrapper_all_inputs">
-                    <div class="wrapper_input">
-                        <span class="fas fa-user icon"></span>
-                        <textbox 
-                            type="text" 
-                            placeholder="Usuario" 
-                            class="input"
-                            id="account"
-                            onCreate="self.focus()"
-                        />
-                    </div>
-                    <div class="wrapper_input">
-                        <span class="fas fa-lock icon"></span>
-                        <textbox 
-                            type="password" 
-                            placeholder="Contraseña" 
-                             id="password"
-                            class="input input_password"
-                        />
-                        <span class="fa-solid fa-eye icon_eye icon"></span>
-                    </div>
-                </div>
 
-                <!--<span class="forgot_text" id="linkOlvideContrasena">Olvide mi contraseña</span>-->
-                
-                <div class="wrapper_buttons">
-                    <button 
-                        class="btn btn_sign" 
-                        id="buttonEntrar"
-                    >Iniciar Sesión
-                    </button>
-<!--                    <button 
-                        class="btn btn_sign_reg"
-                        id="btnRegistra"
-                    >Registro
-                    </button>-->
-                </div>
-                
-                
+            <div class="wrapper_buttons">
+                <button class="btn btn_sign" id="buttonEntrar">Iniciar Sesión</button>
             </div>
         </div>
     </div>
+</div>
 
     <div class="wrapper_loading loading_inicio">
         <div class="lds-ring"><div></div><div></div><div></div><div></div></div>

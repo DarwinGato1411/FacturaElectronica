@@ -439,7 +439,7 @@ fac_tipo='PROF' and  factura.fac_num_proforma=$P{numfactura};]]>
 				</textElement>
 				<text><![CDATA[R.U.C/C.I]]></text>
 			</staticText>
-			<image>
+			<image onErrorType="Blank">
 				<reportElement x="15" y="6" width="165" height="66"/>
 				<imageExpression class="java.lang.String"><![CDATA[$F{am_dir_img_punto_venta}]]></imageExpression>
 			</image>

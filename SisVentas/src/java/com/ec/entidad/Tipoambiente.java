@@ -174,6 +174,10 @@ public class Tipoambiente implements Serializable {
     
  @Column(name = "am_codigo_artesano")
     private String amCodigoArtesano;
+ 
+ 
+    @Column(name = "am_envio_sri_automatico")
+    private Boolean amEnvioSriAutomatico;
 
     public Tipoambiente() {
     }
@@ -599,4 +603,14 @@ public class Tipoambiente implements Serializable {
     public void setAmRimpePopular(Boolean amRimpePopular) {
         this.amRimpePopular = amRimpePopular;
     }
+
+    public Boolean getAmEnvioSriAutomatico() {
+        return amEnvioSriAutomatico;
+    }
+
+    public void setAmEnvioSriAutomatico(Boolean amEnvioSriAutomatico) {
+        this.amEnvioSriAutomatico = amEnvioSriAutomatico;
+    }
+    
+    
 }

@@ -136,9 +136,31 @@ body {
 
     width: 90%;
 }
+.input_num_docum {
+    color:#4a66cc !important;
+    font-size:18px !important; 
+    font-weight: bold !important;
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+    margin-top: 0px;
+    margin-bottom: 0px;
+
+    width: 90%;
+}
 .input_cambio {
     color:#d9534f !important;
     font-size:18px !important; 
+    font-weight: bold !important;
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    background-color: #e1e1e1;
+    width: 90%;
+}
+.input_cobro_doc {
+    color: #4a66cc !important;
+    font-size: 12px !important;
     font-weight: bold !important;
     padding-top: 0px !important;
     padding-bottom: 0px !important;
@@ -299,9 +321,7 @@ body {
 .factura_body_content > .factura_body_item {
     overflow: auto;
 }
- .factura_body_content > .factura_body_lf {
-        overflow: auto;
-    }
+
 .cell-description-header,
 .cell-description-body {
     width: 350px !important;
@@ -650,76 +670,20 @@ div.z-listheader-cnt {
 
 @media screen and (max-width: 767px) {
     /* Estilos solo para móviles */
-.factura_header {
-    display: flex
-;
-    flex-direction: column;
-    gap: 1em;
-    margin-bottom: 1em;
-    width: 128%;
-}
-
-.factura_headerlf {
-    display: flex
-;
-    flex-direction: column;
-    gap: 1em;
-    margin-bottom: 1em;
-    width: 100%;
-}
-
-.factura_header > .fact_row {
-    position: relative;
-    background-color: #eee;
-    padding: 1em;
-    border-radius: 10px;
-    display: flex
-;
-    flex-direction: column;
-    width: 63%;
-    gap: 1em;
-}
-    .factura_header > .fact_row > .wrapper_data1 {
-        width: 100%;
-    }
-    .factura_header > .fact_row > .wrapper_data {
+    
+    
+    
+        .factura_header > .fact_row > .wrapper_data1 {
         width: 80%;
     }
-
-    .inputGroupImg {
-        width: 10px;
-    }
-
-    .factura_body_content > .factura_body_item {
-        width: 80%;
-    }
-
-
-
-    .factura_body_content > .factura_body_item_lefth {
+      .factura_header > .fact_row > .wrapper_data {
         width: 80%;
     }
     
-     .factura_body_content > .factura_body_lf {
-        width: 55%;
-    }
-    .encabezado1 ,.tabla1{
-        display: grid !important;
-        grid-template-columns: 25% 50% 0% 0% 0% 15% 10% !important;
-    }
-
-    .encabezado2 ,.tabla2{
-        display: grid !important;
-        grid-template-columns:30px 0% 0% 10% 0% 40% 15% 15% 15% !important;
-    }
-
-    .encabezadolf ,.tablalf{
-        display: grid !important;
-          grid-template-columns:40px 50px 0% 80px 30px 0% 0% 30px 0% 0% 0% 0% 0% 40px 0% 0% 40px 40px 0% 0%  !important
+     .inputGroupImg {
+        width: 10px;
     }
 }
-
-
 
 @media only screen and (min-width: 1070px) {
     .factura_header {
@@ -781,7 +745,15 @@ div.z-listheader-cnt {
     .logo_defact {
         width: 220px;
     }
+
+
+
+
+
+
 }
+
+
 
 .z-menu-inner-m .z-menu-btn, .z-menuitem-inner-m .z-menuitem-btn {
     color: black;
@@ -795,12 +767,6 @@ div.z-listheader-cnt {
     display: grid !important;
     grid-template-columns: 20% 40% 5% 10% 10% 10% 5%;
 }
-
-.encabezadolf ,.tablalf{
-    display: grid !important;
-    grid-template-columns: 40px 8% 10% 7% 8% 5% 4% 8% 8% 10% 3% 3% 3% 3% 3% 3% 3% 3% 3% 3%
-}
-
 
 .encabezado2 ,.tabla2{
     display: grid !important;
@@ -899,6 +865,97 @@ div.z-listheader-cnt {
     .containerFactura{
         display: block ;
     }
+
+
+
+    .factura_header {
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
+        margin-bottom: 1em;
+        width: 100%;
+    }
+
+    .factura_header > .fact_row {
+        position: relative;
+        background-color: #eee;
+        padding: 1em;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        gap: 1em;
+    }
+
+    .paint_all_row {
+        width: 100% !important;
+        background-color: #eee;
+        border-radius: 10px;
+    }
+
+    .factura_header > .fact_row:first-child:after {
+        content: "";
+        width: 99%;
+        height: 1px;
+        background-color: #ccc;
+        position: absolute;
+        bottom: -10px;
+        right: 0;
+        left: 0;
+        margin: 0 auto;
+    }
+
+    .factura_header > .fact_row > .wrapper_data {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5em;
+    }
+
+
+
+    .fact_row > .wrapper_data > .wrapper_input {
+        display: flex;
+        align-items: center;
+        gap: 1em;
+        position: relative;
+    }
+
+    .fact_row > .wrapper_data > .wrapper_input > .icon {
+        position: absolute;
+        right: 10px;
+        cursor: pointer;
+        color: gray;
+        font-size: 14px;
+    }
+
+    .fact_row > .wrapper_data > .wrapper_input > .textoFechaDateBox input * {
+        width: unset !important;
+    }
+
+    .wrapper_input > span {
+        display: block;
+        width: 130px !important;
+        font-size: 12px;
+        font-weight: bold;
+        color: #666;
+    }
+
+    .fact_row > .wrapper_data > .wrapper_input > .input_without_label {
+        width: 100% !important;
+    }
+
+    .fact_row > .wrapper_data > .wrapper_input > input,
+    .fact_row > .wrapper_data > .wrapper_input > .input_date > input,
+    .fact_row > .wrapper_data > .wrapper_input > .input_select > input {
+        width: 50%;
+        padding: 5px 10px;
+        border: solid 1px #ccc;
+        border-radius: 6px;
+        outline: none;
+        font-size: 12px;
+        color: #333;
+    }
 }
 
 .fact_row1{
@@ -968,3 +1025,4 @@ div.z-listheader-cnt {
     display: block;
     height: 100px;
 }
+

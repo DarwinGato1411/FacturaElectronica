@@ -41,8 +41,8 @@ public class MenuOpciones extends SelectorComposer<Component> {
 //    Button btnIngresoCompras;
     @Wire("#btnFacturar")
     Menuitem btnFacturar;
-    @Wire("#menuVentas")
-    Menu menuVentas;
+//    @Wire("#menuVentas")
+//    Menu menuVentas;
     @Wire("#menuCompras")
     Menu menuCompras;
     @Wire("#menuKardex")
@@ -67,14 +67,14 @@ public class MenuOpciones extends SelectorComposer<Component> {
 
             if (credential.getUsuarioSistema().getUsuNivel() == 1) {
                 btnFacturar.setVisible(Boolean.TRUE);
-                menuVentas.setVisible(Boolean.TRUE);
+//                menuVentas.setVisible(Boolean.TRUE);
                 menuCompras.setVisible(Boolean.TRUE);
                 menuKardex.setVisible(Boolean.TRUE);
                 menuReportes.setVisible(Boolean.TRUE);
                 btnAdministarVenta.setVisible(Boolean.TRUE);
             } else {
                 btnFacturar.setVisible(Boolean.TRUE);
-                menuVentas.setVisible(Boolean.FALSE);
+//                menuVentas.setVisible(Boolean.FALSE);
                 menuCompras.setVisible(Boolean.FALSE);
                 menuKardex.setVisible(Boolean.FALSE);
                 menuReportes.setVisible(Boolean.FALSE);

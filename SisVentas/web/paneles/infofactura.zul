@@ -78,6 +78,14 @@
                           value="@bind(vm.factura.facClaveAutorizacion)"                           
                           class="form-control" />
             </div>
+            <div class="col-12 col-sm-6 col-md-12 col-lg-12  form-group "  >
+                <label value="(*) " style="color:transparent;font-weight:bold"/>Documento de cobro:
+                
+                <textbox  readonly="true"
+                           style="background:transparent;"
+                          value="@bind(vm.factura.facNumDocumento)"                           
+                          class="form-control" />
+            </div>
             
         </div>
    

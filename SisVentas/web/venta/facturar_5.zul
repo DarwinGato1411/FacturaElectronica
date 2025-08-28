@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?link rel="stylesheet" type="text/css" href="https://cdn.tailwindcss.com "?>
+<!--<?link rel="stylesheet" type="text/css" href="/css/style.css"?>-->
+<!--<?link rel="stylesheet" type="text/css" href="/css/app/ventas/facturar1.css"?>-->
+<!--<?link rel="stylesheet" type="text/css" href="/css/app/ventas/modales.css"?>-->
+<?script src="https://kit.fontawesome.com/484b16c999.js"?>
+<?script src="/js/icon.js"?>
+
+<?init class="com.ec.seguridad.Autentificador"?>
+<?init class="org.zkoss.zk.ui.util.Composition" arg0="/plantilla/plantilla.zul"?>
+<?link rel="icon" type="image/x-icon" href="/iconos/deckxel.ico"?>
+
+<zk>
+        <!--onCreate="@command('aperturaCaja')"-->
+    <hbox self="@define(content)" apply="org.zkoss.bind.BindComposer" 
+          onCreate="@command('aperturaCaja')"
+          viewModel="@id('vm') @init('com.ec.controlador.Facturar')" width="100%" class="containerFactura">
+    <listbox id="box" multiple="true" checkmark="true" style="width:100%">
+        <listhead>
+            <listheader label="Name" />
+            <listheader label="Gender" />
+            <listheader label="Age" />
+        </listhead>
+        <listitem class="flex flex-wrap md:flex-nowrap gap-4 p-2 border-b hover:bg-gray-100">
+            <listcell class="w-full md:w-1/3 font-medium" label="Mary" />
+            <listcell class="w-full md:w-1/3 text-blue-600" label="FEMALE" />
+            <listcell class="w-full md:w-1/3 text-center" label="18" />
+        </listitem>
+        
+       
+   
+        <!-- Más listitems -->
+    </listbox>
+       </hbox>
+</zk>
+

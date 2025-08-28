@@ -4,6 +4,7 @@
 <?link rel="stylesheet" type="text/css" href="/css/app/ventas/facturar.css"?>
 <?link rel="stylesheet" type="text/css" href="/css/app/ventas/modales.css"?>
 <?script src="https://kit.fontawesome.com/484b16c999.js"?>
+<?script src="/js/icon.js"?>
 
 <?init class="com.ec.seguridad.Autentificador"?>
 <?init class="org.zkoss.zk.ui.util.Composition" arg0="/plantilla/plantilla.zul"?>
@@ -45,9 +46,8 @@
                     <div 
                         class="fa-solid fa-file-excel fa-2x icon"
                         onClick="@command('exportListboxToExcel')"
-                        tooltiptext="Descargar productos"
-                    >
-                <span>Exportar</span>
+                        tooltiptext="Descargar productos" >
+                        <span>Exportar</span>
                     </div>
                 </div>
 

@@ -386,7 +386,7 @@ public class AutorizarDocumentos {
                     //                    + (valor.getIdCliente().getCliMovil().length() > 0 ? "<campoAdicional nombre=\"CELULAR\">" + valor.getIdCliente().getCliMovil() + " </campoAdicional>\n" : " ")
                     + "<campoAdicional nombre=\"PLAZO\"> DIAS</campoAdicional>\n"
                     + (valor.getFacPlazo().toString().length() > 0 ? "<campoAdicional nombre=\"DIAS\">" + valor.getFacPlazo().setScale(0) + "</campoAdicional>\n" : " ")
-                    + (valor.getFacPorcentajeIva().length() > 0 ? "<campoAdicional nombre=\"TARIFAIMP\">" + valor.getFacPorcentajeIva() + "</campoAdicional>\n" : " ")
+//                    + (valor.getFacPorcentajeIva().length() > 0 ? "<campoAdicional nombre=\"TARIFAIMP\">" + valor.getFacPorcentajeIva() + "</campoAdicional>\n" : " ")
                     //                        + (!amb.getAmGeneral() ? ((amb.getAmRimpe() ? "<campoAdicional nombre=\"CONTRIBUYENTE REGIMEN RIMPE\">CONTRIBUYENTE REGIMEN RIMPE</campoAdicional>\n" : "<campoAdicional nombre=\"CONTRIBUYENTE REGIMEN RIMPE\">CONTRIBUYENTE NEGOCIO POPULAR REGIMEN RIMPE </campoAdicional>\n")) : "")
                     + (amb.getAmGeneral() ? "<campoAdicional nombre=\"CONTRIBUYENTE REGIMEN GENERAL\">CONTRIBUYENTE REGIMEN GENERAL</campoAdicional>\n" : "")
                     + (amb.getAmCodigoArtesano() != null ? (!amb.getAmCodigoArtesano().equals("") ? "<campoAdicional nombre=\"CODIGO ARTESANO\">" + amb.getAmCodigoArtesano() + "</campoAdicional>\n" : "") : "")
@@ -503,7 +503,7 @@ public class AutorizarDocumentos {
                     //+ "        <contribuyenteEspecial>5368</contribuyenteEspecial>\n"
                     + "        <obligadoContabilidad>" + amb.getLlevarContabilidad() + "</obligadoContabilidad>\n"
                     + "        <codDocModificado>" + valor.getTipodocumentomod() + "</codDocModificado>\n"
-                    + "        <numDocModificado>" + valor.getCodestablecimiento() + "-" + valor.getPuntoemision() + "-" + valor.getIdFactura().getFacNumeroText() + "</numDocModificado>\n"
+                    + "        <numDocModificado>" + valor.getIdFactura().getCodestablecimiento()+ "-" + valor.getIdFactura().getPuntoemision() + "-" + valor.getIdFactura().getFacNumeroText() + "</numDocModificado>\n"
                     + "        <fechaEmisionDocSustento>" + formato.format(valor.getFacFechaSustento()) + "</fechaEmisionDocSustento>\n"
                     + "        <totalSinImpuestos>" + valor.getFacSubtotal().setScale(2, RoundingMode.FLOOR) + "</totalSinImpuestos>\n"
                     + "        <valorModificacion>" + valor.getFacTotal().setScale(2, RoundingMode.FLOOR) + "</valorModificacion>\n"
@@ -549,7 +549,7 @@ public class AutorizarDocumentos {
 
                     linea = ("        <detalle>\n"
                             + "            <codigoInterno>" + removeCaracteres(item.getIdProducto().getProdCodigo()) + "</codigoInterno>\n"
-                            + "            <descripcion>" + removeCaracteres(item.getIdProducto().getProdNombre()) + "</descripcion>\n"
+                            + "            <descripcion>" + removeCaracteres(item.getDetDescripcion()) + "</descripcion>\n"
                             + "            <cantidad>" + item.getDetCantidad().setScale(2, RoundingMode.FLOOR) + "</cantidad>\n"
                             + "            <precioUnitario>" + item.getDetSubtotal() + "</precioUnitario>\n"
                             + "            <descuento>" + item.getDetCantpordescuento().setScale(2, RoundingMode.FLOOR) + "</descuento>\n"

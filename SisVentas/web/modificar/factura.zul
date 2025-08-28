@@ -11,7 +11,7 @@
         
     </style>
               
-       <hbox self="@define(content)" apply="org.zkoss.bind.BindComposer" 
+        <hbox self="@define(content)" apply="org.zkoss.bind.BindComposer" 
           onCreate="@command('aperturaCaja')"
           viewModel="@id('vm') @init('com.ec.controlador.Facturar')" width="100%" class="containerFactura">
     
@@ -23,7 +23,7 @@
 
             <tabpanels >
                 
-                <tabpanel  height="100%" width="98%" class="factura asdasdsad" >
+                <tabpanel  height="100%" width="98%" class="factura" >
                     
                     <div class="container-fluid " >
 
@@ -176,8 +176,7 @@
                                 <div class="wrapper_data">
                                     <div class="wrapper_input">
                                         <span>Sindesc:</span>
-                                        <decimalbox  
-                                            format="###.##"   
+                                        <textbox
                                             value="@bind(vm.valorTotalInicialVent)"                                             
                                             readonly="true" 
                                             class="input"
@@ -188,8 +187,7 @@
                                 
                                     <div class="wrapper_input">
                                         <span>Base 5%:</span>
-                                        <decimalbox  
-                                            format="###.##"   
+                                        <textbox  
                                             value="@bind(vm.subTotalCotizacion5)" 
                                             readonly="true"
                                             onChange="self.setValue(self.getValue().toUpperCase().trim());" 
@@ -229,8 +227,7 @@
                                     </div>-->
                                     <div class="wrapper_input">
                                         <span>Base 15%:</span>
-                                        <decimalbox  
-                                            format="###.##"   
+                                        <textbox  
                                             value="@bind(vm.subTotalCotizacion15)" 
                                             readonly="true"
                                             onChange="self.setValue(self.getValue().toUpperCase().trim());" 
@@ -238,20 +235,30 @@
                                         />
                                     </div>
                                     <div class="wrapper_input" >
-                                        <!--<span>Fotografia</span>-->
-                                        <div class="inputGroupImg"  align="end" >
-                                            <image content="@bind(vm.fotoGeneral)" 
-                                                   width="100%" height="100px" style="display:block;" />
-                                              
-                                        </div>
+                                        <span></span>
+                                        <textbox  
+                                            value="" 
+                                            style="background-color:transparent;border-color:transparent"
+                                            onChange="self.setValue(self.getValue().toUpperCase().trim());" 
+                                            class="input" 
+                                        />
                                     
+                                    </div>
+                                    <div class="wrapper_input">
+                                        <button src="/iconos/fact.png"   
+                                                autodisable="self"
+                                                label="Nota entrega"
+                                                width="100%"
+                                                                                                   
+                                                class="btn btn btn-secondary btn-sm "
+                                                onClick="@command('verNotasEntrega')"
+                                                tooltiptext="Cargar notas de entrega"/>
                                     </div>
                                 </div>
                                 <div class="wrapper_data">
                                     <div class="wrapper_input">
                                         <span>Descuento:</span>
-                                        <decimalbox  
-                                            format="###.##"  
+                                        <textbox 
                                             value="@bind(vm.descuentoValorFinal)"
                                             readonly="true" 
                                             onChange="self.setValue(self.getValue().toUpperCase().trim());" 
@@ -261,8 +268,7 @@
                                 
                                     <div class="wrapper_input">
                                         <span>IVA 5%:</span>
-                                        <decimalbox  
-                                            format="###.##"  
+                                        <textbox  
                                             value="@bind(vm.ivaCotizacion5)"
                                             readonly="true" 
                                             class="input" 
@@ -297,8 +303,7 @@
                                     </div>-->
                                     <div class="wrapper_input">
                                         <span>IVA 15%:</span>
-                                        <decimalbox  
-                                            format="###.##"  
+                                        <textbox  
                                             value="@bind(vm.ivaCotizacion15)"
                                             readonly="true" 
                                             class="input" 
@@ -307,13 +312,24 @@
                                 
                                     <div class="wrapper_input">
                                         <span>Base 0%:</span>
-                                        <decimalbox  
-                                            format="###.##"   
+                                        <textbox  
+                                             
                                             value="@bind(vm.subTotalBaseCero)" 
                                             readonly="true"
                                             onChange="self.setValue(self.getValue().toUpperCase().trim());" 
                                             class="input" 
                                         />
+                                    </div>
+                                    <div class="wrapper_input">
+                                       <button 
+                                            autodisable="self"   
+                                            class="fa-solid fa-floppy-disk btn_fact btn_primary"                  
+                                            onClick="@command('Guardar',valor='SG',envia='S')"
+                                            tooltiptext="Guardar y Envia al SRI"
+                                            label="Facturar y Enviar al SRI"
+                                            width="100%"
+                                        />
+
                                     </div>
                                 </div>
                                 <div class="wrapper_data">
@@ -324,8 +340,8 @@
                                         <!--</span>-->
                                         <!--<div class="wrapper_input_text" style="width:100%">-->
                                         <!--<div class="fa-solid fa-dollar-sign icon"></div>-->
-                                        <decimalbox  
-                                            format="###.##"   
+                                        <textbox  
+                                            
                                             value="@bind(vm.valorTotalCotizacion)"                                                 
                                             readonly="true"
                                             class="input_total"
@@ -346,34 +362,39 @@
                                     <div class="wrapper_input">
                                         
                                         <label  style="background-color:transparent" class="input_cambio" value="Cambio:"> </label> 
-                                        <decimalbox  
-                                            format="###.##"   
+                                        <textbox  
                                             readonly="true" 
                                             class="input_cambio"
                                             value="@bind(vm.cambio)" 
                                         />
                                     </div>
                                     <div class="wrapper_input">
-                                        <button src="/iconos/fact.png"   
-                                                autodisable="self"
-                                                label="Nota entrega"
-                                                width="100%"
-                                                                                                   
-                                                class="btn btn btn-secondary btn-sm "
-                                                onClick="@command('verNotasEntrega')"
-                                                tooltiptext="Cargar notas de entrega"/>
+                                        <label  style="background-color:transparent" class="input_cobro_doc" value="Nº Cobro:"> </label> 
+                                        <textbox  
+                                            maxlength="100" 
+                                            width="100%"
+                                            tooltiptext="Registrar el numero de cobro de transferencia, deposito, cheque, etc..."
+                                            value="@bind(vm.factura.facNumDocumento)"
+                                            class="input_num_docum" 
+                                        />
+                                       
+
+                                    </div>
+                                    <div class="wrapper_input">
+                                       
                                         <!--                                    </div>
                                         <div class="wrapper_input">-->
                                         <button 
                                             autodisable="self"   
                                             class="fa-solid fa-floppy-disk btn_fact btn_primary"                  
-                                            onClick="@command('Guardar',valor='SG')"
+                                            onClick="@command('Guardar',valor='SG',envia='N')"
                                             tooltiptext="Guardar"
                                             label="Facturar"
                                             width="100%"
                                         />
 
                                     </div>
+                                    
                                 
                                     
                              
@@ -590,10 +611,10 @@
                                             </listcell>
                                     
                                             <listcell  zclass = "mycss-listcell" onDoubleClick="@command('verImagen',valor=each)">
-                                                <decimalbox readonly="true" format="###.###" 
-                                                            class="form-control form-control-sm"
-                                                            style="font-size:11px"
-                                                            value="@bind(each.totalInicial)"  width="99%" />
+                                                <textbox readonly="true" 
+                                                         class="form-control form-control-sm"
+                                                         style="font-size:11px"
+                                                         value="@bind(each.totalInicial)"  width="99%" />
                                             </listcell>
                                             <listcell zclass = "mycss-listcell">
                                                 <textbox    constraint="/^[0-9]{1,9}(?:[.][0-9]{1,5})?$/:Ingrese solo numeros"                                            
@@ -607,10 +628,10 @@
                                     
                                 
                                             <listcell zclass = "mycss-listcell">
-                                                <decimalbox readonly="true" format="###.###" 
-                                                            class="form-control form-control-sm"
-                                                            style="font-size:11px"
-                                                            value="@bind(each.detTotalconivadescuento)"  width="99%" />
+                                                <textbox readonly="true" 
+                                                         class="form-control form-control-sm"
+                                                         style="font-size:11px"
+                                                         value="@bind(each.detTotalconivadescuento)"  width="99%" />
                                             </listcell>
                                     
                                         </listitem>
@@ -623,9 +644,10 @@
                                         <textbox  
                                             maxlength="450" 
                                             multiline="true"
+                                            rows="3"
                                             width="100%"
                                             style="margin-bottom:15px; margin-left:1px"  
-                                            rows="3"
+                                            
                                             value="@bind(vm.factura.facObservacion)"
                                             class="input_text" 
                                         />
@@ -641,4 +663,5 @@
             </tabpanels>
         </tabbox>   
     </hbox>
+       
 </window>

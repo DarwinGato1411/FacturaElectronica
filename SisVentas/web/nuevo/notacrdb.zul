@@ -190,23 +190,24 @@
                                             
                                     
                                 <listhead>
-                                    <listheader width="7%"  label="" align="left" >
+                                    <listheader width="5%"  label="" align="left" >
                                         <button label="" src="/iconos/delete.png"  
                                                 onClick="@command('eliminarRegistros')"  
                                                 class="btn btn btn-secondary btn-sm "
                                                 tooltiptext="Eliminar registros seleccionados"/>
                                     </listheader>
-                                    <listheader width="10%"  label="COD" align="left" />
-                                    <listheader width="8%"  label="CANT" align="left"  /> 
-                                    <listheader width="7%"  label="DES(%)" align="left"  /> 
-                                    <listheader width="20%"  label="DESCRIPCIÓN" align="left" />
-                                    <listheader width="12%"  label="P.REAL" align="left" />                                         
-                                    <listheader width="12%"  label="DESC" align="left" />
-                                    <listheader width="12%"  label="P FINAL" align="left" />
+                                     <listheader label="COD"   width="10%"  align="left" />
+                                    <listheader label="CANT"  width="10%"  align="left"  /> 
+                                    <listheader label="DES(%)"  width="5%"  align="left"  /> 
+                                    <listheader label="DESCRIPCIÓN"  width="30%"  align="left" />
+                                    <listheader label="P INICIAL"  width="10%"  align="left" />                                         
+                                    <listheader label="P.REAL"  width="10%"  align="left" />                                         
+                                    <listheader label="DESC"  width="10%"  align="left" />
+                                    <listheader label="P FINAL"  width="10%"  align="left" />
                                     <!--                                        <listheader width="10%"  label="IVA" align="left" />
                                     <listheader width="10%"  label="DESC" align="left" />
                                     <listheader width="10%"  label="P UNIT" align="left" />-->
-                                    <listheader width="12%"  label="TOTAL" align="left" />
+                                    <listheader label="TOTAL" align="left" />
                                                                                                                         
                                 </listhead>
                 
@@ -234,7 +235,7 @@
                                                         format="###.##" value="@bind(each.detPordescuento)" width="95%"  />
                                         </listcell>
                                         <listcell>
-                                            <label  value="@bind(each.producto.prodNombre)" style="color:black" width="99%" />
+                                            <textbox  value="@bind(each.descripcion)" style="color:black" width="99%" />
                                         </listcell>
                                         <!--                                            <listcell>
                                             <decimalbox readonly="true" format="###.##"
@@ -247,10 +248,16 @@
                                                         class="form-control form-control-sm"
                                                         value="@bind(each.subTotalDescuento)"  width="99%" />
                                         </listcell>-->
-                                        <listcell>
-                                            <decimalbox readonly="true" format="###.##" 
-                                                        class="form-control form-control-sm"
-                                                        value="@bind(each.total)"  width="99%" />
+                                            <listcell  zclass = "mycss-listcell">
+                                            <decimalbox readonly="true" format="###.###" 
+                                                            class="form-control form-control-sm"
+                                                            value="@bind(each.totalInicial)"  width="100%" />
+                                        </listcell>
+                                      <listcell zclass = "mycss-listcell">
+                                            <textbox    constraint="/^[0-9]{1,9}(?:[.][0-9]{1,5})?$/:Ingrese solo numeros"                                            
+                                                            onOK="@command('calcularValores',valor=each)"
+                                                            class="form-control form-control-sm"                                                                                                                                                                                      
+                                                            value="@bind(each.total)"  width="100%" />
                                         </listcell>
                                         
                                         <listcell>

@@ -259,6 +259,8 @@ public class Factura implements Serializable {
     private BigDecimal facIva15;
     @Column(name = "fac_cambio")
     private BigDecimal facCambio;
+    @Column(name = "fac_num_documento")
+    private String facNumDocumento;
 
     public Factura() {
     }
@@ -895,6 +897,14 @@ public class Factura implements Serializable {
 
     public void setFacCambio(BigDecimal facCambio) {
         this.facCambio = facCambio;
+    }
+
+    public String getFacNumDocumento() {
+        return facNumDocumento;
+    }
+
+    public void setFacNumDocumento(String facNumDocumento) {
+        this.facNumDocumento = facNumDocumento;
     }
 
 }

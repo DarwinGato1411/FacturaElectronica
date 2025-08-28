@@ -1,0 +1,57 @@
+/* Estilos generales */
+.z-listbox {
+    width: 100%;
+}
+
+.z-listbox .z-listhead tr,
+.z-listbox .z-listitem tr {
+    display: flex;
+    flex-wrap: wrap; /* Permite saltar a otra línea si no hay espacio */
+}
+
+.z-listbox .z-listcell {
+    box-sizing: border-box;
+    flex: 1 1 30%; /* Tres columnas en desktop */
+    padding: 8px;
+    text-align: left;
+    min-width: 150px;
+}
+
+/* Solo en móviles */
+@media (max-width: 768px) {
+
+    .z-listbox .z-listhead tr,
+    .z-listbox .z-listitem tr {
+        flex-direction: column;
+    }
+
+    .z-listbox .z-listcell {
+        flex: 1 1 100%;
+        max-width: 100%;
+        padding: 6px 4px;
+        font-size: 14px;
+    }
+
+    .z-listbox .z-listcell:nth-child(odd) {
+        background-color: #f9f9f9;
+    }
+
+    .z-listbox .z-listcell:nth-child(even) {
+        background-color: #fff;
+    }
+}
+
+.mobile-card .z-listcell:nth-child(1)::before {
+    content: "Nombre: ";
+    font-weight: bold;
+}
+
+.mobile-card .z-listcell:nth-child(2)::before {
+    content: "Género: ";
+    font-weight: bold;
+}
+
+.mobile-card .z-listcell:nth-child(3)::before {
+    content: "Edad: ";
+    font-weight: bold;
+}

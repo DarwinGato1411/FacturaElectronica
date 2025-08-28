@@ -50,9 +50,15 @@
         <div 
             class="fa-solid fa-file-excel fa-2x icon"
             onClick="@command('cargarProducto')"
-            tooltiptext="Cargar productos"
-        >
+            tooltiptext="Cargar productos" >
             <span>Cargar producto</span>
+        </div>
+        
+            <div 
+            class="fa-solid fa-magnifying-glass fa-2x icon"
+            onClick="@command('listarTodo')"
+            tooltiptext="Listar productos" >
+            <span>Listar todo</span>
         </div>
     </div>
 

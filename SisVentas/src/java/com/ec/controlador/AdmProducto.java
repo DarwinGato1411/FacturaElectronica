@@ -124,6 +124,11 @@ public class AdmProducto {
     private void findLikeNombre() {
         listaProducto = servicioProducto.findLikeProdNombre(buscarNombre);
     }
+    
+      private void findLikeTodo() {
+        listaProducto = servicioProducto.FindALlProducto();
+    }
+
 
     private void findLikeProdCodigo() {
         listaProducto = servicioProducto.findLikeProdCodigo(buscarCodigo);
@@ -218,6 +223,13 @@ public class AdmProducto {
     public void buscarLikeNombre() {
 
         findLikeNombre();
+        getProductosModel();
+    }
+    @Command
+    @NotifyChange({"listaProductosModel", "buscarNombre"})
+    public void listarTodo() {
+
+        findLikeTodo();
         getProductosModel();
     }
 
@@ -541,6 +553,10 @@ public class AdmProducto {
             ch5.setCellValue(new HSSFRichTextString("Grava Iva (SI=1; NO=0)"));
             ch5.setCellStyle(estiloCelda);
 
+            HSSFCell ch6 = r.createCell(j++);
+            ch6.setCellValue(new HSSFRichTextString("Stock"));
+            ch6.setCellStyle(estiloCelda);
+
             int rownum = 1;
             int i = 0;
 
@@ -559,16 +575,20 @@ public class AdmProducto {
                 c1.setCellValue(new HSSFRichTextString(item.getPordCostoCompra() != null ? item.getPordCostoCompra().toString() : "0"));
 
                 HSSFCell c11 = r.createCell(i++);
-                c11.setCellValue(new HSSFRichTextString(item.getPordCostoVentaFinal().toString()));
+                c11.setCellValue(new HSSFRichTextString(item.getPordCostoVentaFinal() != null ? item.getPordCostoVentaFinal().toString() : ""));
 
                 HSSFCell c2 = r.createCell(i++);
-                c2.setCellValue(new HSSFRichTextString(item.getProdCostoPreferencial().toString()));
+                c2.setCellValue(new HSSFRichTextString(item.getProdCostoPreferencial() != null ? item.getProdCostoPreferencial().toString() : ""));
 
                 HSSFCell c3 = r.createCell(i++);
-                c3.setCellValue(new HSSFRichTextString(item.getProdCostoPreferencialDos().toString()));
+                c3.setCellValue(new HSSFRichTextString(item.getProdCostoPreferencialDos() != null ? item.getProdCostoPreferencialDos().toString() : ""));
 
                 HSSFCell c4 = r.createCell(i++);
                 c4.setCellValue(new HSSFRichTextString(item.getProdGrabaIva() ? "1" : "0"));
+
+                BigDecimal totalInventario = servicioKardex.FindALlKardexs(item).getKarTotal();
+                HSSFCell c5 = r.createCell(i++);
+                c5.setCellValue(new HSSFRichTextString(totalInventario.toString()));
                 /*autemta la siguiente fila*/
                 rownum += 1;
 
@@ -688,21 +708,22 @@ public class AdmProducto {
                 c0.setCellValue(new HSSFRichTextString(item.getProdNombre()));
 
                 HSSFCell c1 = r.createCell(i++);
-                c1.setCellValue(new HSSFRichTextString(item.getPordCostoCompra() != null ? item.getPordCostoCompra().toString() : "0"));
+                    c1.setCellValue(new HSSFRichTextString(item.getPordCostoCompra() != null ? item.getPordCostoCompra().toString() : "0"));
 
                 HSSFCell c11 = r.createCell(i++);
-                c11.setCellValue(new HSSFRichTextString(item.getPordCostoVentaFinal().toString()));
+                c11.setCellValue(new HSSFRichTextString(item.getPordCostoVentaFinal() != null ? item.getPordCostoVentaFinal().toString() : ""));
 
                 HSSFCell c2 = r.createCell(i++);
-                c2.setCellValue(new HSSFRichTextString(item.getProdCostoPreferencial().toString()));
+                c2.setCellValue(new HSSFRichTextString(item.getProdCostoPreferencial() != null ? item.getProdCostoPreferencial().toString() : ""));
 
                 HSSFCell c3 = r.createCell(i++);
-                c3.setCellValue(new HSSFRichTextString(item.getProdCostoPreferencialDos().toString()));
+                c3.setCellValue(new HSSFRichTextString(item.getProdCostoPreferencialDos() != null ? item.getProdCostoPreferencialDos().toString() : ""));
 
                 HSSFCell c4 = r.createCell(i++);
                 c4.setCellValue(new HSSFRichTextString(item.getProdGrabaIva() ? "1" : "0"));
 
-                BigDecimal totalInventario = servicioKardex.FindALlKardexs(item).getKarTotal();
+                Kardex retorno = servicioKardex.FindALlKardexs(item);
+                BigDecimal totalInventario = retorno != null ? retorno.getKarTotal() : BigDecimal.ZERO;
                 HSSFCell c5 = r.createCell(i++);
                 c5.setCellValue(new HSSFRichTextString(totalInventario.toString()));
 
@@ -786,9 +807,9 @@ public class AdmProducto {
 
                             if (prod.getProdGrabaIva()) {
                                 BigDecimal precioIva = BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(2))));
-                                BigDecimal precioCompra = precioIva.divide(BigDecimal.valueOf(1.12), 4, RoundingMode.FLOOR);
+                                BigDecimal precioCompra = precioIva.divide(BigDecimal.valueOf(1.15), 4, RoundingMode.FLOOR);
                                 prod.setPordCostoCompra(precioCompra);
-                                prod.setProdIva(BigDecimal.valueOf(12));
+                                prod.setProdIva(BigDecimal.valueOf(15));
 //                                    prod.setpro
                             } else {
                                 prod.setPordCostoCompra(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(2)))));
@@ -895,5 +916,4 @@ public class AdmProducto {
 //        }
     }
 
-    
 }

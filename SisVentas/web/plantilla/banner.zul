@@ -43,26 +43,27 @@
                         <menu label="Ventas" >
                             <menupopup> 
                                 <menuitem label="Emitir Facturas" id="btnFacturar"  />
-                                <menuitem label="Orden de trabajo" id="btnOrdenTrab"  />
-                                <menuitem label="Lista ordenes de trabajo" id="btnListaOrden"  />
-                                 <menuitem label="Facturas por cobrar" id="btnfactCobra"  />
-                                <menuitem label="Cierre de caja" id="btnCierreCajaUsu"  />
-                            </menupopup>
-                        </menu>
-                        <menu label="Gestion de ventas"  id="menuVentas">
-                            <menupopup>                               
                                 <menuitem label="Facturas emitidas" id="btnNotaVentas" />
                                 <menuitem label="Nota de venta" id="btnNotaVenta"  />                                
                                 <menuitem label="Proformas emitidas" id="btnProformasEmitidas"  />
                                 <menuitem label="Emitir Guias de remision" id="btnEmitirGuiaRemision"  />
                                 <menuitem label="Guias de remision emitidas" id="btnGuiaRemision"  />
-                                <menuitem label="Notas credito" id="btnNotaCredito"  />
-                                
+                                <menuitem label="Notas credito" id="btnNotaCredito"  />                                
                                 <menuitem label="Venta en ruta (GLP)" id="btnVentaRuta" />
+                                  <!--                                <menuitem label="Orden de trabajo" id="btnOrdenTrab"  />
+                                  <menuitem label="Lista ordenes de trabajo" id="btnListaOrden"  />-->
+                                 <menuitem label="Facturas por cobrar" id="btnfactCobra"  />
+                                <menuitem label="Cierre de caja" id="btnCierreCajaUsu"  />
+                            </menupopup>
+                        </menu>
+<!--                        <menu label="Gestion de ventas"  id="menuVentas">
+                            <menupopup>                               
+                              
+                                
                              
 
                             </menupopup>
-                        </menu> 
+                        </menu> -->
                         <menu label="Gestion de compras" id="menuCompras">
                             <menupopup>                     
                       

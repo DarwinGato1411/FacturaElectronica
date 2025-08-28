@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="guia" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 	<property name="ireport.zoom" value="1.9487171000000019"/>
-	<property name="ireport.x" value="117"/>
-	<property name="ireport.y" value="336"/>
+	<property name="ireport.x" value="22"/>
+	<property name="ireport.y" value="432"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -377,7 +377,7 @@ where  guiaremision.fac_numero=$P{numfactura};]]>
 				<textElement>
 					<font size="9"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{cli_nombres}+" "+$F{cli_apellidos}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{cli_nombre}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="11" y="377" width="122" height="13"/>

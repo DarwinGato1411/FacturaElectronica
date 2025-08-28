@@ -44,10 +44,17 @@ import com.ec.servicio.ServicioTipoKardex;
 import com.ec.servicio.ServicioTransportista;
 import com.ec.servicio.ServicioUsuario;
 import com.ec.untilitario.ArchivoUtils;
+import com.ec.untilitario.AutorizarDocumentos;
+import com.ec.untilitario.MailerClass;
 import com.ec.untilitario.ParamFactura;
 import com.ec.untilitario.TotalKardex;
 import com.ec.untilitario.UtilitarioAutorizarSRI;
 import com.ec.untilitario.Verificaciones;
+import com.ec.untilitario.XAdESBESSignature;
+import ec.gob.sri.comprobantes.exception.RespuestaAutorizacionException;
+import ec.gob.sri.comprobantes.ws.RespuestaSolicitud;
+import ec.gob.sri.comprobantes.ws.aut.Autorizacion;
+import ec.gob.sri.comprobantes.ws.aut.RespuestaComprobante;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 import java.io.ByteArrayInputStream;
@@ -55,6 +62,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
@@ -63,6 +71,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -71,6 +80,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.print.PrintService;
@@ -96,6 +107,7 @@ import org.zkoss.bind.annotation.ExecutionArgParam;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.image.AImage;
 import org.zkoss.util.media.AMedia;
+import org.zkoss.xel.VariableResolver;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Path;
@@ -1821,6 +1833,69 @@ public class Facturar extends SelectorComposer<Component> {
 
             if (true) {
                 ((ListModelList<DetalleFacturaDAO>) listaDetalleFacturaDAOMOdel).removeAll(registrosSeleccionados);
+
+//                for (DetalleFacturaDAO registrosSeleccionado : registrosSeleccionados) {
+                /* INGRESAMOS LO MOVIMIENTOS AL KARDEX */
+                Kardex kardex = null;
+                DetalleKardex detalleKardex = null;
+                Tipokardex tipokardex = servicioTipoKardex.findByTipkSigla("ING");
+                for (DetalleFacturaDAO item : registrosSeleccionados) {
+                    if (item.getProducto() != null) {
+                        if (!item.getProducto().getProdEsreceta()) {
+
+                            detalleKardex = new DetalleKardex();
+                            kardex = servicioKardex.FindALlKardexs(item.getProducto());
+                            detalleKardex.setIdKardex(kardex);
+                            detalleKardex.setDetkFechakardex(fechafacturacion);
+                            detalleKardex.setDetkFechacreacion(new Date());
+                            detalleKardex.setIdTipokardex(tipokardex);
+                            detalleKardex.setDetkKardexmanual(Boolean.FALSE);
+                            detalleKardex.setDetkDetalles("Aumenta al kardex eliminar item factura con: " + tipoVenta
+                                    + "-" + factura.getFacNumeroText());
+                            detalleKardex.setIdFactura(factura);
+                            detalleKardex.setDetkCantidad(item.getCantidad());
+                            servicioDetalleKardex.crear(detalleKardex);
+//                            BigDecimal total = kardex.getKarTotal();
+//                            total = total.subtract(item.getCantidad());
+//                            kardex.setKarTotal(total);
+//                            servicioKardex.modificar(kardex);
+
+                            TotalKardex totales = servicioKardex.totalesForKardex(kardex);
+                            BigDecimal total = totales.getTotalKardex();
+                            kardex.setKarTotal(total);
+                            servicioKardex.modificar(kardex);
+
+                        } else {
+                            List<ComboProducto> lislaRecup = servicioComboProducto.findForProducto(item.getProducto());
+                            for (ComboProducto comboProducto : lislaRecup) {
+
+                                detalleKardex = new DetalleKardex();
+                                kardex = servicioKardex.FindALlKardexs(comboProducto.getIdProducto());
+                                detalleKardex.setIdKardex(kardex);
+                                detalleKardex.setDetkFechakardex(fechafacturacion);
+                                detalleKardex.setDetkFechacreacion(new Date());
+                                detalleKardex.setIdTipokardex(tipokardex);
+                                detalleKardex.setDetkKardexmanual(Boolean.FALSE);
+                                detalleKardex.setDetkDetalles("Aumenta al kardex eliminar item factura con: " + tipoVenta + "-"
+                                        + factura.getFacNumeroText());
+                                detalleKardex.setIdFactura(factura);
+
+                                /* calcular la cantidad a descontar del Kardex */
+                                BigDecimal cantidadDescuento = comboProducto.getComCantidad()
+                                        .multiply(item.getCantidad());
+                                detalleKardex.setDetkCantidad(cantidadDescuento);
+                                servicioDetalleKardex.crear(detalleKardex);
+                                /* ACTUALIZA EL TOTAL DEL KARDEX */
+                                TotalKardex totales = servicioKardex.totalesForKardex(kardex);
+                                BigDecimal total = totales.getTotalKardex();
+                                kardex.setKarTotal(total);
+                                servicioKardex.modificar(kardex);
+                            }
+                        }
+                    }
+//                }
+
+                }
                 calcularValoresTotales();
             } else {
                 Clients.showNotification("No tiene permisos para eliminar, verifique el usuario y contraseña",
@@ -2069,7 +2144,7 @@ public class Facturar extends SelectorComposer<Component> {
         }
     }
 
-    private void guardarFactura(String valor) throws ParseException {
+    private void guardarFactura(String valor, String envia) throws ParseException {
 
         try {
 
@@ -2216,7 +2291,7 @@ public class Facturar extends SelectorComposer<Component> {
                 factura.setFacFecha(dateTime);
             }
 
-             factura.setFacFecha(fechafacturacion);
+            factura.setFacFecha(fechafacturacion);
             factura.setFacFechaCobro(facFechaCobro);
             factura.setFacEstado(estdoFactura);
             factura.setFacNumeroText(numeroFacturaText);
@@ -2434,14 +2509,12 @@ public class Facturar extends SelectorComposer<Component> {
                         servicioFactura.guardarFactura(detalleFactura, factura);
                     }
 
-                    /* VERIFICA SI EL CLINETE QUIERE AUTORIZAR LA FACTURA */
-                    if (!parametrizar.getParEstado() || tipoVenta.equals("PROF")) {
-                        /* en el caso que no se desee autorizar la factura */
+                    /*VERIFICA SI EL CLINETE QUIERE AUTORIZAR LA FACTURA*/
+                    if (envia.equals("N") || !tipoVenta.equals("FACT")) {
+                        /*en el caso que no se desee autorizar la factura*/
                     } else {
-                        UtilitarioAutorizarSRI autorizarSRI = new UtilitarioAutorizarSRI();
-                        autorizarSRI.autorizarSRI(factura);
+                        autorizarFacturasSRI(factura);
                     }
-
                 }
 
             }
@@ -2577,7 +2650,7 @@ public class Facturar extends SelectorComposer<Component> {
 
     @Command
     @NotifyChange({"listaDetalleFacturaDAOMOdel", "subTotalCotizacion", "ivaCotizacion", "valorTotalCotizacion"})
-    public void Guardar(@BindingParam("valor") String valor) throws ParseException {
+    public void Guardar(@BindingParam("valor") String valor, @BindingParam("envia") String envia) throws ParseException {
         System.out.println("formaPagoSelected " + formaPagoSelected);
         facConSinGuia = valor;
         if (!clienteBuscado.getCliCedula().equals("") && formaPagoSelected != null) {
@@ -2589,7 +2662,7 @@ public class Facturar extends SelectorComposer<Component> {
             }
             if (listaDetalleFacturaDAOMOdel.size() > 0) {
                 if (!listaDetalleFacturaDAOMOdel.get(0).getDescripcion().equals("")) {
-                    guardarFactura(valor);
+                    guardarFactura(valor, envia);
 
                 } else {
                     Messagebox.show("Registre un producto para proceder a la facturación", "Atención", Messagebox.OK,
@@ -3723,4 +3796,385 @@ public class Facturar extends SelectorComposer<Component> {
         }
     }
 
+    private void autorizarFacturasSRI(Factura valor) throws JRException, IOException, NamingException, SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+        String folderGenerados = PATH_BASE + File.separator + amb.getAmGenerados()
+                + File.separator + new Date().getYear()
+                + File.separator + new Date().getMonth();
+        String folderEnviarCliente = PATH_BASE + File.separator + amb.getAmEnviocliente()
+                + File.separator + new Date().getYear()
+                + File.separator + new Date().getMonth();
+        String folderFirmado = PATH_BASE + File.separator + amb.getAmFirmados()
+                + File.separator + new Date().getYear()
+                + File.separator + new Date().getMonth();
+
+        String foldervoAutorizado = PATH_BASE + File.separator + amb.getAmAutorizados()
+                + File.separator + new Date().getYear()
+                + File.separator + new Date().getMonth();
+
+        String folderNoAutorizados = PATH_BASE + File.separator + amb.getAmNoAutorizados()
+                + File.separator + new Date().getYear()
+                + File.separator + new Date().getMonth();
+
+        /*EN EL CASO DE NO EXISTIR LOS DIRECTORIOS LOS CREA*/
+        File folderGen = new File(folderGenerados);
+        if (!folderGen.exists()) {
+            folderGen.mkdirs();
+        }
+        File folderFirm = new File(folderFirmado);
+        if (!folderFirm.exists()) {
+            folderFirm.mkdirs();
+        }
+
+        File folderAu = new File(foldervoAutorizado);
+        if (!folderAu.exists()) {
+            folderAu.mkdirs();
+        }
+
+        File folderCliente = new File(folderEnviarCliente);
+        if (!folderCliente.exists()) {
+            folderCliente.mkdirs();
+        }
+        File folderNoAut = new File(folderNoAutorizados);
+        if (!folderNoAut.exists()) {
+            folderNoAut.mkdirs();
+        }
+        /*Ubicacion del archivo firmado para obtener la informacion*/
+
+ /*PARA CREAR EL ARCHIVO XML FIRMADO*/
+        String nombreArchivoXML = File.separator + "FACT-"
+                + valor.getCodestablecimiento()
+                + valor.getPuntoemision()
+                + valor.getFacNumeroText() + ".xml";
+
+
+        /*RUTAS FINALES DE,LOS ARCHIVOS XML FIRMADOS Y AUTORIZADOS*/
+        String pathArchivoFirmado = folderFirmado + nombreArchivoXML;
+        String pathArchivoAutorizado = foldervoAutorizado + nombreArchivoXML;
+        String pathArchivoNoAutorizado = folderNoAutorizados + nombreArchivoXML;
+        String archivoEnvioCliente = "";
+
+        File f = null;
+        File fEnvio = null;
+        byte[] datos = null;
+        //tipoambiente tiene los parameteos para los directorios y la firma digital
+        AutorizarDocumentos aut = new AutorizarDocumentos();
+        /*Generamos el archivo XML de la factura*/
+        String archivo = aut.generaXMLFactura(valor, amb, folderGenerados, nombreArchivoXML, Boolean.FALSE, new Date());
+
+        /*amb.getAmClaveAccesoSri() es el la clave proporcionada por el SRI
+        archivo es la ruta del archivo xml generado
+        nomre del archivo a firmar*/
+        XAdESBESSignature.firmar(archivo, nombreArchivoXML,
+                amb.getAmClaveAccesoSri(), amb, folderFirmado);
+
+        f = new File(pathArchivoFirmado);
+
+        datos = ArchivoUtils.ConvertirBytes(pathArchivoFirmado);
+        //obtener la clave de acceso desde el archivo xml
+        String claveAccesoComprobante = ArchivoUtils.obtenerValorXML(f, "/*/infoTributaria/claveAcceso");
+        /*GUARDAMOS LA CLAVE DE ACCESO ANTES DE ENVIAR A AUTORIZAR*/
+        valor.setFacClaveAcceso(claveAccesoComprobante);
+        AutorizarDocumentos autorizarDocumentos = new AutorizarDocumentos();
+        RespuestaSolicitud resSolicitud = autorizarDocumentos.validar(datos);
+        if (resSolicitud != null && resSolicitud.getComprobantes() != null) {
+            // Autorizacion autorizacion = null;
+
+            if (resSolicitud.getEstado().equals("RECIBIDA")) {
+//                try {
+//                    Thread.sleep(1000);
+//                } catch (InterruptedException ex) {
+//                    Logger.getLogger(Tipoambiente.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+                try {
+
+                    RespuestaComprobante resComprobante = autorizarDocumentos.autorizarComprobante(claveAccesoComprobante);
+                    if (resComprobante.getAutorizaciones().getAutorizacion().isEmpty()) {
+                        valor.setMensajesri("ERROR EN EL METODO DE AUTORIZAR NO DEVUELVE NADA ENVIO");
+                        servicioFactura.modificar(valor);
+                        return;
+                    }
+
+                    for (Autorizacion autorizacion : resComprobante.getAutorizaciones().getAutorizacion()) {
+                        FileOutputStream nuevo = null;
+
+                        /*CREA EL ARCHIVO XML AUTORIZADO*/
+//                        System.out.println("pathArchivoNoAutorizado " + pathArchivoNoAutorizado);
+                        nuevo = new FileOutputStream(pathArchivoNoAutorizado);
+                        if (autorizacion.getComprobante() != null) {
+                            nuevo.write(autorizacion.getComprobante().getBytes());
+                        }
+
+                        if (!autorizacion.getEstado().equals("AUTORIZADO")) {
+                            String texto = "Sin Identificar el error";
+                            String smsInfo = "Sin identificar el error";
+
+                            if (autorizacion.getEstado().equals("EN PROCESO")) {
+                                Clients.showNotification("Autoriza con reenvio ", Clients.NOTIFICATION_TYPE_INFO, null, "middle_center", 3000, true);
+                                reenviarSRI(valor);
+                            } else {
+
+                                if (!autorizacion.getMensajes().getMensaje().isEmpty()) {
+                                    texto = autorizacion.getMensajes().getMensaje().size() > 0 ? autorizacion.getMensajes().getMensaje().get(0).getMensaje() : "ERROR SIN DEFINIR " + autorizacion.getEstado();
+                                    smsInfo = autorizacion.getMensajes().getMensaje().size() > 0 ? autorizacion.getMensajes().getMensaje().get(0).getInformacionAdicional() : " ERROR SIN DEFINIR " + autorizacion.getEstado();
+                                    nuevo.write(smsInfo.getBytes());
+                                    nuevo.write(smsInfo.getBytes());
+                                }
+
+                                valor.setMensajesri(texto);
+                                valor.setEstadosri(autorizacion.getEstado());
+                                valor.setFacMsmInfoSri(smsInfo);
+                                nuevo.flush();
+                                servicioFactura.modificar(valor);
+                            }
+                        } else {
+
+                            valor.setFacClaveAutorizacion(claveAccesoComprobante);
+                            valor.setEstadosri(autorizacion.getEstado());
+//                            String fechaForm = autorizacion.getFechaAutorizacion().toGregorianCalendar().toZonedDateTime().toString();
+                            Instant instant = autorizacion.getFechaAutorizacion().toGregorianCalendar().toZonedDateTime().toInstant();
+                            Date date = Date.from(instant);
+                            valor.setFacFechaAutorizacion(date);
+//                            System.out.println("autorizacion.getFechaAutorizacion().toGregorianCalendar().getTime() " + autorizacion.getFechaAutorizacion().toGregorianCalendar().getTime());
+                            //se agrega la la autorizacion, fecha de autorizacion y se firma nuevamente/
+                            archivoEnvioCliente = aut.generaXMLFactura(valor, amb, foldervoAutorizado, nombreArchivoXML, Boolean.TRUE, autorizacion.getFechaAutorizacion().toGregorianCalendar().getTime());
+//                            XAdESBESSignature.firmar(archivoEnvioCliente,
+//                                    nombreArchivoXML,
+//                                    amb.getAmClaveAccesoSri(),
+//                                    amb, foldervoAutorizado);
+                            valor.setFacpath(archivoEnvioCliente.replace(".xml", ".pdf"));
+                            servicioFactura.modificar(valor);
+                            fEnvio = new File(archivoEnvioCliente);
+
+                            System.out.println("PATH DEL ARCHIVO PARA ENVIAR AL CLIENTE " + archivoEnvioCliente);
+                            ArchivoUtils.reporteGeneralPdfMail(archivoEnvioCliente.replace(".xml", ".pdf"), valor.getFacNumero(), "FACT");
+
+//                            ArchivoUtils.zipFile(fEnvio, archivoEnvioCliente);
+                            //GUARDA EL PATH PDF CREADO/
+                            //envia el mail/
+                            String[] attachFiles = new String[2];
+                            attachFiles[0] = archivoEnvioCliente.replace(".xml", ".pdf");
+                            attachFiles[1] = archivoEnvioCliente.replace(".xml", ".xml");
+                            MailerClass mail = new MailerClass();
+                            if (valor.getIdCliente().getCliClave() == null) {
+                                Cliente mod = valor.getIdCliente();
+                                mod.setCliClave(ArchivoUtils.generaraClaveTemporal());
+                                servicioCliente.modificar(mod);
+                            }
+                            if (valor.getIdCliente().getCliCorreo() != null) {
+                                mail.sendMailSimple(valor.getIdCliente().getCliCorreo(),
+                                        attachFiles,
+                                        "FACTURA ELECTRONICA",
+                                        valor.getFacClaveAcceso(),
+                                        valor.getFacNumeroText(),
+                                        valor.getFacTotal(),
+                                        valor.getIdCliente().getCliNombre());
+                            }
+                        }
+
+                    }
+                } catch (RespuestaAutorizacionException ex) {
+                    Logger.getLogger(ListaFacturas.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                String smsInfo = resSolicitud.getComprobantes().getComprobante().get(0).getMensajes().getMensaje().get(0).getMensaje();
+                ArchivoUtils.FileCopy(pathArchivoFirmado, pathArchivoNoAutorizado);
+                valor.setEstadosri(resSolicitud.getEstado());
+                valor.setMensajesri(resSolicitud.getComprobantes().getComprobante().get(0).getMensajes().getMensaje().get(0).getMensaje());
+                valor.setFacMsmInfoSri(smsInfo);
+                if (smsInfo != null) {
+//                    if (smsInfo.equals("ERROR SECUENCIAL REGISTRADO")) {
+//
+//                        if (Messagebox.show("¿El numero de factura ya se encuentra en el SRI desea crear un nuevo secuencial?", "Atención", Messagebox.YES | Messagebox.NO, Messagebox.INFORMATION) == Messagebox.YES) {
+//                            numeroFactura();
+//                            valor.setFacNumero(numeroFactura);
+//                            valor.setFacNumeroText(numeroFacturaText);
+//                            Clients.showNotification("EL NUEVO SECUENCIAL ASIGNADO ES:  " + numeroFacturaText + " ESTE DOCUMENTO DEBE SER ENVIADO NUEVAMENTE",
+//                                    Clients.NOTIFICATION_TYPE_ERROR, null, "middle_center", 5000, true);
+//
+//                        }
+//
+//                        servicioFactura.modificar(valor);
+//                    }
+                }
+
+            }
+        } else {
+
+            valor.setMensajesri(resSolicitud != null ? resSolicitud.getEstado() != null ? resSolicitud.getEstado() : "SIN MENSAJE DE ERROR AL VALIDAR" : "VALIDACION NULL");
+            servicioFactura.modificar(valor);
+        }
+    }
+
+    private void reenviarSRI(@BindingParam("valor") Factura valor)
+            throws JRException, IOException, NamingException, SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+
+        String folderGenerados = PATH_BASE + File.separator + amb.getAmGenerados()
+                + File.separator + new Date().getYear()
+                + File.separator + new Date().getMonth();
+        String folderEnviarCliente = PATH_BASE + File.separator + amb.getAmEnviocliente()
+                + File.separator + new Date().getYear()
+                + File.separator + new Date().getMonth();
+        String folderFirmado = PATH_BASE + File.separator + amb.getAmFirmados()
+                + File.separator + new Date().getYear()
+                + File.separator + new Date().getMonth();
+
+        String foldervoAutorizado = PATH_BASE + File.separator + amb.getAmAutorizados()
+                + File.separator + new Date().getYear()
+                + File.separator + new Date().getMonth();
+
+        String folderNoAutorizados = PATH_BASE + File.separator + amb.getAmNoAutorizados()
+                + File.separator + new Date().getYear()
+                + File.separator + new Date().getMonth();
+
+        /*EN EL CASO DE NO EXISTIR LOS DIRECTORIOS LOS CREA*/
+        File folderGen = new File(folderGenerados);
+        if (!folderGen.exists()) {
+            folderGen.mkdirs();
+        }
+        File folderFirm = new File(folderFirmado);
+        if (!folderFirm.exists()) {
+            folderFirm.mkdirs();
+        }
+
+        File folderAu = new File(foldervoAutorizado);
+        if (!folderAu.exists()) {
+            folderAu.mkdirs();
+        }
+
+        File folderCliente = new File(folderEnviarCliente);
+        if (!folderCliente.exists()) {
+            folderCliente.mkdirs();
+        }
+        File folderNoAut = new File(folderNoAutorizados);
+        if (!folderNoAut.exists()) {
+            folderNoAut.mkdirs();
+        }
+        /*Ubicacion del archivo firmado para obtener la informacion*/
+
+ /*PARA CREAR EL ARCHIVO XML FIRMADO*/
+        String nombreArchivoXML = File.separator + "FACT-"
+                + valor.getCodestablecimiento()
+                + valor.getPuntoemision()
+                + valor.getFacNumeroText() + ".xml";
+
+
+        /*RUTAS FINALES DE,LOS ARCHIVOS XML FIRMADOS Y AUTORIZADOS*/
+        String pathArchivoFirmado = folderFirmado + nombreArchivoXML;
+        String pathArchivoAutorizado = foldervoAutorizado + nombreArchivoXML;
+        String pathArchivoNoAutorizado = folderNoAutorizados + nombreArchivoXML;
+        String archivoEnvioCliente = "";
+
+        File f = null;
+        File fEnvio = null;
+        byte[] datos = null;
+        //tipoambiente tiene los parameteos para los directorios y la firma digital
+        AutorizarDocumentos aut = new AutorizarDocumentos();
+        /*Generamos el archivo XML de la factura*/
+        String archivo = aut.generaXMLFactura(valor, amb, folderGenerados, nombreArchivoXML, Boolean.FALSE, new Date());
+
+        /*amb.getAmClaveAccesoSri() es el la clave proporcionada por el SRI
+        archivo es la ruta del archivo xml generado
+        nomre del archivo a firmar*/
+        XAdESBESSignature.firmar(archivo, nombreArchivoXML,
+                amb.getAmClaveAccesoSri(), amb, folderFirmado);
+
+        f = new File(pathArchivoFirmado);
+
+        datos = ArchivoUtils.ConvertirBytes(pathArchivoFirmado);
+        //obtener la clave de acceso desde el archivo xml
+        String claveAccesoComprobante = ArchivoUtils.obtenerValorXML(f, "/*/infoTributaria/claveAcceso");
+        /*GUARDAMOS LA CLAVE DE ACCESO ANTES DE ENVIAR A AUTORIZAR*/
+        valor.setFacClaveAcceso(claveAccesoComprobante);
+        AutorizarDocumentos autorizarDocumentos = new AutorizarDocumentos();
+//        RespuestaSolicitud resSolicitud = autorizarDocumentos.validar(datos);
+//        if (resSolicitud != null && resSolicitud.getComprobantes() != null) {
+//            // Autorizacion autorizacion = null;
+//
+//            if (resSolicitud.getEstado().equals("RECIBIDA")) {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Tipoambiente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+
+            RespuestaComprobante resComprobante = autorizarDocumentos.autorizarComprobante(claveAccesoComprobante);
+            System.out.println("RespuestaComprobante " + resComprobante);
+            if (resComprobante.getAutorizaciones().getAutorizacion() == null) {
+                Clients.showNotification("No se encontro el documento, presione el boton enviar.",
+                        Clients.NOTIFICATION_TYPE_ERROR, null, "middle_center", 5000, true);
+                return;
+            }
+
+            if (resComprobante.getAutorizaciones().getAutorizacion().isEmpty()) {
+                valor.setMensajesri("ERROR EN EL METODO DE AUTORIZAR NO DEVUELVE NADA REENVIO");
+                servicioFactura.modificar(valor);
+            }
+            for (Autorizacion autorizacion : resComprobante.getAutorizaciones().getAutorizacion()) {
+                FileOutputStream nuevo = null;
+
+                /*CREA EL ARCHIVO XML AUTORIZADO*/
+                if (!autorizacion.getEstado().equals("AUTORIZADO")) {
+//                    System.out.println("pathArchivoNoAutorizado " + pathArchivoNoAutorizado);
+//                    nuevo = new FileOutputStream(pathArchivoNoAutorizado);
+//                    nuevo.write(autorizacion.getComprobante().getBytes());
+
+                    String texto = autorizacion.getMensajes() != null ? autorizacion.getMensajes().getMensaje().get(0).getMensaje() : "";
+//                    nuevo.write(autorizacion.getMensajes().getMensaje().get(0).getMensaje().getBytes());
+//                    if (autorizacion.getMensajes().getMensaje().get(0).getInformacionAdicional() != null) {
+//                        nuevo.write(autorizacion.getMensajes().getMensaje().get(0).getInformacionAdicional().getBytes());
+//                    }
+
+                    valor.setMensajesri(texto);
+//                    nuevo.flush();
+                    System.out.println("ERROR AL ENVIAR AL SRI " + texto);
+                } else {
+
+                    valor.setFacClaveAutorizacion(claveAccesoComprobante);
+                    valor.setEstadosri(autorizacion.getEstado());
+                    valor.setFacFechaAutorizacion(autorizacion.getFechaAutorizacion().toGregorianCalendar().getTime());
+
+                    /*se agrega la la autorizacion, fecha de autorizacion y se firma nuevamente*/
+                    archivoEnvioCliente = aut.generaXMLFactura(valor, amb, foldervoAutorizado, nombreArchivoXML, Boolean.TRUE, autorizacion.getFechaAutorizacion().toGregorianCalendar().getTime());
+                    XAdESBESSignature.firmar(archivoEnvioCliente,
+                            nombreArchivoXML,
+                            amb.getAmClaveAccesoSri(),
+                            amb, foldervoAutorizado);
+
+                    fEnvio = new File(archivoEnvioCliente);
+                }
+
+//                System.out.println("PATH DEL ARCHIVO PARA ENVIAR AL CLIENTE " + archivoEnvioCliente);
+                ArchivoUtils.reporteGeneralPdfMail(archivoEnvioCliente.replace(".xml", ".pdf"), valor.getFacNumero(), "FACT");
+//                ArchivoUtils.zipFile(fEnvio, archivoEnvioCliente);
+                /*GUARDA EL PATH PDF CREADO*/
+                valor.setFacpath(archivoEnvioCliente.replace(".xml", ".pdf"));
+                servicioFactura.modificar(valor);
+                /*envia el mail*/
+
+                String[] attachFiles = new String[2];
+                attachFiles[0] = archivoEnvioCliente.replace(".xml", ".pdf");
+                attachFiles[1] = archivoEnvioCliente.replace(".xml", ".xml");
+                MailerClass mail = new MailerClass();
+                if (valor.getIdCliente().getCliClave() == null) {
+                    Cliente mod = valor.getIdCliente();
+                    mod.setCliClave(ArchivoUtils.generaraClaveTemporal());
+                    servicioCliente.modificar(mod);
+                }
+                if (valor.getIdCliente().getCliCorreo() != null) {
+                    mail.sendMailSimple(valor.getIdCliente().getCliCorreo(),
+                            attachFiles,
+                            "FACTURA ELECTRONICA",
+                            valor.getFacClaveAcceso(),
+                            valor.getFacNumeroText(),
+                            valor.getFacTotal(),
+                            valor.getIdCliente().getCliNombre());
+                }
+
+            }
+        } catch (RespuestaAutorizacionException ex) {
+            Logger.getLogger(ListaFacturas.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
 }

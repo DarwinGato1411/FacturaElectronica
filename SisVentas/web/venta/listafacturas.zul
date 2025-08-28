@@ -8,18 +8,18 @@
 <?init class="com.ec.seguridad.Autentificador"?>
 <?init class="org.zkoss.zk.ui.util.Composition" arg0="/plantilla/plantilla.zul"?>
 <?link rel="icon" type="image/x-icon" href="/iconos/deckxel.ico"?>
-<zk  contentStyle="overflow:auto" class="col-12 col-sm-12 col-md-12 col-lg-12" >
+<zk  with="100%" class="container" >
 
  
-    <hbox self="@define(content)" apply="org.zkoss.bind.BindComposer" 
+    <hbox self="@define(content)" apply="org.zkoss.bind.BindComposer" class="containerFactura"
           viewModel="@id('vm') @init('com.ec.controlador.ListaFacturas')" >
-        <tabbox   width="100%" >
+        <tabbox    >
             <tabs >
                 <tab label="Lista de facturas emitidas" sclass="menutabs" /> 
             </tabs>
             <tabpanels >
                 
-                <tabpanel  width="99%" class="factura" >                    
+                <tabpanel   class="factura" >                    
                  
 
                      <div class="factura_header">
@@ -146,14 +146,14 @@
                         </div>
                     </div>
 
-                    <div class="factura_body">
+                    <div class="factura_body factura_body_content "  >
                         <listbox model="@load(vm.lstFacturas)" 
                                 nonselectableTags=""  mold="paging" pageSize="12"  >
                             <custom-attributes org.zkoss.zul.listbox.rod="true"/>
                         
-                            <listhead> 
-                                <listheader width="40px"  label="" align="rigth" />  
-                                <listheader width="8%"  
+                            <listhead class="encabezadolf"> 
+                                <listheader   label="" align="rigth" />  
+                                <listheader   
                                             sort="auto(facNumeroText)">
                                     <textbox value="@bind(vm.buscarNumFactura)"  
                                             tooltiptext="# Factura"
@@ -163,7 +163,7 @@
                                             onChange="self.setValue(self.getValue().toUpperCase());" />
                                     
                                 </listheader> 
-                                <listheader width="10%"  >
+                                <listheader   sort="auto(idCliente.cliCedula)" >
                                     <textbox value="@bind(vm.buscarCedula)"  
                                             tooltiptext="Cedula"
                                             class="form-control form-control-sm"                                         
@@ -172,7 +172,7 @@
                                             onChange="self.setValue(self.getValue().toUpperCase());" />
                                     
                                 </listheader>    
-                                <listheader width="13%"  >
+                                <listheader  sort="auto(idCliente.cliNombre)" >
                                     <textbox value="@bind(vm.buscarCliente)"  
                                             class="form-control form-control-sm"
                                             tooltiptext="Nombre del cliente"
@@ -181,31 +181,31 @@
                                             onChange="self.setValue(self.getValue().toUpperCase());" />
                                     
                                 </listheader> 
-                                <listheader width="8%"  label="Fecha" sort="auto(facFecha)" /> 
-                                <listheader width="5%"  label="Total "  /> 
-                                <listheader width="4%"  label="Estado " align="rigth" /> 
-                                <listheader width="8%"  label="Estado SRI" align="rigth" /> 
-                                <listheader width="8%"  label="Fecha Aut." align="rigth" /> 
+                                <listheader   label="Fecha" sort="auto(facFecha)" /> 
+                                <listheader label="Total "  /> 
+                                <listheader   label="Estado " align="rigth" /> 
+                                <listheader   label="Estado SRI" align="rigth" /> 
+                                <listheader   label="Fecha Aut." align="rigth" /> 
                                 <!--<listheader width="20%"  label="Clave Autorizacion"  />-->                                   
-                                <listheader width="10%"  label="Responsable / Cuenta"  />                                   
-                                <listheader width="3%"  label="" align="rigth" />        
-                                <listheader width="3%"  label="" align="rigth" />        
-                                <listheader width="3%"  label="" align="rigth" />        
-                                <listheader width="3%"  label="" align="rigth" />        
+                                <listheader   label="Responsable / Cuenta"  />                                   
+                                <listheader   label="" align="rigth" />        
+                                <listheader   label="" align="rigth" />        
+                                <listheader   label="" align="rigth" />        
+                                <listheader   label="" align="rigth" />        
                                     
-                                <listheader width="3%"  label="" align="rigth" />
-                                <listheader width="3%"  label="" align="rigth" />                                 
-                                <listheader width="3%"  label="" align="rigth" />        
-                                <listheader width="3%"  label="" align="rigth" />        
-                                <listheader width="3%"  label="" align="rigth" />        
-                                <listheader width="3%"  label="" align="rigth" />        
+                                <listheader   label="" align="rigth" />
+                                <listheader  label="" align="rigth" />                                 
+                                <listheader   label="" align="rigth" />        
+                                <listheader   label="" align="rigth" />        
+                                <listheader   label="" align="rigth" />        
+                                <listheader   label="" align="rigth" />        
                                 <!--<listheader width="3%"  label="" align="rigth" />-->        
                                     
                             </listhead>  
                             
                         
                             <template name="model">                                                            
-                                <listitem>
+                                <listitem class="tablalf">
                                     <listcell zclass = "mycss-listcell">
                                         <image  zclass = "mycss-listcell"  src="/iconos/inf.png"   
                                             class="btn btn btn-secondary btn-sm grow"            
