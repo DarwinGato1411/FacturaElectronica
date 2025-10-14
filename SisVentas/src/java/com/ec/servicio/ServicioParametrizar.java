@@ -88,6 +88,7 @@ public class ServicioParametrizar {
             }
             em.getTransaction().commit();
         } catch (Exception e) {
+            e.printStackTrace();
             System.out.println("Error en la consulta FindALlParametrizar parametrizar " + e.getMessage());
         } finally {
             em.close();

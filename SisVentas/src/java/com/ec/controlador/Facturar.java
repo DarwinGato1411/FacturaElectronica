@@ -318,6 +318,8 @@ public class Facturar extends SelectorComposer<Component> {
     byte[] buffer = new byte[1024 * 1024];
     private AImage fotoGeneral = null;
 
+    private Integer numeroArticulos = 0;
+
     @AfterCompose
     public void afterCompose(@ExecutionArgParam("valor") ParamFactura valor,
             @ContextParam(ContextType.VIEW) Component view) {
@@ -632,7 +634,7 @@ public class Facturar extends SelectorComposer<Component> {
     @NotifyChange({"listaDetalleFacturaDAOMOdel", "subTotalCotizacion", "ivaCotizacion", "valorTotalCotizacion",
         "totalDescuento", "buscarNombreProd", "valorTotalInicialVent", "descuentoValorFinal", "subTotalBaseCero",
         "listaProducto", "totalItems", "subTotalCotizacion", "subTotalCotizacion13", "subTotalCotizacion14", "subTotalCotizacion15", "subTotalCotizacion5",
-        "ivaCotizacion5", "ivaCotizacion13", "ivaCotizacion14", "ivaCotizacion15"})
+        "ivaCotizacion5", "ivaCotizacion13", "ivaCotizacion14", "ivaCotizacion15", "numeroArticulos"})
     public void agregarItemLista(@BindingParam("valor") Producto producto) {
 
         if (parametrizar.getParNumRegistrosFactura().intValue() <= listaDetalleFacturaDAOMOdel.size()) {
@@ -905,7 +907,7 @@ public class Facturar extends SelectorComposer<Component> {
     @NotifyChange({"listaDetalleFacturaDAOMOdel", "subTotalCotizacion", "ivaCotizacion", "valorTotalCotizacion",
         "totalDescuento", "buscarNombreProd", "valorTotalInicialVent", "descuentoValorFinal", "subTotalBaseCero",
         "listaProducto", "totalItems", "subTotalCotizacion", "subTotalCotizacion13", "subTotalCotizacion14", "subTotalCotizacion15", "subTotalCotizacion5",
-        "ivaCotizacion5", "ivaCotizacion13", "ivaCotizacion14", "ivaCotizacion15"})
+        "ivaCotizacion5", "ivaCotizacion13", "ivaCotizacion14", "ivaCotizacion15", "numeroArticulos"})
     public void actualizarCostoVenta() {
 
         List<DetalleFacturaDAO> listaPedido = listaDetalleFacturaDAOMOdel.getInnerList();
@@ -1200,7 +1202,7 @@ public class Facturar extends SelectorComposer<Component> {
     @NotifyChange({"listaDetalleFacturaDAOMOdel", "subTotalCotizacion", "ivaCotizacion", "valorTotalCotizacion",
         "totalDescuento", "buscarNombreProd", "valorTotalInicialVent", "descuentoValorFinal", "subTotalBaseCero",
         "listaProducto", "totalItems", "subTotalCotizacion", "subTotalCotizacion13", "subTotalCotizacion14", "subTotalCotizacion15", "subTotalCotizacion5",
-        "ivaCotizacion5", "ivaCotizacion13", "ivaCotizacion14", "ivaCotizacion15"})
+        "ivaCotizacion5", "ivaCotizacion13", "ivaCotizacion14", "ivaCotizacion15", "numeroArticulos"})
     public void calcularValoresDesCantidad(@BindingParam("valor") DetalleFacturaDAO valor) {
         try {
             if (parametrizar.getBloqueoProducto()) {
@@ -1352,7 +1354,7 @@ public class Facturar extends SelectorComposer<Component> {
     @NotifyChange({"listaDetalleFacturaDAOMOdel", "subTotalCotizacion", "ivaCotizacion", "valorTotalCotizacion",
         "totalDescuento", "buscarNombreProd", "valorTotalInicialVent", "descuentoValorFinal", "subTotalBaseCero",
         "listaProducto", "totalItems", "subTotalCotizacion", "subTotalCotizacion13", "subTotalCotizacion14", "subTotalCotizacion15", "subTotalCotizacion5",
-        "ivaCotizacion5", "ivaCotizacion13", "ivaCotizacion14", "ivaCotizacion15"})
+        "ivaCotizacion5", "ivaCotizacion13", "ivaCotizacion14", "ivaCotizacion15", "numeroArticulos"})
     public void calcularValoresDesCantidadPorPorcentaje(@BindingParam("valor") DetalleFacturaDAO valor) {
         try {
             if (valor.getProducto() == null) {
@@ -1818,7 +1820,7 @@ public class Facturar extends SelectorComposer<Component> {
     @NotifyChange({"listaDetalleFacturaDAOMOdel", "subTotalCotizacion", "ivaCotizacion", "valorTotalCotizacion",
         "totalDescuento", "buscarNombreProd", "valorTotalInicialVent", "descuentoValorFinal", "subTotalBaseCero",
         "listaProducto", "totalItems", "subTotalCotizacion", "subTotalCotizacion13", "subTotalCotizacion14", "subTotalCotizacion15", "subTotalCotizacion5",
-        "ivaCotizacion5", "ivaCotizacion13", "ivaCotizacion14", "ivaCotizacion15"})
+        "ivaCotizacion5", "ivaCotizacion13", "ivaCotizacion14", "ivaCotizacion15", "numeroArticulos"})
     public void eliminarRegistros() {
         if (registrosSeleccionados.size() > 0) {
             //
@@ -1971,12 +1973,16 @@ public class Facturar extends SelectorComposer<Component> {
         BigDecimal sumaSubsidio = BigDecimal.ZERO;
         BigDecimal sumaDeItems = BigDecimal.ZERO;
         BigDecimal totalizado = BigDecimal.ZERO;
-
+        numeroArticulos = 0;
         BigDecimal descuentoMasIva = BigDecimal.ZERO;
 
         List<DetalleFacturaDAO> listaPedido = listaDetalleFacturaDAOMOdel.getInnerList();
         if (listaPedido.size() > 0) {
             for (DetalleFacturaDAO item : listaPedido) {
+
+                /*SUMAR ITEMS */
+                numeroArticulos = numeroArticulos + item.getCantidad().intValue();
+
                 sumaDeItems = sumaDeItems.add(BigDecimal.ONE);
                 if (item.getProducto() != null) {
                     totalizado = totalizado.add(item.getDetTotalconivadescuento());
@@ -2228,7 +2234,7 @@ public class Facturar extends SelectorComposer<Component> {
                 } else if (tipoVenta.equals("NTE") && (!tipoVentaAnterior.equals("FACT"))) {
                     //
                     verificarSecNumeracion();
-                } else if (tipoVenta.equals("NTV") && (!tipoVentaAnterior.equals("FACT"))) {
+                } else if (tipoVenta.equals("NTV") && (tipoVentaAnterior.equals("FACT"))) {
                     verificarSecNumeracion();
                 } else if (tipoVenta.equals("PROF") && (!tipoVentaAnterior.equals("PROF"))) {
                     numeroFactura = factura.getFacNumProforma();
@@ -2514,6 +2520,9 @@ public class Facturar extends SelectorComposer<Component> {
                         /*en el caso que no se desee autorizar la factura*/
                     } else {
                         autorizarFacturasSRI(factura);
+
+//                        UtilitarioAutorizarSRI autorizarSRI = new UtilitarioAutorizarSRI();
+//                        autorizarSRI.autorizarSRI(factura);
                     }
                 }
 
@@ -2527,7 +2536,42 @@ public class Facturar extends SelectorComposer<Component> {
              * NINGUNA PROFORMA DESCARGA
              */
 
- /* Registrar detalle de pago */
+ /*VERIFICA SI DESEA DESCARGAR DEL kARDEK*/
+            if ((tipoVenta.equals("FACT") && accion.equals("update"))) {
+                if (Messagebox.show("¿La factura ya se encuentra en el kardex desea registrarla nuevamente?", "Atención", Messagebox.YES | Messagebox.NO, Messagebox.INFORMATION) == Messagebox.YES) {
+                    descargarKardex = Boolean.TRUE;
+                } else {
+                    descargarKardex = Boolean.FALSE;
+                }
+            }
+            if (tipoVenta.equals("FACT") && (tipoVentaAnterior.equals("NTV"))) {
+                if (Messagebox.show("¿Ya se encuentra en el kardex desea registrarla nuevamente?", "Atención", Messagebox.YES | Messagebox.NO, Messagebox.INFORMATION) == Messagebox.YES) {
+                    descargarKardex = Boolean.TRUE;
+                } else {
+                    descargarKardex = Boolean.FALSE;
+                }
+            } else if (tipoVenta.equals("NTV") && (tipoVentaAnterior.equals("NTV"))) {
+                if (Messagebox.show("¿Ya se encuentra en el kardex desea registrarla nuevamente?", "Atención", Messagebox.YES | Messagebox.NO, Messagebox.INFORMATION) == Messagebox.YES) {
+                    descargarKardex = Boolean.TRUE;
+                } else {
+                    descargarKardex = Boolean.FALSE;
+                }
+            } else if (tipoVenta.equals("NTE") && (tipoVentaAnterior.equals("FACT"))) {
+                descargarKardex = Boolean.FALSE;
+
+            } else if (tipoVenta.equals("NTV") && (tipoVentaAnterior.equals("FACT"))) {
+                if (Messagebox.show("¿Ya se encuentra en el kardex desea registrarla nuevamente?", "Atención", Messagebox.YES | Messagebox.NO, Messagebox.INFORMATION) == Messagebox.YES) {
+                    descargarKardex = Boolean.TRUE;
+                } else {
+                    descargarKardex = Boolean.FALSE;
+                }
+            } else if (tipoVenta.equals("PROF") && (tipoVentaAnterior.equals("PROF"))) {
+                descargarKardex = Boolean.FALSE;
+            } else {
+
+            }
+
+            /* Registrar detalle de pago */
             if (descargarKardex) {
                 /* INGRESAMOS LO MOVIMIENTOS AL KARDEX */
                 Kardex kardex = null;
@@ -3344,7 +3388,7 @@ public class Facturar extends SelectorComposer<Component> {
     @NotifyChange({"listaDetalleFacturaDAOMOdel", "subTotalCotizacion", "ivaCotizacion", "valorTotalCotizacion",
         "totalDescuento", "buscarNombreProd", "valorTotalInicialVent", "descuentoValorFinal", "subTotalBaseCero",
         "listaProducto", "totalItems", "subTotalCotizacion", "subTotalCotizacion13", "subTotalCotizacion14", "subTotalCotizacion15", "subTotalCotizacion5",
-        "ivaCotizacion5", "ivaCotizacion13", "ivaCotizacion14", "ivaCotizacion15"})
+        "ivaCotizacion5", "ivaCotizacion13", "ivaCotizacion14", "ivaCotizacion15", "numeroArticulos"})
     public void cambioPrecio(@BindingParam("valor") DetalleFacturaDAO valor) {
         if (parametrizar.getParNumRegistrosFactura().intValue() <= listaDetalleFacturaDAOMOdel.size()) {
             Clients.showNotification("Numero de registros permitidos, imprima y genere otra factura",
@@ -4177,4 +4221,13 @@ public class Facturar extends SelectorComposer<Component> {
         }
 
     }
+
+    public Integer getNumeroArticulos() {
+        return numeroArticulos;
+    }
+
+    public void setNumeroArticulos(Integer numeroArticulos) {
+        this.numeroArticulos = numeroArticulos;
+    }
+
 }

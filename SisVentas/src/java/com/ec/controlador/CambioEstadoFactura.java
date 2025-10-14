@@ -68,8 +68,9 @@ public class CambioEstadoFactura {
         List<DetalleKardex> listadetalleKardexs = servicioDetalleKardex.findByFactura(facturar);
         if (!listadetalleKardexs.isEmpty()) {
             if (Messagebox.show("¿La factura ya se encuentra en el kardex desea registrarla nuevamente?", "Atención", Messagebox.YES | Messagebox.NO, Messagebox.INFORMATION) == Messagebox.YES) {
-
+                servicioFactura.modificar(facturar);
             } else {
+                servicioFactura.modificar(facturar);
                 windowEstFact.detach();
                 return;
             }
@@ -133,7 +134,6 @@ public class CambioEstadoFactura {
                 }
             }
         }
-        servicioFactura.modificar(facturar);
 
         Clients.showNotification("Guardado correctamente",
                 Clients.NOTIFICATION_TYPE_INFO, null, "end_center", 1000, true);

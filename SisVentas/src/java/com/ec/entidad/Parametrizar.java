@@ -320,7 +320,7 @@ public class Parametrizar implements Serializable {
     }
 
     public Date getParCaduca() {
-        return parCaduca;
+        return parCaduca == null ? new Date() : parCaduca;
     }
 
     public void setParCaduca(Date parCaduca) {
@@ -374,7 +374,7 @@ public class Parametrizar implements Serializable {
     }
 
     public Integer getParNumeroFactura() {
-        return parNumeroFactura==null?0:parNumeroFactura;
+        return parNumeroFactura == null ? 0 : parNumeroFactura;
     }
 
     public void setParNumeroFactura(Integer parNumeroFactura) {
@@ -433,7 +433,7 @@ public class Parametrizar implements Serializable {
     }
 
     public Boolean getBloqueoProducto() {
-        return bloqueoProducto==null?Boolean.FALSE:bloqueoProducto;
+        return bloqueoProducto == null ? Boolean.FALSE : bloqueoProducto;
     }
 
     public void setBloqueoProducto(Boolean bloqueoProducto) {

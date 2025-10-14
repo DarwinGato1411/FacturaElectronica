@@ -236,9 +236,10 @@
                                         />
                                     </div>
                                     <div class="wrapper_input" >
-                                        <span></span>
+                                        <span># Items:</span>
                                         <textbox  
-                                            value="" 
+                                             value="@bind(vm.numeroArticulos)" 
+                                            
                                             style="background-color:transparent;border-color:transparent"
                                             onChange="self.setValue(self.getValue().toUpperCase().trim());" 
                                             class="input" 
@@ -381,10 +382,10 @@
                                        
 
                                     </div>
-                                    <div class="wrapper_input">
+<!--                                    <div class="wrapper_input">
                                        
-                                        <!--                                    </div>
-                                        <div class="wrapper_input">-->
+                                                                            </div>-->
+                                        <div class="wrapper_input">
                                         <button 
                                             autodisable="self"   
                                             class="fa-solid fa-floppy-disk btn_fact btn_primary"                  

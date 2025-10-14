@@ -67,7 +67,6 @@ public class Cliente implements Serializable {
     @Size(max = 100)
     @Column(name = "cli_cedula")
     private String cliCedula;
-    @Size(max = 100)
     @Column(name = "cli_nombre")
     private String cliNombre;
     @Size(max = 150)

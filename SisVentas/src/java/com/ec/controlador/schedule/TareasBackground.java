@@ -497,7 +497,8 @@ public class TareasBackground implements ServletContextListener {
         try {
             emf.getTransaction().begin();
             con = emf.unwrap(Connection.class);
-            String reportPath = ReporteUtil.class.getResource("/reportes/factura.jasper").getPath();
+            String reportPath = "E:\\Sistema\\factura.jasper";
+//            String reportPath = ReporteUtil.class.getResource("/reportes/factura.jasper").getPath();
 //            String reportPath = "";
 //            emf.getTransaction().begin();
 //            con = emf.unwrap(Connection.class);
