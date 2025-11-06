@@ -67,10 +67,10 @@ public class Cliente implements Serializable {
     @Size(max = 100)
     @Column(name = "cli_cedula")
     private String cliCedula;
-    @Size(max = 100)
+ 
     @Column(name = "cli_nombre")
     private String cliNombre;
-    @Size(max = 150)
+
     @Column(name = "cli_razon_social")
     private String cliRazonSocial;
     @Size(max = 150)
@@ -82,16 +82,16 @@ public class Cliente implements Serializable {
     @Size(max = 20)
     @Column(name = "cli_movil")
     private String cliMovil;
-    @Size(max = 100)
+  
     @Column(name = "cli_correo")
     private String cliCorreo;
-    @Size(max = 100)
+
     @Column(name = "cli_nombres")
     private String cliNombres;
-    @Size(max = 100)
+
     @Column(name = "cli_apellidos")
     private String cliApellidos;
-    @Size(max = 100)
+    
     @Column(name = "ciudad")
     private String ciudad;
     @Size(max = 10)

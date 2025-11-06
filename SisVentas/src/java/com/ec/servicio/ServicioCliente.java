@@ -34,6 +34,7 @@ public class ServicioCliente {
             em.persist(cliente);
             em.getTransaction().commit();
         } catch (Exception e) {
+            e.printStackTrace();
             System.out.println("Error en insertar cliente "+e.getMessage());
         } finally {
             em.close();

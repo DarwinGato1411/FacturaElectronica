@@ -61,7 +61,7 @@
                     <div class="wrapper_input_text" style="width:100%">
                         <div class="fa-solid fa-dollar-sign icon"></div>
                         <textbox  id="txtNombreComercial"
-                          maxlength="100" 
+                          maxlength="295" 
                           value="@bind(vm.cliente.cliNombre)" 
                           onChange="self.setValue(self.getValue().toUpperCase().trim());" 
                           
