@@ -315,7 +315,7 @@ public class AutorizarDocumentos {
                     + "        <tipoIdentificacionComprador>" + valor.getIdCliente().getIdTipoIdentificacion().getTidCodigo() + "</tipoIdentificacionComprador>\n"
                     + "        <razonSocialComprador>" + removeCaracteres(valor.getIdCliente().getCliNombre()) + "</razonSocialComprador>\n"
                     + "        <identificacionComprador>" + valor.getIdCliente().getCliCedula() + "</identificacionComprador>\n"
-                     + "        <direccionComprador>" + (valor.getIdCliente().getCliDireccion().length() > 0?valor.getIdCliente().getCliDireccion():" ") + "</direccionComprador>\n"
+                    + "        <direccionComprador>" + (valor.getIdCliente().getCliDireccion().length() > 0 ? valor.getIdCliente().getCliDireccion() : " ") + "</direccionComprador>\n"
                     + "        <totalSinImpuestos>" + ArchivoUtils.redondearDecimales(valor.getFacSubtotal(), 2) + "</totalSinImpuestos>\n"
                     + "         <totalSubsidio>" + ArchivoUtils.redondearDecimales(valor.getFacSubsidio(), 2) + "</totalSubsidio>\n"
                     + "        <totalDescuento>" + ArchivoUtils.redondearDecimales(valor.getFacDescuento(), 2) + "</totalDescuento>\n"
@@ -352,6 +352,7 @@ public class AutorizarDocumentos {
 
                 linea = ("        <detalle>\n"
                         + "            <codigoPrincipal>" + removeCaracteres(item.getIdProducto().getProdCodigo()) + "</codigoPrincipal>\n"
+                        + (item.getIdProducto().getProdCodigoAux() != null ? "            <codigoAuxiliar>" + removeCaracteres(item.getIdProducto().getProdCodigoAux()) + "</codigoAuxiliar>\n" : " ")
                         + "            <descripcion>" + removeCaracteres(item.getDetDescripcion()) + "</descripcion>\n"
                         //+ "            <descripcion>" + removeCaracteres(item.getIdProducto().getProdNombre()) + "</descripcion>\n"
                         + "            <cantidad>" + item.getDetCantidad().setScale(2, RoundingMode.FLOOR) + "</cantidad>\n"
@@ -386,7 +387,7 @@ public class AutorizarDocumentos {
                     //                    + (valor.getIdCliente().getCliMovil().length() > 0 ? "<campoAdicional nombre=\"CELULAR\">" + valor.getIdCliente().getCliMovil() + " </campoAdicional>\n" : " ")
                     + "<campoAdicional nombre=\"PLAZO\"> DIAS</campoAdicional>\n"
                     + (valor.getFacPlazo().toString().length() > 0 ? "<campoAdicional nombre=\"DIAS\">" + valor.getFacPlazo().setScale(0) + "</campoAdicional>\n" : " ")
-//                    + (valor.getFacPorcentajeIva().length() > 0 ? "<campoAdicional nombre=\"TARIFAIMP\">" + valor.getFacPorcentajeIva() + "</campoAdicional>\n" : " ")
+                    //                    + (valor.getFacPorcentajeIva().length() > 0 ? "<campoAdicional nombre=\"TARIFAIMP\">" + valor.getFacPorcentajeIva() + "</campoAdicional>\n" : " ")
                     //                        + (!amb.getAmGeneral() ? ((amb.getAmRimpe() ? "<campoAdicional nombre=\"CONTRIBUYENTE REGIMEN RIMPE\">CONTRIBUYENTE REGIMEN RIMPE</campoAdicional>\n" : "<campoAdicional nombre=\"CONTRIBUYENTE REGIMEN RIMPE\">CONTRIBUYENTE NEGOCIO POPULAR REGIMEN RIMPE </campoAdicional>\n")) : "")
                     + (amb.getAmGeneral() ? "<campoAdicional nombre=\"CONTRIBUYENTE REGIMEN GENERAL\">CONTRIBUYENTE REGIMEN GENERAL</campoAdicional>\n" : "")
                     + (amb.getAmCodigoArtesano() != null ? (!amb.getAmCodigoArtesano().equals("") ? "<campoAdicional nombre=\"CODIGO ARTESANO\">" + amb.getAmCodigoArtesano() + "</campoAdicional>\n" : "") : "")
@@ -429,42 +430,42 @@ public class AutorizarDocumentos {
                     + "                <codigo>" + valor.getFacCodIva() + "</codigo>\n"
                     + "                <codigoPorcentaje>0</codigoPorcentaje>\n"
                     + "                <baseImponible>" + ArchivoUtils.redondearDecimales(valor.getFacTotalBaseCero(), 2) + "</baseImponible>\n"
-//                    + "                <tarifa>0</tarifa>\n"
+                    //                    + "                <tarifa>0</tarifa>\n"
                     + "                <valor>0.00</valor>\n"
                     + "             </totalImpuesto>\n");
             String TARIFA12 = ("             <totalImpuesto>\n"
                     + "             <codigo>" + valor.getFacCodIva() + "</codigo>\n"
                     + "                 <codigoPorcentaje>2</codigoPorcentaje>\n"
                     + "                 <baseImponible>" + valor.getFacTotalBaseGravaba() + "</baseImponible>\n"
-//                    + "                 <tarifa>" + valor.getFacPorcentajeIva() + "</tarifa>\n"
+                    //                    + "                 <tarifa>" + valor.getFacPorcentajeIva() + "</tarifa>\n"
                     + "                 <valor>" + ArchivoUtils.redondearDecimales(valor.getFacIva(), 2) + "</valor>\n"
                     + "              </totalImpuesto>\n");
             String TARIFA5 = ("             <totalImpuesto>\n"
                     + "             <codigo>" + valor.getFacCodIva() + "</codigo>\n"
                     + "                 <codigoPorcentaje>5</codigoPorcentaje>\n"
                     + "                 <baseImponible>" + valor.getFacSubt5() + "</baseImponible>\n"
-//                    + "                 <tarifa>5</tarifa>\n"
+                    //                    + "                 <tarifa>5</tarifa>\n"
                     + "                 <valor>" + ArchivoUtils.redondearDecimales(valor.getFacIva5(), 2) + "</valor>\n"
                     + "              </totalImpuesto>\n");
             String TARIFA13 = ("             <totalImpuesto>\n"
                     + "             <codigo>" + valor.getFacCodIva() + "</codigo>\n"
                     + "                 <codigoPorcentaje>10</codigoPorcentaje>\n"
                     + "                 <baseImponible>" + valor.getFacSubt13() + "</baseImponible>\n"
-//                    + "                 <tarifa>13</tarifa>\n"
+                    //                    + "                 <tarifa>13</tarifa>\n"
                     + "                 <valor>" + ArchivoUtils.redondearDecimales(valor.getFacIva13(), 2) + "</valor>\n"
                     + "              </totalImpuesto>\n");
             String TARIFA14 = ("             <totalImpuesto>\n"
                     + "             <codigo>" + valor.getFacCodIva() + "</codigo>\n"
                     + "                 <codigoPorcentaje>3</codigoPorcentaje>\n"
                     + "                 <baseImponible>" + valor.getFacSubt14() + "</baseImponible>\n"
-//                    + "                 <tarifa>14</tarifa>\n"
+                    //                    + "                 <tarifa>14</tarifa>\n"
                     + "                 <valor>" + ArchivoUtils.redondearDecimales(valor.getFacIva14(), 2) + "</valor>\n"
                     + "              </totalImpuesto>\n");
             String TARIFA15 = ("             <totalImpuesto>\n"
                     + "             <codigo>" + valor.getFacCodIva() + "</codigo>\n"
                     + "                 <codigoPorcentaje>4</codigoPorcentaje>\n"
                     + "                 <baseImponible>" + valor.getFacSubt15() + "</baseImponible>\n"
-//                    + "                 <tarifa>15</tarifa>\n"
+                    //                    + "                 <tarifa>15</tarifa>\n"
                     + "                 <valor>" + ArchivoUtils.redondearDecimales(valor.getFacIva15(), 2) + "</valor>\n"
                     + "              </totalImpuesto>\n");
 
@@ -503,7 +504,7 @@ public class AutorizarDocumentos {
                     //+ "        <contribuyenteEspecial>5368</contribuyenteEspecial>\n"
                     + "        <obligadoContabilidad>" + amb.getLlevarContabilidad() + "</obligadoContabilidad>\n"
                     + "        <codDocModificado>" + valor.getTipodocumentomod() + "</codDocModificado>\n"
-                    + "        <numDocModificado>" + valor.getIdFactura().getCodestablecimiento()+ "-" + valor.getIdFactura().getPuntoemision() + "-" + valor.getIdFactura().getFacNumeroText() + "</numDocModificado>\n"
+                    + "        <numDocModificado>" + valor.getIdFactura().getCodestablecimiento() + "-" + valor.getIdFactura().getPuntoemision() + "-" + valor.getIdFactura().getFacNumeroText() + "</numDocModificado>\n"
                     + "        <fechaEmisionDocSustento>" + formato.format(valor.getFacFechaSustento()) + "</fechaEmisionDocSustento>\n"
                     + "        <totalSinImpuestos>" + valor.getFacSubtotal().setScale(2, RoundingMode.FLOOR) + "</totalSinImpuestos>\n"
                     + "        <valorModificacion>" + valor.getFacTotal().setScale(2, RoundingMode.FLOOR) + "</valorModificacion>\n"
@@ -604,9 +605,6 @@ public class AutorizarDocumentos {
     }
 
     //</editor-fold>
-    
-    
-    
     //<editor-fold defaultstate="collapsed" desc=" ARMAR GUIA DE REMISION">  
     public String generaXMLGuiaRemision(Guiaremision valor, Tipoambiente amb, String folderDestino, String nombreArchivoXML) {
         FileOutputStream out;

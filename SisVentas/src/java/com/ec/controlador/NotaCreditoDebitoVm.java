@@ -7,18 +7,23 @@ package com.ec.controlador;
 
 import com.ec.dao.DetalleFacturaDAO;
 import com.ec.entidad.Cliente;
+import com.ec.entidad.ComboProducto;
 import com.ec.entidad.DetalleFactura;
+import com.ec.entidad.DetalleKardex;
 import com.ec.entidad.Factura;
 import com.ec.entidad.FormaPago;
+import com.ec.entidad.Kardex;
 import com.ec.entidad.NotaCreditoDebito;
 import com.ec.entidad.Parametrizar;
 import com.ec.entidad.Producto;
 import com.ec.entidad.Tipoambiente;
 import com.ec.entidad.Tipocomprobante;
+import com.ec.entidad.Tipokardex;
 import com.ec.seguridad.EnumSesion;
 import com.ec.seguridad.UserCredential;
 import com.ec.servicio.HelperPersistencia;
 import com.ec.servicio.ServicioCliente;
+import com.ec.servicio.ServicioComboProducto;
 import com.ec.servicio.ServicioDetalleFactura;
 import com.ec.servicio.ServicioDetalleKardex;
 import com.ec.servicio.ServicioDetalleNotaCredito;
@@ -33,6 +38,7 @@ import com.ec.servicio.ServicioTipoAmbiente;
 import com.ec.servicio.ServicioTipoKardex;
 import com.ec.untilitario.ArchivoUtils;
 import com.ec.untilitario.ParamFactura;
+import com.ec.untilitario.TotalKardex;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -178,6 +184,9 @@ public class NotaCreditoDebitoVm {
     private BigDecimal ivaCotizacion14 = BigDecimal.ZERO;
     private BigDecimal ivaCotizacion15 = BigDecimal.ZERO;
 //    private BigDecimal totalDescuento = BigDecimal.ZERO;
+    
+        /* PARA GESTION DE COMBO DE PRODCUTO */
+    ServicioComboProducto servicioComboProducto = new ServicioComboProducto();
 
     @AfterCompose
     public void afterCompose(@ExecutionArgParam("valor") ParamFactura valor, @ContextParam(ContextType.VIEW) Component view) {
@@ -1063,6 +1072,88 @@ public class NotaCreditoDebitoVm {
             creditoDebito.setMotivo(motivo);
 
             servicioNotaCredito.guardarNotaCreditoDebito(detalleFactura, creditoDebito);
+            
+            if (true) {
+                /* INGRESAMOS LO MOVIMIENTOS AL KARDEX */
+                Kardex kardex = null;
+                DetalleKardex detalleKardex = null;
+                Tipokardex tipokardex = servicioTipoKardex.findByTipkSigla("ING");
+                for (DetalleFacturaDAO item : listaPedido) {
+                    if (item.getProducto() != null) {
+                        if (!item.getProducto().getProdEsreceta()) {
+
+                            if (servicioKardex.FindALlKardexs(item.getProducto()) == null) {
+                                kardex = new Kardex();
+                                kardex.setIdProducto(item.getProducto());
+                                kardex.setKarDetalle("Inicio de inventario desde la facturacion para el producto: "
+                                        + item.getProducto().getProdNombre());
+                                kardex.setKarFecha(new Date());
+                                kardex.setKarFechaKardex(new Date());
+                                kardex.setKarTotal(BigDecimal.ZERO);
+                                servicioKardex.crear(kardex);
+                            }
+                            detalleKardex = new DetalleKardex();
+                            kardex = servicioKardex.FindALlKardexs(item.getProducto());
+                            detalleKardex.setIdKardex(kardex);
+                            detalleKardex.setDetkFechakardex(new Date());
+                            detalleKardex.setDetkFechacreacion(new Date());
+                            detalleKardex.setIdTipokardex(tipokardex);
+                            detalleKardex.setDetkKardexmanual(Boolean.FALSE);
+                            detalleKardex.setDetkDetalles("Aumenta al kardex con NC"
+                                    + "-" + numeroFactura);
+                            detalleKardex.setIdFactura(factura);
+                            detalleKardex.setDetkCantidad(item.getCantidad());
+                            servicioDetalleKardex.crear(detalleKardex);
+//                            BigDecimal total = kardex.getKarTotal();
+//                            total = total.subtract(item.getCantidad());
+//                            kardex.setKarTotal(total);
+//                            servicioKardex.modificar(kardex);
+
+                            TotalKardex totales = servicioKardex.totalesForKardex(kardex);
+                            BigDecimal total = totales.getTotalKardex();
+                            kardex.setKarTotal(total);
+                            servicioKardex.modificar(kardex);
+
+                        } else {
+                            List<ComboProducto> lislaRecup = servicioComboProducto.findForProducto(item.getProducto());
+                            for (ComboProducto comboProducto : lislaRecup) {
+                                if (servicioKardex.FindALlKardexs(comboProducto.getIdProducto()) == null) {
+                                    kardex = new Kardex();
+                                    kardex.setIdProducto(comboProducto.getIdProducto());
+                                    kardex.setKarDetalle("Inicio de inventario desde la facturacion para el producto: "
+                                            + item.getProducto().getProdNombre());
+                                    kardex.setKarFecha(new Date());
+                                    kardex.setKarFechaKardex(new Date());
+                                    kardex.setKarTotal(BigDecimal.ZERO);
+                                    servicioKardex.crear(kardex);
+                                }
+                                detalleKardex = new DetalleKardex();
+                                kardex = servicioKardex.FindALlKardexs(comboProducto.getIdProducto());
+                                detalleKardex.setIdKardex(kardex);
+                                detalleKardex.setDetkFechakardex(new Date());
+                                detalleKardex.setDetkFechacreacion(new Date());
+                                detalleKardex.setIdTipokardex(tipokardex);
+                                detalleKardex.setDetkKardexmanual(Boolean.FALSE);
+                                detalleKardex.setDetkDetalles("Aumenta kardex con NC-"
+                                        + numeroFactura);
+                                detalleKardex.setIdFactura(factura);
+
+                                /* calcular la cantidad a descontar del Kardex */
+                                BigDecimal cantidadDescuento = comboProducto.getComCantidad()
+                                        .multiply(item.getCantidad());
+                                detalleKardex.setDetkCantidad(cantidadDescuento);
+                                servicioDetalleKardex.crear(detalleKardex);
+                                /* ACTUALIZA EL TOTAL DEL KARDEX */
+                                TotalKardex totales = servicioKardex.totalesForKardex(kardex);
+                                BigDecimal total = totales.getTotalKardex();
+                                kardex.setKarTotal(total);
+                                servicioKardex.modificar(kardex);
+                            }
+                        }
+                    }
+                }
+
+            }
 
             reporteGeneral();
             if (accion.equals("create")) {

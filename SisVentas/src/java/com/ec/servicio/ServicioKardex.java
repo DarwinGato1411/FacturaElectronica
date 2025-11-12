@@ -105,7 +105,7 @@ public class ServicioKardex {
         try {
             em = HelperPersistencia.getEMF();
             em.getTransaction().begin();
-            Query query = em.createNamedQuery("Kardex.findByIdProducto", Kardex.class);
+            Query query = em.createQuery("SELECT k FROM Kardex k WHERE k.idProducto = :idProducto ORDER BY k.karFechaKardex desc");
             query.setParameter("idProducto", producto);
             listaKardexs = (List<Kardex>) query.getResultList();
             if (listaKardexs.size() > 0) {

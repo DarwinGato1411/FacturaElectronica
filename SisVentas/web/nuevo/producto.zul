@@ -310,6 +310,33 @@
 
 
             </div>
+            <div class="container_row_input">
+                <div class="wrapper_input_mod">
+                    <span>Código Aux: </span>
+                    <div class="wrapper_input_text">
+                        <div class="fa-solid fa-barcode icon"></div>
+                        <textbox  
+                            maxlength="20"   
+                            onChange="self.setValue(self.getValue().toUpperCase().trim());" 
+                            value="@bind(vm.producto.prodCodigoAux)"  
+                            class="input_text" />
+                    </div>
+                </div>
+                <div class="wrapper_input_mod">
+                    
+                </div>
+                <div class="wrapper_input_mod" style="position: relative">
+                   
+                </div>
+                
+
+
+            </div>
+            
+            
+            
+            
+            
         </div>
         <div class="body">
             <div class="container_row_input">
