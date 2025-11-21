@@ -61,7 +61,7 @@ public class ListaDetallePago {
     ServicioFactura servicioFactura = new ServicioFactura();
     private List<DetallePago> lstPagos = new ArrayList<DetallePago>();
     private Factura factura = new Factura();
-    private Integer numeroMeses = 0;
+    private Integer numeroMeses = 1;
     private BigDecimal saldo = BigDecimal.ZERO;
     private BigDecimal totalFactura = BigDecimal.ZERO;
 
@@ -104,7 +104,7 @@ public class ListaDetallePago {
     @NotifyChange({"lstPagos", "numeroMeses", "saldo"})
     public void calculoCuota() {
         try {
-            if (numeroMeses <= 0) {
+            if (numeroMeses < 0) {
                 Clients.showNotification("El numero de meses debe ser mayora a cero",
                         Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 3000, true);
                 return;

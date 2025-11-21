@@ -2330,6 +2330,7 @@ public class Facturar extends SelectorComposer<Component> {
                 factura.setFacNumNotaEntrega(0);
                 factura.setFacNumProforma(numeroFactura);
             } else if (tipoVenta.equals("NTE")) {
+                descargarKardex = Boolean.TRUE;
                 factura.setFacNotaEntregaProcess("N");
                 factura.setFacNumero(0);
                 factura.setFacNumProforma(0);

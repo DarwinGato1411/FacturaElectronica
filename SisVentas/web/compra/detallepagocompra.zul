@@ -49,7 +49,8 @@
             <!--<listheader width="20%"  label="Valor " align="right"  />--> 
             <listheader width="20%"  label="Valor" align="right" /> 
             <!--<listheader width="15%"  label="Saldo" align="right" />-->               
-            <listheader width="10%"  label="" align="right" />               
+            <listheader width="10%"  label="" align="center" />               
+            <listheader width="10%"  label="" align="center" />               
         </listhead>    
                     
         <template name="model">                                                            
@@ -82,6 +83,12 @@
                     <decimalbox format="###.####" readonly="true" 
                                 value="@bind(each.detpSaldo)" width="96%"/>
                 </listcell>-->
+                <listcell>    
+                    <image  src="/iconos/pdf.png" 
+                            onClick="@command('imprimir',valor=each)" 
+                            tooltiptext="Imprimir pago"/>
+
+                </listcell>
                 <listcell>    
                     <image  src="/iconos/guardar.png" 
                             onClick="@command('modificar',valor=each)" 

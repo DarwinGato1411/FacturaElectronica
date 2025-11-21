@@ -139,7 +139,7 @@ public class ServicioDetalleKardex {
         try {
             em = HelperPersistencia.getEMF();
             em.getTransaction().begin();
-            Query query = em.createQuery("SELECT d FROM DetalleKardex d WHERE d.idKardex = :idKardex ORDER BY d.detkFechakardex ASC");
+            Query query = em.createQuery("SELECT d FROM DetalleKardex d WHERE d.idKardex = :idKardex ORDER BY d.detkFechakardex DESC");
             query.setParameter("idKardex", kardex);
             listadetalleKardexs = (List<DetalleKardex>) query.getResultList();
             em.getTransaction().commit();

@@ -900,7 +900,7 @@ public class Factura implements Serializable {
     }
 
     public String getFacNumDocumento() {
-        return facNumDocumento;
+        return facNumDocumento == null ? "EFECTIVO" : facNumDocumento;
     }
 
     public void setFacNumDocumento(String facNumDocumento) {
