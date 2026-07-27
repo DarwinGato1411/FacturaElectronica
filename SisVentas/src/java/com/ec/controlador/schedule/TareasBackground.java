@@ -13,7 +13,6 @@ import com.ec.servicio.ServicioFactura;
 import com.ec.servicio.ServicioTipoAmbiente;
 import com.ec.untilitario.ArchivoUtils;
 import com.ec.untilitario.AutorizarDocumentos;
-import com.ec.untilitario.MailerClass;
 import com.ec.untilitario.XAdESBESSignature;
 import ec.gob.sri.comprobantes.exception.RespuestaAutorizacionException;
 import ec.gob.sri.comprobantes.util.reportes.ReporteUtil;
@@ -28,6 +27,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.Instant;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -72,17 +72,25 @@ public class TareasBackground implements ServletContextListener {
 
         Runnable tarea = () -> {
             String time = java.time.LocalDateTime.now().toString();
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(new Date());
+            cal.add(Calendar.DAY_OF_MONTH, -5);
 
-            Date fechaInicio = ArchivoUtils.recuperarFecha(new Date(), "inicio");
+            Date hoy = new Date();
+            Date ayer = cal.getTime();
+
+            Date fechaInicio = ArchivoUtils.recuperarFecha(ayer, "inicio");
             Date fechaFin = ArchivoUtils.recuperarFecha(new Date(), "fin");
 
             // Aquí tu lógica: actualizar BD, enviar correo, etc.
+            System.out.println("ENVIO ACTIVADO ******************** " + fechaInicio + " *** " + fechaFin);
             if (amb.getAmEnvioSriAutomatico()) {
                 List<Factura> listaFactura = servicioFactura.findBetweenPendientesEnviarSRI(fechaInicio, fechaFin);
                 List<Factura> listaFacturaDev = servicioFactura.findBetweenDevueltaPorReenviarSRI(fechaInicio, fechaFin);
-                System.out.println("Envio activado: " + time);
+
                 for (Factura items : listaFactura) {
                     try {
+                        System.out.println("ENVIO ACTIVADO: " + amb.getAmRazonSocial() + " " + time);
                         autorizarFacturasSRI(items);
                     } catch (JRException | IOException | NamingException | SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
                         Logger.getLogger(TareasBackground.class.getName()).log(Level.SEVERE, null, ex);
@@ -90,9 +98,9 @@ public class TareasBackground implements ServletContextListener {
                 }
 
 //                 List<Factura> listaFacturaDev = servicioFactura.findBetweenDevueltaPorReenviarSRI(fechaInicio, fechaFin);
-                System.out.println("Envio activado: " + time);
                 for (Factura items : listaFacturaDev) {
                     try {
+                        System.out.println("REENVIO  ACTIVADO: " + amb.getAmRazonSocial() + " " + time);
                         reenviarSRI(items);
                     } catch (JRException | IOException | NamingException | SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
                         Logger.getLogger(TareasBackground.class.getName()).log(Level.SEVERE, null, ex);
@@ -100,12 +108,19 @@ public class TareasBackground implements ServletContextListener {
                 }
 
             } else {
-                System.out.println("Envio desactivado" + time);
+                System.out.println("ENVIO DESACTIVADO" + amb.getAmRazonSocial() + " " + time);
+
             }
         };
 
         // Ejecutar cada 10 segundos, empezando inmediatamente
-        scheduler.scheduleAtFixedRate(tarea, 0, 1, TimeUnit.MINUTES);
+//        scheduler.scheduleAtFixedRate(tarea, 0, 20, TimeUnit.MINUTES);
+        scheduler.scheduleWithFixedDelay(
+                tarea,
+                0,
+                10,
+                TimeUnit.SECONDS
+        );
     }
 
     @Override
@@ -300,22 +315,12 @@ public class TareasBackground implements ServletContextListener {
                 valor.setEstadosri(resSolicitud.getEstado());
                 valor.setMensajesri(resSolicitud.getComprobantes().getComprobante().get(0).getMensajes().getMensaje().get(0).getMensaje());
                 valor.setFacMsmInfoSri(smsInfo);
-                if (smsInfo != null) {
-//                    if (smsInfo.equals("ERROR SECUENCIAL REGISTRADO")) {
-//
-//                        if (Messagebox.show("¿El numero de factura ya se encuentra en el SRI desea crear un nuevo secuencial?", "Atención", Messagebox.YES | Messagebox.NO, Messagebox.INFORMATION) == Messagebox.YES) {
-//                            numeroFactura();
-//                            valor.setFacNumero(numeroFactura);
-//                            valor.setFacNumeroText(numeroFacturaText);
-//                            Clients.showNotification("EL NUEVO SECUENCIAL ASIGNADO ES:  " + numeroFacturaText + " ESTE DOCUMENTO DEBE SER ENVIADO NUEVAMENTE",
-//                                    Clients.NOTIFICATION_TYPE_ERROR, null, "middle_center", 5000, true);
-//
-//                        }
-//
-                    servicioFactura.modificar(valor);
-//                    }
-                }
 
+                servicioFactura.modificar(valor);
+//                if (resSolicitud.getEstado().trim().equals("EN PROCESO") || resSolicitud.getEstado().trim().equals("CLAVE ACCESO REGISTRADA")) {
+////                    Clients.showNotification("Autoriza con reenvio ", Clients.NOTIFICATION_TYPE_INFO, null, "middle_center", 3000, true);
+//                    reenviarSRI(valor);
+//                }
             }
         } else {
 

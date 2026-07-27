@@ -48,7 +48,6 @@ import com.ec.untilitario.AutorizarDocumentos;
 import com.ec.untilitario.MailerClass;
 import com.ec.untilitario.ParamFactura;
 import com.ec.untilitario.TotalKardex;
-import com.ec.untilitario.UtilitarioAutorizarSRI;
 import com.ec.untilitario.Verificaciones;
 import com.ec.untilitario.XAdESBESSignature;
 import ec.gob.sri.comprobantes.exception.RespuestaAutorizacionException;
@@ -107,7 +106,6 @@ import org.zkoss.bind.annotation.ExecutionArgParam;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.image.AImage;
 import org.zkoss.util.media.AMedia;
-import org.zkoss.xel.VariableResolver;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Path;
@@ -268,7 +266,7 @@ public class Facturar extends SelectorComposer<Component> {
 
     /* si es con o sin guia */
     private String facConSinGuia = "";
-    private String facplazo = "30";
+    private String facplazo = "0";
 
     /* CUENTA LOS ITEMS DE LA FACTURA */
     private String totalItems = "";
@@ -317,6 +315,11 @@ public class Facturar extends SelectorComposer<Component> {
     private String filePath;
     byte[] buffer = new byte[1024 * 1024];
     private AImage fotoGeneral = null;
+    
+    
+    private String numComprobante = "";
+    private String entidadFinanciera = "PICHINCHA";    
+    private BigDecimal valorComprobante = BigDecimal.ZERO;
 
     @AfterCompose
     public void afterCompose(@ExecutionArgParam("valor") ParamFactura valor,
@@ -333,6 +336,7 @@ public class Facturar extends SelectorComposer<Component> {
 
 //            List<Factura> listaFacturasPendientes = servicioFactura.findEstadoCliente("PE", clienteBuscado);
             saldoFacturas = BigDecimal.ZERO;
+            factura.setEntidadFinanciera("PICHINCHA");
         } else if (valor.getBusqueda().equals("producto") || valor.getBusqueda().equals("cliente")) {
             FindClienteLikeNombre();
         } else if (valor.getBusqueda().equals("cambio")) {
@@ -363,7 +367,7 @@ public class Facturar extends SelectorComposer<Component> {
         listaTransportistas = servicioTransportista.findTransportista("");
 //        listaReferencia = servicioReferencia.findAll();
     }
-    // <editor-fold defaultstate="collapsed" desc="Facturar">
+    // <editor-fold defaultstate="collapsed" desc=Facturar1r">
 
     @Command
     public void aperturaCaja() {
@@ -479,6 +483,10 @@ public class Facturar extends SelectorComposer<Component> {
             numeroFactura = factura.getFacNumNotaVenta();
         }
 
+        
+        if (factura.getEntidadFinanciera()==null) {
+            factura.setEntidadFinanciera("PICHINCHA");
+        }
         fechafacturacion = factura.getFacFecha();
         /* RECUPERA LOS VALORES TOTALES DE LA FACTURA */
         subTotalCotizacion = factura.getFacSubtotal();
@@ -2132,10 +2140,15 @@ public class Facturar extends SelectorComposer<Component> {
 
                 subTotalCotizacion = ArchivoUtils.redondearDecimales(subTotalCotizacion, 2);
                 subTotalBaseCero = ArchivoUtils.redondearDecimales(subTotalBaseCero, 2);
-                valorTotalCotizacion = ArchivoUtils.redondearDecimales(valorTotalCotizacion, 2);
+//                valorTotalCotizacion = ArchivoUtils.redondearDecimales(valorTotalCotizacion, 2);
                 valorTotalInicialVent = ArchivoUtils.redondearDecimales(valorTotalInicialVent, 2);
                 ivaCotizacion = ArchivoUtils.redondearDecimales(ivaCotizacion, 2);
                 descuentoValorFinal = ArchivoUtils.redondearDecimales(descuentoValorFinal, 2);
+                valorTotalCotizacion = ArchivoUtils.redondearDecimales(subTotalBaseCero.
+                        add(subTotalCotizacion5).
+                        add(subTotalCotizacion15)
+                        .add(ivaCotizacion5)
+                        .add(ivaCotizacion15), 2);
 
             } catch (Exception e) {
                 System.out.println("error de calculo de valores " + e);
@@ -3876,9 +3889,16 @@ public class Facturar extends SelectorComposer<Component> {
         /*GUARDAMOS LA CLAVE DE ACCESO ANTES DE ENVIAR A AUTORIZAR*/
         valor.setFacClaveAcceso(claveAccesoComprobante);
         AutorizarDocumentos autorizarDocumentos = new AutorizarDocumentos();
+
         RespuestaSolicitud resSolicitud = autorizarDocumentos.validar(datos);
-        if (resSolicitud != null && resSolicitud.getComprobantes() != null) {
-            // Autorizacion autorizacion = null;
+        if (resSolicitud.getEstado().contains("ERROR SRI")) {
+            Clients.showNotification("Servicio del SRI caido , verifique su factura en el listado de documentos y autorice",
+                    Clients.NOTIFICATION_TYPE_ERROR, null, "middle_center", 5000, true);
+            return;
+        }
+
+        if (resSolicitud.getComprobantes() != null) {
+            // Autorizacion autorizacion = null;++
 
             if (resSolicitud.getEstado().equals("RECIBIDA")) {
 //                try {
@@ -3889,7 +3909,16 @@ public class Facturar extends SelectorComposer<Component> {
                 try {
 
                     RespuestaComprobante resComprobante = autorizarDocumentos.autorizarComprobante(claveAccesoComprobante);
+
+                    if (resComprobante.getNumeroComprobantes().contains("ERROR SRI")) {
+                        Clients.showNotification("Servicio del SRI caido , verifique su factura en el listado de documentos y autorice",
+                                Clients.NOTIFICATION_TYPE_ERROR, null, "middle_center", 5000, true);
+                        valor.setEstadosri(resSolicitud.getEstado());
+                        valor.setFacMsmInfoSri(resComprobante.getNumeroComprobantes());
+                        return;
+                    }
                     if (resComprobante.getAutorizaciones().getAutorizacion().isEmpty()) {
+                        valor.setEstadosri(resSolicitud.getEstado());
                         valor.setMensajesri("ERROR EN EL METODO DE AUTORIZAR NO DEVUELVE NADA ENVIO");
                         servicioFactura.modificar(valor);
                         return;
@@ -3909,7 +3938,7 @@ public class Facturar extends SelectorComposer<Component> {
                             String texto = "Sin Identificar el error";
                             String smsInfo = "Sin identificar el error";
 
-                            if (autorizacion.getEstado().equals("EN PROCESO")) {
+                            if (autorizacion.getEstado().trim().equals("EN PROCESO") || autorizacion.getEstado().trim().equals("CLAVE ACCESO REGISTRADA")) {
                                 Clients.showNotification("Autoriza con reenvio ", Clients.NOTIFICATION_TYPE_INFO, null, "middle_center", 3000, true);
                                 reenviarSRI(valor);
                             } else {
@@ -3974,7 +4003,9 @@ public class Facturar extends SelectorComposer<Component> {
 
                     }
                 } catch (RespuestaAutorizacionException ex) {
-                    Logger.getLogger(ListaFacturas.class.getName()).log(Level.SEVERE, null, ex);
+                    ex.getMessage();
+                    Clients.showNotification("Servicio del SRI fuera de linea,  refresque la pantalla y vuelva a intentar",
+                            Clients.NOTIFICATION_TYPE_ERROR, null, "middle_center", 5000, true);
                 }
             } else {
                 String smsInfo = resSolicitud.getComprobantes().getComprobante().get(0).getMensajes().getMensaje().get(0).getMensaje();
@@ -3982,20 +4013,10 @@ public class Facturar extends SelectorComposer<Component> {
                 valor.setEstadosri(resSolicitud.getEstado());
                 valor.setMensajesri(resSolicitud.getComprobantes().getComprobante().get(0).getMensajes().getMensaje().get(0).getMensaje());
                 valor.setFacMsmInfoSri(smsInfo);
-                if (smsInfo != null) {
-//                    if (smsInfo.equals("ERROR SECUENCIAL REGISTRADO")) {
-//
-//                        if (Messagebox.show("¿El numero de factura ya se encuentra en el SRI desea crear un nuevo secuencial?", "Atención", Messagebox.YES | Messagebox.NO, Messagebox.INFORMATION) == Messagebox.YES) {
-//                            numeroFactura();
-//                            valor.setFacNumero(numeroFactura);
-//                            valor.setFacNumeroText(numeroFacturaText);
-//                            Clients.showNotification("EL NUEVO SECUENCIAL ASIGNADO ES:  " + numeroFacturaText + " ESTE DOCUMENTO DEBE SER ENVIADO NUEVAMENTE",
-//                                    Clients.NOTIFICATION_TYPE_ERROR, null, "middle_center", 5000, true);
-//
-//                        }
-//
-//                        servicioFactura.modificar(valor);
-//                    }
+                servicioFactura.modificar(valor);
+                if (resSolicitud.getEstado().trim().contains("EN PROCESO") || resSolicitud.getEstado().trim().contains("CLAVE ACCESO REGISTRADA")) {
+//                    Clients.showNotification("Autoriza con reenvio ", Clients.NOTIFICATION_TYPE_INFO, null, "middle_center", 3000, true);
+                    reenviarSRI(valor);
                 }
 
             }
@@ -4101,16 +4122,23 @@ public class Facturar extends SelectorComposer<Component> {
 
             RespuestaComprobante resComprobante = autorizarDocumentos.autorizarComprobante(claveAccesoComprobante);
             System.out.println("RespuestaComprobante " + resComprobante);
-            if (resComprobante.getAutorizaciones().getAutorizacion() == null) {
-                Clients.showNotification("No se encontro el documento, presione el boton enviar.",
-                        Clients.NOTIFICATION_TYPE_ERROR, null, "middle_center", 5000, true);
-                return;
-            }
 
-            if (resComprobante.getAutorizaciones().getAutorizacion().isEmpty()) {
-                valor.setMensajesri("ERROR EN EL METODO DE AUTORIZAR NO DEVUELVE NADA REENVIO");
-                servicioFactura.modificar(valor);
-            }
+//            if (resComprobante.getNumeroComprobantes().contains("ERROR SRI")) {
+//                Clients.showNotification("Ocurrio un error en el SRI o esta temporalmente suspendido refresque la pantalla y reenvie ",
+//                        Clients.NOTIFICATION_TYPE_ERROR, null, "middle_center", 5000, true);
+//                return;
+//            }
+//            if (resComprobante.getAutorizaciones().getAutorizacion() == null) {
+//                Clients.showNotification("No se encontro el documento, presione el boton enviar.",
+//                        Clients.NOTIFICATION_TYPE_ERROR, null, "middle_center", 5000, true);
+//                return;
+//            }
+//
+//            if (resComprobante.getAutorizaciones().getAutorizacion().isEmpty()) {
+//                valor.setMensajesri("ERROR EN EL METODO DE AUTORIZAR NO DEVUELVE NADA REENVIO");
+//                servicioFactura.modificar(valor);
+//                return;
+//            }
             for (Autorizacion autorizacion : resComprobante.getAutorizaciones().getAutorizacion()) {
                 FileOutputStream nuevo = null;
 
@@ -4127,6 +4155,8 @@ public class Facturar extends SelectorComposer<Component> {
 //                    }
 
                     valor.setMensajesri(texto);
+                    valor.setEstadosri(autorizacion.getEstado());
+                    servicioFactura.modificar(valor);
 //                    nuevo.flush();
                     System.out.println("ERROR AL ENVIAR AL SRI " + texto);
                 } else {
@@ -4178,4 +4208,32 @@ public class Facturar extends SelectorComposer<Component> {
         }
 
     }
+
+    public String getNumComprobante() {
+        return numComprobante;
+    }
+
+    public void setNumComprobante(String numComprobante) {
+        this.numComprobante = numComprobante;
+    }
+
+    public BigDecimal getValorComprobante() {
+        return valorComprobante;
+    }
+
+    public void setValorComprobante(BigDecimal valorComprobante) {
+        this.valorComprobante = valorComprobante;
+    }
+
+    public String getEntidadFinanciera() {
+        return entidadFinanciera;
+    }
+
+    public void setEntidadFinanciera(String entidadFinanciera) {
+        this.entidadFinanciera = entidadFinanciera;
+    }
+    
+    
+    
+    
 }

@@ -135,8 +135,9 @@
                     <textbox  type="password"
                               value="@bind(vm.tipoambiente.amClaveAccesoSri)" 
                               placeholder="Clave de la firma electronica"
+                              onChange="@command('validarFirma')"
                               class="form-control form-control-sm"
-                              tooltiptext="Clave emitida por el SRI" />
+                              tooltiptext="Clave de la firma electronica" />
                 </div>
                 
                

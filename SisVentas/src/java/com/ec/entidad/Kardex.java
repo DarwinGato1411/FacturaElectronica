@@ -80,6 +80,9 @@ public class Kardex implements Serializable {
 
     @Transient
     private Boolean verificaStock;
+    
+    @Transient
+    private BigDecimal totalCuadre;
 
     public Kardex() {
     }
@@ -221,4 +224,14 @@ public class Kardex implements Serializable {
         return verificaStock;
     }
 
+    public BigDecimal getTotalCuadre() {
+        return totalCuadre==null?BigDecimal.ZERO:totalCuadre;
+    }
+
+    public void setTotalCuadre(BigDecimal totalCuadre) {
+        this.totalCuadre = totalCuadre;
+    }
+
+    
+    
 }

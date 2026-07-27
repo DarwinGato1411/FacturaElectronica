@@ -708,15 +708,18 @@ public class ListaFacturas {
         valor.setFacClaveAcceso(claveAccesoComprobante);
         AutorizarDocumentos autorizarDocumentos = new AutorizarDocumentos();
         RespuestaSolicitud resSolicitud = autorizarDocumentos.validar(datos);
-        if (resSolicitud != null && resSolicitud.getComprobantes() != null) {
+
+        if (resSolicitud.getEstado().contains("ERROR SRI")) {
+            Clients.showNotification("Ocurrio un error en el SRI o esta temporalmente suspendido refresque la pantalla y reenvie ",
+                    Clients.NOTIFICATION_TYPE_ERROR, null, "middle_center", 5000, true);
+            return;
+        }
+
+        if (resSolicitud.getComprobantes() != null) {
             // Autorizacion autorizacion = null;
 
             if (resSolicitud.getEstado().equals("RECIBIDA")) {
-//                try {
-//                    Thread.sleep(1000);
-//                } catch (InterruptedException ex) {
-//                    Logger.getLogger(Tipoambiente.class.getName()).log(Level.SEVERE, null, ex);
-//                }
+
                 try {
 
                     RespuestaComprobante resComprobante = autorizarDocumentos.autorizarComprobante(claveAccesoComprobante);
@@ -802,26 +805,17 @@ public class ListaFacturas {
                     Logger.getLogger(ListaFacturas.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else {
+
                 String smsInfo = resSolicitud.getComprobantes().getComprobante().get(0).getMensajes().getMensaje().get(0).getMensaje();
                 ArchivoUtils.FileCopy(pathArchivoFirmado, pathArchivoNoAutorizado);
                 valor.setEstadosri(resSolicitud.getEstado());
                 valor.setMensajesri(resSolicitud.getComprobantes().getComprobante().get(0).getMensajes().getMensaje().get(0).getMensaje());
                 valor.setFacMsmInfoSri(smsInfo);
-                if (smsInfo != null) {
-//                    if (smsInfo.equals("ERROR SECUENCIAL REGISTRADO")) {
-//
-//                        if (Messagebox.show("¿El numero de factura ya se encuentra en el SRI desea crear un nuevo secuencial?", "Atención", Messagebox.YES | Messagebox.NO, Messagebox.INFORMATION) == Messagebox.YES) {
-//                            numeroFactura();
-//                            valor.setFacNumero(numeroFactura);
-//                            valor.setFacNumeroText(numeroFacturaText);
-//                            Clients.showNotification("EL NUEVO SECUENCIAL ASIGNADO ES:  " + numeroFacturaText + " ESTE DOCUMENTO DEBE SER ENVIADO NUEVAMENTE",
-//                                    Clients.NOTIFICATION_TYPE_ERROR, null, "middle_center", 5000, true);
-//
-//                        }
-//
-//                        servicioFactura.modificar(valor);
-//                    }
-                }
+                servicioFactura.modificar(valor);
+//                if (resSolicitud.getEstado().trim().equals("EN PROCESO") || resSolicitud.getEstado().trim().equals("CLAVE ACCESO REGISTRADA")) {
+////                    Clients.showNotification("Autoriza con reenvio ", Clients.NOTIFICATION_TYPE_INFO, null, "middle_center", 3000, true);
+//                    reenviarSRI(valor);
+//                }
 
             }
         } else {
@@ -936,23 +930,23 @@ public class ListaFacturas {
         String claveAccesoComprobante = ArchivoUtils.obtenerValorXML(f, "/*/infoTributaria/claveAcceso");
         /*GUARDAMOS LA CLAVE DE ACCESO ANTES DE ENVIAR A AUTORIZAR*/
         valor.setFacClaveAcceso(claveAccesoComprobante);
-        AutorizarDocumentos autorizarDocumentos = new AutorizarDocumentos();
-//        RespuestaSolicitud resSolicitud = autorizarDocumentos.validar(datos);
-//        if (resSolicitud != null && resSolicitud.getComprobantes() != null) {
-//            // Autorizacion autorizacion = null;
-//
-//            if (resSolicitud.getEstado().equals("RECIBIDA")) {
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(Tipoambiente.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try {
 
+        try {
+            AutorizarDocumentos autorizarDocumentos = new AutorizarDocumentos();
             RespuestaComprobante resComprobante = autorizarDocumentos.autorizarComprobante(claveAccesoComprobante);
-            System.out.println("RespuestaComprobante " + resComprobante);
+
+            if (resComprobante.getNumeroComprobantes().contains("ERROR SRI")) {
+                Clients.showNotification("Ocurrio un error en el SRI o esta temporalmente suspendido,  refresca la pantalla y reenvie ",
+                        Clients.NOTIFICATION_TYPE_ERROR, null, "middle_center", 5000, true);
+
+//                valor.setEstadosri(resComprobante.getNumeroComprobantes());
+                valor.setMensajesri(resComprobante.getNumeroComprobantes());
+                servicioFactura.modificar(valor);
+                return;
+            }
+            System.out.println("RespuestaComprobante " + resComprobante.toString());
             if (resComprobante.getAutorizaciones().getAutorizacion() == null) {
-                Clients.showNotification("No se encontro el documento, presione el boton enviar.",
+                Clients.showNotification("No se encontro el documento, presione el boton enviar,   refresca la pantalla y reenvie ",
                         Clients.NOTIFICATION_TYPE_ERROR, null, "middle_center", 5000, true);
                 return;
             }
@@ -960,24 +954,18 @@ public class ListaFacturas {
             if (resComprobante.getAutorizaciones().getAutorizacion().isEmpty()) {
                 valor.setMensajesri("ERROR EN EL METODO DE AUTORIZAR NO DEVUELVE NADA REENVIO");
                 servicioFactura.modificar(valor);
+                return;
             }
             for (Autorizacion autorizacion : resComprobante.getAutorizaciones().getAutorizacion()) {
                 FileOutputStream nuevo = null;
 
                 /*CREA EL ARCHIVO XML AUTORIZADO*/
                 if (!autorizacion.getEstado().equals("AUTORIZADO")) {
-//                    System.out.println("pathArchivoNoAutorizado " + pathArchivoNoAutorizado);
-//                    nuevo = new FileOutputStream(pathArchivoNoAutorizado);
-//                    nuevo.write(autorizacion.getComprobante().getBytes());
 
                     String texto = autorizacion.getMensajes() != null ? autorizacion.getMensajes().getMensaje().get(0).getMensaje() : "";
-//                    nuevo.write(autorizacion.getMensajes().getMensaje().get(0).getMensaje().getBytes());
-//                    if (autorizacion.getMensajes().getMensaje().get(0).getInformacionAdicional() != null) {
-//                        nuevo.write(autorizacion.getMensajes().getMensaje().get(0).getInformacionAdicional().getBytes());
-//                    }
 
                     valor.setMensajesri(texto);
-//                    nuevo.flush();
+                    servicioFactura.modificar(valor);
                     System.out.println("ERROR AL ENVIAR AL SRI " + texto);
                 } else {
 
@@ -1186,8 +1174,20 @@ public class ListaFacturas {
             ch9.setCellStyle(estiloCelda);
 
             HSSFCell ch10 = r.createCell(j++);
-            ch10.setCellValue(new HSSFRichTextString("Nº COMPROBANTE"));
+            ch10.setCellValue(new HSSFRichTextString("EFECTIVO"));
             ch10.setCellStyle(estiloCelda);
+
+            HSSFCell ch11 = r.createCell(j++);
+            ch11.setCellValue(new HSSFRichTextString("TRANSFERENCIA"));
+            ch11.setCellStyle(estiloCelda);
+
+            HSSFCell ch12 = r.createCell(j++);
+            ch12.setCellValue(new HSSFRichTextString("# COMPROBANTE"));
+            ch12.setCellStyle(estiloCelda);
+
+            HSSFCell ch13 = r.createCell(j++);
+            ch13.setCellValue(new HSSFRichTextString("BANCO"));
+            ch13.setCellStyle(estiloCelda);
 
             int rownum = 1;
             int i = 0;
@@ -1264,7 +1264,16 @@ public class ListaFacturas {
                 c16.setCellValue(new HSSFRichTextString(item.getFacObservacion()));
 
                 HSSFCell c17 = r.createCell(i++);
-                c17.setCellValue(new HSSFRichTextString(item.getFacNumDocumento()));
+                c17.setCellValue(new HSSFRichTextString((ArchivoUtils.redondearDecimales(item.getValorEfectivo(), 2)).toString()));
+
+                HSSFCell c18 = r.createCell(i++);
+                c18.setCellValue(new HSSFRichTextString((ArchivoUtils.redondearDecimales(item.getValorComprobante(), 2)).toString()));
+
+                HSSFCell c19 = r.createCell(i++);
+                c19.setCellValue(new HSSFRichTextString(item.getNumComprobante()));
+
+                HSSFCell c20 = r.createCell(i++);
+                c20.setCellValue(new HSSFRichTextString(item.getEntidadFinanciera()));
 
                 rownum += 1;
 

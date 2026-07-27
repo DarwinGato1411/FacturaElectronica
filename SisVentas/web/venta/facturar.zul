@@ -103,7 +103,7 @@
                                             selectedItem="@bind(vm.formaPagoSelected)" 
                                             readonly="true" 
                                             width="300px"
-                                            class="textoFechaDateBox">
+                                           >
                                             <template name="model">
                                                 <comboitem  label="@bind(each.forNombre)"/>
                                             </template>                                      
@@ -142,7 +142,7 @@
                                     <div class="wrapper_input">
                                         <span>Tipo venta:</span>
                                         <combobox onSelect="@command('actualizarCostoVenta')"   
-                                                  width="300px"
+                                                 
                                                   readonly="true"										
                                                   class=" textoFechaDateBox"
                                                   selectedItem="@bind(vm.clietipo)"                                >
@@ -156,7 +156,7 @@
                                         <combobox 
                                             onSelect="@command('actualizarCostoVenta')"  
                                             readonly="true"
-                                            width="300px"        
+                                                 
                                             class="  textoFechaDateBox"                              
                                             selectedItem="@bind(vm.facplazo)">
                                             <comboitem label="CONTADO" value="0"/> 
@@ -235,25 +235,45 @@
                                             class="input" 
                                         />
                                     </div>
-                                    <div class="wrapper_input" >
-                                        <span></span>
+                                    <div class="wrapper_input">
+                                        <span>Base 0%:</span>
                                         <textbox  
-                                            value="" 
-                                            style="background-color:transparent;border-color:transparent"
+                                             
+                                            value="@bind(vm.subTotalBaseCero)" 
+                                            readonly="true"
                                             onChange="self.setValue(self.getValue().toUpperCase().trim());" 
                                             class="input" 
                                         />
-                                    
                                     </div>
+                                        <div class="wrapper_input">
+                                        <span>Banco:</span>
+                                        <combobox 
+                                            readonly="true" 
+                                                                       
+                                            selectedItem="@bind(vm.factura.entidadFinanciera)">
+                                            <comboitem label="PICHINCHA" value="PICHINCHA"/> 
+                                            <comboitem label="PRODUBANCO" value="PRODUBANCO" />                    
+                                            <comboitem label="GUAYAQUIL" value="GUAYAQUIL" />
+                                            <comboitem label="PACIFICO" value="PACIFICO" />
+                                            <comboitem label="POLICIA NACIONAL" value="POLICIA NACIONAL" />
+                                            <comboitem label="PROCREDIT" value="PROCREDIT" />
+                                            <comboitem label="INTERNACIONAL" value="INTERNACIONAL" />
+                                            <comboitem label="OTROS" value="OTROS" />
+                                            
+                                        </combobox>
+                                    
+                                        <!--<div class="fa-solid fa-chevron-down icon" />-->
+                                    </div>
+                                    
                                     <div class="wrapper_input">
-                                        <button src="/iconos/fact.png"   
-                                                autodisable="self"
-                                                label="Nota entrega"
-                                                width="100%"
+                                        <button 
+                                            autodisable="self"
+                                            label="Nota entrega"
+                                            width="100%"
                                                                                                    
-                                                class="btn btn btn-secondary btn-sm "
-                                                onClick="@command('verNotasEntrega')"
-                                                tooltiptext="Cargar notas de entrega"/>
+                                            class="fa-notdog fa-solid fa-list  btn_fact btn-warning"
+                                            onClick="@command('verNotasEntrega')"
+                                            tooltiptext="Cargar notas de entrega"/>
                                     </div>
                                 </div>
                                 <div class="wrapper_data">
@@ -275,33 +295,7 @@
                                             class="input" 
                                         />
                                     </div>
-                                    <!--                                    <div class="wrapper_input">
-                                        <span>IVA 12%:</span>
-                                        <decimalbox  
-                                            format="###.##"  
-                                            value="@bind(vm.ivaCotizacion)"
-                                            readonly="true" 
-                                            class="input" 
-                                        />
-                                    </div>-->
-                                    <!--                                    <div class="wrapper_input">
-                                        <span>IVA 13%:</span>
-                                        <decimalbox  
-                                            format="###.##"  
-                                            value="@bind(vm.ivaCotizacion13)"
-                                            readonly="true" 
-                                            class="input" 
-                                        />
-                                    </div>-->
-                                    <!--                                    <div class="wrapper_input">
-                                        <span>IVA 14%:</span>
-                                        <decimalbox  
-                                            format="###.##"  
-                                            value="@bind(vm.ivaCotizacion14)"
-                                            readonly="true" 
-                                            class="input" 
-                                        />
-                                    </div>-->
+                                   
                                     <div class="wrapper_input">
                                         <span>IVA 15%:</span>
                                         <textbox  
@@ -310,19 +304,29 @@
                                             class="input" 
                                         />
                                     </div>
-                                
-                                    <div class="wrapper_input">
-                                        <span>Base 0%:</span>
+                                   <div class="wrapper_input">
+                                        <span># Comp:</span>
                                         <textbox  
-                                             
-                                            value="@bind(vm.subTotalBaseCero)" 
-                                            readonly="true"
+                                            tooltiptext="Numero de comprobante"
+                                            value="@bind(vm.factura.numComprobante)" 
+                                            readonly="false"
                                             onChange="self.setValue(self.getValue().toUpperCase().trim());" 
                                             class="input" 
                                         />
                                     </div>
                                     <div class="wrapper_input">
-                                       <button 
+                                        <span>Valor/Comp</span>
+                                        <textbox constraint="/^[0-9]{1,9}(?:[.][0-9]{1,2})?$/:Ingrese solo numeros"   
+                                                 tooltiptext="Valor del comprobante"                                     
+                                            value="@bind(vm.factura.valorComprobante)" 
+                                            readonly="false"                                             
+                                            class="input" 
+                                        />
+                                    </div>
+                                    
+                                    
+                                    <div class="wrapper_input">
+                                        <button 
                                             autodisable="self"   
                                             class="fa-solid fa-floppy-disk btn_fact btn_primary"                  
                                             onClick="@command('Guardar',valor='SG',envia='S')"
@@ -370,15 +374,13 @@
                                         />
                                     </div>
                                     <div class="wrapper_input">
-                                        <label  style="background-color:transparent" class="input_cobro_doc" value="Nº Cobro:"> </label> 
-                                        <textbox  
-                                            maxlength="100" 
-                                            width="100%"
-                                            tooltiptext="Registrar el numero de cobro de transferencia, deposito, cheque, etc..."
-                                            value="@bind(vm.factura.facNumDocumento)"
-                                            class="input_num_docum" 
+                                        <span>Efectivo($):</span>  
+                                        <textbox constraint="/^[0-9]{1,9}(?:[.][0-9]{1,2})?$/:Ingrese solo numeros"                                          
+                                            tooltiptext="Valor en efectivo"
+                                            value="@bind(vm.factura.valorEfectivo)"
+                                            class="input" 
                                         />
-                                       
+
 
                                     </div>
                                     <div class="wrapper_input">
@@ -546,7 +548,7 @@
                                                     class="btn btn btn-secondary btn-sm "
                                                     tooltiptext="Eliminar registros seleccionados"/>
                                         </listheader>
-                                        <listheader label="IVA%" align="left" />
+                                        <!--<listheader label="IVA%" align="left" />-->
                                         <listheader label="COD" align="left" />
                                       
                                         <listheader label="CANT" align="left"  />
@@ -565,7 +567,7 @@
                                             </listcell>
                                     
 
-                                            <listcell zclass = "mycss-listcell" >
+<!--                                            <listcell zclass = "mycss-listcell" >
                                             
                                                 <decimalbox readonly="true" format="###"                                                                                                                
                                                             value="@bind(each.producto.prodIva)" 
@@ -574,17 +576,17 @@
                                                         
                                                             width="99%" />  
                                                
-                                            </listcell>
+                                            </listcell>-->
                                             <listcell zclass = "mycss-listcell" >
                                             
                                                 <!--onDoubleClick="@command('cambiarRegistro',valor=each)"-->
-                                                <textbox                                                             
-                                                    class="form-control form-control-sm"
-                                                    value="@bind(each.codigo)" 
-                                                    style="font-size:10px"
-                                                    onOK="@command('buscarPorCodigo',valor=each)"
+                                                <textbox     onCreate="self.focus()"                                                        
+                                                             class="form-control form-control-sm"
+                                                             value="@bind(each.codigo)" 
+                                                             style="font-size:10px"
+                                                             onOK="@command('buscarPorCodigo',valor=each)"
                                                         
-                                                    width="99%" />
+                                                             width="99%" />
                                             </listcell>
                                             <listcell zclass = "mycss-listcell">
                                                 <textbox    constraint="/^[0-9]{1,9}(?:[.][0-9]{1,3})?$/:Ingrese solo numeros"                                            

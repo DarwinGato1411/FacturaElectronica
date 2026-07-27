@@ -43,6 +43,10 @@ public class Acumuladoaniomes implements Serializable {
     private BigDecimal totalntv;
     @Column(name = "totalacumulado")
     private BigDecimal totalacumulado;
+    @Column(name = "transferencia")
+    private BigDecimal transferencia;
+    @Column(name = "efectivo")
+    private BigDecimal efectivo;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "anio")
     private Double anio;
@@ -99,5 +103,21 @@ public class Acumuladoaniomes implements Serializable {
     public void setMes(Double mes) {
         this.mes = mes;
     }
-    
+
+    public BigDecimal getTransferencia() {
+        return transferencia;
+    }
+
+    public void setTransferencia(BigDecimal transferencia) {
+        this.transferencia = transferencia;
+    }
+
+    public BigDecimal getEfectivo() {
+        return efectivo;
+    }
+
+    public void setEfectivo(BigDecimal efectivo) {
+        this.efectivo = efectivo;
+    }
+
 }

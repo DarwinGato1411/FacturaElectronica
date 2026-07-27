@@ -282,7 +282,7 @@
                                              width="40px"
                                              height="25px"
                                                     class="btn btn btn-secondary btn-sm grow"
-                                                    onClick="@command('reenviarSRI',valor=each)" 
+                                                    onClick="@command('eliminar',valor=each)" 
                                                     tooltiptext="Reenviar su factura a autorizar"/>
                                             </listcell>
                                     </listitem>

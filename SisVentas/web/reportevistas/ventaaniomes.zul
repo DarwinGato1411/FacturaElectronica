@@ -39,48 +39,66 @@
                             </div>   
                                
                         </div>
-                         <div  class="col-12 col-sm-12 col-md-1 col-lg-1 ">
-                                <button   image="/imagenes/excel.png"  
-                                        onClick="@command('exportExcelDiario')"  
-                                        class="btn btn-primary btn-sm "
-                                        tooltiptext="Descargar en Excel"/>
+                        <div  class="col-12 col-sm-12 col-md-1 col-lg-1 ">
+                            <button   image="/imagenes/excel.png"  
+                                          onClick="@command('exportExcelDiario')"  
+                                          class="btn btn-primary btn-sm "
+                                          tooltiptext="Descargar en Excel"/>
 
-                            </div> 
+                        </div> 
                     </div>
                     <listbox model="@load(vm.listaAcumuladopordias)" 
                              nonselectableTags=""  mold="paging" pageSize="20"  >
                         <custom-attributes org.zkoss.zul.listbox.rod="true"/>
                     
                         <listhead> 
-                            <listheader width="25%"  label="Total con facturas" />                            
-                            <listheader width="25%"  label="Total con Notas Venta" />                                                        
-                            <listheader width="25%"  label="Total" align="rigth" /> 
-                            <listheader width="25%"  label="Fecha" align="lefth" />                             
+                            <listheader width="15%"  label="Fecha" align="lefth" />   
+                            <listheader width="20%"  label="Transferencia" align="rigth" /> 
+                            <listheader width="20%"  label="Efectivo" align="rigth" /> 
+                            <listheader width="20%"  label="Total con facturas" />                            
+                            <listheader width="20%"  label="Total con Notas Venta" />                                                        
+                            <listheader width="20%"  label="Total" align="rigth" /> 
+
+                                                    
                         </listhead>  
                         
                     
                         <template name="model">                                                            
                             <listitem>
+                                <listcell zclass = "mycss-listcell" style="font-size:11px;background-color:#d6eefd">
+                                 
+                                    <datebox compact="true" value="@bind(each.facFecha)" 
+                                             style="font-size:14px;background-color:#d6eefd"
+                                             buttonVisible="false" lenient="true" readonly="true"
+                                             format="medium" width="100%"  />
+                                </listcell>
+                                <listcell zclass = "mycss-listcell">
+                                    <decimalbox readonly="true" format="###.##" 
+                                                style="font-size: 14px;background-color:#5AF2ED"
+                                                value="@bind(each.transferencia)" width="100%" />
+                                </listcell>
+                                <listcell zclass = "mycss-listcell">
+                                    <decimalbox readonly="true" format="###.##" 
+                                                style="font-size: 14px;background-color:#72FF70"
+                                                value="@bind(each.efectivo)" width="100%" />
+                                </listcell>
+                                                                                            
                                 <listcell  zclass = "mycss-listcell">
                                     <decimalbox readonly="true" format="###.##" 
+                                                style="font-size: 14px;"
                                                 value="@bind(each.facTotal)" width="100%" />
                                 </listcell>
                                 <listcell zclass = "mycss-listcell">
                                     <decimalbox readonly="true" format="###.##" 
+                                                style="font-size: 14px;"
                                                 value="@bind(each.totalntv)" width="100%" />
                                 </listcell>
                                 <listcell zclass = "mycss-listcell">
                                     <decimalbox readonly="true" format="###.##" 
+                                                style="font-size: 14px;"
                                                 value="@bind(each.totalacumulado)" width="100%" />
                                 </listcell>
-                                <listcell zclass = "mycss-listcell" style="font-size:11px;background-color:#d6eefd">
-                                 
-                                    <datebox compact="true" value="@bind(each.facFecha)" 
-                                             style="font-size:11px;background-color:#d6eefd"
-                                             buttonVisible="false" lenient="true" readonly="true"
-                                             format="medium" width="100%"  />
-                                </listcell>
-                                                                         
+            
                                 
                             </listitem>
                         </template>
@@ -114,13 +132,13 @@
                             </div>
                                      
                         </div>
-                         <div  class="col-12 col-sm-12 col-md-1 col-lg-1 ">
-                                <button   image="/imagenes/excel.png"  
-                                        onClick="@command('exportExcelMes')"  
-                                        class="btn btn-primary btn-sm "
-                                        tooltiptext="Descargar en Excel"/>
+                        <div  class="col-12 col-sm-12 col-md-1 col-lg-1 ">
+                            <button   image="/imagenes/excel.png"  
+                                          onClick="@command('exportExcelMes')"  
+                                          class="btn btn-primary btn-sm "
+                                          tooltiptext="Descargar en Excel"/>
 
-                            </div>
+                        </div>
                     </div>
                     <listbox model="@load(vm.listaAcumuladoaniomeses)" 
                              nonselectableTags=""  mold="paging" pageSize="20"  >

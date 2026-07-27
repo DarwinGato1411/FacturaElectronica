@@ -28,7 +28,7 @@ public class ServicioFacturaPorCobrar {
         this.em = em;
     }
 
-    public List<VistaFacturasPorCobrar> findPorCobrar(String nombre, Boolean group) {
+        public List<VistaFacturasPorCobrar> findPorCobrar(String nombre, Boolean group) {
 
         List<VistaFacturasPorCobrar> lista = new ArrayList<VistaFacturasPorCobrar>();
         try {

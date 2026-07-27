@@ -302,6 +302,10 @@ public class MenuOpciones extends SelectorComposer<Component> {
     public void btnInversionEmp() {
         Executions.sendRedirect("/reportevistas/inversionempresa.zul");
     }
+    @Listen("onClick = #btnInversionEmpTotal")
+    public void btnInversionEmpTotal() {
+        Executions.sendRedirect("/reportevistas/inversionempresatotal.zul");
+    }
 
     @Listen("onClick = #btnCierreCajaUsu")
     public void btnCierreCaja() {

@@ -75,7 +75,7 @@ public class DetalleNotaDebitoCredito implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "det_cantidad")
     private BigDecimal detCantidad;
-    @Size(max = 100)
+//    @Size(max = 100)
     @Column(name = "det_descripcion")
     private String detDescripcion;
     @Column(name = "det_subtotal")

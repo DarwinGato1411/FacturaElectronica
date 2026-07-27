@@ -99,7 +99,8 @@
                                 <menuitem label="Precio promedio compra" id="btnPreciPromCompra"  />
                                 <menuitem label="Compra venta facturado" id="btnCompVentaFact"  />
                                 <menuitem label="Compra venta facturado detallado" id="btnCompVentaFactDet"  />
-                                 <menuitem label="Inversion empresa" id="btnInversionEmp"  />
+                                 <menuitem label="Inversion empresa por fecha" id="btnInversionEmp"  />
+                                 <menuitem label="Inversion empresa total" id="btnInversionEmpTotal"  />
                                  <menuitem label="Reporte retenciones" id="btnReporteRetenciones"  />
                                 <!--<menuitem label="Precio promedio venta" id="btnPreciPromVenta"  />-->
                             </menupopup>

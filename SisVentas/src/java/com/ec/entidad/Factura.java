@@ -261,6 +261,14 @@ public class Factura implements Serializable {
     private BigDecimal facCambio;
     @Column(name = "fac_num_documento")
     private String facNumDocumento;
+    @Column(name = "num_comprobante")
+    private String numComprobante;
+    @Column(name = "entidad_financiera")
+    private String entidadFinanciera;
+    @Column(name = "valor_comprobante")
+    private BigDecimal valorComprobante;
+    @Column(name = "valor_efectivo")
+    private BigDecimal valorEfectivo;
 
     public Factura() {
     }
@@ -905,6 +913,38 @@ public class Factura implements Serializable {
 
     public void setFacNumDocumento(String facNumDocumento) {
         this.facNumDocumento = facNumDocumento;
+    }
+
+    public String getNumComprobante() {
+        return numComprobante == null ? "" : numComprobante;
+    }
+
+    public void setNumComprobante(String numComprobante) {
+        this.numComprobante = numComprobante;
+    }
+
+    public String getEntidadFinanciera() {
+        return entidadFinanciera == null ? "" : entidadFinanciera;
+    }
+
+    public void setEntidadFinanciera(String entidadFinanciera) {
+        this.entidadFinanciera = entidadFinanciera;
+    }
+
+    public BigDecimal getValorComprobante() {
+        return valorComprobante == null ? BigDecimal.ZERO : valorComprobante;
+    }
+
+    public void setValorComprobante(BigDecimal valorComprobante) {
+        this.valorComprobante = valorComprobante;
+    }
+
+    public BigDecimal getValorEfectivo() {
+        return valorEfectivo == null ? BigDecimal.ZERO : valorEfectivo;
+    }
+
+    public void setValorEfectivo(BigDecimal valorEfectivo) {
+        this.valorEfectivo = valorEfectivo;
     }
 
 }

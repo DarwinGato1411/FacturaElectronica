@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?link rel="stylesheet" type="text/css" href="/css/boostrap/bootstrap.css"?>  
+<?link rel="stylesheet" type="text/css" href="/css/style.css"?>
+<?init class="com.ec.seguridad.Autentificador"?>
+<?init class="org.zkoss.zk.ui.util.Composition" arg0="/plantilla/plantilla.zul"?>
+<?link rel="icon" type="image/x-icon" href="/iconos/deckxel.ico"?>
+<zk  contentStyle="overflow:auto" with="100%" >
+    <hbox self="@define(content)" apply="org.zkoss.bind.BindComposer" 
+          viewModel="@id('vm') @init('com.ec.controlador.InversionEmpresaTotalCtrl')" width="100%">
+        <tabbox id="tboxPrincipal"  width="100%">
+            <tabs >
+                <tab label="Inversion empresa" sclass="menutabs" /> 
+            </tabs>
+            <tabpanels >
+                
+                <tabpanel  height="98%" width="99%"  >                    
+                   
+                    <listbox model="@load(vm.listaDatos)" 
+                             nonselectableTags=""  mold="paging" pageSize="20"  >
+                        <custom-attributes org.zkoss.zul.listbox.rod="true"/>
+                        <auxhead>
+                            <auxheader colspan="12" >  
+                                <div class="row">
+                                  
+                                    
+                                    <div  class="col-12 col-sm-12 col-md-3 col-lg-3 ">
+                                        <button   image="/imagenes/excel.png"  
+                                                  onClick="@command('exportListboxToExcel')"  
+                                                  class="btn btn-primary btn-sm "
+                                                  tooltiptext="Descargar"/>
+
+                                    </div>
+
+                                </div>
+                                
+                            </auxheader>
+                        </auxhead>
+                       
+                        <listhead> 
+                            <listheader width="55%"  label="Producto" >                               
+                            </listheader> 
+                            <!--<listheader width="15%"  label="Fecha" />-->    
+                            <listheader width="15%"  label="Cantidad" />                                     
+                            <listheader width="15%"  label="Precio compra" />                                           
+                            <listheader width="15%"  label="Total Compra" />   
+                             <listheader width="15%"  label="Precio venta" />     
+                            <listheader width="15%"  label="Total Venta" />        
+                                                                
+                        </listhead>  
+                        
+                    
+                        <template name="model">                                                            
+                            <listitem>
+                                <listcell zclass = "mycss-listcell">
+                                  <textbox readonly="true" style="font-size:12px ;background:#EBF5FB"
+                                           class="form-control form-control-sm" 
+                                           value="@bind(each.prodNombre)" />
+                                </listcell>
+<!--                                <listcell zclass = "mycss-listcell" style="font-size:12px;background:#F8F9F9">
+                                    <datebox style="font-size:12px"
+                                              class=" form-control-sm" 
+                                             value="@bind(each.facFecha)" 
+                                             buttonVisible="false" 
+                                             lenient="true" 
+                                             format="medium"   />
+                                </listcell>-->
+                                <listcell zclass = "mycss-listcell">
+                                    <decimalbox style="font-size:12px ;background:#EBF5FB"
+                                                class="form-control form-control-sm" 
+                                                format="###.##" 
+                                                readonly="true"  
+                                                value="@bind(each.karTotal)" />
+                                </listcell>
+                                <listcell zclass = "mycss-listcell">
+                                    <decimalbox style="font-size:12px ;background:#EBF5FB"
+                                                class="form-control form-control-sm" 
+                                                format="###.##" 
+                                                readonly="true"  
+                                                value="@bind(each.precioCompra)"  />
+                                </listcell>                                                                
+                                <listcell zclass = "mycss-listcell">
+                                    <decimalbox style="font-size:12px ;background:#EBF5FB"
+                                                class="form-control form-control-sm" 
+                                                format="###.##" 
+                                                readonly="true"  
+                                                value="@bind(each.totalCompra)"  />
+                                </listcell>                                                                
+                                <listcell zclass = "mycss-listcell">
+                                    <decimalbox style="font-size:12px ;background:#EBF5FB"
+                                                class="form-control form-control-sm" 
+                                                format="###.##" 
+                                                readonly="true"  
+                                                value="@bind(each.precioVenta)"  />
+                                </listcell>                                                                
+                                <listcell zclass = "mycss-listcell">
+                                    <decimalbox style="font-size:12px ;background:#EBF5FB"
+                                                class="form-control form-control-sm" 
+                                                format="###.##" 
+                                                readonly="true"  
+                                                value="@bind(each.totalVenta)"  />
+                                </listcell>                                                                
+                                
+                                                                                     
+                                
+                            </listitem>
+                        </template>
+                    </listbox>
+                
+                </tabpanel>
+                
+
+            </tabpanels>
+            
+        </tabbox>
+    </hbox>
+
+
+</zk>

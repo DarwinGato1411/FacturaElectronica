@@ -104,7 +104,7 @@ public class AdmKardex {
     public void eliminar(@BindingParam("valor") DetalleKardex valor) {
 
         try {
-            servicioDetalleKardex.eliminar(detalleKardex);
+            servicioDetalleKardex.eliminar(valor);
             servicioKardex.verificarKardexGeneral();
             kardex = servicioKardex.FindALlKardexs(prodSelected);
             listaDetalleKardex.clear();

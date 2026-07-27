@@ -48,7 +48,11 @@ public class Acumuladopordia implements Serializable {
     @Column(name = "fac_fecha")
     @Temporal(TemporalType.DATE)
     private Date facFecha;
-
+    @Column(name = "transferencia")
+    private BigDecimal transferencia;
+    @Column(name = "efectivo")
+    private BigDecimal efectivo;
+    
     public Acumuladopordia() {
     }
 
@@ -90,6 +94,22 @@ public class Acumuladopordia implements Serializable {
 
     public void setFacFecha(Date facFecha) {
         this.facFecha = facFecha;
+    }
+
+    public BigDecimal getTransferencia() {
+        return transferencia;
+    }
+
+    public void setTransferencia(BigDecimal transferencia) {
+        this.transferencia = transferencia;
+    }
+
+    public BigDecimal getEfectivo() {
+        return efectivo;
+    }
+
+    public void setEfectivo(BigDecimal efectivo) {
+        this.efectivo = efectivo;
     }
 
 }

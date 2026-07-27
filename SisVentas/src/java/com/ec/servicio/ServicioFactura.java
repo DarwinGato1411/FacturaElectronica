@@ -684,7 +684,7 @@ public class ServicioFactura {
             //Connection connection = em.unwrap(Connection.class);
             em = HelperPersistencia.getEMF();
             em.getTransaction().begin();
-            Query query = em.createQuery("SELECT a FROM Factura a WHERE a.facFecha BETWEEN :inicio AND :fin AND a.estadosri='PENDIENTE' AND a.facTipo='FACT' ORDER BY a.facFecha DESC");
+            Query query = em.createQuery("SELECT a FROM Factura a WHERE a.facFecha BETWEEN :inicio AND :fin AND (a.estadosri='PENDIENTE' OR a.mensajesri='CLAVE DE ACCESO EN PROCESAMIENTO') AND a.facTipo='FACT' ORDER BY a.facFecha DESC");
             query.setParameter("inicio", inicio);
             query.setParameter("fin", fin);
             query.setMaxResults(400);
@@ -728,7 +728,7 @@ public class ServicioFactura {
             //Connection connection = em.unwrap(Connection.class);
             em = HelperPersistencia.getEMF();
             em.getTransaction().begin();
-            Query query = em.createQuery("SELECT a FROM Factura a WHERE a.facFecha BETWEEN :inicio AND :fin AND a.estadosri<>'AUTORIZADO' AND a.estadosri<>'PENDIENTE' AND a.mensajesri<>'CLAVE ACCESO REGISTRADA' AND a.facTipo='FACT' ORDER BY a.facFecha DESC");
+            Query query = em.createQuery("SELECT a FROM Factura a WHERE a.facFecha BETWEEN :inicio AND :fin AND a.estadosri<>'ANULADO' AND a.estadosri<>'PENDIENTE' AND a.mensajesri<>'CLAVE ACCESO REGISTRADA' AND a.facTipo='FACT' ORDER BY a.facFecha DESC");
             query.setParameter("inicio", inicio);
             query.setParameter("fin", fin);
             query.setMaxResults(400);

@@ -10,7 +10,13 @@ import com.ec.servicio.ServicioTipoAmbiente;
 import com.ec.vista.servicios.ServicioSriCatastro;
 import com.ec.vistas.SriCatastro;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.List;
 import org.zkoss.bind.annotation.AfterCompose;
@@ -150,7 +156,7 @@ public class Configuracion extends SelectorComposer<Component> {
                     baseDir.mkdirs();
                 }
                 Files.copy(new File(filePath + media.getName()),
-                            media.getStreamData());
+                        media.getStreamData());
                 tipoambiente.setAmDirFirma(nombre);
 
             }
@@ -185,7 +191,7 @@ public class Configuracion extends SelectorComposer<Component> {
                     baseDir.mkdirs();
                 }
                 Files.copy(new File(filePathImg + media.getName()),
-                            media.getStreamData());
+                        media.getStreamData());
                 tipoambiente.setAm_DirImgPuntoVenta(filePathImg + File.separator + nombre);
             }
 
@@ -209,7 +215,7 @@ public class Configuracion extends SelectorComposer<Component> {
         tipoambiente.setAmEnviocliente("ENVIARCLIENTE");
         servicioTipoAmbiente.modificar(tipoambiente);
         Clients.showNotification("Información registrada exitosamente",
-                    Clients.NOTIFICATION_TYPE_INFO, null, "end_center", 3000, true);
+                Clients.NOTIFICATION_TYPE_INFO, null, "end_center", 3000, true);
 
     }
 
@@ -269,6 +275,51 @@ public class Configuracion extends SelectorComposer<Component> {
                 System.out.println("getAbsolutePath " + f.getAbsolutePath());
                 System.out.println("getPath " + f.getPath());
             }
+        }
+
+    }
+
+    @Command
+    @NotifyChange({"tipoambiente"})
+    public void validarFirma() throws Exception {
+//        String datosFirma = new DatosFirmaResponse();
+
+        try {
+            // Ruta al archivo P12 o PFX
+
+            final String secretKey = "AFSOTEC2023";
+
+            String rutaFirma = filePath = tipoambiente.getAmDirBaseArchivos() + File.separator + tipoambiente.getAmFolderFirma() + File.separator + tipoambiente.getAmDirFirma();
+            String contrasena = tipoambiente.getAmClaveAccesoSri(); // Contraseña del archivo
+
+            // Cargar el almacén de claves (KeyStore)
+            KeyStore keyStore = KeyStore.getInstance("PKCS12");
+            FileInputStream fis = new FileInputStream(rutaFirma);
+            keyStore.load(fis, contrasena.toCharArray());
+
+            // Obtener el alias del certificado
+            String alias = keyStore.aliases().nextElement();
+
+            // Obtener el certificado X509
+            X509Certificate certificado = (X509Certificate) keyStore.getCertificate(alias);
+
+            // Mostrar información del certificado
+            System.out.println("Titular: " + certificado.getSubjectDN());
+            System.out.println("Emisor: " + certificado.getIssuerDN());
+            System.out.println("Válido desde: " + certificado.getNotBefore());
+            System.out.println("Válido hasta: " + certificado.getNotAfter());
+
+            // Cerrar el flujo de entrada
+            fis.close();
+            Clients.showNotification("SU CLAVE INGRESADA ES CORRECTA ",
+                    Clients.NOTIFICATION_TYPE_INFO,
+                    null, "end_center", 2000, true);
+
+        } catch (IOException | KeyStoreException | NoSuchAlgorithmException | CertificateException e) {
+            System.out.println("ERROR EN LA CLAVE DE LA FIRMA " + e.getMessage());
+            Clients.showNotification("SU CLAVE INGRESADA ES INCORRECTA, INGRESE NUEVAMENTE SU CLAVE",
+                    Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 3000, true);
+
         }
 
     }

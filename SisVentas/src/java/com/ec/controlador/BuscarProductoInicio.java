@@ -9,7 +9,6 @@ import com.ec.entidad.Producto;
 import com.ec.servicio.ServicioProducto;
 import java.util.ArrayList;
 import java.util.List;
-import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.NotifyChange;
 

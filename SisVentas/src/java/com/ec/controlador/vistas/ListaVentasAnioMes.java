@@ -193,6 +193,10 @@ public class ListaVentasAnioMes {
             HSSFCell c = null;
             r = s.createRow(0);
 
+            HSSFCell ch1 = r.createCell(j++);
+            ch1.setCellValue(new HSSFRichTextString("Fecha"));
+            ch1.setCellStyle(estiloCelda);
+
             HSSFCell chfe = r.createCell(j++);
             chfe.setCellValue(new HSSFRichTextString("Total con factura"));
             chfe.setCellStyle(estiloCelda);
@@ -205,33 +209,49 @@ public class ListaVentasAnioMes {
             chfe11.setCellValue(new HSSFRichTextString("Total"));
             chfe11.setCellStyle(estiloCelda);
 
-            HSSFCell ch1 = r.createCell(j++);
-            ch1.setCellValue(new HSSFRichTextString("Fecha"));
-            ch1.setCellStyle(estiloCelda);
+            HSSFCell chfe12 = r.createCell(j++);
+            chfe12.setCellValue(new HSSFRichTextString("Transferencia"));
+            chfe12.setCellStyle(estiloCelda);
+
+            HSSFCell chfe13 = r.createCell(j++);
+            chfe13.setCellValue(new HSSFRichTextString("Efectivo"));
+            chfe13.setCellStyle(estiloCelda);
 
             int rownum = 1;
             int i = 0;
             BigDecimal totalConFactura = BigDecimal.ZERO;
             BigDecimal totalNotaVenta = BigDecimal.ZERO;
             BigDecimal total = BigDecimal.ZERO;
+            BigDecimal transferencia = BigDecimal.ZERO;
+            BigDecimal efectivo = BigDecimal.ZERO;
             BigDecimal Fecha = BigDecimal.ZERO;
 
             for (Acumuladopordia item : listaAcumuladopordias) {
                 i = 0;
 
                 r = s.createRow(rownum);
+                HSSFCell c0 = r.createCell(i++);
+                c0.setCellValue(new HSSFRichTextString(sm.format(item.getFacFecha())));
 
                 HSSFCell cf = r.createCell(i++);
                 cf.setCellValue(new HSSFRichTextString(ArchivoUtils.redondearDecimales(item.getFacTotal(), 2).toString()));
                 totalConFactura = totalConFactura.add(ArchivoUtils.redondearDecimales(item.getFacTotal(), 2));
+
                 HSSFCell cf1 = r.createCell(i++);
                 cf1.setCellValue(new HSSFRichTextString(ArchivoUtils.redondearDecimales(item.getTotalntv(), 2).toString()));
                 totalNotaVenta = totalNotaVenta.add(ArchivoUtils.redondearDecimales(item.getTotalntv(), 2));
+
                 HSSFCell cf11 = r.createCell(i++);
                 cf11.setCellValue(new HSSFRichTextString(ArchivoUtils.redondearDecimales(item.getTotalacumulado(), 2).toString()));
                 total = total.add(ArchivoUtils.redondearDecimales(item.getTotalacumulado(), 2));
-                HSSFCell c0 = r.createCell(i++);
-                c0.setCellValue(new HSSFRichTextString(sm.format(item.getFacFecha())));
+
+                HSSFCell cf12 = r.createCell(i++);
+                cf12.setCellValue(new HSSFRichTextString(ArchivoUtils.redondearDecimales(item.getTransferencia(), 2).toString()));
+                transferencia = transferencia.add(ArchivoUtils.redondearDecimales(item.getTransferencia(), 2));
+
+                HSSFCell cf13 = r.createCell(i++);
+                cf13.setCellValue(new HSSFRichTextString(ArchivoUtils.redondearDecimales(item.getEfectivo(), 2).toString()));
+                efectivo = efectivo.add(ArchivoUtils.redondearDecimales(item.getEfectivo(), 2));
 
                 /*autemta la siguiente fila*/
                 rownum += 1;
@@ -240,6 +260,11 @@ public class ListaVentasAnioMes {
 
             j = 0;
             r = s.createRow(rownum);
+
+            HSSFCell chF4 = r.createCell(j++);
+            chF4.setCellValue(new HSSFRichTextString(""));
+            chF4.setCellStyle(estiloCelda);
+
             HSSFCell chfeF1 = r.createCell(j++);
             chfeF1.setCellValue(new HSSFRichTextString(totalConFactura.toString()));
             chfeF1.setCellStyle(estiloCelda);
@@ -252,9 +277,13 @@ public class ListaVentasAnioMes {
             chfeF3.setCellValue(new HSSFRichTextString(total.toString()));
             chfeF3.setCellStyle(estiloCelda);
 
-            HSSFCell chF4 = r.createCell(j++);
-            chF4.setCellValue(new HSSFRichTextString(""));
-            chF4.setCellStyle(estiloCelda);
+            HSSFCell chF5 = r.createCell(j++);
+            chF5.setCellValue(new HSSFRichTextString(transferencia.toString()));
+            chF5.setCellStyle(estiloCelda);
+
+            HSSFCell chF6 = r.createCell(j++);
+            chF6.setCellValue(new HSSFRichTextString(efectivo.toString()));
+            chF6.setCellStyle(estiloCelda);
 
             for (int k = 0; k <= listaAcumuladopordias.size(); k++) {
                 s.autoSizeColumn(k);

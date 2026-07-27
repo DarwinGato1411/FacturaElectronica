@@ -69,6 +69,7 @@
                           onChange="self.setValue(self.getValue().toUpperCase().trim());"                           
                           class="form-control" />
             </div>
+            
 
             <div class="col-12 col-sm-6 col-md-12 col-lg-12  form-group "  >
                 <label value="(*) " style="color:transparent;font-weight:bold"/>Clave de autorizacion:
@@ -84,6 +85,42 @@
                 <textbox  readonly="true"
                            style="background:transparent;"
                           value="@bind(vm.factura.facNumDocumento)"                           
+                          class="form-control" />
+            </div>
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4 form-group "  >
+                <label value="(*)" style="color:transparent;font-weight:bold"/>Banco:
+              
+                <textbox  readonly="true"
+                          maxlength="100" 
+                           style="background:transparent;"
+                          value="@bind(vm.factura.entidadFinanciera)"                           
+                          class="form-control" />
+            </div> 
+            <div class="col-6 col-sm-6 col-md-4 col-lg-4  form-group "  >
+                <label value="(*) " style="color:transparent;font-weight:bold"/># Comprobante: 
+                
+                <textbox  readonly="true"
+                          maxlength="100" 
+                           style="background:transparent;"
+                          value="@bind(vm.factura.numComprobante)"                           
+                          class="form-control" />
+            </div>
+            <div class="col-6 col-sm-6 col-md-4 col-lg-4  form-group "  >
+                <label value="(*) " style="color:transparent;font-weight:bold"/>Valor:
+                
+                <textbox  readonly="true"
+                          maxlength="100" 
+                           style="background:transparent;"
+                          value="@bind(vm.factura.valorComprobante)"                         
+                          class="form-control" />
+            </div>
+            <div class="col-6 col-sm-6 col-md-4 col-lg-4  form-group "  >
+                <label value="(*) " style="color:transparent;font-weight:bold"/>Efectivo:
+                
+                <textbox  readonly="true"
+                          maxlength="100" 
+                           style="background:transparent;"
+                          value="@bind(vm.factura.valorEfectivo)"                           
                           class="form-control" />
             </div>
             

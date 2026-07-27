@@ -4,12 +4,20 @@
  */
 package com.ec.controlador;
 
+import com.ec.entidad.DetalleKardex;
 import com.ec.entidad.Kardex;
+import com.ec.entidad.Producto;
 import com.ec.entidad.RetencionCompra;
+import com.ec.entidad.Tipoambiente;
+import com.ec.entidad.Tipokardex;
 import com.ec.servicio.HelperPersistencia;
+import com.ec.servicio.ServicioDetalleKardex;
 import com.ec.servicio.ServicioKardex;
+import com.ec.servicio.ServicioProducto;
 import com.ec.servicio.ServicioTipoAmbiente;
+import com.ec.servicio.ServicioTipoKardex;
 import com.ec.untilitario.ArchivoUtils;
+import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -17,6 +25,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -43,9 +52,12 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.NotifyChange;
+import org.zkoss.io.Files;
 import org.zkoss.util.media.AMedia;
 import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Filedownload;
+import org.zkoss.zul.Fileupload;
 
 /**
  *
@@ -57,14 +69,28 @@ public class KardexGeneral {
     ServicioKardex servicioKardex = new ServicioKardex();
     private String estdoKardex = "TOD";
     private List<Kardex> listKardex = new ArrayList<Kardex>();
+    ServicioProducto servicioProducto = new ServicioProducto();
+    private static String PATH_BASE = "";
+
+    ServicioDetalleKardex servicioDetalleKardex = new ServicioDetalleKardex();
+
+    private String tipoAjuste = "ING";
+    private String prodNombre = "";
+    private String motivoAjuste = "";
+
+    ServicioTipoKardex servicioTipoKardex = new ServicioTipoKardex();
 
     public KardexGeneral() {
+        Tipoambiente amb = servicioTipoAmbiente.FindALlTipoambiente();
+        //OBTIENE LAS RUTAS DE ACCESO A LOS DIRECTORIOS DE LA TABLA TIPOAMBIENTE
+        PATH_BASE = amb.getAmDirBaseArchivos() + File.separator
+                + amb.getAmDirXml();
         buscarKardex();
 
     }
 
     private void buscarKardex() {
-        listKardex = servicioKardex.FindALlKardexMaxMininimo(estdoKardex);
+        listKardex = servicioKardex.FindALlKardexMaxMininimo(estdoKardex, prodNombre);
 
     }
 
@@ -257,4 +283,184 @@ public class KardexGeneral {
         this.estdoKardex = estdoKardex;
     }
 
+    @Command
+    @NotifyChange({"listKardex", "estdoKardex"})
+    public void cargarProducto() {
+
+        try {
+
+            org.zkoss.util.media.Media media = Fileupload.get();
+            if (media instanceof org.zkoss.util.media.AMedia) {
+                Boolean existenRepetido = Boolean.FALSE;
+                BufferedWriter bfwriter = null;
+                File descargar = null;
+
+                String productosRepetidos = "";
+                String nombre = media.getName();
+
+                if (!nombre.contains("xls")) {
+                    Clients.showNotification("Su documento debe ser un archivo excel",
+                            Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 3000, true);
+
+                    return;
+                }
+
+                System.out.println("media " + nombre);
+                Files.copy(new File(PATH_BASE + File.separator + "CARGAR" + File.separator + nombre),
+                        new ByteArrayInputStream(media.getByteData()));
+
+                String rutaArchivo = PATH_BASE + File.separator + "CARGAR" + File.separator + nombre;
+
+                InputStream myFile = new FileInputStream(new File(rutaArchivo));
+                HSSFWorkbook wb = new HSSFWorkbook(myFile);
+                HSSFSheet sheet = wb.getSheetAt(0);
+
+                HSSFCell cell;
+                HSSFRow row;
+
+                System.out.println("Apunto de entrar a loops");
+                DetalleKardex detalleKardex = null;
+
+                System.out.println("" + sheet.getLastRowNum());
+                Producto prod = new Producto();
+                for (int i = 1; i < sheet.getLastRowNum() + 1; i++) {
+                    row = sheet.getRow(i);
+//                    for (int j = 0; j < row.getLastCellNum(); j++) {
+//                    for (int j = 0; j < 6; j++) {
+                    List<Kardex> prodcutos = servicioKardex.findByCodigo(String.valueOf(row.getCell(0)));
+
+                    if (!prodcutos.isEmpty()) {
+//                            cell = row.getCell(j);
+                        Kardex selected = prodcutos.get(0);
+                        if (selected.getKarTotal().doubleValue() == Double.valueOf(String.valueOf(row.getCell(2)))) {
+
+                        } else if (selected.getKarTotal().doubleValue() > Double.valueOf(String.valueOf(row.getCell(2)))) {
+
+                            BigDecimal saldo = BigDecimal.valueOf(selected.getKarTotal().doubleValue() - Double.valueOf(String.valueOf(row.getCell(2))));
+                            Tipokardex tipokardex = servicioTipoKardex.findByTipkSigla("SAL");
+                            detalleKardex = new DetalleKardex();
+                            Kardex kardex = servicioKardex.FindALlKardexs(selected.getIdProducto());
+                            detalleKardex.setIdKardex(kardex);
+                            detalleKardex.setDetkFechakardex(new Date());
+                            detalleKardex.setDetkFechacreacion(new Date());
+                            detalleKardex.setIdTipokardex(tipokardex);
+                            detalleKardex.setDetkKardexmanual(Boolean.FALSE);
+                            detalleKardex.setDetkDetalles("AJUSTE CARGA GENERAL SALIDA");
+//                    detalleKardex.setIdFactura(factura);
+                            detalleKardex.setDetkCantidad(saldo);
+                            servicioDetalleKardex.crear(detalleKardex);
+
+                            kardex.setKarTotal(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(2)))));
+                            servicioKardex.modificar(kardex);
+                        } else if (selected.getKarTotal().doubleValue() < Double.valueOf(String.valueOf(row.getCell(2)))) {
+
+                            BigDecimal saldo = BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(2))) - selected.getKarTotal().doubleValue());
+                            Tipokardex tipokardex = servicioTipoKardex.findByTipkSigla("ING");
+                            detalleKardex = new DetalleKardex();
+                            Kardex kardex = servicioKardex.FindALlKardexs(selected.getIdProducto());
+                            detalleKardex.setIdKardex(kardex);
+                            detalleKardex.setDetkFechakardex(new Date());
+                            detalleKardex.setDetkFechacreacion(new Date());
+                            detalleKardex.setIdTipokardex(tipokardex);
+                            detalleKardex.setDetkKardexmanual(Boolean.FALSE);
+                            detalleKardex.setDetkDetalles("AJUSTE CARGA GENERAL INGRESO");
+//                    detalleKardex.setIdFactura(factura);
+                            detalleKardex.setDetkCantidad(saldo);
+                            servicioDetalleKardex.crear(detalleKardex);
+
+                            kardex.setKarTotal(BigDecimal.valueOf(Double.valueOf(String.valueOf(row.getCell(2)))));
+                            servicioKardex.modificar(kardex);
+                        }
+
+//                           
+                    }
+
+//                    }
+                }
+
+                buscarKardex();
+                System.out.println("Finalizado");
+
+                Clients.showNotification("Productos ajustados correctamente",
+                        Clients.NOTIFICATION_TYPE_INFO, null, "end_center", 3000, true);
+            }
+        } catch (IOException e) {
+            Clients.showNotification("Verifique le archivo para cargar",
+                    Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 3000, true);
+            e.printStackTrace();
+//            Messagebox.show("Upload failed");
+        }
+
+    }
+
+    @Command
+    @NotifyChange({"listKardex", "estdoKardex"})
+    public void cuadrarValor(@BindingParam("valor") Kardex valor) throws JRException, IOException, NamingException, SQLException {
+
+        if (valor.getTotalCuadre().doubleValue() > 0) {
+
+            DetalleKardex detalleKardex = null;
+//                            cell = row.getCell(j);
+            Kardex selected = valor;
+            if (selected.getKarTotal().doubleValue() == selected.getTotalCuadre().doubleValue()) {
+
+            } else if (selected.getKarTotal().doubleValue() > selected.getTotalCuadre().doubleValue()) {
+
+                BigDecimal saldo = BigDecimal.valueOf(selected.getKarTotal().doubleValue() - selected.getTotalCuadre().doubleValue());
+                Tipokardex tipokardex = servicioTipoKardex.findByTipkSigla("SAL");
+                detalleKardex = new DetalleKardex();
+                Kardex kardex = servicioKardex.FindALlKardexs(selected.getIdProducto());
+                detalleKardex.setIdKardex(kardex);
+                detalleKardex.setDetkFechakardex(new Date());
+                detalleKardex.setDetkFechacreacion(new Date());
+                detalleKardex.setIdTipokardex(tipokardex);
+                detalleKardex.setDetkKardexmanual(Boolean.FALSE);
+                detalleKardex.setDetkDetalles("AJUSTE GENERAL INDIVIDUAL SALIDA");
+//                    detalleKardex.setIdFactura(factura);
+                detalleKardex.setDetkCantidad(saldo);
+                servicioDetalleKardex.crear(detalleKardex);
+
+                kardex.setKarTotal(selected.getTotalCuadre());
+                servicioKardex.modificar(kardex);
+
+                Clients.showNotification("Realizo un ajuste de salida por: " + saldo,
+                        Clients.NOTIFICATION_TYPE_INFO, null, "end_center", 3000, true);
+            } else if (selected.getKarTotal().doubleValue() < selected.getTotalCuadre().doubleValue()) {
+
+                BigDecimal saldo = BigDecimal.valueOf(selected.getTotalCuadre().doubleValue() - selected.getKarTotal().doubleValue());
+                Tipokardex tipokardex = servicioTipoKardex.findByTipkSigla("ING");
+                detalleKardex = new DetalleKardex();
+                Kardex kardex = servicioKardex.FindALlKardexs(selected.getIdProducto());
+                detalleKardex.setIdKardex(kardex);
+                detalleKardex.setDetkFechakardex(new Date());
+                detalleKardex.setDetkFechacreacion(new Date());
+                detalleKardex.setIdTipokardex(tipokardex);
+                detalleKardex.setDetkKardexmanual(Boolean.FALSE);
+                detalleKardex.setDetkDetalles("AJUSTE GENERAL INDIVIDUAL INGRESO");
+//                    detalleKardex.setIdFactura(factura);
+                detalleKardex.setDetkCantidad(saldo);
+                servicioDetalleKardex.crear(detalleKardex);
+
+                kardex.setKarTotal(selected.getTotalCuadre());
+                servicioKardex.modificar(kardex);
+                Clients.showNotification("Realizo un ajuste de ingreso por " + saldo,
+                        Clients.NOTIFICATION_TYPE_INFO, null, "end_center", 3000, true);
+            }
+
+        } else {
+            Clients.showNotification("No puede realizar un cuadre con valor igual o menor a cero",
+                    Clients.NOTIFICATION_TYPE_ERROR, null, "end_center", 3000, true);
+        }//                           
+    }
+
+    public String getProdNombre() {
+        return prodNombre;
+    }
+
+    public void setProdNombre(String prodNombre) {
+        this.prodNombre = prodNombre;
+    }
+
+    
+    
 }

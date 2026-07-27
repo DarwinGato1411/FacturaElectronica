@@ -99,7 +99,7 @@ public class GenerarATS {
                         break;
                 }
 
-                BigDecimal subTotalGravaNograva = item.getCabSubTotal().add(item.getCabSubTotalCero());
+                BigDecimal subTotalGravaNograva = item.getCabSubTotal().add(item.getCabSubTotalCero()).add(item.getCabIva());
                 linea = ("        <detalleCompras>\n"
                         + "            <codSustento>01</codSustento>\n"
                         + "            <tpIdProv>" + tpIdProv + "</tpIdProv>\n"
@@ -113,7 +113,7 @@ public class GenerarATS {
                         + "            <fechaEmision>" + formato.format(item.getCabFechaEmision()) + "</fechaEmision>\n"
                         + "            <autorizacion>" + item.getCabAutorizacion().trim() + "</autorizacion>\n"
                         + "            <baseNoGraIva>" + item.getCabSubTotalCero().setScale(2, RoundingMode.FLOOR) + "</baseNoGraIva>\n"
-                        + "            <baseImponible>" + BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP) + "</baseImponible>\n"
+                        + "            <baseImponible>" +item.getCabSubTotalCero().setScale(2, RoundingMode.HALF_UP) + "</baseImponible>\n"
                         + "            <baseImpGrav>" + item.getCabSubTotal().setScale(2, RoundingMode.FLOOR) + "</baseImpGrav>\n"
                         + "            <baseImpExe>" + BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP) + "</baseImpExe>\n"
                         + "            <montoIce>" + BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP) + "</montoIce>\n"
@@ -131,7 +131,7 @@ public class GenerarATS {
                         + "                    <aplicConvDobTrib>NA</aplicConvDobTrib>\n"
                         + "                    <pagExtSujRetNorLeg>NA</pagExtSujRetNorLeg>\n"
                         + "            </pagoExterior>\n"
-                        + ((subTotalGravaNograva.doubleValue() >= 1000) ? "  <formasDePago>\n"
+                        + ((subTotalGravaNograva.doubleValue() >= 500) ? "  <formasDePago>\n"
                         + "                <formaPago>01</formaPago>\n"
                         + "            </formasDePago>" : ""));
 

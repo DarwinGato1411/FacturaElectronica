@@ -1,20 +1,32 @@
-@import "https://fonts.googleapis.com/css2?family=Nunito:wght@300&family=Poppins&family=Raleway:wght@300&display=swap";
+/* ==========================================================================
+          USER PROVIDED STYLES (INTEGRATED AND RESPECTED)
+          ========================================================================== */
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@300&family=Poppins&family=Raleway:wght@300&display=swap");
 
 :root {
     --primary-color: #03aff1;
     --secondary-color:#0b0d3e;
     --tertiary-color: #d5ecfb;
     --background-color: #fff;
+    --success-color: #02d895;
+    --danger-color: #d9534f;
 }
 
 body {
     line-height: 1.5 !important;
     -webkit-font-smoothing: antialiased !important;
     padding: 0 !important;
+    margin: 0;
+    background-color: #f4f6f9;
+    font-family: "Poppins", sans-serif;
 }
 
 .wrapper_container_facturar {
     width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 1.5rem;
+    box-sizing: border-box;
 }
 
 .wrapper_container_facturar table {
@@ -23,6 +35,7 @@ body {
 
 .factura * {
     font-family: "Poppins", sans-serif;
+    box-sizing: border-box;
 }
 
 .factura_header {
@@ -66,10 +79,8 @@ body {
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 0.5em;
+    gap: 4px;
 }
-
-
 
 .fact_row > .wrapper_data > .wrapper_input {
     display: flex;
@@ -106,46 +117,44 @@ body {
 .fact_row > .wrapper_data > .wrapper_input > .input_date > input,
 .fact_row > .wrapper_data > .wrapper_input > .input_select > input {
     width: 90%;
-    padding: 5px 10px;
+    padding: 0px 5px;
     border: solid 1px #ccc;
     border-radius: 6px;
     outline: none;
     font-size: 12px;
     color: #333;
+    background-color: #fff;
 }
 
 .input_total {
     color:#0275d8 !important;
-    font-size:18px !important; 
+    font-size: 17px !important;
     font-weight: bold !important;
     padding-top: 0px !important;
     padding-bottom: 0px !important;
     margin-top: 0px;
     margin-bottom: 0px;
-    background-color: #e1e1e1;
-    width: 90%;
+    background-color: #e1e1e1 !important;
 }
 .input_cobro {
     color:#02d895 !important;
-    font-size:18px !important; 
+    font-size: 17px !important;
     font-weight: bold !important;
     padding-top: 0px !important;
     padding-bottom: 0px !important;
     margin-top: 0px;
     margin-bottom: 0px;
-
-    width: 90%;
+    background-color: #e1e1e1 !important;
 }
 .input_cambio {
     color:#d9534f !important;
-    font-size:18px !important; 
+    font-size: 17px !important;
     font-weight: bold !important;
     padding-top: 0px !important;
     padding-bottom: 0px !important;
     margin-top: 0px;
     margin-bottom: 0px;
-    background-color: #e1e1e1;
-    width: 90%;
+    background-color: #e1e1e1 !important;
 }
 
 .fact_row > .wrapper_data > .wrapper_input > .input_date,
@@ -188,6 +197,7 @@ body {
     flex-wrap: wrap;
     margin-left: 0.5em;
     margin-top: 0.5em;
+    gap: 10px;
 }
 
 .wrapper_input > .radio_group > span {
@@ -195,6 +205,16 @@ body {
     margin: 0 0.5em;
     font-style: italic;
     color: #333;
+    font-size: 13px;
+}
+
+.wrapper_input > .radio_group > label {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 13px;
+    font-weight: 500;
 }
 
 .btn_primary {
@@ -208,8 +228,6 @@ body {
 }
 
 .btn_access {
-    /* background-color: #77dd77; 
-    color: #000; */
     background-color: var(--secondary-color);
     color: #fff;
 }
@@ -220,8 +238,6 @@ body {
 }
 
 .btn_alert {
-    /* background-color: #fdfd96;
-    color: #000; */
     background-color: var(--secondary-color);
     color: #fff;
 }
@@ -256,19 +272,31 @@ body {
 }
 
 .btn_fact {
-    padding: 0.8em;
-    border-radius: 5px;
+    padding: 2px 3px 3px 3px;
+    border-radius: 10px;
     cursor: pointer;
     border: none;
     outline: none;
     position: relative;
     font-family: "Poppins", sans-serif !important;
     font-weight: bold;
-    height: 38px;
+    height: 30px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.2s ease, transform 0.1s ease;
+}
+
+
+.btn_fact:hover {
+    opacity: 0.9;
+}
+
+.btn_fact:active {
+    transform: scale(0.98);
 }
 
 .btn_fact::before {
-    content: "";
     font-family: "Font Awesome 6 Free" !important;
     margin-right: 0.5em;
     font-size: 16px;
@@ -288,6 +316,7 @@ body {
     padding: 1em;
     border-radius: 10px;
     overflow: hidden !important;
+    margin-top: 1rem;
 }
 
 .factura_body_content {
@@ -299,9 +328,10 @@ body {
 .factura_body_content > .factura_body_item {
     overflow: auto;
 }
- .factura_body_content > .factura_body_lf {
-        overflow: auto;
-    }
+.factura_body_content > .factura_body_lf {
+    overflow: auto;
+}
+
 .cell-description-header,
 .cell-description-body {
     width: 350px !important;
@@ -349,6 +379,8 @@ body {
     background-color: transparent;
     font-size: 35px !important;
     color: var(--secondary-color) !important;
+    font-weight: bold;
+    width: 100%;
 }
 
 .wrapper_total {
@@ -357,10 +389,16 @@ body {
     flex-direction: column !important;
     justify-content: center;
     align-items: center;
+    background-color: var(--tertiary-color);
+    padding: 1em;
+    border-radius: 10px;
+    margin-top: 10px;
 }
 
 .menu_nav {
     font-family: monospace;
+    background-color: darkorange;
+    width: 100%;
 }
 
 .menu_ul {
@@ -368,13 +406,14 @@ body {
     list-style: none;
     margin: 0;
     padding-left: 0;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .menu_li {
     color: #fff;
     background: darkorange;
     display: block;
-    float: left;
     padding: 1rem;
     position: relative;
     text-decoration: none;
@@ -384,11 +423,14 @@ body {
 
 .menu_li span {
     color: #fff;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-weight: bold;
 }
 
 .menu_li:hover,
 .menu_li:focus-within {
-    background: red;
+    background: #e06c00;
     cursor: pointer;
 }
 
@@ -400,13 +442,15 @@ body {
     background: orange;
     visibility: hidden;
     opacity: 0;
-    min-width: 5rem;
+    min-width: 12rem;
     position: absolute;
     z-index: 2000 !important;
-    transition: all 0.5s ease;
+    transition: all 0.3s ease;
     margin-top: 1rem;
     left: 0;
     display: none;
+    border-radius: 0 0 5px 5px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
 }
 
 .menu_ul .menu_li:hover > .menu_ul,
@@ -421,10 +465,17 @@ body {
 .menu_ul .menu_li .menu_ul .menu_li {
     clear: both;
     width: 100%;
+    background: orange;
+    padding: 0.75rem 1rem;
+}
+
+.menu_ul .menu_li .menu_ul .menu_li:hover {
+    background: #e06c00;
 }
 
 .wrapper_menu {
     margin-bottom: 1em;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
 .wrapper_menu > table > tbody > tr {
@@ -457,7 +508,6 @@ body {
 
 .menu_child {
     padding: 0 1em !important;
-    /* color: #fff !important; */
     position: relative;
 }
 
@@ -469,8 +519,9 @@ body {
 
 .logo_defact {
     display: block;
-    object-fit: cover;
+    object-fit: contain;
     width: 150px;
+    height: auto;
     position: relative;
     z-index: 100;
 }
@@ -491,16 +542,13 @@ body {
     cursor: pointer;
 }
 
-/*
-
-    fact
-*/
-
+/* Fact Custom Row Style */
 .fact_row_custom {
-    width: 50%;
+    width: 100%;
     border-radius: 10px;
     padding: 1em;
     background-color: #eee;
+    margin-bottom: 1em;
 }
 
 .fact_row_custom .container_data_custom:first-child {
@@ -509,10 +557,7 @@ body {
     gap: 1em;
 }
 
-.fact_row_custom
-.container_data_custom:nth-child(2)
-.wrapper_data
-.wrapper_input {
+.fact_row_custom .container_data_custom:nth-child(2) .wrapper_data .wrapper_input {
     width: 100%;
 }
 
@@ -520,53 +565,40 @@ body {
     display: flex;
     justify-content: space-between;
     gap: 1em;
+    flex-wrap: wrap;
 }
 
 .fact_row_custom > .container_data_custom > .wrapper_data .wrapper_input {
-    width: 50%;
+    width: 48%;
     display: flex;
     gap: 1em;
     align-items: center;
     position: relative;
 }
 
-.fact_row_custom
-> .container_data_custom
-> .wrapper_data
-.wrapper_input
-> .icon {
+.fact_row_custom > .container_data_custom > .wrapper_data .wrapper_input > .icon {
     position: absolute;
     right: 5px;
     top: 7px;
     color: gray;
 }
 
-.fact_row_custom
-> .container_data_custom
-> .wrapper_data
-.wrapper_input
-> span
-.z-label {
+.fact_row_custom > .container_data_custom > .wrapper_data .wrapper_input > span .z-label {
     width: 100px;
     display: block;
 }
 
-.fact_row_custom
-> .container_data_custom
-> .wrapper_data
-.wrapper_input
-> input {
-    width: 150%;
+.fact_row_custom > .container_data_custom > .wrapper_data .wrapper_input > input {
+    width: 100%;
     padding: 5px 10px;
     border: solid 1px #ccc;
     border-radius: 6px;
     outline: none;
     font-size: 12px;
     color: #333;
-} /*
-  kardex detallado
-*/
+}
 
+/* Kardex Detailed Styling */
 .container_kardex_header {
     background-color: #eee;
     margin-bottom: 1em;
@@ -593,19 +625,23 @@ body {
     display: flex;
     justify-content: space-between;
     gap: 1em;
+    flex-wrap: wrap;
 }
 
 .kardex_wrapper_item {
-    width: 35%;
+    width: 32%;
     background-color: #eee;
     padding: 1em;
     border-radius: 10px;
+    min-width: 280px;
 }
+
 .kardex_wrapper_item_detalle {
-    width: 75%;
+    width: 66%;
     background-color: #eee;
     padding: 1em;
     border-radius: 10px;
+    min-width: 320px;
 }
 
 .kardex_wrapper_item:nth-child(2) .kardex_item {
@@ -648,42 +684,161 @@ div.z-listheader-cnt {
     color: var(--primary-color);
 }
 
-@media screen and (max-width: 767px) {
-    /* Estilos solo para móviles */
-.factura_header {
-    display: flex
-;
-    flex-direction: column;
-    gap: 1em;
-    margin-bottom: 1em;
-    width: 128%;
+/* Table grids and display adjustments */
+.facturacion table, .facturacion tbody, .facturacion th, .facturacion td {
+    display: block; 
 }
 
-.factura_headerlf {
-    display: flex
-;
-    flex-direction: column;
-    gap: 1em;
-    margin-bottom: 1em;
+.encabezado1, .tabla1 {
+    display: grid !important;
+    grid-template-columns: 12% 38% 10% 12% 12% 12% 4%;
+    align-items: center;
+    text-align: left;
+}
+
+.encabezadolf, .tablalf {
+    display: grid !important;
+    grid-template-columns: 40px 8% 10% 7% 8% 5% 4% 8% 8% 5% 5% 3% 3% 3% 3% 3% 3% 3% 3% 3% 3%;
+}
+
+.encabezado2, .tabla2 {
+    display: grid !important;
+    grid-template-columns: 5%  7% 10% 10% 35% 11% 11% 11%;
+}
+
+.cabezera {
     width: 100%;
+    display: grid;
+    grid-template-columns: 60% 40%;
+    grid-gap: 10px;
+    margin-bottom: 20px;
 }
 
-.factura_header > .fact_row {
-    position: relative;
+.cabezera .contenerdor-input {
     background-color: #eee;
-    padding: 1em;
-    border-radius: 10px;
-    display: flex
-;
-    flex-direction: column;
-    width: 63%;
-    gap: 1em;
+    padding: 15px;
+    border-radius: 20px;
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-gap: 10px;
+    padding: 30px;
 }
+
+.contenerdor-input .check {
+    display: grid;
+    grid-template-columns: 30% 70%;
+}
+
+.contenerdor-input .check .radio_group {
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+
+.contenerdor-input .fecha div {
+    display: grid;
+    grid-template-columns: 30% 70%;
+}
+
+.contenerdor-input .fecha div i input {
+    width: 90%;
+    height: 30px;
+}
+
+.cabezera .contendor-boton {
+    background-color: #eee;
+    padding: 15px;
+    border-radius: 20px;
+    display: grid;
+    grid-template-columns: 70% 30%;
+    grid-gap: 10px;
+    padding: 30px;
+}
+
+.contendor-boton .inputs {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    gap: 25px;
+}
+
+.inputs .input-contenedor {
+    display: grid;
+    grid-template-columns: 45% 55%;
+    height: 25px;
+    margin-bottom: 20px;
+}
+
+.input-contenedor input {
+    width: 100%;
+    padding: 5px 10px;
+    font-size: 12px;
+    color: #333;
+    border-radius: 6px;
+    height: 30px;
+}
+
+.fact_row1 {
+    display: grid !important;
+    grid-template-columns: 100%;
+}
+
+.fact_row1 .inputs {
+    display: grid !important;
+    grid-template-columns: 100%;
+}
+
+.imgContenedor {
+    display: flex;
+    align-content: center;
+    gap: 5px;
+}
+
+.imgContenedor .inputGroupImg {
+    display: grid;
+}
+
+.imgContenedor .inputGroupImg .imgprod {
+    display: block;
+    height: 100px;
+}
+
+/* -----------------------
+   MEDIA QUERIES (Mobile)
+   ----------------------- */
+@media screen and (max-width: 767px) {
+    .factura_header {
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
+        margin-bottom: 1em;
+        width: 100%;
+    }
+
+    .factura_headerlf {
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
+        margin-bottom: 1em;
+        width: 100%;
+    }
+
+    .factura_header > .fact_row {
+        position: relative;
+        background-color: #eee;
+        padding: 1em;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        width: 75%;
+        gap: 1em;
+    }
+
     .factura_header > .fact_row > .wrapper_data1 {
         width: 100%;
     }
+
     .factura_header > .fact_row > .wrapper_data {
-        width: 80%;
+        width: 100%;
     }
 
     .inputGroupImg {
@@ -691,36 +846,49 @@ div.z-listheader-cnt {
     }
 
     .factura_body_content > .factura_body_item {
-        width: 80%;
+        width: 100%;
     }
-
-
 
     .factura_body_content > .factura_body_item_lefth {
-        width: 80%;
+        width: 100%;
     }
-    
-     .factura_body_content > .factura_body_lf {
-        width: 55%;
+
+    .factura_body_content > .factura_body_lf {
+        width: 100%;
     }
+
     .encabezado1 ,.tabla1{
         display: grid !important;
-        grid-template-columns: 25% 50% 0% 0% 0% 15% 10% !important;
+                grid-template-columns: 10% 40% 0% 0% 0% 15% 15% !important;
+        font-size: 11px;
+    }
+
+    .col-optional {
+        display: none !important;
     }
 
     .encabezado2 ,.tabla2{
         display: grid !important;
-        grid-template-columns:30px 0% 0% 10% 0% 40% 15% 15% 15% !important;
+        grid-template-columns: 30px 10% 10% 10% 10% 10% 10% 10% !important;
     }
 
     .encabezadolf ,.tablalf{
         display: grid !important;
-          grid-template-columns:40px 50px 0% 80px 30px 0% 0% 30px 0% 0% 0% 0% 0% 40px 0% 0% 40px 40px 0% 0%  !important
+        grid-template-columns: 40px 50px 80px 30px 30px 40px 40px 40px !important;
+    }
+
+    .cabezera {
+        grid-template-columns: 100%;
+    }
+
+    .kardex_wrapper_item, .kardex_wrapper_item_detalle {
+        width: 100%;
     }
 }
 
-
-
+/* -----------------------
+   MEDIA QUERIES (Desktop)
+   ----------------------- */
 @media only screen and (min-width: 1070px) {
     .factura_header {
         flex-direction: row;
@@ -728,12 +896,12 @@ div.z-listheader-cnt {
     }
 
     .factura_header > .fact_row {
-        width: 50%;
+        width: 49%;
         flex-direction: row;
     }
 
     .wrapper_buttons {
-        width: 40%;
+        width: 48%;
     }
 
     .factura_header > .fact_row:first-child:after {
@@ -750,10 +918,12 @@ div.z-listheader-cnt {
     }
 
     .factura_body_content > .factura_body_item {
-        width: 50%;
+        width: 65%;
     }
 
-
+    .factura_body_sidebar {
+        width: 33%;
+    }
 
     .factura_body_content > .factura_body_item_lefth {
         width: 60%;
@@ -775,6 +945,58 @@ div.z-listheader-cnt {
     .factura_header > .fact_row > .wrapper_data2 {
         width: 60%;
     }
+
+    .containerFactura table,
+    .containerFactura tbody,
+    .containerFactura td,
+    .containerFactura tr,
+    .containerFactura th,
+    .containerFactura {
+        display: block;
+    }
+
+    .fact_row1 .inputs {
+        display: grid !important;
+        grid-template-columns: 50% 50%;
+        gap: 10px;
+    }
+
+    .fact_row1 .wrapper_buttons {
+        width: 100%;
+        display: grid !important;
+        align-items: center;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+    }
+
+    .fact_row1 .wrapper_input {
+        display: flex;
+    }
+
+    .fact_row1 .wrapper_data {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .fact_row1 .contenedorTotal .text_total {
+        display: block;
+        text-align: center;
+    }
+
+    .fact_row1 .contenedorTotal .text_total span {
+        font-size: 14px;
+        color: var(--secondary-color);
+        text-align: center;
+        display: block;
+    }
+
+    .fact_row1 .contenedorTotal input {
+        font-size: 14px;
+        color: var(--secondary-color);
+        text-align: center;
+        display: block;
+    }
 }
 
 @media screen and (min-width: 1400px) {
@@ -787,184 +1009,127 @@ div.z-listheader-cnt {
     color: black;
 }
 
-.facturacion table,.facturacion tbody,.facturacion th,.facturacion td{
-    display: block; 
-}
-
-.encabezado1 ,.tabla1{
-    display: grid !important;
-    grid-template-columns: 20% 40% 5% 10% 10% 10% 5%;
-}
-
-.encabezadolf ,.tablalf{
-    display: grid !important;
-    grid-template-columns: 40px 8% 10% 7% 8% 5% 4% 8% 8% 10% 3% 3% 3% 3% 3% 3% 3% 3% 3% 3%
-}
-
-
-.encabezado2 ,.tabla2{
-    display: grid !important;
-    grid-template-columns:5% 3% 7% 10% 10% 35% 11% 11% 11%;
-}
-
-.cabezera{
-    width: 100%;
+/* Additional enhancements for presentation inside simulation */
+.pos-grid {
     display: grid;
-    grid-template-columns:50% 50%;
+    grid-template-columns: 1fr;
+    gap: 20px;
 }
-
-.cabezera{
-    width: 100%;
-    display: grid;
-    grid-template-columns:60% 40%;
-    grid-gap:10px;
-    margin-bottom: 20px;
+@media (min-width: 992px) {
+    .pos-grid {
+        grid-template-columns: 1fr 380px;
+    }
 }
-
-
-.cabezera .contenerdor-input{
-    background-color: #eee;
-    padding: 15px;
-    border-radius: 20px;
-    display: grid;
-    grid-template-columns:50% 50%;
-    grid-gap:10px;
-    padding: 30px;
-}
-
-.contenerdor-input .check{
-    display: grid;
-    grid-template-columns:30% 70%;
-}
-
-.contenerdor-input .check .radio_group{
-    display: grid;
-    grid-template-columns:50% 50%;
-}
-.contenerdor-input .fecha div{
-    display: grid;
-    grid-template-columns:30% 70%;
-}
-
-.contenerdor-input .fecha div i input{
-    width: 90%;
-    height: 30px;
-}
-
-
-.cabezera .contendor-boton{
-    background-color: #eee;
-    padding: 15px;
-    border-radius: 20px;
-    display: grid;
-    grid-template-columns:70% 30%;
-    grid-gap:10px;
-    padding: 30px;
-}
-
-.contendor-boton .inputs{
+.product-card {
+    background-color: white;
+    border-radius: 8px;
+    padding: 12px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
     display: flex;
-    flex-direction: row;
-
-
-    width: 100%;
-    gap:25px;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 1px solid #e1e8ed;
+    transition: all 0.2s ease;
+    cursor: pointer;
 }
-
-.inputs .input-contenedor{
+.product-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border-color: var(--primary-color);
+}
+.products-container {
     display: grid;
-    grid-template-columns:45% 55%;
-    height: 25px;
-    margin-bottom: 20px
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 12px;
+    max-height: 400px;
+    overflow-y: auto;
+    padding: 5px;
+}
+.list-header-row {
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: bold;
+    border-radius: 6px 6px 0 0;
+    padding: 8px 12px;
+}
+.list-item-row {
+    background-color: white;
+    border-bottom: 1px solid #ddd;
+    padding: 8px 12px;
+    transition: background 0.15s;
+}
+.list-item-row:hover {
+    background-color: #f1f9ff;
+}
+.action-icon {
+    cursor: pointer;
+    color: #777;
+    transition: color 0.2s;
+}
+.action-icon:hover {
+    color: var(--danger-color);
 }
 
-.input-contenedor input{
+/* Interactive feedback messages */
+.toast {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #333;
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    z-index: 3000;
+    display: none;
+    align-items: center;
+    gap: 10px;
+    font-weight: 500;
+}
+.toast.success { background-color: var(--success-color); }
+.toast.error { background-color: var(--danger-color); }
 
+/* Modal Preview Bill */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 2500;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+.modal-content {
+    background: white;
+    border-radius: 12px;
     width: 100%;
-    padding: 5px 10px;
-    font-size: 12px;
-    color: #333;
-    border-radius: 6px;
-    font-size: 12px;
-    color: #333;
-    height: 30px;
+    max-width: 600px;
+    padding: 24px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    max-height: 90vh;
+    overflow-y: auto;
+}
+.receipt-header {
+    text-align: center;
+    border-bottom: 2px dashed #ccc;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+}
+.receipt-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.receipt-table th {
+    border-bottom: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+.receipt-table td {
+    padding: 8px;
+    border-bottom: 1px dashed #eee;
 }
 
-@media only screen and (min-width: 1070px) {
-    .containerFactura table,
-    .containerFactura tbody,
-    .containerFactura td,
-    .containerFactura tr,
-    .containerFactura th,
-    .containerFactura{
-        display: block ;
-    }
-}
-
-.fact_row1{
-    display: grid !important;
-    grid-template-columns:100%;
-}
-
-.fact_row1 .inputs{
-    display: grid !important;
-    grid-template-columns:100%;
-}
-
-@media screen and (min-width: 1070px) {
-    .fact_row1 .inputs{
-        display: grid !important;
-        grid-template-columns:50% 50%;
-        gap:10px;
-    }
-
-    .fact_row1 .wrapper_buttons{
-        width: 100%;
-        display: grid !important;
-        align-items: center;
-        grid-template-columns:repeat(3 , 1fr);
-    }
-    .fact_row1 .wrapper_input{
-        display: flex;
-    }
-
-    .fact_row1 .wrapper_data{
-        display: flex;
-        flex-direction: column;
-        gap:10px;
-    }
-
-    .fact_row1  .contenedorTotal .text_total {
-        display: block;
-        text-align: center;
-    }
-    .fact_row1  .contenedorTotal .text_total span{
-        font-size: 14px;
-        color: var(--secondary-color);
-        text-align: center;
-        display: block;
-
-    }
-    .fact_row1  .contenedorTotal input{
-        font-size: 14px;
-        color: var(--secondary-color);
-        text-align: center;
-        display: block;
-
-    }
-}
-
-.imgContenedor{
-    display: flex;
-    align-content: center;
-    gap:5px;
-}
-
-.imgContenedor .inputGroupImg {
-    display: grid;
-}
-
-.imgContenedor .inputGroupImg .imgprod{
-    display: block;
-    height: 100px;
+div.z-listbox-body .z-listcell {
+    padding: 0px;
 }

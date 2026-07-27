@@ -10,11 +10,13 @@ import com.ec.servicio.ServicioAcumuladoVentas;
 import com.ec.servicio.ServicioCompra;
 import com.ec.servicio.ServicioDetalleCompra;
 import com.ec.servicio.ServicioFactura;
+import com.ec.untilitario.ArchivoUtils;
 import com.ec.untilitario.GenerarATS;
 import com.ec.untilitario.Totales;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import org.zkoss.bind.annotation.Command;
@@ -59,8 +61,10 @@ public class ATS {
     @Command
     public void descargaATS() throws FileNotFoundException {
         Boolean valida = Boolean.TRUE;
+          Date fechaInicio = ArchivoUtils.recuperarFecha(inicio, "inicio");
+            Date fechaFin = ArchivoUtils.recuperarFecha(fin, "fin");
 
-        List<Totales> totalesesVenta = servicioFactura.totalVenta(inicio, fin);
+        List<Totales> totalesesVenta = servicioFactura.totalVenta(fechaInicio, fechaFin);
 //        List<Totales> totalesesCompra = servicioCompra.totalCompra(inicio, fin);
         if (totalesesVenta.size() > 0 ) {
             valida = Boolean.TRUE;
@@ -69,7 +73,11 @@ public class ATS {
         }
         if (valida) {
             GenerarATS generarATS = new GenerarATS();
-            File f = new File(generarATS.generaXMLFactura(servicioAcumuladoVentas.findAcumuladoventas(inicio, fin),
+            
+          
+
+          
+            File f = new File(generarATS.generaXMLFactura(servicioAcumuladoVentas.findAcumuladoventas(fechaInicio, fechaFin),
                     totalesesVenta.get(0).getTotal(),
                     servicioCompra.findByBetweenFecha(inicio, fin),                    
                     inicio, fin));

@@ -103,7 +103,7 @@ public class NotaCreditoDebito implements Serializable {
     private BigDecimal facAbono;
     @Column(name = "fac_saldo")
     private BigDecimal facSaldo;
-    @Size(max = 150)
+//    @Size(max = 150)
     @Column(name = "fac_descripcion")
     private String facDescripcion;
     @Column(name = "fac_num_proforma")

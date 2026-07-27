@@ -199,7 +199,7 @@ public class ServicioKardex {
         return actualiza;
     }
 
-    public List<Kardex> FindALlKardexMaxMininimo(String estado) {
+    public List<Kardex> FindALlKardexMaxMininimo(String estado, String nombre) {
 
         List<Kardex> listaKardexs = new ArrayList<Kardex>();
         try {
@@ -210,16 +210,21 @@ public class ServicioKardex {
             String ORDERBY = " ORDER BY a.idProducto.prodNombre ASC";
 
             if (estado.equals("MEM")) {
-                WHERE = "WHERE a.idProducto.prodCantMinima >= a.karTotal";
+                WHERE = "WHERE a.idProducto.prodCantMinima >= a.karTotal AND a.idProducto.prodNombre like :prodNombre";
             } else if (estado.equals("MAM")) {
-                WHERE = "WHERE a.idProducto.prodCantMinima < a.karTotal";
+                WHERE = "WHERE a.idProducto.prodCantMinima < a.karTotal AND a.idProducto.prodNombre like :prodNombre";
+            }else{
+             WHERE =" WHERE a.idProducto.prodNombre like :prodNombre";
             }
+//            WHERE =
             SQL = SQL + WHERE + ORDERBY;
             Query query = em.createQuery(SQL);
+            query.setParameter("prodNombre", "%" + nombre + "%");
             listaKardexs = (List<Kardex>) query.getResultList();
             em.getTransaction().commit();
         } catch (Exception e) {
-            System.out.println("Error en lsa consulta kardex");
+            e.printStackTrace();
+            System.out.println("Error en lsa consulta kardex "+e.getMessage());
         } finally {
             em.close();
         }
@@ -243,8 +248,8 @@ public class ServicioKardex {
 
             if (queryStore.executeUpdate() != -1) {
                 System.out.println("CUADRADO CORRECTAMENTE");
-            }else{
-            System.out.println("ERROR AL CUADRAR EL KARDEX ");
+            } else {
+                System.out.println("ERROR AL CUADRAR EL KARDEX ");
             }
             em.getTransaction().commit();
         } catch (Exception e) {
@@ -254,6 +259,7 @@ public class ServicioKardex {
         }
 
     }
+
     public void verificarKardexGeneralPorProducto(Integer idProducto) {
         try {
             em = HelperPersistencia.getEMF();
@@ -270,8 +276,8 @@ public class ServicioKardex {
 
             if (queryStore.executeUpdate() != -1) {
                 System.out.println("CUADRADO CORRECTAMENTE");
-            }else{
-            System.out.println("ERROR AL CUADRAR EL KARDEX ");
+            } else {
+                System.out.println("ERROR AL CUADRAR EL KARDEX ");
             }
             em.getTransaction().commit();
         } catch (Exception e) {
@@ -280,6 +286,27 @@ public class ServicioKardex {
             em.close();
         }
 
+    }
+
+    public List<Kardex> findByCodigo(String prodCodigo) {
+
+        List<Kardex> listaKardexs = new ArrayList<Kardex>();
+        try {
+            em = HelperPersistencia.getEMF();
+            em.getTransaction().begin();
+            Query query = em.createQuery("SELECT a from Kardex a where a.idProducto.prodCodigo like :prodCodigo");
+            query.setParameter("prodCodigo", "%" + prodCodigo + "%");
+//            query.setParameter("prodNombre", "%" + prodNombre + "%");
+            query.setMaxResults(100);
+            listaKardexs = (List<Kardex>) query.getResultList();
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            System.out.println("Error en la consulta kardex findByCodOrName" + e.getMessage());
+        } finally {
+            em.close();
+        }
+
+        return listaKardexs;
     }
 
 }

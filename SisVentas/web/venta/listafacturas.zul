@@ -187,7 +187,8 @@
                                 <listheader   label="Estado SRI" align="rigth" /> 
                                 <listheader   label="Fecha Aut." align="rigth" /> 
                                 <!--<listheader width="20%"  label="Clave Autorizacion"  />-->                                   
-                                <listheader   label="Nº Comprobante"  />                                   
+                                <listheader   label="Efectivo"  />                                   
+                                <listheader   label="Transferencia"  />                                   
                                 <listheader   label="" align="rigth" />        
                                 <listheader   label="" align="rigth" />        
                                 <listheader   label="" align="rigth" />        
@@ -292,25 +293,26 @@
                                                  style="font-size:12px;background:#EBF5FB"
                                                  format="medium" width="100%"  />
                                     </listcell>
-                                    <zk  choose="@bind(each.facNumDocumento)" >
-                                        <zk  when="${each.facNumDocumento  != null}"  >
-                                            <listcell   zclass = "mycss-listcell" >
-                                                <textbox  readonly="false" 
-                                                          onOK="@command('modificarFactura',valor=each)"
-                                                         style="font-size:12px;background:white"
-                                                         class="form-control form-control-sm"  
-                                                         value="@bind(each.facNumDocumento)" width="100%"/>
-                                            </listcell>
-                                        </zk>      
-                                        <zk  when="${each.facNumDocumento == null}"  >
-                                            <listcell   zclass = "mycss-listcell" >
-                                                <textbox  readonly="true" 
-                                                         style="font-size:12px;background:#EBF5FB"
-                                                         class="form-control form-control-sm"  
-                                                         value="Efectivo" width="100%"/>
-                                            </listcell>
-                                        </zk>      
-                                    </zk>      
+                                    <!--                                    <zk  choose="@bind(each.facNumDocumento)" >
+                                    <zk  when="${each.facNumDocumento  != null}"  >-->
+                                    <listcell   zclass = "mycss-listcell" >
+                                        <textbox  readonly="true" 
+                                                  style="font-size:12px;background:#EBF5FB"
+                                                  onOK="@command('modificarFactura',valor=each)"
+                                                  class="form-control form-control-sm"  
+                                                  value="@bind(each.valorEfectivo)" width="100%"/>
+                                    </listcell>
+                                    <!--                                        </zk>      
+                                    <zk  when="${each.facNumDocumento == null}"  >-->
+                                    <listcell   zclass = "mycss-listcell" >
+                                        <textbox  readonly="true" 
+                                                  style="font-size:12px;background:#EBF5FB"
+                                                  class="form-control form-control-sm"  
+                                                  onOK="@command('modificarFactura',valor=each)"
+                                                  value="@bind(each.valorComprobante)" width="100%"/>
+                                    </listcell>
+                                    <!--                                        </zk>      
+                                    </zk>      -->
                                     
                                     <listcell   zclass = "mycss-listcell" >   
                                             

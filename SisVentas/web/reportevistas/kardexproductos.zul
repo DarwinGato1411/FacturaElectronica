@@ -19,35 +19,53 @@
                        
                         <div class=" input-group col-12 col-sm-12 col-md-4 col-lg-4 ">
                             <div class="input-group-append">
-                            <label  style="font-weight:bold" 
-                                    value="Estado:"  />
-                            <radiogroup  selectedItem="@bind(vm.estdoKardex)"   
-                                         onCheck="@command('consultaKardexMinimoMax')">
-                                <space bar="true"  /> 
-                                <radio label="Menor al minimo" value="MEM" />  
-                                <space bar="true"  />                                                                        
-                                <radio  label="Mayo o igual al minimo" value="MAM"/>     
-                                <space bar="true"  />                                                                        
-                                <radio  label="Todo" value="TOD"/> 
+                                <label  style="font-weight:bold" 
+                                       value="Estado:"  />
+                                <radiogroup  selectedItem="@bind(vm.estdoKardex)"   
+                                            onCheck="@command('consultaKardexMinimoMax')">
+                                    <space bar="true"  /> 
+                                    <radio label="Menor al minimo" value="MEM" />  
+                                    <space bar="true"  />                                                                        
+                                    <radio  label="Mayo o igual al minimo" value="MAM"/>     
+                                    <space bar="true"  />                                                                        
+                                    <radio  label="Todo" value="TOD"/> 
                                                                                   
-                            </radiogroup>
+                                </radiogroup>
 
                             
-                                <button   image="/imagenes/buscar1.png"  
+<!--                                <button   image="/imagenes/buscar1.png"  
                                           onClick="@command('buscarDiaria')"  
                                           class="btn btn-primary btn-sm  "
-                                          tooltiptext="Buscar el total de las facturas"/>                                     
+                                          tooltiptext="Buscar el total de las facturas"/>                                     -->
                             </div>   
                                
                         </div>
-                        <div  class="col-12 col-sm-12 col-md-1 col-lg-1 ">
+                        <div  class="col-12 col-sm-12 col-md-2 col-lg-2 ">
                             <button   image="/imagenes/excel.png"  
+                                      label="Descargar inventario"
                                       onClick="@command('exportToExcel')"  
                                       class="btn btn-primary btn-sm "
                                       tooltiptext="Descargar en Excel"/>
 
                         </div> 
-                        <div  class="col-12 col-sm-12 col-md-5 col-lg-5 "></div>
+                        <div  class="col-12 col-sm-12 col-md-2 col-lg-2 ">
+                            <button   image="/imagenes/excel.png"  
+                                     label="Ajustar inventario"
+                                     onClick="@command('cargarProducto')"  
+                                     class="btn btn-primary btn-sm "
+                                     tooltiptext="Seleccionar archivo de excel"/>
+
+                        </div> 
+<!--                        <div  class="col-12 col-sm-12 col-md-2 col-lg-2 ">
+                            <button   image="/imagenes/procesar.gif"  
+                                     label="Ajustar inventario"
+                                     onClick="@command('procesaCuadre')"  
+                                     class="btn btn-primary btn-sm "
+                                     tooltiptext="Procesa el cuadre total"/>
+
+                        </div> -->
+                   
+                        <!--<div  class="col-12 col-sm-12 col-md-5 col-lg-5 "></div>-->
                         
                     </div>
                     <listbox model="@load(vm.listKardex)" 
@@ -56,9 +74,17 @@
                     
                         <listhead> 
                             <listheader width="10%"  label="Codigo" />                            
-                            <listheader width="60%"  label="Nombre" align="center"/>                                                        
+                            <listheader width="60%" align="center">
+                                <textbox value="@bind(vm.prodNombre)"  
+                                         class="form-control form-control-sm"
+                                         tooltiptext="Descripcion"
+                                         placeholder="Descripcion"
+                                         onOK="@command('buscarKardexAll')"                                                     
+                                         onChange="self.setValue(self.getValue().toUpperCase());" />
+                            </listheader>                                                        
                             <listheader width="10%"  label="Cantidad minima" align="center" />                            
                             <listheader width="10%"  label="Cantidad actual" sort="auto(karTotal)" align="center" />                            
+                            <listheader width="10%"  label="Cantidad cuadre" sort="auto(karTotal)" align="center" />                            
                             <listheader width="10%"  label="Precio promedio" align="center" />                            
                             
                         </listhead>  
@@ -67,13 +93,13 @@
                         <template name="model">                                                            
                             <listitem>
                                 <listcell  zclass = "mycss-listcell" if="${each.verificaStock}" 
-                                          style="font-size:11px;background-color:#C7FEC1">
+                                           style="font-size:11px;background-color:#C7FEC1">
                                     <textbox readonly="true" style="font-size:12px ;background:#C7FEC1"
                                              class="form-control form-control-sm" 
                                              value="@bind(each.idProducto.prodCodigo)" width="100%" />
                                 </listcell>
                                 <listcell  zclass = "mycss-listcell" if="${!each.verificaStock}" 
-                                 style="font-size:11px;background-color:#F1876A">
+                                           style="font-size:11px;background-color:#F1876A">
                                     <textbox readonly="true" style="font-size:12px ;background:#F1876A"
                                              class="form-control form-control-sm" 
                                              value="@bind(each.idProducto.prodCodigo)" width="100%" />
@@ -85,7 +111,7 @@
                                              value="@bind(each.idProducto.prodNombre)" width="100%" />
                                 </listcell>
                                 <listcell zclass = "mycss-listcell" if="${!each.verificaStock}" 
-                                 style="font-size:11px;background-color:#F1876A">
+                                          style="font-size:11px;background-color:#F1876A">
                                     <textbox readonly="true" style="font-size:12px ;background-color:#F1876A"
                                              class="form-control form-control-sm" 
                                              value="@bind(each.idProducto.prodNombre)" width="100%" />
@@ -101,6 +127,13 @@
                                                 style="font-size:12px ;background:#EBF5FB"
                                                 class="form-control form-control-sm"  
                                                 value="@bind(each.karTotal)" width="100%" />
+                                </listcell>
+                                <listcell zclass = "mycss-listcell">
+                                    <decimalbox readonly="false" format="###.##"
+                                                class="form-control form-control-sm"  
+                                                
+                                                onOK="@command('cuadrarValor',valor=each)"
+                                                value="@bind(each.totalCuadre)" width="100%" />
                                 </listcell>
                                 <listcell zclass = "mycss-listcell">
                                     <decimalbox readonly="true" format="###.##"
