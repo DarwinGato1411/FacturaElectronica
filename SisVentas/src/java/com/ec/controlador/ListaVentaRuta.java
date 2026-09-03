@@ -180,9 +180,9 @@ public class ListaVentaRuta {
                 BigDecimal precioGLP = BigDecimal.valueOf(1.43);
                 if (ventaRuta.getTransporte().equals("S")) {
 
-                    subTotalUnidad = BigDecimal.valueOf(2.83);
-                    ivaUnidad = BigDecimal.valueOf(0.42);
-                    totalUnidad = BigDecimal.valueOf(3.25);
+                    subTotalUnidad = BigDecimal.valueOf(3.04);
+                    ivaUnidad = BigDecimal.valueOf(0.46);
+                    totalUnidad = BigDecimal.valueOf(3.50);
                     totalBaseCero = BigDecimal.ZERO;
 
                 } else {
@@ -226,7 +226,7 @@ public class ListaVentaRuta {
                 factura.setFacClaveAutorizacion(claveAcceso);
                 servicioFactura.crear(factura);
 
-                /*Detalle de factura GLP*/
+               /*Detalle de factura GLP*/
                 DetalleFactura detalleFactura = new DetalleFactura(BigDecimal.valueOf(Double.valueOf(ventaRuta.getCantidad())),
                         prodGLP.getProdNombre(),
                        BigDecimal.valueOf(1.43),
@@ -257,21 +257,21 @@ public class ListaVentaRuta {
                     /*Detalle de factura TRANSPORTE*/
                     DetalleFactura detalleFacturaTr = new DetalleFactura(BigDecimal.valueOf(Double.valueOf(ventaRuta.getCantidad())),
                             prodTransporte.getProdNombre(),
-                            BigDecimal.valueOf(1.39),
-                            BigDecimal.valueOf(1.60),
+                            BigDecimal.valueOf(1.61),
+                            BigDecimal.valueOf(1.85),
                             prodTransporte,
                             factura,
                             "NORMAL");
-                    detalleFacturaTr.setDetIva(BigDecimal.valueOf(0.21));
-                    detalleFacturaTr.setDetTotalconiva(BigDecimal.valueOf(1.60));
+                    detalleFacturaTr.setDetIva(BigDecimal.valueOf(0.24));
+                    detalleFacturaTr.setDetTotalconiva(BigDecimal.valueOf(1.85));
 
-                    detalleFacturaTr.setDetSubtotaldescuento(BigDecimal.valueOf(1.39));
-                    detalleFacturaTr.setDetTotaldescuento(BigDecimal.valueOf(1.60));
+                    detalleFacturaTr.setDetSubtotaldescuento(BigDecimal.valueOf(1.61));
+                    detalleFacturaTr.setDetTotaldescuento(BigDecimal.valueOf(1.85));
                     detalleFacturaTr.setDetPordescuento(BigDecimal.ZERO);
                     detalleFacturaTr.setDetValdescuento(BigDecimal.ZERO);
-                    detalleFacturaTr.setDetTotaldescuentoiva(BigDecimal.valueOf(1.60));
+                    detalleFacturaTr.setDetTotaldescuentoiva(BigDecimal.valueOf(1.85));
                     detalleFacturaTr.setDetCantpordescuento(BigDecimal.ZERO);
-                    detalleFacturaTr.setDetSubtotaldescuentoporcantidad(BigDecimal.valueOf(1.39));
+                    detalleFacturaTr.setDetSubtotaldescuentoporcantidad(BigDecimal.valueOf(1.61));
                     detalleFacturaTr.setDetCodTipoVenta("0");
                     detalleFacturaTr.setDetCodIva("2");
                     detalleFacturaTr.setDetCodPorcentaje("4");
