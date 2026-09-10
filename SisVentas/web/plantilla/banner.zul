@@ -1,100 +1,205 @@
    <zk>
+    <style>
+        .banner .z-menubar .z-menu-body-over,
+        .banner .z-menubar .z-menu-body-seld,
+        .banner .z-menubar .z-menu-over,
+        .banner .z-menubar .z-menu-hover,
+        .banner .z-menubar .z-menu-selected,
+        .banner .z-menubar .z-menu-clk,
+        .banner .z-menubar .z-menu-body-over td,
+        .banner .z-menubar .z-menu-body-seld td,
+        .banner .z-menubar .z-menu-over td,
+        .banner .z-menubar .z-menu-body-over .z-menu-btn,
+        .banner .z-menubar .z-menu-body-seld .z-menu-btn,
+        .banner .z-menubar .z-menu-over .z-menu-btn,
+        .banner .z-menubar .z-menu-hover .z-menu-btn,
+        .banner .z-menubar .z-menu-over .z-menu-content,
+        .banner .z-menubar .z-menu-hover .z-menu-content,
+        .banner .z-menubar .z-menu-selected > .z-menu-content,
+        .banner .z-menubar .z-menuitem-over,
+        .banner .z-menubar .z-menuitem-seld,
+        .banner .z-menubar .z-menuitem:hover,
+        .banner .z-menubar .z-menuitem-over td,
+        .banner .z-menubar .z-menuitem-seld td,
+        .banner .z-menubar .z-menuitem:hover td,
+        .banner .z-menubar .z-menuitem-over .z-menuitem-btn,
+        .banner .z-menubar .z-menuitem-seld .z-menuitem-btn,
+        .banner .z-menubar .z-menuitem:hover .z-menuitem-btn,
+        .banner .z-menubar .z-menuitem-over .z-menuitem-inner-l,
+        .banner .z-menubar .z-menuitem-over .z-menuitem-inner-m,
+        .banner .z-menubar .z-menuitem-over .z-menuitem-inner-r,
+        .banner .z-menubar .z-menuitem-seld .z-menuitem-inner-l,
+        .banner .z-menubar .z-menuitem-seld .z-menuitem-inner-m,
+        .banner .z-menubar .z-menuitem-seld .z-menuitem-inner-r,
+        .banner .z-menuitem-body-over,
+        .banner .z-menuitem-body-seld,
+        .banner .z-menuitem-body-over td,
+        .banner .z-menuitem-body-seld td,
+        .banner .z-menuitem-body-over .z-menuitem-inner-l,
+        .banner .z-menuitem-body-over .z-menuitem-inner-m,
+        .banner .z-menuitem-body-over .z-menuitem-inner-r,
+        .banner .z-menuitem-body-seld .z-menuitem-inner-l,
+        .banner .z-menuitem-body-seld .z-menuitem-inner-m,
+        .banner .z-menuitem-body-seld .z-menuitem-inner-r,
+        .banner .z-menuitem-body-over .z-menuitem-btn,
+        .banner .z-menuitem-body-seld .z-menuitem-btn,
+        div.z-menubar-hor .z-menuitem-body-over .z-menuitem-inner-l,
+        div.z-menubar-hor .z-menuitem-body-over .z-menuitem-inner-m,
+        div.z-menubar-hor .z-menuitem-body-over .z-menuitem-inner-r,
+        div.z-menubar-hor .z-menuitem-body-seld .z-menuitem-inner-l,
+        div.z-menubar-hor .z-menuitem-body-seld .z-menuitem-inner-m,
+        div.z-menubar-hor .z-menuitem-body-seld .z-menuitem-inner-r,
+        div.z-menubar-hor .z-menuitem-body-over .z-menuitem-inner-m .z-menuitem-btn,
+        div.z-menubar-hor .z-menuitem-body-seld .z-menuitem-inner-m .z-menuitem-btn,
+        div.z-menubar-hor .z-menu-body-over .z-menu-inner-l,
+        div.z-menubar-hor .z-menu-body-over .z-menu-inner-m,
+        div.z-menubar-hor .z-menu-body-over .z-menu-inner-r,
+        div.z-menubar-hor .z-menu-body-seld .z-menu-inner-l,
+        div.z-menubar-hor .z-menu-body-seld .z-menu-inner-m,
+        div.z-menubar-hor .z-menu-body-seld .z-menu-inner-r,
+        div.z-menubar-hor .z-menu-body-over .z-menu-inner-m .z-menu-btn,
+        div.z-menubar-hor .z-menu-body-seld .z-menu-inner-m .z-menu-btn {
+            background: #e6eef3 !important;
+            background-color: #e6eef3 !important;
+            background-image: none !important;
+            border: 0 none !important;
+            color: #122536 !important;
+        }
+        .banner .z-menubar-left,
+        .banner .z-menubar-right,
+        .banner .z-menubar-scroll,
+        div.z-menubar-hor .z-menubar-left,
+        div.z-menubar-hor .z-menubar-right {
+            background: #e6eef3 !important;
+            background-image: none !important;
+            border: 0 none !important;
+        }
+    </style>
+    <script><![CDATA[
+        zk.afterMount(function () {
+            function bindMenus() {
+                var bar = document.querySelector(".banner .z-menubar");
+                if (!bar) return;
+                try {
+                function inPopup(el) {
+                    while (el) {
+                        if (el.className && String(el.className).indexOf("z-menupopup") >= 0) return true;
+                        el = el.parentNode;
+                    }
+                    return false;
+                }
+                function paint(menu, on) {
+                    var bg = on ? "#e6eef3" : "transparent";
+                    var fg = on ? "#122536" : "#ffffff";
+                    var nodes = menu.getElementsByTagName("*");
+                    var apply = function (n) {
+                        if (!n || !n.style || inPopup(n)) return;
+                        var cls = n.className ? String(n.className) : "";
+                        n.style.setProperty("background", bg, "important");
+                        n.style.setProperty("background-color", bg, "important");
+                        n.style.setProperty("background-image", "none", "important");
+                        n.style.setProperty("color", fg, "important");
+                        n.style.setProperty("border", "0px", "important");
+                        n.style.setProperty("box-shadow", "none", "important");
+                        if (cls.indexOf("inner-l") >= 0 || cls.indexOf("inner-r") >= 0) {
+                            n.style.setProperty("background", bg, "important");
+                            n.style.setProperty("background-image", "none", "important");
+                            n.style.setProperty("width", "0px", "important");
+                            n.style.setProperty("padding", "0px", "important");
+                        }
+                    };
+                    apply(menu);
+                    for (var i = 0; i < nodes.length; i++) apply(nodes[i]);
+                }
+                var menus = bar.getElementsByClassName("z-menu");
+                for (var i = 0; i < menus.length; i++) {
+                    var menu = menus[i];
+                    if (inPopup(menu)) continue;
+                    if (menu.getAttribute("data-deck-bind") === "1") continue;
+                    menu.setAttribute("data-deck-bind", "1");
+                    menu.addEventListener("mouseenter", function (m) { return function () { paint(m, true); }; }(menu));
+                    menu.addEventListener("mouseleave", function (m) { return function () { paint(m, false); }; }(menu));
+                }
+                var items = bar.querySelectorAll(".z-menubar-cnt > .z-menuitem");
+                if (!items.length) {
+                    items = [];
+                    var allItems = bar.getElementsByClassName("z-menuitem");
+                    for (var j = 0; j < allItems.length; j++) {
+                        if (!inPopup(allItems[j])) items.push(allItems[j]);
+                    }
+                }
+                for (var k = 0; k < items.length; k++) {
+                    var item = items[k];
+                    if (inPopup(item)) continue;
+                    if (item.getAttribute("data-deck-bind") === "1") continue;
+                    item.setAttribute("data-deck-bind", "1");
+                    item.addEventListener("mouseenter", function (m) { return function () { paint(m, true); }; }(item));
+                    item.addEventListener("mouseleave", function (m) { return function () { paint(m, false); }; }(item));
+                }
+                var scrolls = bar.querySelectorAll(".z-menubar-left, .z-menubar-right, .z-menubar-scroll");
+                for (var s = 0; s < scrolls.length; s++) {
+                    scrolls[s].style.setProperty("background", "#e6eef3", "important");
+                    scrolls[s].style.setProperty("background-image", "none", "important");
+                }
+                } catch (e) {}
+            }
+            bindMenus();
+            setTimeout(bindMenus, 400);
+            setTimeout(bindMenus, 1200);
+        });
+    ]]></script>
 
     <div class="banner" id="loginWin"  style="height:auto"  width="100%"
          apply="com.ec.controlador.LogoutController" >
-        <div class="row" >
-            
-            <div class="col-12 col-sm-12 col-md-7 col-lg-7  " align="start">
-                <!--<image  src="/imagenes/logintrans.jpg" width="30px" height="30px" class="imgRedondaLogo" />-->
-                <label value="DECKXEL  Facturación Electrónica" sclass="banner-head labelNuevo" />   
-                
-                     
+        <div class="banner-inner">
+            <div class="banner-brand">
+                <label value="DECKXEL" sclass="banner-head" />
             </div>
-            <div class="col-12 col-sm-12 col-md-5 col-lg-5  " align="end" style="float: right; " >
-                <div apply="org.zkoss.bind.BindComposer" 
-                     viewModel="@id('vm') @init('com.ec.controlador.MenuToolbar')">
-                    <toolbar id="tb" height="30px"  style="background-color:transparent" >
-                        <!--<toolbarbutton image="/iconos/fact.png" label="Facturar" onClick="@command('facturar')" />-->
-                            <toolbarbutton  label="Facturar"  image="/iconos/fact.png" onClick="@command('facturar')" />
-                        <toolbarbutton image="/iconos/page.png" label="Producto" if="${sessionScope.usuario.usuarioSistema.usuNivel == 1}" onClick="@command('nuevoProducto')" />
-                        <toolbarbutton image="/iconos/user.png" label="Cliente" onClick="@command('nuevoCliente')" />
-         
-                        <label value="Usuario: " if="${not sessionScope.userCredential.anonymous}" class="labelNuevo" />
-                        <label value="${sessionScope.usuario.nombreUsuario}" class="labelNuevo" if="${not sessionScope.userCredential.anonymous}" />
-                        <div  align="end" style="float: right; " >
-                            <a sclass="logout labelLogout" id="logout" >  
-                                <label  value="Salir " if="${not sessionScope.userCredential.anonymous}" sclass=" labelLogout"/> 
-                                <image src="/iconos/logout-24.png"  />  
-                       
-                            </a>
-                
-                        </div>
-                    </toolbar>
-                </div>
-               
-            </div>
-        </div>
-        <div class="rows">
-            <div  viewModel="@id('vm')" id="gridMenu" 
-                  apply="com.ec.controlador.MenuOpciones" 
-            class="col-12 col-sm-12 col-md-12 col-lg-12" >
-         
-                    <menubar id="menubar" orient="horizontal"  autodrop="true">
+
+            <div class="banner-nav">
+                <div viewModel="@id('vm')" id="gridMenu"
+                     apply="com.ec.controlador.MenuOpciones"
+                     class="banner-menubar">
+                    <menubar id="menubar" orient="horizontal" autodrop="true" scrollable="false">
                         <menu label="Ventas" >
-                            <menupopup> 
+                            <menupopup>
                                 <menuitem label="Emitir Facturas" id="btnFacturar"  />
+                                <menuitem label="Emitir Factura Parqueadero" id="btnFacturarPar" visible="false" />
                                 <menuitem label="Facturas emitidas" id="btnNotaVentas" />
-                                <menuitem label="Nota de venta" id="btnNotaVenta"  />                                
+                                <menuitem label="Nota de venta" id="btnNotaVenta"  />
                                 <menuitem label="Proformas emitidas" id="btnProformasEmitidas"  />
                                 <menuitem label="Emitir Guias de remision" id="btnEmitirGuiaRemision"  />
                                 <menuitem label="Guias de remision emitidas" id="btnGuiaRemision"  />
-                                <menuitem label="Notas credito" id="btnNotaCredito"  />                                
+                                <menuitem label="Notas credito" id="btnNotaCredito"  />
                                 <menuitem label="Venta en ruta (GLP)" id="btnVentaRuta" />
-                                  <!--                                <menuitem label="Orden de trabajo" id="btnOrdenTrab"  />
-                                  <menuitem label="Lista ordenes de trabajo" id="btnListaOrden"  />-->
                                  <menuitem label="Facturas por cobrar" id="btnfactCobra"  />
                                 <menuitem label="Cierre de caja" id="btnCierreCajaUsu"  />
                             </menupopup>
                         </menu>
-<!--                        <menu label="Gestion de ventas"  id="menuVentas">
-                            <menupopup>                               
-                              
-                                
-                             
-
-                            </menupopup>
-                        </menu> -->
                         <menu label="Gestion de compras" id="menuCompras">
-                            <menupopup>                     
-                      
-                                <menuitem label="Ingreso de mercaderia" id="btnIngresoCompras"  />                                
-                                <menuitem label="Mercaderia ingresada" id="btnListaCompras"  />                                                          
+                            <menupopup>
+                                <menuitem label="Ingreso de mercaderia" id="btnIngresoCompras"  />
+                                <menuitem label="Mercaderia ingresada" id="btnListaCompras"  />
                                 <menuitem label="Retenciones" id="btnRetenciones"  />
-                              
-                                <!--<menuitem label="ComprasSRI" id="btnListaComprasSRI"  />-->     
                             </menupopup>
-                        </menu>          
-                                     
+                        </menu>
                         <menu label="Kardex" id="menuKardex">
-                            <menupopup>  
-                                <menuitem label="Ajuste de Entrada/Salida" id="btnAjuste"  />                                                                       
-                                <menuitem label="Kardex detallado" id="btnKardex"  /> 
-                                 <menuitem label="Kardex general" id="btnKardexPorProd"  />                                               
-                                                                         
-<!--                                <menuitem label="Contabilidad" id="btnContabilidad" image="/iconmenu/page_refresh.png" />-->
-                               
+                            <menupopup>
+                                <menuitem label="Ajuste de Entrada/Salida" id="btnAjuste"  />
+                                <menuitem label="Kardex detallado" id="btnKardex"  />
+                                 <menuitem label="Kardex general" id="btnKardexPorProd"  />
                             </menupopup>
                         </menu>
                          <menu label="Reportes" id="menuReportes">
-                            <menupopup>                                                                         
-                                <menuitem label="Facturas autorizadas SRI" id="btnFactAutori"  />                              
+                            <menupopup>
+                                <menuitem label="Estadística general" id="btnEstadisticaGeneral"  />
+                                <menuitem label="Facturas autorizadas SRI" id="btnFactAutori"  />
                                 <menuitem label="Compras vs Ventas" id="btnBalanceUtilidad"  />
-                                <!--<menuitem label="Cantidad de venta (GLP)" id="btnRepVentCant" />-->
                                 <menuitem label="Acumulado de ventas" id="btnAcumuladoventas" />
                                 <menuitem label="Rotacion Productos" id="btnRotacionProducto" />
-                                <menuitem label="Lista de cierre de caja" id="btnListarCierre" /> 
-                                <menuitem label="ATS Ventas" id="btnContabilidad"  /> 
-                                <menuitem label="ATS Compras y Ventas" id="btnContabilidadATS"  /> 
+                                <menuitem label="Lista de cierre de caja" id="btnListarCierre" />
+                                <menuitem label="ATS Ventas" id="btnContabilidad"  />
+                                <menuitem label="ATS Compras y Ventas" id="btnContabilidadATS"  />
                                 <menuitem label="Retenciones por casillero" id="btnRetencionesCasillero"  />
                                 <menuitem label="Precio promedio compra" id="btnPreciPromCompra"  />
                                 <menuitem label="Compra venta facturado" id="btnCompVentaFact"  />
@@ -102,21 +207,30 @@
                                  <menuitem label="Inversion empresa por fecha" id="btnInversionEmp"  />
                                  <menuitem label="Inversion empresa total" id="btnInversionEmpTotal"  />
                                  <menuitem label="Reporte retenciones" id="btnReporteRetenciones"  />
-                                <!--<menuitem label="Precio promedio venta" id="btnPreciPromVenta"  />-->
                             </menupopup>
                         </menu>
-                        
                         <menuitem label="Catalogos" id="btnAdministarVenta"  />
-<!--                        <menuitem image="/iconos/fact.png" label="Facturar" onClick="@command('facturar')" />
-                        <menuitem image="/iconos/page.png" label="Producto" onClick="@command('nuevoProducto')" />
-                        <menuitem image="/iconos/user.png" label="Cliente" onClick="@command('nuevoCliente')" />-->
-                      
-                    </menubar>    
-                                    
+                    </menubar>
                 </div>
-                
+            </div>
+
+            <div class="banner-utils">
+                <div apply="org.zkoss.bind.BindComposer"
+                     viewModel="@id('vm') @init('com.ec.controlador.MenuToolbar')">
+                    <toolbar id="tb" height="50px" sclass="banner-toolbar" style="background-color:transparent;border:none;" >
+                        <toolbarbutton label="Facturar" image="/iconos/fact.png" onClick="@command('facturar')" />
+                        <toolbarbutton image="/iconos/user.png" label="Cliente" onClick="@command('nuevoCliente')" />
+                        <toolbarbutton image="/iconos/page.png" label="Producto" if="${sessionScope.usuario.usuarioSistema.usuNivel == 1}" onClick="@command('nuevoProducto')" />
+                    </toolbar>
+                </div>
+                <label value="Usuario: " if="${not sessionScope.userCredential.anonymous}" sclass="banner-user" />
+                <label value="${sessionScope.usuario.nombreUsuario}" sclass="banner-user" if="${not sessionScope.userCredential.anonymous}" />
+                <a sclass="logout banner-logout" id="logout" >
+                    <label  value="Salir" if="${not sessionScope.userCredential.anonymous}" sclass="banner-logout-text"/>
+                    <image src="/iconos/logout-24.png"  />
+                </a>
+            </div>
         </div>
-        
     </div>
 </zk>
 <!--<div hflex="1" vflex="1" sclass="banner">

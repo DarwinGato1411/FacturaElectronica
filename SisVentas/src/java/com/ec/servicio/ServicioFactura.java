@@ -51,7 +51,7 @@ public class ServicioFactura {
 
     }
 
-    public void guardarFactura(List<DetalleFacturaDAO> detalleFacturaDAOs, Factura factura) {
+    public boolean guardarFactura(List<DetalleFacturaDAO> detalleFacturaDAOs, Factura factura) {
 
         try {
             em = HelperPersistencia.getEMF();
@@ -99,11 +99,22 @@ public class ServicioFactura {
                 em.flush();
             }
             em.getTransaction().commit();
+            return true;
         } catch (Exception e) {
             System.out.println("Error en insertar factura GUARDAR CON DETALLE " + e.getMessage());
             e.printStackTrace();
+            try {
+                if (em != null && em.getTransaction().isActive()) {
+                    em.getTransaction().rollback();
+                }
+            } catch (Exception rb) {
+                System.out.println("Error al revertir factura " + rb.getMessage());
+            }
+            return false;
         } finally {
-            em.close();
+            if (em != null) {
+                em.close();
+            }
         }
 
     }

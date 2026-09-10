@@ -1,0 +1,910 @@
+:root {
+  --color-accent: #2b6b9e;
+  --color-navy: #122536;
+  --color-teal: #1b8c7d;
+  --color-surface: #ffffff;
+  --color-success: #1b8c7d;
+  --color-danger: #b54a4a;
+  --color-white: #ffffff;
+  --primary-color: #2b6b9e;
+  --secondary-color: #122536;
+  --tertiary-color: #e6eef3;
+  --success-color: #1b8c7d;
+  --danger-color: #b54a4a;
+  --background-color: #ffffff;
+}
+
+html,
+body {
+  background-color: #ffffff;
+}
+
+.banner {
+  background: #2b6b9e !important;
+  color: #ffffff !important;
+  padding: 0 !important;
+  min-height: 50px;
+  height: 50px;
+  line-height: normal;
+}
+
+.banner-inner {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 50px;
+  min-height: 50px;
+  overflow: visible;
+}
+
+.banner .z-div.banner-inner,
+.banner .z-div.banner-brand,
+.banner .z-div.banner-nav,
+.banner .z-div.banner-menubar,
+.banner .z-div.banner-utils,
+.banner .banner-utils > .z-div {
+  height: 50px !important;
+}
+
+.banner-brand {
+  background: #122536 !important;
+  color: #ffffff !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 18px;
+  white-space: nowrap;
+  flex: 0 0 auto;
+  height: 50px;
+}
+
+.banner-brand .banner-head,
+.banner-brand .z-label {
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  font-size: 15px !important;
+  letter-spacing: 0.02em;
+}
+
+.banner-nav {
+  display: flex;
+  align-items: center;
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 50px;
+  overflow: visible;
+}
+
+.banner-toolbar.z-toolbar,
+.banner .z-toolbar,
+.banner .banner-utils .z-toolbar {
+  background: transparent !important;
+  border: none !important;
+  height: 50px !important;
+  min-height: 50px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  line-height: 50px !important;
+}
+
+.banner .z-toolbarbutton,
+.banner .z-toolbarbutton-content,
+.banner .z-toolbarbutton-cnt {
+  color: #ffffff !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  height: 50px !important;
+  line-height: 50px !important;
+  padding: 0 10px !important;
+  margin: 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  vertical-align: middle !important;
+  font-size: 13px !important;
+}
+
+.banner .z-toolbarbutton img,
+.banner .z-toolbarbutton-content img,
+.banner .banner-logout img,
+.banner .z-image {
+  width: 16px !important;
+  height: 16px !important;
+  vertical-align: middle !important;
+  margin: 0 4px 0 0 !important;
+}
+
+.banner .z-toolbarbutton:hover,
+.banner .z-toolbarbutton-over,
+.banner .z-toolbarbutton-over .z-toolbarbutton-content,
+.banner .z-toolbarbutton-over .z-toolbarbutton-cnt {
+  background: rgba(11, 13, 62, 0.22) !important;
+  color: #ffffff !important;
+}
+
+.banner-menubar {
+  display: flex;
+  align-items: center;
+  height: 50px;
+  overflow: visible;
+}
+
+.banner .z-menubar,
+.banner .z-menubar-horizontal,
+.banner .z-menubar-hor {
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  height: 50px !important;
+  line-height: 50px !important;
+  overflow: visible !important;
+}
+
+.banner .z-menubar > .z-menu,
+.banner .z-menubar > .z-menuitem {
+  height: 50px !important;
+  line-height: 50px !important;
+  vertical-align: middle !important;
+  display: inline-block !important;
+}
+
+.banner .z-menubar > .z-menu[style*="display:none"],
+.banner .z-menubar > .z-menuitem[style*="display:none"] {
+  display: none !important;
+}
+
+.banner .z-menubar > .z-menu > a,
+.banner .z-menubar > .z-menu > .z-menu-content,
+.banner .z-menubar > .z-menuitem > a,
+.banner .z-menubar > .z-menuitem > .z-menuitem-content {
+  display: inline-flex !important;
+  align-items: center !important;
+  height: 50px !important;
+  line-height: 50px !important;
+  padding: 0 10px !important;
+  box-sizing: border-box !important;
+}
+
+.banner .z-menu-text,
+.banner .z-menuitem-text,
+.banner .z-menu-content,
+.banner .z-menuitem-content,
+.banner .z-menu-btn,
+.banner .z-menuitem-btn {
+  color: #ffffff !important;
+  font-size: 13px !important;
+}
+
+.banner .z-menubar > .z-menu table,
+.banner .z-menubar > .z-menu td,
+.banner .z-menubar > .z-menuitem table,
+.banner .z-menubar > .z-menuitem td {
+  height: 50px !important;
+  line-height: 50px !important;
+  vertical-align: middle !important;
+}
+
+.banner .z-menubar > .z-menu > a,
+.banner .z-menubar > .z-menu > .z-menu-content,
+.banner .z-menubar > .z-menu table,
+.banner .z-menubar > .z-menu td,
+.banner .z-menubar > .z-menu .z-menu-inner,
+.banner .z-menubar > .z-menu .z-menu-inner-l,
+.banner .z-menubar > .z-menu .z-menu-inner-m,
+.banner .z-menubar > .z-menu .z-menu-inner-r,
+.banner .z-menubar > .z-menu .z-menu-body,
+.banner .z-menubar > .z-menu .z-menu-btn,
+.banner .z-menubar > .z-menu .z-menu-icon,
+.banner .z-menubar > .z-menu .z-icon-caret-down,
+.banner .z-menubar > .z-menu .z-menu-text {
+  background: transparent !important;
+  background-image: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+  color: #ffffff !important;
+}
+
+.banner .z-menubar > .z-menu.z-menu-over,
+.banner .z-menubar > .z-menu.z-menu-hover,
+.banner .z-menubar > .z-menu.z-menu-selected,
+.banner .z-menubar > .z-menu.z-menu-seld,
+.banner .z-menubar > .z-menu:hover,
+.banner .z-menubar > .z-menu.z-menu-clk {
+  background: #e6eef3 !important;
+}
+
+.banner .z-menubar > .z-menu.z-menu-over > a,
+.banner .z-menubar > .z-menu.z-menu-hover > a,
+.banner .z-menubar > .z-menu.z-menu-selected > a,
+.banner .z-menubar > .z-menu:hover > a,
+.banner .z-menubar > .z-menu.z-menu-over > .z-menu-content,
+.banner .z-menubar > .z-menu.z-menu-hover > .z-menu-content,
+.banner .z-menubar > .z-menu.z-menu-selected > .z-menu-content,
+.banner .z-menubar > .z-menu:hover > .z-menu-content,
+.banner .z-menu-content:hover,
+.banner .z-menu-selected > .z-menu-content,
+.banner .z-menu-hover > .z-menu-content,
+.banner .z-menu-over > .z-menu-content,
+.banner .z-menubar > .z-menu.z-menu-over table,
+.banner .z-menubar > .z-menu.z-menu-over td,
+.banner .z-menubar > .z-menu.z-menu-hover table,
+.banner .z-menubar > .z-menu.z-menu-hover td,
+.banner .z-menubar > .z-menu:hover table,
+.banner .z-menubar > .z-menu:hover td,
+.banner .z-menubar > .z-menu.z-menu-over .z-menu-inner,
+.banner .z-menubar > .z-menu.z-menu-over .z-menu-inner-l,
+.banner .z-menubar > .z-menu.z-menu-over .z-menu-inner-m,
+.banner .z-menubar > .z-menu.z-menu-over .z-menu-inner-r,
+.banner .z-menubar > .z-menu.z-menu-hover .z-menu-inner-l,
+.banner .z-menubar > .z-menu.z-menu-hover .z-menu-inner-m,
+.banner .z-menubar > .z-menu.z-menu-hover .z-menu-inner-r,
+.banner .z-menubar > .z-menu:hover .z-menu-inner-l,
+.banner .z-menubar > .z-menu:hover .z-menu-inner-m,
+.banner .z-menubar > .z-menu:hover .z-menu-inner-r,
+.banner .z-menubar > .z-menu.z-menu-over .z-menu-btn,
+.banner .z-menubar > .z-menu.z-menu-hover .z-menu-btn,
+.banner .z-menubar > .z-menu.z-menu-clk .z-menu-btn,
+.banner .z-menubar > .z-menu:hover .z-menu-btn,
+.banner .z-menubar > .z-menu.z-menu-over .z-menu-icon,
+.banner .z-menubar > .z-menu:hover .z-menu-icon,
+.banner .z-menubar > .z-menu.z-menu-over .z-menu-text,
+.banner .z-menubar > .z-menu:hover .z-menu-text,
+.banner .z-menubar > .z-menu.z-menu-over > *:not(.z-menupopup),
+.banner .z-menubar > .z-menu.z-menu-hover > *:not(.z-menupopup),
+.banner .z-menubar > .z-menu:hover > *:not(.z-menupopup) {
+  background: #e6eef3 !important;
+  background-image: none !important;
+  border-color: #e6eef3 !important;
+  color: #122536 !important;
+}
+
+.banner .z-menubar > .z-menuitem .z-menuitem-inner-l,
+.banner .z-menubar > .z-menuitem .z-menuitem-inner-r {
+  width: 0 !important;
+  min-width: 0 !important;
+  padding: 0 !important;
+  background: none !important;
+  background-image: none !important;
+}
+.banner .z-menubar > .z-menuitem .z-menuitem-inner-l,
+.banner .z-menubar > .z-menuitem .z-menuitem-inner-m,
+.banner .z-menubar > .z-menuitem .z-menuitem-inner-r,
+.banner .z-menubar > .z-menuitem .z-menuitem-body,
+.banner .z-menubar > .z-menuitem .z-menuitem-btn,
+.banner .z-menubar > .z-menuitem .z-menuitem-text,
+.banner .z-menubar > .z-menuitem > a,
+.banner .z-menubar > .z-menuitem > .z-menuitem-content {
+  background: transparent !important;
+  background-image: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: #ffffff !important;
+}
+
+.banner .z-menubar > .z-menuitem.z-menuitem-over,
+.banner .z-menubar > .z-menuitem.z-menuitem-hover,
+.banner .z-menubar > .z-menuitem.z-menuitem-selected,
+.banner .z-menubar > .z-menuitem.z-menuitem-seld,
+.banner .z-menubar > .z-menuitem:hover,
+.banner .z-menubar > .z-menuitem.z-menuitem-clk {
+  background: #e6eef3 !important;
+}
+
+.banner .z-menubar > .z-menuitem.z-menuitem-over > a,
+.banner .z-menubar > .z-menuitem.z-menuitem-hover > a,
+.banner .z-menubar > .z-menuitem.z-menuitem-selected > a,
+.banner .z-menubar > .z-menuitem.z-menuitem-seld > a,
+.banner .z-menubar > .z-menuitem:hover > a,
+.banner .z-menubar > .z-menuitem.z-menuitem-over > .z-menuitem-content,
+.banner .z-menubar > .z-menuitem.z-menuitem-seld > .z-menuitem-content,
+.banner .z-menubar > .z-menuitem:hover > .z-menuitem-content,
+.banner .z-menubar > .z-menuitem.z-menuitem-over table,
+.banner .z-menubar > .z-menuitem.z-menuitem-over td,
+.banner .z-menubar > .z-menuitem.z-menuitem-seld table,
+.banner .z-menubar > .z-menuitem.z-menuitem-seld td,
+.banner .z-menubar > .z-menuitem:hover table,
+.banner .z-menubar > .z-menuitem:hover td,
+.banner .z-menubar > .z-menuitem.z-menuitem-over .z-menuitem-inner,
+.banner .z-menubar > .z-menuitem.z-menuitem-over .z-menuitem-inner-l,
+.banner .z-menubar > .z-menuitem.z-menuitem-over .z-menuitem-inner-m,
+.banner .z-menubar > .z-menuitem.z-menuitem-over .z-menuitem-inner-r,
+.banner .z-menubar > .z-menuitem.z-menuitem-seld .z-menuitem-inner-l,
+.banner .z-menubar > .z-menuitem.z-menuitem-seld .z-menuitem-inner-m,
+.banner .z-menubar > .z-menuitem.z-menuitem-seld .z-menuitem-inner-r,
+.banner .z-menubar > .z-menuitem:hover .z-menuitem-inner-l,
+.banner .z-menubar > .z-menuitem:hover .z-menuitem-inner-m,
+.banner .z-menubar > .z-menuitem:hover .z-menuitem-inner-r,
+.banner .z-menubar > .z-menuitem.z-menuitem-over .z-menuitem-btn,
+.banner .z-menubar > .z-menuitem.z-menuitem-seld .z-menuitem-btn,
+.banner .z-menubar > .z-menuitem:hover .z-menuitem-btn,
+.banner .z-menubar > .z-menuitem.z-menuitem-over .z-menuitem-text,
+.banner .z-menubar > .z-menuitem.z-menuitem-seld .z-menuitem-text,
+.banner .z-menubar > .z-menuitem:hover .z-menuitem-text {
+  background: #e6eef3 !important;
+  background-image: none !important;
+  border: 0 none !important;
+  box-shadow: none !important;
+  color: #122536 !important;
+}
+
+div.z-menubar-hor .z-menuitem-body-over,
+div.z-menubar-hor .z-menuitem-body-seld,
+div.z-menubar-hor .z-menuitem-body-over .z-menuitem-inner-l,
+div.z-menubar-hor .z-menuitem-body-over .z-menuitem-inner-m,
+div.z-menubar-hor .z-menuitem-body-over .z-menuitem-inner-r,
+div.z-menubar-hor .z-menuitem-body-seld .z-menuitem-inner-l,
+div.z-menubar-hor .z-menuitem-body-seld .z-menuitem-inner-m,
+div.z-menubar-hor .z-menuitem-body-seld .z-menuitem-inner-r,
+div.z-menubar-hor .z-menuitem-body-over .z-menuitem-inner-m .z-menuitem-btn,
+div.z-menubar-hor .z-menuitem-body-seld .z-menuitem-inner-m .z-menuitem-btn,
+.banner .z-menuitem-body-over,
+.banner .z-menuitem-body-seld,
+.banner .z-menuitem-body-over td,
+.banner .z-menuitem-body-seld td,
+.banner .z-menuitem-body-over .z-menuitem-btn,
+.banner .z-menuitem-body-seld .z-menuitem-btn {
+  background: #e6eef3 !important;
+  background-image: none !important;
+  border: 0 none !important;
+  box-shadow: none !important;
+  color: #122536 !important;
+}
+
+.banner-utils {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+  padding: 0 12px 0 8px;
+  flex: 0 0 auto;
+  white-space: nowrap;
+  height: 50px;
+}
+
+.banner-utils > div,
+.banner-utils .z-div {
+  display: flex !important;
+  align-items: center !important;
+  height: 50px !important;
+}
+
+.banner-user,
+.banner-user.z-label {
+  color: #ffffff !important;
+  font-size: 12px !important;
+  line-height: 50px !important;
+  height: 50px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  margin: 0 4px !important;
+  padding: 0 !important;
+  vertical-align: middle !important;
+}
+
+.banner-logout,
+.banner-logout-text,
+.banner .banner-logout .z-label,
+.banner .labelLogout,
+.banner .logout,
+.banner .logout .z-label {
+  color: #ffffff !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px;
+  font-size: 13px !important;
+  line-height: 50px !important;
+  height: 50px !important;
+  text-decoration: none !important;
+  vertical-align: middle !important;
+}
+
+.banner .banner-head,
+.banner .labelNuevo,
+.banner .z-label,
+.banner .z-toolbarbutton,
+.banner .z-toolbarbutton-content,
+.banner .z-menuitem-text,
+.banner .z-menu-text {
+  color: #ffffff !important;
+}
+
+.z-north,
+.z-north-body,
+.z-north-noborder {
+  background: #2b6b9e !important;
+  border: none !important;
+  overflow: visible !important;
+}
+
+.z-north {
+  z-index: 40 !important;
+}
+
+.footer {
+  background-color: var(--color-accent) !important;
+  color: var(--color-navy) !important;
+}
+
+.tituloLogin {
+  background-color: var(--color-navy) !important;
+  border-color: var(--color-accent) !important;
+  color: var(--color-white) !important;
+}
+
+.tituloMenuPrincipal {
+  background-color: var(--color-accent) !important;
+  color: var(--color-navy) !important;
+}
+
+.fontDiv {
+  background-color: var(--color-surface) !important;
+}
+
+.celdabloqueada {
+  background: var(--color-surface) !important;
+}
+
+.botonMenuLateral,
+.botonMenuLateralAdministrativo {
+  background: var(--color-success) !important;
+}
+
+.botonMenuLateralSinCot {
+  background: var(--color-danger) !important;
+}
+
+.botonMenuLateralCotizada {
+  background: var(--color-accent) !important;
+}
+
+.botonGreen {
+  background: var(--color-navy) !important;
+}
+
+.preguntas {
+  color: var(--color-accent) !important;
+}
+
+.imgRedondaLogo {
+  border-color: var(--color-accent) !important;
+  background: var(--color-accent) !important;
+}
+
+.z-center,
+.z-center-body,
+.z-south,
+.z-south-body {
+  background-color: #ffffff !important;
+}
+
+.z-menubar,
+.z-menubar-horizontal,
+.z-menubar-hor,
+.z-menubar-ver {
+  background: transparent !important;
+  border-color: transparent !important;
+}
+
+.z-menu-text,
+.z-menuitem-text,
+.z-menu-content,
+.z-menuitem-content {
+  color: #ffffff !important;
+}
+
+.z-menupopup,
+.z-menupopup-content,
+.z-menupopup-cnt,
+.z-menupopup-outer,
+.z-menupopup-body,
+.z-menupopup-cl,
+.z-menupopup-cr,
+.z-menupopup-cm,
+.z-menupopup-tl,
+.z-menupopup-tr,
+.z-menupopup-tm,
+.z-menupopup-bl,
+.z-menupopup-br,
+.z-menupopup-bm {
+  background: #2b6b9e !important;
+  background-image: none !important;
+  border-color: #245a86 !important;
+  box-shadow: 0 8px 20px rgba(11, 13, 62, 0.25);
+}
+
+.z-menupopup {
+  border: 1px solid #245a86 !important;
+  padding: 4px 0 !important;
+  min-width: 220px;
+  z-index: 1800 !important;
+}
+
+.z-menupopup .z-menu,
+.z-menupopup .z-menuitem,
+.z-menupopup-cnt .z-menu,
+.z-menupopup-cnt .z-menuitem {
+  display: block !important;
+  height: auto !important;
+  line-height: 1.3 !important;
+  float: none !important;
+  width: auto !important;
+}
+
+.z-menupopup .z-menu[style*="display:none"],
+.z-menupopup .z-menuitem[style*="display:none"],
+.z-menupopup-cnt .z-menu[style*="display:none"],
+.z-menupopup-cnt .z-menuitem[style*="display:none"] {
+  display: none !important;
+}
+
+.z-menupopup .z-menuitem,
+.z-menupopup .z-menu {
+  background: transparent !important;
+}
+
+.z-menupopup .z-menuitem-text,
+.z-menupopup .z-menu-text,
+.z-menupopup .z-menuitem-content,
+.z-menupopup .z-menu-content,
+.z-menupopup-cnt .z-menu a.z-menu-cnt,
+.z-menupopup-cnt .z-menuitem a.z-menuitem-cnt,
+.z-menupopup .z-menu-btn,
+.z-menupopup .z-menuitem-btn,
+.z-menu-inner-m .z-menu-btn,
+.z-menuitem-inner-m .z-menuitem-btn {
+  color: #ffffff !important;
+  background: transparent !important;
+  background-image: none !important;
+  font-size: 13px !important;
+}
+
+.z-menupopup-cnt .z-menu a.z-menu-cnt,
+.z-menupopup-cnt .z-menuitem a.z-menuitem-cnt,
+.z-menupopup .z-menuitem-content,
+.z-menupopup .z-menu-content {
+  display: block !important;
+  padding: 10px 16px !important;
+  line-height: 1.3 !important;
+}
+
+.z-menupopup .z-menuitem:hover,
+.z-menupopup .z-menu:hover,
+.z-menupopup .z-menuitem-over,
+.z-menupopup .z-menu-over,
+.z-menupopup .z-menuitem:hover > .z-menuitem-content,
+.z-menupopup .z-menu:hover > .z-menu-content,
+.z-menupopup .z-menuitem-over > a,
+.z-menupopup .z-menu-over > a {
+  background: #e6eef3 !important;
+  color: #122536 !important;
+}
+
+.z-menupopup .z-menuitem:hover .z-menuitem-text,
+.z-menupopup .z-menuitem-over .z-menuitem-text,
+.z-menupopup .z-menuitem:hover a,
+.z-menupopup .z-menu:hover a {
+  color: #122536 !important;
+}
+
+.z-menuseparator,
+.z-menuseparator-inner {
+  border-color: rgba(255, 255, 255, 0.25) !important;
+  background: rgba(255, 255, 255, 0.25) !important;
+}
+
+.z-toolbar {
+  background-color: transparent !important;
+}
+
+.z-toolbarbutton-content,
+.z-toolbarbutton-cnt {
+  color: #ffffff !important;
+}
+
+div.z-listbox-header {
+  background: #ffffff !important;
+}
+
+div.z-listbox-header th.z-listheader,
+.z-listheader,
+.z-column,
+.z-grid-header th.z-column {
+  background: #03aff1 !important;
+  color: var(--color-white) !important;
+  border: none !important;
+  border-color: transparent !important;
+}
+
+div.z-listbox-header th.z-auxheader,
+.z-auxheader,
+.z-listbox-header-bar {
+  background: #ffffff !important;
+  color: #333333 !important;
+}
+
+.z-listheader-content,
+.z-column-content,
+div.z-listheader-cnt {
+  color: var(--color-white) !important;
+}
+
+div.z-auxheader-cnt {
+  color: #333333 !important;
+}
+
+.z-listitem:hover > .z-listcell,
+.z-listitem-over > .z-listcell {
+  background: var(--color-surface) !important;
+}
+
+.z-listitem.z-listitem-selected > .z-listcell,
+.z-listitem-seld > .z-listcell {
+  background: rgba(3, 175, 241, 0.18) !important;
+}
+
+.z-window-header,
+.z-window-modal-header,
+.z-window-highlighted-header,
+.z-window-overlapped-header,
+.z-window-embedded-header,
+.z-window-popup-header,
+.z-window-embedded-tr,
+.z-window-modal-tr,
+.z-window-highlighted-tr,
+.z-window-overlapped-tr,
+.z-window-popup-tr,
+.z-window-embedded-hr,
+.z-window-modal-hr,
+.z-window-highlighted-hr,
+.z-window-overlapped-hr,
+.z-window-popup-hr,
+.z-window-embedded-hl,
+.z-window-modal-hl,
+.z-window-highlighted-hl,
+.z-window-overlapped-hl,
+.z-window-popup-hl,
+.z-caption,
+.z-window-header-move {
+  background: var(--color-navy) !important;
+  color: var(--color-white) !important;
+}
+
+.z-caption-content,
+.z-caption-l,
+.z-window-header-cnt {
+  color: var(--color-white) !important;
+}
+
+.z-tab,
+.z-tab .z-tab-text,
+.z-tab-content {
+  color: var(--color-navy) !important;
+}
+
+.z-tab.z-tab-selected,
+.z-tab-seld,
+.mainmenu.z-tabbox .z-tab .z-tab-hm,
+.mainmenu.z-tabbox .z-tab .z-tab-hl,
+.mainmenu.z-tabbox .z-tab .z-tab-hr {
+  background: var(--color-navy) !important;
+  color: var(--color-white) !important;
+}
+
+.z-tab.z-tab-selected .z-tab-text {
+  color: var(--color-white) !important;
+}
+
+.z-paging,
+.z-paging-os {
+  background: transparent !important;
+}
+
+.z-paging-button,
+.z-paging .z-button,
+.z-paging-os a,
+.z-paging-os span,
+.z-paging-os span.z-paging-os-selected,
+.z-paging-input {
+  background: transparent !important;
+  background-image: none !important;
+  color: #363636 !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.z-paging-os span.z-paging-os-selected {
+  font-weight: bold;
+  color: #122536 !important;
+  text-decoration: underline;
+}
+
+.z-listcell[style*="C7FEC1"],
+.z-listcell[style*="FBC3C3"],
+.z-listcell[style*="F1876A"],
+.z-listcell[style*="90FFBF"],
+.z-listcell[style*="C7FEC1"] .z-label,
+.z-listcell[style*="FBC3C3"] .z-label,
+.z-listcell[style*="C7FEC1"] .z-textbox,
+.z-listcell[style*="FBC3C3"] .z-textbox,
+.z-listcell[style*="C7FEC1"] .form-control,
+.z-listcell[style*="FBC3C3"] .form-control,
+.z-label[style*="C7FEC1"],
+.z-label[style*="FBC3C3"],
+.form-control[style*="C7FEC1"],
+.form-control[style*="FBC3C3"] {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+.z-scrollbar-horizontal .z-scrollbar-indicator {
+  border-color: var(--color-accent) !important;
+  background: var(--color-accent) !important;
+}
+
+.z-button,
+button.z-button {
+  background: var(--color-accent) !important;
+  border-color: var(--color-accent) !important;
+  color: var(--color-navy) !important;
+}
+
+.z-button:hover,
+button.z-button:hover {
+  background: #245a86 !important;
+  border-color: #245a86 !important;
+}
+
+.btn-primary,
+.btn-info,
+.btn-primary:hover,
+.btn-info:hover,
+.btn-primary:focus,
+.btn-info:focus {
+  background-color: var(--color-accent) !important;
+  border-color: var(--color-accent) !important;
+  color: var(--color-navy) !important;
+}
+
+.btn-success,
+.btn-success:hover,
+.btn-success:focus {
+  background-color: var(--color-success) !important;
+  border-color: var(--color-success) !important;
+  color: var(--color-navy) !important;
+}
+
+.btn-danger,
+.btn-danger:hover,
+.btn-danger:focus {
+  background-color: var(--color-danger) !important;
+  border-color: var(--color-danger) !important;
+  color: var(--color-white) !important;
+}
+
+.panel-primary > .panel-heading,
+.panel-info > .panel-heading,
+.navbar-default,
+.navbar-inverse {
+  background-color: var(--color-navy) !important;
+  border-color: var(--color-navy) !important;
+  color: var(--color-white) !important;
+}
+
+.progress-bar,
+.bg-info,
+.label-info,
+.badge-info {
+  background-color: var(--color-accent) !important;
+}
+
+.bg-success,
+.label-success,
+.badge-success,
+.progress-bar-success {
+  background-color: var(--color-success) !important;
+}
+
+.bg-danger,
+.label-danger,
+.badge-danger,
+.progress-bar-danger,
+.text-danger,
+.warn {
+  color: var(--color-danger);
+}
+
+.label-danger,
+.badge-danger,
+.bg-danger {
+  color: var(--color-white) !important;
+  background-color: var(--color-danger) !important;
+}
+
+a,
+a:visited {
+  color: var(--color-accent);
+}
+
+.z-a,
+.z-a:visited {
+  color: var(--color-accent) !important;
+}
+
+input:focus,
+.z-textbox:focus,
+.z-intbox:focus,
+.z-decimalbox:focus,
+.z-doublebox:focus,
+.z-datebox-input:focus,
+.z-combobox-input:focus {
+  border-color: var(--color-accent) !important;
+  box-shadow: 0 0 0 3px rgba(3, 175, 241, 0.2);
+}
+
+.z-combobox-popup,
+.z-combobox-pp,
+.z-datebox-popup,
+.z-datebox-pp {
+  background-color: #ffffff !important;
+  background-image: none !important;
+  z-index: 1800 !important;
+}
+
+.z-combobox-popup .z-comboitem,
+.z-combobox-pp .z-comboitem,
+.z-combobox-popup .z-comboitem-content,
+.z-combobox-pp .z-comboitem-content,
+.z-combobox-popup .z-comboitem-text,
+.z-combobox-pp .z-comboitem-text {
+  background-color: #ffffff !important;
+  background-image: none !important;
+}
+
+.z-combobox-popup .z-comboitem-selected,
+.z-combobox-pp .z-comboitem-selected,
+.z-combobox-popup .z-comboitem-seld,
+.z-combobox-pp .z-comboitem-seld,
+.z-combobox-popup .z-comboitem-over,
+.z-combobox-pp .z-comboitem-over,
+.z-combobox-popup .z-comboitem:hover,
+.z-combobox-pp .z-comboitem:hover {
+  background-color: #e6eef3 !important;
+}
+
+.z-combobox > .z-comboitem,
+.z-combobox > table .z-comboitem {
+  display: none !important;
+}
+
+.z-combobox-popup table,
+.z-combobox-pp table,
+.z-datebox-popup table,
+.z-datebox-pp table {
+  display: table !important;
+}
+
+.z-combobox-popup tbody,
+.z-combobox-pp tbody,
+.z-datebox-popup tbody,
+.z-datebox-pp tbody {
+  display: table-row-group !important;
+}
+
+.z-combobox-popup tr,
+.z-combobox-pp tr,
+.z-datebox-popup tr,
+.z-datebox-pp tr {
+  display: table-row !important;
+}
+
+.z-combobox-popup td,
+.z-combobox-pp td,
+.z-datebox-popup td,
+.z-datebox-pp td {
+  display: table-cell !important;
+}

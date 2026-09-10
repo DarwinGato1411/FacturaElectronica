@@ -2,8 +2,160 @@
 <?link rel="stylesheet" type="text/css" href="/css/style.css"?>
 <?link rel="stylesheet" type="text/css" href="/css/app/ventas/facturar.css"?>
 <?link rel="stylesheet" type="text/css" href="/css/app/ventas/modales.css"?>
-<?link rel="stylesheet" type="text/css" href="/css/style.css"?>
+<?link rel="stylesheet" type="text/css" href="/css/app/theme.css?v24"?>
 <zk>
+    <style>
+        /* ZK pinta el menú seleccionado en blanco; se fuerza el fondo solo al seleccionar */
+        .banner .z-menubar .z-menu-body-over,
+        .banner .z-menubar .z-menu-body-seld,
+        .banner .z-menubar .z-menu-over,
+        .banner .z-menubar .z-menu-hover,
+        .banner .z-menubar .z-menu-selected,
+        .banner .z-menubar .z-menu-clk,
+        .banner .z-menubar .z-menu-body-over .z-menu-inner-l,
+        .banner .z-menubar .z-menu-body-over .z-menu-inner-m,
+        .banner .z-menubar .z-menu-body-over .z-menu-inner-r,
+        .banner .z-menubar .z-menu-body-seld .z-menu-inner-l,
+        .banner .z-menubar .z-menu-body-seld .z-menu-inner-m,
+        .banner .z-menubar .z-menu-body-seld .z-menu-inner-r,
+        .banner .z-menubar .z-menu-over .z-menu-inner-l,
+        .banner .z-menubar .z-menu-over .z-menu-inner-m,
+        .banner .z-menubar .z-menu-over .z-menu-inner-r,
+        .banner .z-menubar .z-menu-body-over .z-menu-btn,
+        .banner .z-menubar .z-menu-body-seld .z-menu-btn,
+        .banner .z-menubar .z-menu-over .z-menu-btn,
+        .banner .z-menubar .z-menu-hover .z-menu-btn,
+        .banner .z-menubar .z-menu-clk .z-menu-btn,
+        .banner .z-menubar .z-menu-over .z-menu-content,
+        .banner .z-menubar .z-menu-hover .z-menu-content,
+        .banner .z-menubar .z-menu-selected .z-menu-content,
+        .banner .z-menubar .z-menu-content:hover,
+        .banner .z-menubar .z-menu-over .z-menu-text,
+        .banner .z-menubar .z-menu-over .z-menu-icon,
+        .banner .z-menubar .z-menuitem-over,
+        .banner .z-menubar .z-menuitem-seld,
+        .banner .z-menubar .z-menuitem-selected,
+        .banner .z-menubar .z-menuitem:hover,
+        .banner .z-menubar .z-menuitem-over td,
+        .banner .z-menubar .z-menuitem-seld td,
+        .banner .z-menubar .z-menuitem:hover td,
+        .banner .z-menubar .z-menuitem-over .z-menuitem-inner-l,
+        .banner .z-menubar .z-menuitem-over .z-menuitem-inner-m,
+        .banner .z-menubar .z-menuitem-over .z-menuitem-inner-r,
+        .banner .z-menubar .z-menuitem-seld .z-menuitem-inner-l,
+        .banner .z-menubar .z-menuitem-seld .z-menuitem-inner-m,
+        .banner .z-menubar .z-menuitem-seld .z-menuitem-inner-r,
+        .banner .z-menubar .z-menuitem:hover .z-menuitem-inner-l,
+        .banner .z-menubar .z-menuitem:hover .z-menuitem-inner-m,
+        .banner .z-menubar .z-menuitem:hover .z-menuitem-inner-r,
+        .banner .z-menubar .z-menuitem-over .z-menuitem-btn,
+        .banner .z-menubar .z-menuitem-seld .z-menuitem-btn,
+        .banner .z-menubar .z-menuitem:hover .z-menuitem-btn,
+        .banner .z-menubar .z-menuitem-over .z-menuitem-text,
+        .banner .z-menubar .z-menuitem-seld .z-menuitem-text,
+        .banner .z-menubar .z-menuitem:hover .z-menuitem-text,
+        .banner .z-menubar .z-menuitem-over .z-menuitem-content,
+        .banner .z-menubar .z-menuitem-seld .z-menuitem-content,
+        .banner .z-menubar .z-menuitem:hover .z-menuitem-content,
+        .banner .z-menuitem-body-over,
+        .banner .z-menuitem-body-seld,
+        .banner .z-menuitem-body-over td,
+        .banner .z-menuitem-body-seld td,
+        .banner .z-menuitem-body-over .z-menuitem-inner-l,
+        .banner .z-menuitem-body-over .z-menuitem-inner-m,
+        .banner .z-menuitem-body-over .z-menuitem-inner-r,
+        .banner .z-menuitem-body-seld .z-menuitem-inner-l,
+        .banner .z-menuitem-body-seld .z-menuitem-inner-m,
+        .banner .z-menuitem-body-seld .z-menuitem-inner-r,
+        .banner .z-menuitem-body-over .z-menuitem-btn,
+        .banner .z-menuitem-body-seld .z-menuitem-btn,
+        div.z-menubar-hor .z-menuitem-body-over .z-menuitem-inner-l,
+        div.z-menubar-hor .z-menuitem-body-over .z-menuitem-inner-m,
+        div.z-menubar-hor .z-menuitem-body-over .z-menuitem-inner-r,
+        div.z-menubar-hor .z-menuitem-body-seld .z-menuitem-inner-l,
+        div.z-menubar-hor .z-menuitem-body-seld .z-menuitem-inner-m,
+        div.z-menubar-hor .z-menuitem-body-seld .z-menuitem-inner-r,
+        div.z-menubar-hor .z-menuitem-body-over .z-menuitem-inner-m .z-menuitem-btn,
+        div.z-menubar-hor .z-menuitem-body-seld .z-menuitem-inner-m .z-menuitem-btn {
+            background: #e6eef3 !important;
+            background-color: #e6eef3 !important;
+            background-image: none !important;
+            border: 0 none !important;
+            box-shadow: none !important;
+            color: #122536 !important;
+        }
+        .z-menupopup .z-menuitem-over,
+        .z-menupopup .z-menu-over,
+        .z-menupopup .z-menuitem:hover,
+        .z-menupopup .z-menu:hover,
+        .z-menupopup .z-menuitem-over a,
+        .z-menupopup .z-menuitem:hover a,
+        .z-menupopup .z-menuitem-over .z-menuitem-btn,
+        .z-menupopup .z-menuitem:hover .z-menuitem-btn,
+        div.z-menubar-hor .z-menu-body-over .z-menu-inner-l,
+        div.z-menubar-hor .z-menu-body-over .z-menu-inner-m,
+        div.z-menubar-hor .z-menu-body-over .z-menu-inner-r,
+        div.z-menubar-hor .z-menu-body-seld .z-menu-inner-l,
+        div.z-menubar-hor .z-menu-body-seld .z-menu-inner-m,
+        div.z-menubar-hor .z-menu-body-seld .z-menu-inner-r,
+        div.z-menubar-hor .z-menu-body-over .z-menu-inner-m .z-menu-btn,
+        div.z-menubar-hor .z-menu-body-seld .z-menu-inner-m .z-menu-btn,
+        div.z-menubar-hor .z-menubar-left,
+        div.z-menubar-hor .z-menubar-right,
+        .banner .z-menubar-left,
+        .banner .z-menubar-right,
+        .banner .z-menubar-scroll {
+            background: #e6eef3 !important;
+            background-color: #e6eef3 !important;
+            background-image: none !important;
+            border: 0 none !important;
+            color: #122536 !important;
+        }
+        .banner .z-div.banner-inner,
+        .banner .z-div.banner-nav,
+        .banner .z-div.banner-menubar,
+        .banner .z-div.banner-utils,
+        .banner .z-div.banner-brand,
+        .banner-inner,
+        .banner-nav,
+        .banner-menubar,
+        .banner-utils,
+        .banner .z-toolbar {
+            display: flex !important;
+            align-items: center !important;
+            height: 50px !important;
+            overflow: visible !important;
+        }
+        .banner .z-menubar .z-menu-btn,
+        .banner .z-menubar .z-menuitem-btn,
+        .banner .z-menu-inner-m .z-menu-btn,
+        .banner .z-menuitem-inner-m .z-menuitem-btn,
+        .banner .z-menubar .z-menu-text,
+        .banner .z-menubar .z-menuitem-text {
+            display: inline-block !important;
+            height: 50px !important;
+            line-height: 50px !important;
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+            box-sizing: border-box !important;
+            vertical-align: middle !important;
+        }
+        .banner .z-menubar > .z-menu > table,
+        .banner .z-menubar > .z-menu > table tr,
+        .banner .z-menubar > .z-menu > table td,
+        .banner .z-menubar > .z-menuitem > table,
+        .banner .z-menubar > .z-menuitem > table tr,
+        .banner .z-menubar > .z-menuitem > table td {
+            height: 50px !important;
+            vertical-align: middle !important;
+        }
+        .banner .z-toolbarbutton img,
+        .banner .banner-logout img {
+            width: 16px !important;
+            height: 16px !important;
+            vertical-align: middle !important;
+        }
+    </style>
     <borderlayout  >
         <north   border="none" >
             <include src="/plantilla/banner.zul"/>

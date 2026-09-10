@@ -37,7 +37,9 @@ import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.NamingException;
@@ -46,7 +48,6 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
-import org.zkoss.bind.annotation.BindingParam;
 
 /**
  *
@@ -55,105 +56,151 @@ import org.zkoss.bind.annotation.BindingParam;
 @WebListener
 public class TareasBackground implements ServletContextListener {
 
+    private static final Logger LOG = Logger.getLogger(TareasBackground.class.getName());
+    private static final int MAX_FACTURAS_POR_CICLO = 8;
+    private static final long DELAY_ENTRE_CICLOS_SEG = 60;
+
     private ScheduledExecutorService scheduler;
+    private final AtomicBoolean cicloEnCurso = new AtomicBoolean(false);
 
-    ServicioTipoAmbiente servicioTipoAmbiente = new ServicioTipoAmbiente();
-
-    ServicioFactura servicioFactura = new ServicioFactura();
-    Tipoambiente amb = servicioTipoAmbiente.FindALlTipoambiente();
-
-    private static String PATH_BASE = "";
+    private final ServicioTipoAmbiente servicioTipoAmbiente = new ServicioTipoAmbiente();
+    private final ServicioFactura servicioFactura = new ServicioFactura();
+    private Tipoambiente amb;
+    private String pathBase = "";
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        System.out.println("Aplicación iniciada. Iniciando scheduler...");
+        LOG.info("Aplicación iniciada. Iniciando scheduler de envío SRI...");
 
-        scheduler = Executors.newSingleThreadScheduledExecutor();
+        ThreadFactory factory = r -> {
+            Thread t = new Thread(r, "tareas-background-sri");
+            t.setDaemon(true);
+            t.setUncaughtExceptionHandler((th, ex) ->
+                    LOG.log(Level.SEVERE, "Excepción no capturada en " + th.getName() + "; el scheduler continua", ex));
+            return t;
+        };
+        scheduler = Executors.newSingleThreadScheduledExecutor(factory);
 
         Runnable tarea = () -> {
-            String time = java.time.LocalDateTime.now().toString();
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(new Date());
-            cal.add(Calendar.DAY_OF_MONTH, -5);
-
-            Date hoy = new Date();
-            Date ayer = cal.getTime();
-
-            Date fechaInicio = ArchivoUtils.recuperarFecha(ayer, "inicio");
-            Date fechaFin = ArchivoUtils.recuperarFecha(new Date(), "fin");
-
-            // Aquí tu lógica: actualizar BD, enviar correo, etc.
-            System.out.println("ENVIO ACTIVADO ******************** " + fechaInicio + " *** " + fechaFin);
-            if (amb.getAmEnvioSriAutomatico()) {
-                List<Factura> listaFactura = servicioFactura.findBetweenPendientesEnviarSRI(fechaInicio, fechaFin);
-                List<Factura> listaFacturaDev = servicioFactura.findBetweenDevueltaPorReenviarSRI(fechaInicio, fechaFin);
-
-                for (Factura items : listaFactura) {
-                    try {
-                        System.out.println("ENVIO ACTIVADO: " + amb.getAmRazonSocial() + " " + time);
-                        autorizarFacturasSRI(items);
-                    } catch (JRException | IOException | NamingException | SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
-                        Logger.getLogger(TareasBackground.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-
-//                 List<Factura> listaFacturaDev = servicioFactura.findBetweenDevueltaPorReenviarSRI(fechaInicio, fechaFin);
-                for (Factura items : listaFacturaDev) {
-                    try {
-                        System.out.println("REENVIO  ACTIVADO: " + amb.getAmRazonSocial() + " " + time);
-                        reenviarSRI(items);
-                    } catch (JRException | IOException | NamingException | SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
-                        Logger.getLogger(TareasBackground.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-
-            } else {
-                System.out.println("ENVIO DESACTIVADO" + amb.getAmRazonSocial() + " " + time);
-
+            if (!cicloEnCurso.compareAndSet(false, true)) {
+                LOG.fine("Ciclo SRI anterior aún en curso; se omite esta corrida.");
+                return;
+            }
+            try {
+                ejecutarCicloSri();
+            } catch (Throwable ex) {
+                LOG.log(Level.SEVERE, "Error en TareasBackground: el scheduler se mantiene activo", ex);
+            } finally {
+                cicloEnCurso.set(false);
+                Thread.interrupted();
             }
         };
 
-        // Ejecutar cada 10 segundos, empezando inmediatamente
-//        scheduler.scheduleAtFixedRate(tarea, 0, 20, TimeUnit.MINUTES);
-        scheduler.scheduleWithFixedDelay(
-                tarea,
-                0,
-                10,
-                TimeUnit.SECONDS
-        );
+        scheduler.scheduleWithFixedDelay(tarea, 30, DELAY_ENTRE_CICLOS_SEG, TimeUnit.SECONDS);
+    }
+
+    private void ejecutarCicloSri() {
+        amb = servicioTipoAmbiente.FindALlTipoambiente();
+        if (amb == null) {
+            LOG.warning("ENVIO AUTOMATICO: no hay Tipoambiente configurado");
+            return;
+        }
+        if (!Boolean.TRUE.equals(amb.getAmEnvioSriAutomatico())) {
+            LOG.fine("ENVIO DESACTIVADO " + amb.getAmRazonSocial());
+            return;
+        }
+
+        pathBase = amb.getAmDirBaseArchivos() != null ? amb.getAmDirBaseArchivos() : "";
+
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DAY_OF_MONTH, -5);
+        Date fechaInicio = ArchivoUtils.recuperarFecha(cal.getTime(), "inicio");
+        Date fechaFin = ArchivoUtils.recuperarFecha(new Date(), "fin");
+
+        List<Factura> pendientes = limitar(
+                servicioFactura.findBetweenPendientesEnviarSRI(fechaInicio, fechaFin));
+        List<Factura> reenviar = limitar(
+                servicioFactura.findBetweenDevueltaPorReenviarSRI(fechaInicio, fechaFin));
+
+        if (pendientes.isEmpty() && reenviar.isEmpty()) {
+            return;
+        }
+
+        LOG.info("SRI automatico: " + pendientes.size() + " pendientes, "
+                + reenviar.size() + " a reenviar. Rango " + fechaInicio + " - " + fechaFin);
+
+        for (Factura items : pendientes) {
+            try {
+                autorizarFacturasSRI(items);
+            } catch (Throwable ex) {
+                LOG.log(Level.SEVERE, "Error enviando factura "
+                        + (items != null ? items.getFacNumeroText() : "") + " (el scheduler continua)", ex);
+            }
+        }
+
+        for (Factura items : reenviar) {
+            try {
+                reenviarSRI(items);
+            } catch (Throwable ex) {
+                LOG.log(Level.SEVERE, "Error reenviando factura "
+                        + (items != null ? items.getFacNumeroText() : "") + " (el scheduler continua)", ex);
+            }
+        }
+    }
+
+    private List<Factura> limitar(List<Factura> lista) {
+        if (lista == null || lista.isEmpty()) {
+            return java.util.Collections.emptyList();
+        }
+        if (lista.size() <= MAX_FACTURAS_POR_CICLO) {
+            return lista;
+        }
+        return lista.subList(0, MAX_FACTURAS_POR_CICLO);
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
-        System.out.println("Aplicación detenida. Deteniendo scheduler...");
+        LOG.info("Aplicación detenida. Deteniendo scheduler...");
         if (scheduler != null && !scheduler.isShutdown()) {
             scheduler.shutdown();
             try {
-                if (scheduler.awaitTermination(5, TimeUnit.SECONDS)) {
-                    System.out.println("Scheduler detenido correctamente.");
+                if (!scheduler.awaitTermination(15, TimeUnit.SECONDS)) {
+                    scheduler.shutdownNow();
+                    LOG.warning("Scheduler forzado a detenerse.");
+                } else {
+                    LOG.info("Scheduler detenido correctamente.");
                 }
             } catch (InterruptedException e) {
+                scheduler.shutdownNow();
                 Thread.currentThread().interrupt();
             }
         }
     }
 
+    private String mensajeSolicitud(RespuestaSolicitud resSolicitud) {
+        try {
+            return resSolicitud.getComprobantes().getComprobante().get(0).getMensajes().getMensaje().get(0).getMensaje();
+        } catch (Exception e) {
+            return resSolicitud.getEstado() != null ? resSolicitud.getEstado() : "SIN MENSAJE DEL SRI";
+        }
+    }
+
     private void autorizarFacturasSRI(Factura valor) throws JRException, IOException, NamingException, SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
-        String folderGenerados = PATH_BASE + File.separator + amb.getAmGenerados()
+        String folderGenerados = pathBase + File.separator + amb.getAmGenerados()
                 + File.separator + new Date().getYear()
                 + File.separator + new Date().getMonth();
-        String folderEnviarCliente = PATH_BASE + File.separator + amb.getAmEnviocliente()
+        String folderEnviarCliente = pathBase + File.separator + amb.getAmEnviocliente()
                 + File.separator + new Date().getYear()
                 + File.separator + new Date().getMonth();
-        String folderFirmado = PATH_BASE + File.separator + amb.getAmFirmados()
-                + File.separator + new Date().getYear()
-                + File.separator + new Date().getMonth();
-
-        String foldervoAutorizado = PATH_BASE + File.separator + amb.getAmAutorizados()
+        String folderFirmado = pathBase + File.separator + amb.getAmFirmados()
                 + File.separator + new Date().getYear()
                 + File.separator + new Date().getMonth();
 
-        String folderNoAutorizados = PATH_BASE + File.separator + amb.getAmNoAutorizados()
+        String foldervoAutorizado = pathBase + File.separator + amb.getAmAutorizados()
+                + File.separator + new Date().getYear()
+                + File.separator + new Date().getMonth();
+
+        String folderNoAutorizados = pathBase + File.separator + amb.getAmNoAutorizados()
                 + File.separator + new Date().getYear()
                 + File.separator + new Date().getMonth();
 
@@ -194,30 +241,16 @@ public class TareasBackground implements ServletContextListener {
         String pathArchivoAutorizado = foldervoAutorizado + nombreArchivoXML;
         String pathArchivoNoAutorizado = folderNoAutorizados + nombreArchivoXML;
         String archivoEnvioCliente = "";
-
-        File f = null;
-        File fEnvio = null;
-        byte[] datos = null;
-        //tipoambiente tiene los parameteos para los directorios y la firma digital
         AutorizarDocumentos aut = new AutorizarDocumentos();
-        /*Generamos el archivo XML de la factura*/
         String archivo = aut.generaXMLFactura(valor, amb, folderGenerados, nombreArchivoXML, Boolean.FALSE, new Date());
-
-        /*amb.getAmClaveAccesoSri() es el la clave proporcionada por el SRI
-        archivo es la ruta del archivo xml generado
-        nomre del archivo a firmar*/
         XAdESBESSignature.firmar(archivo, nombreArchivoXML,
                 amb.getAmClaveAccesoSri(), amb, folderFirmado);
 
-        f = new File(pathArchivoFirmado);
-
-        datos = ArchivoUtils.ConvertirBytes(pathArchivoFirmado);
-        //obtener la clave de acceso desde el archivo xml
+        File f = new File(pathArchivoFirmado);
+        byte[] datos = ArchivoUtils.ConvertirBytes(pathArchivoFirmado);
         String claveAccesoComprobante = ArchivoUtils.obtenerValorXML(f, "/*/infoTributaria/claveAcceso");
-        /*GUARDAMOS LA CLAVE DE ACCESO ANTES DE ENVIAR A AUTORIZAR*/
         valor.setFacClaveAcceso(claveAccesoComprobante);
-        AutorizarDocumentos autorizarDocumentos = new AutorizarDocumentos();
-        RespuestaSolicitud resSolicitud = autorizarDocumentos.validar(datos);
+        RespuestaSolicitud resSolicitud = aut.validar(datos);
         if (resSolicitud != null && resSolicitud.getComprobantes() != null) {
             // Autorizacion autorizacion = null;
 
@@ -229,19 +262,17 @@ public class TareasBackground implements ServletContextListener {
 //                }
                 try {
 
-                    RespuestaComprobante resComprobante = autorizarDocumentos.autorizarComprobante(claveAccesoComprobante);
-                    if (resComprobante.getAutorizaciones().getAutorizacion().isEmpty()) {
+                    RespuestaComprobante resComprobante = aut.autorizarComprobante(claveAccesoComprobante);
+                    if (resComprobante == null || resComprobante.getAutorizaciones() == null
+                            || resComprobante.getAutorizaciones().getAutorizacion() == null
+                            || resComprobante.getAutorizaciones().getAutorizacion().isEmpty()) {
                         valor.setMensajesri("ERROR EN EL METODO DE AUTORIZAR NO DEVUELVE NADA ENVIO");
                         servicioFactura.modificar(valor);
-//                        return;
+                        return;
                     }
 
                     for (Autorizacion autorizacion : resComprobante.getAutorizaciones().getAutorizacion()) {
-                        FileOutputStream nuevo = null;
-
-                        /*CREA EL ARCHIVO XML AUTORIZADO*/
-//                        System.out.println("pathArchivoNoAutorizado " + pathArchivoNoAutorizado);
-                        nuevo = new FileOutputStream(pathArchivoNoAutorizado);
+                        try (FileOutputStream nuevo = new FileOutputStream(pathArchivoNoAutorizado)) {
                         if (autorizacion.getComprobante() != null) {
                             nuevo.write(autorizacion.getComprobante().getBytes());
                         }
@@ -255,7 +286,9 @@ public class TareasBackground implements ServletContextListener {
                                 reenviarSRI(valor);
                             } else {
 
-                                if (!autorizacion.getMensajes().getMensaje().isEmpty()) {
+                                if (autorizacion.getMensajes() != null
+                                        && autorizacion.getMensajes().getMensaje() != null
+                                        && !autorizacion.getMensajes().getMensaje().isEmpty()) {
                                     texto = autorizacion.getMensajes().getMensaje().size() > 0 ? autorizacion.getMensajes().getMensaje().get(0).getMensaje() : "ERROR SIN DEFINIR " + autorizacion.getEstado();
                                     smsInfo = autorizacion.getMensajes().getMensaje().size() > 0 ? autorizacion.getMensajes().getMensaje().get(0).getInformacionAdicional() : " ERROR SIN DEFINIR " + autorizacion.getEstado();
                                     nuevo.write(smsInfo.getBytes());
@@ -285,42 +318,20 @@ public class TareasBackground implements ServletContextListener {
 //                                    amb, foldervoAutorizado);
                             valor.setFacpath(archivoEnvioCliente.replace(".xml", ".pdf"));
                             servicioFactura.modificar(valor);
-                            fEnvio = new File(archivoEnvioCliente);
-
-//                            System.out.println("PATH DEL ARCHIVO PARA ENVIAR AL CLIENTE " + archivoEnvioCliente);
-//                            reporteGeneralPdfMail(archivoEnvioCliente.replace(".xml", ".pdf"), valor.getFacNumero(), "FACT");
-//
-//                            String[] attachFiles = new String[2];
-//                            attachFiles[0] = archivoEnvioCliente.replace(".xml", ".pdf");
-//                            attachFiles[1] = archivoEnvioCliente.replace(".xml", ".xml");
-//                            MailerClass mail = new MailerClass();
-//                            if (valor.getIdCliente().getCliCorreo() != null) {
-//                                mail.sendMailSimple(valor.getIdCliente().getCliCorreo(),
-//                                        attachFiles,
-//                                        "FACTURA ELECTRONICA",
-//                                        valor.getFacClaveAcceso(),
-//                                        valor.getFacNumeroText(),
-//                                        valor.getFacTotal(),
-//                                        valor.getIdCliente().getCliNombre());
-//                            }
                         }
 
+                    }
                     }
                 } catch (RespuestaAutorizacionException ex) {
                     Logger.getLogger(ListaFacturas.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else {
-                String smsInfo = resSolicitud.getComprobantes().getComprobante().get(0).getMensajes().getMensaje().get(0).getMensaje();
+                String smsInfo = mensajeSolicitud(resSolicitud);
                 ArchivoUtils.FileCopy(pathArchivoFirmado, pathArchivoNoAutorizado);
                 valor.setEstadosri(resSolicitud.getEstado());
-                valor.setMensajesri(resSolicitud.getComprobantes().getComprobante().get(0).getMensajes().getMensaje().get(0).getMensaje());
+                valor.setMensajesri(smsInfo);
                 valor.setFacMsmInfoSri(smsInfo);
-
                 servicioFactura.modificar(valor);
-//                if (resSolicitud.getEstado().trim().equals("EN PROCESO") || resSolicitud.getEstado().trim().equals("CLAVE ACCESO REGISTRADA")) {
-////                    Clients.showNotification("Autoriza con reenvio ", Clients.NOTIFICATION_TYPE_INFO, null, "middle_center", 3000, true);
-//                    reenviarSRI(valor);
-//                }
             }
         } else {
 
@@ -329,24 +340,24 @@ public class TareasBackground implements ServletContextListener {
         }
     }
 
-    private void reenviarSRI(@BindingParam("valor") Factura valor)
+    private void reenviarSRI(Factura valor)
             throws JRException, IOException, NamingException, SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
 
-        String folderGenerados = PATH_BASE + File.separator + amb.getAmGenerados()
+        String folderGenerados = pathBase + File.separator + amb.getAmGenerados()
                 + File.separator + new Date().getYear()
                 + File.separator + new Date().getMonth();
-        String folderEnviarCliente = PATH_BASE + File.separator + amb.getAmEnviocliente()
+        String folderEnviarCliente = pathBase + File.separator + amb.getAmEnviocliente()
                 + File.separator + new Date().getYear()
                 + File.separator + new Date().getMonth();
-        String folderFirmado = PATH_BASE + File.separator + amb.getAmFirmados()
-                + File.separator + new Date().getYear()
-                + File.separator + new Date().getMonth();
-
-        String foldervoAutorizado = PATH_BASE + File.separator + amb.getAmAutorizados()
+        String folderFirmado = pathBase + File.separator + amb.getAmFirmados()
                 + File.separator + new Date().getYear()
                 + File.separator + new Date().getMonth();
 
-        String folderNoAutorizados = PATH_BASE + File.separator + amb.getAmNoAutorizados()
+        String foldervoAutorizado = pathBase + File.separator + amb.getAmAutorizados()
+                + File.separator + new Date().getYear()
+                + File.separator + new Date().getMonth();
+
+        String folderNoAutorizados = pathBase + File.separator + amb.getAmNoAutorizados()
                 + File.separator + new Date().getYear()
                 + File.separator + new Date().getMonth();
 
@@ -409,30 +420,19 @@ public class TareasBackground implements ServletContextListener {
         String claveAccesoComprobante = ArchivoUtils.obtenerValorXML(f, "/*/infoTributaria/claveAcceso");
         /*GUARDAMOS LA CLAVE DE ACCESO ANTES DE ENVIAR A AUTORIZAR*/
         valor.setFacClaveAcceso(claveAccesoComprobante);
-        AutorizarDocumentos autorizarDocumentos = new AutorizarDocumentos();
-//        RespuestaSolicitud resSolicitud = autorizarDocumentos.validar(datos);
-//        if (resSolicitud != null && resSolicitud.getComprobantes() != null) {
-//            // Autorizacion autorizacion = null;
-//
-//            if (resSolicitud.getEstado().equals("RECIBIDA")) {
         try {
-            Thread.sleep(1000);
+            Thread.sleep(400);
         } catch (InterruptedException ex) {
-            Logger.getLogger(Tipoambiente.class.getName()).log(Level.SEVERE, null, ex);
+            Thread.currentThread().interrupt();
         }
         try {
-
-            RespuestaComprobante resComprobante = autorizarDocumentos.autorizarComprobante(claveAccesoComprobante);
-            System.out.println("RespuestaComprobante " + resComprobante);
-//            if (resComprobante.getAutorizaciones().getAutorizacion() == null) {
-//                Clients.showNotification("No se encontro el documento, presione el boton enviar.",
-//                        Clients.NOTIFICATION_TYPE_ERROR, null, "middle_center", 5000, true);
-//                return;
-//            }
-
-            if (resComprobante.getAutorizaciones().getAutorizacion().isEmpty()) {
+            RespuestaComprobante resComprobante = aut.autorizarComprobante(claveAccesoComprobante);
+            if (resComprobante == null || resComprobante.getAutorizaciones() == null
+                    || resComprobante.getAutorizaciones().getAutorizacion() == null
+                    || resComprobante.getAutorizaciones().getAutorizacion().isEmpty()) {
                 valor.setMensajesri("ERROR EN EL METODO DE AUTORIZAR NO DEVUELVE NADA REENVIO");
                 servicioFactura.modificar(valor);
+                return;
             }
             for (Autorizacion autorizacion : resComprobante.getAutorizaciones().getAutorizacion()) {
                 FileOutputStream nuevo = null;
@@ -443,7 +443,12 @@ public class TareasBackground implements ServletContextListener {
 //                    nuevo = new FileOutputStream(pathArchivoNoAutorizado);
 //                    nuevo.write(autorizacion.getComprobante().getBytes());
 
-                    String texto = autorizacion.getMensajes() != null ? autorizacion.getMensajes().getMensaje().get(0).getMensaje() : "";
+                    String texto = "";
+                    if (autorizacion.getMensajes() != null
+                            && autorizacion.getMensajes().getMensaje() != null
+                            && !autorizacion.getMensajes().getMensaje().isEmpty()) {
+                        texto = autorizacion.getMensajes().getMensaje().get(0).getMensaje();
+                    }
 //                    nuevo.write(autorizacion.getMensajes().getMensaje().get(0).getMensaje().getBytes());
 //                    if (autorizacion.getMensajes().getMensaje().get(0).getInformacionAdicional() != null) {
 //                        nuevo.write(autorizacion.getMensajes().getMensaje().get(0).getInformacionAdicional().getBytes());

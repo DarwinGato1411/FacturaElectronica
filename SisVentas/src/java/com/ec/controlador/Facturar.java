@@ -79,6 +79,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.NamingException;
@@ -126,6 +127,10 @@ import org.zkoss.zul.Window;
  * @author gato
  */
 public class Facturar extends SelectorComposer<Component> {
+
+    private static final Logger LOG = Logger.getLogger(Facturar.class.getName());
+    private final AtomicBoolean guardando = new AtomicBoolean(false);
+    private boolean facturaGuardadaEstaSesion = false;
 
     // @Wire
     // Window windowNotaEntrega;
@@ -2159,6 +2164,12 @@ public class Facturar extends SelectorComposer<Component> {
 
     private void guardarFactura(String valor, String envia) throws ParseException {
 
+        if (facturaGuardadaEstaSesion && factura.getIdFactura() != null) {
+            reintentarAutorizacionSinDuplicar(envia);
+            finalizarPantallaTrasGuardado();
+            return;
+        }
+
         try {
 
             String folderGenerados = PATH_BASE + File.separator + amb.getAmGenerados()
@@ -2505,7 +2516,12 @@ public class Facturar extends SelectorComposer<Component> {
 
                     if (accion.equals("create")) {
 
-                        servicioFactura.guardarFactura(detalleFactura, factura);
+                        if (!servicioFactura.guardarFactura(detalleFactura, factura)) {
+                            Messagebox.show("No se pudo guardar la factura. No se emitió un documento nuevo.",
+                                    "Atención", Messagebox.OK, Messagebox.ERROR);
+                            return;
+                        }
+                        facturaGuardadaEstaSesion = true;
                         if (estdoFactura.equals("PA")) {
                             DetallePago detallePago = new DetallePago();
                             detallePago.setDetpNumPago(1);
@@ -2520,14 +2536,25 @@ public class Facturar extends SelectorComposer<Component> {
 
                         servicioFactura.eliminar(factura);
                         servicioDetalleKardex.eliminarKardexVenta(factura.getIdFactura());
-                        servicioFactura.guardarFactura(detalleFactura, factura);
+                        if (!servicioFactura.guardarFactura(detalleFactura, factura)) {
+                            Messagebox.show("No se pudo actualizar la factura. No se emitió un documento nuevo.",
+                                    "Atención", Messagebox.OK, Messagebox.ERROR);
+                            return;
+                        }
                     }
 
                     /*VERIFICA SI EL CLINETE QUIERE AUTORIZAR LA FACTURA*/
                     if (envia.equals("N") || !tipoVenta.equals("FACT")) {
                         /*en el caso que no se desee autorizar la factura*/
                     } else {
-                        autorizarFacturasSRI(factura);
+                        try {
+                            autorizarFacturasSRI(factura);
+                        } catch (Throwable ex) {
+                            LOG.log(Level.SEVERE,
+                                    "Error SRI; la factura ya fue guardada y no se debe volver a emitir", ex);
+                            Clients.showNotification("La factura se guardó. El SRI no respondió; autorice desde el listado.",
+                                    Clients.NOTIFICATION_TYPE_ERROR, null, "middle_center", 5000, true);
+                        }
                     }
                 }
 
@@ -2627,39 +2654,47 @@ public class Facturar extends SelectorComposer<Component> {
 //            servicioKardex.
             /* Verificar numero de proforma */
             reporteGeneral();
-            if (accion.equals("create")) {
-                Executions.sendRedirect("/venta/facturar.zul");
-            } else {
-                // Executions.sendRedirect("/venta/listafacturas.zul");
-                windowModCotizacionFact.detach();
-            }
+            finalizarPantallaTrasGuardado();
 
-        } catch (IOException e) {
-            System.out.println("ERROR FACTURA " + e.getMessage());
-            Messagebox.show("Ocurrio un error guardar la factura ", "Atención", Messagebox.OK, Messagebox.ERROR);
-        } catch (ClassNotFoundException e) {
-            System.out.println("ERROR FACTURA " + e.getMessage());
-            Messagebox.show("Ocurrio un error guardar la factura ", "Atención", Messagebox.OK, Messagebox.ERROR);
-        } catch (IllegalAccessException e) {
-            System.out.println("ERROR FACTURA " + e.getMessage());
-            Messagebox.show("Ocurrio un error guardar la factura ", "Atención", Messagebox.OK, Messagebox.ERROR);
-        } catch (InstantiationException e) {
-            System.out.println("ERROR FACTURA " + e.getMessage());
-            Messagebox.show("Ocurrio un error guardar la factura ", "Atención", Messagebox.OK, Messagebox.ERROR);
-        } catch (NumberFormatException e) {
-            System.out.println("ERROR FACTURA " + e.getMessage());
-            Messagebox.show("Ocurrio un error guardar la factura ", "Atención", Messagebox.OK, Messagebox.ERROR);
-        } catch (SQLException e) {
-            System.out.println("ERROR FACTURA " + e.getMessage());
-            Messagebox.show("Ocurrio un error guardar la factura ", "Atención", Messagebox.OK, Messagebox.ERROR);
-        } catch (NamingException e) {
-            System.out.println("ERROR FACTURA " + e.getMessage());
-            Messagebox.show("Ocurrio un error guardar la factura ", "Atención", Messagebox.OK, Messagebox.ERROR);
-        } catch (JRException e) {
-            System.out.println("ERROR FACTURA " + e.getMessage());
-            Messagebox.show("Ocurrio un error guardar la factura ", "Atención", Messagebox.OK, Messagebox.ERROR);
+        } catch (Throwable e) {
+            LOG.log(Level.SEVERE, "ERROR FACTURA", e);
+            if (facturaGuardadaEstaSesion && factura.getIdFactura() != null) {
+                Clients.showNotification("La factura ya se guardó. No pulse Guardar otra vez; autorice desde el listado si falta el SRI.",
+                        Clients.NOTIFICATION_TYPE_ERROR, null, "middle_center", 6000, true);
+                finalizarPantallaTrasGuardado();
+            } else {
+                Messagebox.show("Ocurrio un error guardar la factura ", "Atención", Messagebox.OK, Messagebox.ERROR);
+            }
         }
 
+    }
+
+    private void reintentarAutorizacionSinDuplicar(String envia) {
+        if ("AUTORIZADO".equals(factura.getEstadosri())) {
+            Clients.showNotification("La factura ya está autorizada. No se emitió un documento nuevo.",
+                    Clients.NOTIFICATION_TYPE_INFO, null, "middle_center", 4000, true);
+            return;
+        }
+        if (envia.equals("N") || !tipoVenta.equals("FACT")) {
+            Clients.showNotification("La factura ya fue registrada. No se volvió a guardar.",
+                    Clients.NOTIFICATION_TYPE_INFO, null, "middle_center", 4000, true);
+            return;
+        }
+        try {
+            autorizarFacturasSRI(factura);
+        } catch (Throwable ex) {
+            LOG.log(Level.SEVERE, "Error SRI en reintento; no se duplica la factura", ex);
+            Clients.showNotification("La factura ya está registrada. Autorice desde el listado.",
+                    Clients.NOTIFICATION_TYPE_ERROR, null, "middle_center", 5000, true);
+        }
+    }
+
+    private void finalizarPantallaTrasGuardado() {
+        if (accion.equals("create")) {
+            Executions.sendRedirect("/venta/facturar.zul");
+        } else if (windowModCotizacionFact != null) {
+            windowModCotizacionFact.detach();
+        }
     }
 
     @Command
@@ -2676,7 +2711,16 @@ public class Facturar extends SelectorComposer<Component> {
             }
             if (listaDetalleFacturaDAOMOdel.size() > 0) {
                 if (!listaDetalleFacturaDAOMOdel.get(0).getDescripcion().equals("")) {
-                    guardarFactura(valor, envia);
+                    if (!guardando.compareAndSet(false, true)) {
+                        Clients.showNotification("La factura se está guardando; no pulse Guardar otra vez",
+                                Clients.NOTIFICATION_TYPE_WARNING, null, "middle_center", 4000, true);
+                        return;
+                    }
+                    try {
+                        guardarFactura(valor, envia);
+                    } finally {
+                        guardando.set(false);
+                    }
 
                 } else {
                     Messagebox.show("Registre un producto para proceder a la facturación", "Atención", Messagebox.OK,
@@ -3888,10 +3932,16 @@ public class Facturar extends SelectorComposer<Component> {
         String claveAccesoComprobante = ArchivoUtils.obtenerValorXML(f, "/*/infoTributaria/claveAcceso");
         /*GUARDAMOS LA CLAVE DE ACCESO ANTES DE ENVIAR A AUTORIZAR*/
         valor.setFacClaveAcceso(claveAccesoComprobante);
+        try {
+            servicioFactura.modificar(valor);
+        } catch (Exception ex) {
+            LOG.log(Level.WARNING, "No se pudo persistir la clave de acceso antes de enviar al SRI", ex);
+        }
         AutorizarDocumentos autorizarDocumentos = new AutorizarDocumentos();
 
         RespuestaSolicitud resSolicitud = autorizarDocumentos.validar(datos);
-        if (resSolicitud.getEstado().contains("ERROR SRI")) {
+        if (resSolicitud == null || resSolicitud.getEstado() == null
+                || resSolicitud.getEstado().contains("ERROR SRI")) {
             Clients.showNotification("Servicio del SRI caido , verifique su factura en el listado de documentos y autorice",
                     Clients.NOTIFICATION_TYPE_ERROR, null, "middle_center", 5000, true);
             return;
@@ -3910,14 +3960,17 @@ public class Facturar extends SelectorComposer<Component> {
 
                     RespuestaComprobante resComprobante = autorizarDocumentos.autorizarComprobante(claveAccesoComprobante);
 
-                    if (resComprobante.getNumeroComprobantes().contains("ERROR SRI")) {
+                    if (resComprobante != null && resComprobante.getNumeroComprobantes() != null
+                            && resComprobante.getNumeroComprobantes().contains("ERROR SRI")) {
                         Clients.showNotification("Servicio del SRI caido , verifique su factura en el listado de documentos y autorice",
                                 Clients.NOTIFICATION_TYPE_ERROR, null, "middle_center", 5000, true);
                         valor.setEstadosri(resSolicitud.getEstado());
                         valor.setFacMsmInfoSri(resComprobante.getNumeroComprobantes());
                         return;
                     }
-                    if (resComprobante.getAutorizaciones().getAutorizacion().isEmpty()) {
+                    if (resComprobante == null || resComprobante.getAutorizaciones() == null
+                            || resComprobante.getAutorizaciones().getAutorizacion() == null
+                            || resComprobante.getAutorizaciones().getAutorizacion().isEmpty()) {
                         valor.setEstadosri(resSolicitud.getEstado());
                         valor.setMensajesri("ERROR EN EL METODO DE AUTORIZAR NO DEVUELVE NADA ENVIO");
                         servicioFactura.modificar(valor);
@@ -4003,15 +4056,24 @@ public class Facturar extends SelectorComposer<Component> {
 
                     }
                 } catch (RespuestaAutorizacionException ex) {
-                    ex.getMessage();
+                    LOG.log(Level.SEVERE, "Respuesta de autorización SRI", ex);
+                    Clients.showNotification("Servicio del SRI fuera de linea,  refresque la pantalla y vuelva a intentar",
+                            Clients.NOTIFICATION_TYPE_ERROR, null, "middle_center", 5000, true);
+                } catch (Throwable ex) {
+                    LOG.log(Level.SEVERE, "Error SRI al autorizar comprobante; la factura no se duplica", ex);
                     Clients.showNotification("Servicio del SRI fuera de linea,  refresque la pantalla y vuelva a intentar",
                             Clients.NOTIFICATION_TYPE_ERROR, null, "middle_center", 5000, true);
                 }
             } else {
-                String smsInfo = resSolicitud.getComprobantes().getComprobante().get(0).getMensajes().getMensaje().get(0).getMensaje();
+                String smsInfo;
+                try {
+                    smsInfo = resSolicitud.getComprobantes().getComprobante().get(0).getMensajes().getMensaje().get(0).getMensaje();
+                } catch (Exception e) {
+                    smsInfo = resSolicitud.getEstado() != null ? resSolicitud.getEstado() : "SIN MENSAJE DEL SRI";
+                }
                 ArchivoUtils.FileCopy(pathArchivoFirmado, pathArchivoNoAutorizado);
                 valor.setEstadosri(resSolicitud.getEstado());
-                valor.setMensajesri(resSolicitud.getComprobantes().getComprobante().get(0).getMensajes().getMensaje().get(0).getMensaje());
+                valor.setMensajesri(smsInfo);
                 valor.setFacMsmInfoSri(smsInfo);
                 servicioFactura.modificar(valor);
                 if (resSolicitud.getEstado().trim().contains("EN PROCESO") || resSolicitud.getEstado().trim().contains("CLAVE ACCESO REGISTRADA")) {
@@ -4107,6 +4169,11 @@ public class Facturar extends SelectorComposer<Component> {
         String claveAccesoComprobante = ArchivoUtils.obtenerValorXML(f, "/*/infoTributaria/claveAcceso");
         /*GUARDAMOS LA CLAVE DE ACCESO ANTES DE ENVIAR A AUTORIZAR*/
         valor.setFacClaveAcceso(claveAccesoComprobante);
+        try {
+            servicioFactura.modificar(valor);
+        } catch (Exception ex) {
+            LOG.log(Level.WARNING, "No se pudo persistir la clave de acceso antes de reenviar al SRI", ex);
+        }
         AutorizarDocumentos autorizarDocumentos = new AutorizarDocumentos();
 //        RespuestaSolicitud resSolicitud = autorizarDocumentos.validar(datos);
 //        if (resSolicitud != null && resSolicitud.getComprobantes() != null) {
@@ -4123,22 +4190,13 @@ public class Facturar extends SelectorComposer<Component> {
             RespuestaComprobante resComprobante = autorizarDocumentos.autorizarComprobante(claveAccesoComprobante);
             System.out.println("RespuestaComprobante " + resComprobante);
 
-//            if (resComprobante.getNumeroComprobantes().contains("ERROR SRI")) {
-//                Clients.showNotification("Ocurrio un error en el SRI o esta temporalmente suspendido refresque la pantalla y reenvie ",
-//                        Clients.NOTIFICATION_TYPE_ERROR, null, "middle_center", 5000, true);
-//                return;
-//            }
-//            if (resComprobante.getAutorizaciones().getAutorizacion() == null) {
-//                Clients.showNotification("No se encontro el documento, presione el boton enviar.",
-//                        Clients.NOTIFICATION_TYPE_ERROR, null, "middle_center", 5000, true);
-//                return;
-//            }
-//
-//            if (resComprobante.getAutorizaciones().getAutorizacion().isEmpty()) {
-//                valor.setMensajesri("ERROR EN EL METODO DE AUTORIZAR NO DEVUELVE NADA REENVIO");
-//                servicioFactura.modificar(valor);
-//                return;
-//            }
+            if (resComprobante == null || resComprobante.getAutorizaciones() == null
+                    || resComprobante.getAutorizaciones().getAutorizacion() == null
+                    || resComprobante.getAutorizaciones().getAutorizacion().isEmpty()) {
+                Clients.showNotification("Servicio del SRI caido , verifique su factura en el listado de documentos y autorice",
+                        Clients.NOTIFICATION_TYPE_ERROR, null, "middle_center", 5000, true);
+                return;
+            }
             for (Autorizacion autorizacion : resComprobante.getAutorizaciones().getAutorizacion()) {
                 FileOutputStream nuevo = null;
 
@@ -4204,7 +4262,11 @@ public class Facturar extends SelectorComposer<Component> {
 
             }
         } catch (RespuestaAutorizacionException ex) {
-            Logger.getLogger(ListaFacturas.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.log(Level.SEVERE, "Respuesta de autorización SRI en reenvío", ex);
+        } catch (Throwable ex) {
+            LOG.log(Level.SEVERE, "Error SRI al reenviar; la factura no se duplica", ex);
+            Clients.showNotification("Servicio del SRI caido , verifique su factura en el listado de documentos y autorice",
+                    Clients.NOTIFICATION_TYPE_ERROR, null, "middle_center", 5000, true);
         }
 
     }
